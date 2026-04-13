@@ -40,170 +40,168 @@ You now know how to navigate the catalog with less noise and faster relevance.
 
 Next: [Chapter 3: Installation Paths: Claude.ai, Claude Code, API](03-installation-paths-claude-ai-claude-code-api.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `skill-creator/scripts/init_skill.py`
+### `slack-gif-creator/core/visual_effects.py`
 
-The `main` function in [`skill-creator/scripts/init_skill.py`](https://github.com/ComposioHQ/awesome-claude-skills/blob/HEAD/skill-creator/scripts/init_skill.py) handles a key part of this chapter's functionality:
+The `ParticleSystem` class in [`slack-gif-creator/core/visual_effects.py`](https://github.com/ComposioHQ/awesome-claude-skills/blob/HEAD/slack-gif-creator/core/visual_effects.py) handles a key part of this chapter's functionality:
 
 ```py
-Delete this entire "Structuring This Skill" section when done - it's just guidance.]
 
-## [TODO: Replace with the first main section based on chosen structure]
 
-[TODO: Add content here. See examples in existing skills:
-- Code samples for technical skills
-- Decision trees for complex workflows
-- Concrete examples with realistic user requests
-- References to scripts/templates/references as needed]
+class ParticleSystem:
+    """Manages a collection of particles."""
 
-## Resources
+    def __init__(self):
+        """Initialize particle system."""
+        self.particles: list[Particle] = []
 
-This skill includes example resource directories that demonstrate how to organize different types of bundled resources:
+    def emit(self, x: int, y: int, count: int = 10,
+             spread: float = 2.0, speed: float = 5.0,
+             color: tuple[int, int, int] = (255, 200, 0),
+             lifetime: float = 20.0, size: int = 3, shape: str = 'circle'):
+        """
+        Emit a burst of particles.
 
-### scripts/
-Executable code (Python/Bash/etc.) that can be run directly to perform specific operations.
+        Args:
+            x, y: Emission position
+            count: Number of particles to emit
+            spread: Angle spread (radians)
+            speed: Initial speed
+            color: Particle color
+            lifetime: Particle lifetime in frames
+            size: Particle size
+            shape: Particle shape
+        """
+        for _ in range(count):
+            # Random angle and speed
+            angle = random.uniform(0, 2 * math.pi)
+            vel_mag = random.uniform(speed * 0.5, speed * 1.5)
+            vx = math.cos(angle) * vel_mag
+            vy = math.sin(angle) * vel_mag
+```
 
-**Examples from other skills:**
-- PDF skill: `fill_fillable_fields.py`, `extract_form_field_info.py` - utilities for PDF manipulation
-- DOCX skill: `document.py`, `utilities.py` - Python modules for document processing
+This class is important because it defines how Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows implements the patterns covered in this chapter.
 
-**Appropriate for:** Python scripts, shell scripts, or any executable code that performs automation, data processing, or specific operations.
+### `slack-gif-creator/core/visual_effects.py`
 
-**Note:** Scripts may be executed without loading into context, but can still be read by Claude for patching or environment adjustments.
+The `add_motion_blur` function in [`slack-gif-creator/core/visual_effects.py`](https://github.com/ComposioHQ/awesome-claude-skills/blob/HEAD/slack-gif-creator/core/visual_effects.py) handles a key part of this chapter's functionality:
 
-### references/
-Documentation and reference material intended to be loaded into context to inform Claude's process and thinking.
+```py
 
-**Examples from other skills:**
-- Product management: `communication.md`, `context_building.md` - detailed workflow guides
-- BigQuery: API reference documentation and query examples
-- Finance: Schema documentation, company policies
+
+def add_motion_blur(frame: Image.Image, prev_frame: Optional[Image.Image],
+                    blur_amount: float = 0.5) -> Image.Image:
+    """
+    Add motion blur by blending with previous frame.
+
+    Args:
+        frame: Current frame
+        prev_frame: Previous frame (None for first frame)
+        blur_amount: Amount of blur (0.0-1.0)
+
+    Returns:
+        Frame with motion blur applied
+    """
+    if prev_frame is None:
+        return frame
+
+    # Blend current frame with previous frame
+    frame_array = np.array(frame, dtype=np.float32)
+    prev_array = np.array(prev_frame, dtype=np.float32)
+
+    blended = frame_array * (1 - blur_amount) + prev_array * blur_amount
+    blended = np.clip(blended, 0, 255).astype(np.uint8)
+
+    return Image.fromarray(blended)
+
+
+def create_impact_flash(frame: Image.Image, position: tuple[int, int],
+                        radius: int = 100, intensity: float = 0.7) -> Image.Image:
+    """
+    Create a bright flash effect at impact point.
 ```
 
 This function is important because it defines how Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows implements the patterns covered in this chapter.
 
-### `slack-gif-creator/templates/morph.py`
+### `slack-gif-creator/core/visual_effects.py`
 
-The `create_morph_animation` function in [`slack-gif-creator/templates/morph.py`](https://github.com/ComposioHQ/awesome-claude-skills/blob/HEAD/slack-gif-creator/templates/morph.py) handles a key part of this chapter's functionality:
+The `create_impact_flash` function in [`slack-gif-creator/core/visual_effects.py`](https://github.com/ComposioHQ/awesome-claude-skills/blob/HEAD/slack-gif-creator/core/visual_effects.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def create_morph_animation(
-    object1_data: dict,
-    object2_data: dict,
-    num_frames: int = 30,
-    morph_type: str = 'crossfade',  # 'crossfade', 'scale', 'spin_morph'
-    easing: str = 'ease_in_out',
-    object_type: str = 'emoji',
-    center_pos: tuple[int, int] = (240, 240),
-    frame_width: int = 480,
-    frame_height: int = 480,
-    bg_color: tuple[int, int, int] = (255, 255, 255)
-) -> list[Image.Image]:
+def create_impact_flash(frame: Image.Image, position: tuple[int, int],
+                        radius: int = 100, intensity: float = 0.7) -> Image.Image:
     """
-    Create morphing animation between two objects.
+    Create a bright flash effect at impact point.
 
     Args:
-        object1_data: First object configuration
-        object2_data: Second object configuration
-        num_frames: Number of frames
-        morph_type: Type of morph effect
-        easing: Easing function
-        object_type: Type of objects
-        center_pos: Center position
-        frame_width: Frame width
-        frame_height: Frame height
-        bg_color: Background color
+        frame: PIL Image to draw on
+        position: Center of flash
+        radius: Flash radius
+        intensity: Flash intensity (0.0-1.0)
 
     Returns:
-        List of frames
+        Modified frame
     """
+    # Create overlay
+    overlay = Image.new('RGBA', frame.size, (0, 0, 0, 0))
+    draw = ImageDraw.Draw(overlay)
+
+    x, y = position
+
+    # Draw concentric circles with decreasing opacity
+    num_circles = 5
+    for i in range(num_circles):
+        alpha = int(255 * intensity * (1 - i / num_circles))
+        r = radius * (1 - i / num_circles)
+        color = (255, 255, 240, alpha)  # Warm white
+
+        bbox = [x - r, y - r, x + r, y + r]
+        draw.ellipse(bbox, fill=color)
+
 ```
 
 This function is important because it defines how Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows implements the patterns covered in this chapter.
 
-### `slack-gif-creator/templates/morph.py`
+### `slack-gif-creator/core/visual_effects.py`
 
-The `create_reaction_morph` function in [`slack-gif-creator/templates/morph.py`](https://github.com/ComposioHQ/awesome-claude-skills/blob/HEAD/slack-gif-creator/templates/morph.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-def create_reaction_morph(
-    emoji_start: str,
-    emoji_end: str,
-    num_frames: int = 20,
-    frame_size: int = 128
-) -> list[Image.Image]:
-    """
-    Create quick emoji reaction morph (for emoji GIFs).
-
-    Args:
-        emoji_start: Starting emoji
-        emoji_end: Ending emoji
-        num_frames: Number of frames
-        frame_size: Frame size (square)
-
-    Returns:
-        List of frames
-    """
-    return create_morph_animation(
-        object1_data={'emoji': emoji_start, 'size': 80},
-        object2_data={'emoji': emoji_end, 'size': 80},
-        num_frames=num_frames,
-        morph_type='crossfade',
-        easing='ease_in_out',
-        object_type='emoji',
-        center_pos=(frame_size // 2, frame_size // 2),
-        frame_width=frame_size,
-        frame_height=frame_size,
-        bg_color=(255, 255, 255)
-    )
-```
-
-This function is important because it defines how Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows implements the patterns covered in this chapter.
-
-### `slack-gif-creator/templates/morph.py`
-
-The `create_shape_morph` function in [`slack-gif-creator/templates/morph.py`](https://github.com/ComposioHQ/awesome-claude-skills/blob/HEAD/slack-gif-creator/templates/morph.py) handles a key part of this chapter's functionality:
+The `create_shockwave_rings` function in [`slack-gif-creator/core/visual_effects.py`](https://github.com/ComposioHQ/awesome-claude-skills/blob/HEAD/slack-gif-creator/core/visual_effects.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def create_shape_morph(
-    shapes: list[dict],
-    num_frames: int = 60,
-    frames_per_shape: int = 20,
-    frame_width: int = 480,
-    frame_height: int = 480,
-    bg_color: tuple[int, int, int] = (255, 255, 255)
-) -> list[Image.Image]:
+def create_shockwave_rings(frame: Image.Image, position: tuple[int, int],
+                           radii: list[int], color: tuple[int, int, int] = (255, 200, 0),
+                           width: int = 3) -> Image.Image:
     """
-    Morph through a sequence of shapes.
+    Create expanding ring effects.
 
     Args:
-        shapes: List of shape dicts with 'radius' and 'color'
-        num_frames: Total number of frames
-        frames_per_shape: Frames to spend on each morph
-        frame_width: Frame width
-        frame_height: Frame height
-        bg_color: Background color
+        frame: PIL Image to draw on
+        position: Center of rings
+        radii: List of ring radii
+        color: Ring color
+        width: Ring width
 
     Returns:
-        List of frames
+        Modified frame
     """
-    frames = []
-    center = (frame_width // 2, frame_height // 2)
+    draw = ImageDraw.Draw(frame)
+    x, y = position
 
-    for i in range(num_frames):
-        # Determine which shapes we're morphing between
-        cycle_progress = (i % (frames_per_shape * len(shapes))) / frames_per_shape
-        shape_idx = int(cycle_progress) % len(shapes)
-        next_shape_idx = (shape_idx + 1) % len(shapes)
+    for radius in radii:
+        bbox = [x - radius, y - radius, x + radius, y + radius]
+        draw.ellipse(bbox, outline=color, width=width)
+
+    return frame
+
+
+def create_explosion_effect(frame: Image.Image, position: tuple[int, int],
+                            radius: int, progress: float,
+                            color: tuple[int, int, int] = (255, 150, 0)) -> Image.Image:
+    """
 ```
 
 This function is important because it defines how Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows implements the patterns covered in this chapter.
@@ -213,11 +211,11 @@ This function is important because it defines how Awesome Claude Skills Tutorial
 
 ```mermaid
 flowchart TD
-    A[main]
-    B[create_morph_animation]
-    C[create_reaction_morph]
-    D[create_shape_morph]
-    E[create_fade_animation]
+    A[ParticleSystem]
+    B[add_motion_blur]
+    C[create_impact_flash]
+    D[create_shockwave_rings]
+    E[create_explosion_effect]
     A --> B
     B --> C
     C --> D

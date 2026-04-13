@@ -60,8 +60,6 @@ You now have a clear map of where browser actions, protocol logic, and AI proces
 
 Next: [Chapter 3: Tool Surface: Browser, Network, and Interaction](03-tool-surface-browser-network-and-interaction.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `app/chrome-extension/inject-scripts/element-picker.js`

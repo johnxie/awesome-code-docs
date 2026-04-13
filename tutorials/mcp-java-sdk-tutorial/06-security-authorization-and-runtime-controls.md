@@ -40,170 +40,168 @@ You now have a security baseline for Java MCP services that is compatible with f
 
 Next: [Chapter 7: Conformance Testing and Quality Workflows](07-conformance-testing-and-quality-workflows.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `mcp-core/src/main/java/io/modelcontextprotocol/util/KeepAliveScheduler.java`
+### `mcp-core/src/main/java/io/modelcontextprotocol/server/McpStatelessSyncServer.java`
 
-The `for` class in [`mcp-core/src/main/java/io/modelcontextprotocol/util/KeepAliveScheduler.java`](https://github.com/modelcontextprotocol/java-sdk/blob/HEAD/mcp-core/src/main/java/io/modelcontextprotocol/util/KeepAliveScheduler.java) handles a key part of this chapter's functionality:
+The `McpStatelessSyncServer` class in [`mcp-core/src/main/java/io/modelcontextprotocol/server/McpStatelessSyncServer.java`](https://github.com/modelcontextprotocol/java-sdk/blob/HEAD/mcp-core/src/main/java/io/modelcontextprotocol/server/McpStatelessSyncServer.java) handles a key part of this chapter's functionality:
 
 ```java
-
-/**
- * A utility class for scheduling regular keep-alive calls to maintain connections. It
- * sends periodic keep-alive, ping, messages to connected mcp clients to prevent idle
- * timeouts.
- *
- * The pings are sent to all active mcp sessions at regular intervals.
- *
- * @author Christian Tzolov
+ * @author Dariusz Jędrzejczyk
  */
-public class KeepAliveScheduler {
+public class McpStatelessSyncServer {
 
-	private static final Logger logger = LoggerFactory.getLogger(KeepAliveScheduler.class);
+	private static final Logger logger = LoggerFactory.getLogger(McpStatelessSyncServer.class);
 
-	private static final TypeRef<Object> OBJECT_TYPE_REF = new TypeRef<>() {
-	};
+	private final McpStatelessAsyncServer asyncServer;
 
-	/** Initial delay before the first keepAlive call */
-	private final Duration initialDelay;
+	private final boolean immediateExecution;
 
-	/** Interval between subsequent keepAlive calls */
-	private final Duration interval;
-
-	/** The scheduler used for executing keepAlive calls */
-	private final Scheduler scheduler;
-
-	/** The current state of the scheduler */
-	private final AtomicBoolean isRunning = new AtomicBoolean(false);
-
-	/** The current subscription for the keepAlive calls */
-	private Disposable currentSubscription;
-
-```
-
-This class is important because it defines how MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring implements the patterns covered in this chapter.
-
-### `mcp-core/src/main/java/io/modelcontextprotocol/util/KeepAliveScheduler.java`
-
-The `KeepAliveScheduler` class in [`mcp-core/src/main/java/io/modelcontextprotocol/util/KeepAliveScheduler.java`](https://github.com/modelcontextprotocol/java-sdk/blob/HEAD/mcp-core/src/main/java/io/modelcontextprotocol/util/KeepAliveScheduler.java) handles a key part of this chapter's functionality:
-
-```java
- * @author Christian Tzolov
- */
-public class KeepAliveScheduler {
-
-	private static final Logger logger = LoggerFactory.getLogger(KeepAliveScheduler.class);
-
-	private static final TypeRef<Object> OBJECT_TYPE_REF = new TypeRef<>() {
-	};
-
-	/** Initial delay before the first keepAlive call */
-	private final Duration initialDelay;
-
-	/** Interval between subsequent keepAlive calls */
-	private final Duration interval;
-
-	/** The scheduler used for executing keepAlive calls */
-	private final Scheduler scheduler;
-
-	/** The current state of the scheduler */
-	private final AtomicBoolean isRunning = new AtomicBoolean(false);
-
-	/** The current subscription for the keepAlive calls */
-	private Disposable currentSubscription;
-
-	// TODO Currently we do not support the streams (streamable http session created by
-	// http post/get)
-
-	/** Supplier for reactive McpSession instances */
-	private final Supplier<Flux<McpSession>> mcpSessions;
-
-	/**
-	 * Creates a KeepAliveScheduler with a custom scheduler, initial delay, interval and a
-```
-
-This class is important because it defines how MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring implements the patterns covered in this chapter.
-
-### `mcp-core/src/main/java/io/modelcontextprotocol/util/KeepAliveScheduler.java`
-
-The `for` class in [`mcp-core/src/main/java/io/modelcontextprotocol/util/KeepAliveScheduler.java`](https://github.com/modelcontextprotocol/java-sdk/blob/HEAD/mcp-core/src/main/java/io/modelcontextprotocol/util/KeepAliveScheduler.java) handles a key part of this chapter's functionality:
-
-```java
-
-/**
- * A utility class for scheduling regular keep-alive calls to maintain connections. It
- * sends periodic keep-alive, ping, messages to connected mcp clients to prevent idle
- * timeouts.
- *
- * The pings are sent to all active mcp sessions at regular intervals.
- *
- * @author Christian Tzolov
- */
-public class KeepAliveScheduler {
-
-	private static final Logger logger = LoggerFactory.getLogger(KeepAliveScheduler.class);
-
-	private static final TypeRef<Object> OBJECT_TYPE_REF = new TypeRef<>() {
-	};
-
-	/** Initial delay before the first keepAlive call */
-	private final Duration initialDelay;
-
-	/** Interval between subsequent keepAlive calls */
-	private final Duration interval;
-
-	/** The scheduler used for executing keepAlive calls */
-	private final Scheduler scheduler;
-
-	/** The current state of the scheduler */
-	private final AtomicBoolean isRunning = new AtomicBoolean(false);
-
-	/** The current subscription for the keepAlive calls */
-	private Disposable currentSubscription;
-
-```
-
-This class is important because it defines how MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring implements the patterns covered in this chapter.
-
-### `mcp-core/src/main/java/io/modelcontextprotocol/util/KeepAliveScheduler.java`
-
-The `Builder` class in [`mcp-core/src/main/java/io/modelcontextprotocol/util/KeepAliveScheduler.java`](https://github.com/modelcontextprotocol/java-sdk/blob/HEAD/mcp-core/src/main/java/io/modelcontextprotocol/util/KeepAliveScheduler.java) handles a key part of this chapter's functionality:
-
-```java
-
-	/**
-	 * Creates a new Builder instance for constructing KeepAliveScheduler.
-	 * @return A new Builder instance
-	 */
-	public static Builder builder(Supplier<Flux<McpSession>> mcpSessions) {
-		return new Builder(mcpSessions);
+	McpStatelessSyncServer(McpStatelessAsyncServer asyncServer, boolean immediateExecution) {
+		this.asyncServer = asyncServer;
+		this.immediateExecution = immediateExecution;
 	}
 
 	/**
-	 * Starts regular keepAlive calls with sessions supplier.
-	 * @return Disposable to control the scheduled execution
+	 * Get the server capabilities that define the supported features and functionality.
+	 * @return The server capabilities
 	 */
-	public Disposable start() {
-		if (this.isRunning.compareAndSet(false, true)) {
+	public McpSchema.ServerCapabilities getServerCapabilities() {
+		return this.asyncServer.getServerCapabilities();
+	}
 
-			this.currentSubscription = Flux.interval(this.initialDelay, this.interval, this.scheduler)
-				.doOnNext(tick -> {
-					this.mcpSessions.get()
-						.flatMap(session -> session.sendRequest(McpSchema.METHOD_PING, null, OBJECT_TYPE_REF)
-							.doOnError(e -> logger.warn("Failed to send keep-alive ping to session {}: {}", session,
-									e.getMessage()))
-							.onErrorComplete())
-						.subscribe();
-				})
-				.doOnCancel(() -> this.isRunning.set(false))
-				.doOnComplete(() -> this.isRunning.set(false))
-				.onErrorComplete(error -> {
-					logger.error("KeepAlive scheduler error", error);
-					this.isRunning.set(false);
-					return true;
-				})
+	/**
+	 * Get the server implementation information.
+	 * @return The server implementation details
+	 */
+	public McpSchema.Implementation getServerInfo() {
+		return this.asyncServer.getServerInfo();
+	}
+
+	/**
+```
+
+This class is important because it defines how MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring implements the patterns covered in this chapter.
+
+### `mcp-core/src/main/java/io/modelcontextprotocol/client/McpSyncClient.java`
+
+The `McpSyncClient` class in [`mcp-core/src/main/java/io/modelcontextprotocol/client/McpSyncClient.java`](https://github.com/modelcontextprotocol/java-sdk/blob/HEAD/mcp-core/src/main/java/io/modelcontextprotocol/client/McpSyncClient.java) handles a key part of this chapter's functionality:
+
+```java
+ * @see McpSchema
+ */
+public class McpSyncClient implements AutoCloseable {
+
+	private static final Logger logger = LoggerFactory.getLogger(McpSyncClient.class);
+
+	// TODO: Consider providing a client config to set this properly
+	// this is currently a concern only because AutoCloseable is used - perhaps it
+	// is not a requirement?
+	private static final long DEFAULT_CLOSE_TIMEOUT_MS = 10_000L;
+
+	private final McpAsyncClient delegate;
+
+	private final Supplier<McpTransportContext> contextProvider;
+
+	/**
+	 * Create a new McpSyncClient with the given delegate.
+	 * @param delegate the asynchronous kernel on top of which this synchronous client
+	 * provides a blocking API.
+	 * @param contextProvider the supplier of context before calling any non-blocking
+	 * operation on underlying delegate
+	 */
+	McpSyncClient(McpAsyncClient delegate, Supplier<McpTransportContext> contextProvider) {
+		Assert.notNull(delegate, "The delegate can not be null");
+		Assert.notNull(contextProvider, "The contextProvider can not be null");
+		this.delegate = delegate;
+		this.contextProvider = contextProvider;
+	}
+
+	/**
+	 * Get the current initialization result.
+	 * @return the initialization result.
+```
+
+This class is important because it defines how MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring implements the patterns covered in this chapter.
+
+### `mcp-core/src/main/java/io/modelcontextprotocol/server/McpSyncServerExchange.java`
+
+The `McpSyncServerExchange` class in [`mcp-core/src/main/java/io/modelcontextprotocol/server/McpSyncServerExchange.java`](https://github.com/modelcontextprotocol/java-sdk/blob/HEAD/mcp-core/src/main/java/io/modelcontextprotocol/server/McpSyncServerExchange.java) handles a key part of this chapter's functionality:
+
+```java
+ * @author Christian Tzolov
+ */
+public class McpSyncServerExchange {
+
+	private final McpAsyncServerExchange exchange;
+
+	/**
+	 * Create a new synchronous exchange with the client using the provided asynchronous
+	 * implementation as a delegate.
+	 * @param exchange The asynchronous exchange to delegate to.
+	 */
+	public McpSyncServerExchange(McpAsyncServerExchange exchange) {
+		this.exchange = exchange;
+	}
+
+	/**
+	 * Provides the Session ID
+	 * @return session ID
+	 */
+	public String sessionId() {
+		return this.exchange.sessionId();
+	}
+
+	/**
+	 * Get the client capabilities that define the supported features and functionality.
+	 * @return The client capabilities
+	 */
+	public McpSchema.ClientCapabilities getClientCapabilities() {
+		return this.exchange.getClientCapabilities();
+	}
+
+	/**
+```
+
+This class is important because it defines how MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring implements the patterns covered in this chapter.
+
+### `mcp-core/src/main/java/io/modelcontextprotocol/util/Utils.java`
+
+The `Utils` class in [`mcp-core/src/main/java/io/modelcontextprotocol/util/Utils.java`](https://github.com/modelcontextprotocol/java-sdk/blob/HEAD/mcp-core/src/main/java/io/modelcontextprotocol/util/Utils.java) handles a key part of this chapter's functionality:
+
+```java
+ */
+
+public final class Utils {
+
+	/**
+	 * Check whether the given {@code String} contains actual <em>text</em>.
+	 * <p>
+	 * More specifically, this method returns {@code true} if the {@code String} is not
+	 * {@code null}, its length is greater than 0, and it contains at least one
+	 * non-whitespace character.
+	 * @param str the {@code String} to check (may be {@code null})
+	 * @return {@code true} if the {@code String} is not {@code null}, its length is
+	 * greater than 0, and it does not contain whitespace only
+	 * @see Character#isWhitespace
+	 */
+	public static boolean hasText(@Nullable String str) {
+		return (str != null && !str.isBlank());
+	}
+
+	/**
+	 * Return {@code true} if the supplied Collection is {@code null} or empty. Otherwise,
+	 * return {@code false}.
+	 * @param collection the Collection to check
+	 * @return whether the given Collection is empty
+	 */
+	public static boolean isEmpty(@Nullable Collection<?> collection) {
+		return (collection == null || collection.isEmpty());
+	}
+
+	/**
+	 * Return {@code true} if the supplied Map is {@code null} or empty. Otherwise, return
+	 * {@code false}.
 ```
 
 This class is important because it defines how MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring implements the patterns covered in this chapter.
@@ -213,11 +211,11 @@ This class is important because it defines how MCP Java SDK Tutorial: Building M
 
 ```mermaid
 flowchart TD
-    A[for]
-    B[KeepAliveScheduler]
-    C[for]
-    D[Builder]
-    E[provides]
+    A[McpStatelessSyncServer]
+    B[McpSyncClient]
+    C[McpSyncServerExchange]
+    D[Utils]
+    E[ToolNameValidator]
     A --> B
     B --> C
     C --> D

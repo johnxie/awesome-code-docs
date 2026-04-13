@@ -114,184 +114,169 @@ Suggested trace strategy:
 - [Main Catalog](../../README.md#-tutorial-catalog)
 - [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `src/filesystem/lib.ts`
+### `src/memory/index.ts`
 
-The `setAllowedDirectories` function in [`src/filesystem/lib.ts`](https://github.com/modelcontextprotocol/servers/blob/HEAD/src/filesystem/lib.ts) handles a key part of this chapter's functionality:
-
-```ts
-
-// Function to set allowed directories from the main module
-export function setAllowedDirectories(directories: string[]): void {
-  allowedDirectories = [...directories];
-}
-
-// Function to get current allowed directories
-export function getAllowedDirectories(): string[] {
-  return [...allowedDirectories];
-}
-
-// Type definitions
-interface FileInfo {
-  size: number;
-  created: Date;
-  modified: Date;
-  accessed: Date;
-  isDirectory: boolean;
-  isFile: boolean;
-  permissions: string;
-}
-
-export interface SearchOptions {
-  excludePatterns?: string[];
-}
-
-export interface SearchResult {
-  path: string;
-  isDirectory: boolean;
-}
-
-// Pure Utility Functions
-```
-
-This function is important because it defines how MCP Servers Tutorial: Reference Implementations and Patterns implements the patterns covered in this chapter.
-
-### `src/filesystem/lib.ts`
-
-The `getAllowedDirectories` function in [`src/filesystem/lib.ts`](https://github.com/modelcontextprotocol/servers/blob/HEAD/src/filesystem/lib.ts) handles a key part of this chapter's functionality:
+The `ensureMemoryFilePath` function in [`src/memory/index.ts`](https://github.com/modelcontextprotocol/servers/blob/HEAD/src/memory/index.ts) handles a key part of this chapter's functionality:
 
 ```ts
 
-// Function to get current allowed directories
-export function getAllowedDirectories(): string[] {
-  return [...allowedDirectories];
-}
-
-// Type definitions
-interface FileInfo {
-  size: number;
-  created: Date;
-  modified: Date;
-  accessed: Date;
-  isDirectory: boolean;
-  isFile: boolean;
-  permissions: string;
-}
-
-export interface SearchOptions {
-  excludePatterns?: string[];
-}
-
-export interface SearchResult {
-  path: string;
-  isDirectory: boolean;
-}
-
-// Pure Utility Functions
-export function formatSize(bytes: number): string {
-  const units = ['B', 'KB', 'MB', 'GB', 'TB'];
-  if (bytes === 0) return '0 B';
-  
-  const i = Math.floor(Math.log(bytes) / Math.log(1024));
-```
-
-This function is important because it defines how MCP Servers Tutorial: Reference Implementations and Patterns implements the patterns covered in this chapter.
-
-### `src/filesystem/lib.ts`
-
-The `formatSize` function in [`src/filesystem/lib.ts`](https://github.com/modelcontextprotocol/servers/blob/HEAD/src/filesystem/lib.ts) handles a key part of this chapter's functionality:
-
-```ts
-
-// Pure Utility Functions
-export function formatSize(bytes: number): string {
-  const units = ['B', 'KB', 'MB', 'GB', 'TB'];
-  if (bytes === 0) return '0 B';
-  
-  const i = Math.floor(Math.log(bytes) / Math.log(1024));
-  
-  if (i < 0 || i === 0) return `${bytes} ${units[0]}`;
-  
-  const unitIndex = Math.min(i, units.length - 1);
-  return `${(bytes / Math.pow(1024, unitIndex)).toFixed(2)} ${units[unitIndex]}`;
-}
-
-export function normalizeLineEndings(text: string): string {
-  return text.replace(/\r\n/g, '\n');
-}
-
-export function createUnifiedDiff(originalContent: string, newContent: string, filepath: string = 'file'): string {
-  // Ensure consistent line endings for diff
-  const normalizedOriginal = normalizeLineEndings(originalContent);
-  const normalizedNew = normalizeLineEndings(newContent);
-
-  return createTwoFilesPatch(
-    filepath,
-    filepath,
-    normalizedOriginal,
-    normalizedNew,
-    'original',
-    'modified'
-  );
-}
-```
-
-This function is important because it defines how MCP Servers Tutorial: Reference Implementations and Patterns implements the patterns covered in this chapter.
-
-### `src/filesystem/lib.ts`
-
-The `normalizeLineEndings` function in [`src/filesystem/lib.ts`](https://github.com/modelcontextprotocol/servers/blob/HEAD/src/filesystem/lib.ts) handles a key part of this chapter's functionality:
-
-```ts
-}
-
-export function normalizeLineEndings(text: string): string {
-  return text.replace(/\r\n/g, '\n');
-}
-
-export function createUnifiedDiff(originalContent: string, newContent: string, filepath: string = 'file'): string {
-  // Ensure consistent line endings for diff
-  const normalizedOriginal = normalizeLineEndings(originalContent);
-  const normalizedNew = normalizeLineEndings(newContent);
-
-  return createTwoFilesPatch(
-    filepath,
-    filepath,
-    normalizedOriginal,
-    normalizedNew,
-    'original',
-    'modified'
-  );
-}
-
-// Helper function to resolve relative paths against allowed directories
-function resolveRelativePathAgainstAllowedDirectories(relativePath: string): string {
-  if (allowedDirectories.length === 0) {
-    // Fallback to process.cwd() if no allowed directories are set
-    return path.resolve(process.cwd(), relativePath);
+// Handle backward compatibility: migrate memory.json to memory.jsonl if needed
+export async function ensureMemoryFilePath(): Promise<string> {
+  if (process.env.MEMORY_FILE_PATH) {
+    // Custom path provided, use it as-is (with absolute path resolution)
+    return path.isAbsolute(process.env.MEMORY_FILE_PATH)
+      ? process.env.MEMORY_FILE_PATH
+      : path.join(path.dirname(fileURLToPath(import.meta.url)), process.env.MEMORY_FILE_PATH);
   }
-
-  // Try to resolve relative path against each allowed directory
-  for (const allowedDir of allowedDirectories) {
-    const candidate = path.resolve(allowedDir, relativePath);
-    const normalizedCandidate = normalizePath(candidate);
+  
+  // No custom path set, check for backward compatibility migration
+  const oldMemoryPath = path.join(path.dirname(fileURLToPath(import.meta.url)), 'memory.json');
+  const newMemoryPath = defaultMemoryPath;
+  
+  try {
+    // Check if old file exists and new file doesn't
+    await fs.access(oldMemoryPath);
+    try {
+      await fs.access(newMemoryPath);
+      // Both files exist, use new one (no migration needed)
+      return newMemoryPath;
+    } catch {
+      // Old file exists, new file doesn't - migrate
+      console.error('DETECTED: Found legacy memory.json file, migrating to memory.jsonl for JSONL format compatibility');
+      await fs.rename(oldMemoryPath, newMemoryPath);
+      console.error('COMPLETED: Successfully migrated memory.json to memory.jsonl');
+      return newMemoryPath;
+    }
+  } catch {
+    // Old file doesn't exist, use new path
+    return newMemoryPath;
+  }
 ```
 
 This function is important because it defines how MCP Servers Tutorial: Reference Implementations and Patterns implements the patterns covered in this chapter.
+
+### `src/memory/index.ts`
+
+The `main` function in [`src/memory/index.ts`](https://github.com/modelcontextprotocol/servers/blob/HEAD/src/memory/index.ts) handles a key part of this chapter's functionality:
+
+```ts
+);
+
+async function main() {
+  // Initialize memory file path with backward compatibility
+  MEMORY_FILE_PATH = await ensureMemoryFilePath();
+
+  // Initialize knowledge graph manager with the memory file path
+  knowledgeGraphManager = new KnowledgeGraphManager(MEMORY_FILE_PATH);
+
+  const transport = new StdioServerTransport();
+  await server.connect(transport);
+  console.error("Knowledge Graph MCP Server running on stdio");
+}
+
+main().catch((error) => {
+  console.error("Fatal error in main():", error);
+  process.exit(1);
+});
+
+```
+
+This function is important because it defines how MCP Servers Tutorial: Reference Implementations and Patterns implements the patterns covered in this chapter.
+
+### `src/memory/index.ts`
+
+The `Entity` interface in [`src/memory/index.ts`](https://github.com/modelcontextprotocol/servers/blob/HEAD/src/memory/index.ts) handles a key part of this chapter's functionality:
+
+```ts
+
+// We are storing our memory using entities, relations, and observations in a graph structure
+export interface Entity {
+  name: string;
+  entityType: string;
+  observations: string[];
+}
+
+export interface Relation {
+  from: string;
+  to: string;
+  relationType: string;
+}
+
+export interface KnowledgeGraph {
+  entities: Entity[];
+  relations: Relation[];
+}
+
+// The KnowledgeGraphManager class contains all operations to interact with the knowledge graph
+export class KnowledgeGraphManager {
+  constructor(private memoryFilePath: string) {}
+
+  private async loadGraph(): Promise<KnowledgeGraph> {
+    try {
+      const data = await fs.readFile(this.memoryFilePath, "utf-8");
+      const lines = data.split("\n").filter(line => line.trim() !== "");
+      return lines.reduce((graph: KnowledgeGraph, line) => {
+        const item = JSON.parse(line);
+        if (item.type === "entity") {
+          graph.entities.push({
+            name: item.name,
+```
+
+This interface is important because it defines how MCP Servers Tutorial: Reference Implementations and Patterns implements the patterns covered in this chapter.
+
+### `src/memory/index.ts`
+
+The `Relation` interface in [`src/memory/index.ts`](https://github.com/modelcontextprotocol/servers/blob/HEAD/src/memory/index.ts) handles a key part of this chapter's functionality:
+
+```ts
+}
+
+export interface Relation {
+  from: string;
+  to: string;
+  relationType: string;
+}
+
+export interface KnowledgeGraph {
+  entities: Entity[];
+  relations: Relation[];
+}
+
+// The KnowledgeGraphManager class contains all operations to interact with the knowledge graph
+export class KnowledgeGraphManager {
+  constructor(private memoryFilePath: string) {}
+
+  private async loadGraph(): Promise<KnowledgeGraph> {
+    try {
+      const data = await fs.readFile(this.memoryFilePath, "utf-8");
+      const lines = data.split("\n").filter(line => line.trim() !== "");
+      return lines.reduce((graph: KnowledgeGraph, line) => {
+        const item = JSON.parse(line);
+        if (item.type === "entity") {
+          graph.entities.push({
+            name: item.name,
+            entityType: item.entityType,
+            observations: item.observations
+          });
+        }
+        if (item.type === "relation") {
+          graph.relations.push({
+```
+
+This interface is important because it defines how MCP Servers Tutorial: Reference Implementations and Patterns implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[setAllowedDirectories]
-    B[getAllowedDirectories]
-    C[formatSize]
-    D[normalizeLineEndings]
-    E[createUnifiedDiff]
+    A[ensureMemoryFilePath]
+    B[main]
+    C[Entity]
+    D[Relation]
+    E[KnowledgeGraph]
     A --> B
     B --> C
     C --> D

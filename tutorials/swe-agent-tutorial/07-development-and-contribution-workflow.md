@@ -39,169 +39,167 @@ You now have a practical contribution workflow aligned with SWE-agent maintainer
 
 Next: [Chapter 8: Production Operations and Governance](08-production-operations-and-governance.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `sweagent/agent/models.py`
+### `sweagent/tools/parsing.py`
 
-The `LiteLLMModel` class in [`sweagent/agent/models.py`](https://github.com/SWE-agent/SWE-agent/blob/HEAD/sweagent/agent/models.py) handles a key part of this chapter's functionality:
+The `ThoughtActionParser` class in [`sweagent/tools/parsing.py`](https://github.com/SWE-agent/SWE-agent/blob/HEAD/sweagent/tools/parsing.py) handles a key part of this chapter's functionality:
 
 ```py
+"""Our parsers parse output from the LM into thoughts and actions.
 
+For example, our most basic parser is the `ThoughtActionParser`.
+It expects the model response to be a discussion followed by a command wrapped in backticks like so:
 
-class LiteLLMModel(AbstractModel):
-    def __init__(self, args: GenericAPIModelConfig, tools: ToolConfig):
-        """Model served by the `litellm` library."""
-        # Always copy config to avoid shared state between different instances
-        self.config: GenericAPIModelConfig = args.model_copy(deep=True)
-        self.stats = InstanceStats()
-        self.tools = tools
-        self.logger = get_logger("swea-lm", emoji="🤖")
+```
+Let's look at the files in the current directory.
 
-        if tools.use_function_calling:
-            if not litellm.utils.supports_function_calling(model=self.config.name):
-                msg = (
-                    f"Model {self.config.name} does not support function calling. If your model"
-                    " does not support function calling, you can use `parse_function='thought_action'` instead. "
-                    "See https://swe-agent.com/latest/faq/ for more information."
-                )
-                self.logger.warning(msg)
-        if self.config.litellm_model_registry is not None:
-            with open(self.config.litellm_model_registry) as f:
-                model_costs = json.load(f)
-                litellm.register_model(model_costs)
-        if self.config.max_input_tokens is not None:
-            self.model_max_input_tokens = self.config.max_input_tokens
-        else:
-            self.model_max_input_tokens = litellm.model_cost.get(self.config.name, {}).get("max_input_tokens")
+Action:
+ ```
+ls -l
+ ```
+```
 
-        if self.config.max_output_tokens is not None:
-            self.model_max_output_tokens = self.config.max_output_tokens
-        else:
-            self.model_max_output_tokens = litellm.model_cost.get(self.config.name, {}).get("max_output_tokens")
+For models that support function calling, we instead recommend using the `FunctionCallingParser`.
+
+To use a specific parser, set the `parse_function` key in your tool config to the `type` field of the parser.
+
+```yaml
+agent:
+    tools:
+        ...
+        parse_function:
+            type: "thought_action"
+```
+
+Or from the command line: `--agent.tools.parse_function.type=thought_action`.
+
+!!! note "Describing available tools"
+    If you do not use the `FunctionCallingParser`, you need to include documentation about the available tools
+    in your system prompt. You can use the `{{command_docs}}` variable to include the automatically generated
+    documentation or explicitly describe the available tools.
 ```
 
 This class is important because it defines how SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering implements the patterns covered in this chapter.
 
-### `sweagent/agent/models.py`
+### `sweagent/tools/parsing.py`
 
-The `get_model` function in [`sweagent/agent/models.py`](https://github.com/SWE-agent/SWE-agent/blob/HEAD/sweagent/agent/models.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-def get_model(args: ModelConfig, tools: ToolConfig) -> AbstractModel:
-    """Returns correct model object given arguments and commands"""
-    # Convert GenericAPIModelConfig to specific model config if needed
-    if isinstance(args, GenericAPIModelConfig) and not isinstance(
-        args, HumanModelConfig | HumanThoughtModelConfig | ReplayModelConfig | InstantEmptySubmitModelConfig
-    ):
-        if args.name == "human":
-            args = HumanModelConfig(**args.model_dump())
-        elif args.name == "human_thought":
-            args = HumanThoughtModelConfig(**args.model_dump())
-        elif args.name == "replay":
-            args = ReplayModelConfig(**args.model_dump())
-        elif args.name == "instant_empty_submit":
-            args = InstantEmptySubmitModelConfig(**args.model_dump())
-
-    if args.name == "human":
-        assert isinstance(args, HumanModelConfig), f"Expected {HumanModelConfig}, got {args}"
-        return HumanModel(args, tools)
-    if args.name == "human_thought":
-        assert isinstance(args, HumanThoughtModelConfig), f"Expected {HumanThoughtModelConfig}, got {args}"
-        return HumanThoughtModel(args, tools)
-    if args.name == "replay":
-        assert isinstance(args, ReplayModelConfig), f"Expected {ReplayModelConfig}, got {args}"
-        return ReplayModel(args, tools)
-    elif args.name == "instant_empty_submit":
-        assert isinstance(args, InstantEmptySubmitModelConfig), f"Expected {InstantEmptySubmitModelConfig}, got {args}"
-        return InstantEmptySubmitTestModel(args, tools)
-    assert isinstance(args, GenericAPIModelConfig), f"Expected {GenericAPIModelConfig}, got {args}"
-    return LiteLLMModel(args, tools)
-
-```
-
-This function is important because it defines how SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering implements the patterns covered in this chapter.
-
-### `sweagent/agent/history_processors.py`
-
-The `AbstractHistoryProcessor` class in [`sweagent/agent/history_processors.py`](https://github.com/SWE-agent/SWE-agent/blob/HEAD/sweagent/agent/history_processors.py) handles a key part of this chapter's functionality:
+The `XMLThoughtActionParser` class in [`sweagent/tools/parsing.py`](https://github.com/SWE-agent/SWE-agent/blob/HEAD/sweagent/tools/parsing.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-class AbstractHistoryProcessor(Protocol):
-    @abstractmethod
-    def __call__(self, history: History) -> History:
-        raise NotImplementedError
+class XMLThoughtActionParser(AbstractParseFunction, BaseModel):
+    """
+    Expects the model response to be a discussion followed by a command wrapped in XML tags.
+    Example:
+    Let's look at the files in the current directory.
+    <command>
+    ls -l
+    </command>
+    """
 
+    error_message: str = dedent("""\
+    Your output was not formatted correctly. You must always include one discussion and one command as part of your response. Make sure you do not have multiple discussion/command tags.
+    Please make sure your output precisely matches the following format:
+    """)
 
-# Utility functions
-# -----------------
+    type: Literal["xml_thought_action"] = "xml_thought_action"
+    """Type for (de)serialization. Do not change."""
 
-
-def _get_content_stats(entry: HistoryItem) -> tuple[int, int]:
-    if isinstance(entry["content"], str):
-        return len(entry["content"].splitlines()), 0
-    n_text_lines = sum(len(item["text"].splitlines()) for item in entry["content"] if item.get("type") == "text")
-    n_images = sum(1 for item in entry["content"] if item.get("type") == "image_url")
-    return n_text_lines, n_images
-
-
-def _get_content_text(entry: HistoryItem) -> str:
-    if isinstance(entry["content"], str):
-        return entry["content"]
-    assert len(entry["content"]) == 1, "Expected single message in content"
-    return entry["content"][0]["text"]
-
-
-def _set_content_text(entry: HistoryItem, text: str) -> None:
-    if isinstance(entry["content"], str):
-        entry["content"] = text
-    else:
-        assert len(entry["content"]) == 1, "Expected single message in content"
+    def __call__(self, model_response: dict, commands: list[Command], strict=False) -> tuple[str, str]:
+        """
+        Parses the action from the output of the API call.
+        We assume that the action is the last code block in the model_response.
+        We also assume that the action is not nested within another code block.
+        This is problematic if the model_response includes many unnamed ``` blocks.
+        For instance:
+        <command>
+        This is a code block.
+        </command>
+        <command>
+        This is another code block.
 ```
 
 This class is important because it defines how SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering implements the patterns covered in this chapter.
 
-### `sweagent/agent/history_processors.py`
+### `sweagent/tools/parsing.py`
 
-The `DefaultHistoryProcessor` class in [`sweagent/agent/history_processors.py`](https://github.com/SWE-agent/SWE-agent/blob/HEAD/sweagent/agent/history_processors.py) handles a key part of this chapter's functionality:
+The `XMLFunctionCallingParser` class in [`sweagent/tools/parsing.py`](https://github.com/SWE-agent/SWE-agent/blob/HEAD/sweagent/tools/parsing.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-class DefaultHistoryProcessor(BaseModel):
-    type: Literal["default"] = "default"
-    """Do not change. Used for (de)serialization."""
+class XMLFunctionCallingParser(AbstractParseFunction, BaseModel):
+    """
+    Expects the model response to be a tool calling format, where the command and parameters are specified
+    in XML tags.
+    Example:
+    Let's look at the files in the current directory.
+    <function=bash>
+    <parameter=command>find /testbed -type f -name "_discovery.py"</parameter>
+    </function>
+    """
 
-    # pydantic config
-    model_config = ConfigDict(extra="forbid")
+    error_message: str = dedent("""\
+    {%- if error_code == "missing" -%}
+    Your last output did not use any tool calls!
+    Please make sure your output includes exactly _ONE_ function call!
+    If you think you have already resolved the issue, please submit your changes by running the `submit` command.
+    If you think you cannot solve the problem, please run `submit`.
+    Else, please continue with a new tool call!
+    {%- elif error_code == "multiple" -%}
+    Your last output included multiple tool calls!
+    Please make sure your output includes a thought and exactly _ONE_ function call.
+    {%- elif error_code == "unexpected_arg" -%}
+    Your action could not be parsed properly: {{exception_message}}.
+    Make sure your function call doesn't include any extra arguments that are not in the allowed arguments, and only use the allowed commands.
+    {%- else -%}
+    Your action could not be parsed properly: {{exception_message}}.
+    {% endif %}
+    """)
 
-    def __call__(self, history: History) -> History:
-        return history
+    type: Literal["xml_function_calling"] = "xml_function_calling"
+```
+
+This class is important because it defines how SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering implements the patterns covered in this chapter.
+
+### `sweagent/tools/parsing.py`
+
+The `EditFormat` class in [`sweagent/tools/parsing.py`](https://github.com/SWE-agent/SWE-agent/blob/HEAD/sweagent/tools/parsing.py) handles a key part of this chapter's functionality:
+
+```py
 
 
-class LastNObservations(BaseModel):
-    """Elide all but the last n observations or remove tagged observations.
-
-    This is our most classic history processor, used in the original paper
-    to elide but the last 5 observations.
-    Elided observations are replaced by "Old environment output: (n lines omitted)".
-
-    Typical configuration:
-
-    ```yaml
-    agent:
-      history_processors:
-        - type: last_n_observations
-          n: 5
+class EditFormat(ThoughtActionParser, BaseModel):
+    """
+    Expects the model response to be a discussion followed by a command wrapped in backticks.
+    Example:
+    We'll replace the contents of the current window with the following:
     ```
+    import os
+    os.listdir()
+    ```
+    """
 
-    as for example in use in the SWE-agent 0.7 config at
-    https://github.com/SWE-agent/SWE-agent/blob/main/config/sweagent_0_7/07.yaml
+    error_message: str = dedent("""\
+    Your output was not formatted correctly. You must wrap the replacement text in backticks (```).
+    Please make sure your output precisely matches the following format:
+    COMMENTS
+    You can write comments here about what you're going to do if you want.
+
+    ```
+    New window contents.
+    Make sure you copy the entire contents of the window here, with the required indentation.
+    Make the changes to the window above directly in this window.
+    Remember that all of the window's contents will be replaced with the contents of this window.
+    Don't include line numbers in your response.
+    ```
+    """)
+
+    type: Literal["edit_format"] = "edit_format"
+    """Type for (de)serialization. Do not change."""
+
 
 ```
 
@@ -212,11 +210,11 @@ This class is important because it defines how SWE-agent Tutorial: Autonomous Re
 
 ```mermaid
 flowchart TD
-    A[LiteLLMModel]
-    B[get_model]
-    C[AbstractHistoryProcessor]
-    D[DefaultHistoryProcessor]
-    E[LastNObservations]
+    A[ThoughtActionParser]
+    B[XMLThoughtActionParser]
+    C[XMLFunctionCallingParser]
+    D[EditFormat]
+    E[Identity]
     A --> B
     B --> C
     C --> D

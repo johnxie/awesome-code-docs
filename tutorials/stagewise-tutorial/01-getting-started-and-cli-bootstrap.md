@@ -50,186 +50,24 @@ You now have a working Stagewise baseline and understand the root-directory requ
 
 Next: [Chapter 2: Proxy and Toolbar Architecture](02-proxy-and-toolbar-architecture.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `scripts/release/generate-changelog.ts`
+Use the following upstream sources to verify CLI bootstrap and getting-started implementation details while reading this chapter:
 
-The `getReleaseNotesPath` function in [`scripts/release/generate-changelog.ts`](https://github.com/stagewise-io/stagewise/blob/HEAD/scripts/release/generate-changelog.ts) handles a key part of this chapter's functionality:
+- [`apps/stagewise/src/index.ts`](https://github.com/stagewise-io/stagewise/blob/HEAD/apps/stagewise/src/index.ts) — the main CLI entry point that bootstraps the Stagewise proxy server, injects the toolbar into the running frontend dev server, and launches the agent connection.
+- [`apps/stagewise/package.json`](https://github.com/stagewise-io/stagewise/blob/HEAD/apps/stagewise/package.json) — defines the `stagewise` CLI bin entry, dependencies, and the script commands used during `npx stagewise` execution.
 
-```ts
- * Get the path to release notes file for a package
- */
-export async function getReleaseNotesPath(
-  packageName: string,
-): Promise<string> {
-  const repoRoot = await getRepoRoot();
-  return path.join(repoRoot, '.release-notes', `${packageName}.md`);
-}
-
-/**
- * Read custom release notes for a package
- * Returns null if no release notes file exists
- */
-export async function readReleaseNotes(
-  packageName: string,
-): Promise<string | null> {
-  const notesPath = await getReleaseNotesPath(packageName);
-
-  if (!existsSync(notesPath)) {
-    return null;
-  }
-
-  const content = await readFile(notesPath, 'utf-8');
-  return content.trim() || null;
-}
-
-/**
- * Delete the release notes file after it's been used
- */
-export async function deleteReleaseNotes(packageName: string): Promise<void> {
-  const notesPath = await getReleaseNotesPath(packageName);
-
-```
-
-This function is important because it defines how Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context implements the patterns covered in this chapter.
-
-### `scripts/release/generate-changelog.ts`
-
-The `readReleaseNotes` function in [`scripts/release/generate-changelog.ts`](https://github.com/stagewise-io/stagewise/blob/HEAD/scripts/release/generate-changelog.ts) handles a key part of this chapter's functionality:
-
-```ts
- * Returns null if no release notes file exists
- */
-export async function readReleaseNotes(
-  packageName: string,
-): Promise<string | null> {
-  const notesPath = await getReleaseNotesPath(packageName);
-
-  if (!existsSync(notesPath)) {
-    return null;
-  }
-
-  const content = await readFile(notesPath, 'utf-8');
-  return content.trim() || null;
-}
-
-/**
- * Delete the release notes file after it's been used
- */
-export async function deleteReleaseNotes(packageName: string): Promise<void> {
-  const notesPath = await getReleaseNotesPath(packageName);
-
-  if (existsSync(notesPath)) {
-    await unlink(notesPath);
-  }
-}
-
-/**
- * Group commits by type for changelog sections
- */
-interface GroupedCommits {
-  features: ConventionalCommit[];
-  fixes: ConventionalCommit[];
-```
-
-This function is important because it defines how Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context implements the patterns covered in this chapter.
-
-### `scripts/release/generate-changelog.ts`
-
-The `deleteReleaseNotes` function in [`scripts/release/generate-changelog.ts`](https://github.com/stagewise-io/stagewise/blob/HEAD/scripts/release/generate-changelog.ts) handles a key part of this chapter's functionality:
-
-```ts
- * Delete the release notes file after it's been used
- */
-export async function deleteReleaseNotes(packageName: string): Promise<void> {
-  const notesPath = await getReleaseNotesPath(packageName);
-
-  if (existsSync(notesPath)) {
-    await unlink(notesPath);
-  }
-}
-
-/**
- * Group commits by type for changelog sections
- */
-interface GroupedCommits {
-  features: ConventionalCommit[];
-  fixes: ConventionalCommit[];
-  breaking: ConventionalCommit[];
-  other: ConventionalCommit[];
-}
-
-function groupCommitsByType(commits: ConventionalCommit[]): GroupedCommits {
-  return {
-    features: commits.filter((c) => c.type === 'feat'),
-    fixes: commits.filter((c) => c.type === 'fix'),
-    breaking: commits.filter((c) => c.breaking),
-    other: commits.filter(
-      (c) => !['feat', 'fix'].includes(c.type) && !c.breaking,
-    ),
-  };
-}
-
-/**
-```
-
-This function is important because it defines how Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context implements the patterns covered in this chapter.
-
-### `scripts/release/generate-changelog.ts`
-
-The `groupCommitsByType` function in [`scripts/release/generate-changelog.ts`](https://github.com/stagewise-io/stagewise/blob/HEAD/scripts/release/generate-changelog.ts) handles a key part of this chapter's functionality:
-
-```ts
-}
-
-function groupCommitsByType(commits: ConventionalCommit[]): GroupedCommits {
-  return {
-    features: commits.filter((c) => c.type === 'feat'),
-    fixes: commits.filter((c) => c.type === 'fix'),
-    breaking: commits.filter((c) => c.breaking),
-    other: commits.filter(
-      (c) => !['feat', 'fix'].includes(c.type) && !c.breaking,
-    ),
-  };
-}
-
-/**
- * Generate markdown for a single commit
- */
-function formatCommit(commit: ConventionalCommit): string {
-  const breaking = commit.breaking ? '**BREAKING** ' : '';
-  return `* ${breaking}${commit.subject} (${commit.shortHash})`;
-}
-
-/**
- * Detect if version is a channel promotion (e.g., alpha→beta or prerelease→release)
- */
-function detectPromotion(version: string): {
-  isPromotion: boolean;
-  fromChannel: string | null;
-  toChannel: string;
-} {
-  const parsed = parseVersion(version);
-
-  // Determine the target channel from the version
-```
-
-This function is important because it defines how Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context implements the patterns covered in this chapter.
-
+Suggested trace strategy:
+- trace the bootstrap sequence in the CLI entry point to see how the proxy port, target URL, and workspace root are resolved
+- check `package.json` bin fields to understand how `npx stagewise` resolves to the CLI executable
+- look at monorepo `pnpm-workspace.yaml` to understand which packages are composed during a full install
 
 ## How These Components Connect
 
 ```mermaid
-flowchart TD
-    A[getReleaseNotesPath]
-    B[readReleaseNotes]
-    C[deleteReleaseNotes]
-    D[groupCommitsByType]
-    E[formatCommit]
-    A --> B
-    B --> C
-    C --> D
-    D --> E
+flowchart LR
+    A[npx stagewise] --> B[CLI entry point]
+    B --> C[Proxy server launched]
+    C --> D[Toolbar injected into browser]
+    D --> E[Agent connection established]
 ```

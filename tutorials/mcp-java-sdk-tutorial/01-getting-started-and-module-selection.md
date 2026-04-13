@@ -47,18 +47,16 @@ You now have a stable Java MCP baseline and module decision model.
 
 Next: [Chapter 2: SDK Architecture: Reactive Model and JSON Layer](02-sdk-architecture-reactive-model-and-json-layer.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `mcp-core/src/main/java/io/modelcontextprotocol/server/McpStatelessServerFeatures.java`
+### `mcp-core/src/main/java/io/modelcontextprotocol/server/McpServerFeatures.java`
 
-The `McpStatelessServerFeatures` class in [`mcp-core/src/main/java/io/modelcontextprotocol/server/McpStatelessServerFeatures.java`](https://github.com/modelcontextprotocol/java-sdk/blob/HEAD/mcp-core/src/main/java/io/modelcontextprotocol/server/McpStatelessServerFeatures.java) handles a key part of this chapter's functionality:
+The `McpServerFeatures` class in [`mcp-core/src/main/java/io/modelcontextprotocol/server/McpServerFeatures.java`](https://github.com/modelcontextprotocol/java-sdk/blob/HEAD/mcp-core/src/main/java/io/modelcontextprotocol/server/McpServerFeatures.java) handles a key part of this chapter's functionality:
 
 ```java
- * @author Christian Tzolov
+ * @author Jihoon Kim
  */
-public class McpStatelessServerFeatures {
+public class McpServerFeatures {
 
 	/**
 	 * Asynchronous server features specification.
@@ -67,16 +65,18 @@ public class McpStatelessServerFeatures {
 	 * @param serverCapabilities The server capabilities
 	 * @param tools The list of tool specifications
 	 * @param resources The map of resource specifications
-	 * @param resourceTemplates The map of resource templates
+	 * @param resourceTemplates The list of resource templates
 	 * @param prompts The map of prompt specifications
+	 * @param rootsChangeConsumers The list of consumers that will be notified when the
+	 * roots list changes
 	 * @param instructions The server instructions text
 	 */
 	record Async(McpSchema.Implementation serverInfo, McpSchema.ServerCapabilities serverCapabilities,
-			List<McpStatelessServerFeatures.AsyncToolSpecification> tools,
-			Map<String, AsyncResourceSpecification> resources,
-			Map<String, McpStatelessServerFeatures.AsyncResourceTemplateSpecification> resourceTemplates,
-			Map<String, McpStatelessServerFeatures.AsyncPromptSpecification> prompts,
-			Map<McpSchema.CompleteReference, McpStatelessServerFeatures.AsyncCompletionSpecification> completions,
+			List<McpServerFeatures.AsyncToolSpecification> tools, Map<String, AsyncResourceSpecification> resources,
+			Map<String, McpServerFeatures.AsyncResourceTemplateSpecification> resourceTemplates,
+			Map<String, McpServerFeatures.AsyncPromptSpecification> prompts,
+			Map<McpSchema.CompleteReference, McpServerFeatures.AsyncCompletionSpecification> completions,
+			List<BiFunction<McpAsyncServerExchange, List<McpSchema.Root>, Mono<Void>>> rootsChangeConsumers,
 			String instructions) {
 
 		/**
@@ -86,15 +86,13 @@ public class McpStatelessServerFeatures {
 		 * @param tools The list of tool specifications
 		 * @param resources The map of resource specifications
 		 * @param resourceTemplates The map of resource templates
-		 * @param prompts The map of prompt specifications
-		 * @param instructions The server instructions text
 ```
 
 This class is important because it defines how MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring implements the patterns covered in this chapter.
 
-### `mcp-core/src/main/java/io/modelcontextprotocol/server/McpStatelessServerFeatures.java`
+### `mcp-core/src/main/java/io/modelcontextprotocol/server/McpServerFeatures.java`
 
-The `Builder` class in [`mcp-core/src/main/java/io/modelcontextprotocol/server/McpStatelessServerFeatures.java`](https://github.com/modelcontextprotocol/java-sdk/blob/HEAD/mcp-core/src/main/java/io/modelcontextprotocol/server/McpStatelessServerFeatures.java) handles a key part of this chapter's functionality:
+The `Builder` class in [`mcp-core/src/main/java/io/modelcontextprotocol/server/McpServerFeatures.java`](https://github.com/modelcontextprotocol/java-sdk/blob/HEAD/mcp-core/src/main/java/io/modelcontextprotocol/server/McpServerFeatures.java) handles a key part of this chapter's functionality:
 
 ```java
 
@@ -105,7 +103,7 @@ The `Builder` class in [`mcp-core/src/main/java/io/modelcontextprotocol/server/M
 
 			private McpSchema.Tool tool;
 
-			private BiFunction<McpTransportContext, CallToolRequest, Mono<McpSchema.CallToolResult>> callHandler;
+			private BiFunction<McpAsyncServerExchange, McpSchema.CallToolRequest, Mono<McpSchema.CallToolResult>> callHandler;
 
 			/**
 			 * Sets the tool definition.
@@ -124,7 +122,7 @@ The `Builder` class in [`mcp-core/src/main/java/io/modelcontextprotocol/server/M
 			 * @return this builder instance
 			 */
 			public Builder callHandler(
-					BiFunction<McpTransportContext, CallToolRequest, Mono<McpSchema.CallToolResult>> callHandler) {
+					BiFunction<McpAsyncServerExchange, McpSchema.CallToolRequest, Mono<McpSchema.CallToolResult>> callHandler) {
 				this.callHandler = callHandler;
 				return this;
 			}
@@ -133,9 +131,9 @@ The `Builder` class in [`mcp-core/src/main/java/io/modelcontextprotocol/server/M
 
 This class is important because it defines how MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring implements the patterns covered in this chapter.
 
-### `mcp-core/src/main/java/io/modelcontextprotocol/server/McpStatelessServerFeatures.java`
+### `mcp-core/src/main/java/io/modelcontextprotocol/server/McpServerFeatures.java`
 
-The `Builder` class in [`mcp-core/src/main/java/io/modelcontextprotocol/server/McpStatelessServerFeatures.java`](https://github.com/modelcontextprotocol/java-sdk/blob/HEAD/mcp-core/src/main/java/io/modelcontextprotocol/server/McpStatelessServerFeatures.java) handles a key part of this chapter's functionality:
+The `Builder` class in [`mcp-core/src/main/java/io/modelcontextprotocol/server/McpServerFeatures.java`](https://github.com/modelcontextprotocol/java-sdk/blob/HEAD/mcp-core/src/main/java/io/modelcontextprotocol/server/McpServerFeatures.java) handles a key part of this chapter's functionality:
 
 ```java
 
@@ -146,7 +144,7 @@ The `Builder` class in [`mcp-core/src/main/java/io/modelcontextprotocol/server/M
 
 			private McpSchema.Tool tool;
 
-			private BiFunction<McpTransportContext, CallToolRequest, Mono<McpSchema.CallToolResult>> callHandler;
+			private BiFunction<McpAsyncServerExchange, McpSchema.CallToolRequest, Mono<McpSchema.CallToolResult>> callHandler;
 
 			/**
 			 * Sets the tool definition.
@@ -165,7 +163,7 @@ The `Builder` class in [`mcp-core/src/main/java/io/modelcontextprotocol/server/M
 			 * @return this builder instance
 			 */
 			public Builder callHandler(
-					BiFunction<McpTransportContext, CallToolRequest, Mono<McpSchema.CallToolResult>> callHandler) {
+					BiFunction<McpAsyncServerExchange, McpSchema.CallToolRequest, Mono<McpSchema.CallToolResult>> callHandler) {
 				this.callHandler = callHandler;
 				return this;
 			}
@@ -220,7 +218,7 @@ This class is important because it defines how MCP Java SDK Tutorial: Building M
 
 ```mermaid
 flowchart TD
-    A[McpStatelessServerFeatures]
+    A[McpServerFeatures]
     B[Builder]
     C[Builder]
     D[McpAsyncServer]

@@ -35,184 +35,182 @@ You now understand how to use Vibe for script-friendly and CI-ready tasks.
 
 Next: [Chapter 7: ACP and Editor Integrations](07-acp-and-editor-integrations.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `vibe/core/types.py`
+### `vibe/acp/utils.py`
 
-The `ToolCallEvent` class in [`vibe/core/types.py`](https://github.com/mistralai/mistral-vibe/blob/HEAD/vibe/core/types.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-class ToolCallEvent(BaseEvent):
-    tool_call_id: str
-    tool_name: str
-    tool_class: type[BaseTool]
-    tool_call_index: int | None = None
-    args: BaseModel | None = None
-
-
-class ToolResultEvent(BaseEvent):
-    tool_name: str
-    tool_class: type[BaseTool] | None
-    result: BaseModel | None = None
-    error: str | None = None
-    skipped: bool = False
-    skip_reason: str | None = None
-    cancelled: bool = False
-    duration: float | None = None
-    tool_call_id: str
-
-
-class ToolStreamEvent(BaseEvent):
-    tool_name: str
-    message: str
-    tool_call_id: str
-
-
-class CompactStartEvent(BaseEvent):
-    current_context_tokens: int
-    threshold: int
-    # WORKAROUND: Using tool_call to communicate compact events to the client.
-```
-
-This class is important because it defines how Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral implements the patterns covered in this chapter.
-
-### `vibe/core/types.py`
-
-The `ToolResultEvent` class in [`vibe/core/types.py`](https://github.com/mistralai/mistral-vibe/blob/HEAD/vibe/core/types.py) handles a key part of this chapter's functionality:
+The `get_proxy_help_text` function in [`vibe/acp/utils.py`](https://github.com/mistralai/mistral-vibe/blob/HEAD/vibe/acp/utils.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-class ToolResultEvent(BaseEvent):
-    tool_name: str
-    tool_class: type[BaseTool] | None
-    result: BaseModel | None = None
-    error: str | None = None
-    skipped: bool = False
-    skip_reason: str | None = None
-    cancelled: bool = False
-    duration: float | None = None
-    tool_call_id: str
+def get_proxy_help_text() -> str:
+    lines = [
+        "## Proxy Configuration",
+        "",
+        "Configure proxy and SSL settings for HTTP requests.",
+        "",
+        "### Usage:",
+        "- `/proxy-setup` - Show this help and current settings",
+        "- `/proxy-setup KEY value` - Set an environment variable",
+        "- `/proxy-setup KEY` - Remove an environment variable",
+        "",
+        "### Supported Variables:",
+    ]
 
+    for key, description in SUPPORTED_PROXY_VARS.items():
+        lines.append(f"- `{key}`: {description}")
 
-class ToolStreamEvent(BaseEvent):
-    tool_name: str
-    message: str
-    tool_call_id: str
+    lines.extend(["", "### Current Settings:"])
 
+    current = get_current_proxy_settings()
+    any_set = False
+    for key, value in current.items():
+        if value:
+            lines.append(f"- `{key}={value}`")
+            any_set = True
 
-class CompactStartEvent(BaseEvent):
-    current_context_tokens: int
-    threshold: int
-    # WORKAROUND: Using tool_call to communicate compact events to the client.
-    # This should be revisited when the ACP protocol defines how compact events
-    # should be represented.
-    # [RFD](https://agentclientprotocol.com/rfds/session-usage)
-    tool_call_id: str
+    if not any_set:
+        lines.append("- (none configured)")
 
-
-class CompactEndEvent(BaseEvent):
-    old_context_tokens: int
+    return "\n".join(lines)
 ```
 
-This class is important because it defines how Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral implements the patterns covered in this chapter.
+This function is important because it defines how Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral implements the patterns covered in this chapter.
 
-### `vibe/core/types.py`
+### `vibe/acp/utils.py`
 
-The `ToolStreamEvent` class in [`vibe/core/types.py`](https://github.com/mistralai/mistral-vibe/blob/HEAD/vibe/core/types.py) handles a key part of this chapter's functionality:
+The `create_user_message_replay` function in [`vibe/acp/utils.py`](https://github.com/mistralai/mistral-vibe/blob/HEAD/vibe/acp/utils.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-class ToolStreamEvent(BaseEvent):
-    tool_name: str
-    message: str
-    tool_call_id: str
+def create_user_message_replay(msg: LLMMessage) -> UserMessageChunk:
+    content = msg.content if isinstance(msg.content, str) else ""
+    return UserMessageChunk(
+        session_update="user_message_chunk",
+        content=TextContentBlock(type="text", text=content),
+        message_id=msg.message_id,
+    )
 
 
-class CompactStartEvent(BaseEvent):
-    current_context_tokens: int
-    threshold: int
-    # WORKAROUND: Using tool_call to communicate compact events to the client.
-    # This should be revisited when the ACP protocol defines how compact events
-    # should be represented.
-    # [RFD](https://agentclientprotocol.com/rfds/session-usage)
-    tool_call_id: str
+def create_assistant_message_replay(msg: LLMMessage) -> AgentMessageChunk | None:
+    content = msg.content if isinstance(msg.content, str) else ""
+    if not content:
+        return None
+
+    return AgentMessageChunk(
+        session_update="agent_message_chunk",
+        content=TextContentBlock(type="text", text=content),
+        message_id=msg.message_id,
+    )
 
 
-class CompactEndEvent(BaseEvent):
-    old_context_tokens: int
-    new_context_tokens: int
-    summary_length: int
-    # WORKAROUND: Using tool_call to communicate compact events to the client.
-    # This should be revisited when the ACP protocol defines how compact events
-    # should be represented.
-    # [RFD](https://agentclientprotocol.com/rfds/session-usage)
-    tool_call_id: str
+def create_reasoning_replay(msg: LLMMessage) -> AgentThoughtChunk | None:
+    if not isinstance(msg.reasoning_content, str) or not msg.reasoning_content:
+        return None
 
-
-class OutputFormat(StrEnum):
-    TEXT = auto()
-    JSON = auto()
+    return AgentThoughtChunk(
+        session_update="agent_thought_chunk",
+        content=TextContentBlock(type="text", text=msg.reasoning_content),
+        message_id=msg.reasoning_message_id,
+    )
 ```
 
-This class is important because it defines how Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral implements the patterns covered in this chapter.
+This function is important because it defines how Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral implements the patterns covered in this chapter.
 
-### `vibe/core/types.py`
+### `vibe/acp/utils.py`
 
-The `CompactStartEvent` class in [`vibe/core/types.py`](https://github.com/mistralai/mistral-vibe/blob/HEAD/vibe/core/types.py) handles a key part of this chapter's functionality:
+The `create_assistant_message_replay` function in [`vibe/acp/utils.py`](https://github.com/mistralai/mistral-vibe/blob/HEAD/vibe/acp/utils.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-class CompactStartEvent(BaseEvent):
-    current_context_tokens: int
-    threshold: int
-    # WORKAROUND: Using tool_call to communicate compact events to the client.
-    # This should be revisited when the ACP protocol defines how compact events
-    # should be represented.
-    # [RFD](https://agentclientprotocol.com/rfds/session-usage)
-    tool_call_id: str
+def create_assistant_message_replay(msg: LLMMessage) -> AgentMessageChunk | None:
+    content = msg.content if isinstance(msg.content, str) else ""
+    if not content:
+        return None
+
+    return AgentMessageChunk(
+        session_update="agent_message_chunk",
+        content=TextContentBlock(type="text", text=content),
+        message_id=msg.message_id,
+    )
 
 
-class CompactEndEvent(BaseEvent):
-    old_context_tokens: int
-    new_context_tokens: int
-    summary_length: int
-    # WORKAROUND: Using tool_call to communicate compact events to the client.
-    # This should be revisited when the ACP protocol defines how compact events
-    # should be represented.
-    # [RFD](https://agentclientprotocol.com/rfds/session-usage)
-    tool_call_id: str
+def create_reasoning_replay(msg: LLMMessage) -> AgentThoughtChunk | None:
+    if not isinstance(msg.reasoning_content, str) or not msg.reasoning_content:
+        return None
+
+    return AgentThoughtChunk(
+        session_update="agent_thought_chunk",
+        content=TextContentBlock(type="text", text=msg.reasoning_content),
+        message_id=msg.reasoning_message_id,
+    )
 
 
-class OutputFormat(StrEnum):
-    TEXT = auto()
-    JSON = auto()
-    STREAMING = auto()
-
-
-type ApprovalCallback = Callable[
-    [str, BaseModel, str], Awaitable[tuple[ApprovalResponse, str | None]]
-]
+def create_tool_call_replay(
+    tool_call_id: str, tool_name: str, arguments: str | None
+) -> ToolCallStart:
+    return ToolCallStart(
+        session_update="tool_call",
+        title=tool_name,
+        tool_call_id=tool_call_id,
 ```
 
-This class is important because it defines how Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral implements the patterns covered in this chapter.
+This function is important because it defines how Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral implements the patterns covered in this chapter.
+
+### `vibe/acp/utils.py`
+
+The `create_reasoning_replay` function in [`vibe/acp/utils.py`](https://github.com/mistralai/mistral-vibe/blob/HEAD/vibe/acp/utils.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+def create_reasoning_replay(msg: LLMMessage) -> AgentThoughtChunk | None:
+    if not isinstance(msg.reasoning_content, str) or not msg.reasoning_content:
+        return None
+
+    return AgentThoughtChunk(
+        session_update="agent_thought_chunk",
+        content=TextContentBlock(type="text", text=msg.reasoning_content),
+        message_id=msg.reasoning_message_id,
+    )
+
+
+def create_tool_call_replay(
+    tool_call_id: str, tool_name: str, arguments: str | None
+) -> ToolCallStart:
+    return ToolCallStart(
+        session_update="tool_call",
+        title=tool_name,
+        tool_call_id=tool_call_id,
+        kind="other",
+        raw_input=arguments,
+    )
+
+
+def create_tool_result_replay(msg: LLMMessage) -> ToolCallProgress | None:
+    if not msg.tool_call_id:
+        return None
+
+    content = msg.content if isinstance(msg.content, str) else ""
+    return ToolCallProgress(
+        session_update="tool_call_update",
+```
+
+This function is important because it defines how Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[ToolCallEvent]
-    B[ToolResultEvent]
-    C[ToolStreamEvent]
-    D[CompactStartEvent]
-    E[CompactEndEvent]
+    A[get_proxy_help_text]
+    B[create_user_message_replay]
+    C[create_assistant_message_replay]
+    D[create_reasoning_replay]
+    E[create_tool_call_replay]
     A --> B
     B --> C
     C --> D

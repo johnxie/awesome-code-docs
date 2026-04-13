@@ -39,184 +39,182 @@ You now have a migration-aware adoption strategy for MCP Apps.
 
 Next: [Chapter 8: Release Strategy and Production Operations](08-release-strategy-and-production-operations.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `examples/budget-allocator-server/server.ts`
+### `src/server/index.ts`
 
-The `generateHistory` function in [`examples/budget-allocator-server/server.ts`](https://github.com/modelcontextprotocol/ext-apps/blob/HEAD/examples/budget-allocator-server/server.ts) handles a key part of this chapter's functionality:
+The `computeAppDomainForClaude` function in [`src/server/index.ts`](https://github.com/modelcontextprotocol/ext-apps/blob/HEAD/src/server/index.ts) handles a key part of this chapter's functionality:
 
 ```ts
- * Generate 24 months of historical allocation data with realistic trends
- */
-function generateHistory(
-  categories: BudgetCategoryInternal[],
-): HistoricalMonth[] {
-  const months: HistoricalMonth[] = [];
-  const now = new Date();
-  const random = seededRandom(42); // Fixed seed for reproducibility
-
-  for (let i = 23; i >= 0; i--) {
-    const date = new Date(now);
-    date.setMonth(date.getMonth() - i);
-    const monthStr = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
-
-    const rawAllocations: Record<string, number> = {};
-
-    for (const cat of categories) {
-      // Start from default, apply trend over time, add noise
-      const monthsFromStart = 23 - i;
-      const trend = monthsFromStart * cat.trendPerMonth;
-      const noise = (random() - 0.5) * 3; // +/- 1.5%
-      rawAllocations[cat.id] = Math.max(
-        0,
-        Math.min(100, cat.defaultPercent + trend + noise),
-      );
-    }
-
-    // Normalize to 100%
-    const total = Object.values(rawAllocations).reduce((a, b) => a + b, 0);
-    const allocations: Record<string, number> = {};
-    for (const id of Object.keys(rawAllocations)) {
-      allocations[id] = Math.round((rawAllocations[id] / total) * 1000) / 10;
+ * ```ts source="./index.examples.ts#registerAppResource_withDomain"
+ * // Computes a stable origin from an MCP server URL for hosting in Claude.
+ * function computeAppDomainForClaude(mcpServerUrl: string): string {
+ *   const hash = crypto
+ *     .createHash("sha256")
+ *     .update(mcpServerUrl)
+ *     .digest("hex")
+ *     .slice(0, 32);
+ *   return `${hash}.claudemcpcontent.com`;
+ * }
+ *
+ * const APP_DOMAIN = computeAppDomainForClaude("https://example.com/mcp");
+ *
+ * registerAppResource(
+ *   server,
+ *   "Company Dashboard",
+ *   "ui://dashboard/view.html",
+ *   {
+ *     description: "Internal dashboard with company data",
+ *   },
+ *   async () => ({
+ *     contents: [
+ *       {
+ *         uri: "ui://dashboard/view.html",
+ *         mimeType: RESOURCE_MIME_TYPE,
+ *         text: dashboardHtml,
+ *         _meta: {
+ *           ui: {
+ *             // CSP: tell browser the app is allowed to make requests
+ *             csp: {
+ *               connectDomains: ["https://api.example.com"],
+ *             },
 ```
 
 This function is important because it defines how MCP Ext Apps Tutorial: Building Interactive MCP Apps and Hosts implements the patterns covered in this chapter.
 
-### `examples/budget-allocator-server/server.ts`
+### `src/server/index.ts`
 
-The `formatBudgetSummary` function in [`examples/budget-allocator-server/server.ts`](https://github.com/modelcontextprotocol/ext-apps/blob/HEAD/examples/budget-allocator-server/server.ts) handles a key part of this chapter's functionality:
+The `registerAppResource` function in [`src/server/index.ts`](https://github.com/modelcontextprotocol/ext-apps/blob/HEAD/src/server/index.ts) handles a key part of this chapter's functionality:
 
 ```ts
-// ---------------------------------------------------------------------------
+ *
+ * // Register the HTML resource the tool references
+ * registerAppResource(
+ *   server,
+ *   "Weather View",
+ *   "ui://weather/view.html",
+ *   {},
+ *   readCallback,
+ * );
+ * ```
+ */
 
-function formatBudgetSummary(data: BudgetDataResponse): string {
-  const lines: string[] = [
-    "Budget Allocator Configuration",
-    "==============================",
-    "",
-    `Default Budget: ${data.config.currencySymbol}${data.config.defaultBudget.toLocaleString()}`,
-    `Available Presets: ${data.config.presetBudgets.map((b) => `${data.config.currencySymbol}${b.toLocaleString()}`).join(", ")}`,
-    "",
-    "Categories:",
-    ...data.config.categories.map(
-      (c) => `  - ${c.name}: ${c.defaultPercent}% default`,
-    ),
-    "",
-    `Historical Data: ${data.analytics.history.length} months`,
-    `Benchmark Stages: ${data.analytics.stages.join(", ")}`,
-    `Default Stage: ${data.analytics.defaultStage}`,
-  ];
-  return lines.join("\n");
+import {
+  RESOURCE_URI_META_KEY,
+  RESOURCE_MIME_TYPE,
+  McpUiResourceCsp,
+  McpUiResourceMeta,
+  McpUiToolMeta,
+  McpUiClientCapabilities,
+} from "../app.js";
+import type {
+  BaseToolCallback,
+  McpServer,
+  RegisteredTool,
+  ResourceMetadata,
+  ToolCallback,
+  ReadResourceCallback as _ReadResourceCallback,
+  RegisteredResource,
+} from "@modelcontextprotocol/sdk/server/mcp.js";
+import type {
+  AnySchema,
+  ZodRawShapeCompat,
+```
+
+This function is important because it defines how MCP Ext Apps Tutorial: Building Interactive MCP Apps and Hosts implements the patterns covered in this chapter.
+
+### `src/server/index.ts`
+
+The `getUiCapability` function in [`src/server/index.ts`](https://github.com/modelcontextprotocol/ext-apps/blob/HEAD/src/server/index.ts) handles a key part of this chapter's functionality:
+
+```ts
+ *
+ * @example Check for MCP Apps support in server initialization
+ * ```ts source="./index.examples.ts#getUiCapability_checkSupport"
+ * server.server.oninitialized = () => {
+ *   const clientCapabilities = server.server.getClientCapabilities();
+ *   const uiCap = getUiCapability(clientCapabilities);
+ *
+ *   if (uiCap?.mimeTypes?.includes(RESOURCE_MIME_TYPE)) {
+ *     // App-enhanced tool
+ *     registerAppTool(
+ *       server,
+ *       "weather",
+ *       {
+ *         description: "Get weather information with interactive dashboard",
+ *         _meta: { ui: { resourceUri: "ui://weather/dashboard" } },
+ *       },
+ *       weatherHandler,
+ *     );
+ *   } else {
+ *     // Text-only fallback
+ *     server.registerTool(
+ *       "weather",
+ *       {
+ *         description: "Get weather information",
+ *       },
+ *       textWeatherHandler,
+ *     );
+ *   }
+ * };
+ * ```
+ */
+export function getUiCapability(
+```
+
+This function is important because it defines how MCP Ext Apps Tutorial: Building Interactive MCP Apps and Hosts implements the patterns covered in this chapter.
+
+### `src/server/index.ts`
+
+The `ToolConfig` interface in [`src/server/index.ts`](https://github.com/modelcontextprotocol/ext-apps/blob/HEAD/src/server/index.ts) handles a key part of this chapter's functionality:
+
+```ts
+/**
+ * Base tool configuration matching the standard MCP server tool options.
+ * Extended by {@link McpUiAppToolConfig `McpUiAppToolConfig`} to add UI metadata requirements.
+ */
+export interface ToolConfig {
+  title?: string;
+  description?: string;
+  inputSchema?: ZodRawShapeCompat | AnySchema;
+  outputSchema?: ZodRawShapeCompat | AnySchema;
+  annotations?: ToolAnnotations;
+  _meta?: Record<string, unknown>;
 }
-
-// ---------------------------------------------------------------------------
-// MCP Server Setup
-// ---------------------------------------------------------------------------
-
-const resourceUri = "ui://budget-allocator/mcp-app.html";
 
 /**
- * Creates a new MCP server instance with tools and resources registered.
- * Each HTTP session needs its own server instance because McpServer only supports one transport.
+ * Configuration for tools that render an interactive UI.
+ *
+ * Extends {@link ToolConfig `ToolConfig`} with a required `_meta` field that specifies UI metadata.
+ * The UI resource can be specified in two ways:
+ * - `_meta.ui.resourceUri` (preferred)
+ * - `_meta["ui/resourceUri"]` (deprecated, for backward compatibility)
+ *
+ * @see {@link registerAppTool `registerAppTool`} for the recommended way to register app tools
  */
+export interface McpUiAppToolConfig extends ToolConfig {
+  _meta: {
+    [key: string]: unknown;
+  } & (
+    | {
+        ui: McpUiToolMeta;
+      }
+    | {
+        /**
 ```
 
-This function is important because it defines how MCP Ext Apps Tutorial: Building Interactive MCP Apps and Hosts implements the patterns covered in this chapter.
-
-### `examples/budget-allocator-server/server.ts`
-
-The `createServer` function in [`examples/budget-allocator-server/server.ts`](https://github.com/modelcontextprotocol/ext-apps/blob/HEAD/examples/budget-allocator-server/server.ts) handles a key part of this chapter's functionality:
-
-```ts
- * Each HTTP session needs its own server instance because McpServer only supports one transport.
- */
-export function createServer(): McpServer {
-  const server = new McpServer({
-    name: "Budget Allocator Server",
-    version: "1.0.0",
-  });
-
-  registerAppTool(
-    server,
-    "get-budget-data",
-    {
-      title: "Get Budget Data",
-      description:
-        "Returns budget configuration with 24 months of historical allocations and industry benchmarks by company stage",
-      inputSchema: {},
-      outputSchema: BudgetDataResponseSchema,
-      _meta: { ui: { resourceUri } },
-    },
-    async (): Promise<CallToolResult> => {
-      const response: BudgetDataResponse = {
-        config: {
-          categories: CATEGORIES.map(({ id, name, color, defaultPercent }) => ({
-            id,
-            name,
-            color,
-            defaultPercent,
-          })),
-          presetBudgets: [50000, 100000, 250000, 500000],
-          defaultBudget: 100000,
-          currency: "USD",
-          currencySymbol: "$",
-```
-
-This function is important because it defines how MCP Ext Apps Tutorial: Building Interactive MCP Apps and Hosts implements the patterns covered in this chapter.
-
-### `examples/scenario-modeler-server/server.ts`
-
-The `calculateProjections` function in [`examples/scenario-modeler-server/server.ts`](https://github.com/modelcontextprotocol/ext-apps/blob/HEAD/examples/scenario-modeler-server/server.ts) handles a key part of this chapter's functionality:
-
-```ts
-// ============================================================================
-
-function calculateProjections(inputs: ScenarioInputs): MonthlyProjection[] {
-  const {
-    startingMRR,
-    monthlyGrowthRate,
-    monthlyChurnRate,
-    grossMargin,
-    fixedCosts,
-  } = inputs;
-
-  const netGrowthRate = (monthlyGrowthRate - monthlyChurnRate) / 100;
-  const projections: MonthlyProjection[] = [];
-  let cumulativeRevenue = 0;
-
-  for (let month = 1; month <= 12; month++) {
-    const mrr = startingMRR * Math.pow(1 + netGrowthRate, month);
-    const grossProfit = mrr * (grossMargin / 100);
-    const netProfit = grossProfit - fixedCosts;
-    cumulativeRevenue += mrr;
-
-    projections.push({
-      month,
-      mrr,
-      grossProfit,
-      netProfit,
-      cumulativeRevenue,
-    });
-  }
-
-  return projections;
-}
-```
-
-This function is important because it defines how MCP Ext Apps Tutorial: Building Interactive MCP Apps and Hosts implements the patterns covered in this chapter.
+This interface is important because it defines how MCP Ext Apps Tutorial: Building Interactive MCP Apps and Hosts implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[generateHistory]
-    B[formatBudgetSummary]
-    C[createServer]
-    D[calculateProjections]
-    E[calculateSummary]
+    A[computeAppDomainForClaude]
+    B[registerAppResource]
+    C[getUiCapability]
+    D[ToolConfig]
+    E[McpUiAppToolConfig]
     A --> B
     B --> C
     C --> D

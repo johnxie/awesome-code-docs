@@ -41,50 +41,7 @@ You now have a roadmap for evolving quickstart MCP assets into durable productio
 
 Return to the [MCP Quickstart Resources Tutorial index](README.md).
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
-
-### `weather-server-rust/src/main.rs`
-
-The `ForecastProperties` interface in [`weather-server-rust/src/main.rs`](https://github.com/modelcontextprotocol/quickstart-resources/blob/HEAD/weather-server-rust/src/main.rs) handles a key part of this chapter's functionality:
-
-```rs
-#[derive(Debug, Deserialize)]
-struct ForecastResponse {
-    properties: ForecastProperties,
-}
-
-#[derive(Debug, Deserialize)]
-struct ForecastProperties {
-    periods: Vec<ForecastPeriod>,
-}
-
-#[derive(Debug, Deserialize)]
-struct ForecastPeriod {
-    name: String,
-    temperature: i32,
-    #[serde(rename = "temperatureUnit")]
-    temperature_unit: String,
-    #[serde(rename = "windSpeed")]
-    wind_speed: String,
-    #[serde(rename = "windDirection")]
-    wind_direction: String,
-    #[serde(rename = "detailedForecast")]
-    detailed_forecast: String,
-}
-
-async fn make_nws_request<T: DeserializeOwned>(url: &str) -> Result<T> {
-    let client = reqwest::Client::new();
-    let rsp = client
-        .get(url)
-        .header(reqwest::header::USER_AGENT, USER_AGENT)
-        .header(reqwest::header::ACCEPT, "application/geo+json")
-        .send()
-        .await?
-```
-
-This interface is important because it defines how MCP Quickstart Resources Tutorial: Cross-Language MCP Servers and Clients by Example implements the patterns covered in this chapter.
 
 ### `weather-server-rust/src/main.rs`
 
@@ -209,16 +166,57 @@ impl Weather {
 
 This interface is important because it defines how MCP Quickstart Resources Tutorial: Cross-Language MCP Servers and Clients by Example implements the patterns covered in this chapter.
 
+### `weather-server-rust/src/main.rs`
+
+The `Weather` interface in [`weather-server-rust/src/main.rs`](https://github.com/modelcontextprotocol/quickstart-resources/blob/HEAD/weather-server-rust/src/main.rs) handles a key part of this chapter's functionality:
+
+```rs
+}
+
+pub struct Weather {
+    tool_router: ToolRouter<Weather>,
+}
+
+#[tool_router]
+impl Weather {
+    fn new() -> Self {
+        Self {
+            tool_router: Self::tool_router(),
+        }
+    }
+
+    #[tool(description = "Get weather alerts for a US state.")]
+    async fn get_alerts(
+        &self,
+        Parameters(MCPAlertRequest { state }): Parameters<MCPAlertRequest>,
+    ) -> String {
+        let url = format!(
+            "{}/alerts/active/area/{}",
+            NWS_API_BASE,
+            state.to_uppercase()
+        );
+
+        match make_nws_request::<AlertsResponse>(&url).await {
+            Ok(data) => {
+                if data.features.is_empty() {
+                    "No active alerts for this state.".to_string()
+                } else {
+                    data.features
+                        .iter()
+```
+
+This interface is important because it defines how MCP Quickstart Resources Tutorial: Cross-Language MCP Servers and Clients by Example implements the patterns covered in this chapter.
+
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[ForecastProperties]
-    B[ForecastPeriod]
-    C[MCPForecastRequest]
-    D[MCPAlertRequest]
-    E[Weather]
+    A[ForecastPeriod]
+    B[MCPForecastRequest]
+    C[MCPAlertRequest]
+    D[Weather]
+    E[MCPClient]
     A --> B
     B --> C
     C --> D

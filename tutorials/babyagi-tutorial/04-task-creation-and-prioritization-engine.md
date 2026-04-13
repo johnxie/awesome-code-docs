@@ -38,170 +38,168 @@ You now understand how the task creation and prioritization engine generates, de
 
 Next: [Chapter 5: Memory Systems and Vector Store Integration](05-memory-systems-and-vector-store-integration.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `babyagi/dashboard/static/js/log_dashboard.js`
+### `babyagi/functionz/packs/drafts/user_db.py`
 
-The `buildLogTree` function in [`babyagi/dashboard/static/js/log_dashboard.js`](https://github.com/yoheinakajima/babyagi/blob/HEAD/babyagi/dashboard/static/js/log_dashboard.js) handles a key part of this chapter's functionality:
+The `create_table` function in [`babyagi/functionz/packs/drafts/user_db.py`](https://github.com/yoheinakajima/babyagi/blob/HEAD/babyagi/functionz/packs/drafts/user_db.py) handles a key part of this chapter's functionality:
 
-```js
+```py
+    imports=["sqlalchemy", "json"]  # Added 'json' to imports
+)
+def create_table(db_name: str, table_name: str, columns: str):
+    from sqlalchemy import create_engine, MetaData, Table, Column, String, Integer, Float, Boolean, DateTime, LargeBinary
+    import json  # Imported json within the function
 
-        // Build the tree structure
-        rootLogs = buildLogTree(filteredLogs);
 
-        renderLogs();
-    } catch (error) {
-        console.error('Error populating filters:', error);
-        alert('Failed to load logs for filters. Please try again later.');
-    }
-}
+    try:
+        columns = json.loads(columns)
+        print("Parsed columns:", columns)  # Debugging statement
+    except json.JSONDecodeError as e:
+        return f"Invalid JSON for columns: {e}"
 
-// Build log tree based on parent_log_id
-function buildLogTree(logs) {
-    const logsById = {};
-    const rootLogs = [];
+    def get_column_type(type_name):
+        type_map = {
+            'string': String,
+            'integer': Integer,
+            'float': Float,
+            'boolean': Boolean,
+            'datetime': DateTime,
+            'binary': LargeBinary,
+            'embedding': LargeBinary  # We'll use LargeBinary for embeddings
+        }
+        return type_map.get(type_name.lower(), String)  # Default to String if type not found
 
-    // Initialize logsById mapping and add children array to each log
-    logs.forEach(log => {
-        log.children = [];
-        logsById[log.id] = log;
-    });
+    UserDB_name = func.get_user_db_class()
+    UserDB = type(UserDB_name, (), {
+        '__init__': lambda self, db_url: setattr(self, 'engine', create_engine(db_url)),
+        'metadata': MetaData(),
+    })
+    user_db = UserDB(f'sqlite:///{db_name}.sqlite')
 
-    // Build the tree
-    logs.forEach(log => {
-        if (log.parent_log_id !== null) {
-            const parentLog = logsById[log.parent_log_id];
-            if (parentLog) {
-                parentLog.children.push(log);
-            } else {
-                // Parent log not found, treat as root
-                rootLogs.push(log);
+```
+
+This function is important because it defines how BabyAGI Tutorial: The Original Autonomous AI Task Agent Framework implements the patterns covered in this chapter.
+
+### `babyagi/functionz/packs/drafts/user_db.py`
+
+The `list_tables` function in [`babyagi/functionz/packs/drafts/user_db.py`](https://github.com/yoheinakajima/babyagi/blob/HEAD/babyagi/functionz/packs/drafts/user_db.py) handles a key part of this chapter's functionality:
+
+```py
+    imports=["sqlalchemy"]
+)
+def list_tables(db_name: str):
+    from sqlalchemy import create_engine, MetaData
+    UserDB_name = func.get_user_db_class()
+    UserDB = type(UserDB_name, (), {
+        '__init__': lambda self, db_url: setattr(self, 'engine', create_engine(db_url)),
+        'metadata': MetaData()
+    })
+    user_db = UserDB(f'sqlite:///{db_name}.sqlite')
+    user_db.metadata.reflect(user_db.engine)
+    return [table.name for table in user_db.metadata.tables.values()]
+
+@func.register_function(
+    metadata={"description": "Get details of a specific table."},
+    dependencies=["get_user_db_class"],
+    imports=["sqlalchemy"]
+)
+def get_table(db_name: str, table_name: str):
+    from sqlalchemy import create_engine, MetaData, Table
+    from sqlalchemy.exc import NoSuchTableError
+
+    UserDB_name = func.get_user_db_class()
+    UserDB = type(UserDB_name, (), {
+        '__init__': lambda self, db_url: setattr(self, 'engine', create_engine(db_url)),
+        'metadata': MetaData()
+    })
+
+    try:
+        user_db = UserDB(f'sqlite:///{db_name}.sqlite')
+        user_db.metadata.reflect(user_db.engine)
+
+```
+
+This function is important because it defines how BabyAGI Tutorial: The Original Autonomous AI Task Agent Framework implements the patterns covered in this chapter.
+
+### `babyagi/functionz/packs/drafts/user_db.py`
+
+The `get_table` function in [`babyagi/functionz/packs/drafts/user_db.py`](https://github.com/yoheinakajima/babyagi/blob/HEAD/babyagi/functionz/packs/drafts/user_db.py) handles a key part of this chapter's functionality:
+
+```py
+    imports=["sqlalchemy"]
+)
+def get_table(db_name: str, table_name: str):
+    from sqlalchemy import create_engine, MetaData, Table
+    from sqlalchemy.exc import NoSuchTableError
+
+    UserDB_name = func.get_user_db_class()
+    UserDB = type(UserDB_name, (), {
+        '__init__': lambda self, db_url: setattr(self, 'engine', create_engine(db_url)),
+        'metadata': MetaData()
+    })
+
+    try:
+        user_db = UserDB(f'sqlite:///{db_name}.sqlite')
+        user_db.metadata.reflect(user_db.engine)
+
+        if table_name in user_db.metadata.tables:
+            table = Table(table_name, user_db.metadata, autoload_with=user_db.engine)
+            return {
+                "name": table.name,
+                "columns": [{"name": column.name, "type": str(column.type)} for column in table.columns]
             }
+        else:
+            return f"Table '{table_name}' not found in database '{db_name}'."
+    except NoSuchTableError:
+        return f"Table '{table_name}' not found in database '{db_name}'."
+    except Exception as e:
+        return f"Error getting table details: {str(e)}"
+        
+@func.register_function(
+    metadata={"description": "Update a table by adding new columns."},
+    dependencies=["get_user_db_class"],
 ```
 
 This function is important because it defines how BabyAGI Tutorial: The Original Autonomous AI Task Agent Framework implements the patterns covered in this chapter.
 
-### `babyagi/dashboard/static/js/log_dashboard.js`
+### `babyagi/functionz/packs/drafts/user_db.py`
 
-The `renderLogs` function in [`babyagi/dashboard/static/js/log_dashboard.js`](https://github.com/yoheinakajima/babyagi/blob/HEAD/babyagi/dashboard/static/js/log_dashboard.js) handles a key part of this chapter's functionality:
+The `update_table` function in [`babyagi/functionz/packs/drafts/user_db.py`](https://github.com/yoheinakajima/babyagi/blob/HEAD/babyagi/functionz/packs/drafts/user_db.py) handles a key part of this chapter's functionality:
 
-```js
-        rootLogs = buildLogTree(filteredLogs);
+```py
+    imports=["sqlalchemy", "json"]  # Added 'json' to imports
+)
+def update_table(db_name: str, table_name: str, new_columns: str):
+    from sqlalchemy import create_engine, MetaData, Table, Column, String, Integer, Float, Boolean, DateTime, LargeBinary
+    from sqlalchemy.schema import CreateTable
+    import json  # Imported json within the function
 
-        renderLogs();
-    } catch (error) {
-        console.error('Error populating filters:', error);
-        alert('Failed to load logs for filters. Please try again later.');
-    }
-}
+    try:
+        new_columns = json.loads(new_columns)
+        print("Parsed columns:", new_columns)  # Debugging statement
+    except json.JSONDecodeError as e:
+        return f"Invalid JSON for columns: {e}"
 
-// Build log tree based on parent_log_id
-function buildLogTree(logs) {
-    const logsById = {};
-    const rootLogs = [];
+    def get_column_type(type_name):
+        type_map = {
+            'string': String,
+            'integer': Integer,
+            'float': Float,
+            'boolean': Boolean,
+            'datetime': DateTime,
+            'binary': LargeBinary,
+            'embedding': LargeBinary  # We'll use LargeBinary for embeddings
+        }
+        return type_map.get(type_name.lower(), String)  # Default to String if type not found
 
-    // Initialize logsById mapping and add children array to each log
-    logs.forEach(log => {
-        log.children = [];
-        logsById[log.id] = log;
-    });
 
-    // Build the tree
-    logs.forEach(log => {
-        if (log.parent_log_id !== null) {
-            const parentLog = logsById[log.parent_log_id];
-            if (parentLog) {
-                parentLog.children.push(log);
-            } else {
-                // Parent log not found, treat as root
-                rootLogs.push(log);
-            }
-        } else {
-            rootLogs.push(log);
-```
+    UserDB_name = func.get_user_db_class()
+    UserDB = type(UserDB_name, (), {
+        '__init__': lambda self, db_url: setattr(self, 'engine', create_engine(db_url)),
+        'metadata': MetaData()
+    })
 
-This function is important because it defines how BabyAGI Tutorial: The Original Autonomous AI Task Agent Framework implements the patterns covered in this chapter.
-
-### `babyagi/dashboard/static/js/log_dashboard.js`
-
-The `renderTable` function in [`babyagi/dashboard/static/js/log_dashboard.js`](https://github.com/yoheinakajima/babyagi/blob/HEAD/babyagi/dashboard/static/js/log_dashboard.js) handles a key part of this chapter's functionality:
-
-```js
-// Render logs in table and grid formats
-function renderLogs() {
-    renderTable();
-    renderGrid();
-}
-
-// Render Logs Table (Desktop View)
-function renderTable() {
-    const tableBody = document.querySelector('#logTable tbody');
-    tableBody.innerHTML = '';
-
-    rootLogs.forEach(log => {
-        renderLogRow(tableBody, log, 0);
-    });
-}
-
-// Recursive function to render each log row and its children
-function renderLogRow(tableBody, log, depth, parentRowId) {
-    const row = document.createElement('tr');
-    const rowId = 'log-' + log.id;
-    row.id = rowId;
-
-    // If it's a child row, add a class to indicate it's a child
-    if (parentRowId) {
-        row.classList.add('child-of-log-' + parentRowId);
-        row.style.display = 'none'; // Hide child rows by default
-    }
-
-    // Check if log has children
-    const hasChildren = log.children && log.children.length > 0;
-
-    // Create expand/collapse icon
-```
-
-This function is important because it defines how BabyAGI Tutorial: The Original Autonomous AI Task Agent Framework implements the patterns covered in this chapter.
-
-### `babyagi/dashboard/static/js/log_dashboard.js`
-
-The `renderLogRow` function in [`babyagi/dashboard/static/js/log_dashboard.js`](https://github.com/yoheinakajima/babyagi/blob/HEAD/babyagi/dashboard/static/js/log_dashboard.js) handles a key part of this chapter's functionality:
-
-```js
-
-    rootLogs.forEach(log => {
-        renderLogRow(tableBody, log, 0);
-    });
-}
-
-// Recursive function to render each log row and its children
-function renderLogRow(tableBody, log, depth, parentRowId) {
-    const row = document.createElement('tr');
-    const rowId = 'log-' + log.id;
-    row.id = rowId;
-
-    // If it's a child row, add a class to indicate it's a child
-    if (parentRowId) {
-        row.classList.add('child-of-log-' + parentRowId);
-        row.style.display = 'none'; // Hide child rows by default
-    }
-
-    // Check if log has children
-    const hasChildren = log.children && log.children.length > 0;
-
-    // Create expand/collapse icon
-    let toggleIcon = '';
-    if (hasChildren) {
-        toggleIcon = `<span class="toggle-icon" data-log-id="${log.id}" style="cursor:pointer;">[+]</span> `;
-    }
-
-    row.innerHTML = `
-        <td><a href="${dashboardRoute}/log/${log.id}" class="function-link">${log.id}</a></td>
-        <td><a href="${dashboardRoute}/function/${encodeURIComponent(log.function_name)}" class="function-link">${log.function_name}</a></td>
-        <td style="padding-left:${depth * 20}px">${toggleIcon}${log.message}</td>
-        <td>${new Date(log.timestamp).toLocaleString()}</td>
 ```
 
 This function is important because it defines how BabyAGI Tutorial: The Original Autonomous AI Task Agent Framework implements the patterns covered in this chapter.
@@ -211,11 +209,11 @@ This function is important because it defines how BabyAGI Tutorial: The Original
 
 ```mermaid
 flowchart TD
-    A[buildLogTree]
-    B[renderLogs]
-    C[renderTable]
-    D[renderLogRow]
-    E[toggleChildRows]
+    A[create_table]
+    B[list_tables]
+    C[get_table]
+    D[update_table]
+    E[delete_table]
     A --> B
     B --> C
     C --> D

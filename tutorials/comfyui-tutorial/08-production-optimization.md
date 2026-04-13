@@ -937,16 +937,18 @@ Under the hood, `Chapter 8: Production & Optimization` usually follows a repeata
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
-## Source Walkthrough
+## Source Code Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+### `comfy/model_management.py`
 
-- [View Repo](https://github.com/comfyanonymous/ComfyUI)
-  Why it matters: authoritative reference on `View Repo` (github.com).
+The memory management system in [`comfy/model_management.py`](https://github.com/comfyanonymous/ComfyUI/blob/master/comfy/model_management.py) is critical for production stability. It tracks loaded models' VRAM usage and evicts least-recently-used models when memory is constrained:
 
-Suggested trace strategy:
-- search upstream code for `request` and `device` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+```python
+import comfy.model_management
+from comfy.cli_args import args
+```
+
+The `cli_args` module parses `--lowvram`, `--medvram`, `--cpu`, `--gpu-only`, and `--fp8_e4m3fn` flags that control memory tiers. `cuda_malloc.py` implements a custom CUDA memory allocator for reduced fragmentation. In production, `server.py` exposes the `/queue` and `/prompt` REST endpoints and serves the LiteGraph frontend as static files.
 
 ## Chapter Connections
 

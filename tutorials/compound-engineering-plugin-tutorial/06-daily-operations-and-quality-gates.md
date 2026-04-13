@@ -45,170 +45,145 @@ You now have a repeatable operations loop with built-in quality controls.
 
 Next: [Chapter 7: Troubleshooting and Runtime Maintenance](07-troubleshooting-and-runtime-maintenance.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `src/converters/claude-to-pi.ts`
+### `src/sync/commands.ts`
 
-The `convertAgent` function in [`src/converters/claude-to-pi.ts`](https://github.com/EveryInc/compound-engineering-plugin/blob/HEAD/src/converters/claude-to-pi.ts) handles a key part of this chapter's functionality:
+The `syncQwenCommands` function in [`src/sync/commands.ts`](https://github.com/EveryInc/compound-engineering-plugin/blob/HEAD/src/sync/commands.ts) handles a key part of this chapter's functionality:
 
 ```ts
-    .map((command) => convertPrompt(command, promptNames))
+}
 
-  const generatedSkills = plugin.agents.map((agent) => convertAgent(agent, usedSkillNames))
+export async function syncQwenCommands(
+  config: ClaudeHomeConfig,
+  outputRoot: string,
+): Promise<void> {
+  if (!hasCommands(config)) return
 
-  const extensions = [
-    {
-      name: "compound-engineering-compat.ts",
-      content: PI_COMPAT_EXTENSION_SOURCE,
-    },
-  ]
+  const plugin = buildClaudeHomePlugin(config)
+  const bundle = convertClaudeToQwen(plugin, DEFAULT_QWEN_SYNC_OPTIONS)
 
-  return {
-    prompts,
-    skillDirs: plugin.skills.map((skill) => ({
-      name: skill.name,
-      sourceDir: skill.sourceDir,
-    })),
-    generatedSkills,
-    extensions,
-    mcporterConfig: plugin.mcpServers ? convertMcpToMcporter(plugin.mcpServers) : undefined,
+  for (const commandFile of bundle.commandFiles) {
+    const parts = commandFile.name.split(":")
+    if (parts.length > 1) {
+      const nestedDir = path.join(outputRoot, "commands", ...parts.slice(0, -1))
+      await writeText(path.join(nestedDir, `${parts[parts.length - 1]}.md`), commandFile.content + "\n")
+      continue
+    }
+
+    await writeText(path.join(outputRoot, "commands", `${commandFile.name}.md`), commandFile.content + "\n")
   }
 }
 
-function convertPrompt(command: ClaudeCommand, usedNames: Set<string>) {
-  const name = uniqueName(normalizeName(command.name), usedNames)
+export function warnUnsupportedOpenClawCommands(config: ClaudeHomeConfig): void {
+  if (!hasCommands(config)) return
+
+  console.warn(
+    "Warning: OpenClaw personal command sync is skipped because this sync target currently has no documented user-level command surface.",
+  )
+}
+
+```
+
+This function is important because it defines how Compound Engineering Plugin Tutorial: Compounding Agent Workflows Across Toolchains implements the patterns covered in this chapter.
+
+### `src/sync/commands.ts`
+
+The `warnUnsupportedOpenClawCommands` function in [`src/sync/commands.ts`](https://github.com/EveryInc/compound-engineering-plugin/blob/HEAD/src/sync/commands.ts) handles a key part of this chapter's functionality:
+
+```ts
+}
+
+export function warnUnsupportedOpenClawCommands(config: ClaudeHomeConfig): void {
+  if (!hasCommands(config)) return
+
+  console.warn(
+    "Warning: OpenClaw personal command sync is skipped because this sync target currently has no documented user-level command surface.",
+  )
+}
+
+```
+
+This function is important because it defines how Compound Engineering Plugin Tutorial: Compounding Agent Workflows Across Toolchains implements the patterns covered in this chapter.
+
+### `src/converters/claude-to-droid.ts`
+
+The `convertClaudeToDroid` function in [`src/converters/claude-to-droid.ts`](https://github.com/EveryInc/compound-engineering-plugin/blob/HEAD/src/converters/claude-to-droid.ts) handles a key part of this chapter's functionality:
+
+```ts
+])
+
+export function convertClaudeToDroid(
+  plugin: ClaudePlugin,
+  _options: ClaudeToDroidOptions,
+): DroidBundle {
+  const commands = plugin.commands.map((command) => convertCommand(command))
+  const droids = plugin.agents.map((agent) => convertAgent(agent))
+  const skillDirs = plugin.skills.map((skill) => ({
+    name: skill.name,
+    sourceDir: skill.sourceDir,
+  }))
+
+  return { commands, droids, skillDirs }
+}
+
+function convertCommand(command: ClaudeCommand): DroidCommandFile {
+  const name = flattenCommandName(command.name)
   const frontmatter: Record<string, unknown> = {
     description: command.description,
-    "argument-hint": command.argumentHint,
+  }
+  if (command.argumentHint) {
+    frontmatter["argument-hint"] = command.argumentHint
+  }
+  if (command.disableModelInvocation) {
+    frontmatter["disable-model-invocation"] = true
   }
 
-  let body = transformContentForPi(command.body)
-  body = appendCompatibilityNoteIfNeeded(body)
+  const body = transformContentForDroid(command.body.trim())
+  const content = formatFrontmatter(frontmatter, body)
+  return { name, content }
+}
 ```
 
 This function is important because it defines how Compound Engineering Plugin Tutorial: Compounding Agent Workflows Across Toolchains implements the patterns covered in this chapter.
 
-### `src/converters/claude-to-pi.ts`
+### `src/converters/claude-to-droid.ts`
 
-The `transformContentForPi` function in [`src/converters/claude-to-pi.ts`](https://github.com/EveryInc/compound-engineering-plugin/blob/HEAD/src/converters/claude-to-pi.ts) handles a key part of this chapter's functionality:
-
-```ts
-  }
-
-  let body = transformContentForPi(command.body)
-  body = appendCompatibilityNoteIfNeeded(body)
-
-  return {
-    name,
-    content: formatFrontmatter(frontmatter, body.trim()),
-  }
-}
-
-function convertAgent(agent: ClaudeAgent, usedNames: Set<string>): PiGeneratedSkill {
-  const name = uniqueName(normalizeName(agent.name), usedNames)
-  const description = sanitizeDescription(
-    agent.description ?? `Converted from Claude agent ${agent.name}`,
-  )
-
-  const frontmatter: Record<string, unknown> = {
-    name,
-    description,
-  }
-
-  const sections: string[] = []
-  if (agent.capabilities && agent.capabilities.length > 0) {
-    sections.push(`## Capabilities\n${agent.capabilities.map((capability) => `- ${capability}`).join("\n")}`)
-  }
-
-  const body = [
-    ...sections,
-    agent.body.trim().length > 0
-      ? agent.body.trim()
-      : `Instructions converted from the ${agent.name} agent.`,
-```
-
-This function is important because it defines how Compound Engineering Plugin Tutorial: Compounding Agent Workflows Across Toolchains implements the patterns covered in this chapter.
-
-### `src/converters/claude-to-pi.ts`
-
-The `appendCompatibilityNoteIfNeeded` function in [`src/converters/claude-to-pi.ts`](https://github.com/EveryInc/compound-engineering-plugin/blob/HEAD/src/converters/claude-to-pi.ts) handles a key part of this chapter's functionality:
+The `convertCommand` function in [`src/converters/claude-to-droid.ts`](https://github.com/EveryInc/compound-engineering-plugin/blob/HEAD/src/converters/claude-to-droid.ts) handles a key part of this chapter's functionality:
 
 ```ts
+  _options: ClaudeToDroidOptions,
+): DroidBundle {
+  const commands = plugin.commands.map((command) => convertCommand(command))
+  const droids = plugin.agents.map((agent) => convertAgent(agent))
+  const skillDirs = plugin.skills.map((skill) => ({
+    name: skill.name,
+    sourceDir: skill.sourceDir,
+  }))
 
-  let body = transformContentForPi(command.body)
-  body = appendCompatibilityNoteIfNeeded(body)
-
-  return {
-    name,
-    content: formatFrontmatter(frontmatter, body.trim()),
-  }
+  return { commands, droids, skillDirs }
 }
 
-function convertAgent(agent: ClaudeAgent, usedNames: Set<string>): PiGeneratedSkill {
-  const name = uniqueName(normalizeName(agent.name), usedNames)
-  const description = sanitizeDescription(
-    agent.description ?? `Converted from Claude agent ${agent.name}`,
-  )
-
-  const frontmatter: Record<string, unknown> = {
-    name,
-    description,
-  }
-
-  const sections: string[] = []
-  if (agent.capabilities && agent.capabilities.length > 0) {
-    sections.push(`## Capabilities\n${agent.capabilities.map((capability) => `- ${capability}`).join("\n")}`)
-  }
-
-  const body = [
-    ...sections,
-    agent.body.trim().length > 0
-      ? agent.body.trim()
-      : `Instructions converted from the ${agent.name} agent.`,
-  ].join("\n\n")
-```
-
-This function is important because it defines how Compound Engineering Plugin Tutorial: Compounding Agent Workflows Across Toolchains implements the patterns covered in this chapter.
-
-### `src/converters/claude-to-pi.ts`
-
-The `convertMcpToMcporter` function in [`src/converters/claude-to-pi.ts`](https://github.com/EveryInc/compound-engineering-plugin/blob/HEAD/src/converters/claude-to-pi.ts) handles a key part of this chapter's functionality:
-
-```ts
-    generatedSkills,
-    extensions,
-    mcporterConfig: plugin.mcpServers ? convertMcpToMcporter(plugin.mcpServers) : undefined,
-  }
-}
-
-function convertPrompt(command: ClaudeCommand, usedNames: Set<string>) {
-  const name = uniqueName(normalizeName(command.name), usedNames)
+function convertCommand(command: ClaudeCommand): DroidCommandFile {
+  const name = flattenCommandName(command.name)
   const frontmatter: Record<string, unknown> = {
     description: command.description,
-    "argument-hint": command.argumentHint,
+  }
+  if (command.argumentHint) {
+    frontmatter["argument-hint"] = command.argumentHint
+  }
+  if (command.disableModelInvocation) {
+    frontmatter["disable-model-invocation"] = true
   }
 
-  let body = transformContentForPi(command.body)
-  body = appendCompatibilityNoteIfNeeded(body)
-
-  return {
-    name,
-    content: formatFrontmatter(frontmatter, body.trim()),
-  }
+  const body = transformContentForDroid(command.body.trim())
+  const content = formatFrontmatter(frontmatter, body)
+  return { name, content }
 }
 
-function convertAgent(agent: ClaudeAgent, usedNames: Set<string>): PiGeneratedSkill {
-  const name = uniqueName(normalizeName(agent.name), usedNames)
-  const description = sanitizeDescription(
-    agent.description ?? `Converted from Claude agent ${agent.name}`,
-  )
-
+function convertAgent(agent: ClaudeAgent): DroidAgentFile {
+  const name = normalizeName(agent.name)
   const frontmatter: Record<string, unknown> = {
-    name,
-    description,
-  }
 ```
 
 This function is important because it defines how Compound Engineering Plugin Tutorial: Compounding Agent Workflows Across Toolchains implements the patterns covered in this chapter.
@@ -218,11 +193,11 @@ This function is important because it defines how Compound Engineering Plugin Tu
 
 ```mermaid
 flowchart TD
-    A[convertAgent]
-    B[transformContentForPi]
-    C[appendCompatibilityNoteIfNeeded]
-    D[convertMcpToMcporter]
-    E[normalizeName]
+    A[syncQwenCommands]
+    B[warnUnsupportedOpenClawCommands]
+    C[convertClaudeToDroid]
+    D[convertCommand]
+    E[convertAgent]
     A --> B
     B --> C
     C --> D

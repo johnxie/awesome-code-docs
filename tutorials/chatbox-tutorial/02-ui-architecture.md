@@ -12,6 +12,22 @@ Welcome to **Chapter 2: UI Architecture & Components**. In this part of **Chatbo
 
 This chapter explores the user interface architecture and component design patterns used in modern AI chat applications like Chatbox.
 
+## UI Component Architecture
+
+```mermaid
+graph TD
+    App["Chatbox App"] --> Sidebar["Sidebar\n(ConversationList)"]
+    App --> Main["Main Panel"]
+    Main --> Header["Chat Header\n(title + controls)"]
+    Main --> Messages["Messages Area\n(VirtualizedList)"]
+    Main --> Input["MessageInput\n(textarea + send)"]
+    Messages --> Bubble["MessageBubble\n(user / assistant)"]
+    Bubble --> Content["MessageContent\n(markdown render)"]
+    Bubble --> Actions["MessageActions\n(edit / delete)"]
+    Sidebar --> Search["SearchInput"]
+    Sidebar --> Item["ConversationItem"]
+```
+
 ## 🎨 UI Architecture Overview
 
 ### Component Hierarchy
@@ -741,16 +757,24 @@ Under the hood, `Chapter 2: UI Architecture & Components` usually follows a repe
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
-## Source Walkthrough
+## Source Code Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+### `src/shared/types.ts`
 
-- [View Repo](https://github.com/Bin-Huang/chatbox)
-  Why it matters: authoritative reference on `View Repo` (github.com).
+The `createMessage` function in [`src/shared/types.ts`](https://github.com/Bin-Huang/chatbox/blob/main/src/shared/types.ts) is the canonical factory for all chat messages in the UI layer:
 
-Suggested trace strategy:
-- search upstream code for `message` and `className` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+```ts
+export function createMessage(role: MessageRole = MessageRoleEnum.User, content: string = ''): Message {
+  return {
+    id: uuidv4(),
+    contentParts: content ? [{ type: 'text', text: content }] : [],
+    role: role,
+    timestamp: Date.now(),
+  }
+}
+```
+
+This shows that every message carries `contentParts` (supporting multi-modal content), a UUID, and a role enum. The `SettingWindowTab` type (`'ai' | 'display' | 'chat' | 'advanced' | 'extension' | 'mcp'`) maps directly to the settings panel tabs visible in the UI.
 
 ## Chapter Connections
 

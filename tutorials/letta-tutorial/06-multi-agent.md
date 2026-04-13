@@ -13,6 +13,22 @@ Welcome to **Chapter 6: Multi-Agent Systems**. In this part of **Letta Tutorial:
 
 > Coordinate multiple agents, implement agent communication, and build collaborative workflows.
 
+## Multi-Agent Coordination
+
+```mermaid
+flowchart TD
+    U[User Request] --> O[Orchestrator Agent]
+    O -->|delegate research| R[Research Agent]
+    O -->|delegate writing| W[Writer Agent]
+    R -->|findings| O
+    W -->|draft| O
+    O -->|combined response| U
+
+    R --> M1[(Agent 1 Memory)]
+    W --> M2[(Agent 2 Memory)]
+    O --> M3[(Orchestrator Memory)]
+```
+
 ## Overview
 
 Letta supports multi-agent systems where agents can communicate, delegate tasks, and collaborate. This chapter covers agent coordination, message passing, and implementing complex multi-agent workflows.
@@ -491,16 +507,13 @@ When debugging, walk this sequence in order and confirm each stage has explicit 
 
 ## Source Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+Key source files in [`letta-ai/letta`](https://github.com/letta-ai/letta):
 
-- [View Repo](https://github.com/letta-ai/letta)
-  Why it matters: authoritative reference on `View Repo` (github.com).
-- [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
-  Why it matters: authoritative reference on `Awesome Code Docs` (github.com).
+- [`letta/functions/function_sets/multi_agent.py`](https://github.com/letta-ai/letta/blob/main/letta/functions/function_sets/multi_agent.py) -- `send_message_to_agent()` built-in tool that enables one agent to message another
+- [`letta/server/server.py`](https://github.com/letta-ai/letta/blob/main/letta/server/server.py) -- `user_message()` accepts messages from both human users and other agents
+- [`letta/schemas/agent.py`](https://github.com/letta-ai/letta/blob/main/letta/schemas/agent.py) -- `AgentState` with `agent_type` field distinguishing orchestrator vs. subagent roles
 
-Suggested trace strategy:
-- search upstream code for `self` and `content` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+Suggested trace: examine how `send_message_to_agent` tool call triggers a recursive `SyncServer.user_message()` call targeting the destination agent.
 
 ## Chapter Connections
 

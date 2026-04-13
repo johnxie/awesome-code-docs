@@ -55,58 +55,23 @@ You now understand the navigation control plane and where to enforce consistency
 
 Next: [Chapter 3: Genesis, Workspace DNA, and Living-System Docs Model](03-genesis-workspace-dna-and-living-systems-doc-model.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `archive/help-center/_imported/CLEANUP_SUMMARY.json`
+Use the following upstream sources to verify GitBook structure and navigation details while reading this chapter:
 
-The `CLEANUP_SUMMARY` module in [`archive/help-center/_imported/CLEANUP_SUMMARY.json`](https://github.com/taskade/docs/blob/HEAD/archive/help-center/_imported/CLEANUP_SUMMARY.json) handles a key part of this chapter's functionality:
+- [`SUMMARY.md`](https://github.com/taskade/docs/blob/HEAD/SUMMARY.md) — the canonical GitBook navigation manifest that structures the entire docs site; section headings, page order, and internal links are all controlled here.
+- [`.gitbook.yaml`](https://github.com/taskade/docs/blob/HEAD/.gitbook.yaml) — the GitBook configuration file that specifies the root document, redirects, and any build-level overrides applied to the published site.
 
-```json
-{
-  "cleanup_date": "2025-09-14T01:11:04.798Z",
-  "total_unique_articles": 1145,
-  "duplicates_removed": 0,
-  "published_articles": 1057,
-  "unpublished_articles": 88,
-  "categories": [
-    "ai-agents",
-    "ai-automation",
-    "ai-basics",
-    "ai-features",
-    "automations",
-    "collaboration",
-    "essentials",
-    "folders",
-    "general",
-    "genesis",
-    "getting-started",
-    "integrations",
-    "known-urls",
-    "mobile",
-    "overview",
-    "productivity",
-    "project-views",
-    "projects",
-    "sharing",
-    "structure",
-    "taskade-ai",
-    "tasks",
-    "templates",
-    "tips",
-    "workspaces"
-  ],
-  "published_by_category": {
-    "ai-agents": 22,
-```
-
-This module is important because it defines how Taskade Docs Tutorial: Operating the Living-DNA Documentation Stack implements the patterns covered in this chapter.
-
+Suggested trace strategy:
+- review `SUMMARY.md` structure to understand how top-level sections, subsections, and leaf pages are organized
+- check `.gitbook.yaml` for redirect rules that indicate pages that have moved and must be kept accessible
+- count section depths in `SUMMARY.md` to identify information architecture choices (breadth vs. depth tradeoffs)
 
 ## How These Components Connect
 
 ```mermaid
-flowchart TD
-    A[CLEANUP_SUMMARY]
+flowchart LR
+    A[.gitbook.yaml config] --> B[SUMMARY.md navigation tree]
+    B --> C[Published GitBook site structure]
+    C --> D[Reader navigation paths]
 ```

@@ -692,6 +692,19 @@ Under the hood, `Chapter 3: Code Generation - Creating Production-Ready Code` us
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
+## Architecture Diagram
+
+```mermaid
+flowchart LR
+    A[Feature Request] --> B[LLM Planning]
+    B --> C[Scaffold Files]
+    C --> D[Write Implementation]
+    D --> E[Run Tests]
+    E --> F{Tests Pass?}
+    F -->|No| B
+    F -->|Yes| G[Commit-ready Output]
+```
+
 ## Source Walkthrough
 
 Use the following upstream sources to verify implementation details while reading this chapter:

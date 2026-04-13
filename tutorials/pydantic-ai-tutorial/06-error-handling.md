@@ -1093,6 +1093,21 @@ Under the hood, `Chapter 6: Error Handling, Retry Mechanisms & Recovery` usually
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
+## Error Handling Flow
+
+```mermaid
+flowchart LR
+    A[Agent Run] --> B{Error Type}
+    B --> C[ModelRetry]
+    B --> D[ValidationError]
+    B --> E[UnexpectedModelBehavior]
+    C --> F[Retry Loop]
+    D --> G[Re-prompt with Error Context]
+    E --> H[Raise to Caller]
+    F --> A
+    G --> A
+```
+
 ## Source Walkthrough
 
 Use the following upstream sources to verify implementation details while reading this chapter:

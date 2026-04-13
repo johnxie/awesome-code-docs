@@ -107,150 +107,42 @@ You now have a command-execution model that balances:
 
 Next: [Chapter 5: Browser Automation](05-browser-automation.md)
 
-## Depth Expansion Playbook
 
 ## Source Code Walkthrough
 
-### `src/extension.ts`
+### `src/integrations/terminal/TerminalManager.ts`
 
-The `return` interface in [`src/extension.ts`](https://github.com/cline/cline/blob/HEAD/src/extension.ts) handles a key part of this chapter's functionality:
+The `TerminalManager` in [`src/integrations/terminal/TerminalManager.ts`](https://github.com/cline/cline/blob/HEAD/src/integrations/terminal/TerminalManager.ts) manages VS Code terminal instances for Cline's command execution. It handles creating terminals, running commands, capturing output streams, and detecting when long-running processes have finished or need user intervention.
 
-```ts
-				context.subscriptions.push(watcher)
-				// Adapt VSCode FileSystemWatcher to generic interface
-				return {
-					onDidCreate: (listener: () => void) => watcher.onDidCreate(listener),
-					onDidChange: (listener: () => void) => watcher.onDidChange(listener),
-					onDidDelete: (listener: () => void) => watcher.onDidDelete(listener),
-					dispose: () => watcher.dispose(),
-				}
-			} catch {
-				return null
-			}
-		},
-		(callback: () => void) => {
-			// Adapt VSCode Disposable to generic interface
-			const disposable = vscode.workspace.onDidChangeWorkspaceFolders(callback)
-			context.subscriptions.push(disposable)
-			return disposable
-		},
-	)
+This file is the direct implementation of the terminal tool behavior described in this chapter. The `runCommand` method shows how Cline executes shell commands: it spawns them in a VS Code terminal, monitors output, and signals completion or timeout back to the agent loop.
 
-	context.subscriptions.push(
-		vscode.window.registerWebviewViewProvider(VscodeWebviewProvider.SIDEBAR_ID, webview, {
-			webviewOptions: { retainContextWhenHidden: true },
-		}),
-	)
+### `src/core/Cline.ts` (execute_command handler)
 
-	// NOTE: Commands must be added to the internal registry before registering them with VSCode
-	const { commands } = ExtensionRegistryInfo
+Within [`src/core/Cline.ts`](https://github.com/cline/cline/blob/HEAD/src/core/Cline.ts), the `execute_command` tool handler shows the approval flow before any shell command runs: the proposed command is surfaced to the user in the Cline sidebar, and execution only proceeds after explicit approval. This is the human-in-the-loop gate for all terminal operations.
 
-	context.subscriptions.push(
-		vscode.commands.registerCommand(commands.PlusButton, async () => {
-			const sidebarInstance = WebviewProvider.getInstance()
-```
+The handler also covers the "background process" pattern: commands that produce a server or watcher are detected by output patterns, and Cline continues without waiting for process exit.
 
-This interface is important because it defines how Cline Tutorial: Agentic Coding with Human Control implements the patterns covered in this chapter.
+### `src/services/shell/ShellIntegration.ts`
 
-### `src/extension.ts`
-
-The `const` interface in [`src/extension.ts`](https://github.com/cline/cline/blob/HEAD/src/extension.ts) handles a key part of this chapter's functionality:
-
-```ts
-// for all-platform should be registered in common.ts.
-export async function activate(context: vscode.ExtensionContext) {
-	const activationStartTime = performance.now()
-
-	// 1. Set up HostProvider for VSCode
-	// IMPORTANT: This must be done before any service can be registered
-	setupHostProvider(context)
-
-	// 2. Clean up legacy data patterns within VSCode's native storage.
-	// Moves workspace→global keys, task history→file, custom instructions→rules, etc.
-	// Must run BEFORE the file export so we copy clean state.
-	await cleanupLegacyVSCodeStorage(context)
-
-	// 3. One-time export of VSCode's native storage to shared file-backed stores.
-	// After this, all platforms (VSCode, CLI, JetBrains) read from ~/.cline/data/.
-	const workspacePath = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath
-	const storageContext = createStorageContext({ workspacePath })
-	await exportVSCodeStorageToSharedFiles(context, storageContext)
-
-	// 4. Register services and perform common initialization
-	// IMPORTANT: Must be done after host provider is setup and migrations are complete
-	const webview = (await initialize(storageContext)) as VscodeWebviewProvider
-
-	// 5. Register services and commands specific to VS Code
-	// Initialize test mode and add disposables to context
-	const testModeWatchers = await initializeTestMode(webview)
-	context.subscriptions.push(...testModeWatchers)
-
-	// Initialize hook discovery cache for performance optimization
-	HookDiscoveryCache.getInstance().initialize(
-		context as any, // Adapt VSCode ExtensionContext to generic interface
-		(dir: string) => {
-```
-
-This interface is important because it defines how Cline Tutorial: Agentic Coding with Human Control implements the patterns covered in this chapter.
-
-### `buf.yaml`
-
-The `values` interface in [`buf.yaml`](https://github.com/cline/cline/blob/HEAD/buf.yaml) handles a key part of this chapter's functionality:
-
-```yaml
-        - RPC_RESPONSE_STANDARD_NAME # response messages dont all end with Response
-        - PACKAGE_VERSION_SUFFIX # package name does not contain version.
-        - ENUM_VALUE_PREFIX # enum values dont start with the enum name.
-        - ENUM_ZERO_VALUE_SUFFIX # first value does not have to be UNSPECIFIED.
-
-# breaking:
-#   use:
-#     - WIRE_JSON # Detect changes that break the json wire format (this is the minimum recommended level.)
-
-```
-
-This interface is important because it defines how Cline Tutorial: Agentic Coding with Human Control implements the patterns covered in this chapter.
-
-### `buf.yaml`
-
-The `name` interface in [`buf.yaml`](https://github.com/cline/cline/blob/HEAD/buf.yaml) handles a key part of this chapter's functionality:
-
-```yaml
-modules:
-    - path: proto
-      name: cline/cline/lint
-
-lint:
-    use:
-        - STANDARD
-
-    except: # Add exceptions for current patterns that contradict STANDARD settings
-        - RPC_PASCAL_CASE # rpcs are camel case (start with lowercase)
-        - RPC_REQUEST_RESPONSE_UNIQUE # request messages are not unique.
-        - RPC_REQUEST_STANDARD_NAME # request messages dont all end with Request
-        - RPC_RESPONSE_STANDARD_NAME # response messages dont all end with Response
-        - PACKAGE_VERSION_SUFFIX # package name does not contain version.
-        - ENUM_VALUE_PREFIX # enum values dont start with the enum name.
-        - ENUM_ZERO_VALUE_SUFFIX # first value does not have to be UNSPECIFIED.
-
-# breaking:
-#   use:
-#     - WIRE_JSON # Detect changes that break the json wire format (this is the minimum recommended level.)
-
-```
-
-This interface is important because it defines how Cline Tutorial: Agentic Coding with Human Control implements the patterns covered in this chapter.
-
+The shell integration in [`src/services/shell/ShellIntegration.ts`](https://github.com/cline/cline/blob/HEAD/src/services/shell/ShellIntegration.ts) hooks into VS Code's terminal shell integration API to detect command boundaries — when a command starts and ends — without relying on fragile output parsing. This is what allows Cline to know when a build or test run has completed and capture the full exit code.
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[return]
-    B[const]
-    C[values]
-    D[name]
+    A[Agent proposes execute_command tool call]
+    B[Cline.ts surfaces command to user sidebar]
+    C{User approves?}
+    D[TerminalManager creates or reuses VS Code terminal]
+    E[Command runs with ShellIntegration tracking]
+    F[Output streamed to Cline context]
+    G[Completion or timeout detected]
+    H[Command blocked, not executed]
     A --> B
     B --> C
-    C --> D
+    C -- yes --> D
+    D --> E
+    E --> F
+    F --> G
+    C -- no --> H
 ```

@@ -39,8 +39,6 @@ You now understand the key control points for predictable SWE-agent behavior.
 
 Next: [Chapter 3: CLI Workflows and Usage Modes](03-cli-workflows-and-usage-modes.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `sweagent/exceptions.py`

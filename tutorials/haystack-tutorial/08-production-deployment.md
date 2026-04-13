@@ -1121,6 +1121,21 @@ You've successfully mastered production deployment of Haystack applications! ðŸŽ
 
 *Your journey with intelligent search systems has equipped you to build the next generation of AI-powered search applications that can serve millions of users reliably and efficiently.*
 
+## Production Deployment
+
+```mermaid
+flowchart TD
+    A[Haystack pipeline] --> B[pipeline.to_dict serialization]
+    B --> C[Store pipeline YAML/JSON]
+    C --> D[Deploy as REST API]
+    D --> E{Deployment target}
+    E -->|Docker| F[Container with Hayhooks]
+    E -->|Cloud| G[Managed service]
+    F --> H[POST /api/v1/run endpoint]
+    G --> H
+    H --> I[Execute pipeline on request]
+```
+
 ## What Problem Does This Solve?
 
 Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `self`, `search`, `status` so behavior stays predictable as complexity grows.

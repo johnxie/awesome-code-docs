@@ -47,175 +47,182 @@ You now have a model for how OpenSrc maps package ecosystems to repository sourc
 
 Next: [Chapter 4: Git Repository Source Imports](04-git-repository-source-imports.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `src/lib/repo.ts`
+### `src/lib/git.ts`
 
-The `displayNameToSpec` function in [`src/lib/repo.ts`](https://github.com/vercel-labs/opensrc/blob/HEAD/src/lib/repo.ts) handles a key part of this chapter's functionality:
+The `cloneAtRef` function in [`src/lib/git.ts`](https://github.com/vercel-labs/opensrc/blob/HEAD/src/lib/git.ts) handles a key part of this chapter's functionality:
 
 ```ts
- * Convert a repo display name back to host/owner/repo format
+ * Clone a repository at a specific ref (branch, tag, or commit)
  */
-export function displayNameToSpec(displayName: string): {
-  host: string;
-  owner: string;
-  repo: string;
-} | null {
-  const parts = displayName.split("/");
-  if (parts.length !== 3) {
-    return null;
-  }
-  return { host: parts[0], owner: parts[1], repo: parts[2] };
-}
-
-/**
- * @deprecated Use displayNameToSpec instead
- */
-export function displayNameToOwnerRepo(displayName: string): {
-  owner: string;
-  repo: string;
-} | null {
-  // Handle old format: owner--repo
-  if (displayName.includes("--") && !displayName.includes("/")) {
-    const parts = displayName.split("--");
-    if (parts.length !== 2) {
-      return null;
-    }
-    return { owner: parts[0], repo: parts[1] };
+async function cloneAtRef(
+  git: SimpleGit,
+  repoUrl: string,
+  targetPath: string,
+  ref: string,
+): Promise<{ success: boolean; ref?: string; error?: string }> {
+  try {
+    await git.clone(repoUrl, targetPath, [
+      "--depth",
+      "1",
+      "--branch",
+      ref,
+      "--single-branch",
+    ]);
+    return { success: true, ref };
+  } catch {
+    // Ref might be a commit or doesn't exist as a branch/tag
   }
 
-  // Handle new format: host/owner/repo
-  const spec = displayNameToSpec(displayName);
+  // Clone default branch
+  try {
+    await git.clone(repoUrl, targetPath, ["--depth", "1"]);
+    return {
+      success: true,
+      ref: "HEAD",
+      error: `Could not find ref "${ref}", cloned default branch instead`,
+    };
+  } catch (err) {
+    return {
+      success: false,
 ```
 
 This function is important because it defines how OpenSrc Tutorial: Deep Source Context for Coding Agents implements the patterns covered in this chapter.
 
-### `src/lib/repo.ts`
+### `src/lib/git.ts`
 
-The `displayNameToOwnerRepo` function in [`src/lib/repo.ts`](https://github.com/vercel-labs/opensrc/blob/HEAD/src/lib/repo.ts) handles a key part of this chapter's functionality:
-
-```ts
- * @deprecated Use displayNameToSpec instead
- */
-export function displayNameToOwnerRepo(displayName: string): {
-  owner: string;
-  repo: string;
-} | null {
-  // Handle old format: owner--repo
-  if (displayName.includes("--") && !displayName.includes("/")) {
-    const parts = displayName.split("--");
-    if (parts.length !== 2) {
-      return null;
-    }
-    return { owner: parts[0], repo: parts[1] };
-  }
-
-  // Handle new format: host/owner/repo
-  const spec = displayNameToSpec(displayName);
-  if (!spec) {
-    return null;
-  }
-  return { owner: spec.owner, repo: spec.repo };
-}
-
-```
-
-This function is important because it defines how OpenSrc Tutorial: Deep Source Context for Coding Agents implements the patterns covered in this chapter.
-
-### `src/lib/repo.ts`
-
-The `GitHubApiResponse` interface in [`src/lib/repo.ts`](https://github.com/vercel-labs/opensrc/blob/HEAD/src/lib/repo.ts) handles a key part of this chapter's functionality:
+The `fetchSource` function in [`src/lib/git.ts`](https://github.com/vercel-labs/opensrc/blob/HEAD/src/lib/git.ts) handles a key part of this chapter's functionality:
 
 ```ts
-}
-
-interface GitHubApiResponse {
-  default_branch: string;
-  clone_url: string;
-  html_url: string;
-}
-
-interface GitLabApiResponse {
-  default_branch: string;
-  http_url_to_repo: string;
-  web_url: string;
-}
-
-/**
- * Resolve a repo spec to full repository information using the appropriate API
+ * Fetch source code for a resolved package
  */
-export async function resolveRepo(spec: RepoSpec): Promise<ResolvedRepo> {
-  const { host, owner, repo, ref } = spec;
+export async function fetchSource(
+  resolved: ResolvedPackage,
+  cwd: string = process.cwd(),
+): Promise<FetchResult> {
+  const git = simpleGit();
 
-  if (host === "github.com") {
-    return resolveGitHubRepo(host, owner, repo, ref);
-  } else if (host === "gitlab.com") {
-    return resolveGitLabRepo(host, owner, repo, ref);
-  } else {
-    // For unsupported hosts, assume default branch is "main"
+  // Get repo display name from URL
+  const repoDisplayName = getRepoDisplayName(resolved.repoUrl);
+  if (!repoDisplayName) {
     return {
-      host,
-      owner,
-      repo,
-      ref: ref || "main",
-      repoUrl: `https://${host}/${owner}/${repo}`,
-```
-
-This interface is important because it defines how OpenSrc Tutorial: Deep Source Context for Coding Agents implements the patterns covered in this chapter.
-
-### `src/lib/repo.ts`
-
-The `GitLabApiResponse` interface in [`src/lib/repo.ts`](https://github.com/vercel-labs/opensrc/blob/HEAD/src/lib/repo.ts) handles a key part of this chapter's functionality:
-
-```ts
-}
-
-interface GitLabApiResponse {
-  default_branch: string;
-  http_url_to_repo: string;
-  web_url: string;
-}
-
-/**
- * Resolve a repo spec to full repository information using the appropriate API
- */
-export async function resolveRepo(spec: RepoSpec): Promise<ResolvedRepo> {
-  const { host, owner, repo, ref } = spec;
-
-  if (host === "github.com") {
-    return resolveGitHubRepo(host, owner, repo, ref);
-  } else if (host === "gitlab.com") {
-    return resolveGitLabRepo(host, owner, repo, ref);
-  } else {
-    // For unsupported hosts, assume default branch is "main"
-    return {
-      host,
-      owner,
-      repo,
-      ref: ref || "main",
-      repoUrl: `https://${host}/${owner}/${repo}`,
-      displayName: `${host}/${owner}/${repo}`,
+      package: resolved.name,
+      version: resolved.version,
+      path: "",
+      success: false,
+      error: `Could not parse repository URL: ${resolved.repoUrl}`,
+      registry: resolved.registry,
     };
   }
-}
 
-async function resolveGitHubRepo(
+  const repoPath = getRepoPath(repoDisplayName, cwd);
+  const reposDir = getReposDir(cwd);
+
+  // Ensure repos directory exists
+  if (!existsSync(reposDir)) {
+    await mkdir(reposDir, { recursive: true });
+  }
+
+  // Remove existing if present (re-fetch at potentially different version)
+  if (existsSync(repoPath)) {
+    await rm(repoPath, { recursive: true, force: true });
 ```
 
-This interface is important because it defines how OpenSrc Tutorial: Deep Source Context for Coding Agents implements the patterns covered in this chapter.
+This function is important because it defines how OpenSrc Tutorial: Deep Source Context for Coding Agents implements the patterns covered in this chapter.
+
+### `src/lib/git.ts`
+
+The `fetchRepoSource` function in [`src/lib/git.ts`](https://github.com/vercel-labs/opensrc/blob/HEAD/src/lib/git.ts) handles a key part of this chapter's functionality:
+
+```ts
+ * Fetch source code for a resolved repository
+ */
+export async function fetchRepoSource(
+  resolved: ResolvedRepo,
+  cwd: string = process.cwd(),
+): Promise<FetchResult> {
+  const git = simpleGit();
+  const repoPath = getRepoPath(resolved.displayName, cwd);
+  const reposDir = getReposDir(cwd);
+
+  // Ensure repos directory exists
+  if (!existsSync(reposDir)) {
+    await mkdir(reposDir, { recursive: true });
+  }
+
+  // Remove existing if present
+  if (existsSync(repoPath)) {
+    await rm(repoPath, { recursive: true, force: true });
+  }
+
+  // Ensure parent directories exist (for host/owner structure)
+  const parentDir = join(repoPath, "..");
+  if (!existsSync(parentDir)) {
+    await mkdir(parentDir, { recursive: true });
+  }
+
+  // Clone the repository
+  const cloneResult = await cloneAtRef(
+    git,
+    resolved.repoUrl,
+    repoPath,
+    resolved.ref,
+```
+
+This function is important because it defines how OpenSrc Tutorial: Deep Source Context for Coding Agents implements the patterns covered in this chapter.
+
+### `src/lib/git.ts`
+
+The `extractRepoPath` function in [`src/lib/git.ts`](https://github.com/vercel-labs/opensrc/blob/HEAD/src/lib/git.ts) handles a key part of this chapter's functionality:
+
+```ts
+ * e.g., "repos/github.com/owner/repo/packages/sub" -> "repos/github.com/owner/repo"
+ */
+function extractRepoPath(fullPath: string): string {
+  const parts = fullPath.split("/");
+  // repos/host/owner/repo = 4 parts minimum
+  if (parts.length >= 4 && parts[0] === "repos") {
+    return parts.slice(0, 4).join("/");
+  }
+  return fullPath;
+}
+
+/**
+ * Remove source code for a package (removes its repo if no other packages use it)
+ */
+export async function removePackageSource(
+  packageName: string,
+  cwd: string = process.cwd(),
+  registry: Registry = "npm",
+): Promise<{ removed: boolean; repoRemoved: boolean }> {
+  const sources = await readSourcesJson(cwd);
+  if (!sources?.packages) {
+    return { removed: false, repoRemoved: false };
+  }
+
+  const pkg = sources.packages.find(
+    (p) => p.name === packageName && p.registry === registry,
+  );
+  if (!pkg) {
+    return { removed: false, repoRemoved: false };
+  }
+
+  const pkgRepoPath = extractRepoPath(pkg.path);
+```
+
+This function is important because it defines how OpenSrc Tutorial: Deep Source Context for Coding Agents implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[displayNameToSpec]
-    B[displayNameToOwnerRepo]
-    C[GitHubApiResponse]
-    D[GitLabApiResponse]
-    E[createProgram]
+    A[cloneAtRef]
+    B[fetchSource]
+    C[fetchRepoSource]
+    D[extractRepoPath]
+    E[removePackageSource]
     A --> B
     B --> C
     C --> D

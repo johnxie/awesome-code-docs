@@ -36,170 +36,168 @@ You now understand the core loop-state mechanics that drive Kilo interaction beh
 
 Next: [Chapter 3: Modes, Prompts, and Approval Workflow](03-modes-prompts-and-approval-workflow.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `script/changelog.ts`
+### `script/beta.ts`
 
-The `getSection` function in [`script/changelog.ts`](https://github.com/Kilo-Org/kilocode/blob/HEAD/script/changelog.ts) handles a key part of this chapter's functionality:
-
-```ts
-} as const
-
-function getSection(areas: Set<string>): string {
-  // Priority order for multi-area commits
-  const priority = ["core", "tui", "app", "tauri", "sdk", "plugin", "extensions/zed", "extensions/vscode", "github"]
-  for (const area of priority) {
-    if (areas.has(area)) return sections[area as keyof typeof sections]
-  }
-  return "Core"
-}
-
-async function summarizeCommit(opencode: Awaited<ReturnType<typeof createKilo>>, message: string): Promise<string> {
-  console.log("summarizing commit:", message)
-  const session = await opencode.client.session.create()
-  const result = await opencode.client.session
-    .prompt(
-      {
-        sessionID: session.data!.id,
-        model: { providerID: "kilo", modelID: "anthropic/claude-sonnet-4.5" }, // kilocode_change
-        tools: {
-          "*": false,
-        },
-        parts: [
-          {
-            type: "text",
-            text: `Summarize this commit message for a changelog entry. Return ONLY a single line summary starting with a capital letter. Be concise but specific. If the commit message is already well-written, just clean it up (capitalize, fix typos, proper grammar). Do not include any prefixes like "fix:" or "feat:".
-
-Commit: ${message}`,
-          },
-        ],
-      },
-      {
-```
-
-This function is important because it defines how Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces implements the patterns covered in this chapter.
-
-### `script/changelog.ts`
-
-The `summarizeCommit` function in [`script/changelog.ts`](https://github.com/Kilo-Org/kilocode/blob/HEAD/script/changelog.ts) handles a key part of this chapter's functionality:
+The `main` function in [`script/beta.ts`](https://github.com/Kilo-Org/kilocode/blob/HEAD/script/beta.ts) handles a key part of this chapter's functionality:
 
 ```ts
-}
-
-async function summarizeCommit(opencode: Awaited<ReturnType<typeof createKilo>>, message: string): Promise<string> {
-  console.log("summarizing commit:", message)
-  const session = await opencode.client.session.create()
-  const result = await opencode.client.session
-    .prompt(
-      {
-        sessionID: session.data!.id,
-        model: { providerID: "kilo", modelID: "anthropic/claude-sonnet-4.5" }, // kilocode_change
-        tools: {
-          "*": false,
-        },
-        parts: [
-          {
-            type: "text",
-            text: `Summarize this commit message for a changelog entry. Return ONLY a single line summary starting with a capital letter. Be concise but specific. If the commit message is already well-written, just clean it up (capitalize, fix typos, proper grammar). Do not include any prefixes like "fix:" or "feat:".
-
-Commit: ${message}`,
-          },
-        ],
-      },
-      {
-        signal: AbortSignal.timeout(120_000),
-      },
-    )
-    .then((x) => x.data?.parts?.find((y) => y.type === "text")?.text ?? message)
-  return result.trim()
-}
-
-export async function generateChangelog(commits: Commit[], opencode: Awaited<ReturnType<typeof createKilo>>) {
-  // Summarize commits in parallel with max 10 concurrent requests
-```
-
-This function is important because it defines how Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces implements the patterns covered in this chapter.
-
-### `script/changelog.ts`
-
-The `generateChangelog` function in [`script/changelog.ts`](https://github.com/Kilo-Org/kilocode/blob/HEAD/script/changelog.ts) handles a key part of this chapter's functionality:
-
-```ts
-}
-
-export async function generateChangelog(commits: Commit[], opencode: Awaited<ReturnType<typeof createKilo>>) {
-  // Summarize commits in parallel with max 10 concurrent requests
-  const BATCH_SIZE = 10
-  const summaries: string[] = []
-  for (let i = 0; i < commits.length; i += BATCH_SIZE) {
-    const batch = commits.slice(i, i + BATCH_SIZE)
-    const results = await Promise.all(batch.map((c) => summarizeCommit(opencode, c.message)))
-    summaries.push(...results)
+  const left = await conflicts()
+  if (left.length > 0) {
+    console.log(`  Conflicts remain: ${left.join(", ")}`)
+    return false
   }
 
-  const grouped = new Map<string, string[]>()
-  for (let i = 0; i < commits.length; i++) {
-    const commit = commits[i]!
-    const section = getSection(commit.areas)
-    const attribution = commit.author && !Script.team.includes(commit.author) ? ` (@${commit.author})` : ""
-    const entry = `- ${summaries[i]}${attribution}`
+  console.log("  Conflicts resolved with opencode")
+  return true
+}
 
-    if (!grouped.has(section)) grouped.set(section, [])
-    grouped.get(section)!.push(entry)
+async function main() {
+  console.log("Fetching open PRs with beta label...")
+
+  const stdout = await $`gh pr list --state open --label beta --json number,title,author,labels --limit 100`.text()
+  const prs: PR[] = JSON.parse(stdout).sort((a: PR, b: PR) => a.number - b.number)
+
+  console.log(`Found ${prs.length} open PRs with beta label`)
+
+  if (prs.length === 0) {
+    console.log("No team PRs to merge")
+    return
   }
 
-  const sectionOrder = ["Core", "TUI", "Desktop", "SDK", "Extensions"]
-  const lines: string[] = []
-  for (const section of sectionOrder) {
-    const entries = grouped.get(section)
-    if (!entries || entries.length === 0) continue
-    lines.push(`## ${section}`)
-    lines.push(...entries)
-  }
+  console.log("Fetching latest main branch...")
+  await $`git fetch origin main`
+
+  console.log("Checking out main branch...")
+  await $`git checkout -B beta origin/main`
+
+  const applied: number[] = []
+  const failed: FailedPR[] = []
 
 ```
 
 This function is important because it defines how Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces implements the patterns covered in this chapter.
 
-### `script/changelog.ts`
+### `script/beta.ts`
 
-The `getContributors` function in [`script/changelog.ts`](https://github.com/Kilo-Org/kilocode/blob/HEAD/script/changelog.ts) handles a key part of this chapter's functionality:
+The `PR` interface in [`script/beta.ts`](https://github.com/Kilo-Org/kilocode/blob/HEAD/script/beta.ts) handles a key part of this chapter's functionality:
+
+```ts
+import { $ } from "bun"
+
+interface PR {
+  number: number
+  title: string
+  author: { login: string }
+  labels: Array<{ name: string }>
+}
+
+interface FailedPR {
+  number: number
+  title: string
+  reason: string
+}
+
+async function commentOnPR(prNumber: number, reason: string) {
+  const body = `⚠️ **Blocking Beta Release**
+
+This PR cannot be merged into the beta branch due to: **${reason}**
+
+Please resolve this issue to include this PR in the next beta release.`
+
+  try {
+    await $`gh pr comment ${prNumber} --body ${body}`
+    console.log(`  Posted comment on PR #${prNumber}`)
+  } catch (err) {
+    console.log(`  Failed to post comment on PR #${prNumber}: ${err}`)
+  }
+}
+
+async function conflicts() {
+  const out = await $`git diff --name-only --diff-filter=U`.text().catch(() => "")
+```
+
+This interface is important because it defines how Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces implements the patterns covered in this chapter.
+
+### `script/beta.ts`
+
+The `FailedPR` interface in [`script/beta.ts`](https://github.com/Kilo-Org/kilocode/blob/HEAD/script/beta.ts) handles a key part of this chapter's functionality:
 
 ```ts
 }
 
-export async function getContributors(from: string, to: string) {
-  const fromRef = from.startsWith("v") ? from : `v${from}`
-  const toRef = to === "HEAD" ? to : to.startsWith("v") ? to : `v${to}`
-  const compare =
-    await $`gh api "/repos/Kilo-Org/kilocode/compare/${fromRef}...${toRef}" --jq '.commits[] | {login: .author.login, message: .commit.message}'`.text()
-  const contributors = new Map<string, Set<string>>()
-
-  for (const line of compare.split("\n").filter(Boolean)) {
-    const { login, message } = JSON.parse(line) as { login: string | null; message: string }
-    const title = message.split("\n")[0] ?? ""
-    if (title.match(/^(ignore:|test:|chore:|ci:|release:)/i)) continue
-
-    if (login && !Script.team.includes(login)) {
-      if (!contributors.has(login)) contributors.set(login, new Set())
-      contributors.get(login)!.add(title)
-    }
-  }
-
-  return contributors
+interface FailedPR {
+  number: number
+  title: string
+  reason: string
 }
 
-export async function buildNotes(from: string, to: string) {
-  const commits = await getCommits(from, to)
+async function commentOnPR(prNumber: number, reason: string) {
+  const body = `⚠️ **Blocking Beta Release**
 
-  if (commits.length === 0) {
-    return []
+This PR cannot be merged into the beta branch due to: **${reason}**
+
+Please resolve this issue to include this PR in the next beta release.`
+
+  try {
+    await $`gh pr comment ${prNumber} --body ${body}`
+    console.log(`  Posted comment on PR #${prNumber}`)
+  } catch (err) {
+    console.log(`  Failed to post comment on PR #${prNumber}: ${err}`)
+  }
+}
+
+async function conflicts() {
+  const out = await $`git diff --name-only --diff-filter=U`.text().catch(() => "")
+  return out
+    .split("\n")
+    .map((x) => x.trim())
+    .filter(Boolean)
+}
+
+async function cleanup() {
+```
+
+This interface is important because it defines how Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces implements the patterns covered in this chapter.
+
+### `script/stats.ts`
+
+The `sendToPostHog` function in [`script/stats.ts`](https://github.com/Kilo-Org/kilocode/blob/HEAD/script/stats.ts) handles a key part of this chapter's functionality:
+
+```ts
+#!/usr/bin/env bun
+
+async function sendToPostHog(event: string, properties: Record<string, any>) {
+  const key = process.env["POSTHOG_KEY"]
+
+  if (!key) {
+    console.warn("POSTHOG_API_KEY not set, skipping PostHog event")
+    return
   }
 
-  console.log("generating changelog since " + from)
+  const response = await fetch("https://us.i.posthog.com/i/v0/e/", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      distinct_id: "download",
+      api_key: key,
+      event,
+      properties: {
+        ...properties,
+      },
+    }),
+  }).catch(() => null)
 
+  if (response && !response.ok) {
+    console.warn(`PostHog API error: ${response.status}`)
+  }
+}
+
+interface Asset {
+  name: string
 ```
 
 This function is important because it defines how Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces implements the patterns covered in this chapter.
@@ -209,10 +207,10 @@ This function is important because it defines how Kilo Code Tutorial: Agentic En
 
 ```mermaid
 flowchart TD
-    A[getSection]
-    B[summarizeCommit]
-    C[generateChangelog]
-    D[getContributors]
+    A[main]
+    B[PR]
+    C[FailedPR]
+    D[sendToPostHog]
     A --> B
     B --> C
     C --> D

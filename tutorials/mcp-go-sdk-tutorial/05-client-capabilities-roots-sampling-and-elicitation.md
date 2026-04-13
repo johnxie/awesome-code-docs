@@ -46,184 +46,182 @@ You now have a client capability model that keeps advanced features controlled a
 
 Next: [Chapter 6: Auth, Security, and Runtime Hardening](06-auth-security-and-runtime-hardening.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `mcp/client.go`
 
-The `shouldSendListChangedNotification` function in [`mcp/client.go`](https://github.com/modelcontextprotocol/go-sdk/blob/HEAD/mcp/client.go) handles a key part of this chapter's functionality:
+The `Prompts` function in [`mcp/client.go`](https://github.com/modelcontextprotocol/go-sdk/blob/HEAD/mcp/client.go) handles a key part of this chapter's functionality:
 
 ```go
-	if change() {
-		// Check if listChanged is enabled for this notification type.
-		if c.shouldSendListChangedNotification(notification) {
-			sessions = slices.Clone(c.sessions)
-		}
-	}
-	c.mu.Unlock()
-	notifySessions(sessions, notification, params, c.opts.Logger)
 }
 
-// shouldSendListChangedNotification checks if the client's capabilities allow
-// sending the given list-changed notification.
-func (c *Client) shouldSendListChangedNotification(notification string) bool {
-	// Get effective capabilities (considering user-provided defaults).
-	caps := c.opts.Capabilities
+// ListPrompts lists prompts that are currently available on the server.
+func (cs *ClientSession) ListPrompts(ctx context.Context, params *ListPromptsParams) (*ListPromptsResult, error) {
+	return handleSend[*ListPromptsResult](ctx, methodListPrompts, newClientRequest(cs, orZero[Params](params)))
+}
 
-	switch notification {
-	case notificationRootsListChanged:
-		// If user didn't specify capabilities, default behavior sends notifications.
-		if caps == nil {
-			return true
+// GetPrompt gets a prompt from the server.
+func (cs *ClientSession) GetPrompt(ctx context.Context, params *GetPromptParams) (*GetPromptResult, error) {
+	return handleSend[*GetPromptResult](ctx, methodGetPrompt, newClientRequest(cs, orZero[Params](params)))
+}
+
+// ListTools lists tools that are currently available on the server.
+func (cs *ClientSession) ListTools(ctx context.Context, params *ListToolsParams) (*ListToolsResult, error) {
+	return handleSend[*ListToolsResult](ctx, methodListTools, newClientRequest(cs, orZero[Params](params)))
+}
+
+// CallTool calls the tool with the given parameters.
+//
+// The params.Arguments can be any value that marshals into a JSON object.
+func (cs *ClientSession) CallTool(ctx context.Context, params *CallToolParams) (*CallToolResult, error) {
+	if params == nil {
+		params = new(CallToolParams)
+	}
+	if params.Arguments == nil {
+		// Avoid sending nil over the wire.
+		params.Arguments = map[string]any{}
+	}
+	return handleSend[*CallToolResult](ctx, methodCallTool, newClientRequest(cs, orZero[Params](params)))
+}
+
+func (cs *ClientSession) SetLoggingLevel(ctx context.Context, params *SetLoggingLevelParams) error {
+```
+
+This function is important because it defines how MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go implements the patterns covered in this chapter.
+
+### `mcp/client.go`
+
+The `validation` interface in [`mcp/client.go`](https://github.com/modelcontextprotocol/go-sdk/blob/HEAD/mcp/client.go) handles a key part of this chapter's functionality:
+
+```go
+			return nil, &jsonrpc.Error{Code: jsonrpc.CodeInvalidParams, Message: "URL must be set for URL elicitation"}
 		}
-		// Check RootsV2 first (preferred), then fall back to Roots.
-		if caps.RootsV2 != nil {
-			return caps.RootsV2.ListChanged
-		}
-		return caps.Roots.ListChanged
+		// No schema validation for URL mode, just pass through to handler.
+		return c.opts.ElicitationHandler(ctx, req)
 	default:
-		// Unknown notification, allow by default.
-		return true
+		return nil, &jsonrpc.Error{Code: jsonrpc.CodeInvalidParams, Message: fmt.Sprintf("unsupported elicitation mode: %q", mode)}
 	}
 }
+
+// validateElicitSchema validates that the schema conforms to MCP elicitation schema requirements.
+// Per the MCP specification, elicitation schemas are limited to flat objects with primitive properties only.
+func validateElicitSchema(wireSchema any) (*jsonschema.Schema, error) {
+	if wireSchema == nil {
+		return nil, nil // nil schema is allowed
+	}
+
+	var schema *jsonschema.Schema
+	if err := remarshal(wireSchema, &schema); err != nil {
+		return nil, err
+	}
+	if schema == nil {
+		return nil, nil
+	}
+
+	// The root schema must be of type "object" if specified
+	if schema.Type != "" && schema.Type != "object" {
+		return nil, fmt.Errorf("elicit schema must be of type 'object', got %q", schema.Type)
+	}
+
+	// Check if the schema has properties
+	if schema.Properties != nil {
+		for propName, propSchema := range schema.Properties {
 ```
 
-This function is important because it defines how MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go implements the patterns covered in this chapter.
+This interface is important because it defines how MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go implements the patterns covered in this chapter.
 
 ### `mcp/client.go`
 
-The `listRoots` function in [`mcp/client.go`](https://github.com/modelcontextprotocol/go-sdk/blob/HEAD/mcp/client.go) handles a key part of this chapter's functionality:
+The `values` interface in [`mcp/client.go`](https://github.com/modelcontextprotocol/go-sdk/blob/HEAD/mcp/client.go) handles a key part of this chapter's functionality:
 
 ```go
-}
-
-func (c *Client) listRoots(_ context.Context, req *ListRootsRequest) (*ListRootsResult, error) {
-	c.mu.Lock()
-	defer c.mu.Unlock()
-	roots := slices.Collect(c.roots.all())
-	if roots == nil {
-		roots = []*Root{} // avoid JSON null
-	}
-	return &ListRootsResult{
-		Roots: roots,
-	}, nil
-}
-
-func (c *Client) createMessage(ctx context.Context, req *CreateMessageWithToolsRequest) (*CreateMessageWithToolsResult, error) {
-	if c.opts.CreateMessageWithToolsHandler != nil {
-		return c.opts.CreateMessageWithToolsHandler(ctx, req)
-	}
-	if c.opts.CreateMessageHandler != nil {
-		// Downconvert the request for the basic handler.
-		baseParams, err := req.Params.toBase()
-		if err != nil {
-			return nil, err
-		}
-		baseReq := &CreateMessageRequest{
-			Session: req.Session,
-			Params:  baseParams,
-		}
-		res, err := c.opts.CreateMessageHandler(ctx, baseReq)
-		if err != nil {
-			return nil, err
-		}
+	// [ClientOptions.CreateMessageHandler] and
+	// [ClientOptions.ElicitationHandler]. If the Sampling or Elicitation fields
+	// are set in the Capabilities field, their values override the inferred
+	// value.
+	//
+	// For example, to advertise sampling with tools and context support:
+	//
+	//	Capabilities: &ClientCapabilities{
+	//	    Sampling: &SamplingCapabilities{
+	//	        Tools:   &SamplingToolsCapabilities{},
+	//	        Context: &SamplingContextCapabilities{},
+	//	    },
+	//	}
+	//
+	// Or to configure elicitation modes:
+	//
+	//	Capabilities: &ClientCapabilities{
+	//	    Elicitation: &ElicitationCapabilities{
+	//	        Form: &FormElicitationCapabilities{},
+	//	        URL:  &URLElicitationCapabilities{},
+	//	    },
+	//	}
+	//
+	// Conversely, if Capabilities does not set a field (for example, if the
+	// Elicitation field is nil), the inferred capability will be used.
+	Capabilities *ClientCapabilities
+	// ElicitationCompleteHandler handles incoming notifications for notifications/elicitation/complete.
+	ElicitationCompleteHandler func(context.Context, *ElicitationCompleteNotificationRequest)
+	// Handlers for notifications from the server.
+	ToolListChangedHandler      func(context.Context, *ToolListChangedRequest)
+	PromptListChangedHandler    func(context.Context, *PromptListChangedRequest)
+	ResourceListChangedHandler  func(context.Context, *ResourceListChangedRequest)
 ```
 
-This function is important because it defines how MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go implements the patterns covered in this chapter.
+This interface is important because it defines how MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go implements the patterns covered in this chapter.
 
 ### `mcp/client.go`
 
-The `createMessage` function in [`mcp/client.go`](https://github.com/modelcontextprotocol/go-sdk/blob/HEAD/mcp/client.go) handles a key part of this chapter's functionality:
+The `length` interface in [`mcp/client.go`](https://github.com/modelcontextprotocol/go-sdk/blob/HEAD/mcp/client.go) handles a key part of this chapter's functionality:
 
 ```go
-	// Logger may be set to a non-nil value to enable logging of client activity.
-	Logger *slog.Logger
-	// CreateMessageHandler handles incoming requests for sampling/createMessage.
-	//
-	// Setting CreateMessageHandler to a non-nil value automatically causes the
-	// client to advertise the sampling capability, with default value
-	// &SamplingCapabilities{}. If [ClientOptions.Capabilities] is set and has a
-	// non nil value for [ClientCapabilities.Sampling], that value overrides the
-	// inferred capability.
-	CreateMessageHandler func(context.Context, *CreateMessageRequest) (*CreateMessageResult, error)
-	// CreateMessageWithToolsHandler handles incoming sampling/createMessage
-	// requests that may involve tool use. It returns
-	// [CreateMessageWithToolsResult], which supports array content for parallel
-	// tool calls.
-	//
-	// Setting this handler causes the client to advertise the sampling
-	// capability with tools support (sampling.tools). As with
-	// [CreateMessageHandler], [ClientOptions.Capabilities].Sampling overrides
-	// the inferred capability.
-	//
-	// It is a panic to set both CreateMessageHandler and
-	// CreateMessageWithToolsHandler.
-	CreateMessageWithToolsHandler func(context.Context, *CreateMessageWithToolsRequest) (*CreateMessageWithToolsResult, error)
-	// ElicitationHandler handles incoming requests for elicitation/create.
-	//
-	// Setting ElicitationHandler to a non-nil value automatically causes the
-	// client to advertise the elicitation capability, with default value
-	// &ElicitationCapabilities{}. If [ClientOptions.Capabilities] is set and has
-	// a non nil value for [ClientCapabilities.ELicitattion], that value
-	// overrides the inferred capability.
-	ElicitationHandler func(context.Context, *ElicitRequest) (*ElicitResult, error)
-	// Capabilities optionally configures the client's default capabilities,
+		}
+		// Enum values themselves are validated by the JSON schema library
+		// Validate legacy enumNames if present - must match enum length.
+		if propSchema.Extra != nil {
+			if enumNamesRaw, exists := propSchema.Extra["enumNames"]; exists {
+				// Type check enumNames - should be a slice
+				if enumNamesSlice, ok := enumNamesRaw.([]any); ok {
+					if len(enumNamesSlice) != len(propSchema.Enum) {
+						return fmt.Errorf("elicit schema property %q has %d enum values but %d enumNames, they must match", propName, len(propSchema.Enum), len(enumNamesSlice))
+					}
+				} else {
+					return fmt.Errorf("elicit schema property %q has invalid enumNames type, must be an array", propName)
+				}
+			}
+		}
+		return nil
+	}
+	// Handle new style of titled enums.
+	if propSchema.OneOf != nil {
+		for _, entry := range propSchema.OneOf {
+			if err := validateTitledEnumEntry(entry); err != nil {
+				return fmt.Errorf("elicit schema property %q oneOf has invalid entry: %v", propName, err)
+			}
+		}
+		return nil
+	}
+
+	// Validate format if specified - only specific formats are allowed
+	if propSchema.Format != "" {
+		allowedFormats := map[string]bool{
+			"email":     true,
+			"uri":       true,
 ```
 
-This function is important because it defines how MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go implements the patterns covered in this chapter.
-
-### `mcp/client.go`
-
-The `urlElicitationMiddleware` function in [`mcp/client.go`](https://github.com/modelcontextprotocol/go-sdk/blob/HEAD/mcp/client.go) handles a key part of this chapter's functionality:
-
-```go
-}
-
-// urlElicitationMiddleware returns middleware that automatically handles URL elicitation
-// required errors by executing the elicitation handler, waiting for completion notifications,
-// and retrying the operation.
-//
-// This middleware should be added to clients that want automatic URL elicitation handling:
-//
-//	client := mcp.NewClient(impl, opts)
-//	client.AddSendingMiddleware(mcp.urlElicitationMiddleware())
-//
-// TODO(rfindley): this isn't strictly necessary for the SEP, but may be
-// useful. Propose exporting it.
-func urlElicitationMiddleware() Middleware {
-	return func(next MethodHandler) MethodHandler {
-		return func(ctx context.Context, method string, req Request) (Result, error) {
-			// Call the underlying handler.
-			res, err := next(ctx, method, req)
-			if err == nil {
-				return res, nil
-			}
-
-			// Check if this is a URL elicitation required error.
-			var rpcErr *jsonrpc.Error
-			if !errors.As(err, &rpcErr) || rpcErr.Code != CodeURLElicitationRequired {
-				return res, err
-			}
-
-			// Notifications don't support retries.
-			if strings.HasPrefix(method, "notifications/") {
-				return res, err
-			}
-```
-
-This function is important because it defines how MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go implements the patterns covered in this chapter.
+This interface is important because it defines how MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[shouldSendListChangedNotification]
-    B[listRoots]
-    C[createMessage]
-    D[urlElicitationMiddleware]
-    E[elicit]
+    A[Prompts]
+    B[validation]
+    C[values]
+    D[length]
+    E[values]
     A --> B
     B --> C
     C --> D

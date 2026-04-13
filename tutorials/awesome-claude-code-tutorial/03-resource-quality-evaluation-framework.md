@@ -48,8 +48,6 @@ You now have a repeatable quality filter for selecting resources safely.
 
 Next: [Chapter 4: Skills, Hooks, and Slash Command Patterns](04-skills-hooks-and-slash-command-patterns.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `scripts/validation/validate_links.py`

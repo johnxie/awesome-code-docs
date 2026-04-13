@@ -105,74 +105,126 @@ Suggested trace strategy:
 - [Main Catalog](../../README.md#-tutorial-catalog)
 - [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `tiktoken/_educational.py`
+### `src/lib.rs`
 
-The `train_simple_encoding` function in [`tiktoken/_educational.py`](https://github.com/openai/tiktoken/blob/HEAD/tiktoken/_educational.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-def train_simple_encoding():
-    gpt2_pattern = (
-        r"""'s|'t|'re|'ve|'m|'ll|'d| ?[\p{L}]+| ?[\p{N}]+| ?[^\s\p{L}\p{N}]+|\s+(?!\S)|\s+"""
-    )
-    with open(__file__) as f:
-        data = f.read()
-
-    enc = SimpleBytePairEncoding.train(data, vocab_size=600, pat_str=gpt2_pattern)
-
-    print("This is the sequence of merges performed in order to encode 'hello world':")
-    tokens = enc.encode("hello world")
-    assert enc.decode(tokens) == "hello world"
-    assert enc.decode_bytes(tokens) == b"hello world"
-    assert enc.decode_tokens_bytes(tokens) == [b"hello", b" world"]
-
-    return enc
-
-```
-
-This function is important because it defines how tiktoken Tutorial: OpenAI Token Encoding & Optimization implements the patterns covered in this chapter.
-
-### `src/py.rs`
-
-The `TiktokenBuffer` interface in [`src/py.rs`](https://github.com/openai/tiktoken/blob/HEAD/src/py.rs) handles a key part of this chapter's functionality:
+The `State` interface in [`src/lib.rs`](https://github.com/openai/tiktoken/blob/HEAD/src/lib.rs) handles a key part of this chapter's functionality:
 
 ```rs
-        };
+}
 
-        let buffer = TiktokenBuffer { tokens };
-        buffer.into_py_any(py)
+struct State {
+    prev: usize,
+    end: usize,
+    next_end: usize,
+    next_rank: Rank,
+    cur_rank: Rank,
+}
+
+fn _byte_pair_merge_large(ranks: &HashMap<Vec<u8>, Rank>, piece: &[u8]) -> Vec<Rank> {
+    let mut state = Vec::with_capacity(piece.len());
+    state.push(State {
+        prev: usize::MAX,
+        end: 1,
+        next_end: 2,
+        next_rank: Rank::MAX,
+        cur_rank: Rank::MAX,
+    });
+
+    let mut heap = BinaryHeap::with_capacity(piece.len());
+    for i in 0..piece.len() - 1 {
+        if let Some(&rank) = ranks.get(&piece[i..i + 2]) {
+            heap.push(Merge { start: i, rank });
+            state[i].next_rank = rank;
+        }
+        // note this is happening offset by 1
+        state.push(State {
+            prev: i,
+            end: i + 2,
+            next_end: i + 3,
+            next_rank: Rank::MAX,
+```
+
+This interface is important because it defines how tiktoken Tutorial: OpenAI Token Encoding & Optimization implements the patterns covered in this chapter.
+
+### `src/lib.rs`
+
+The `FakeThreadId` interface in [`src/lib.rs`](https://github.com/openai/tiktoken/blob/HEAD/src/lib.rs) handles a key part of this chapter's functionality:
+
+```rs
+// to be hashing of two-tuples of ints, which looks like it may also be a couple percent faster.
+
+struct FakeThreadId(NonZeroU64);
+
+fn hash_current_thread() -> usize {
+    // It's easier to use unsafe than to use nightly. Rust has this nice u64 thread id counter
+    // that works great for our use case of avoiding collisions in our array. Unfortunately,
+    // it's private. However, there are only so many ways you can layout a u64, so just transmute
+    // https://github.com/rust-lang/rust/issues/67939
+    const _: [u8; 8] = [0; std::mem::size_of::<std::thread::ThreadId>()];
+    const _: [u8; 8] = [0; std::mem::size_of::<FakeThreadId>()];
+    let x = unsafe {
+        std::mem::transmute::<std::thread::ThreadId, FakeThreadId>(thread::current().id()).0
+    };
+    u64::from(x) as usize
+}
+
+#[derive(Debug, Clone)]
+pub struct DecodeKeyError {
+    pub token: Rank,
+}
+
+impl std::fmt::Display for DecodeKeyError {
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+        write!(f, "Invalid token for decoding: {}", self.token)
     }
+}
 
-    fn _encode_bytes(&self, py: Python, bytes: &[u8]) -> Vec<Rank> {
-        py.detach(|| {
-            match std::str::from_utf8(bytes) {
-                // Straightforward case
-                Ok(text) => self.encode_ordinary(text),
-                // Oops, don't actually have UTF-8. But we need to do the regex splitting in
-                // Unicode space, so we make our best guess at where we would have splits
-                Err(e) => {
-                    let text = unsafe { std::str::from_utf8_unchecked(&bytes[..e.valid_up_to()]) };
-                    let (tokens, last_piece_token_len) =
-                        self.encode(text, &HashSet::new()).unwrap();
-                    let (mut tokens, last_piece_token_len) =
-                        self._increase_last_piece_token_len(tokens, last_piece_token_len);
+impl std::error::Error for DecodeKeyError {}
 
-                    let mut unstable_bytes;
-                    if !tokens.is_empty() && last_piece_token_len > 0 {
-                        // Lop off the tokens from the last piece and run BPE on the remaining bytes
-                        // This likely matches what models see better, e.g. if you assume we're
-                        // dealing with truncated UTF-8 bytes.
-                        // Niche, but note this may not be correct if we'd have had a regex
-                        // split between the valid UTF-8 and the invalid bytes.
-                        unstable_bytes = self
-                            .decode_bytes(&tokens[tokens.len() - last_piece_token_len..])
-                            .unwrap();
-                        unstable_bytes.extend_from_slice(&bytes[e.valid_up_to()..]);
+#[derive(Debug, Clone)]
+pub struct DecodeError {
+```
+
+This interface is important because it defines how tiktoken Tutorial: OpenAI Token Encoding & Optimization implements the patterns covered in this chapter.
+
+### `src/lib.rs`
+
+The `DecodeKeyError` interface in [`src/lib.rs`](https://github.com/openai/tiktoken/blob/HEAD/src/lib.rs) handles a key part of this chapter's functionality:
+
+```rs
+
+#[derive(Debug, Clone)]
+pub struct DecodeKeyError {
+    pub token: Rank,
+}
+
+impl std::fmt::Display for DecodeKeyError {
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+        write!(f, "Invalid token for decoding: {}", self.token)
+    }
+}
+
+impl std::error::Error for DecodeKeyError {}
+
+#[derive(Debug, Clone)]
+pub struct DecodeError {
+    pub message: String,
+}
+
+impl std::fmt::Display for DecodeError {
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+        write!(f, "Could not decode tokens: {}", self.message)
+    }
+}
+
+impl std::error::Error for DecodeError {}
+
+#[derive(Debug, Clone)]
+pub struct EncodeError {
+    pub message: String,
+}
 
 ```
 
@@ -180,96 +232,55 @@ This interface is important because it defines how tiktoken Tutorial: OpenAI Tok
 
 ### `src/lib.rs`
 
-The `byte_pair_encode` function in [`src/lib.rs`](https://github.com/openai/tiktoken/blob/HEAD/src/lib.rs) handles a key part of this chapter's functionality:
+The `DecodeError` interface in [`src/lib.rs`](https://github.com/openai/tiktoken/blob/HEAD/src/lib.rs) handles a key part of this chapter's functionality:
 
 ```rs
+
+#[derive(Debug, Clone)]
+pub struct DecodeError {
+    pub message: String,
 }
 
-pub fn byte_pair_encode(piece: &[u8], ranks: &HashMap<Vec<u8>, Rank>) -> Vec<Rank> {
-    let piece_len = piece.len();
-
-    if piece_len == 1 {
-        return vec![ranks[piece]];
+impl std::fmt::Display for DecodeError {
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+        write!(f, "Could not decode tokens: {}", self.message)
     }
-    if piece_len < 100 {
-        return _byte_pair_merge(ranks, piece)
-            .windows(2)
-            .map(|part| ranks[&piece[part[0].0..part[1].0]])
-            .collect();
+}
+
+impl std::error::Error for DecodeError {}
+
+#[derive(Debug, Clone)]
+pub struct EncodeError {
+    pub message: String,
+}
+
+impl std::fmt::Display for EncodeError {
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+        write!(f, "Could not encode string: {}", self.message)
     }
-    _byte_pair_merge_large(ranks, piece)
 }
 
-pub fn byte_pair_split<'a>(piece: &'a [u8], ranks: &HashMap<Vec<u8>, Rank>) -> Vec<&'a [u8]> {
-    assert!(piece.len() > 1);
-    _byte_pair_merge(ranks, piece)
-        .windows(2)
-        .map(|part| &piece[part[0].0..part[1].0])
-        .collect()
-}
+impl std::error::Error for EncodeError {}
 
-// Various performance notes:
-//
-// Regex
-// =====
-// Most of the time is spent in regex. The easiest way to speed this up is by using less fancy
-// regex features. For instance, using a regex parse-able by `regex` crate is 3x faster than
-// the usual regex we use.
+const MAX_NUM_THREADS: usize = 128;
+
+#[cfg_attr(feature = "python", pyclass(frozen))]
+#[derive(Clone)]
+pub struct CoreBPE {
 ```
 
-This function is important because it defines how tiktoken Tutorial: OpenAI Token Encoding & Optimization implements the patterns covered in this chapter.
-
-### `src/lib.rs`
-
-The `byte_pair_split` function in [`src/lib.rs`](https://github.com/openai/tiktoken/blob/HEAD/src/lib.rs) handles a key part of this chapter's functionality:
-
-```rs
-}
-
-pub fn byte_pair_split<'a>(piece: &'a [u8], ranks: &HashMap<Vec<u8>, Rank>) -> Vec<&'a [u8]> {
-    assert!(piece.len() > 1);
-    _byte_pair_merge(ranks, piece)
-        .windows(2)
-        .map(|part| &piece[part[0].0..part[1].0])
-        .collect()
-}
-
-// Various performance notes:
-//
-// Regex
-// =====
-// Most of the time is spent in regex. The easiest way to speed this up is by using less fancy
-// regex features. For instance, using a regex parse-able by `regex` crate is 3x faster than
-// the usual regex we use.
-//
-// However, given that we're using a regex parse-able by `regex`, there isn't much difference
-// between using the `regex` crate and using the `fancy_regex` crate.
-//
-// There is an important interaction between threading, `regex` and `fancy_regex`.
-// When using `fancy_regex`, we hit `regex.find_at`. It turns out that this causes contention on
-// some mutable scratch space inside of `regex`. This absolutely kills performance. When using plain
-// old `regex`, we don't hit this, because `find_iter` has a different code path.
-// Related: https://github.com/rust-lang/regex/blob/master/PERFORMANCE.md
-// Anyway, the way we get around this is with having a (mostly) thread local clone of the regex for
-// each thread.
-//
-// Threading
-// =========
-// I tried using `rayon`. It wasn't really faster than using Python threads and releasing the GIL.
-```
-
-This function is important because it defines how tiktoken Tutorial: OpenAI Token Encoding & Optimization implements the patterns covered in this chapter.
+This interface is important because it defines how tiktoken Tutorial: OpenAI Token Encoding & Optimization implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[train_simple_encoding]
-    B[TiktokenBuffer]
-    C[byte_pair_encode]
-    D[byte_pair_split]
-    E[Merge]
+    A[State]
+    B[FakeThreadId]
+    C[DecodeKeyError]
+    D[DecodeError]
+    E[EncodeError]
     A --> B
     B --> C
     C --> D

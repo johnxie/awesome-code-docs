@@ -114,184 +114,182 @@ Suggested trace strategy:
 - [Main Catalog](../../README.md#-tutorial-catalog)
 - [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `scripts/release.py`
+### `src/filesystem/lib.ts`
 
-The `from` class in [`scripts/release.py`](https://github.com/modelcontextprotocol/servers/blob/HEAD/scripts/release.py) handles a key part of this chapter's functionality:
+The `setAllowedDirectories` function in [`src/filesystem/lib.ts`](https://github.com/modelcontextprotocol/servers/blob/HEAD/src/filesystem/lib.ts) handles a key part of this chapter's functionality:
 
-```py
-import re
-import click
-from pathlib import Path
-import json
-import tomlkit
-import datetime
-import subprocess
-from dataclasses import dataclass
-from typing import Any, Iterator, NewType, Protocol
+```ts
 
+// Function to set allowed directories from the main module
+export function setAllowedDirectories(directories: string[]): void {
+  allowedDirectories = [...directories];
+}
 
-Version = NewType("Version", str)
-GitHash = NewType("GitHash", str)
+// Function to get current allowed directories
+export function getAllowedDirectories(): string[] {
+  return [...allowedDirectories];
+}
 
+// Type definitions
+interface FileInfo {
+  size: number;
+  created: Date;
+  modified: Date;
+  accessed: Date;
+  isDirectory: boolean;
+  isFile: boolean;
+  permissions: string;
+}
 
-class GitHashParamType(click.ParamType):
-    name = "git_hash"
+export interface SearchOptions {
+  excludePatterns?: string[];
+}
 
-    def convert(
-        self, value: Any, param: click.Parameter | None, ctx: click.Context | None
-    ) -> GitHash | None:
-        if value is None:
-            return None
+export interface SearchResult {
+  path: string;
+  isDirectory: boolean;
+}
 
-        if not (8 <= len(value) <= 40):
-            self.fail(f"Git hash must be between 8 and 40 characters, got {len(value)}")
-
-        if not re.match(r"^[0-9a-fA-F]+$", value):
-            self.fail("Git hash must contain only hex digits (0-9, a-f)")
-
-        try:
-            # Verify hash exists in repo
+// Pure Utility Functions
 ```
 
-This class is important because it defines how MCP Servers Tutorial: Reference Implementations and Patterns implements the patterns covered in this chapter.
+This function is important because it defines how MCP Servers Tutorial: Reference Implementations and Patterns implements the patterns covered in this chapter.
 
-### `scripts/release.py`
+### `src/filesystem/lib.ts`
 
-The `GitHashParamType` class in [`scripts/release.py`](https://github.com/modelcontextprotocol/servers/blob/HEAD/scripts/release.py) handles a key part of this chapter's functionality:
+The `getAllowedDirectories` function in [`src/filesystem/lib.ts`](https://github.com/modelcontextprotocol/servers/blob/HEAD/src/filesystem/lib.ts) handles a key part of this chapter's functionality:
 
-```py
+```ts
 
+// Function to get current allowed directories
+export function getAllowedDirectories(): string[] {
+  return [...allowedDirectories];
+}
 
-class GitHashParamType(click.ParamType):
-    name = "git_hash"
+// Type definitions
+interface FileInfo {
+  size: number;
+  created: Date;
+  modified: Date;
+  accessed: Date;
+  isDirectory: boolean;
+  isFile: boolean;
+  permissions: string;
+}
 
-    def convert(
-        self, value: Any, param: click.Parameter | None, ctx: click.Context | None
-    ) -> GitHash | None:
-        if value is None:
-            return None
+export interface SearchOptions {
+  excludePatterns?: string[];
+}
 
-        if not (8 <= len(value) <= 40):
-            self.fail(f"Git hash must be between 8 and 40 characters, got {len(value)}")
+export interface SearchResult {
+  path: string;
+  isDirectory: boolean;
+}
 
-        if not re.match(r"^[0-9a-fA-F]+$", value):
-            self.fail("Git hash must contain only hex digits (0-9, a-f)")
-
-        try:
-            # Verify hash exists in repo
-            subprocess.run(
-                ["git", "rev-parse", "--verify", value], check=True, capture_output=True
-            )
-        except subprocess.CalledProcessError:
-            self.fail(f"Git hash {value} not found in repository")
-
-        return GitHash(value.lower())
-
-
-GIT_HASH = GitHashParamType()
-
-
-class Package(Protocol):
+// Pure Utility Functions
+export function formatSize(bytes: number): string {
+  const units = ['B', 'KB', 'MB', 'GB', 'TB'];
+  if (bytes === 0) return '0 B';
+  
+  const i = Math.floor(Math.log(bytes) / Math.log(1024));
 ```
 
-This class is important because it defines how MCP Servers Tutorial: Reference Implementations and Patterns implements the patterns covered in this chapter.
+This function is important because it defines how MCP Servers Tutorial: Reference Implementations and Patterns implements the patterns covered in this chapter.
 
-### `scripts/release.py`
+### `src/filesystem/lib.ts`
 
-The `Package` class in [`scripts/release.py`](https://github.com/modelcontextprotocol/servers/blob/HEAD/scripts/release.py) handles a key part of this chapter's functionality:
+The `formatSize` function in [`src/filesystem/lib.ts`](https://github.com/modelcontextprotocol/servers/blob/HEAD/src/filesystem/lib.ts) handles a key part of this chapter's functionality:
 
-```py
+```ts
 
+// Pure Utility Functions
+export function formatSize(bytes: number): string {
+  const units = ['B', 'KB', 'MB', 'GB', 'TB'];
+  if (bytes === 0) return '0 B';
+  
+  const i = Math.floor(Math.log(bytes) / Math.log(1024));
+  
+  if (i < 0 || i === 0) return `${bytes} ${units[0]}`;
+  
+  const unitIndex = Math.min(i, units.length - 1);
+  return `${(bytes / Math.pow(1024, unitIndex)).toFixed(2)} ${units[unitIndex]}`;
+}
 
-class Package(Protocol):
-    path: Path
+export function normalizeLineEndings(text: string): string {
+  return text.replace(/\r\n/g, '\n');
+}
 
-    def package_name(self) -> str: ...
+export function createUnifiedDiff(originalContent: string, newContent: string, filepath: string = 'file'): string {
+  // Ensure consistent line endings for diff
+  const normalizedOriginal = normalizeLineEndings(originalContent);
+  const normalizedNew = normalizeLineEndings(newContent);
 
-    def update_version(self, version: Version) -> None: ...
-
-
-@dataclass
-class NpmPackage:
-    path: Path
-
-    def package_name(self) -> str:
-        with open(self.path / "package.json", "r") as f:
-            return json.load(f)["name"]
-
-    def update_version(self, version: Version):
-        with open(self.path / "package.json", "r+") as f:
-            data = json.load(f)
-            data["version"] = version
-            f.seek(0)
-            json.dump(data, f, indent=2)
-            f.truncate()
-
-
-@dataclass
-class PyPiPackage:
-    path: Path
-
-    def package_name(self) -> str:
+  return createTwoFilesPatch(
+    filepath,
+    filepath,
+    normalizedOriginal,
+    normalizedNew,
+    'original',
+    'modified'
+  );
+}
 ```
 
-This class is important because it defines how MCP Servers Tutorial: Reference Implementations and Patterns implements the patterns covered in this chapter.
+This function is important because it defines how MCP Servers Tutorial: Reference Implementations and Patterns implements the patterns covered in this chapter.
 
-### `scripts/release.py`
+### `src/filesystem/lib.ts`
 
-The `class` class in [`scripts/release.py`](https://github.com/modelcontextprotocol/servers/blob/HEAD/scripts/release.py) handles a key part of this chapter's functionality:
+The `normalizeLineEndings` function in [`src/filesystem/lib.ts`](https://github.com/modelcontextprotocol/servers/blob/HEAD/src/filesystem/lib.ts) handles a key part of this chapter's functionality:
 
-```py
-import datetime
-import subprocess
-from dataclasses import dataclass
-from typing import Any, Iterator, NewType, Protocol
+```ts
+}
 
+export function normalizeLineEndings(text: string): string {
+  return text.replace(/\r\n/g, '\n');
+}
 
-Version = NewType("Version", str)
-GitHash = NewType("GitHash", str)
+export function createUnifiedDiff(originalContent: string, newContent: string, filepath: string = 'file'): string {
+  // Ensure consistent line endings for diff
+  const normalizedOriginal = normalizeLineEndings(originalContent);
+  const normalizedNew = normalizeLineEndings(newContent);
 
+  return createTwoFilesPatch(
+    filepath,
+    filepath,
+    normalizedOriginal,
+    normalizedNew,
+    'original',
+    'modified'
+  );
+}
 
-class GitHashParamType(click.ParamType):
-    name = "git_hash"
+// Helper function to resolve relative paths against allowed directories
+function resolveRelativePathAgainstAllowedDirectories(relativePath: string): string {
+  if (allowedDirectories.length === 0) {
+    // Fallback to process.cwd() if no allowed directories are set
+    return path.resolve(process.cwd(), relativePath);
+  }
 
-    def convert(
-        self, value: Any, param: click.Parameter | None, ctx: click.Context | None
-    ) -> GitHash | None:
-        if value is None:
-            return None
-
-        if not (8 <= len(value) <= 40):
-            self.fail(f"Git hash must be between 8 and 40 characters, got {len(value)}")
-
-        if not re.match(r"^[0-9a-fA-F]+$", value):
-            self.fail("Git hash must contain only hex digits (0-9, a-f)")
-
-        try:
-            # Verify hash exists in repo
-            subprocess.run(
-                ["git", "rev-parse", "--verify", value], check=True, capture_output=True
-            )
-        except subprocess.CalledProcessError:
-            self.fail(f"Git hash {value} not found in repository")
+  // Try to resolve relative path against each allowed directory
+  for (const allowedDir of allowedDirectories) {
+    const candidate = path.resolve(allowedDir, relativePath);
+    const normalizedCandidate = normalizePath(candidate);
 ```
 
-This class is important because it defines how MCP Servers Tutorial: Reference Implementations and Patterns implements the patterns covered in this chapter.
+This function is important because it defines how MCP Servers Tutorial: Reference Implementations and Patterns implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[from]
-    B[GitHashParamType]
-    C[Package]
-    D[class]
-    E[class]
+    A[setAllowedDirectories]
+    B[getAllowedDirectories]
+    C[formatSize]
+    D[normalizeLineEndings]
+    E[createUnifiedDiff]
     A --> B
     B --> C
     C --> D

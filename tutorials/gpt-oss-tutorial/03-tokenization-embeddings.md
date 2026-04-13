@@ -582,22 +582,27 @@ Under the hood, `Chapter 3: Tokenization & Embeddings -- BPE, Vocabulary Constru
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
-## Source Walkthrough
+## Source Code Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+### `model.py` (nanoGPT)
 
-- [nanoGPT](https://github.com/karpathy/nanoGPT)
-  Why it matters: authoritative reference on `nanoGPT` (github.com).
-- [minGPT](https://github.com/karpathy/minGPT)
-  Why it matters: authoritative reference on `minGPT` (github.com).
-- [GPT-NeoX](https://github.com/EleutherAI/gpt-neox)
-  Why it matters: authoritative reference on `GPT-NeoX` (github.com).
-- [GPT-Neo](https://github.com/EleutherAI/gpt-neo)
-  Why it matters: authoritative reference on `GPT-Neo` (github.com).
-- [GPT-J](https://github.com/kingoflolz/mesh-transformer-jax)
-  Why it matters: authoritative reference on `GPT-J` (github.com).
-- [Chapter 1: Getting Started](01-getting-started.md)
-  Why it matters: authoritative reference on `Chapter 1: Getting Started` (01-getting-started.md).
+The token and positional embedding tables in [`model.py`](https://github.com/karpathy/nanoGPT/blob/master/model.py) are initialized as `nn.Embedding` layers inside the `GPT` class:
+
+```python
+# The transformer
+self.transformer = nn.ModuleDict(dict(
+    wte = nn.Embedding(config.vocab_size, config.n_embd),
+    wpe = nn.Embedding(config.block_size, config.n_embd),
+    drop = nn.Dropout(config.dropout),
+    h = nn.ModuleList([Block(config) for _ in range(config.n_layer)]),
+    ln_f = LayerNorm(config.n_embd, bias=config.bias),
+))
+self.lm_head = nn.Linear(config.n_embd, config.vocab_size, bias=False)
+# weight tying
+self.transformer.wte.weight = self.lm_head.weight
+```
+
+`wte` is the token embedding matrix, `wpe` is the learned positional embedding. Weight tying between `wte` and `lm_head` reduces parameter count by ~30M for GPT-2 124M and is a standard modern LLM practice.
 
 Suggested trace strategy:
 - search upstream code for `tokens` and `text` to map concrete implementation paths

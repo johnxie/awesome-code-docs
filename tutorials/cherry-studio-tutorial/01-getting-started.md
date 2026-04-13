@@ -38,170 +38,168 @@ You now have Cherry Studio installed and ready for daily AI workflows.
 
 Next: [Chapter 2: Core Architecture and Product Model](02-core-architecture-and-product-model.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `scripts/feishu-notify.ts`
+### `scripts/check-hardcoded-strings.ts`
 
-The `generateSignature` function in [`scripts/feishu-notify.ts`](https://github.com/CherryHQ/cherry-studio/blob/HEAD/scripts/feishu-notify.ts) handles a key part of this chapter's functionality:
+The `HardcodedStringDetector` class in [`scripts/check-hardcoded-strings.ts`](https://github.com/CherryHQ/cherry-studio/blob/HEAD/scripts/check-hardcoded-strings.ts) handles a key part of this chapter's functionality:
 
 ```ts
- * @returns Base64 encoded signature
- */
-function generateSignature(secret: string, timestamp: number): string {
-  const stringToSign = `${timestamp}\n${secret}`
-  const hmac = crypto.createHmac('sha256', stringToSign)
-  return hmac.digest('base64')
 }
 
-/**
- * Send message to Feishu webhook
- * @param webhookUrl - Feishu webhook URL
- * @param secret - Feishu webhook secret
- * @param content - Feishu card message content
- * @returns Resolves when message is sent successfully
- * @throws When Feishu API returns non-2xx status code or network error occurs
- */
-function sendToFeishu(webhookUrl: string, secret: string, content: FeishuCard): Promise<void> {
-  return new Promise((resolve, reject) => {
-    const timestamp = Math.floor(Date.now() / 1000)
-    const sign = generateSignature(secret, timestamp)
+class HardcodedStringDetector {
+  private project: Project
 
-    const payload: FeishuPayload = {
-      timestamp: timestamp.toString(),
-      sign,
-      msg_type: 'interactive',
-      card: content
-    }
-
-    const payloadStr = JSON.stringify(payload)
-    const url = new URL(webhookUrl)
-
-    const options: https.RequestOptions = {
-```
-
-This function is important because it defines how Cherry Studio Tutorial: Multi-Provider AI Desktop Workspace for Teams implements the patterns covered in this chapter.
-
-### `scripts/feishu-notify.ts`
-
-The `sendToFeishu` function in [`scripts/feishu-notify.ts`](https://github.com/CherryHQ/cherry-studio/blob/HEAD/scripts/feishu-notify.ts) handles a key part of this chapter's functionality:
-
-```ts
- * @throws When Feishu API returns non-2xx status code or network error occurs
- */
-function sendToFeishu(webhookUrl: string, secret: string, content: FeishuCard): Promise<void> {
-  return new Promise((resolve, reject) => {
-    const timestamp = Math.floor(Date.now() / 1000)
-    const sign = generateSignature(secret, timestamp)
-
-    const payload: FeishuPayload = {
-      timestamp: timestamp.toString(),
-      sign,
-      msg_type: 'interactive',
-      card: content
-    }
-
-    const payloadStr = JSON.stringify(payload)
-    const url = new URL(webhookUrl)
-
-    const options: https.RequestOptions = {
-      hostname: url.hostname,
-      path: url.pathname + url.search,
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Content-Length': Buffer.byteLength(payloadStr)
-      }
-    }
-
-    const req = https.request(options, (res) => {
-      let data = ''
-      res.on('data', (chunk: Buffer) => {
-        data += chunk.toString()
-      })
-```
-
-This function is important because it defines how Cherry Studio Tutorial: Multi-Provider AI Desktop Workspace for Teams implements the patterns covered in this chapter.
-
-### `scripts/feishu-notify.ts`
-
-The `createIssueCard` function in [`scripts/feishu-notify.ts`](https://github.com/CherryHQ/cherry-studio/blob/HEAD/scripts/feishu-notify.ts) handles a key part of this chapter's functionality:
-
-```ts
- * @returns Feishu card content
- */
-function createIssueCard(issueData: IssueData): FeishuCard {
-  const { issueUrl, issueNumber, issueTitle, issueSummary, issueAuthor, labels } = issueData
-
-  const elements: FeishuCardElement[] = [
-    {
-      tag: 'div',
-      text: {
-        tag: 'lark_md',
-        content: `**Author:** ${issueAuthor}`
-      }
-    }
-  ]
-
-  if (labels.length > 0) {
-    elements.push({
-      tag: 'div',
-      text: {
-        tag: 'lark_md',
-        content: `**Labels:** ${labels.join(', ')}`
-      }
+  constructor() {
+    this.project = new Project({
+      skipAddingFilesFromTsConfig: true,
+      skipFileDependencyResolution: true
     })
   }
 
-  elements.push(
-    { tag: 'hr' },
-    {
-      tag: 'div',
-      text: {
-        tag: 'lark_md',
-        content: `**Summary:**\n${issueSummary}`
+  scanFile(filePath: string, source: 'renderer' | 'main'): Finding[] {
+    const findings: Finding[] = []
+
+    try {
+      const sourceFile = this.project.addSourceFileAtPath(filePath)
+      sourceFile.forEachDescendant((node) => {
+        this.checkNode(node, sourceFile, source, findings)
+      })
+      this.project.removeSourceFile(sourceFile)
+    } catch (error) {
+      console.error(`Error parsing ${filePath}:`, error)
+    }
+
+    return findings
+  }
+
+  private checkNode(node: Node, sourceFile: SourceFile, source: 'renderer' | 'main', findings: Finding[]): void {
+    if (shouldSkipNode(node)) return
+
+    if (Node.isJsxText(node)) {
+```
+
+This class is important because it defines how Cherry Studio Tutorial: Multi-Provider AI Desktop Workspace for Teams implements the patterns covered in this chapter.
+
+### `scripts/check-hardcoded-strings.ts`
+
+The `hasCJK` function in [`scripts/check-hardcoded-strings.ts`](https://github.com/CherryHQ/cherry-studio/blob/HEAD/scripts/check-hardcoded-strings.ts) handles a key part of this chapter's functionality:
+
+```ts
+].join('')
+
+function hasCJK(text: string): boolean {
+  return new RegExp(`[${CJK_RANGES}]`).test(text)
+}
+
+function hasEnglishUIText(text: string): boolean {
+  const words = text.trim().split(/\s+/)
+  if (words.length < 2 || words.length > 6) return false
+  return /^[A-Z][a-z]+(\s+[A-Za-z]+){1,5}$/.test(text.trim())
+}
+
+function createFinding(
+  node: Node,
+  sourceFile: SourceFile,
+  type: 'chinese' | 'english',
+  source: 'renderer' | 'main',
+  nodeType: string
+): Finding {
+  return {
+    file: sourceFile.getFilePath(),
+    line: sourceFile.getLineAndColumnAtPos(node.getStart()).line,
+    content: node.getText().slice(0, 100),
+    type,
+    source,
+    nodeType
+  }
+}
+
+function shouldSkipNode(node: Node): boolean {
+  let current: Node | undefined = node
+
 ```
 
 This function is important because it defines how Cherry Studio Tutorial: Multi-Provider AI Desktop Workspace for Teams implements the patterns covered in this chapter.
 
-### `scripts/feishu-notify.ts`
+### `scripts/check-hardcoded-strings.ts`
 
-The `createSimpleCard` function in [`scripts/feishu-notify.ts`](https://github.com/CherryHQ/cherry-studio/blob/HEAD/scripts/feishu-notify.ts) handles a key part of this chapter's functionality:
+The `hasEnglishUIText` function in [`scripts/check-hardcoded-strings.ts`](https://github.com/CherryHQ/cherry-studio/blob/HEAD/scripts/check-hardcoded-strings.ts) handles a key part of this chapter's functionality:
 
 ```ts
- * @returns Feishu card content
- */
-function createSimpleCard(title: string, description: string, color: FeishuHeaderTemplate = 'turquoise'): FeishuCard {
+}
+
+function hasEnglishUIText(text: string): boolean {
+  const words = text.trim().split(/\s+/)
+  if (words.length < 2 || words.length > 6) return false
+  return /^[A-Z][a-z]+(\s+[A-Za-z]+){1,5}$/.test(text.trim())
+}
+
+function createFinding(
+  node: Node,
+  sourceFile: SourceFile,
+  type: 'chinese' | 'english',
+  source: 'renderer' | 'main',
+  nodeType: string
+): Finding {
   return {
-    elements: [
-      {
-        tag: 'div',
-        text: {
-          tag: 'lark_md',
-          content: description
-        }
-      }
-    ],
-    header: {
-      template: color,
-      title: {
-        tag: 'plain_text',
-        content: title
-      }
-    }
+    file: sourceFile.getFilePath(),
+    line: sourceFile.getLineAndColumnAtPos(node.getStart()).line,
+    content: node.getText().slice(0, 100),
+    type,
+    source,
+    nodeType
   }
 }
 
-/**
- * Get Feishu credentials from environment variables
- */
-function getCredentials(): { webhookUrl: string; secret: string } {
-  const webhookUrl = process.env.FEISHU_WEBHOOK_URL
-  const secret = process.env.FEISHU_WEBHOOK_SECRET
+function shouldSkipNode(node: Node): boolean {
+  let current: Node | undefined = node
 
-  if (!webhookUrl) {
-    console.error('Error: FEISHU_WEBHOOK_URL environment variable is required')
+  while (current) {
+    const parent = current.getParent()
+    if (!parent) break
+
+```
+
+This function is important because it defines how Cherry Studio Tutorial: Multi-Provider AI Desktop Workspace for Teams implements the patterns covered in this chapter.
+
+### `scripts/check-hardcoded-strings.ts`
+
+The `createFinding` function in [`scripts/check-hardcoded-strings.ts`](https://github.com/CherryHQ/cherry-studio/blob/HEAD/scripts/check-hardcoded-strings.ts) handles a key part of this chapter's functionality:
+
+```ts
+}
+
+function createFinding(
+  node: Node,
+  sourceFile: SourceFile,
+  type: 'chinese' | 'english',
+  source: 'renderer' | 'main',
+  nodeType: string
+): Finding {
+  return {
+    file: sourceFile.getFilePath(),
+    line: sourceFile.getLineAndColumnAtPos(node.getStart()).line,
+    content: node.getText().slice(0, 100),
+    type,
+    source,
+    nodeType
+  }
+}
+
+function shouldSkipNode(node: Node): boolean {
+  let current: Node | undefined = node
+
+  while (current) {
+    const parent = current.getParent()
+    if (!parent) break
+
+    if (Node.isImportDeclaration(parent) || Node.isExportDeclaration(parent)) {
+      return true
+    }
+
+    if (Node.isCallExpression(parent)) {
+      const callText = parent.getExpression().getText()
 ```
 
 This function is important because it defines how Cherry Studio Tutorial: Multi-Provider AI Desktop Workspace for Teams implements the patterns covered in this chapter.
@@ -211,11 +209,11 @@ This function is important because it defines how Cherry Studio Tutorial: Multi-
 
 ```mermaid
 flowchart TD
-    A[generateSignature]
-    B[sendToFeishu]
-    C[createIssueCard]
-    D[createSimpleCard]
-    E[getCredentials]
+    A[HardcodedStringDetector]
+    B[hasCJK]
+    C[hasEnglishUIText]
+    D[createFinding]
+    E[shouldSkipNode]
     A --> B
     B --> C
     C --> D

@@ -40,184 +40,182 @@ You now have a rollout model for scaling Cherry Studio from individual use to te
 
 Next: [Chapter 7: Development and Contribution Workflow](07-development-and-contribution-workflow.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `scripts/update-app-upgrade-config.ts`
+### `scripts/feishu-notify.ts`
 
-The `SegmentDefinition` interface in [`scripts/update-app-upgrade-config.ts`](https://github.com/CherryHQ/cherry-studio/blob/HEAD/scripts/update-app-upgrade-config.ts) handles a key part of this chapter's functionality:
-
-```ts
-}
-
-interface SegmentDefinition {
-  id: string
-  type: 'legacy' | 'breaking' | 'latest'
-  match: SegmentMatchRule
-  lockedVersion?: string
-  minCompatibleVersion: string
-  description: string
-  channelTemplates?: Partial<Record<UpgradeChannel, ChannelTemplateConfig>>
-}
-
-interface SegmentMetadataFile {
-  segments: SegmentDefinition[]
-}
-
-interface ChannelConfig {
-  version: string
-  feedUrls: Record<UpdateMirror, string>
-}
-
-interface VersionMetadata {
-  segmentId: string
-  segmentType?: string
-}
-
-interface VersionEntry {
-  metadata?: VersionMetadata
-  minCompatibleVersion: string
-  description: string
-  channels: Record<UpgradeChannel, ChannelConfig | null>
-}
-```
-
-This interface is important because it defines how Cherry Studio Tutorial: Multi-Provider AI Desktop Workspace for Teams implements the patterns covered in this chapter.
-
-### `scripts/update-app-upgrade-config.ts`
-
-The `SegmentMetadataFile` interface in [`scripts/update-app-upgrade-config.ts`](https://github.com/CherryHQ/cherry-studio/blob/HEAD/scripts/update-app-upgrade-config.ts) handles a key part of this chapter's functionality:
+The `createIssueCard` function in [`scripts/feishu-notify.ts`](https://github.com/CherryHQ/cherry-studio/blob/HEAD/scripts/feishu-notify.ts) handles a key part of this chapter's functionality:
 
 ```ts
-}
+ * @returns Feishu card content
+ */
+function createIssueCard(issueData: IssueData): FeishuCard {
+  const { issueUrl, issueNumber, issueTitle, issueSummary, issueAuthor, labels } = issueData
 
-interface SegmentMetadataFile {
-  segments: SegmentDefinition[]
-}
+  const elements: FeishuCardElement[] = [
+    {
+      tag: 'div',
+      text: {
+        tag: 'lark_md',
+        content: `**Author:** ${issueAuthor}`
+      }
+    }
+  ]
 
-interface ChannelConfig {
-  version: string
-  feedUrls: Record<UpdateMirror, string>
-}
+  if (labels.length > 0) {
+    elements.push({
+      tag: 'div',
+      text: {
+        tag: 'lark_md',
+        content: `**Labels:** ${labels.join(', ')}`
+      }
+    })
+  }
 
-interface VersionMetadata {
-  segmentId: string
-  segmentType?: string
-}
-
-interface VersionEntry {
-  metadata?: VersionMetadata
-  minCompatibleVersion: string
-  description: string
-  channels: Record<UpgradeChannel, ChannelConfig | null>
-}
-
-interface UpgradeConfigFile {
-  lastUpdated: string
-  versions: Record<string, VersionEntry>
-}
-
-interface ReleaseInfo {
-  tag: string
-  version: string
-  channel: UpgradeChannel
+  elements.push(
+    { tag: 'hr' },
+    {
+      tag: 'div',
+      text: {
+        tag: 'lark_md',
+        content: `**Summary:**\n${issueSummary}`
 ```
 
-This interface is important because it defines how Cherry Studio Tutorial: Multi-Provider AI Desktop Workspace for Teams implements the patterns covered in this chapter.
+This function is important because it defines how Cherry Studio Tutorial: Multi-Provider AI Desktop Workspace for Teams implements the patterns covered in this chapter.
 
-### `scripts/update-app-upgrade-config.ts`
+### `scripts/feishu-notify.ts`
 
-The `ChannelConfig` interface in [`scripts/update-app-upgrade-config.ts`](https://github.com/CherryHQ/cherry-studio/blob/HEAD/scripts/update-app-upgrade-config.ts) handles a key part of this chapter's functionality:
+The `createSimpleCard` function in [`scripts/feishu-notify.ts`](https://github.com/CherryHQ/cherry-studio/blob/HEAD/scripts/feishu-notify.ts) handles a key part of this chapter's functionality:
 
 ```ts
+ * @returns Feishu card content
+ */
+function createSimpleCard(title: string, description: string, color: FeishuHeaderTemplate = 'turquoise'): FeishuCard {
+  return {
+    elements: [
+      {
+        tag: 'div',
+        text: {
+          tag: 'lark_md',
+          content: description
+        }
+      }
+    ],
+    header: {
+      template: color,
+      title: {
+        tag: 'plain_text',
+        content: title
+      }
+    }
+  }
 }
 
-interface ChannelConfig {
-  version: string
-  feedUrls: Record<UpdateMirror, string>
-}
+/**
+ * Get Feishu credentials from environment variables
+ */
+function getCredentials(): { webhookUrl: string; secret: string } {
+  const webhookUrl = process.env.FEISHU_WEBHOOK_URL
+  const secret = process.env.FEISHU_WEBHOOK_SECRET
 
-interface VersionMetadata {
-  segmentId: string
-  segmentType?: string
-}
-
-interface VersionEntry {
-  metadata?: VersionMetadata
-  minCompatibleVersion: string
-  description: string
-  channels: Record<UpgradeChannel, ChannelConfig | null>
-}
-
-interface UpgradeConfigFile {
-  lastUpdated: string
-  versions: Record<string, VersionEntry>
-}
-
-interface ReleaseInfo {
-  tag: string
-  version: string
-  channel: UpgradeChannel
-}
-
-interface UpdateVersionsResult {
-  versions: Record<string, VersionEntry>
+  if (!webhookUrl) {
+    console.error('Error: FEISHU_WEBHOOK_URL environment variable is required')
 ```
 
-This interface is important because it defines how Cherry Studio Tutorial: Multi-Provider AI Desktop Workspace for Teams implements the patterns covered in this chapter.
+This function is important because it defines how Cherry Studio Tutorial: Multi-Provider AI Desktop Workspace for Teams implements the patterns covered in this chapter.
 
-### `scripts/update-app-upgrade-config.ts`
+### `scripts/feishu-notify.ts`
 
-The `VersionMetadata` interface in [`scripts/update-app-upgrade-config.ts`](https://github.com/CherryHQ/cherry-studio/blob/HEAD/scripts/update-app-upgrade-config.ts) handles a key part of this chapter's functionality:
+The `getCredentials` function in [`scripts/feishu-notify.ts`](https://github.com/CherryHQ/cherry-studio/blob/HEAD/scripts/feishu-notify.ts) handles a key part of this chapter's functionality:
 
 ```ts
+ * Get Feishu credentials from environment variables
+ */
+function getCredentials(): { webhookUrl: string; secret: string } {
+  const webhookUrl = process.env.FEISHU_WEBHOOK_URL
+  const secret = process.env.FEISHU_WEBHOOK_SECRET
+
+  if (!webhookUrl) {
+    console.error('Error: FEISHU_WEBHOOK_URL environment variable is required')
+    process.exit(1)
+  }
+  if (!secret) {
+    console.error('Error: FEISHU_WEBHOOK_SECRET environment variable is required')
+    process.exit(1)
+  }
+
+  return { webhookUrl, secret }
 }
 
-interface VersionMetadata {
-  segmentId: string
-  segmentType?: string
-}
+/**
+ * Handle send subcommand
+ */
+async function handleSendCommand(options: SendOptions): Promise<void> {
+  const { webhookUrl, secret } = getCredentials()
 
-interface VersionEntry {
-  metadata?: VersionMetadata
-  minCompatibleVersion: string
-  description: string
-  channels: Record<UpgradeChannel, ChannelConfig | null>
-}
+  const { title, description, color = 'turquoise' } = options
 
-interface UpgradeConfigFile {
-  lastUpdated: string
-  versions: Record<string, VersionEntry>
-}
-
-interface ReleaseInfo {
-  tag: string
-  version: string
-  channel: UpgradeChannel
-}
-
-interface UpdateVersionsResult {
-  versions: Record<string, VersionEntry>
-  updated: boolean
-}
-
-const ROOT_DIR = path.resolve(__dirname, '..')
-const DEFAULT_CONFIG_PATH = path.join(ROOT_DIR, 'app-upgrade-config.json')
+  // Validate color parameter
+  const colorValidation = FeishuHeaderTemplateSchema.safeParse(color)
+  if (!colorValidation.success) {
+    console.error(`Error: Invalid color "${color}". Valid colors: ${FeishuHeaderTemplateSchema.options.join(', ')}`)
+    process.exit(1)
+  }
 ```
 
-This interface is important because it defines how Cherry Studio Tutorial: Multi-Provider AI Desktop Workspace for Teams implements the patterns covered in this chapter.
+This function is important because it defines how Cherry Studio Tutorial: Multi-Provider AI Desktop Workspace for Teams implements the patterns covered in this chapter.
+
+### `scripts/feishu-notify.ts`
+
+The `handleSendCommand` function in [`scripts/feishu-notify.ts`](https://github.com/CherryHQ/cherry-studio/blob/HEAD/scripts/feishu-notify.ts) handles a key part of this chapter's functionality:
+
+```ts
+ * Handle send subcommand
+ */
+async function handleSendCommand(options: SendOptions): Promise<void> {
+  const { webhookUrl, secret } = getCredentials()
+
+  const { title, description, color = 'turquoise' } = options
+
+  // Validate color parameter
+  const colorValidation = FeishuHeaderTemplateSchema.safeParse(color)
+  if (!colorValidation.success) {
+    console.error(`Error: Invalid color "${color}". Valid colors: ${FeishuHeaderTemplateSchema.options.join(', ')}`)
+    process.exit(1)
+  }
+
+  const card = createSimpleCard(title, description, colorValidation.data)
+
+  console.log('Sending notification to Feishu...')
+  console.log(`Title: ${title}`)
+
+  await sendToFeishu(webhookUrl, secret, card)
+
+  console.log('Notification sent successfully!')
+}
+
+/**
+ * Handle issue subcommand
+ */
+async function handleIssueCommand(options: IssueOptions): Promise<void> {
+  const { webhookUrl, secret } = getCredentials()
+
+  const { url, number, title, summary, author = 'Unknown', labels: labelsStr = '' } = options
+
+```
+
+This function is important because it defines how Cherry Studio Tutorial: Multi-Provider AI Desktop Workspace for Teams implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[SegmentDefinition]
-    B[SegmentMetadataFile]
-    C[ChannelConfig]
-    D[VersionMetadata]
-    E[VersionEntry]
+    A[createIssueCard]
+    B[createSimpleCard]
+    C[getCredentials]
+    D[handleSendCommand]
+    E[handleIssueCommand]
     A --> B
     B --> C
     C --> D

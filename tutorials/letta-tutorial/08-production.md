@@ -13,6 +13,28 @@ Welcome to **Chapter 8: Production Deployment**. In this part of **Letta Tutoria
 
 > Deploy Letta agents to production with scaling, monitoring, security, and operational best practices.
 
+## Production Deployment Architecture
+
+```mermaid
+flowchart TD
+    LB[Load Balancer] --> S1[Letta Server Instance 1]
+    LB --> S2[Letta Server Instance 2]
+    S1 --> DB[(PostgreSQL - Shared State)]
+    S2 --> DB
+    S1 --> LLM[LLM Provider API]
+    S2 --> LLM
+    S1 --> MON[Metrics / Logging]
+    S2 --> MON
+
+    classDef infra fill:#e1f5fe,stroke:#01579b
+    classDef server fill:#f3e5f5,stroke:#4a148c
+    classDef storage fill:#fff3e0,stroke:#ef6c00
+
+    class LB infra
+    class S1,S2 server
+    class DB,LLM,MON storage
+```
+
 ## Overview
 
 Deploying Letta agents to production requires careful consideration of scaling, data persistence, security, and monitoring. This chapter covers production deployment patterns and operational practices.
@@ -669,16 +691,13 @@ When debugging, walk this sequence in order and confirm each stage has explicit 
 
 ## Source Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+Key source files in [`letta-ai/letta`](https://github.com/letta-ai/letta):
 
-- [View Repo](https://github.com/letta-ai/letta)
-  Why it matters: authoritative reference on `View Repo` (github.com).
-- [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
-  Why it matters: authoritative reference on `Awesome Code Docs` (github.com).
+- [`letta/server/rest_api/app.py`](https://github.com/letta-ai/letta/blob/main/letta/server/rest_api/app.py) -- startup config: database URL, auth middleware, CORS, and worker settings
+- [`docker-compose.yml`](https://github.com/letta-ai/letta/blob/main/docker-compose.yml) -- reference compose file for PostgreSQL + Letta server with environment variable config
+- [`letta/settings.py`](https://github.com/letta-ai/letta/blob/main/letta/settings.py) -- `Settings` class using Pydantic `BaseSettings`; all environment variable overrides for production tuning
 
-Suggested trace strategy:
-- search upstream code for `letta` and `name` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+Suggested trace: review `Settings` fields to understand all production-relevant config options, then compare against the `docker-compose.yml` service definition.
 
 ## Chapter Connections
 

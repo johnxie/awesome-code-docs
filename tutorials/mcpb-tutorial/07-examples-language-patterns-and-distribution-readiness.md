@@ -37,170 +37,168 @@ You now have an example-driven framework for taking bundles from prototype to ha
 
 Next: [Chapter 8: Release, Governance, and Ecosystem Operations](08-release-governance-and-ecosystem-operations.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `src/cli/pack.ts`
+### `src/shared/config.ts`
 
-The `formatFileSize` function in [`src/cli/pack.ts`](https://github.com/modelcontextprotocol/mcpb/blob/HEAD/src/cli/pack.ts) handles a key part of this chapter's functionality:
+The `getMcpConfigForManifest` function in [`src/shared/config.ts`](https://github.com/modelcontextprotocol/mcpb/blob/HEAD/src/shared/config.ts) handles a key part of this chapter's functionality:
 
 ```ts
 }
 
-function formatFileSize(bytes: number): string {
-  if (bytes < 1024) {
-    return `${bytes}B`;
-  } else if (bytes < 1024 * 1024) {
-    return `${(bytes / 1024).toFixed(1)}kB`;
-  } else {
-    return `${(bytes / (1024 * 1024)).toFixed(1)}MB`;
+export async function getMcpConfigForManifest(
+  options: GetMcpConfigForManifestOptions,
+): Promise<McpbManifestAny["server"]["mcp_config"] | undefined> {
+  const {
+    manifest,
+    extensionPath,
+    systemDirs,
+    userConfig,
+    pathSeparator,
+    logger,
+  } = options;
+  const baseConfig = manifest.server?.mcp_config;
+  if (!baseConfig) {
+    return undefined;
   }
-}
 
-function sanitizeNameForFilename(name: string): string {
-  // Replace spaces with hyphens
-  // Remove or replace characters that are problematic in filenames
-  return name
-    .toLowerCase()
-    .replace(/\s+/g, "-") // Replace spaces with hyphens
-    .replace(/[^a-z0-9-_.]/g, "") // Keep only alphanumeric, hyphens, underscores, and dots
-    .replace(/-+/g, "-") // Replace multiple hyphens with single hyphen
-    .replace(/^-+|-+$/g, "") // Remove leading/trailing hyphens
-    .substring(0, 100); // Limit length to 100 characters
-}
+  let result: McpbManifestAny["server"]["mcp_config"] = {
+    ...baseConfig,
+  };
 
-export async function packExtension({
-  extensionPath,
-  outputPath,
-  silent,
-}: PackOptions): Promise<boolean> {
-  const resolvedPath = resolve(extensionPath);
-  const logger = getLogger({ silent });
+  if (baseConfig.platform_overrides) {
+    if (process.platform in baseConfig.platform_overrides) {
+      const platformConfig = baseConfig.platform_overrides[process.platform];
+
+      result.command = platformConfig.command || result.command;
+      result.args = platformConfig.args || result.args;
+      result.env = platformConfig.env || result.env;
+    }
+  }
 
 ```
 
 This function is important because it defines how MCPB Tutorial: Packaging and Distributing Local MCP Servers as Bundles implements the patterns covered in this chapter.
 
-### `src/cli/pack.ts`
+### `src/shared/config.ts`
 
-The `sanitizeNameForFilename` function in [`src/cli/pack.ts`](https://github.com/modelcontextprotocol/mcpb/blob/HEAD/src/cli/pack.ts) handles a key part of this chapter's functionality:
-
-```ts
-}
-
-function sanitizeNameForFilename(name: string): string {
-  // Replace spaces with hyphens
-  // Remove or replace characters that are problematic in filenames
-  return name
-    .toLowerCase()
-    .replace(/\s+/g, "-") // Replace spaces with hyphens
-    .replace(/[^a-z0-9-_.]/g, "") // Keep only alphanumeric, hyphens, underscores, and dots
-    .replace(/-+/g, "-") // Replace multiple hyphens with single hyphen
-    .replace(/^-+|-+$/g, "") // Remove leading/trailing hyphens
-    .substring(0, 100); // Limit length to 100 characters
-}
-
-export async function packExtension({
-  extensionPath,
-  outputPath,
-  silent,
-}: PackOptions): Promise<boolean> {
-  const resolvedPath = resolve(extensionPath);
-  const logger = getLogger({ silent });
-
-  // Check if directory exists
-  if (!existsSync(resolvedPath) || !statSync(resolvedPath).isDirectory()) {
-    logger.error(`ERROR: Directory not found: ${extensionPath}`);
-    return false;
-  }
-
-  // Check if manifest exists
-  const manifestPath = join(resolvedPath, "manifest.json");
-  if (!existsSync(manifestPath)) {
-    logger.log(`No manifest.json found in ${extensionPath}`);
-```
-
-This function is important because it defines how MCPB Tutorial: Packaging and Distributing Local MCP Servers as Bundles implements the patterns covered in this chapter.
-
-### `src/cli/pack.ts`
-
-The `packExtension` function in [`src/cli/pack.ts`](https://github.com/modelcontextprotocol/mcpb/blob/HEAD/src/cli/pack.ts) handles a key part of this chapter's functionality:
+The `isInvalidSingleValue` function in [`src/shared/config.ts`](https://github.com/modelcontextprotocol/mcpb/blob/HEAD/src/shared/config.ts) handles a key part of this chapter's functionality:
 
 ```ts
 }
 
-export async function packExtension({
-  extensionPath,
-  outputPath,
-  silent,
-}: PackOptions): Promise<boolean> {
-  const resolvedPath = resolve(extensionPath);
-  const logger = getLogger({ silent });
+function isInvalidSingleValue(value: unknown): boolean {
+  return value === undefined || value === null || value === "";
+}
 
-  // Check if directory exists
-  if (!existsSync(resolvedPath) || !statSync(resolvedPath).isDirectory()) {
-    logger.error(`ERROR: Directory not found: ${extensionPath}`);
+/**
+ * Check if an extension has missing required configuration
+ * @param manifest The extension manifest
+ * @param userConfig The user configuration
+ * @returns true if required configuration is missing
+ */
+export function hasRequiredConfigMissing({
+  manifest,
+  userConfig,
+}: HasRequiredConfigMissingOptions): boolean {
+  if (!manifest.user_config) {
     return false;
   }
 
-  // Check if manifest exists
-  const manifestPath = join(resolvedPath, "manifest.json");
-  if (!existsSync(manifestPath)) {
-    logger.log(`No manifest.json found in ${extensionPath}`);
-    const shouldInit = await confirm({
-      message: "Would you like to create a manifest.json file?",
-      default: true,
-    });
+  const config = userConfig || {};
 
-    if (shouldInit) {
-      const success = await initExtension(extensionPath);
-      if (!success) {
-        logger.error("ERROR: Failed to create manifest");
-        return false;
+  for (const [key, configOption] of Object.entries(manifest.user_config)) {
+    if (configOption.required) {
+      const value = config[key];
+      if (
+        isInvalidSingleValue(value) ||
+        (Array.isArray(value) &&
+          (value.length === 0 || value.some(isInvalidSingleValue)))
+      ) {
+        return true;
       }
-    } else {
 ```
 
 This function is important because it defines how MCPB Tutorial: Packaging and Distributing Local MCP Servers as Bundles implements the patterns covered in this chapter.
 
-### `src/cli/pack.ts`
+### `src/shared/config.ts`
 
-The `PackOptions` interface in [`src/cli/pack.ts`](https://github.com/modelcontextprotocol/mcpb/blob/HEAD/src/cli/pack.ts) handles a key part of this chapter's functionality:
+The `hasRequiredConfigMissing` function in [`src/shared/config.ts`](https://github.com/modelcontextprotocol/mcpb/blob/HEAD/src/shared/config.ts) handles a key part of this chapter's functionality:
 
 ```ts
-import { initExtension } from "./init.js";
 
-interface PackOptions {
-  extensionPath: string;
-  outputPath?: string;
-  silent?: boolean;
-}
-
-function formatFileSize(bytes: number): string {
-  if (bytes < 1024) {
-    return `${bytes}B`;
-  } else if (bytes < 1024 * 1024) {
-    return `${(bytes / 1024).toFixed(1)}kB`;
-  } else {
-    return `${(bytes / (1024 * 1024)).toFixed(1)}MB`;
+  // Check if required configuration is missing
+  if (hasRequiredConfigMissing({ manifest, userConfig })) {
+    logger?.warn(
+      `Extension ${manifest.name} has missing required configuration, skipping MCP config`,
+    );
+    return undefined;
   }
+
+  const variables: Record<string, string | string[]> = {
+    __dirname: extensionPath,
+    pathSeparator,
+    "/": pathSeparator,
+    ...systemDirs,
+  };
+
+  // Build merged configuration from defaults and user settings
+  const mergedConfig: Record<string, unknown> = {};
+
+  // First, add defaults from manifest
+  if (manifest.user_config) {
+    for (const [key, configOption] of Object.entries(manifest.user_config)) {
+      if (configOption.default !== undefined) {
+        mergedConfig[key] = configOption.default;
+      }
+    }
+  }
+
+  // Then, override with user settings
+  if (userConfig) {
+    Object.assign(mergedConfig, userConfig);
+  }
+```
+
+This function is important because it defines how MCPB Tutorial: Packaging and Distributing Local MCP Servers as Bundles implements the patterns covered in this chapter.
+
+### `src/shared/config.ts`
+
+The `GetMcpConfigForManifestOptions` interface in [`src/shared/config.ts`](https://github.com/modelcontextprotocol/mcpb/blob/HEAD/src/shared/config.ts) handles a key part of this chapter's functionality:
+
+```ts
 }
 
-function sanitizeNameForFilename(name: string): string {
-  // Replace spaces with hyphens
-  // Remove or replace characters that are problematic in filenames
-  return name
-    .toLowerCase()
-    .replace(/\s+/g, "-") // Replace spaces with hyphens
-    .replace(/[^a-z0-9-_.]/g, "") // Keep only alphanumeric, hyphens, underscores, and dots
-    .replace(/-+/g, "-") // Replace multiple hyphens with single hyphen
-    .replace(/^-+|-+$/g, "") // Remove leading/trailing hyphens
-    .substring(0, 100); // Limit length to 100 characters
+interface GetMcpConfigForManifestOptions {
+  manifest: McpbManifestAny;
+  extensionPath: string;
+  systemDirs: Record<string, string>;
+  userConfig: z.infer<typeof McpbUserConfigValuesSchema>;
+  pathSeparator: string;
+  logger?: Logger;
 }
 
-export async function packExtension({
-  extensionPath,
+export async function getMcpConfigForManifest(
+  options: GetMcpConfigForManifestOptions,
+): Promise<McpbManifestAny["server"]["mcp_config"] | undefined> {
+  const {
+    manifest,
+    extensionPath,
+    systemDirs,
+    userConfig,
+    pathSeparator,
+    logger,
+  } = options;
+  const baseConfig = manifest.server?.mcp_config;
+  if (!baseConfig) {
+    return undefined;
+  }
+
+  let result: McpbManifestAny["server"]["mcp_config"] = {
+    ...baseConfig,
+  };
+
+  if (baseConfig.platform_overrides) {
 ```
 
 This interface is important because it defines how MCPB Tutorial: Packaging and Distributing Local MCP Servers as Bundles implements the patterns covered in this chapter.
@@ -210,11 +208,11 @@ This interface is important because it defines how MCPB Tutorial: Packaging and 
 
 ```mermaid
 flowchart TD
-    A[formatFileSize]
-    B[sanitizeNameForFilename]
-    C[packExtension]
-    D[PackOptions]
-    E[isPNG]
+    A[getMcpConfigForManifest]
+    B[isInvalidSingleValue]
+    C[hasRequiredConfigMissing]
+    D[GetMcpConfigForManifestOptions]
+    E[HasRequiredConfigMissingOptions]
     A --> B
     B --> C
     C --> D

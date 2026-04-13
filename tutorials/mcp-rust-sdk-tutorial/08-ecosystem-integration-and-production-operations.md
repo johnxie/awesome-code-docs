@@ -39,170 +39,168 @@ You now have a full operations and integration model for Rust MCP deployments.
 
 Next: Continue with [MCP Swift SDK Tutorial](../mcp-swift-sdk-tutorial/)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `crates/rmcp-macros/src/tool.rs`
+### `examples/servers/src/cimd_auth_streamhttp.rs`
 
-The `ToolAttribute` interface in [`crates/rmcp-macros/src/tool.rs`](https://github.com/modelcontextprotocol/rust-sdk/blob/HEAD/crates/rmcp-macros/src/tool.rs) handles a key part of this chapter's functionality:
+The `AppState` interface in [`examples/servers/src/cimd_auth_streamhttp.rs`](https://github.com/modelcontextprotocol/rust-sdk/blob/HEAD/examples/servers/src/cimd_auth_streamhttp.rs) handles a key part of this chapter's functionality:
 
 ```rs
-#[derive(FromMeta, Default, Debug)]
-#[darling(default)]
-pub struct ToolAttribute {
-    /// The name of the tool
-    pub name: Option<String>,
-    /// Human readable title of tool
-    pub title: Option<String>,
-    pub description: Option<String>,
-    /// A JSON Schema object defining the expected parameters for the tool
-    pub input_schema: Option<Expr>,
-    /// An optional JSON Schema object defining the structure of the tool's output
-    pub output_schema: Option<Expr>,
-    /// Optional additional tool information.
-    pub annotations: Option<ToolAnnotationsAttribute>,
-    /// Execution-related configuration including task support.
-    pub execution: Option<ToolExecutionAttribute>,
-    /// Optional icons for the tool
-    pub icons: Option<Expr>,
-    /// Optional metadata for the tool
-    pub meta: Option<Expr>,
-    /// When true, the generated future will not require `Send`. Useful for `!Send` handlers
-    /// (e.g. single-threaded database connections). Also enabled globally by the `local` crate feature.
-    pub local: bool,
+
+#[derive(Clone)]
+struct AppState {
+    auth_codes: Arc<RwLock<HashMap<String, AuthCodeRecord>>>,
 }
 
-#[derive(FromMeta, Debug, Default)]
-#[darling(default)]
-pub struct ToolExecutionAttribute {
-    /// Task support mode: "forbidden", "optional", or "required"
-    pub task_support: Option<String>,
+impl AppState {
+    fn new() -> Self {
+        Self {
+            auth_codes: Arc::new(RwLock::new(HashMap::new())),
+        }
+    }
 }
+
+fn generate_authorization_code() -> String {
+    rand::rng()
+        .sample_iter(&Alphanumeric)
+        .take(32)
+        .map(char::from)
+        .collect()
+}
+
+fn generate_access_token() -> String {
+    rand::rng()
+        .sample_iter(&Alphanumeric)
+        .take(32)
+        .map(char::from)
+        .collect()
+}
+
+/// Validate that the client_id is a URL that meets CIMD mandatory requirements.
+/// Mirrors the JS validateClientIdUrl helper.
+```
+
+This interface is important because it defines how MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP implements the patterns covered in this chapter.
+
+### `examples/servers/src/cimd_auth_streamhttp.rs`
+
+The `AuthorizeQuery` interface in [`examples/servers/src/cimd_auth_streamhttp.rs`](https://github.com/modelcontextprotocol/rust-sdk/blob/HEAD/examples/servers/src/cimd_auth_streamhttp.rs) handles a key part of this chapter's functionality:
+
+```rs
+
+#[derive(Debug, Deserialize)]
+struct AuthorizeQuery {
+    client_id: Option<String>,
+    redirect_uri: Option<String>,
+    response_type: Option<String>,
+    state: Option<String>,
+    scope: Option<String>,
+}
+
+#[derive(Debug, Deserialize)]
+struct LoginForm {
+    username: Option<String>,
+    password: Option<String>,
+    // OAuth params come from hidden form fields
+    client_id: Option<String>,
+    redirect_uri: Option<String>,
+    response_type: Option<String>,
+    state: Option<String>,
+    scope: Option<String>,
+}
+
+fn render_login_form(params: &AuthorizeQuery, error: Option<&str>) -> Html<String> {
+    let hidden_fields = [
+        ("client_id", params.client_id.as_deref().unwrap_or_default()),
+        (
+            "redirect_uri",
+            params.redirect_uri.as_deref().unwrap_or_default(),
+        ),
+        (
+            "response_type",
+            params.response_type.as_deref().unwrap_or_default(),
+```
+
+This interface is important because it defines how MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP implements the patterns covered in this chapter.
+
+### `examples/servers/src/cimd_auth_streamhttp.rs`
+
+The `LoginForm` interface in [`examples/servers/src/cimd_auth_streamhttp.rs`](https://github.com/modelcontextprotocol/rust-sdk/blob/HEAD/examples/servers/src/cimd_auth_streamhttp.rs) handles a key part of this chapter's functionality:
+
+```rs
+
+#[derive(Debug, Deserialize)]
+struct LoginForm {
+    username: Option<String>,
+    password: Option<String>,
+    // OAuth params come from hidden form fields
+    client_id: Option<String>,
+    redirect_uri: Option<String>,
+    response_type: Option<String>,
+    state: Option<String>,
+    scope: Option<String>,
+}
+
+fn render_login_form(params: &AuthorizeQuery, error: Option<&str>) -> Html<String> {
+    let hidden_fields = [
+        ("client_id", params.client_id.as_deref().unwrap_or_default()),
+        (
+            "redirect_uri",
+            params.redirect_uri.as_deref().unwrap_or_default(),
+        ),
+        (
+            "response_type",
+            params.response_type.as_deref().unwrap_or_default(),
+        ),
+        ("state", params.state.as_deref().unwrap_or_default()),
+        ("scope", params.scope.as_deref().unwrap_or_default()),
+    ]
+    .iter()
+    .map(|(k, v)| format!(r#"<input type="hidden" name="{k}" value="{v}">"#))
+    .collect::<Vec<_>>()
+    .join("\n      ");
 
 ```
 
 This interface is important because it defines how MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP implements the patterns covered in this chapter.
 
-### `crates/rmcp-macros/src/tool.rs`
+### `examples/servers/src/cimd_auth_streamhttp.rs`
 
-The `ToolExecutionAttribute` interface in [`crates/rmcp-macros/src/tool.rs`](https://github.com/modelcontextprotocol/rust-sdk/blob/HEAD/crates/rmcp-macros/src/tool.rs) handles a key part of this chapter's functionality:
-
-```rs
-    pub annotations: Option<ToolAnnotationsAttribute>,
-    /// Execution-related configuration including task support.
-    pub execution: Option<ToolExecutionAttribute>,
-    /// Optional icons for the tool
-    pub icons: Option<Expr>,
-    /// Optional metadata for the tool
-    pub meta: Option<Expr>,
-    /// When true, the generated future will not require `Send`. Useful for `!Send` handlers
-    /// (e.g. single-threaded database connections). Also enabled globally by the `local` crate feature.
-    pub local: bool,
-}
-
-#[derive(FromMeta, Debug, Default)]
-#[darling(default)]
-pub struct ToolExecutionAttribute {
-    /// Task support mode: "forbidden", "optional", or "required"
-    pub task_support: Option<String>,
-}
-
-pub struct ResolvedToolAttribute {
-    pub name: String,
-    pub title: Option<String>,
-    pub description: Option<Expr>,
-    pub input_schema: Expr,
-    pub output_schema: Option<Expr>,
-    pub annotations: Option<Expr>,
-    pub execution: Option<Expr>,
-    pub icons: Option<Expr>,
-    pub meta: Option<Expr>,
-}
-
-impl ResolvedToolAttribute {
-```
-
-This interface is important because it defines how MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP implements the patterns covered in this chapter.
-
-### `crates/rmcp-macros/src/tool.rs`
-
-The `ResolvedToolAttribute` interface in [`crates/rmcp-macros/src/tool.rs`](https://github.com/modelcontextprotocol/rust-sdk/blob/HEAD/crates/rmcp-macros/src/tool.rs) handles a key part of this chapter's functionality:
+The `TokenRequest` interface in [`examples/servers/src/cimd_auth_streamhttp.rs`](https://github.com/modelcontextprotocol/rust-sdk/blob/HEAD/examples/servers/src/cimd_auth_streamhttp.rs) handles a key part of this chapter's functionality:
 
 ```rs
+
+#[derive(Debug, Deserialize)]
+struct TokenRequest {
+    grant_type: Option<String>,
+    code: Option<String>,
 }
 
-pub struct ResolvedToolAttribute {
-    pub name: String,
-    pub title: Option<String>,
-    pub description: Option<Expr>,
-    pub input_schema: Expr,
-    pub output_schema: Option<Expr>,
-    pub annotations: Option<Expr>,
-    pub execution: Option<Expr>,
-    pub icons: Option<Expr>,
-    pub meta: Option<Expr>,
-}
+async fn token(State(state): State<AppState>, Form(form): Form<TokenRequest>) -> impl IntoResponse {
+    if form.grant_type.as_deref() != Some("authorization_code") {
+        let body = serde_json::json!({
+            "error": "unsupported_grant_type",
+            "error_description": "Only authorization_code is supported in this demo",
+        });
+        return (StatusCode::BAD_REQUEST, Json(body)).into_response();
+    }
 
-impl ResolvedToolAttribute {
-    pub fn into_fn(self, fn_ident: Ident) -> syn::Result<ImplItemFn> {
-        let Self {
-            name,
-            description,
-            title,
-            input_schema,
-            output_schema,
-            annotations,
-            execution,
-            icons,
-            meta,
-        } = self;
-        let description = if let Some(description) = description {
-            quote! { Some(#description.into()) }
-        } else {
-            quote! { None }
-        };
-```
+    let code = match &form.code {
+        Some(c) => c.clone(),
+        None => {
+            let body = serde_json::json!({
+                "error": "invalid_request",
+                "error_description": "Authorization code is required",
+            });
+            return (StatusCode::BAD_REQUEST, Json(body)).into_response();
+        }
+    };
 
-This interface is important because it defines how MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP implements the patterns covered in this chapter.
+    let record_opt = {
+        let mut codes = state.auth_codes.write().await;
+        codes.remove(&code)
+    };
 
-### `crates/rmcp-macros/src/tool.rs`
-
-The `ToolAnnotationsAttribute` interface in [`crates/rmcp-macros/src/tool.rs`](https://github.com/modelcontextprotocol/rust-sdk/blob/HEAD/crates/rmcp-macros/src/tool.rs) handles a key part of this chapter's functionality:
-
-```rs
-    pub output_schema: Option<Expr>,
-    /// Optional additional tool information.
-    pub annotations: Option<ToolAnnotationsAttribute>,
-    /// Execution-related configuration including task support.
-    pub execution: Option<ToolExecutionAttribute>,
-    /// Optional icons for the tool
-    pub icons: Option<Expr>,
-    /// Optional metadata for the tool
-    pub meta: Option<Expr>,
-    /// When true, the generated future will not require `Send`. Useful for `!Send` handlers
-    /// (e.g. single-threaded database connections). Also enabled globally by the `local` crate feature.
-    pub local: bool,
-}
-
-#[derive(FromMeta, Debug, Default)]
-#[darling(default)]
-pub struct ToolExecutionAttribute {
-    /// Task support mode: "forbidden", "optional", or "required"
-    pub task_support: Option<String>,
-}
-
-pub struct ResolvedToolAttribute {
-    pub name: String,
-    pub title: Option<String>,
-    pub description: Option<Expr>,
-    pub input_schema: Expr,
-    pub output_schema: Option<Expr>,
-    pub annotations: Option<Expr>,
-    pub execution: Option<Expr>,
-    pub icons: Option<Expr>,
-    pub meta: Option<Expr>,
-}
 ```
 
 This interface is important because it defines how MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP implements the patterns covered in this chapter.
@@ -212,10 +210,10 @@ This interface is important because it defines how MCP Rust SDK Tutorial: Buildi
 
 ```mermaid
 flowchart TD
-    A[ToolAttribute]
-    B[ToolExecutionAttribute]
-    C[ResolvedToolAttribute]
-    D[ToolAnnotationsAttribute]
+    A[AppState]
+    B[AuthorizeQuery]
+    C[LoginForm]
+    D[TokenRequest]
     E[CodeReviewArgs]
     A --> B
     B --> C

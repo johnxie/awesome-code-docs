@@ -55,170 +55,168 @@ You now know how to coordinate human and agent command usage without workflow co
 
 Next: [Chapter 4: Spec Authoring, Delta Patterns, and Quality](04-spec-authoring-delta-patterns-and-quality.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `src/commands/validate.ts`
+### `src/core/legacy-cleanup.ts`
 
-The `ValidateCommand` class in [`src/commands/validate.ts`](https://github.com/Fission-AI/OpenSpec/blob/HEAD/src/commands/validate.ts) handles a key part of this chapter's functionality:
-
-```ts
-}
-
-export class ValidateCommand {
-  async execute(itemName: string | undefined, options: ExecuteOptions = {}): Promise<void> {
-    const interactive = isInteractive(options);
-
-    // Handle bulk flags first
-    if (options.all || options.changes || options.specs) {
-      await this.runBulkValidation({
-        changes: !!options.all || !!options.changes,
-        specs: !!options.all || !!options.specs,
-      }, { strict: !!options.strict, json: !!options.json, concurrency: options.concurrency, noInteractive: resolveNoInteractive(options) });
-      return;
-    }
-
-    // No item and no flags
-    if (!itemName) {
-      if (interactive) {
-        await this.runInteractiveSelector({ strict: !!options.strict, json: !!options.json, concurrency: options.concurrency });
-        return;
-      }
-      this.printNonInteractiveHint();
-      process.exitCode = 1;
-      return;
-    }
-
-    // Direct item validation with type detection or override
-    const typeOverride = this.normalizeType(options.type);
-    await this.validateDirectItem(itemName, { typeOverride, strict: !!options.strict, json: !!options.json });
-  }
-
-  private normalizeType(value?: string): ItemType | undefined {
-```
-
-This class is important because it defines how OpenSpec Tutorial: Spec-Driven Workflows for AI Coding Agents implements the patterns covered in this chapter.
-
-### `src/commands/validate.ts`
-
-The `summarizeType` function in [`src/commands/validate.ts`](https://github.com/Fission-AI/OpenSpec/blob/HEAD/src/commands/validate.ts) handles a key part of this chapter's functionality:
+The `removeMarkerBlock` function in [`src/core/legacy-cleanup.ts`](https://github.com/Fission-AI/OpenSpec/blob/HEAD/src/core/legacy-cleanup.ts) handles a key part of this chapter's functionality:
 
 ```ts
-      totals: { items: results.length, passed, failed },
-      byType: {
-        ...(scope.changes ? { change: summarizeType(results, 'change') } : {}),
-        ...(scope.specs ? { spec: summarizeType(results, 'spec') } : {}),
-      },
-    } as const;
+import { promises as fs } from 'fs';
+import chalk from 'chalk';
+import { FileSystemUtils, removeMarkerBlock as removeMarkerBlockUtil } from '../utils/file-system.js';
+import { OPENSPEC_MARKERS } from './config.js';
 
-    if (opts.json) {
-      const out = { items: results, summary, version: '1.0' };
-      console.log(JSON.stringify(out, null, 2));
-    } else {
-      for (const res of results) {
-        if (res.valid) console.log(`✓ ${res.type}/${res.id}`);
-        else console.error(`✗ ${res.type}/${res.id}`);
-      }
-      console.log(`Totals: ${summary.totals.passed} passed, ${summary.totals.failed} failed (${summary.totals.items} items)`);
-    }
+/**
+ * Legacy config file names from the old ToolRegistry.
+ * These were config files created at project root with OpenSpec markers.
+ */
+export const LEGACY_CONFIG_FILES = [
+  'CLAUDE.md',
+  'CLINE.md',
+  'CODEBUDDY.md',
+  'COSTRICT.md',
+  'QODER.md',
+  'IFLOW.md',
+  'AGENTS.md', // root AGENTS.md (not openspec/AGENTS.md)
+  'QWEN.md',
+] as const;
 
-    process.exitCode = failed > 0 ? 1 : 0;
-  }
-}
-
-function summarizeType(results: BulkItemResult[], type: ItemType) {
-  const filtered = results.filter(r => r.type === type);
-  const items = filtered.length;
-  const passed = filtered.filter(r => r.valid).length;
-  const failed = items - passed;
-  return { items, passed, failed };
-}
-
-function normalizeConcurrency(value?: string): number | undefined {
-  if (!value) return undefined;
+/**
+ * Legacy slash command patterns from the old SlashCommandRegistry.
+ * These map toolId to the path pattern where legacy commands were created.
+ * Some tools used a directory structure, others used individual files.
+ */
+export const LEGACY_SLASH_COMMAND_PATHS: Record<string, LegacySlashCommandPattern> = {
+  // Directory-based: .tooldir/commands/openspec/ or .tooldir/commands/openspec/*.md
+  'claude': { type: 'directory', path: '.claude/commands/openspec' },
+  'codebuddy': { type: 'directory', path: '.codebuddy/commands/openspec' },
+  'qoder': { type: 'directory', path: '.qoder/commands/openspec' },
+  'crush': { type: 'directory', path: '.crush/commands/openspec' },
+  'gemini': { type: 'directory', path: '.gemini/commands/openspec' },
 ```
 
 This function is important because it defines how OpenSpec Tutorial: Spec-Driven Workflows for AI Coding Agents implements the patterns covered in this chapter.
 
-### `src/commands/validate.ts`
+### `src/core/legacy-cleanup.ts`
 
-The `normalizeConcurrency` function in [`src/commands/validate.ts`](https://github.com/Fission-AI/OpenSpec/blob/HEAD/src/commands/validate.ts) handles a key part of this chapter's functionality:
+The `cleanupLegacyArtifacts` function in [`src/core/legacy-cleanup.ts`](https://github.com/Fission-AI/OpenSpec/blob/HEAD/src/core/legacy-cleanup.ts) handles a key part of this chapter's functionality:
 
 ```ts
-    const DEFAULT_CONCURRENCY = 6;
-    const maxSuggestions = 5; // used by nearestMatches
-    const concurrency = normalizeConcurrency(opts.concurrency) ?? normalizeConcurrency(process.env.OPENSPEC_CONCURRENCY) ?? DEFAULT_CONCURRENCY;
-    const validator = new Validator(opts.strict);
-    const queue: Array<() => Promise<BulkItemResult>> = [];
+ * @returns Cleanup result with summary of actions taken
+ */
+export async function cleanupLegacyArtifacts(
+  projectPath: string,
+  detection: LegacyDetectionResult
+): Promise<CleanupResult> {
+  const result: CleanupResult = {
+    deletedFiles: [],
+    modifiedFiles: [],
+    deletedDirs: [],
+    projectMdNeedsMigration: detection.hasProjectMd,
+    errors: [],
+  };
 
-    for (const id of changeIds) {
-      queue.push(async () => {
-        const start = Date.now();
-        const changeDir = path.join(process.cwd(), 'openspec', 'changes', id);
-        const report = await validator.validateChangeDeltaSpecs(changeDir);
-        const durationMs = Date.now() - start;
-        return { id, type: 'change' as const, valid: report.valid, issues: report.issues, durationMs };
-      });
+  // Remove marker blocks from config files (NEVER delete config files)
+  // Config files like CLAUDE.md, AGENTS.md belong to the user's project root
+  for (const fileName of detection.configFilesToUpdate) {
+    const filePath = FileSystemUtils.joinPath(projectPath, fileName);
+    try {
+      const content = await FileSystemUtils.readFile(filePath);
+      const newContent = removeMarkerBlock(content);
+      // Always write the file, even if empty - never delete user config files
+      await FileSystemUtils.writeFile(filePath, newContent);
+      result.modifiedFiles.push(fileName);
+    } catch (error: any) {
+      result.errors.push(`Failed to modify ${fileName}: ${error.message}`);
     }
-    for (const id of specIds) {
-      queue.push(async () => {
-        const start = Date.now();
-        const file = path.join(process.cwd(), 'openspec', 'specs', id, 'spec.md');
-        const report = await validator.validateSpec(file);
-        const durationMs = Date.now() - start;
-        return { id, type: 'spec' as const, valid: report.valid, issues: report.issues, durationMs };
-      });
-    }
+  }
 
-    if (queue.length === 0) {
-      spinner?.stop();
-
-      const summary = {
-        totals: { items: 0, passed: 0, failed: 0 },
-        byType: {
-          ...(scope.changes ? { change: { items: 0, passed: 0, failed: 0 } } : {}),
+  // Delete legacy slash command directories (these are 100% OpenSpec-managed)
+  for (const dirPath of detection.slashCommandDirs) {
+    const fullPath = FileSystemUtils.joinPath(projectPath, dirPath);
 ```
 
 This function is important because it defines how OpenSpec Tutorial: Spec-Driven Workflows for AI Coding Agents implements the patterns covered in this chapter.
 
-### `src/commands/validate.ts`
+### `src/core/legacy-cleanup.ts`
 
-The `getPlannedId` function in [`src/commands/validate.ts`](https://github.com/Fission-AI/OpenSpec/blob/HEAD/src/commands/validate.ts) handles a key part of this chapter's functionality:
+The `formatCleanupSummary` function in [`src/core/legacy-cleanup.ts`](https://github.com/Fission-AI/OpenSpec/blob/HEAD/src/core/legacy-cleanup.ts) handles a key part of this chapter's functionality:
 
 ```ts
-            .catch((error: any) => {
-              const message = error?.message || 'Unknown error';
-              const res: BulkItemResult = { id: getPlannedId(currentIndex, changeIds, specIds) ?? 'unknown', type: getPlannedType(currentIndex, changeIds, specIds) ?? 'change', valid: false, issues: [{ level: 'ERROR', path: 'file', message }], durationMs: 0 };
-              results.push(res);
-              failed++;
-            })
-            .finally(() => {
-              running--;
-              if (index >= queue.length && running === 0) resolve();
-              else next();
-            });
-        }
-      };
-      next();
-    });
+ * @returns Formatted summary string for console output
+ */
+export function formatCleanupSummary(result: CleanupResult): string {
+  const lines: string[] = [];
 
-    spinner?.stop();
+  if (result.deletedFiles.length > 0 || result.deletedDirs.length > 0 || result.modifiedFiles.length > 0) {
+    lines.push('Cleaned up legacy files:');
 
-    results.sort((a, b) => a.id.localeCompare(b.id));
-    const summary = {
-      totals: { items: results.length, passed, failed },
-      byType: {
-        ...(scope.changes ? { change: summarizeType(results, 'change') } : {}),
-        ...(scope.specs ? { spec: summarizeType(results, 'spec') } : {}),
-      },
-    } as const;
+    for (const file of result.deletedFiles) {
+      lines.push(`  ✓ Removed ${file}`);
+    }
 
-    if (opts.json) {
-      const out = { items: results, summary, version: '1.0' };
-      console.log(JSON.stringify(out, null, 2));
-    } else {
-      for (const res of results) {
+    for (const dir of result.deletedDirs) {
+      lines.push(`  ✓ Removed ${dir}/ (replaced by /opsx:*)`);
+    }
+
+    for (const file of result.modifiedFiles) {
+      lines.push(`  ✓ Removed OpenSpec markers from ${file}`);
+    }
+  }
+
+  if (result.projectMdNeedsMigration) {
+    if (lines.length > 0) {
+      lines.push('');
+    }
+    lines.push(formatProjectMdMigrationHint());
+  }
+
+  if (result.errors.length > 0) {
+    if (lines.length > 0) {
+      lines.push('');
+    }
+```
+
+This function is important because it defines how OpenSpec Tutorial: Spec-Driven Workflows for AI Coding Agents implements the patterns covered in this chapter.
+
+### `src/core/legacy-cleanup.ts`
+
+The `buildRemovalsList` function in [`src/core/legacy-cleanup.ts`](https://github.com/Fission-AI/OpenSpec/blob/HEAD/src/core/legacy-cleanup.ts) handles a key part of this chapter's functionality:
+
+```ts
+ * @returns Array of objects with path and explanation
+ */
+function buildRemovalsList(detection: LegacyDetectionResult): Array<{ path: string; explanation: string }> {
+  const removals: Array<{ path: string; explanation: string }> = [];
+
+  // Slash command directories (these are 100% OpenSpec-managed)
+  for (const dir of detection.slashCommandDirs) {
+    // Split on both forward and backward slashes for Windows compatibility
+    const toolDir = dir.split(/[\/\\]/)[0];
+    removals.push({ path: dir + '/', explanation: `replaced by ${toolDir}/skills/` });
+  }
+
+  // Slash command files (these are 100% OpenSpec-managed)
+  for (const file of detection.slashCommandFiles) {
+    removals.push({ path: file, explanation: 'replaced by skills/' });
+  }
+
+  // openspec/AGENTS.md (inside openspec/, it's OpenSpec-managed)
+  if (detection.hasOpenspecAgents) {
+    removals.push({ path: 'openspec/AGENTS.md', explanation: 'obsolete workflow file' });
+  }
+
+  // Note: Config files (CLAUDE.md, AGENTS.md, etc.) are NEVER in the removals list
+  // They always go to the updates list where only markers are removed
+
+  return removals;
+}
+
+/**
+ * Build list of files to be updated with explanations.
+ * Includes ALL config files with markers - markers are removed, file is never deleted.
+ *
 ```
 
 This function is important because it defines how OpenSpec Tutorial: Spec-Driven Workflows for AI Coding Agents implements the patterns covered in this chapter.
@@ -228,11 +226,11 @@ This function is important because it defines how OpenSpec Tutorial: Spec-Driven
 
 ```mermaid
 flowchart TD
-    A[ValidateCommand]
-    B[summarizeType]
-    C[normalizeConcurrency]
-    D[getPlannedId]
-    E[getPlannedType]
+    A[removeMarkerBlock]
+    B[cleanupLegacyArtifacts]
+    C[formatCleanupSummary]
+    D[buildRemovalsList]
+    E[buildUpdatesList]
     A --> B
     B --> C
     C --> D

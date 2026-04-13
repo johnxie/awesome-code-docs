@@ -38,184 +38,164 @@ You now have a practical reliability playbook for Chrome DevTools MCP operations
 
 Next: [Chapter 7: Development, Evaluation, and Contribution](07-development-evaluation-and-contribution.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `scripts/generate-docs.ts`
+### `src/browser.ts`
 
-The `updateReadmeWithOptionsMarkdown` function in [`scripts/generate-docs.ts`](https://github.com/ChromeDevTools/chrome-devtools-mcp/blob/HEAD/scripts/generate-docs.ts) handles a key part of this chapter's functionality:
+The `ensureBrowserLaunched` function in [`src/browser.ts`](https://github.com/ChromeDevTools/chrome-devtools-mcp/blob/HEAD/src/browser.ts) handles a key part of this chapter's functionality:
 
 ```ts
 }
 
-function updateReadmeWithOptionsMarkdown(optionsMarkdown: string): void {
-  const readmeContent = fs.readFileSync(README_PATH, 'utf8');
+export async function ensureBrowserLaunched(
+  options: McpLaunchOptions,
+): Promise<Browser> {
+  if (browser?.connected) {
+    return browser;
+  }
+  browser = await launch(options);
+  return browser;
+}
 
-  const beginMarker = '<!-- BEGIN AUTO GENERATED OPTIONS -->';
-  const endMarker = '<!-- END AUTO GENERATED OPTIONS -->';
+export type Channel = 'stable' | 'canary' | 'beta' | 'dev';
 
-  const beginIndex = readmeContent.indexOf(beginMarker);
-  const endIndex = readmeContent.indexOf(endMarker);
+```
 
-  if (beginIndex === -1 || endIndex === -1) {
-    console.warn('Could not find auto-generated options markers in README.md');
+This function is important because it defines how Chrome DevTools MCP Tutorial: Browser Automation and Debugging for Coding Agents implements the patterns covered in this chapter.
+
+### `src/browser.ts`
+
+The `McpLaunchOptions` interface in [`src/browser.ts`](https://github.com/ChromeDevTools/chrome-devtools-mcp/blob/HEAD/src/browser.ts) handles a key part of this chapter's functionality:
+
+```ts
+}
+
+interface McpLaunchOptions {
+  acceptInsecureCerts?: boolean;
+  executablePath?: string;
+  channel?: Channel;
+  userDataDir?: string;
+  headless: boolean;
+  isolated: boolean;
+  logFile?: fs.WriteStream;
+  viewport?: {
+    width: number;
+    height: number;
+  };
+  chromeArgs?: string[];
+  ignoreDefaultChromeArgs?: string[];
+  devtools: boolean;
+  enableExtensions?: boolean;
+  viaCli?: boolean;
+}
+
+export function detectDisplay(): void {
+  // Only detect display on Linux/UNIX.
+  if (os.platform() === 'win32' || os.platform() === 'darwin') {
     return;
   }
-
-  const before = readmeContent.substring(0, beginIndex + beginMarker.length);
-  const after = readmeContent.substring(endIndex);
-
-  const updatedContent = before + '\n\n' + optionsMarkdown + '\n\n' + after;
-
-  fs.writeFileSync(README_PATH, updatedContent);
-  console.log('Updated README.md with options markdown');
-}
-
-// Helper to convert Zod schema to JSON schema-like object for docs
-function getZodTypeInfo(schema: ZodSchema): TypeInfo {
-  let description = schema.description;
-  let def = schema._def;
-  let defaultValue: unknown;
-
-  // Unwrap optional/default/effects
+  if (!process.env['DISPLAY']) {
+    try {
+      const result = execSync(
+        `ps -u $(id -u) -o pid= | xargs -I{} cat /proc/{}/environ 2>/dev/null | tr '\\0' '\\n' | grep -m1 '^DISPLAY=' | cut -d= -f2`,
+      );
+      const display = result.toString('utf8').trim();
 ```
 
-This function is important because it defines how Chrome DevTools MCP Tutorial: Browser Automation and Debugging for Coding Agents implements the patterns covered in this chapter.
+This interface is important because it defines how Chrome DevTools MCP Tutorial: Browser Automation and Debugging for Coding Agents implements the patterns covered in this chapter.
 
-### `scripts/generate-docs.ts`
+### `src/McpPage.ts`
 
-The `getZodTypeInfo` function in [`scripts/generate-docs.ts`](https://github.com/ChromeDevTools/chrome-devtools-mcp/blob/HEAD/scripts/generate-docs.ts) handles a key part of this chapter's functionality:
+The `consumed` class in [`src/McpPage.ts`](https://github.com/ChromeDevTools/chrome-devtools-mcp/blob/HEAD/src/McpPage.ts) handles a key part of this chapter's functionality:
 
 ```ts
+ * and metadata that were previously scattered across Maps in McpContext.
+ *
+ * Internal class consumed only by McpContext. Fields are public for direct
+ * read/write access. The dialog field is private because it requires an
+ * event listener lifecycle managed by the constructor/dispose pair.
+ */
+export class McpPage implements ContextPage {
+  readonly pptrPage: Page;
+  readonly id: number;
 
-// Helper to convert Zod schema to JSON schema-like object for docs
-function getZodTypeInfo(schema: ZodSchema): TypeInfo {
-  let description = schema.description;
-  let def = schema._def;
-  let defaultValue: unknown;
+  // Snapshot
+  textSnapshot: TextSnapshot | null = null;
+  uniqueBackendNodeIdToMcpId = new Map<string, string>();
 
-  // Unwrap optional/default/effects
-  while (
-    def.typeName === 'ZodOptional' ||
-    def.typeName === 'ZodDefault' ||
-    def.typeName === 'ZodEffects'
-  ) {
-    if (def.typeName === 'ZodDefault' && def.defaultValue) {
-      defaultValue = def.defaultValue();
-    }
-    const next = def.innerType || def.schema;
-    if (!next) {
-      break;
-    }
-    schema = next;
-    def = schema._def;
-    if (!description && schema.description) {
-      description = schema.description;
-    }
-  }
+  // Emulation
+  emulationSettings: EmulationSettings = {};
 
-  const result: TypeInfo = {type: 'unknown'};
-  if (description) {
-    result.description = description;
-  }
-  if (defaultValue !== undefined) {
+  // Metadata
+  isolatedContextName?: string;
+  devToolsPage?: Page;
+
+  // Dialog
+  #dialog?: Dialog;
+  #dialogHandler: (dialog: Dialog) => void;
+
+  inPageTools: ToolGroup<ToolDefinition> | undefined;
+
+  constructor(page: Page, id: number) {
+    this.pptrPage = page;
+    this.id = id;
+    this.#dialogHandler = (dialog: Dialog): void => {
+      this.#dialog = dialog;
 ```
 
-This function is important because it defines how Chrome DevTools MCP Tutorial: Browser Automation and Debugging for Coding Agents implements the patterns covered in this chapter.
+This class is important because it defines how Chrome DevTools MCP Tutorial: Browser Automation and Debugging for Coding Agents implements the patterns covered in this chapter.
 
-### `scripts/generate-docs.ts`
+### `src/McpPage.ts`
 
-The `isRequired` function in [`scripts/generate-docs.ts`](https://github.com/ChromeDevTools/chrome-devtools-mcp/blob/HEAD/scripts/generate-docs.ts) handles a key part of this chapter's functionality:
+The `McpPage` class in [`src/McpPage.ts`](https://github.com/ChromeDevTools/chrome-devtools-mcp/blob/HEAD/src/McpPage.ts) handles a key part of this chapter's functionality:
 
 ```ts
-}
+ * event listener lifecycle managed by the constructor/dispose pair.
+ */
+export class McpPage implements ContextPage {
+  readonly pptrPage: Page;
+  readonly id: number;
 
-function isRequired(schema: ZodSchema): boolean {
-  let def = schema._def;
-  while (def.typeName === 'ZodEffects') {
-    if (!def.schema) {
-      break;
-    }
-    schema = def.schema;
-    def = schema._def;
+  // Snapshot
+  textSnapshot: TextSnapshot | null = null;
+  uniqueBackendNodeIdToMcpId = new Map<string, string>();
+
+  // Emulation
+  emulationSettings: EmulationSettings = {};
+
+  // Metadata
+  isolatedContextName?: string;
+  devToolsPage?: Page;
+
+  // Dialog
+  #dialog?: Dialog;
+  #dialogHandler: (dialog: Dialog) => void;
+
+  inPageTools: ToolGroup<ToolDefinition> | undefined;
+
+  constructor(page: Page, id: number) {
+    this.pptrPage = page;
+    this.id = id;
+    this.#dialogHandler = (dialog: Dialog): void => {
+      this.#dialog = dialog;
+    };
+    page.on('dialog', this.#dialogHandler);
   }
-  return def.typeName !== 'ZodOptional' && def.typeName !== 'ZodDefault';
-}
 
-async function generateReference(
-  title: string,
-  outputPath: string,
-  toolsWithAnnotations: ToolWithAnnotations[],
-  categories: Record<string, ToolWithAnnotations[]>,
-  sortedCategories: string[],
-  serverArgs: string[],
-) {
-  console.log(`Found ${toolsWithAnnotations.length} tools`);
-
-  // Generate markdown documentation
-  let markdown = `<!-- AUTO GENERATED DO NOT EDIT - run 'npm run gen' to update-->
-
-# ${title} (~${(await measureServer(serverArgs)).tokenCount} cl100k_base tokens)
-
-`;
-  // Generate table of contents
-  for (const category of sortedCategories) {
 ```
 
-This function is important because it defines how Chrome DevTools MCP Tutorial: Browser Automation and Debugging for Coding Agents implements the patterns covered in this chapter.
-
-### `scripts/generate-docs.ts`
-
-The `generateReference` function in [`scripts/generate-docs.ts`](https://github.com/ChromeDevTools/chrome-devtools-mcp/blob/HEAD/scripts/generate-docs.ts) handles a key part of this chapter's functionality:
-
-```ts
-}
-
-async function generateReference(
-  title: string,
-  outputPath: string,
-  toolsWithAnnotations: ToolWithAnnotations[],
-  categories: Record<string, ToolWithAnnotations[]>,
-  sortedCategories: string[],
-  serverArgs: string[],
-) {
-  console.log(`Found ${toolsWithAnnotations.length} tools`);
-
-  // Generate markdown documentation
-  let markdown = `<!-- AUTO GENERATED DO NOT EDIT - run 'npm run gen' to update-->
-
-# ${title} (~${(await measureServer(serverArgs)).tokenCount} cl100k_base tokens)
-
-`;
-  // Generate table of contents
-  for (const category of sortedCategories) {
-    const categoryTools = categories[category];
-    const categoryName = labels[category];
-    const anchorName = categoryName.toLowerCase().replace(/\s+/g, '-');
-    markdown += `- **[${categoryName}](#${anchorName})** (${categoryTools.length} tools)\n`;
-
-    // Sort tools within category for TOC
-    categoryTools.sort((a: Tool, b: Tool) => a.name.localeCompare(b.name));
-    for (const tool of categoryTools) {
-      // Generate proper markdown anchor link: backticks are removed, keep underscores, lowercase
-      const anchorLink = tool.name.toLowerCase();
-      markdown += `  - [\`${tool.name}\`](#${anchorLink})\n`;
-    }
-```
-
-This function is important because it defines how Chrome DevTools MCP Tutorial: Browser Automation and Debugging for Coding Agents implements the patterns covered in this chapter.
+This class is important because it defines how Chrome DevTools MCP Tutorial: Browser Automation and Debugging for Coding Agents implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[updateReadmeWithOptionsMarkdown]
-    B[getZodTypeInfo]
-    C[isRequired]
-    D[generateReference]
-    E[getToolsAndCategories]
+    A[ensureBrowserLaunched]
+    B[McpLaunchOptions]
+    C[consumed]
+    D[McpPage]
+    E[loadScenario]
     A --> B
     B --> C
     C --> D

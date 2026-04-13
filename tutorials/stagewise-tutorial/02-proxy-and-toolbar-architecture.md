@@ -55,186 +55,24 @@ You now understand how Stagewise integrates without replacing your existing dev 
 
 Next: [Chapter 3: Bridge Mode and Multi-Agent Integrations](03-bridge-mode-and-multi-agent-integrations.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `scripts/release/generate-changelog.ts`
+Use the following upstream sources to verify proxy and toolbar architecture details while reading this chapter:
 
-The `detectPromotion` function in [`scripts/release/generate-changelog.ts`](https://github.com/stagewise-io/stagewise/blob/HEAD/scripts/release/generate-changelog.ts) handles a key part of this chapter's functionality:
+- [`toolbars/stagewise-toolbar/src/`](https://github.com/stagewise-io/stagewise/blob/HEAD/toolbars/stagewise-toolbar/src/) — the main toolbar package that gets injected into the running frontend browser session, providing the UI for element selection and prompt submission.
+- [`apps/stagewise/src/proxy/`](https://github.com/stagewise-io/stagewise/blob/HEAD/apps/stagewise/src/) — the proxy server that intercepts dev server requests, injects the toolbar script into HTML responses, and routes messages between the browser toolbar and the agent.
 
-```ts
- * Detect if version is a channel promotion (e.g., alpha→beta or prerelease→release)
- */
-function detectPromotion(version: string): {
-  isPromotion: boolean;
-  fromChannel: string | null;
-  toChannel: string;
-} {
-  const parsed = parseVersion(version);
-
-  // Determine the target channel from the version
-  let toChannel: string;
-  if (parsed.prerelease === 'alpha') {
-    toChannel = 'alpha';
-  } else if (parsed.prerelease === 'beta') {
-    toChannel = 'beta';
-  } else {
-    toChannel = 'release';
-  }
-
-  // For promotions, the previous channel is indicated by the prereleaseNum being 1
-  // (first of a new channel series)
-  const isFirstOfChannel = parsed.prereleaseNum === 1;
-
-  return {
-    isPromotion: isFirstOfChannel && toChannel !== 'alpha',
-    fromChannel:
-      isFirstOfChannel && toChannel === 'beta'
-        ? 'alpha'
-        : isFirstOfChannel && toChannel === 'release'
-          ? 'prerelease'
-          : null,
-    toChannel,
-```
-
-This function is important because it defines how Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context implements the patterns covered in this chapter.
-
-### `scripts/release/generate-changelog.ts`
-
-The `generateChangelogMarkdown` function in [`scripts/release/generate-changelog.ts`](https://github.com/stagewise-io/stagewise/blob/HEAD/scripts/release/generate-changelog.ts) handles a key part of this chapter's functionality:
-
-```ts
- * Generate the changelog markdown for a new version
- */
-export function generateChangelogMarkdown(
-  version: string,
-  commits: ConventionalCommit[],
-  date: Date = new Date(),
-  customNotes: string | null = null,
-): string {
-  const dateStr = date.toISOString().split('T')[0];
-  const { features, fixes, breaking, other } = groupCommitsByType(commits);
-
-  let markdown = `## ${version} (${dateStr})\n\n`;
-
-  // Add custom release notes at the top if provided
-  if (customNotes) {
-    markdown += `${customNotes}\n\n`;
-  }
-
-  // Handle case when there are no commits (channel promotion)
-  if (commits.length === 0) {
-    const promotion = detectPromotion(version);
-    if (promotion.isPromotion && promotion.fromChannel) {
-      markdown += `Promoted from ${promotion.fromChannel} to ${promotion.toChannel}.\n\n`;
-    } else {
-      markdown += `No changes in this release.\n\n`;
-    }
-    return markdown;
-  }
-
-  // Breaking changes section
-  if (breaking.length > 0) {
-    markdown += `### Breaking Changes\n\n`;
-```
-
-This function is important because it defines how Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context implements the patterns covered in this chapter.
-
-### `scripts/release/generate-changelog.ts`
-
-The `readExistingChangelog` function in [`scripts/release/generate-changelog.ts`](https://github.com/stagewise-io/stagewise/blob/HEAD/scripts/release/generate-changelog.ts) handles a key part of this chapter's functionality:
-
-```ts
- * Read existing changelog or return header
- */
-async function readExistingChangelog(changelogPath: string): Promise<string> {
-  if (existsSync(changelogPath)) {
-    return await readFile(changelogPath, 'utf-8');
-  }
-  return '';
-}
-
-/**
- * Prepend new changelog entry to existing changelog
- */
-export async function prependToChangelog(
-  packageConfig: PackageConfig,
-  newEntry: string,
-): Promise<void> {
-  const repoRoot = await getRepoRoot();
-  const packageDir = path.dirname(path.join(repoRoot, packageConfig.path));
-  const changelogPath = path.join(packageDir, 'CHANGELOG.md');
-
-  const existing = await readExistingChangelog(changelogPath);
-
-  // Check if changelog has a header
-  const hasHeader = existing.startsWith('# Changelog');
-
-  let newContent: string;
-  if (hasHeader) {
-    // Insert after the header line
-    const headerEnd = existing.indexOf('\n\n');
-    if (headerEnd !== -1) {
-      newContent =
-        existing.slice(0, headerEnd + 2) +
-```
-
-This function is important because it defines how Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context implements the patterns covered in this chapter.
-
-### `scripts/release/generate-changelog.ts`
-
-The `prependToChangelog` function in [`scripts/release/generate-changelog.ts`](https://github.com/stagewise-io/stagewise/blob/HEAD/scripts/release/generate-changelog.ts) handles a key part of this chapter's functionality:
-
-```ts
- * Prepend new changelog entry to existing changelog
- */
-export async function prependToChangelog(
-  packageConfig: PackageConfig,
-  newEntry: string,
-): Promise<void> {
-  const repoRoot = await getRepoRoot();
-  const packageDir = path.dirname(path.join(repoRoot, packageConfig.path));
-  const changelogPath = path.join(packageDir, 'CHANGELOG.md');
-
-  const existing = await readExistingChangelog(changelogPath);
-
-  // Check if changelog has a header
-  const hasHeader = existing.startsWith('# Changelog');
-
-  let newContent: string;
-  if (hasHeader) {
-    // Insert after the header line
-    const headerEnd = existing.indexOf('\n\n');
-    if (headerEnd !== -1) {
-      newContent =
-        existing.slice(0, headerEnd + 2) +
-        newEntry +
-        existing.slice(headerEnd + 2);
-    } else {
-      newContent = `${existing}\n\n${newEntry}`;
-    }
-  } else if (existing) {
-    // No header, just prepend
-    newContent = newEntry + existing;
-  } else {
-    // Empty file, create with header
-```
-
-This function is important because it defines how Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context implements the patterns covered in this chapter.
-
+Suggested trace strategy:
+- browse the toolbar `src/` directory to find the component that handles DOM element selection and context capture
+- trace the proxy server entry to see how HTML injection and WebSocket message routing are implemented
+- review `apps/stagewise/src/ipc/` for the inter-process channel that connects the proxy to the Cursor/Copilot agent bridge
 
 ## How These Components Connect
 
 ```mermaid
-flowchart TD
-    A[detectPromotion]
-    B[generateChangelogMarkdown]
-    C[readExistingChangelog]
-    D[prependToChangelog]
-    E[consolidatePrereleaseEntries]
-    A --> B
-    B --> C
-    C --> D
-    D --> E
+flowchart LR
+    A[Dev server HTML response] --> B[Proxy injects toolbar script]
+    B --> C[Browser renders toolbar UI]
+    C --> D[User selects DOM element]
+    D --> E[Context and prompt sent to agent]
 ```

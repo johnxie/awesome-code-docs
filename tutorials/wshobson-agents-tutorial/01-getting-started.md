@@ -57,98 +57,24 @@ You now have a working baseline installation and first command surface.
 
 Next: [Chapter 2: Marketplace Architecture and Plugin Structure](02-marketplace-architecture-and-plugin-structure.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `tools/yt-design-extractor.py`
+> **Note:** `wshobson/agents` is a collection of Claude Code plugin definitions (YAML/Markdown), not a traditional compiled library. The "source code" is the plugin manifest and prompt files themselves. The relevant files for this chapter are the plugin installation interface and marketplace metadata.
 
-The `extract_video_id` function in [`tools/yt-design-extractor.py`](https://github.com/wshobson/agents/blob/HEAD/tools/yt-design-extractor.py) handles a key part of this chapter's functionality:
+### `.claude-plugin/marketplace.json`
 
-```py
+The marketplace metadata file at [`/.claude-plugin/marketplace.json`](https://github.com/wshobson/agents/blob/main/.claude-plugin/marketplace.json) defines the plugin catalog that `/plugin marketplace add wshobson/agents` installs. It lists available plugins, their categories, and discovery metadata — this is the entry point for the Getting Started workflow.
 
+### `README.md` Quick Start section
 
-def extract_video_id(url: str) -> str:
-    """Pull the 11-char video ID out of any common YouTube URL format."""
-    patterns = [
-        r"(?:v=|/v/|youtu\.be/)([a-zA-Z0-9_-]{11})",
-        r"(?:embed/)([a-zA-Z0-9_-]{11})",
-        r"(?:shorts/)([a-zA-Z0-9_-]{11})",
-    ]
-    for pat in patterns:
-        m = re.search(pat, url)
-        if m:
-            return m.group(1)
-    # Maybe the user passed a bare ID
-    if re.match(r"^[a-zA-Z0-9_-]{11}$", url):
-        return url
-    sys.exit(f"Could not extract video ID from: {url}")
-
-
-def get_video_metadata(url: str) -> dict:
-    """Use yt-dlp to pull title, description, chapters, duration, etc."""
-    cmd = [
-        "yt-dlp",
-        "--dump-json",
-        "--no-download",
-        "--no-playlist",
-        url,
-    ]
-    print("[*] Fetching video metadata …")
-    try:
-        result = subprocess.run(cmd, capture_output=True, text=True, timeout=120)
-    except subprocess.TimeoutExpired:
-```
-
-This function is important because it defines how Wshobson Agents Tutorial: Pluginized Multi-Agent Workflows for Claude Code implements the patterns covered in this chapter.
-
-### `tools/yt-design-extractor.py`
-
-The `get_video_metadata` function in [`tools/yt-design-extractor.py`](https://github.com/wshobson/agents/blob/HEAD/tools/yt-design-extractor.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-def get_video_metadata(url: str) -> dict:
-    """Use yt-dlp to pull title, description, chapters, duration, etc."""
-    cmd = [
-        "yt-dlp",
-        "--dump-json",
-        "--no-download",
-        "--no-playlist",
-        url,
-    ]
-    print("[*] Fetching video metadata …")
-    try:
-        result = subprocess.run(cmd, capture_output=True, text=True, timeout=120)
-    except subprocess.TimeoutExpired:
-        sys.exit("yt-dlp metadata fetch timed out after 120s.")
-    if result.returncode != 0:
-        sys.exit(f"yt-dlp metadata failed:\n{result.stderr}")
-    try:
-        return json.loads(result.stdout)
-    except json.JSONDecodeError as e:
-        sys.exit(
-            f"yt-dlp returned invalid JSON: {e}\nFirst 200 chars: {result.stdout[:200]}"
-        )
-
-
-def get_transcript(video_id: str) -> list[dict] | None:
-    """Grab the transcript via youtube-transcript-api. Returns list of
-    {text, start, duration} dicts, or None if unavailable."""
-    try:
-        from youtube_transcript_api import YouTubeTranscriptApi
-        from youtube_transcript_api._errors import (
-```
-
-This function is important because it defines how Wshobson Agents Tutorial: Pluginized Multi-Agent Workflows for Claude Code implements the patterns covered in this chapter.
-
+The [Quick Start section of the README](https://github.com/wshobson/agents/blob/main/README.md#quick-start) documents the exact `/plugin` commands used in this chapter and explains the intended first-session operating pattern.
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[extract_video_id]
-    B[get_video_metadata]
-    A --> B
+    A[marketplace.json] -->|defines| B[plugin catalog]
+    B -->|/plugin marketplace add| C[Claude Code plugin install]
+    C -->|/plugin install python-development| D[plugin activated]
+    D --> E[slash commands available]
 ```

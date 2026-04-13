@@ -87,88 +87,86 @@ Suggested trace strategy:
 - [Main Catalog](../../README.md#-tutorial-catalog)
 - [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `autonomous-coding/security.py`
+### `autonomous-coding/agent.py`
 
-The `get_command_for_validation` function in [`autonomous-coding/security.py`](https://github.com/anthropics/anthropic-quickstarts/blob/HEAD/autonomous-coding/security.py) handles a key part of this chapter's functionality:
+The `run_autonomous_agent` function in [`autonomous-coding/agent.py`](https://github.com/anthropics/anthropic-quickstarts/blob/HEAD/autonomous-coding/agent.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def get_command_for_validation(cmd: str, segments: list[str]) -> str:
+async def run_autonomous_agent(
+    project_dir: Path,
+    model: str,
+    max_iterations: Optional[int] = None,
+) -> None:
     """
-    Find the specific command segment that contains the given command.
+    Run the autonomous agent loop.
 
     Args:
-        cmd: The command name to find
-        segments: List of command segments
-
-    Returns:
-        The segment containing the command, or empty string if not found
+        project_dir: Directory for the project
+        model: Claude model to use
+        max_iterations: Maximum number of iterations (None for unlimited)
     """
-    for segment in segments:
-        segment_commands = extract_commands(segment)
-        if cmd in segment_commands:
-            return segment
-    return ""
+    print("\n" + "=" * 70)
+    print("  AUTONOMOUS CODING AGENT DEMO")
+    print("=" * 70)
+    print(f"\nProject directory: {project_dir}")
+    print(f"Model: {model}")
+    if max_iterations:
+        print(f"Max iterations: {max_iterations}")
+    else:
+        print("Max iterations: Unlimited (will run until completion)")
+    print()
 
+    # Create project directory
+    project_dir.mkdir(parents=True, exist_ok=True)
 
-async def bash_security_hook(input_data, tool_use_id=None, context=None):
-    """
-    Pre-tool-use hook that validates bash commands using an allowlist.
-
-    Only commands in ALLOWED_COMMANDS are permitted.
-
-    Args:
-        input_data: Dict containing tool_name and tool_input
-        tool_use_id: Optional tool use ID
-        context: Optional context
-
-    Returns:
+    # Check if this is a fresh start or continuation
+    tests_file = project_dir / "feature_list.json"
+    is_first_run = not tests_file.exists()
 ```
 
 This function is important because it defines how Claude Quickstarts Tutorial: Production Integration Patterns implements the patterns covered in this chapter.
 
-### `autonomous-coding/security.py`
+### `autonomous-coding/client.py`
 
-The `bash_security_hook` function in [`autonomous-coding/security.py`](https://github.com/anthropics/anthropic-quickstarts/blob/HEAD/autonomous-coding/security.py) handles a key part of this chapter's functionality:
+The `create_client` function in [`autonomous-coding/client.py`](https://github.com/anthropics/anthropic-quickstarts/blob/HEAD/autonomous-coding/client.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-async def bash_security_hook(input_data, tool_use_id=None, context=None):
+def create_client(project_dir: Path, model: str) -> ClaudeSDKClient:
     """
-    Pre-tool-use hook that validates bash commands using an allowlist.
-
-    Only commands in ALLOWED_COMMANDS are permitted.
+    Create a Claude Agent SDK client with multi-layered security.
 
     Args:
-        input_data: Dict containing tool_name and tool_input
-        tool_use_id: Optional tool use ID
-        context: Optional context
+        project_dir: Directory for the project
+        model: Claude model to use
 
     Returns:
-        Empty dict to allow, or {"decision": "block", "reason": "..."} to block
+        Configured ClaudeSDKClient
+
+    Security layers (defense in depth):
+    1. Sandbox - OS-level bash command isolation prevents filesystem escape
+    2. Permissions - File operations restricted to project_dir only
+    3. Security hooks - Bash commands validated against an allowlist
+       (see security.py for ALLOWED_COMMANDS)
     """
-    if input_data.get("tool_name") != "Bash":
-        return {}
+    api_key = os.environ.get("ANTHROPIC_API_KEY")
+    if not api_key:
+        raise ValueError(
+            "ANTHROPIC_API_KEY environment variable not set.\n"
+            "Get your API key from: https://console.anthropic.com/"
+        )
 
-    command = input_data.get("tool_input", {}).get("command", "")
-    if not command:
-        return {}
-
-    # Extract all commands from the command string
-    commands = extract_commands(command)
-
-    if not commands:
-        # Could not parse - fail safe by blocking
-        return {
-            "decision": "block",
-            "reason": f"Could not parse command for security validation: {command}",
-        }
+    # Create comprehensive security settings
+    # Note: Using relative paths ("./**") restricts access to project directory
+    # since cwd is set to project_dir
+    security_settings = {
+        "sandbox": {"enabled": True, "autoAllowBashIfSandboxed": True},
+        "permissions": {
 ```
 
 This function is important because it defines how Claude Quickstarts Tutorial: Production Integration Patterns implements the patterns covered in this chapter.
@@ -178,7 +176,7 @@ This function is important because it defines how Claude Quickstarts Tutorial: P
 
 ```mermaid
 flowchart TD
-    A[get_command_for_validation]
-    B[bash_security_hook]
+    A[run_autonomous_agent]
+    B[create_client]
     A --> B
 ```

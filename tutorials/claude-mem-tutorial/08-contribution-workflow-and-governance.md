@@ -51,95 +51,11 @@ Next steps:
 - pilot progressive-disclosure search patterns in daily work
 - contribute one reliability improvement with tests and documentation
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `scripts/transcript-to-markdown.ts`
+### `scripts/verify-timestamp-fix.ts`
 
-The `truncate` function in [`scripts/transcript-to-markdown.ts`](https://github.com/thedotmack/claude-mem/blob/HEAD/scripts/transcript-to-markdown.ts) handles a key part of this chapter's functionality:
-
-```ts
- * Truncate string to max length, adding ellipsis if needed
- */
-function truncate(str: string, maxLen: number = 500): string {
-  if (str.length <= maxLen) return str;
-  return str.substring(0, maxLen) + '\n... [truncated]';
-}
-
-/**
- * Format tool result content for display
- */
-function formatToolResult(result: ToolResultContent): string {
-  if (typeof result.content === 'string') {
-    // Try to parse as JSON for better formatting
-    try {
-      const parsed = JSON.parse(result.content);
-      return JSON.stringify(parsed, null, 2);
-    } catch {
-      return truncate(result.content);
-    }
-  }
-
-  if (Array.isArray(result.content)) {
-    // Handle array of content items - extract text and parse if JSON
-    const formatted = result.content.map((item: any) => {
-      if (item.type === 'text' && item.text) {
-        try {
-          const parsed = JSON.parse(item.text);
-          return JSON.stringify(parsed, null, 2);
-        } catch {
-          return item.text;
-        }
-      }
-```
-
-This function is important because it defines how Claude-Mem Tutorial: Persistent Memory Compression for Claude Code implements the patterns covered in this chapter.
-
-### `scripts/transcript-to-markdown.ts`
-
-The `formatToolResult` function in [`scripts/transcript-to-markdown.ts`](https://github.com/thedotmack/claude-mem/blob/HEAD/scripts/transcript-to-markdown.ts) handles a key part of this chapter's functionality:
-
-```ts
- * Format tool result content for display
- */
-function formatToolResult(result: ToolResultContent): string {
-  if (typeof result.content === 'string') {
-    // Try to parse as JSON for better formatting
-    try {
-      const parsed = JSON.parse(result.content);
-      return JSON.stringify(parsed, null, 2);
-    } catch {
-      return truncate(result.content);
-    }
-  }
-
-  if (Array.isArray(result.content)) {
-    // Handle array of content items - extract text and parse if JSON
-    const formatted = result.content.map((item: any) => {
-      if (item.type === 'text' && item.text) {
-        try {
-          const parsed = JSON.parse(item.text);
-          return JSON.stringify(parsed, null, 2);
-        } catch {
-          return item.text;
-        }
-      }
-      return JSON.stringify(item, null, 2);
-    }).join('\n\n');
-
-    return formatted;
-  }
-
-  return '[unknown result type]';
-}
-```
-
-This function is important because it defines how Claude-Mem Tutorial: Persistent Memory Compression for Claude Code implements the patterns covered in this chapter.
-
-### `scripts/fix-all-timestamps.ts`
-
-The `formatTimestamp` function in [`scripts/fix-all-timestamps.ts`](https://github.com/thedotmack/claude-mem/blob/HEAD/scripts/fix-all-timestamps.ts) handles a key part of this chapter's functionality:
+The `formatTimestamp` function in [`scripts/verify-timestamp-fix.ts`](https://github.com/thedotmack/claude-mem/blob/HEAD/scripts/verify-timestamp-fix.ts) handles a key part of this chapter's functionality:
 
 ```ts
 }
@@ -157,62 +73,144 @@ function formatTimestamp(epoch: number): string {
 }
 
 function main() {
-  const args = process.argv.slice(2);
-  const dryRun = args.includes('--dry-run');
-  const autoYes = args.includes('--yes') || args.includes('-y');
-
-  console.log('🔍 Finding ALL observations with timestamp corruption...\n');
-  if (dryRun) {
-    console.log('🏃 DRY RUN MODE - No changes will be made\n');
-  }
+  console.log('🔍 Verifying timestamp fix...\n');
 
   const db = new Database(DB_PATH);
 
   try {
-    // Find all observations where timestamp doesn't match session
-    const corrupted = db.query<CorruptedObservation, []>(`
-      SELECT
-        o.id as obs_id,
-        o.title as obs_title,
+    // Check 1: Observations still in bad window
+    console.log('Check 1: Looking for observations still in bad window (Dec 24 19:45-20:31)...');
+    const badWindowObs = db.query<Observation, []>(`
+      SELECT id, memory_session_id, created_at_epoch, created_at, title
+      FROM observations
+      WHERE created_at_epoch >= ${BAD_WINDOW_START}
+        AND created_at_epoch <= ${BAD_WINDOW_END}
+      ORDER BY id
+    `).all();
+
+    if (badWindowObs.length === 0) {
+      console.log('✅ No observations found in bad window - GOOD!\n');
 ```
 
 This function is important because it defines how Claude-Mem Tutorial: Persistent Memory Compression for Claude Code implements the patterns covered in this chapter.
 
-### `scripts/fix-all-timestamps.ts`
+### `scripts/verify-timestamp-fix.ts`
 
-The `main` function in [`scripts/fix-all-timestamps.ts`](https://github.com/thedotmack/claude-mem/blob/HEAD/scripts/fix-all-timestamps.ts) handles a key part of this chapter's functionality:
+The `main` function in [`scripts/verify-timestamp-fix.ts`](https://github.com/thedotmack/claude-mem/blob/HEAD/scripts/verify-timestamp-fix.ts) handles a key part of this chapter's functionality:
 
 ```ts
+ *
+ * This script verifies that the timestamp corruption has been properly fixed.
+ * It checks for any remaining observations in the bad window that shouldn't be there.
+ */
+
+import Database from 'bun:sqlite';
+import { resolve } from 'path';
+
+const DB_PATH = resolve(process.env.HOME!, '.claude-mem/claude-mem.db');
+
+// Bad window: Dec 24 19:45-20:31 (using actual epoch format from database)
+const BAD_WINDOW_START = 1766623500000; // Dec 24 19:45 PST
+const BAD_WINDOW_END = 1766626260000;   // Dec 24 20:31 PST
+
+// Original corruption window: Dec 16-22 (when sessions actually started)
+const ORIGINAL_WINDOW_START = 1765914000000; // Dec 16 00:00 PST
+const ORIGINAL_WINDOW_END = 1766613600000;   // Dec 23 23:59 PST
+
+interface Observation {
+  id: number;
+  memory_session_id: string;
+  created_at_epoch: number;
+  created_at: string;
+  title: string;
+}
+
+function formatTimestamp(epoch: number): string {
+  return new Date(epoch).toLocaleString('en-US', {
+    timeZone: 'America/Los_Angeles',
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+```
+
+This function is important because it defines how Claude-Mem Tutorial: Persistent Memory Compression for Claude Code implements the patterns covered in this chapter.
+
+### `scripts/verify-timestamp-fix.ts`
+
+The `Observation` interface in [`scripts/verify-timestamp-fix.ts`](https://github.com/thedotmack/claude-mem/blob/HEAD/scripts/verify-timestamp-fix.ts) handles a key part of this chapter's functionality:
+
+```ts
+const ORIGINAL_WINDOW_END = 1766613600000;   // Dec 23 23:59 PST
+
+interface Observation {
+  id: number;
+  memory_session_id: string;
+  created_at_epoch: number;
+  created_at: string;
+  title: string;
+}
+
+function formatTimestamp(epoch: number): string {
+  return new Date(epoch).toLocaleString('en-US', {
+    timeZone: 'America/Los_Angeles',
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit'
+  });
 }
 
 function main() {
-  const args = process.argv.slice(2);
-  const dryRun = args.includes('--dry-run');
-  const autoYes = args.includes('--yes') || args.includes('-y');
-
-  console.log('🔍 Finding ALL observations with timestamp corruption...\n');
-  if (dryRun) {
-    console.log('🏃 DRY RUN MODE - No changes will be made\n');
-  }
+  console.log('🔍 Verifying timestamp fix...\n');
 
   const db = new Database(DB_PATH);
 
   try {
-    // Find all observations where timestamp doesn't match session
-    const corrupted = db.query<CorruptedObservation, []>(`
+    // Check 1: Observations still in bad window
+    console.log('Check 1: Looking for observations still in bad window (Dec 24 19:45-20:31)...');
+    const badWindowObs = db.query<Observation, []>(`
+      SELECT id, memory_session_id, created_at_epoch, created_at, title
+```
+
+This interface is important because it defines how Claude-Mem Tutorial: Persistent Memory Compression for Claude Code implements the patterns covered in this chapter.
+
+### `scripts/validate-timestamp-logic.ts`
+
+The `formatTimestamp` function in [`scripts/validate-timestamp-logic.ts`](https://github.com/thedotmack/claude-mem/blob/HEAD/scripts/validate-timestamp-logic.ts) handles a key part of this chapter's functionality:
+
+```ts
+const DB_PATH = resolve(process.env.HOME!, '.claude-mem/claude-mem.db');
+
+function formatTimestamp(epoch: number): string {
+  return new Date(epoch).toLocaleString('en-US', {
+    timeZone: 'America/Los_Angeles',
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit'
+  });
+}
+
+function main() {
+  console.log('🔍 Validating timestamp logic for backlog processing...\n');
+
+  const db = new Database(DB_PATH);
+
+  try {
+    // Check for pending messages
+    const pendingStats = db.query(`
       SELECT
-        o.id as obs_id,
-        o.title as obs_title,
-        o.created_at_epoch as obs_created,
-        s.started_at_epoch as session_started,
-        s.completed_at_epoch as session_completed,
-        s.memory_session_id
-      FROM observations o
-      JOIN sdk_sessions s ON o.memory_session_id = s.memory_session_id
-      WHERE o.created_at_epoch < s.started_at_epoch  -- Observation older than session
-         OR (s.completed_at_epoch IS NOT NULL
-             AND o.created_at_epoch > (s.completed_at_epoch + 3600000))  -- More than 1hr after session
-      ORDER BY o.id
+        status,
+        COUNT(*) as count,
+        MIN(created_at_epoch) as earliest,
+        MAX(created_at_epoch) as latest
+      FROM pending_messages
+      GROUP BY status
+      ORDER BY status
     `).all();
 
 ```
@@ -224,11 +222,11 @@ This function is important because it defines how Claude-Mem Tutorial: Persisten
 
 ```mermaid
 flowchart TD
-    A[truncate]
-    B[formatToolResult]
-    C[formatTimestamp]
-    D[main]
-    E[applyFixes]
+    A[formatTimestamp]
+    B[main]
+    C[Observation]
+    D[formatTimestamp]
+    E[main]
     A --> B
     B --> C
     C --> D

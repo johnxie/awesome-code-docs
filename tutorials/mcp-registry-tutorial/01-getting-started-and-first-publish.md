@@ -55,8 +55,6 @@ You now have a working baseline for first publication.
 
 Next: [Chapter 2: Registry Architecture and Data Flow](02-registry-architecture-and-data-flow.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `deploy/main.go`
@@ -139,82 +137,84 @@ func createProvider(ctx *pulumi.Context) (providers.ClusterProvider, error) {
 
 This function is important because it defines how MCP Registry Tutorial: Publishing, Discovery, and Governance for MCP Servers implements the patterns covered in this chapter.
 
-### `cmd/publisher/main.go`
+### `internal/validators/schema.go`
 
-The `main` function in [`cmd/publisher/main.go`](https://github.com/modelcontextprotocol/registry/blob/HEAD/cmd/publisher/main.go) handles a key part of this chapter's functionality:
+The `extractVersionFromSchemaURL` function in [`internal/validators/schema.go`](https://github.com/modelcontextprotocol/registry/blob/HEAD/internal/validators/schema.go) handles a key part of this chapter's functionality:
 
 ```go
-package main
+var schemaFS embed.FS
 
-import (
-	"fmt"
-	"log"
-	"os"
-
-	"github.com/modelcontextprotocol/registry/cmd/publisher/commands"
-)
-
-// Version info for the MCP Publisher tool
-// These variables are injected at build time via ldflags by goreleaser
-var (
-	// Version is the current version of the MCP Publisher tool
-	Version = "dev"
-
-	// BuildTime is the time at which the binary was built
-	BuildTime = "unknown"
-
-	// GitCommit is the git commit that was compiled
-	GitCommit = "unknown"
-)
-
-func main() {
-	if len(os.Args) < 2 {
-		printUsage()
-		os.Exit(1)
+// extractVersionFromSchemaURL extracts the version identifier from a schema URL
+// e.g., "https://static.modelcontextprotocol.io/schemas/2025-10-17/server.schema.json" -> "2025-10-17"
+// e.g., "https://static.modelcontextprotocol.io/schemas/draft/server.schema.json" -> "draft"
+// Version identifier can contain: A-Z, a-z, 0-9, hyphen (-), underscore (_), tilde (~), and period (.)
+func extractVersionFromSchemaURL(schemaURL string) (string, error) {
+	// Pattern: /schemas/{identifier}/server.schema.json
+	// Identifier allowed characters: A-Z, a-z, 0-9, -, _, ~, .
+	re := regexp.MustCompile(`/schemas/([A-Za-z0-9_~.-]+)/server\.schema\.json`)
+	matches := re.FindStringSubmatch(schemaURL)
+	if len(matches) < 2 {
+		return "", fmt.Errorf("invalid schema URL format: %s", schemaURL)
 	}
+	return matches[1], nil
+}
 
-	// Check for help flag for subcommands
+// loadSchemaByVersion loads a schema file from the embedded filesystem by version
+func loadSchemaByVersion(version string) ([]byte, error) {
+	filename := fmt.Sprintf("schemas/%s.json", version)
+	data, err := schemaFS.ReadFile(filename)
+	if err != nil {
+		return nil, fmt.Errorf("schema version %s not found in embedded schemas: %w", version, err)
+	}
+	return data, nil
+}
+
+// GetCurrentSchemaVersion returns the current schema URL from constants
+func GetCurrentSchemaVersion() (string, error) {
+	return model.CurrentSchemaURL, nil
+}
+
 ```
 
 This function is important because it defines how MCP Registry Tutorial: Publishing, Discovery, and Governance for MCP Servers implements the patterns covered in this chapter.
 
-### `cmd/publisher/main.go`
+### `internal/validators/schema.go`
 
-The `printUsage` function in [`cmd/publisher/main.go`](https://github.com/modelcontextprotocol/registry/blob/HEAD/cmd/publisher/main.go) handles a key part of this chapter's functionality:
+The `loadSchemaByVersion` function in [`internal/validators/schema.go`](https://github.com/modelcontextprotocol/registry/blob/HEAD/internal/validators/schema.go) handles a key part of this chapter's functionality:
 
 ```go
-func main() {
-	if len(os.Args) < 2 {
-		printUsage()
-		os.Exit(1)
-	}
+}
 
-	// Check for help flag for subcommands
-	if len(os.Args) >= 3 && (os.Args[2] == "--help" || os.Args[2] == "-h") {
-		printCommandHelp(os.Args[1])
-		return
+// loadSchemaByVersion loads a schema file from the embedded filesystem by version
+func loadSchemaByVersion(version string) ([]byte, error) {
+	filename := fmt.Sprintf("schemas/%s.json", version)
+	data, err := schemaFS.ReadFile(filename)
+	if err != nil {
+		return nil, fmt.Errorf("schema version %s not found in embedded schemas: %w", version, err)
 	}
+	return data, nil
+}
 
-	var err error
-	switch os.Args[1] {
-	case "init":
-		err = commands.InitCommand()
-	case "login":
-		err = commands.LoginCommand(os.Args[2:])
-	case "logout":
-		err = commands.LogoutCommand()
-	case "publish":
-		err = commands.PublishCommand(os.Args[2:])
-	case "status":
-		err = commands.StatusCommand(os.Args[2:])
-	case "validate":
-		err = commands.ValidateCommand(os.Args[2:])
-	case "--version", "-v", "version":
-		log.Printf("mcp-publisher %s (commit: %s, built: %s)", Version, GitCommit, BuildTime)
-		return
-	case "--help", "-h", "help":
-		printUsage()
-	default:
+// GetCurrentSchemaVersion returns the current schema URL from constants
+func GetCurrentSchemaVersion() (string, error) {
+	return model.CurrentSchemaURL, nil
+}
+
+// validateServerJSONSchema validates the server JSON against the schema version specified in $schema using jsonschema
+// Empty/missing schema always produces an error.
+// If performValidation is true, performs full JSON Schema validation.
+// If performValidation is false, only checks for empty schema (always an error) and handles non-current schemas per policy.
+// nonCurrentPolicy determines how non-current (but valid) schema versions are handled when performValidation is true.
+func validateServerJSONSchema(serverJSON *apiv0.ServerJSON, performValidation bool, nonCurrentPolicy SchemaVersionPolicy) *ValidationResult {
+	result := &ValidationResult{Valid: true, Issues: []ValidationIssue{}}
+	ctx := &ValidationContext{}
+
+	// Empty/missing schema is always an error
+	if serverJSON.Schema == "" {
+		issue := NewValidationIssue(
+			ValidationIssueTypeSemantic,
+			ctx.Field("schema").String(),
+			"$schema field is required",
 ```
 
 This function is important because it defines how MCP Registry Tutorial: Publishing, Discovery, and Governance for MCP Servers implements the patterns covered in this chapter.
@@ -226,9 +226,9 @@ This function is important because it defines how MCP Registry Tutorial: Publish
 flowchart TD
     A[createProvider]
     B[main]
-    C[main]
-    D[printUsage]
-    E[printCommandHelp]
+    C[extractVersionFromSchemaURL]
+    D[loadSchemaByVersion]
+    E[GetCurrentSchemaVersion]
     A --> B
     B --> C
     C --> D

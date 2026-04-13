@@ -39,129 +39,86 @@ You now have a concrete pattern for securing C# MCP servers and clients with OAu
 
 Next: [Chapter 7: Diagnostics, Versioning, and Breaking-Change Management](07-diagnostics-versioning-and-breaking-change-management.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `src/ModelContextProtocol.Core/McpSession.Methods.cs`
+### `src/ModelContextProtocol.Core/NotificationHandlers.cs`
 
-The `McpSession` class in [`src/ModelContextProtocol.Core/McpSession.Methods.cs`](https://github.com/modelcontextprotocol/csharp-sdk/blob/HEAD/src/ModelContextProtocol.Core/McpSession.Methods.cs) handles a key part of this chapter's functionality:
-
-```cs
-namespace ModelContextProtocol;
-
-public abstract partial class McpSession : IAsyncDisposable
-{
-    /// <summary>
-    /// Sends a JSON-RPC request and attempts to deserialize the result to <typeparamref name="TResult"/>.
-    /// </summary>
-    /// <typeparam name="TParameters">The type of the request parameters to serialize from.</typeparam>
-    /// <typeparam name="TResult">The type of the result to deserialize to.</typeparam>
-    /// <param name="method">The JSON-RPC method name to invoke.</param>
-    /// <param name="parameters">The request parameters.</param>
-    /// <param name="requestId">The request ID for the request.</param>
-    /// <param name="serializerOptions">The options governing request serialization.</param>
-    /// <param name="cancellationToken">The <see cref="CancellationToken"/> to monitor for cancellation requests. The default is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A task that represents the asynchronous operation. The task result contains the deserialized result.</returns>
-    /// <exception cref="ArgumentNullException"><paramref name="method"/> is <see langword="null"/>.</exception>
-    /// <exception cref="ArgumentException"><paramref name="method"/> is empty or composed entirely of whitespace.</exception>
-    /// <exception cref="McpException">The request failed or the server returned an error response.</exception>
-    public ValueTask<TResult> SendRequestAsync<TParameters, TResult>(
-        string method,
-        TParameters parameters,
-        JsonSerializerOptions? serializerOptions = null,
-        RequestId requestId = default,
-        CancellationToken cancellationToken = default)
-        where TResult : notnull
-    {
-        serializerOptions ??= McpJsonUtilities.DefaultOptions;
-        serializerOptions.MakeReadOnly();
-
-        return SendRequestAsync(
-            method, 
-            parameters,
-```
-
-This class is important because it defines how MCP C# SDK Tutorial: Production MCP in .NET with Hosting, ASP.NET Core, and Task Workflows implements the patterns covered in this chapter.
-
-### `src/ModelContextProtocol.Core/McpJsonUtilities.cs`
-
-The `McpJsonUtilities` class in [`src/ModelContextProtocol.Core/McpJsonUtilities.cs`](https://github.com/modelcontextprotocol/csharp-sdk/blob/HEAD/src/ModelContextProtocol.Core/McpJsonUtilities.cs) handles a key part of this chapter's functionality:
+The `Registration` class in [`src/ModelContextProtocol.Core/NotificationHandlers.cs`](https://github.com/modelcontextprotocol/csharp-sdk/blob/HEAD/src/ModelContextProtocol.Core/NotificationHandlers.cs) handles a key part of this chapter's functionality:
 
 ```cs
-
-/// <summary>Provides a collection of utility methods for working with JSON data in the context of MCP.</summary>
-public static partial class McpJsonUtilities
 {
+    /// <summary>A dictionary of linked lists of registrations, indexed by the notification method.</summary>
+    private readonly Dictionary<string, Registration> _handlers = [];
+
+    /// <summary>Gets the object to be used for all synchronization.</summary>
+    private object SyncObj => _handlers;
+
     /// <summary>
-    /// Gets the <see cref="JsonSerializerOptions"/> singleton used as the default in JSON serialization operations.
+    /// Registers a collection of notification handlers at once.
     /// </summary>
+    /// <param name="handlers">
+    /// A collection of notification method names paired with their corresponding handler functions.
+    /// Each key in the collection is a notification method name, and each value is a handler function
+    /// that will be invoked when a notification with that method name is received.
+    /// </param>
     /// <remarks>
     /// <para>
-    /// For Native AOT or applications disabling <see cref="JsonSerializer.IsReflectionEnabledByDefault"/>, this instance
-    /// includes source generated contracts for all common exchange types contained in the ModelContextProtocol library.
+    /// This method is typically used during client or server initialization to register
+    /// all notification handlers provided in capabilities.
     /// </para>
     /// <para>
-    /// It additionally turns on the following settings:
-    /// <list type="number">
-    /// <item>Enables <see cref="JsonSerializerDefaults.Web"/> defaults.</item>
-    /// <item>Enables <see cref="JsonIgnoreCondition.WhenWritingNull"/> as the default ignore condition for properties.</item>
-    /// <item>Enables <see cref="JsonNumberHandling.AllowReadingFromString"/> as the default number handling for number types.</item>
-    /// </list>
+    /// Registrations completed with this method are permanent and non-removable.
+    /// This differs from handlers registered with <see cref="Register"/> which can be temporary.
     /// </para>
-    /// </remarks>
-    public static JsonSerializerOptions DefaultOptions { get; } = CreateDefaultOptions();
-
-    /// <summary>
-    /// Creates default options to use for MCP-related serialization.
-    /// </summary>
-    /// <returns>The configured options.</returns>
-    [UnconditionalSuppressMessage("ReflectionAnalysis", "IL3050:RequiresDynamicCode", Justification = "Converter is guarded by IsReflectionEnabledByDefault check.")]
-    [UnconditionalSuppressMessage("Trimming", "IL2026:Members annotated with 'RequiresUnreferencedCodeAttribute' require dynamic access", Justification = "Converter is guarded by IsReflectionEnabledByDefault check.")]
-    private static JsonSerializerOptions CreateDefaultOptions()
-    {
-        // Copy the configuration from the source generated context.
+    /// <para>
+    /// When multiple handlers are registered for the same method, all handlers will be invoked
+    /// in reverse order of registration (newest first) when a notification is received.
+    /// </para>
+    /// <para>
+    /// The registered handlers will be invoked by <see cref="InvokeHandlers"/> when a notification
+    /// with the corresponding method name is received.
+    /// </para>
 ```
 
 This class is important because it defines how MCP C# SDK Tutorial: Production MCP in .NET with Hosting, ASP.NET Core, and Task Workflows implements the patterns covered in this chapter.
 
-### `src/ModelContextProtocol.Core/McpJsonUtilities.cs`
+### `src/ModelContextProtocol.AspNetCore/HttpServerTransportOptions.cs`
 
-The `JsonContext` class in [`src/ModelContextProtocol.Core/McpJsonUtilities.cs`](https://github.com/modelcontextprotocol/csharp-sdk/blob/HEAD/src/ModelContextProtocol.Core/McpJsonUtilities.cs) handles a key part of this chapter's functionality:
+The `HttpServerTransportOptions` class in [`src/ModelContextProtocol.AspNetCore/HttpServerTransportOptions.cs`](https://github.com/modelcontextprotocol/csharp-sdk/blob/HEAD/src/ModelContextProtocol.AspNetCore/HttpServerTransportOptions.cs) handles a key part of this chapter's functionality:
 
 ```cs
-    {
-        // Copy the configuration from the source generated context.
-        JsonSerializerOptions options = new(JsonContext.Default.Options);
+/// For details on the Streamable HTTP transport, see the <see href="https://modelcontextprotocol.io/specification/2025-11-25/basic/transports#streamable-http">protocol specification</see>.
+/// </remarks>
+public class HttpServerTransportOptions
+{
+    /// <summary>
+    /// Gets or sets an optional asynchronous callback to configure per-session <see cref="McpServerOptions"/>
+    /// with access to the <see cref="HttpContext"/> of the request that initiated the session.
+    /// </summary>
+    /// <remarks>
+    /// In stateful mode (the default), this callback is invoked once per session when the client sends the
+    /// <c>initialize</c> request. In <see cref="Stateless"/> mode, it is invoked on <b>every HTTP request</b>
+    /// because each request creates a fresh server context.
+    /// </remarks>
+    public Func<HttpContext, McpServerOptions, CancellationToken, Task>? ConfigureSessionOptions { get; set; }
 
-        // Chain with all supported types from MEAI.
-        options.TypeInfoResolverChain.Add(AIJsonUtilities.DefaultOptions.TypeInfoResolver!);
-
-        // Add a converter for user-defined enums, if reflection is enabled by default.
-        if (JsonSerializer.IsReflectionEnabledByDefault)
-        {
-            options.Converters.Add(new JsonStringEnumConverter());
-        }
-
-        options.MakeReadOnly();
-        return options;
-    }
-
-    internal static JsonTypeInfo<T> GetTypeInfo<T>(this JsonSerializerOptions options) =>
-        (JsonTypeInfo<T>)options.GetTypeInfo(typeof(T));
-
-    internal static JsonElement DefaultMcpToolSchema { get; } = ParseJsonElement("""{"type":"object"}"""u8);
-    internal static object? AsObject(this JsonElement element) => element.ValueKind is JsonValueKind.Null ? null : element;
-
-    internal static bool IsValidMcpToolSchema(JsonElement element)
-    {
-        if (element.ValueKind is not JsonValueKind.Object)
-        {
-            return false;
-        }
-
-        foreach (JsonProperty property in element.EnumerateObject())
-        {
+    /// <summary>
+    /// Gets or sets an optional asynchronous callback for running new MCP sessions manually.
+    /// </summary>
+    /// <remarks>
+    /// This callback is useful for running logic before a session starts and after it completes.
+    /// <para>
+    /// The <see cref="HttpContext"/> parameter comes from the request that initiated the session (e.g., the
+    /// initialize request) and may not be usable after <see cref="McpServer.RunAsync"/> starts, since that
+    /// request will have already completed.
+    /// </para>
+    /// <para>
+    /// Consider using <see cref="ConfigureSessionOptions"/> instead, which provides access to the
+    /// <see cref="HttpContext"/> of the initializing request with fewer known issues.
+    /// </para>
+    /// <para>
+    /// This API is experimental and may be removed or change signatures in a future release.
+    /// </para>
 ```
 
 This class is important because it defines how MCP C# SDK Tutorial: Production MCP in .NET with Hosting, ASP.NET Core, and Task Workflows implements the patterns covered in this chapter.
@@ -207,15 +164,56 @@ internal sealed partial class StatefulSessionManager(
 
 This class is important because it defines how MCP C# SDK Tutorial: Production MCP in .NET with Hosting, ASP.NET Core, and Task Workflows implements the patterns covered in this chapter.
 
+### `src/ModelContextProtocol.Analyzers/CS1066Suppressor.cs`
+
+The `CS1066Suppressor` class in [`src/ModelContextProtocol.Analyzers/CS1066Suppressor.cs`](https://github.com/modelcontextprotocol/csharp-sdk/blob/HEAD/src/ModelContextProtocol.Analyzers/CS1066Suppressor.cs) handles a key part of this chapter's functionality:
+
+```cs
+/// </remarks>
+[DiagnosticAnalyzer(LanguageNames.CSharp)]
+public sealed class CS1066Suppressor : DiagnosticSuppressor
+{
+    private static readonly SuppressionDescriptor McpToolSuppression = new(
+        id: "MCP_CS1066_TOOL",
+        suppressedDiagnosticId: "CS1066",
+        justification: "Default values on MCP tool method implementing declarations are copied to the generated defining declaration by the source generator.");
+
+    private static readonly SuppressionDescriptor McpPromptSuppression = new(
+        id: "MCP_CS1066_PROMPT",
+        suppressedDiagnosticId: "CS1066",
+        justification: "Default values on MCP prompt method implementing declarations are copied to the generated defining declaration by the source generator.");
+
+    private static readonly SuppressionDescriptor McpResourceSuppression = new(
+        id: "MCP_CS1066_RESOURCE",
+        suppressedDiagnosticId: "CS1066",
+        justification: "Default values on MCP resource method implementing declarations are copied to the generated defining declaration by the source generator.");
+
+    /// <inheritdoc/>
+    public override ImmutableArray<SuppressionDescriptor> SupportedSuppressions =>
+        ImmutableArray.Create(McpToolSuppression, McpPromptSuppression, McpResourceSuppression);
+
+    /// <inheritdoc/>
+    public override void ReportSuppressions(SuppressionAnalysisContext context)
+    {
+        // Cache semantic models and attribute symbols per syntax tree/compilation to avoid redundant calls
+        Dictionary<SyntaxTree, SemanticModel>? semanticModelCache = null;
+        INamedTypeSymbol? mcpToolAttribute = null;
+        INamedTypeSymbol? mcpPromptAttribute = null;
+        INamedTypeSymbol? mcpResourceAttribute = null;
+        bool attributesResolved = false;
+```
+
+This class is important because it defines how MCP C# SDK Tutorial: Production MCP in .NET with Hosting, ASP.NET Core, and Task Workflows implements the patterns covered in this chapter.
+
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[McpSession]
-    B[McpJsonUtilities]
-    C[JsonContext]
-    D[StatefulSessionManager]
+    A[Registration]
+    B[HttpServerTransportOptions]
+    C[StatefulSessionManager]
+    D[CS1066Suppressor]
     A --> B
     B --> C
     C --> D

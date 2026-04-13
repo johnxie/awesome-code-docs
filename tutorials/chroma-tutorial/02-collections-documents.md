@@ -12,6 +12,19 @@ Welcome to **Chapter 2: Collections & Documents**. In this part of **ChromaDB Tu
 
 Welcome back! Now that you understand Chroma's basics, let's dive deeper into managing collections and documents. Collections are the core organizational unit in Chroma, and understanding how to work with them effectively is crucial for building robust AI applications.
 
+## Collection Data Model
+
+```mermaid
+graph TD
+    Client["chromadb.Client\n(tenant + database)"] --> Col["Collection\n(name + metadata + EF)"]
+    Col --> Doc["Documents\n(text strings)"]
+    Col --> Emb["Embeddings\n(float vectors)"]
+    Col --> Meta["Metadatas\n(dict per item)"]
+    Col --> IDs["IDs\n(unique strings)"]
+    EF["EmbeddingFunction\n(default: all-MiniLM)"] --> Emb
+    Col --> HNSW["HNSW Index\n(similarity search)"]
+```
+
 ## Collection Architecture
 
 ### Understanding Collections
@@ -557,16 +570,29 @@ Under the hood, `Chapter 2: Collections & Documents` usually follows a repeatabl
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
-## Source Walkthrough
+## Source Code Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+### `chromadb/api/types.py`
 
-- [View Repo](https://github.com/chroma-core/chroma)
-  Why it matters: authoritative reference on `View Repo` (github.com).
+The `EmbeddingFunction` protocol and `QueryResult` type in [`chromadb/api/types.py`](https://github.com/chroma-core/chroma/blob/main/chromadb/api/types.py) define the interface contract for collections. The `Include` type controls which fields are returned in query results:
 
-Suggested trace strategy:
-- search upstream code for `collection` and `documents` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+```python
+from chromadb.api.types import (
+    CollectionMetadata,
+    Documents,
+    Embeddings,
+    EmbeddingFunction,
+    GetResult,
+    IDs,
+    Include,
+    Metadatas,
+    QueryResult,
+    IncludeMetadataDocuments,
+    IncludeMetadataDocumentsDistances,
+)
+```
+
+Collection operations (`add`, `get`, `query`, `update`, `upsert`, `delete`) are defined in `chromadb/api/__init__.py` as abstract methods on `ServerAPI`, then implemented in `chromadb/api/segment.py` for the embedded backend.
 
 ## Chapter Connections
 

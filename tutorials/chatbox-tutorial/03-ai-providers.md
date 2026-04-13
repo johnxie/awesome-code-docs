@@ -12,6 +12,18 @@ Welcome to **Chapter 3: AI Provider Integration**. In this part of **Chatbox Tut
 
 This chapter covers integrating multiple AI providers and managing different language models in chat applications.
 
+## Provider Registration Flow
+
+```mermaid
+graph LR
+    Def["defineProvider(input)"] --> Registry["providerRegistry\n(Map<id, ProviderDefinition>)"]
+    Registry --> Get["getProviderDefinition(id)"]
+    Registry --> List["getAllProviders()"]
+    List --> UI["Provider Selection UI"]
+    Get --> Model["createModel(config)"]
+    Model --> API["AI API Call\n(OpenAI / Anthropic / Gemini...)"]
+```
+
 ## 🤖 AI Provider Architecture
 
 ### Provider Management System
@@ -571,16 +583,33 @@ Under the hood, `Chapter 3: AI Provider Integration` usually follows a repeatabl
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
-## Source Walkthrough
+## Source Code Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+### `src/shared/providers/registry.ts`
 
-- [View Repo](https://github.com/Bin-Huang/chatbox)
-  Why it matters: authoritative reference on `View Repo` (github.com).
+The `defineProvider` / `getProviderDefinition` functions in [`src/shared/providers/registry.ts`](https://github.com/Bin-Huang/chatbox/blob/main/src/shared/providers/registry.ts) form the core of Chatbox's provider system:
 
-Suggested trace strategy:
-- search upstream code for `provider` and `model` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+```ts
+const providerRegistry = new Map<string, ProviderDefinition>()
+
+export function defineProvider(definition: ProviderDefinitionInput): ProviderDefinition {
+  if (providerRegistry.has(definition.id)) {
+    console.warn(`Provider "${definition.id}" is already registered. Overwriting.`)
+  }
+  providerRegistry.set(definition.id, definition)
+  return definition
+}
+
+export function getProviderDefinition(id: string): ProviderDefinition | undefined {
+  return providerRegistry.get(id)
+}
+
+export function getAllProviders(): ProviderDefinition[] {
+  return Array.from(providerRegistry.values())
+}
+```
+
+Each AI backend (OpenAI, Anthropic, Gemini, Ollama, etc.) calls `defineProvider` at import time, registering into this central Map. `src/shared/providers/index.ts` imports all definitions in order, which controls the display order in the UI provider list.
 
 ## Chapter Connections
 

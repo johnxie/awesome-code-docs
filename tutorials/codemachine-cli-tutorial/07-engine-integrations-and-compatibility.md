@@ -25,8 +25,6 @@ You now understand how to run cross-engine workflows with consistent orchestrati
 
 Next: [Chapter 8: Production Operations and Team Adoption](08-production-operations-and-team-adoption.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `src/runtime/cli-setup.ts`

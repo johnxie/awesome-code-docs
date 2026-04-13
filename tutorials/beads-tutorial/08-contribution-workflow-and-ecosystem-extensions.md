@@ -38,170 +38,168 @@ You now have a full Beads path from baseline usage to ecosystem contribution.
 
 Next tutorial: [AutoAgent Tutorial](../autoagent-tutorial/)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `cmd/bd/list.go`
+### `cmd/bd/hooks.go`
 
-The `getHierarchicalChildren` function in [`cmd/bd/list.go`](https://github.com/steveyegge/beads/blob/HEAD/cmd/bd/list.go) handles a key part of this chapter's functionality:
+The `hookSectionEndLine` function in [`cmd/bd/hooks.go`](https://github.com/steveyegge/beads/blob/HEAD/cmd/bd/hooks.go) handles a key part of this chapter's functionality:
 
 ```go
 }
 
-// getHierarchicalChildren handles the --tree --parent combination logic
-func getHierarchicalChildren(ctx context.Context, store storage.DoltStorage, dbPath string, parentID string) ([]*types.Issue, error) {
-	// First verify that the parent issue exists
-	var parentIssue *types.Issue
-	err := withStorage(ctx, store, dbPath, func(s storage.DoltStorage) error {
-		var err error
-		parentIssue, err = s.GetIssue(ctx, parentID)
-		return err
-	})
-	if err != nil {
-		return nil, fmt.Errorf("error checking parent issue: %v", err)
-	}
-	if parentIssue == nil {
-		return nil, fmt.Errorf("parent issue '%s' not found", parentID)
-	}
+// hookSectionEndLine returns the full end marker line with the current version.
+func hookSectionEndLine() string {
+	return fmt.Sprintf("%s v%s ---", hookSectionEndPrefix, Version)
+}
 
-	// Use recursive search to find all descendants using the same logic as --parent filter
-	// This works around issues with GetDependencyTree not finding all dependents properly
-	allDescendants := make(map[string]*types.Issue)
+// hookTimeoutSeconds is the maximum time a beads hook is allowed to run before
+// being killed and allowing the git operation to proceed.  A bounded timeout
+// prevents `bd hooks run` from hanging `git push` indefinitely (GH#2453).
+// The default is 300 seconds (5 minutes) to accommodate chained hooks — e.g.
+// pre-commit framework pipelines that run linters, type-checkers, and builds
+// inside `bd hooks run` via the `.old` hook chain (GH#2732).
+// The value can be overridden via the BEADS_HOOK_TIMEOUT environment variable.
+const hookTimeoutSeconds = 300
 
-	// Always include the parent
-	allDescendants[parentID] = parentIssue
-
-	// Recursively find all descendants
-	err = findAllDescendants(ctx, store, dbPath, parentID, allDescendants, 0, 10) // max depth 10
-	if err != nil {
-		return nil, fmt.Errorf("error finding descendants: %v", err)
-	}
-
-	// Convert map to slice for display
+// generateHookSection returns the marked section content for a given hook name.
+// The section is self-contained: it checks for bd availability, runs the hook
+// via 'bd hooks run', and propagates exit codes — without preventing any user
+// content after the section from executing on success.
+//
+// Resilience (GH#2453, GH#2449):
+//   - A configurable timeout prevents hooks from hanging git operations.
+//   - If the beads database is not initialized (exit code 3), the hook exits
+//     successfully with a warning so that git operations are not blocked.
+func generateHookSection(hookName string) string {
+	return hookSectionBeginLine() + "\n" +
+		"# This section is managed by beads. Do not remove these markers.\n" +
+		"if command -v bd >/dev/null 2>&1; then\n" +
+		"  export BD_GIT_HOOK=1\n" +
+		"  _bd_timeout=${BEADS_HOOK_TIMEOUT:-" + fmt.Sprintf("%d", hookTimeoutSeconds) + "}\n" +
+		"  if command -v timeout >/dev/null 2>&1; then\n" +
 ```
 
 This function is important because it defines how Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents implements the patterns covered in this chapter.
 
-### `cmd/bd/list.go`
+### `cmd/bd/hooks.go`
 
-The `findAllDescendants` function in [`cmd/bd/list.go`](https://github.com/steveyegge/beads/blob/HEAD/cmd/bd/list.go) handles a key part of this chapter's functionality:
+The `generateHookSection` function in [`cmd/bd/hooks.go`](https://github.com/steveyegge/beads/blob/HEAD/cmd/bd/hooks.go) handles a key part of this chapter's functionality:
 
 ```go
 
-	// Recursively find all descendants
-	err = findAllDescendants(ctx, store, dbPath, parentID, allDescendants, 0, 10) // max depth 10
-	if err != nil {
-		return nil, fmt.Errorf("error finding descendants: %v", err)
-	}
+// managedHookNames lists the git hooks managed by beads.
+// Hook content is generated dynamically by generateHookSection().
+var managedHookNames = []string{"pre-commit", "post-merge", "pre-push", "post-checkout", "prepare-commit-msg"}
 
-	// Convert map to slice for display
-	treeIssues := make([]*types.Issue, 0, len(allDescendants))
-	for _, issue := range allDescendants {
-		treeIssues = append(treeIssues, issue)
-	}
+const hookVersionPrefix = "# bd-hooks-version: "
+const shimVersionPrefix = "# bd-shim "
 
-	return treeIssues, nil
+// inlineHookMarker identifies inline hooks created by bd init (GH#1120)
+// These hooks have the logic embedded directly rather than using shims
+const inlineHookMarker = "# bd (beads)"
+
+// Section markers for git hooks (GH#1380) — consistent with AGENTS.md pattern.
+// Only content between markers is managed by beads; user content outside is preserved.
+const hookSectionBeginPrefix = "# --- BEGIN BEADS INTEGRATION"
+const hookSectionEndPrefix = "# --- END BEADS INTEGRATION"
+
+// hookSectionBeginLine returns the full begin marker line with the current version.
+func hookSectionBeginLine() string {
+	return fmt.Sprintf("%s v%s ---", hookSectionBeginPrefix, Version)
 }
 
-// findAllDescendants recursively finds all descendants using parent filtering
-func findAllDescendants(ctx context.Context, store storage.DoltStorage, dbPath string, parentID string, result map[string]*types.Issue, currentDepth, maxDepth int) error {
-	if currentDepth >= maxDepth {
-		return nil // Prevent infinite recursion
-	}
+// hookSectionEndLine returns the full end marker line with the current version.
+func hookSectionEndLine() string {
+	return fmt.Sprintf("%s v%s ---", hookSectionEndPrefix, Version)
+}
 
-	// Get direct children using the same filter logic as regular --parent
-	var children []*types.Issue
-	err := withStorage(ctx, store, dbPath, func(s storage.DoltStorage) error {
-		filter := types.IssueFilter{
-			ParentID: &parentID,
+// hookTimeoutSeconds is the maximum time a beads hook is allowed to run before
+// being killed and allowing the git operation to proceed.  A bounded timeout
+// prevents `bd hooks run` from hanging `git push` indefinitely (GH#2453).
+// The default is 300 seconds (5 minutes) to accommodate chained hooks — e.g.
+// pre-commit framework pipelines that run linters, type-checkers, and builds
+```
+
+This function is important because it defines how Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents implements the patterns covered in this chapter.
+
+### `cmd/bd/hooks.go`
+
+The `injectHookSection` function in [`cmd/bd/hooks.go`](https://github.com/steveyegge/beads/blob/HEAD/cmd/bd/hooks.go) handles a key part of this chapter's functionality:
+
+```go
+}
+
+// injectHookSection merges the beads section into existing hook file content.
+// If section markers are found, only the content between them is replaced.
+// If broken markers exist (orphaned BEGIN, reversed order), the stale markers
+// are removed before injecting the new section.
+// If no markers are found, the section is appended.
+func injectHookSection(existing, section string) string {
+	return injectHookSectionWithDepth(existing, section, 0)
+}
+
+// maxInjectDepth guards against infinite recursion when cleaning broken markers.
+const maxInjectDepth = 5
+
+func injectHookSectionWithDepth(existing, section string, depth int) string {
+	if depth > maxInjectDepth {
+		// Safety: too many recursive cleanups — append as fallback
+		result := existing
+		if !strings.HasSuffix(result, "\n") {
+			result += "\n"
 		}
-		var err error
-		children, err = s.SearchIssues(ctx, "", filter)
-		return err
-	})
+		return result + "\n" + section
+	}
+
+	beginIdx := strings.Index(existing, hookSectionBeginPrefix)
+	endIdx := strings.Index(existing, hookSectionEndPrefix)
+
+	if beginIdx != -1 && endIdx != -1 && beginIdx < endIdx {
+		// Case 1: valid BEGIN...END pair — replace between markers
+		lineStart := strings.LastIndex(existing[:beginIdx], "\n")
+		if lineStart == -1 {
+			lineStart = 0
 ```
 
 This function is important because it defines how Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents implements the patterns covered in this chapter.
 
-### `cmd/bd/list.go`
+### `cmd/bd/hooks.go`
 
-The `watchIssues` function in [`cmd/bd/list.go`](https://github.com/steveyegge/beads/blob/HEAD/cmd/bd/list.go) handles a key part of this chapter's functionality:
+The `injectHookSectionWithDepth` function in [`cmd/bd/hooks.go`](https://github.com/steveyegge/beads/blob/HEAD/cmd/bd/hooks.go) handles a key part of this chapter's functionality:
 
 ```go
+// If no markers are found, the section is appended.
+func injectHookSection(existing, section string) string {
+	return injectHookSectionWithDepth(existing, section, 0)
 }
 
-// watchIssues polls for changes and re-displays (GH#654)
-// Uses polling instead of fsnotify because Dolt stores data in a server-side
-// database, not files — file watchers never fire.
-func watchIssues(ctx context.Context, store storage.DoltStorage, filter types.IssueFilter, sortBy string, reverse bool) {
-	// Initial display
-	issues, err := store.SearchIssues(ctx, "", filter)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error querying issues: %v\n", err)
-		return
+// maxInjectDepth guards against infinite recursion when cleaning broken markers.
+const maxInjectDepth = 5
+
+func injectHookSectionWithDepth(existing, section string, depth int) string {
+	if depth > maxInjectDepth {
+		// Safety: too many recursive cleanups — append as fallback
+		result := existing
+		if !strings.HasSuffix(result, "\n") {
+			result += "\n"
+		}
+		return result + "\n" + section
 	}
-	sortIssues(issues, sortBy, reverse)
-	displayPrettyList(issues, true)
-	lastSnapshot := issueSnapshot(issues)
 
-	fmt.Fprintf(os.Stderr, "\nWatching for changes... (Press Ctrl+C to exit)\n")
+	beginIdx := strings.Index(existing, hookSectionBeginPrefix)
+	endIdx := strings.Index(existing, hookSectionEndPrefix)
 
-	// Handle Ctrl+C — deferred Stop prevents signal handler leak
-	sigChan := make(chan os.Signal, 1)
-	signal.Notify(sigChan, os.Interrupt, syscall.SIGTERM)
-	defer signal.Stop(sigChan)
+	if beginIdx != -1 && endIdx != -1 && beginIdx < endIdx {
+		// Case 1: valid BEGIN...END pair — replace between markers
+		lineStart := strings.LastIndex(existing[:beginIdx], "\n")
+		if lineStart == -1 {
+			lineStart = 0
+		} else {
+			lineStart++ // skip the newline itself
+		}
 
-	pollInterval := 2 * time.Second
-	ticker := time.NewTicker(pollInterval)
-	defer ticker.Stop()
-
-	for {
-		select {
-		case <-sigChan:
-			fmt.Fprintf(os.Stderr, "\nStopped watching.\n")
-			return
-```
-
-This function is important because it defines how Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents implements the patterns covered in this chapter.
-
-### `cmd/bd/list.go`
-
-The `issueSnapshot` function in [`cmd/bd/list.go`](https://github.com/steveyegge/beads/blob/HEAD/cmd/bd/list.go) handles a key part of this chapter's functionality:
-
-```go
-	sortIssues(issues, sortBy, reverse)
-	displayPrettyList(issues, true)
-	lastSnapshot := issueSnapshot(issues)
-
-	fmt.Fprintf(os.Stderr, "\nWatching for changes... (Press Ctrl+C to exit)\n")
-
-	// Handle Ctrl+C — deferred Stop prevents signal handler leak
-	sigChan := make(chan os.Signal, 1)
-	signal.Notify(sigChan, os.Interrupt, syscall.SIGTERM)
-	defer signal.Stop(sigChan)
-
-	pollInterval := 2 * time.Second
-	ticker := time.NewTicker(pollInterval)
-	defer ticker.Stop()
-
-	for {
-		select {
-		case <-sigChan:
-			fmt.Fprintf(os.Stderr, "\nStopped watching.\n")
-			return
-		case <-ticker.C:
-			issues, err := store.SearchIssues(ctx, "", filter)
-			if err != nil {
-				fmt.Fprintf(os.Stderr, "Error refreshing issues: %v\n", err)
-				continue
-			}
-			sortIssues(issues, sortBy, reverse)
-			snap := issueSnapshot(issues)
-			if snap != lastSnapshot {
-				lastSnapshot = snap
-				displayPrettyList(issues, true)
-				fmt.Fprintf(os.Stderr, "\nWatching for changes... (Press Ctrl+C to exit)\n")
+		// Find end of the end-marker line (including trailing newline)
+		endOfEndMarker := endIdx + len(hookSectionEndPrefix)
 ```
 
 This function is important because it defines how Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents implements the patterns covered in this chapter.
@@ -211,11 +209,11 @@ This function is important because it defines how Beads Tutorial: Git-Backed Tas
 
 ```mermaid
 flowchart TD
-    A[getHierarchicalChildren]
-    B[findAllDescendants]
-    C[watchIssues]
-    D[issueSnapshot]
-    E[sortIssues]
+    A[hookSectionEndLine]
+    B[generateHookSection]
+    C[injectHookSection]
+    D[injectHookSectionWithDepth]
+    E[removeOrphanedBeginBlock]
     A --> B
     B --> C
     C --> D

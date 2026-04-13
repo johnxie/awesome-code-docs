@@ -14,6 +14,19 @@ Welcome to **Chapter 2: Memory Architecture & Types**. In this part of **Mem0 Tu
 
 ## 🎯 Overview
 
+```mermaid
+flowchart TD
+    A[Memory Layer] --> B[User Memory]
+    A --> C[Agent Memory]
+    A --> D[Session Memory]
+    B --> E[Long-term preferences]
+    C --> F[Task state]
+    D --> G[Conversation context]
+    B --> H[(Vector Store)]
+    C --> H
+    D --> H
+```
+
 This chapter dives deep into Mem0's memory architecture, exploring the different types of memory, storage mechanisms, and how the system manages context across conversations. You'll understand how Mem0 creates a scalable, intelligent memory layer for AI applications.
 
 ## 🏗️ Memory Architecture Overview

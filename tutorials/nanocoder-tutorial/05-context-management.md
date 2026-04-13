@@ -6,6 +6,7 @@ has_children: false
 parent: "Nanocoder - AI Coding Agent Deep Dive"
 ---
 
+
 # Chapter 5: Context Management
 
 Welcome to **Chapter 5: Context Management**. In this part of **Nanocoder Tutorial: Building and Understanding AI Coding Agents**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
@@ -410,239 +411,182 @@ In [Chapter 6: Configuration & Customization](06-configuration-customization.md)
 
 ## Depth Expansion Playbook
 
-<!-- depth-expansion-v2 -->
+## Source Code Walkthrough
 
-This chapter is expanded to v1-style depth for production-grade learning and implementation quality.
+### `source/client-factory.ts`
 
-### Strategic Context
+The `testProviderConnection` function in [`source/client-factory.ts`](https://github.com/Nano-Collective/nanocoder/blob/HEAD/source/client-factory.ts) handles a key part of this chapter's functionality:
 
-- tutorial: **Nanocoder Tutorial: Building and Understanding AI Coding Agents**
-- tutorial slug: **nanocoder-tutorial**
-- chapter focus: **Chapter 5: Context Management**
-- system context: **Nanocoder Tutorial**
-- objective: move from surface-level usage to repeatable engineering operation
+```ts
 
-### Architecture Decomposition
+			// Test provider connection
+			await testProviderConnection(providerConfig);
 
-1. Define the runtime boundary for `Chapter 5: Context Management`.
-2. Separate control-plane decisions from data-plane execution.
-3. Capture input contracts, transformation points, and output contracts.
-4. Trace state transitions across request lifecycle stages.
-5. Identify extension hooks and policy interception points.
-6. Map ownership boundaries for team and automation workflows.
-7. Specify rollback and recovery paths for unsafe changes.
-8. Track observability signals for correctness, latency, and cost.
+			const client = await AISDKClient.create(providerConfig);
 
-### Operator Decision Matrix
+			// Set model if specified
+			if (requestedModel) {
+				client.setModel(requestedModel);
+			}
 
-| Decision Area | Low-Risk Path | High-Control Path | Tradeoff |
-|:--------------|:--------------|:------------------|:---------|
-| Runtime mode | managed defaults | explicit policy config | speed vs control |
-| State handling | local ephemeral | durable persisted state | simplicity vs auditability |
-| Tool integration | direct API use | mediated adapter layer | velocity vs governance |
-| Rollout method | manual change | staged + canary rollout | effort vs safety |
-| Incident response | best effort logs | runbooks + SLO alerts | cost vs reliability |
+			return {client, actualProvider: providerType};
+		} catch (error: unknown) {
+			const errorMessage =
+				error instanceof Error ? error.message : 'Unknown error';
+			errors.push(`${providerType}: ${errorMessage}`);
+		}
+	}
 
-### Failure Modes and Countermeasures
+	// If we get here, all providers failed
+	if (!hasConfigFile) {
+		const combinedError = `No providers available: ${
+			errors[0]?.split(': ')[1] || 'Unknown error'
+		}\n\nPlease create an agents.config.json file with provider configuration.`;
+		throw new Error(combinedError);
+	} else {
+		const combinedError = `All configured providers failed:\n${errors
+			.map(e => `• ${e}`)
+			.join(
+				'\n',
+			)}\n\nPlease check your provider configuration in agents.config.json`;
+		throw new Error(combinedError);
+```
 
-| Failure Mode | Early Signal | Root Cause Pattern | Countermeasure |
-|:-------------|:-------------|:-------------------|:---------------|
-| stale context | inconsistent outputs | missing refresh window | enforce context TTL and refresh hooks |
-| policy drift | unexpected execution | ad hoc overrides | centralize policy profiles |
-| auth mismatch | 401/403 bursts | credential sprawl | rotation schedule + scope minimization |
-| schema breakage | parser/validation errors | unmanaged upstream changes | contract tests per release |
-| retry storms | queue congestion | no backoff controls | jittered backoff + circuit breakers |
-| silent regressions | quality drop without alerts | weak baseline metrics | eval harness with thresholds |
+This function is important because it defines how Nanocoder Tutorial: Building and Understanding AI Coding Agents implements the patterns covered in this chapter.
 
-### Implementation Runbook
+### `scripts/fetch-models.js`
 
-1. Establish a reproducible baseline environment.
-2. Capture chapter-specific success criteria before changes.
-3. Implement minimal viable path with explicit interfaces.
-4. Add observability before expanding feature scope.
-5. Run deterministic tests for happy-path behavior.
-6. Inject failure scenarios for negative-path validation.
-7. Compare output quality against baseline snapshots.
-8. Promote through staged environments with rollback gates.
-9. Record operational lessons in release notes.
+The `fetchModels` function in [`scripts/fetch-models.js`](https://github.com/Nano-Collective/nanocoder/blob/HEAD/scripts/fetch-models.js) handles a key part of this chapter's functionality:
 
-### Quality Gate Checklist
+```js
+ * Fetch models data from models.dev
+ */
+async function fetchModels() {
+	console.log('Fetching model metadata from models.dev...');
 
-- [ ] chapter-level assumptions are explicit and testable
-- [ ] API/tool boundaries are documented with input/output examples
-- [ ] failure handling includes retry, timeout, and fallback policy
-- [ ] security controls include auth scopes and secret rotation plans
-- [ ] observability includes logs, metrics, traces, and alert thresholds
-- [ ] deployment guidance includes canary and rollback paths
-- [ ] docs include links to upstream sources and related tracks
-- [ ] post-release verification confirms expected behavior under load
+	try {
+		const response = await request(MODELS_DEV_API_URL, {
+			method: 'GET',
+			headersTimeout: 10000,
+			bodyTimeout: 30000,
+		});
 
-### Source Alignment
+		if (response.statusCode !== 200) {
+			throw new Error(`HTTP ${response.statusCode}`);
+		}
 
-- [Nanocoder Repository](https://github.com/Nano-Collective/nanocoder)
-- [Nanocoder Releases](https://github.com/Nano-Collective/nanocoder/releases)
-- [Nanocoder Documentation Directory](https://github.com/Nano-Collective/nanocoder/tree/main/docs)
-- [Nanocoder MCP Configuration Guide](https://github.com/Nano-Collective/nanocoder/blob/main/docs/mcp-configuration.md)
-- [Nano Collective Website](https://nanocollective.org/)
+		const data = await response.body.json();
 
-### Cross-Tutorial Connection Map
+		// Count models for logging
+		let totalModels = 0;
+		for (const provider of Object.values(data)) {
+			totalModels += Object.keys(provider.models).length;
+		}
 
-- [Aider Tutorial](../aider-tutorial/)
-- [Claude Code Tutorial](../claude-code-tutorial/)
-- [Continue Tutorial](../continue-tutorial/)
-- [OpenHands Tutorial](../openhands-tutorial/)
-- [Chapter 1: Getting Started](01-getting-started.md)
+		console.log(
+			`✅ Successfully fetched ${totalModels} models from ${
+				Object.keys(data).length
+			} providers`,
+		);
 
-### Advanced Practice Exercises
+		return data;
+	} catch (error) {
+```
 
-1. Build a minimal end-to-end implementation for `Chapter 5: Context Management`.
-2. Add instrumentation and measure baseline latency and error rate.
-3. Introduce one controlled failure and confirm graceful recovery.
-4. Add policy constraints and verify they are enforced consistently.
-5. Run a staged rollout and document rollback decision criteria.
+This function is important because it defines how Nanocoder Tutorial: Building and Understanding AI Coding Agents implements the patterns covered in this chapter.
 
-### Review Questions
+### `scripts/fetch-models.js`
 
-1. Which execution boundary matters most for this chapter and why?
-2. What signal detects regressions earliest in your environment?
-3. What tradeoff did you make between delivery speed and governance?
-4. How would you recover from the highest-impact failure mode?
-5. What must be automated before scaling to team-wide adoption?
+The `ensureCacheDir` function in [`scripts/fetch-models.js`](https://github.com/Nano-Collective/nanocoder/blob/HEAD/scripts/fetch-models.js) handles a key part of this chapter's functionality:
 
-### Scenario Playbook 1: Chapter 5: Context Management
+```js
+ * Ensure cache directory exists
+ */
+function ensureCacheDir() {
+	if (!fs.existsSync(cacheDir)) {
+		fs.mkdirSync(cacheDir, {recursive: true});
+	}
+}
 
-- tutorial context: **Nanocoder Tutorial: Building and Understanding AI Coding Agents**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
+/**
+ * Write data to cache
+ */
+function writeCache(data) {
+	try {
+		ensureCacheDir();
 
-### Scenario Playbook 2: Chapter 5: Context Management
+		const cached = {
+			data,
+			fetchedAt: Date.now(),
+			expiresAt: Date.now() + CACHE_EXPIRATION_MS,
+		};
 
-- tutorial context: **Nanocoder Tutorial: Building and Understanding AI Coding Agents**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
+		fs.writeFileSync(cacheFilePath, JSON.stringify(cached, null, 2), 'utf-8');
+		console.log(`💾 Cached to: ${cacheFilePath}`);
+	} catch (error) {
+		console.warn('⚠️  Failed to write cache:', error.message);
+	}
+}
 
-### Scenario Playbook 3: Chapter 5: Context Management
+/**
+ * Check if existing cache is valid
+ */
+function isCacheValid() {
+```
 
-- tutorial context: **Nanocoder Tutorial: Building and Understanding AI Coding Agents**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
+This function is important because it defines how Nanocoder Tutorial: Building and Understanding AI Coding Agents implements the patterns covered in this chapter.
 
-### Scenario Playbook 4: Chapter 5: Context Management
+### `scripts/fetch-models.js`
 
-- tutorial context: **Nanocoder Tutorial: Building and Understanding AI Coding Agents**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
+The `writeCache` function in [`scripts/fetch-models.js`](https://github.com/Nano-Collective/nanocoder/blob/HEAD/scripts/fetch-models.js) handles a key part of this chapter's functionality:
 
-### Scenario Playbook 5: Chapter 5: Context Management
+```js
+ * Write data to cache
+ */
+function writeCache(data) {
+	try {
+		ensureCacheDir();
 
-- tutorial context: **Nanocoder Tutorial: Building and Understanding AI Coding Agents**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
+		const cached = {
+			data,
+			fetchedAt: Date.now(),
+			expiresAt: Date.now() + CACHE_EXPIRATION_MS,
+		};
 
-### Scenario Playbook 6: Chapter 5: Context Management
+		fs.writeFileSync(cacheFilePath, JSON.stringify(cached, null, 2), 'utf-8');
+		console.log(`💾 Cached to: ${cacheFilePath}`);
+	} catch (error) {
+		console.warn('⚠️  Failed to write cache:', error.message);
+	}
+}
 
-- tutorial context: **Nanocoder Tutorial: Building and Understanding AI Coding Agents**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
+/**
+ * Check if existing cache is valid
+ */
+function isCacheValid() {
+	try {
+		if (!fs.existsSync(cacheFilePath)) {
+			return false;
+		}
 
-### Scenario Playbook 7: Chapter 5: Context Management
+		const content = fs.readFileSync(cacheFilePath, 'utf-8');
+		const cached = JSON.parse(content);
 
-- tutorial context: **Nanocoder Tutorial: Building and Understanding AI Coding Agents**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
+		return Date.now() < cached.expiresAt;
+```
 
-## What Problem Does This Solve?
+This function is important because it defines how Nanocoder Tutorial: Building and Understanding AI Coding Agents implements the patterns covered in this chapter.
 
-Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `taggedFiles`, `tokens`, `content` so behavior stays predictable as complexity grows.
 
-In practical terms, this chapter helps you avoid three common failures:
+## How These Components Connect
 
-- coupling core logic too tightly to one implementation path
-- missing the handoff boundaries between setup, execution, and validation
-- shipping changes without clear rollback or observability strategy
-
-After working through this chapter, you should be able to reason about `Chapter 5: Context Management` as an operating subsystem inside **Nanocoder Tutorial: Building and Understanding AI Coding Agents**, with explicit contracts for inputs, state transitions, and outputs.
-
-Use the implementation notes around `path`, `file`, `model` as your checklist when adapting these patterns to your own repository.
-
-## How it Works Under the Hood
-
-Under the hood, `Chapter 5: Context Management` usually follows a repeatable control path:
-
-1. **Context bootstrap**: initialize runtime config and prerequisites for `taggedFiles`.
-2. **Input normalization**: shape incoming data so `tokens` receives stable contracts.
-3. **Core execution**: run the main logic branch and propagate intermediate state through `content`.
-4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
-5. **Output composition**: return canonical result payloads for downstream consumers.
-6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
-
-When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
-
-## Source Walkthrough
-
-Use the following upstream sources to verify implementation details while reading this chapter:
-
-- [Nanocoder Repository](https://github.com/Nano-Collective/nanocoder)
-  Why it matters: authoritative reference on `Nanocoder Repository` (github.com).
-- [Nanocoder Releases](https://github.com/Nano-Collective/nanocoder/releases)
-  Why it matters: authoritative reference on `Nanocoder Releases` (github.com).
-- [Nanocoder Documentation Directory](https://github.com/Nano-Collective/nanocoder/tree/main/docs)
-  Why it matters: authoritative reference on `Nanocoder Documentation Directory` (github.com).
-- [Nanocoder MCP Configuration Guide](https://github.com/Nano-Collective/nanocoder/blob/main/docs/mcp-configuration.md)
-  Why it matters: authoritative reference on `Nanocoder MCP Configuration Guide` (github.com).
-- [Nano Collective Website](https://nanocollective.org/)
-  Why it matters: authoritative reference on `Nano Collective Website` (nanocollective.org).
-
-Suggested trace strategy:
-- search upstream code for `taggedFiles` and `tokens` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
-
-## Chapter Connections
-
-- [Tutorial Index](README.md)
-- [Previous Chapter: Chapter 4: Multi-Provider Integration](04-multi-provider-integration.md)
-- [Next Chapter: Chapter 6: Configuration & Customization](06-configuration-customization.md)
-- [Main Catalog](../../README.md#-tutorial-catalog)
-- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
+```mermaid
+flowchart TD
+    A[testProviderConnection]
+    B[fetchModels]
+    C[ensureCacheDir]
+    D[writeCache]
+    A --> B
+    B --> C
+    C --> D
+```

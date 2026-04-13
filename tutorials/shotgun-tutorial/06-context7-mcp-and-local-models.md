@@ -38,170 +38,168 @@ You now have a model for combining live docs retrieval and local-model execution
 
 Next: [Chapter 7: Spec Sharing and Collaboration Workflows](07-spec-sharing-and-collaboration-workflows.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `src/shotgun/exceptions.py`
+### `src/shotgun/settings.py`
 
-The `BYOKQuotaBillingException` class in [`src/shotgun/exceptions.py`](https://github.com/shotgun-sh/shotgun/blob/HEAD/src/shotgun/exceptions.py) handles a key part of this chapter's functionality:
+The `that` class in [`src/shotgun/settings.py`](https://github.com/shotgun-sh/shotgun/blob/HEAD/src/shotgun/settings.py) handles a key part of this chapter's functionality:
 
 ```py
+    """Main application settings with SHOTGUN_ prefix.
 
+    This is the main settings class that composes all other settings groups.
+    Access settings via the global `settings` singleton instance.
 
-class BYOKQuotaBillingException(BYOKAPIException):
-    """Raised when BYOK user has quota or billing issues."""
+    Example:
+        from shotgun.settings import settings
 
-    def __init__(self, message: str):
-        """Initialize the exception.
+        # Telemetry settings
+        settings.telemetry.posthog_api_key
+        settings.telemetry.logfire_enabled
 
-        Args:
-            message: The error message from the API
-        """
-        super().__init__(message, specific_error="Quota or billing issue")
+        # Logging settings
+        settings.logging.log_level
+        settings.logging.logging_to_console
 
+        # API settings
+        settings.api.web_base_url
+        settings.api.account_llm_base_url
 
-class BYOKAuthenticationException(BYOKAPIException):
-    """Raised when BYOK authentication fails."""
+        # Development settings
+        settings.dev.home
+        settings.dev.pipx_simulate
 
-    def __init__(self, message: str):
-        """Initialize the exception.
+        # Indexing settings
+        settings.indexing.index_parallel
+        settings.indexing.index_workers
+    """
 
-        Args:
-            message: The error message from the API
-        """
-        super().__init__(message, specific_error="Authentication error")
-
-
-class BYOKServiceOverloadException(BYOKAPIException):
-    """Raised when BYOK service is overloaded."""
-
-    def __init__(self, message: str):
-        """Initialize the exception.
-
+    telemetry: TelemetrySettings = Field(default_factory=TelemetrySettings)
+    logging: LoggingSettings = Field(default_factory=LoggingSettings)
+    api: ApiSettings = Field(default_factory=ApiSettings)
 ```
 
 This class is important because it defines how Shotgun Tutorial: Spec-Driven Development for Coding Agents implements the patterns covered in this chapter.
 
-### `src/shotgun/exceptions.py`
+### `evals/reporters/console.py`
 
-The `BYOKAuthenticationException` class in [`src/shotgun/exceptions.py`](https://github.com/shotgun-sh/shotgun/blob/HEAD/src/shotgun/exceptions.py) handles a key part of this chapter's functionality:
+The `ConsoleReporter` class in [`evals/reporters/console.py`](https://github.com/shotgun-sh/shotgun/blob/HEAD/evals/reporters/console.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-class BYOKAuthenticationException(BYOKAPIException):
-    """Raised when BYOK authentication fails."""
+class ConsoleReporter:
+    """
+    Formats evaluation reports for console output.
 
-    def __init__(self, message: str):
-        """Initialize the exception.
+    Emphasizes scores and trace references for quick debugging.
+    """
+
+    # ANSI color codes
+    GREEN = "\033[92m"
+    RED = "\033[91m"
+    YELLOW = "\033[93m"
+    BLUE = "\033[94m"
+    BOLD = "\033[1m"
+    RESET = "\033[0m"
+
+    def __init__(self, use_color: bool = True) -> None:
+        """Initialize the console reporter.
 
         Args:
-            message: The error message from the API
+            use_color: Whether to use ANSI color codes
         """
-        super().__init__(message, specific_error="Authentication error")
+        self.use_color = use_color and sys.stdout.isatty()
 
+    def _color(self, text: str, color: str) -> str:
+        """Apply color to text if colors are enabled."""
+        if self.use_color:
+            return f"{color}{text}{self.RESET}"
+        return text
 
-class BYOKServiceOverloadException(BYOKAPIException):
-    """Raised when BYOK service is overloaded."""
-
-    def __init__(self, message: str):
-        """Initialize the exception.
-
-        Args:
-            message: The error message from the API
-        """
-        super().__init__(message, specific_error="Service overloaded")
-
-
-class BYOKGenericAPIException(BYOKAPIException):
-    """Raised for generic BYOK API errors."""
-
-    def __init__(self, message: str):
-        """Initialize the exception.
-
+    def _status_icon(self, passed: bool) -> str:
 ```
 
 This class is important because it defines how Shotgun Tutorial: Spec-Driven Development for Coding Agents implements the patterns covered in this chapter.
 
-### `src/shotgun/exceptions.py`
+### `evals/aggregators/router_aggregator.py`
 
-The `BYOKServiceOverloadException` class in [`src/shotgun/exceptions.py`](https://github.com/shotgun-sh/shotgun/blob/HEAD/src/shotgun/exceptions.py) handles a key part of this chapter's functionality:
+The `RouterAggregator` class in [`evals/aggregators/router_aggregator.py`](https://github.com/shotgun-sh/shotgun/blob/HEAD/evals/aggregators/router_aggregator.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-class BYOKServiceOverloadException(BYOKAPIException):
-    """Raised when BYOK service is overloaded."""
+class RouterAggregator:
+    """
+    Aggregates evaluation results from deterministic evaluators and LLM judge.
 
-    def __init__(self, message: str):
-        """Initialize the exception.
+    Aggregation rules:
+    1. Any HARD failure from deterministic evaluators -> overall failure
+    2. SOFT failures are recorded but don't cause overall failure
+    3. LLM judge scores contribute to dimension averages
+    4. Overall score is weighted average of all dimensions
+    5. Trace reference is attached for debugging
+    """
+
+    def __init__(
+        self,
+        hard_failure_causes_fail: bool = True,
+        soft_failure_weight: float = 0.5,
+        pass_threshold: float = 3.0,
+    ) -> None:
+        """Initialize the aggregator.
 
         Args:
-            message: The error message from the API
+            hard_failure_causes_fail: Whether hard failures cause overall fail
+            soft_failure_weight: Weight for soft failure penalty (0-1)
+            pass_threshold: Minimum score to pass (1-5 scale, default 3.0)
         """
-        super().__init__(message, specific_error="Service overloaded")
+        self.hard_failure_causes_fail = hard_failure_causes_fail
+        self.soft_failure_weight = soft_failure_weight
+        self.pass_threshold = pass_threshold
 
-
-class BYOKGenericAPIException(BYOKAPIException):
-    """Raised for generic BYOK API errors."""
-
-    def __init__(self, message: str):
-        """Initialize the exception.
-
-        Args:
-            message: The error message from the API
-        """
-        super().__init__(message, specific_error="API error")
-
-
-# ============================================================================
-# Generic Errors
-# ============================================================================
-
-
-class GenericAPIStatusException(UserActionableError):  # noqa: N818
+    def aggregate(
 ```
 
 This class is important because it defines how Shotgun Tutorial: Spec-Driven Development for Coding Agents implements the patterns covered in this chapter.
 
-### `src/shotgun/exceptions.py`
+### `src/shotgun/logging_config.py`
 
-The `BYOKGenericAPIException` class in [`src/shotgun/exceptions.py`](https://github.com/shotgun-sh/shotgun/blob/HEAD/src/shotgun/exceptions.py) handles a key part of this chapter's functionality:
+The `ColoredFormatter` class in [`src/shotgun/logging_config.py`](https://github.com/shotgun-sh/shotgun/blob/HEAD/src/shotgun/logging_config.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-class BYOKGenericAPIException(BYOKAPIException):
-    """Raised for generic BYOK API errors."""
+class ColoredFormatter(logging.Formatter):
+    """Custom formatter with colors for different log levels."""
 
-    def __init__(self, message: str):
-        """Initialize the exception.
+    # ANSI color codes
+    COLORS = {
+        "DEBUG": "\033[36m",  # Cyan
+        "INFO": "\033[32m",  # Green
+        "WARNING": "\033[33m",  # Yellow
+        "ERROR": "\033[31m",  # Red
+        "CRITICAL": "\033[35m",  # Magenta
+    }
+    RESET = "\033[0m"
 
-        Args:
-            message: The error message from the API
-        """
-        super().__init__(message, specific_error="API error")
+    def format(self, record: logging.LogRecord) -> str:
+        # Create a copy of the record to avoid modifying the original
+        record = logging.makeLogRecord(record.__dict__)
+
+        # Add color to levelname
+        if record.levelname in self.COLORS:
+            colored_levelname = (
+                f"{self.COLORS[record.levelname]}{record.levelname}{self.RESET}"
+            )
+            record.levelname = colored_levelname
+
+        return super().format(record)
 
 
-# ============================================================================
-# Generic Errors
-# ============================================================================
-
-
-class GenericAPIStatusException(UserActionableError):  # noqa: N818
-    """Raised for generic API status errors that don't fit other categories."""
-
-    def __init__(self, message: str):
-        """Initialize the exception.
-
-        Args:
-            message: The error message from the API
-        """
-        self.api_message = message
-        super().__init__(message)
-
-    def to_markdown(self) -> str:
+def setup_logger(
+    name: str,
+    format_string: str | None = None,
 ```
 
 This class is important because it defines how Shotgun Tutorial: Spec-Driven Development for Coding Agents implements the patterns covered in this chapter.
@@ -211,11 +209,11 @@ This class is important because it defines how Shotgun Tutorial: Spec-Driven Dev
 
 ```mermaid
 flowchart TD
-    A[BYOKQuotaBillingException]
-    B[BYOKAuthenticationException]
-    C[BYOKServiceOverloadException]
-    D[BYOKGenericAPIException]
-    E[GenericAPIStatusException]
+    A[that]
+    B[ConsoleReporter]
+    C[RouterAggregator]
+    D[ColoredFormatter]
+    E[get_log_directory]
     A --> B
     B --> C
     C --> D

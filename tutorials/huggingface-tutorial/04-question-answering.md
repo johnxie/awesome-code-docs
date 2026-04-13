@@ -14,6 +14,16 @@ Welcome to **Chapter 4: Question Answering**. In this part of **HuggingFace Tran
 
 ## 🎯 Overview
 
+```mermaid
+flowchart LR
+    A[Question + Context] --> B[tokenizer question context]
+    B --> C[input_ids token_type_ids]
+    C --> D[AutoModelForQA]
+    D --> E[start_logits end_logits]
+    E --> F[argmax span]
+    F --> G[Answer text]
+```
+
 This chapter covers question answering (QA) systems using HuggingFace Transformers. You'll learn to build extractive and generative QA models, create custom knowledge bases, and deploy QA systems that can answer questions from your own documents.
 
 ## ❓ Types of Question Answering

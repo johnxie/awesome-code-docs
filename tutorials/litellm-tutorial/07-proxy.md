@@ -13,6 +13,19 @@ Welcome to **Chapter 7: LiteLLM Proxy**. In this part of **LiteLLM Tutorial: Uni
 
 > Deploy a centralized OpenAI-compatible proxy server that routes requests to multiple LLM providers with unified authentication, rate limiting, and cost tracking.
 
+## LiteLLM Proxy Architecture
+
+```mermaid
+flowchart LR
+    CLIENTS[Apps / Teams\nOpenAI SDK] -->|Virtual Key auth| PROXY[LiteLLM Proxy Server\nlitellm --config config.yaml]
+    PROXY --> RL[Rate Limiting\nper-key or global]
+    PROXY --> ROUTE[Router / Load Balancer\nmodel aliases]
+    ROUTE --> P1[OpenAI GPT-4]
+    ROUTE --> P2[Anthropic Claude]
+    ROUTE --> P3[Azure OpenAI]
+    PROXY --> DB[(Postgres\nvirtual keys + spend)]
+```
+
 ## Overview
 
 The LiteLLM Proxy provides a single endpoint that accepts OpenAI API calls and routes them to any configured LLM provider. This enables easy integration with existing applications while providing enterprise features like authentication, rate limiting, and cost tracking.

@@ -57,8 +57,6 @@ You now understand how OpenSpec reduces migration friction across coding-agent c
 
 Next: [Chapter 7: Validation, Automation, and CI Operations](07-validation-automation-and-ci-operations.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `src/utils/file-system.ts`
@@ -234,7 +232,7 @@ flowchart TD
     B[isMarkerOnOwnLine]
     C[findMarkerIndex]
     D[removeMarkerBlock]
-    E[validateConfigKeyPath]
+    E[ChangeCommand]
     A --> B
     B --> C
     C --> D

@@ -40,170 +40,159 @@ You now have a rubric for authoring skills with stronger reuse and maintainabili
 
 Next: [Chapter 5: App Automation via Composio Skill Packs](05-app-automation-via-composio-skill-packs.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `slack-gif-creator/core/frame_composer.py`
+### `slack-gif-creator/templates/spin.py`
 
-The `draw_circle_with_shadow` function in [`slack-gif-creator/core/frame_composer.py`](https://github.com/ComposioHQ/awesome-claude-skills/blob/HEAD/slack-gif-creator/core/frame_composer.py) handles a key part of this chapter's functionality:
+The `create_loading_spinner` function in [`slack-gif-creator/templates/spin.py`](https://github.com/ComposioHQ/awesome-claude-skills/blob/HEAD/slack-gif-creator/templates/spin.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def draw_circle_with_shadow(frame: Image.Image, center: tuple[int, int], radius: int,
-                            fill_color: tuple[int, int, int],
-                            shadow_offset: tuple[int, int] = (3, 3),
-                            shadow_color: tuple[int, int, int] = (0, 0, 0)) -> Image.Image:
+def create_loading_spinner(
+    num_frames: int = 20,
+    spinner_type: str = 'dots',  # 'dots', 'arc', 'emoji'
+    size: int = 100,
+    color: tuple[int, int, int] = (100, 150, 255),
+    frame_width: int = 128,
+    frame_height: int = 128,
+    bg_color: tuple[int, int, int] = (255, 255, 255)
+) -> list[Image.Image]:
     """
-    Draw a circle with drop shadow.
+    Create a loading spinner animation.
 
     Args:
-        frame: PIL Image to draw on
-        center: (x, y) center position
-        radius: Circle radius
-        fill_color: RGB fill color
-        shadow_offset: (x, y) shadow offset
-        shadow_color: RGB shadow color
+        num_frames: Number of frames
+        spinner_type: Type of spinner
+        size: Spinner size
+        color: Spinner color
+        frame_width: Frame width
+        frame_height: Frame height
+        bg_color: Background color
 
     Returns:
-        Modified frame
+        List of frames
     """
-    draw = ImageDraw.Draw(frame)
-    x, y = center
+    from PIL import ImageDraw
+    frames = []
+    center = (frame_width // 2, frame_height // 2)
 
-    # Draw shadow
-    shadow_center = (x + shadow_offset[0], y + shadow_offset[1])
-    shadow_bbox = [
-        shadow_center[0] - radius,
-        shadow_center[1] - radius,
-        shadow_center[0] + radius,
-        shadow_center[1] + radius
-    ]
-    draw.ellipse(shadow_bbox, fill=shadow_color)
+    for i in range(num_frames):
+        frame = create_blank_frame(frame_width, frame_height, bg_color)
 ```
 
 This function is important because it defines how Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows implements the patterns covered in this chapter.
 
-### `slack-gif-creator/core/frame_composer.py`
+### `document-skills/xlsx/recalc.py`
 
-The `draw_rounded_rectangle` function in [`slack-gif-creator/core/frame_composer.py`](https://github.com/ComposioHQ/awesome-claude-skills/blob/HEAD/slack-gif-creator/core/frame_composer.py) handles a key part of this chapter's functionality:
+The `setup_libreoffice_macro` function in [`document-skills/xlsx/recalc.py`](https://github.com/ComposioHQ/awesome-claude-skills/blob/HEAD/document-skills/xlsx/recalc.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def draw_rounded_rectangle(frame: Image.Image, top_left: tuple[int, int],
-                          bottom_right: tuple[int, int], radius: int,
-                          fill_color: Optional[tuple[int, int, int]] = None,
-                          outline_color: Optional[tuple[int, int, int]] = None,
-                          outline_width: int = 1) -> Image.Image:
-    """
-    Draw a rectangle with rounded corners.
-
-    Args:
-        frame: PIL Image to draw on
-        top_left: (x, y) top-left corner
-        bottom_right: (x, y) bottom-right corner
-        radius: Corner radius
-        fill_color: RGB fill color (None for no fill)
-        outline_color: RGB outline color (None for no outline)
-        outline_width: Outline width
-
-    Returns:
-        Modified frame
-    """
-    draw = ImageDraw.Draw(frame)
-    x1, y1 = top_left
-    x2, y2 = bottom_right
-
-    # Draw rounded rectangle using PIL's built-in method
-    draw.rounded_rectangle([x1, y1, x2, y2], radius=radius,
-                          fill=fill_color, outline=outline_color, width=outline_width)
-
-    return frame
-
+def setup_libreoffice_macro():
+    """Setup LibreOffice macro for recalculation if not already configured"""
+    if platform.system() == 'Darwin':
+        macro_dir = os.path.expanduser('~/Library/Application Support/LibreOffice/4/user/basic/Standard')
+    else:
+        macro_dir = os.path.expanduser('~/.config/libreoffice/4/user/basic/Standard')
+    
+    macro_file = os.path.join(macro_dir, 'Module1.xba')
+    
+    if os.path.exists(macro_file):
+        with open(macro_file, 'r') as f:
+            if 'RecalculateAndSave' in f.read():
+                return True
+    
+    if not os.path.exists(macro_dir):
+        subprocess.run(['soffice', '--headless', '--terminate_after_init'], 
+                      capture_output=True, timeout=10)
+        os.makedirs(macro_dir, exist_ok=True)
+    
+    macro_content = '''<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE script:module PUBLIC "-//OpenOffice.org//DTD OfficeDocument 1.0//EN" "module.dtd">
+<script:module xmlns:script="http://openoffice.org/2000/script" script:name="Module1" script:language="StarBasic">
+    Sub RecalculateAndSave()
+      ThisComponent.calculateAll()
+      ThisComponent.store()
+      ThisComponent.close(True)
+    End Sub
+</script:module>'''
+    
+    try:
 ```
 
 This function is important because it defines how Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows implements the patterns covered in this chapter.
 
-### `slack-gif-creator/core/frame_composer.py`
+### `document-skills/xlsx/recalc.py`
 
-The `add_vignette` function in [`slack-gif-creator/core/frame_composer.py`](https://github.com/ComposioHQ/awesome-claude-skills/blob/HEAD/slack-gif-creator/core/frame_composer.py) handles a key part of this chapter's functionality:
+The `recalc` function in [`document-skills/xlsx/recalc.py`](https://github.com/ComposioHQ/awesome-claude-skills/blob/HEAD/document-skills/xlsx/recalc.py) handles a key part of this chapter's functionality:
 
 ```py
 
-
-def add_vignette(frame: Image.Image, strength: float = 0.5) -> Image.Image:
-    """
-    Add a vignette effect (darkened edges) to frame.
-
-    Args:
-        frame: PIL Image
-        strength: Vignette strength (0.0-1.0)
-
-    Returns:
-        Frame with vignette
-    """
-    width, height = frame.size
-
-    # Create radial gradient mask
-    center_x, center_y = width // 2, height // 2
-    max_dist = ((width / 2) ** 2 + (height / 2) ** 2) ** 0.5
-
-    # Create overlay
-    overlay = Image.new('RGB', (width, height), (0, 0, 0))
-    pixels = overlay.load()
-
-    for y in range(height):
-        for x in range(width):
-            # Calculate distance from center
-            dx = x - center_x
-            dy = y - center_y
-            dist = (dx ** 2 + dy ** 2) ** 0.5
-
-            # Calculate vignette value
-            vignette = min(1, (dist / max_dist) * strength)
+def setup_libreoffice_macro():
+    """Setup LibreOffice macro for recalculation if not already configured"""
+    if platform.system() == 'Darwin':
+        macro_dir = os.path.expanduser('~/Library/Application Support/LibreOffice/4/user/basic/Standard')
+    else:
+        macro_dir = os.path.expanduser('~/.config/libreoffice/4/user/basic/Standard')
+    
+    macro_file = os.path.join(macro_dir, 'Module1.xba')
+    
+    if os.path.exists(macro_file):
+        with open(macro_file, 'r') as f:
+            if 'RecalculateAndSave' in f.read():
+                return True
+    
+    if not os.path.exists(macro_dir):
+        subprocess.run(['soffice', '--headless', '--terminate_after_init'], 
+                      capture_output=True, timeout=10)
+        os.makedirs(macro_dir, exist_ok=True)
+    
+    macro_content = '''<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE script:module PUBLIC "-//OpenOffice.org//DTD OfficeDocument 1.0//EN" "module.dtd">
+<script:module xmlns:script="http://openoffice.org/2000/script" script:name="Module1" script:language="StarBasic">
+    Sub RecalculateAndSave()
+      ThisComponent.calculateAll()
+      ThisComponent.store()
+      ThisComponent.close(True)
+    End Sub
+</script:module>'''
+    
+    try:
+        with open(macro_file, 'w') as f:
 ```
 
 This function is important because it defines how Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows implements the patterns covered in this chapter.
 
-### `slack-gif-creator/core/frame_composer.py`
+### `document-skills/xlsx/recalc.py`
 
-The `draw_star` function in [`slack-gif-creator/core/frame_composer.py`](https://github.com/ComposioHQ/awesome-claude-skills/blob/HEAD/slack-gif-creator/core/frame_composer.py) handles a key part of this chapter's functionality:
+The `main` function in [`document-skills/xlsx/recalc.py`](https://github.com/ComposioHQ/awesome-claude-skills/blob/HEAD/document-skills/xlsx/recalc.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def draw_star(frame: Image.Image, center: tuple[int, int], size: int,
-             fill_color: tuple[int, int, int],
-             outline_color: Optional[tuple[int, int, int]] = None,
-             outline_width: int = 1) -> Image.Image:
-    """
-    Draw a 5-pointed star.
+def main():
+    if len(sys.argv) < 2:
+        print("Usage: python recalc.py <excel_file> [timeout_seconds]")
+        print("\nRecalculates all formulas in an Excel file using LibreOffice")
+        print("\nReturns JSON with error details:")
+        print("  - status: 'success' or 'errors_found'")
+        print("  - total_errors: Total number of Excel errors found")
+        print("  - total_formulas: Number of formulas in the file")
+        print("  - error_summary: Breakdown by error type with locations")
+        print("    - #VALUE!, #DIV/0!, #REF!, #NAME?, #NULL!, #NUM!, #N/A")
+        sys.exit(1)
+    
+    filename = sys.argv[1]
+    timeout = int(sys.argv[2]) if len(sys.argv) > 2 else 30
+    
+    result = recalc(filename, timeout)
+    print(json.dumps(result, indent=2))
 
-    Args:
-        frame: PIL Image to draw on
-        center: (x, y) center position
-        size: Star size (outer radius)
-        fill_color: RGB fill color
-        outline_color: RGB outline color (None for no outline)
-        outline_width: Outline width
 
-    Returns:
-        Modified frame
-    """
-    import math
-    draw = ImageDraw.Draw(frame)
-    x, y = center
-
-    # Calculate star points
-    points = []
-    for i in range(10):
-        angle = (i * 36 - 90) * math.pi / 180  # 36 degrees per point, start at top
-        radius = size if i % 2 == 0 else size * 0.4  # Alternate between outer and inner
-        px = x + radius * math.cos(angle)
-        py = y + radius * math.sin(angle)
-        points.append((px, py))
+if __name__ == '__main__':
+    main()
 ```
 
 This function is important because it defines how Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows implements the patterns covered in this chapter.
@@ -213,11 +202,11 @@ This function is important because it defines how Awesome Claude Skills Tutorial
 
 ```mermaid
 flowchart TD
-    A[draw_circle_with_shadow]
-    B[draw_rounded_rectangle]
-    C[add_vignette]
-    D[draw_star]
-    E[create_zoom_animation]
+    A[create_loading_spinner]
+    B[setup_libreoffice_macro]
+    C[recalc]
+    D[main]
+    E[get_palette]
     A --> B
     B --> C
     C --> D

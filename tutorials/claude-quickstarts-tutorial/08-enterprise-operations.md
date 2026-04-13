@@ -108,88 +108,78 @@ Suggested trace strategy:
 - [Main Catalog](../../README.md#-tutorial-catalog)
 - [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `autonomous-coding/autonomous_agent_demo.py`
+### `agents/agent.py`
 
-The `main` function in [`autonomous-coding/autonomous_agent_demo.py`](https://github.com/anthropics/anthropic-quickstarts/blob/HEAD/autonomous-coding/autonomous_agent_demo.py) handles a key part of this chapter's functionality:
+The `Agent` class in [`agents/agent.py`](https://github.com/anthropics/anthropic-quickstarts/blob/HEAD/agents/agent.py) handles a key part of this chapter's functionality:
 
 ```py
+"""Agent implementation with Claude API and tools."""
+
+import asyncio
+import os
+from contextlib import AsyncExitStack
+from dataclasses import dataclass
+from typing import Any
+
+from anthropic import Anthropic
+
+from .tools.base import Tool
+from .utils.connections import setup_mcp_connections
+from .utils.history_util import MessageHistory
+from .utils.tool_util import execute_tools
 
 
-def main() -> None:
-    """Main entry point."""
-    args = parse_args()
+@dataclass
+class ModelConfig:
+    """Configuration settings for Claude model parameters."""
 
-    # Check for API key
-    if not os.environ.get("ANTHROPIC_API_KEY"):
-        print("Error: ANTHROPIC_API_KEY environment variable not set")
-        print("\nGet your API key from: https://console.anthropic.com/")
-        print("\nThen set it:")
-        print("  export ANTHROPIC_API_KEY='your-api-key-here'")
-        return
-
-    # Automatically place projects in generations/ directory unless already specified
-    project_dir = args.project_dir
-    if not str(project_dir).startswith("generations/"):
-        # Convert relative paths to be under generations/
-        if project_dir.is_absolute():
-            # If absolute path, use as-is
-            pass
-        else:
-            # Prepend generations/ to relative paths
-            project_dir = Path("generations") / project_dir
-
-    # Run the agent
-    try:
-        asyncio.run(
-            run_autonomous_agent(
-                project_dir=project_dir,
-                model=args.model,
-                max_iterations=args.max_iterations,
+    # Available models include:
+    # - claude-sonnet-4-20250514 (default)
+    # - claude-opus-4-20250514
+    # - claude-haiku-4-5-20251001
+    # - claude-3-5-sonnet-20240620
+    # - claude-3-haiku-20240307
+    model: str = "claude-sonnet-4-20250514"
+    max_tokens: int = 4096
+    temperature: float = 1.0
+    context_window_tokens: int = 180000
 ```
 
-This function is important because it defines how Claude Quickstarts Tutorial: Production Integration Patterns implements the patterns covered in this chapter.
+This class is important because it defines how Claude Quickstarts Tutorial: Production Integration Patterns implements the patterns covered in this chapter.
 
-### `browser-use-demo/validate_env.py`
+### `autonomous-coding/prompts.py`
 
-The `validate_env` function in [`browser-use-demo/validate_env.py`](https://github.com/anthropics/anthropic-quickstarts/blob/HEAD/browser-use-demo/validate_env.py) handles a key part of this chapter's functionality:
+The `load_prompt` function in [`autonomous-coding/prompts.py`](https://github.com/anthropics/anthropic-quickstarts/blob/HEAD/autonomous-coding/prompts.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def validate_env():
-    """Validate required environment variables are set."""
-    # Check API key
-    api_key = os.environ.get("ANTHROPIC_API_KEY")
+def load_prompt(name: str) -> str:
+    """Load a prompt template from the prompts directory."""
+    prompt_path = PROMPTS_DIR / f"{name}.md"
+    return prompt_path.read_text()
 
-    if not api_key:
-        print("\n" + "=" * 60)
-        print("ERROR: Missing required configuration!")
-        print("=" * 60)
-        print("\nThe Browser Use Demo requires proper configuration to run.")
-        print("\n🔧 RECOMMENDED: Use docker-compose with a .env file:")
-        print("  1. Copy the example environment file:")
-        print("     cp .env.example .env")
-        print("  2. Edit .env and add your Anthropic API key")
-        print("  3. Run with docker-compose:")
-        print("     docker-compose up --build")
-        print("=" * 60)
-        sys.exit(1)
 
-    if api_key == "your_anthropic_api_key_here" or len(api_key) < 10:
-        print("\n" + "=" * 60)
-        print("ERROR: Invalid API key!")
-        print("=" * 60)
-        print("  ANTHROPIC_API_KEY: Must be a valid API key")
-        print("\nTo fix this, please edit your .env file with a valid API key")
-        print("=" * 60)
-        sys.exit(1)
+def get_initializer_prompt() -> str:
+    """Load the initializer prompt."""
+    return load_prompt("initializer_prompt")
 
-    print("\n✓ Environment validation passed")
-    print(f"  Display: {DISPLAY_WIDTH}x{DISPLAY_HEIGHT}")
+
+def get_coding_prompt() -> str:
+    """Load the coding agent prompt."""
+    return load_prompt("coding_prompt")
+
+
+def copy_spec_to_project(project_dir: Path) -> None:
+    """Copy the app spec file into the project directory for the agent to read."""
+    spec_source = PROMPTS_DIR / "app_spec.txt"
+    spec_dest = project_dir / "app_spec.txt"
+    if not spec_dest.exists():
+        shutil.copy(spec_source, spec_dest)
+        print("Copied app_spec.txt to project directory")
+
 ```
 
 This function is important because it defines how Claude Quickstarts Tutorial: Production Integration Patterns implements the patterns covered in this chapter.
@@ -199,7 +189,7 @@ This function is important because it defines how Claude Quickstarts Tutorial: P
 
 ```mermaid
 flowchart TD
-    A[main]
-    B[validate_env]
+    A[Agent]
+    B[load_prompt]
     A --> B
 ```

@@ -67,98 +67,27 @@ You now have a practical method for controlled plugin adoption.
 
 Next: [Chapter 4: Commands, Natural Language, and Workflow Orchestration](04-commands-natural-language-and-workflow-orchestration.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `tools/yt-design-extractor.py`
+> **Note:** `wshobson/agents` stores all behavior in plugin definition files (Markdown/YAML), not compiled source code. Plugin selection strategy is encoded in the catalog and documentation rather than executable functions.
 
-The `extract_frames_interval` function in [`tools/yt-design-extractor.py`](https://github.com/wshobson/agents/blob/HEAD/tools/yt-design-extractor.py) handles a key part of this chapter's functionality:
+### `docs/plugins.md`
 
-```py
+The [plugin catalog documentation](https://github.com/wshobson/agents/blob/main/docs/plugins.md) is the primary reference for this chapter. It lists all available plugins by category (Backend, Frontend, Cloud, Security, etc.) and explains which workflows each plugin supports — the direct basis for the portfolio profiles described in this chapter.
 
+### `docs/usage.md`
 
-def extract_frames_interval(
-    video_path: Path, out_dir: Path, interval: int = 30
-) -> list[Path]:
-    """Extract one frame every `interval` seconds."""
-    frames_dir = out_dir / "frames"
-    frames_dir.mkdir(exist_ok=True)
-    pattern = str(frames_dir / "frame_%04d.png")
-    cmd = [
-        "ffmpeg",
-        "-i",
-        str(video_path),
-        "-vf",
-        f"fps=1/{interval}",
-        "-q:v",
-        "2",
-        pattern,
-        "-y",
-    ]
-    print(f"[*] Extracting frames every {interval}s …")
-    try:
-        result = subprocess.run(cmd, capture_output=True, text=True, timeout=600)
-    except subprocess.TimeoutExpired:
-        sys.exit("Frame extraction timed out after 10 minutes.")
-    if result.returncode != 0:
-        print(f"[!] ffmpeg frame extraction failed (exit code {result.returncode}):")
-        print(f"    {result.stderr[:500]}")
-        return []
-    frames = sorted(frames_dir.glob("frame_*.png"))
-    if not frames:
-        print(
-```
-
-This function is important because it defines how Wshobson Agents Tutorial: Pluginized Multi-Agent Workflows for Claude Code implements the patterns covered in this chapter.
-
-### `tools/yt-design-extractor.py`
-
-The `extract_frames_scene` function in [`tools/yt-design-extractor.py`](https://github.com/wshobson/agents/blob/HEAD/tools/yt-design-extractor.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-def extract_frames_scene(
-    video_path: Path, out_dir: Path, threshold: float = 0.3
-) -> list[Path]:
-    """Use ffmpeg scene-change detection to grab visually distinct frames."""
-    frames_dir = out_dir / "frames_scene"
-    frames_dir.mkdir(exist_ok=True)
-    pattern = str(frames_dir / "scene_%04d.png")
-    cmd = [
-        "ffmpeg",
-        "-i",
-        str(video_path),
-        "-vf",
-        f"select='gt(scene,{threshold})',showinfo",
-        "-vsync",
-        "vfr",
-        "-q:v",
-        "2",
-        pattern,
-        "-y",
-    ]
-    print(f"[*] Extracting scene-change frames (threshold={threshold}) …")
-    try:
-        result = subprocess.run(cmd, capture_output=True, text=True, timeout=600)
-    except subprocess.TimeoutExpired:
-        sys.exit("Scene-change frame extraction timed out after 10 minutes.")
-    if result.returncode != 0:
-        print(f"[!] ffmpeg scene detection failed (exit code {result.returncode}):")
-        print(f"    {result.stderr[:500]}")
-        return []
-    frames = sorted(frames_dir.glob("scene_*.png"))
-```
-
-This function is important because it defines how Wshobson Agents Tutorial: Pluginized Multi-Agent Workflows for Claude Code implements the patterns covered in this chapter.
-
+The [usage guide](https://github.com/wshobson/agents/blob/main/docs/usage.md) explains the phased installation approach: start minimal, add plugins when workflow gaps emerge. This documents the anti-patterns around over-installation that this chapter covers.
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[extract_frames_interval]
-    B[extract_frames_scene]
-    A --> B
+    A[docs/plugins.md] -->|catalog by category| B[Plugin Selection]
+    B -->|solo engineer profile| C[backend + frontend + review plugins]
+    B -->|platform team profile| D[cloud + kubernetes + cicd plugins]
+    B -->|data/LLM team profile| E[llm + data-engineering + mlops plugins]
+    C --> F[controlled installation]
+    D --> F
+    E --> F
 ```

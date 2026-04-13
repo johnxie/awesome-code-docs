@@ -526,16 +526,24 @@ Under the hood, `Chapter 1: Getting Started with Chatbox` usually follows a repe
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
-## Source Walkthrough
+## Source Code Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+### `src/shared/types.ts`
 
-- [View Repo](https://github.com/Bin-Huang/chatbox)
-  Why it matters: authoritative reference on `View Repo` (github.com).
+The `createMessage` factory in [`src/shared/types.ts`](https://github.com/Bin-Huang/chatbox/blob/main/src/shared/types.ts) is the entry point for every chat interaction in Chatbox:
 
-Suggested trace strategy:
-- search upstream code for `input` and `message` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+```ts
+export function createMessage(role: MessageRole = MessageRoleEnum.User, content: string = ''): Message {
+  return {
+    id: uuidv4(),
+    contentParts: content ? [{ type: 'text', text: content }] : [],
+    role: role,
+    timestamp: Date.now(),
+  }
+}
+```
+
+The `isChatSession` and `isPictureSession` helpers distinguish between the two session modes — text chat (default) and image generation. The `ExportChatFormat` type (`'Markdown' | 'TXT' | 'HTML'`) controls how conversations can be exported for archival.
 
 ## Chapter Connections
 

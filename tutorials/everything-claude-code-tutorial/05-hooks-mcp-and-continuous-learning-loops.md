@@ -44,170 +44,168 @@ You now understand how to run automated feedback loops with controlled risk.
 
 Next: [Chapter 6: Cross-Platform Workflows (Cursor and OpenCode)](06-cross-platform-workflows-cursor-and-opencode.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `scripts/install-plan.js`
+### `.codebuddy/install.js`
 
-The `printPlan` function in [`scripts/install-plan.js`](https://github.com/affaan-m/everything-claude-code/blob/HEAD/scripts/install-plan.js) handles a key part of this chapter's functionality:
-
-```js
-}
-
-function printPlan(plan) {
-  console.log('Install plan:\n');
-  console.log(
-    'Note: target filtering and operation output currently reflect scaffold-level adapter planning, not a byte-for-byte mirror of legacy install.sh copy paths.\n'
-  );
-  console.log(`Profile: ${plan.profileId || '(custom modules)'}`);
-  console.log(`Target: ${plan.target || '(all targets)'}`);
-  console.log(`Included components: ${plan.includedComponentIds.join(', ') || '(none)'}`);
-  console.log(`Excluded components: ${plan.excludedComponentIds.join(', ') || '(none)'}`);
-  console.log(`Requested: ${plan.requestedModuleIds.join(', ')}`);
-  if (plan.targetAdapterId) {
-    console.log(`Adapter: ${plan.targetAdapterId}`);
-    console.log(`Target root: ${plan.targetRoot}`);
-    console.log(`Install-state: ${plan.installStatePath}`);
-  }
-  console.log('');
-  console.log(`Selected modules (${plan.selectedModuleIds.length}):`);
-  for (const module of plan.selectedModules) {
-    console.log(`- ${module.id} [${module.kind}]`);
-  }
-
-  if (plan.skippedModuleIds.length > 0) {
-    console.log('');
-    console.log(`Skipped for target ${plan.target} (${plan.skippedModuleIds.length}):`);
-    for (const module of plan.skippedModules) {
-      console.log(`- ${module.id} [${module.kind}]`);
-    }
-  }
-
-  if (plan.excludedModuleIds.length > 0) {
-```
-
-This function is important because it defines how Everything Claude Code Tutorial: Production Configuration Patterns for Claude Code implements the patterns covered in this chapter.
-
-### `scripts/install-plan.js`
-
-The `main` function in [`scripts/install-plan.js`](https://github.com/affaan-m/everything-claude-code/blob/HEAD/scripts/install-plan.js) handles a key part of this chapter's functionality:
+The `ensureDir` function in [`.codebuddy/install.js`](https://github.com/affaan-m/everything-claude-code/blob/HEAD/.codebuddy/install.js) handles a key part of this chapter's functionality:
 
 ```js
-}
-
-function main() {
+ * Ensure directory exists
+ */
+function ensureDir(dirPath) {
   try {
-    const options = parseArgs(process.argv);
-
-    if (options.help || process.argv.length <= 2) {
-      showHelp();
-      process.exit(0);
+    if (!fs.existsSync(dirPath)) {
+      fs.mkdirSync(dirPath, { recursive: true });
     }
-
-    if (options.listProfiles) {
-      const profiles = listInstallProfiles();
-      if (options.json) {
-        console.log(JSON.stringify({ profiles }, null, 2));
-      } else {
-        printProfiles(profiles);
-      }
-      return;
+  } catch (err) {
+    if (err.code !== 'EEXIST') {
+      throw err;
     }
+  }
+}
 
-    if (options.listModules) {
-      const modules = listInstallModules();
-      if (options.json) {
-        console.log(JSON.stringify({ modules }, null, 2));
-      } else {
-        printModules(modules);
-      }
-      return;
+/**
+ * Read lines from a file
+ */
+function readLines(filePath) {
+  try {
+    if (!fs.existsSync(filePath)) {
+      return [];
     }
+    const content = fs.readFileSync(filePath, 'utf8');
+    return content.split('\n').filter(line => line.length > 0);
+  } catch {
+    return [];
+  }
+}
 
-    if (options.listComponents) {
+/**
+ * Check if manifest contains an entry
+ */
 ```
 
 This function is important because it defines how Everything Claude Code Tutorial: Production Configuration Patterns for Claude Code implements the patterns covered in this chapter.
 
-### `scripts/skill-create-output.js`
+### `.codebuddy/install.js`
 
-The `SkillCreateOutput` class in [`scripts/skill-create-output.js`](https://github.com/affaan-m/everything-claude-code/blob/HEAD/scripts/skill-create-output.js) handles a key part of this chapter's functionality:
+The `readLines` function in [`.codebuddy/install.js`](https://github.com/affaan-m/everything-claude-code/blob/HEAD/.codebuddy/install.js) handles a key part of this chapter's functionality:
 
 ```js
-
-// Main output formatter
-class SkillCreateOutput {
-  constructor(repoName, options = {}) {
-    this.repoName = repoName;
-    this.options = options;
-    this.width = options.width || 70;
+ * Read lines from a file
+ */
+function readLines(filePath) {
+  try {
+    if (!fs.existsSync(filePath)) {
+      return [];
+    }
+    const content = fs.readFileSync(filePath, 'utf8');
+    return content.split('\n').filter(line => line.length > 0);
+  } catch {
+    return [];
   }
+}
 
-  header() {
-    const subtitle = `Extracting patterns from ${chalk.cyan(this.repoName)}`;
+/**
+ * Check if manifest contains an entry
+ */
+function manifestHasEntry(manifestPath, entry) {
+  const lines = readLines(manifestPath);
+  return lines.includes(entry);
+}
 
-    console.log('\n');
-    console.log(chalk.bold(chalk.magenta('╔════════════════════════════════════════════════════════════════╗')));
-    console.log(chalk.bold(chalk.magenta('║')) + chalk.bold('  🔮 ECC Skill Creator                                          ') + chalk.bold(chalk.magenta('║')));
-    console.log(chalk.bold(chalk.magenta('║')) + `     ${subtitle}${' '.repeat(Math.max(0, 59 - stripAnsi(subtitle).length))}` + chalk.bold(chalk.magenta('║')));
-    console.log(chalk.bold(chalk.magenta('╚════════════════════════════════════════════════════════════════╝')));
-    console.log('');
-  }
-
-  async analyzePhase(data) {
-    const steps = [
-      { name: 'Parsing git history...', duration: 300 },
-      { name: `Found ${chalk.yellow(data.commits)} commits`, duration: 200 },
-      { name: 'Analyzing commit patterns...', duration: 400 },
-      { name: 'Detecting file co-changes...', duration: 300 },
-      { name: 'Identifying workflows...', duration: 400 },
-      { name: 'Extracting architecture patterns...', duration: 300 },
-    ];
-
-    await animateProgress('Analyzing Repository', steps);
-  }
+/**
+ * Add entry to manifest
+ */
+function ensureManifestEntry(manifestPath, entry) {
+  try {
+    const lines = readLines(manifestPath);
+    if (!lines.includes(entry)) {
+      const content = lines.join('\n') + (lines.length > 0 ? '\n' : '') + entry + '\n';
+      fs.writeFileSync(manifestPath, content, 'utf8');
+    }
 ```
 
-This class is important because it defines how Everything Claude Code Tutorial: Production Configuration Patterns for Claude Code implements the patterns covered in this chapter.
+This function is important because it defines how Everything Claude Code Tutorial: Production Configuration Patterns for Claude Code implements the patterns covered in this chapter.
 
-### `scripts/skill-create-output.js`
+### `.codebuddy/install.js`
 
-The `box` function in [`scripts/skill-create-output.js`](https://github.com/affaan-m/everything-claude-code/blob/HEAD/scripts/skill-create-output.js) handles a key part of this chapter's functionality:
+The `manifestHasEntry` function in [`.codebuddy/install.js`](https://github.com/affaan-m/everything-claude-code/blob/HEAD/.codebuddy/install.js) handles a key part of this chapter's functionality:
 
 ```js
-
-// Helper functions
-function box(title, content, width = 60) {
-  const lines = content.split('\n');
-  const top = `${BOX.topLeft}${BOX.horizontal} ${chalk.bold(chalk.cyan(title))} ${BOX.horizontal.repeat(Math.max(0, width - title.length - 5))}${BOX.topRight}`;
-  const bottom = `${BOX.bottomLeft}${BOX.horizontal.repeat(width - 2)}${BOX.bottomRight}`;
-  const middle = lines.map(line => {
-    const padding = width - 4 - stripAnsi(line).length;
-    return `${BOX.vertical} ${line}${' '.repeat(Math.max(0, padding))} ${BOX.vertical}`;
-  }).join('\n');
-  return `${top}\n${middle}\n${bottom}`;
+ * Check if manifest contains an entry
+ */
+function manifestHasEntry(manifestPath, entry) {
+  const lines = readLines(manifestPath);
+  return lines.includes(entry);
 }
 
-function stripAnsi(str) {
-  // eslint-disable-next-line no-control-regex
-  return str.replace(/\x1b\[[0-9;]*m/g, '');
+/**
+ * Add entry to manifest
+ */
+function ensureManifestEntry(manifestPath, entry) {
+  try {
+    const lines = readLines(manifestPath);
+    if (!lines.includes(entry)) {
+      const content = lines.join('\n') + (lines.length > 0 ? '\n' : '') + entry + '\n';
+      fs.writeFileSync(manifestPath, content, 'utf8');
+    }
+  } catch (err) {
+    console.error(`Error updating manifest: ${err.message}`);
+  }
 }
 
-function progressBar(percent, width = 30) {
-  const filled = Math.min(width, Math.max(0, Math.round(width * percent / 100)));
-  const empty = width - filled;
-  const bar = chalk.green('█'.repeat(filled)) + chalk.gray('░'.repeat(empty));
-  return `${bar} ${chalk.bold(percent)}%`;
+/**
+ * Copy a file and manage in manifest
+ */
+function copyManagedFile(sourcePath, targetPath, manifestPath, manifestEntry, makeExecutable = false) {
+  const alreadyManaged = manifestHasEntry(manifestPath, manifestEntry);
+
+  // If target file already exists
+  if (fs.existsSync(targetPath)) {
+    if (alreadyManaged) {
+      ensureManifestEntry(manifestPath, manifestEntry);
+```
+
+This function is important because it defines how Everything Claude Code Tutorial: Production Configuration Patterns for Claude Code implements the patterns covered in this chapter.
+
+### `.codebuddy/install.js`
+
+The `ensureManifestEntry` function in [`.codebuddy/install.js`](https://github.com/affaan-m/everything-claude-code/blob/HEAD/.codebuddy/install.js) handles a key part of this chapter's functionality:
+
+```js
+ * Add entry to manifest
+ */
+function ensureManifestEntry(manifestPath, entry) {
+  try {
+    const lines = readLines(manifestPath);
+    if (!lines.includes(entry)) {
+      const content = lines.join('\n') + (lines.length > 0 ? '\n' : '') + entry + '\n';
+      fs.writeFileSync(manifestPath, content, 'utf8');
+    }
+  } catch (err) {
+    console.error(`Error updating manifest: ${err.message}`);
+  }
 }
 
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
+/**
+ * Copy a file and manage in manifest
+ */
+function copyManagedFile(sourcePath, targetPath, manifestPath, manifestEntry, makeExecutable = false) {
+  const alreadyManaged = manifestHasEntry(manifestPath, manifestEntry);
 
-async function animateProgress(label, steps, callback) {
-  process.stdout.write(`\n${chalk.cyan('⏳')} ${label}...\n`);
+  // If target file already exists
+  if (fs.existsSync(targetPath)) {
+    if (alreadyManaged) {
+      ensureManifestEntry(manifestPath, manifestEntry);
+    }
+    return false;
+  }
 
+  // Copy the file
+  try {
+    ensureDir(path.dirname(targetPath));
+    fs.copyFileSync(sourcePath, targetPath);
 ```
 
 This function is important because it defines how Everything Claude Code Tutorial: Production Configuration Patterns for Claude Code implements the patterns covered in this chapter.
@@ -217,11 +215,11 @@ This function is important because it defines how Everything Claude Code Tutoria
 
 ```mermaid
 flowchart TD
-    A[printPlan]
-    B[main]
-    C[SkillCreateOutput]
-    D[box]
-    E[stripAnsi]
+    A[ensureDir]
+    B[readLines]
+    C[manifestHasEntry]
+    D[ensureManifestEntry]
+    E[copyManagedFile]
     A --> B
     B --> C
     C --> D

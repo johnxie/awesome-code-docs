@@ -30,170 +30,168 @@ You now understand how to apply automation controls without removing governance.
 
 Next: [Chapter 7: Configuration and State Management](07-configuration-and-state-management.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `app/help.go`
+### `config/config.go`
 
-The `toContent` function in [`app/help.go`](https://github.com/smtg-ai/claude-squad/blob/HEAD/app/help.go) handles a key part of this chapter's functionality:
+The `GetProfiles` function in [`config/config.go`](https://github.com/smtg-ai/claude-squad/blob/HEAD/config/config.go) handles a key part of this chapter's functionality:
 
 ```go
-
-type helpText interface {
-	// toContent returns the help UI content.
-	toContent() string
-	// mask returns the bit mask for this help text. These are used to track which help screens
-	// have been seen in the config and app state.
-	mask() uint32
 }
 
-type helpTypeGeneral struct{}
-
-type helpTypeInstanceStart struct {
-	instance *session.Instance
+// GetProfiles returns a unified list of profiles. If Profiles is defined,
+// those are returned with the default profile first. Otherwise, a single
+// profile is synthesized from DefaultProgram.
+func (c *Config) GetProfiles() []Profile {
+	if len(c.Profiles) == 0 {
+		return []Profile{{Name: c.DefaultProgram, Program: c.DefaultProgram}}
+	}
+	// Reorder so the default profile comes first.
+	profiles := make([]Profile, 0, len(c.Profiles))
+	for _, p := range c.Profiles {
+		if p.Name == c.DefaultProgram {
+			profiles = append(profiles, p)
+			break
+		}
+	}
+	for _, p := range c.Profiles {
+		if p.Name != c.DefaultProgram {
+			profiles = append(profiles, p)
+		}
+	}
+	return profiles
 }
 
-type helpTypeInstanceAttach struct{}
-
-type helpTypeInstanceCheckout struct{}
-
-func helpStart(instance *session.Instance) helpText {
-	return helpTypeInstanceStart{instance: instance}
-}
-
-func (h helpTypeGeneral) toContent() string {
-	content := lipgloss.JoinVertical(lipgloss.Left,
-		titleStyle.Render("Claude Squad"),
-		"",
-		"A terminal UI that manages multiple Claude Code (and other local agents) in separate workspaces.",
-		"",
-		headerStyle.Render("Managing:"),
-		keyStyle.Render("n")+descStyle.Render("         - Create a new session"),
-		keyStyle.Render("N")+descStyle.Render("         - Create a new session with a prompt"),
+// DefaultConfig returns the default configuration
+func DefaultConfig() *Config {
+	program, err := GetClaudeCommand()
+	if err != nil {
+		log.ErrorLog.Printf("failed to get claude command: %v", err)
+		program = defaultProgram
+	}
 ```
 
 This function is important because it defines how Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration implements the patterns covered in this chapter.
 
-### `app/help.go`
+### `config/config.go`
 
-The `toContent` function in [`app/help.go`](https://github.com/smtg-ai/claude-squad/blob/HEAD/app/help.go) handles a key part of this chapter's functionality:
+The `DefaultConfig` function in [`config/config.go`](https://github.com/smtg-ai/claude-squad/blob/HEAD/config/config.go) handles a key part of this chapter's functionality:
 
 ```go
-
-type helpText interface {
-	// toContent returns the help UI content.
-	toContent() string
-	// mask returns the bit mask for this help text. These are used to track which help screens
-	// have been seen in the config and app state.
-	mask() uint32
 }
 
-type helpTypeGeneral struct{}
+// DefaultConfig returns the default configuration
+func DefaultConfig() *Config {
+	program, err := GetClaudeCommand()
+	if err != nil {
+		log.ErrorLog.Printf("failed to get claude command: %v", err)
+		program = defaultProgram
+	}
 
-type helpTypeInstanceStart struct {
-	instance *session.Instance
+	return &Config{
+		DefaultProgram:     program,
+		AutoYes:            false,
+		DaemonPollInterval: 1000,
+		BranchPrefix: func() string {
+			user, err := user.Current()
+			if err != nil || user == nil || user.Username == "" {
+				log.ErrorLog.Printf("failed to get current user: %v", err)
+				return "session/"
+			}
+			return fmt.Sprintf("%s/", strings.ToLower(user.Username))
+		}(),
+	}
 }
 
-type helpTypeInstanceAttach struct{}
-
-type helpTypeInstanceCheckout struct{}
-
-func helpStart(instance *session.Instance) helpText {
-	return helpTypeInstanceStart{instance: instance}
-}
-
-func (h helpTypeGeneral) toContent() string {
-	content := lipgloss.JoinVertical(lipgloss.Left,
-		titleStyle.Render("Claude Squad"),
-		"",
-		"A terminal UI that manages multiple Claude Code (and other local agents) in separate workspaces.",
-		"",
-		headerStyle.Render("Managing:"),
-		keyStyle.Render("n")+descStyle.Render("         - Create a new session"),
-		keyStyle.Render("N")+descStyle.Render("         - Create a new session with a prompt"),
+// GetClaudeCommand attempts to find the "claude" command in the user's shell
+// It checks in the following order:
+// 1. Shell alias resolution: using "which" command
+// 2. PATH lookup
+//
+// If both fail, it returns an error.
+func GetClaudeCommand() (string, error) {
 ```
 
 This function is important because it defines how Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration implements the patterns covered in this chapter.
 
-### `app/help.go`
+### `config/config.go`
 
-The `toContent` function in [`app/help.go`](https://github.com/smtg-ai/claude-squad/blob/HEAD/app/help.go) handles a key part of this chapter's functionality:
+The `GetClaudeCommand` function in [`config/config.go`](https://github.com/smtg-ai/claude-squad/blob/HEAD/config/config.go) handles a key part of this chapter's functionality:
 
 ```go
+// DefaultConfig returns the default configuration
+func DefaultConfig() *Config {
+	program, err := GetClaudeCommand()
+	if err != nil {
+		log.ErrorLog.Printf("failed to get claude command: %v", err)
+		program = defaultProgram
+	}
 
-type helpText interface {
-	// toContent returns the help UI content.
-	toContent() string
-	// mask returns the bit mask for this help text. These are used to track which help screens
-	// have been seen in the config and app state.
-	mask() uint32
+	return &Config{
+		DefaultProgram:     program,
+		AutoYes:            false,
+		DaemonPollInterval: 1000,
+		BranchPrefix: func() string {
+			user, err := user.Current()
+			if err != nil || user == nil || user.Username == "" {
+				log.ErrorLog.Printf("failed to get current user: %v", err)
+				return "session/"
+			}
+			return fmt.Sprintf("%s/", strings.ToLower(user.Username))
+		}(),
+	}
 }
 
-type helpTypeGeneral struct{}
-
-type helpTypeInstanceStart struct {
-	instance *session.Instance
-}
-
-type helpTypeInstanceAttach struct{}
-
-type helpTypeInstanceCheckout struct{}
-
-func helpStart(instance *session.Instance) helpText {
-	return helpTypeInstanceStart{instance: instance}
-}
-
-func (h helpTypeGeneral) toContent() string {
-	content := lipgloss.JoinVertical(lipgloss.Left,
-		titleStyle.Render("Claude Squad"),
-		"",
-		"A terminal UI that manages multiple Claude Code (and other local agents) in separate workspaces.",
-		"",
-		headerStyle.Render("Managing:"),
-		keyStyle.Render("n")+descStyle.Render("         - Create a new session"),
-		keyStyle.Render("N")+descStyle.Render("         - Create a new session with a prompt"),
+// GetClaudeCommand attempts to find the "claude" command in the user's shell
+// It checks in the following order:
+// 1. Shell alias resolution: using "which" command
+// 2. PATH lookup
+//
+// If both fail, it returns an error.
+func GetClaudeCommand() (string, error) {
+	shell := os.Getenv("SHELL")
+	if shell == "" {
 ```
 
 This function is important because it defines how Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration implements the patterns covered in this chapter.
 
-### `app/help.go`
+### `config/config.go`
 
-The `toContent` function in [`app/help.go`](https://github.com/smtg-ai/claude-squad/blob/HEAD/app/help.go) handles a key part of this chapter's functionality:
+The `LoadConfig` function in [`config/config.go`](https://github.com/smtg-ai/claude-squad/blob/HEAD/config/config.go) handles a key part of this chapter's functionality:
 
 ```go
-
-type helpText interface {
-	// toContent returns the help UI content.
-	toContent() string
-	// mask returns the bit mask for this help text. These are used to track which help screens
-	// have been seen in the config and app state.
-	mask() uint32
 }
 
-type helpTypeGeneral struct{}
+func LoadConfig() *Config {
+	configDir, err := GetConfigDir()
+	if err != nil {
+		log.ErrorLog.Printf("failed to get config directory: %v", err)
+		return DefaultConfig()
+	}
 
-type helpTypeInstanceStart struct {
-	instance *session.Instance
-}
+	configPath := filepath.Join(configDir, ConfigFileName)
+	data, err := os.ReadFile(configPath)
+	if err != nil {
+		if os.IsNotExist(err) {
+			// Create and save default config if file doesn't exist
+			defaultCfg := DefaultConfig()
+			if saveErr := saveConfig(defaultCfg); saveErr != nil {
+				log.WarningLog.Printf("failed to save default config: %v", saveErr)
+			}
+			return defaultCfg
+		}
 
-type helpTypeInstanceAttach struct{}
+		log.WarningLog.Printf("failed to get config file: %v", err)
+		return DefaultConfig()
+	}
 
-type helpTypeInstanceCheckout struct{}
+	var config Config
+	if err := json.Unmarshal(data, &config); err != nil {
+		log.ErrorLog.Printf("failed to parse config file: %v", err)
+		return DefaultConfig()
+	}
 
-func helpStart(instance *session.Instance) helpText {
-	return helpTypeInstanceStart{instance: instance}
-}
-
-func (h helpTypeGeneral) toContent() string {
-	content := lipgloss.JoinVertical(lipgloss.Left,
-		titleStyle.Render("Claude Squad"),
-		"",
-		"A terminal UI that manages multiple Claude Code (and other local agents) in separate workspaces.",
-		"",
-		headerStyle.Render("Managing:"),
-		keyStyle.Render("n")+descStyle.Render("         - Create a new session"),
-		keyStyle.Render("N")+descStyle.Render("         - Create a new session with a prompt"),
+	return &config
 ```
 
 This function is important because it defines how Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration implements the patterns covered in this chapter.
@@ -203,11 +201,11 @@ This function is important because it defines how Claude Squad Tutorial: Multi-A
 
 ```mermaid
 flowchart TD
-    A[toContent]
-    B[toContent]
-    C[toContent]
-    D[toContent]
-    E[mask]
+    A[GetProfiles]
+    B[DefaultConfig]
+    C[GetClaudeCommand]
+    D[LoadConfig]
+    E[saveConfig]
     A --> B
     B --> C
     C --> D

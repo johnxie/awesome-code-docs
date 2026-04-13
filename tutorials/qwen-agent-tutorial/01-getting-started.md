@@ -38,91 +38,7 @@ You now have a working Qwen-Agent baseline.
 
 Next: [Chapter 2: Framework Architecture and Core Modules](02-framework-architecture-and-core-modules.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
-
-### `examples/function_calling.py`
-
-The `get_current_weather` function in [`examples/function_calling.py`](https://github.com/QwenLM/Qwen-Agent/blob/HEAD/examples/function_calling.py) handles a key part of this chapter's functionality:
-
-```py
-# Example dummy function hard coded to return the same weather
-# In production, this could be your backend API or an external API
-def get_current_weather(location, unit='fahrenheit'):
-    """Get the current weather in a given location"""
-    if 'tokyo' in location.lower():
-        return json.dumps({'location': 'Tokyo', 'temperature': '10', 'unit': 'celsius'})
-    elif 'san francisco' in location.lower():
-        return json.dumps({'location': 'San Francisco', 'temperature': '72', 'unit': 'fahrenheit'})
-    elif 'paris' in location.lower():
-        return json.dumps({'location': 'Paris', 'temperature': '22', 'unit': 'celsius'})
-    else:
-        return json.dumps({'location': location, 'temperature': 'unknown'})
-
-
-def test(fncall_prompt_type: str = 'qwen'):
-    llm = get_chat_model({
-        # Use the model service provided by DashScope:
-        'model': 'qwen-plus-latest',
-        'model_server': 'dashscope',
-        'api_key': os.getenv('DASHSCOPE_API_KEY'),
-        'generate_cfg': {
-            'fncall_prompt_type': fncall_prompt_type
-        },
-
-        # Use the OpenAI-compatible model service provided by DashScope:
-        # 'model': 'qwen2.5-72b-instruct',
-        # 'model_server': 'https://dashscope.aliyuncs.com/compatible-mode/v1',
-        # 'api_key': os.getenv('DASHSCOPE_API_KEY'),
-
-        # Use the model service provided by Together.AI:
-        # 'model': 'Qwen/qwen2.5-7b-instruct',
-        # 'model_server': 'https://api.together.xyz',  # api_base
-```
-
-This function is important because it defines how Qwen-Agent Tutorial: Tool-Enabled Agent Framework with MCP, RAG, and Multi-Modal Workflows implements the patterns covered in this chapter.
-
-### `examples/function_calling.py`
-
-The `test` function in [`examples/function_calling.py`](https://github.com/QwenLM/Qwen-Agent/blob/HEAD/examples/function_calling.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-def test(fncall_prompt_type: str = 'qwen'):
-    llm = get_chat_model({
-        # Use the model service provided by DashScope:
-        'model': 'qwen-plus-latest',
-        'model_server': 'dashscope',
-        'api_key': os.getenv('DASHSCOPE_API_KEY'),
-        'generate_cfg': {
-            'fncall_prompt_type': fncall_prompt_type
-        },
-
-        # Use the OpenAI-compatible model service provided by DashScope:
-        # 'model': 'qwen2.5-72b-instruct',
-        # 'model_server': 'https://dashscope.aliyuncs.com/compatible-mode/v1',
-        # 'api_key': os.getenv('DASHSCOPE_API_KEY'),
-
-        # Use the model service provided by Together.AI:
-        # 'model': 'Qwen/qwen2.5-7b-instruct',
-        # 'model_server': 'https://api.together.xyz',  # api_base
-        # 'api_key': os.getenv('TOGETHER_API_KEY'),
-
-        # Use your own model service compatible with OpenAI API:
-        # 'model': 'Qwen/qwen2.5-7b-instruct',
-        # 'model_server': 'http://localhost:8000/v1',  # api_base
-        # 'api_key': 'EMPTY',
-    })
-
-    # Step 1: send the conversation and available functions to the model
-    messages = [{'role': 'user', 'content': "What's the weather like in San Francisco?"}]
-    functions = [{
-        'name': 'get_current_weather',
-```
-
-This function is important because it defines how Qwen-Agent Tutorial: Tool-Enabled Agent Framework with MCP, RAG, and Multi-Modal Workflows implements the patterns covered in this chapter.
 
 ### `setup.py`
 
@@ -206,16 +122,98 @@ setup(
 
 This function is important because it defines how Qwen-Agent Tutorial: Tool-Enabled Agent Framework with MCP, RAG, and Multi-Modal Workflows implements the patterns covered in this chapter.
 
+### `qwen_agent/agent.py`
+
+The `Agent` class in [`qwen_agent/agent.py`](https://github.com/QwenLM/Qwen-Agent/blob/HEAD/qwen_agent/agent.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+class Agent(ABC):
+    """A base class for Agent.
+
+    An agent can receive messages and provide response by LLM or Tools.
+    Different agents have distinct workflows for processing messages and generating responses in the `_run` method.
+    """
+
+    def __init__(self,
+                 function_list: Optional[List[Union[str, Dict, BaseTool]]] = None,
+                 llm: Optional[Union[dict, BaseChatModel]] = None,
+                 system_message: Optional[str] = DEFAULT_SYSTEM_MESSAGE,
+                 name: Optional[str] = None,
+                 description: Optional[str] = None,
+                 **kwargs):
+        """Initialization the agent.
+
+        Args:
+            function_list: One list of tool name, tool configuration or Tool object,
+              such as 'code_interpreter', {'name': 'code_interpreter', 'timeout': 10}, or CodeInterpreter().
+            llm: The LLM model configuration or LLM model object.
+              Set the configuration as {'model': '', 'api_key': '', 'model_server': ''}.
+            system_message: The specified system message for LLM chat.
+            name: The name of this agent.
+            description: The description of this agent, which will be used for multi_agent.
+        """
+        if isinstance(llm, dict):
+            self.llm = get_chat_model(llm)
+        else:
+            self.llm = llm
+        self.extra_generate_cfg: dict = {}
+```
+
+This class is important because it defines how Qwen-Agent Tutorial: Tool-Enabled Agent Framework with MCP, RAG, and Multi-Modal Workflows implements the patterns covered in this chapter.
+
+### `qwen_agent/agent.py`
+
+The `for` class in [`qwen_agent/agent.py`](https://github.com/QwenLM/Qwen-Agent/blob/HEAD/qwen_agent/agent.py) handles a key part of this chapter's functionality:
+
+```py
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+import copy
+import json
+import traceback
+from abc import ABC, abstractmethod
+from typing import Dict, Iterator, List, Optional, Tuple, Union
+
+from qwen_agent.llm import get_chat_model
+from qwen_agent.llm.base import BaseChatModel
+from qwen_agent.llm.schema import CONTENT, DEFAULT_SYSTEM_MESSAGE, ROLE, SYSTEM, ContentItem, Message
+from qwen_agent.log import logger
+from qwen_agent.tools import TOOL_REGISTRY, BaseTool, MCPManager
+from qwen_agent.tools.base import ToolServiceError
+from qwen_agent.tools.simple_doc_parser import DocParserError
+from qwen_agent.utils.utils import has_chinese_messages, merge_generate_cfgs
+
+
+class Agent(ABC):
+    """A base class for Agent.
+
+    An agent can receive messages and provide response by LLM or Tools.
+    Different agents have distinct workflows for processing messages and generating responses in the `_run` method.
+    """
+
+    def __init__(self,
+                 function_list: Optional[List[Union[str, Dict, BaseTool]]] = None,
+                 llm: Optional[Union[dict, BaseChatModel]] = None,
+                 system_message: Optional[str] = DEFAULT_SYSTEM_MESSAGE,
+```
+
+This class is important because it defines how Qwen-Agent Tutorial: Tool-Enabled Agent Framework with MCP, RAG, and Multi-Modal Workflows implements the patterns covered in this chapter.
+
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[get_current_weather]
-    B[test]
-    C[get_version]
-    D[read_description]
-    E[Agent]
+    A[get_version]
+    B[read_description]
+    C[Agent]
+    D[for]
+    E[needs]
     A --> B
     B --> C
     C --> D

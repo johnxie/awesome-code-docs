@@ -45,170 +45,168 @@ You now understand the component architecture and boundaries.
 
 Next: [Chapter 3: Installation Modes and Rules Strategy](03-installation-modes-and-rules-strategy.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `scripts/claw.js`
+### `scripts/harness-audit.js`
 
-The `parseTurns` function in [`scripts/claw.js`](https://github.com/affaan-m/everything-claude-code/blob/HEAD/scripts/claw.js) handles a key part of this chapter's functionality:
+The `summarizeCategoryScores` function in [`scripts/harness-audit.js`](https://github.com/affaan-m/everything-claude-code/blob/HEAD/scripts/harness-audit.js) handles a key part of this chapter's functionality:
 
 ```js
 }
 
-function parseTurns(history) {
-  const turns = [];
-  const regex = /### \[([^\]]+)\] ([^\n]+)\n([\s\S]*?)\n---\n/g;
-  let match;
-  while ((match = regex.exec(history)) !== null) {
-    turns.push({ timestamp: match[1], role: match[2], content: match[3] });
+function summarizeCategoryScores(checks) {
+  const scores = {};
+  for (const category of CATEGORIES) {
+    const inCategory = checks.filter(check => check.category === category);
+    const max = inCategory.reduce((sum, check) => sum + check.points, 0);
+    const earned = inCategory
+      .filter(check => check.pass)
+      .reduce((sum, check) => sum + check.points, 0);
+
+    const normalized = max === 0 ? 0 : Math.round((earned / max) * 10);
+    scores[category] = {
+      score: normalized,
+      earned,
+      max,
+    };
   }
-  return turns;
+
+  return scores;
 }
 
-function estimateTokenCount(text) {
-  return Math.ceil((text || '').length / 4);
-}
-
-function getSessionMetrics(filePath) {
-  const history = loadHistory(filePath);
-  const turns = parseTurns(history);
-  const charCount = history.length;
-  const tokenEstimate = estimateTokenCount(history);
-  const userTurns = turns.filter(t => t.role === 'User').length;
-  const assistantTurns = turns.filter(t => t.role === 'Assistant').length;
-
-  return {
-    turns: turns.length,
-    userTurns,
-    assistantTurns,
-    charCount,
-    tokenEstimate,
-  };
-}
+function buildReport(scope, options = {}) {
+  const rootDir = path.resolve(options.rootDir || process.cwd());
+  const targetMode = options.targetMode || detectTargetMode(rootDir);
+  const checks = (targetMode === 'repo' ? getRepoChecks(rootDir) : getConsumerChecks(rootDir))
+    .filter(check => check.scopes.includes(scope));
+  const categoryScores = summarizeCategoryScores(checks);
+  const maxScore = checks.reduce((sum, check) => sum + check.points, 0);
+  const overallScore = checks
+    .filter(check => check.pass)
+    .reduce((sum, check) => sum + check.points, 0);
 ```
 
 This function is important because it defines how Everything Claude Code Tutorial: Production Configuration Patterns for Claude Code implements the patterns covered in this chapter.
 
-### `scripts/claw.js`
+### `scripts/harness-audit.js`
 
-The `estimateTokenCount` function in [`scripts/claw.js`](https://github.com/affaan-m/everything-claude-code/blob/HEAD/scripts/claw.js) handles a key part of this chapter's functionality:
+The `buildReport` function in [`scripts/harness-audit.js`](https://github.com/affaan-m/everything-claude-code/blob/HEAD/scripts/harness-audit.js) handles a key part of this chapter's functionality:
 
 ```js
 }
 
-function estimateTokenCount(text) {
-  return Math.ceil((text || '').length / 4);
-}
+function buildReport(scope, options = {}) {
+  const rootDir = path.resolve(options.rootDir || process.cwd());
+  const targetMode = options.targetMode || detectTargetMode(rootDir);
+  const checks = (targetMode === 'repo' ? getRepoChecks(rootDir) : getConsumerChecks(rootDir))
+    .filter(check => check.scopes.includes(scope));
+  const categoryScores = summarizeCategoryScores(checks);
+  const maxScore = checks.reduce((sum, check) => sum + check.points, 0);
+  const overallScore = checks
+    .filter(check => check.pass)
+    .reduce((sum, check) => sum + check.points, 0);
 
-function getSessionMetrics(filePath) {
-  const history = loadHistory(filePath);
-  const turns = parseTurns(history);
-  const charCount = history.length;
-  const tokenEstimate = estimateTokenCount(history);
-  const userTurns = turns.filter(t => t.role === 'User').length;
-  const assistantTurns = turns.filter(t => t.role === 'Assistant').length;
+  const failedChecks = checks.filter(check => !check.pass);
+  const topActions = failedChecks
+    .sort((left, right) => right.points - left.points)
+    .slice(0, 3)
+    .map(check => ({
+      action: check.fix,
+      path: check.path,
+      category: check.category,
+      points: check.points,
+    }));
 
   return {
-    turns: turns.length,
-    userTurns,
-    assistantTurns,
-    charCount,
-    tokenEstimate,
-  };
-}
-
-function searchSessions(query, dir) {
-  const q = String(query || '').toLowerCase().trim();
-  if (!q) return [];
-
-  const sessionDir = dir || getClawDir();
-  const sessions = listSessions(sessionDir);
-  const results = [];
-  for (const name of sessions) {
-    const p = path.join(sessionDir, `${name}.md`);
+    scope,
+    root_dir: rootDir,
+    target_mode: targetMode,
+    deterministic: true,
+    rubric_version: '2026-03-30',
+    overall_score: overallScore,
+    max_score: maxScore,
 ```
 
 This function is important because it defines how Everything Claude Code Tutorial: Production Configuration Patterns for Claude Code implements the patterns covered in this chapter.
 
-### `scripts/claw.js`
+### `scripts/harness-audit.js`
 
-The `getSessionMetrics` function in [`scripts/claw.js`](https://github.com/affaan-m/everything-claude-code/blob/HEAD/scripts/claw.js) handles a key part of this chapter's functionality:
-
-```js
-}
-
-function getSessionMetrics(filePath) {
-  const history = loadHistory(filePath);
-  const turns = parseTurns(history);
-  const charCount = history.length;
-  const tokenEstimate = estimateTokenCount(history);
-  const userTurns = turns.filter(t => t.role === 'User').length;
-  const assistantTurns = turns.filter(t => t.role === 'Assistant').length;
-
-  return {
-    turns: turns.length,
-    userTurns,
-    assistantTurns,
-    charCount,
-    tokenEstimate,
-  };
-}
-
-function searchSessions(query, dir) {
-  const q = String(query || '').toLowerCase().trim();
-  if (!q) return [];
-
-  const sessionDir = dir || getClawDir();
-  const sessions = listSessions(sessionDir);
-  const results = [];
-  for (const name of sessions) {
-    const p = path.join(sessionDir, `${name}.md`);
-    const content = loadHistory(p);
-    if (!content) continue;
-
-    const idx = content.toLowerCase().indexOf(q);
-```
-
-This function is important because it defines how Everything Claude Code Tutorial: Production Configuration Patterns for Claude Code implements the patterns covered in this chapter.
-
-### `scripts/claw.js`
-
-The `searchSessions` function in [`scripts/claw.js`](https://github.com/affaan-m/everything-claude-code/blob/HEAD/scripts/claw.js) handles a key part of this chapter's functionality:
+The `printText` function in [`scripts/harness-audit.js`](https://github.com/affaan-m/everything-claude-code/blob/HEAD/scripts/harness-audit.js) handles a key part of this chapter's functionality:
 
 ```js
 }
 
-function searchSessions(query, dir) {
-  const q = String(query || '').toLowerCase().trim();
-  if (!q) return [];
+function printText(report) {
+  console.log(`Harness Audit (${report.scope}, ${report.target_mode}): ${report.overall_score}/${report.max_score}`);
+  console.log(`Root: ${report.root_dir}`);
+  console.log('');
 
-  const sessionDir = dir || getClawDir();
-  const sessions = listSessions(sessionDir);
-  const results = [];
-  for (const name of sessions) {
-    const p = path.join(sessionDir, `${name}.md`);
-    const content = loadHistory(p);
-    if (!content) continue;
-
-    const idx = content.toLowerCase().indexOf(q);
-    if (idx >= 0) {
-      const start = Math.max(0, idx - 40);
-      const end = Math.min(content.length, idx + q.length + 40);
-      const snippet = content.slice(start, end).replace(/\n/g, ' ');
-      results.push({ session: name, snippet });
+  for (const category of CATEGORIES) {
+    const data = report.categories[category];
+    if (!data || data.max === 0) {
+      continue;
     }
+
+    console.log(`- ${category}: ${data.score}/10 (${data.earned}/${data.max} pts)`);
   }
-  return results;
+
+  const failed = report.checks.filter(check => !check.pass);
+  console.log('');
+  console.log(`Checks: ${report.checks.length} total, ${failed.length} failing`);
+
+  if (failed.length > 0) {
+    console.log('');
+    console.log('Top 3 Actions:');
+    report.top_actions.forEach((action, index) => {
+      console.log(`${index + 1}) [${action.category}] ${action.action} (${action.path})`);
+    });
+  }
 }
 
-function compactSession(filePath, keepTurns = DEFAULT_COMPACT_KEEP_TURNS) {
-  const history = loadHistory(filePath);
-  if (!history) return false;
+function showHelp(exitCode = 0) {
+  console.log(`
+Usage: node scripts/harness-audit.js [scope] [--scope <repo|hooks|skills|commands|agents>] [--format <text|json>]
+```
 
-  const turns = parseTurns(history);
-  if (turns.length <= keepTurns) return false;
+This function is important because it defines how Everything Claude Code Tutorial: Production Configuration Patterns for Claude Code implements the patterns covered in this chapter.
 
+### `scripts/harness-audit.js`
+
+The `showHelp` function in [`scripts/harness-audit.js`](https://github.com/affaan-m/everything-claude-code/blob/HEAD/scripts/harness-audit.js) handles a key part of this chapter's functionality:
+
+```js
+}
+
+function showHelp(exitCode = 0) {
+  console.log(`
+Usage: node scripts/harness-audit.js [scope] [--scope <repo|hooks|skills|commands|agents>] [--format <text|json>]
+       [--root <path>]
+
+Deterministic harness audit based on explicit file/rule checks.
+Audits the current working directory by default and auto-detects ECC repo mode vs consumer-project mode.
+`);
+  process.exit(exitCode);
+}
+
+function main() {
+  try {
+    const args = parseArgs(process.argv);
+
+    if (args.help) {
+      showHelp(0);
+      return;
+    }
+
+    const report = buildReport(args.scope, { rootDir: args.root });
+
+    if (args.format === 'json') {
+      console.log(JSON.stringify(report, null, 2));
+    } else {
+      printText(report);
+    }
+  } catch (error) {
+    console.error(`Error: ${error.message}`);
+    process.exit(1);
 ```
 
 This function is important because it defines how Everything Claude Code Tutorial: Production Configuration Patterns for Claude Code implements the patterns covered in this chapter.
@@ -218,11 +216,11 @@ This function is important because it defines how Everything Claude Code Tutoria
 
 ```mermaid
 flowchart TD
-    A[parseTurns]
-    B[estimateTokenCount]
-    C[getSessionMetrics]
-    D[searchSessions]
-    E[compactSession]
+    A[summarizeCategoryScores]
+    B[buildReport]
+    C[printText]
+    D[showHelp]
+    E[main]
     A --> B
     B --> C
     C --> D

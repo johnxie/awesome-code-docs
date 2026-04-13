@@ -759,6 +759,21 @@ With LLM integration complete, you're ready to:
 
 **Ready to build complex search workflows? Continue to [Chapter 5: Pipelines & Workflows](05-pipelines-workflows.md)!** 🚀
 
+## Generator Pipeline
+
+```mermaid
+flowchart TD
+    A[PromptBuilder] --> B[Generator]
+    B --> C{Provider}
+    C -->|OpenAI| D[OpenAIGenerator]
+    C -->|Anthropic| E[AnthropicGenerator]
+    C -->|Local| F[HuggingFaceLocalGenerator]
+    D --> G[Generated answer]
+    E --> G
+    F --> G
+    G --> H[Pipeline output]
+```
+
 ## What Problem Does This Solve?
 
 Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `self`, `query`, `responses` so behavior stays predictable as complexity grows.

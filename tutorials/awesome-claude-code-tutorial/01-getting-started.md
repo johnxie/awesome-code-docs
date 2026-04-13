@@ -48,8 +48,6 @@ You now have a concrete triage loop for using the list efficiently.
 
 Next: [Chapter 2: List Taxonomy and Navigation](02-list-taxonomy-and-navigation.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `scripts/ticker/generate_ticker_svg.py`

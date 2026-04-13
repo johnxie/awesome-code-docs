@@ -934,20 +934,30 @@ Under the hood, `Chapter 7: Testing and Validation` usually follows a repeatable
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
-## Source Walkthrough
+## Source Code Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+### `playwright.config.ts`
 
-- [Dyad README](https://github.com/dyad-sh/dyad/blob/main/README.md)
-  Why it matters: authoritative reference on `Dyad README` (github.com).
-- [Dyad Releases](https://github.com/dyad-sh/dyad/releases)
-  Why it matters: authoritative reference on `Dyad Releases` (github.com).
-- [Dyad Repository](https://github.com/dyad-sh/dyad)
-  Why it matters: authoritative reference on `Dyad Repository` (github.com).
+The `generateWebServerConfigs` function in [`playwright.config.ts`](https://github.com/dyad-sh/dyad/blob/main/playwright.config.ts) generates parallel fake LLM server configurations for E2E testing, one per Playwright worker:
 
-Suggested trace strategy:
-- search upstream code for `expect` and `name` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+```ts
+function generateWebServerConfigs(): PlaywrightTestConfig["webServer"] {
+  const configs: NonNullable<PlaywrightTestConfig["webServer"]> = [];
+
+  for (let i = 0; i < parallelism; i++) {
+    const port = FAKE_LLM_BASE_PORT + i;
+    configs.push({
+      command: `cd testing/fake-llm-server && npm run build && npm start -- --port=${port}`,
+      url: `http://localhost:${port}/health`,
+      reuseExistingServer: !process.env.CI,
+    });
+  }
+
+  return configs;
+}
+```
+
+The fake LLM server in `testing/fake-llm-server/` responds with deterministic outputs, allowing E2E tests to run without real API keys. Each worker gets its own server to avoid test interference.
 
 ## Chapter Connections
 

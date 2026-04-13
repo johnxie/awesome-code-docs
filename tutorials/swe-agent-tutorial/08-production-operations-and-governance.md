@@ -39,170 +39,168 @@ You now have a full SWE-agent learning path from setup to production governance.
 
 Next tutorial: [Open SWE Tutorial](../open-swe-tutorial/)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `sweagent/tools/parsing.py`
+### `sweagent/agent/history_processors.py`
 
-The `ActionOnlyParser` class in [`sweagent/tools/parsing.py`](https://github.com/SWE-agent/SWE-agent/blob/HEAD/sweagent/tools/parsing.py) handles a key part of this chapter's functionality:
+The `ClosedWindowHistoryProcessor` class in [`sweagent/agent/history_processors.py`](https://github.com/SWE-agent/SWE-agent/blob/HEAD/sweagent/agent/history_processors.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-class ActionOnlyParser(AbstractParseFunction, BaseModel):
-    """Expects the model response to be a single command."""
-
-    error_message: str = "No message found in model response."
-
-    type: Literal["action_only"] = "action_only"
-    """Type for (de)serialization. Do not change."""
-
-    def __call__(self, model_response: dict, commands: list[Command], strict=False):
-        return "", model_response["message"]
-
-
-class ThoughtActionParser(AbstractParseFunction, BaseModel):
-    """
-    Expects the model response to be a discussion followed by a command wrapped in backticks.
-    Example:
-    Let's look at the files in the current directory.
-    ```
-    ls -l
-    ```
+class ClosedWindowHistoryProcessor(BaseModel):
+    """For each value in history, keep track of which windows have been shown.
+    We want to mark windows that should stay open (they're the last window for a particular file)
+    Then we'll replace all other windows with a simple summary of the window (i.e. number of lines)
     """
 
-    error_message: str = dedent("""\
-    Your output was not formatted correctly. You must always include one discussion and one command as part of your response. Make sure you do not have multiple discussion/command tags.
-    Please make sure your output precisely matches the following format:
-    DISCUSSION
-    Discuss here with yourself about what your planning and what you're going to do in this step.
+    type: Literal["closed_window"] = "closed_window"
+    """Do not change. Used for (de)serialization."""
 
-    ```
-    command(s) that you're going to run
+    _pattern = re.compile(r"^(\d+)\:.*?(\n|$)", re.MULTILINE)
+    _file_pattern = re.compile(r"\[File:\s+(.*)\s+\(\d+\s+lines\ total\)\]")
+
+    # pydantic config
+    model_config = ConfigDict(extra="forbid")
+
+    def __call__(self, history):
+        new_history = list()
+        windows = set()
+        for entry in reversed(history):
+            data = entry.copy()
+            if data["role"] != "user":
+                new_history.append(entry)
+                continue
+            if data.get("is_demo", False):
+                new_history.append(entry)
+                continue
+            matches = list(self._pattern.finditer(entry["content"]))
+            if len(matches) >= 1:
+                file_match = self._file_pattern.search(entry["content"])
+                if file_match:
 ```
 
 This class is important because it defines how SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering implements the patterns covered in this chapter.
 
-### `sweagent/tools/parsing.py`
+### `sweagent/agent/history_processors.py`
 
-The `ThoughtActionParser` class in [`sweagent/tools/parsing.py`](https://github.com/SWE-agent/SWE-agent/blob/HEAD/sweagent/tools/parsing.py) handles a key part of this chapter's functionality:
+The `CacheControlHistoryProcessor` class in [`sweagent/agent/history_processors.py`](https://github.com/SWE-agent/SWE-agent/blob/HEAD/sweagent/agent/history_processors.py) handles a key part of this chapter's functionality:
 
 ```py
-"""Our parsers parse output from the LM into thoughts and actions.
 
-For example, our most basic parser is the `ThoughtActionParser`.
-It expects the model response to be a discussion followed by a command wrapped in backticks like so:
 
-```
-Let's look at the files in the current directory.
+class CacheControlHistoryProcessor(BaseModel):
+    """This history processor adds manual cache control marks to the history.
+    Use this when running with anthropic claude.
+    """
 
-Action:
- ```
-ls -l
- ```
-```
+    type: Literal["cache_control"] = "cache_control"
+    """Do not change. Used for (de)serialization."""
 
-For models that support function calling, we instead recommend using the `FunctionCallingParser`.
+    last_n_messages: int = 2
+    """Add cache control to the last n user messages (and clear it for anything else).
+    In most cases this should be set to 2 (caching for multi-turn conversations).
+    When resampling and running concurrent instances, you want to set it to 1.
+    If set to <= 0, any set cache control will be removed from all messages.
+    """
 
-To use a specific parser, set the `parse_function` key in your tool config to the `type` field of the parser.
+    last_n_messages_offset: int = 0
+    """E.g., set to 1 to start cache control after the second to last user message.
+    This can be useful in rare cases, when you want to modify the last message after
+    we've got the completion and you want to avoid cache mismatch.
+    """
 
-```yaml
-agent:
-    tools:
-        ...
-        parse_function:
-            type: "thought_action"
-```
+    tagged_roles: list[str] = ["user", "tool"]
+    """Only add cache control to messages with these roles."""
 
-Or from the command line: `--agent.tools.parse_function.type=thought_action`.
+    # pydantic config
+    model_config = ConfigDict(extra="forbid")
 
-!!! note "Describing available tools"
-    If you do not use the `FunctionCallingParser`, you need to include documentation about the available tools
-    in your system prompt. You can use the `{{command_docs}}` variable to include the automatically generated
-    documentation or explicitly describe the available tools.
+    def __call__(self, history: History) -> History:
+        new_history = []
+        n_tagged = 0
 ```
 
 This class is important because it defines how SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering implements the patterns covered in this chapter.
 
-### `sweagent/tools/parsing.py`
+### `sweagent/agent/history_processors.py`
 
-The `XMLThoughtActionParser` class in [`sweagent/tools/parsing.py`](https://github.com/SWE-agent/SWE-agent/blob/HEAD/sweagent/tools/parsing.py) handles a key part of this chapter's functionality:
+The `RemoveRegex` class in [`sweagent/agent/history_processors.py`](https://github.com/SWE-agent/SWE-agent/blob/HEAD/sweagent/agent/history_processors.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-class XMLThoughtActionParser(AbstractParseFunction, BaseModel):
-    """
-    Expects the model response to be a discussion followed by a command wrapped in XML tags.
-    Example:
-    Let's look at the files in the current directory.
-    <command>
-    ls -l
-    </command>
-    """
+class RemoveRegex(BaseModel):
+    """This history processor can remove arbitrary content from history items"""
 
-    error_message: str = dedent("""\
-    Your output was not formatted correctly. You must always include one discussion and one command as part of your response. Make sure you do not have multiple discussion/command tags.
-    Please make sure your output precisely matches the following format:
-    """)
+    remove: list[str] = ["<diff>.*</diff>"]
+    """Regex patterns to remove from history items"""
 
-    type: Literal["xml_thought_action"] = "xml_thought_action"
-    """Type for (de)serialization. Do not change."""
+    keep_last: int = 0
+    """Keep the last n history items unchanged"""
 
-    def __call__(self, model_response: dict, commands: list[Command], strict=False) -> tuple[str, str]:
-        """
-        Parses the action from the output of the API call.
-        We assume that the action is the last code block in the model_response.
-        We also assume that the action is not nested within another code block.
-        This is problematic if the model_response includes many unnamed ``` blocks.
-        For instance:
-        <command>
-        This is a code block.
-        </command>
-        <command>
-        This is another code block.
+    type: Literal["remove_regex"] = "remove_regex"
+    """Do not change. Used for (de)serialization."""
+
+    # pydantic config
+    model_config = ConfigDict(extra="forbid")
+
+    def __call__(self, history: History) -> History:
+        new_history = []
+        for i_entry, entry in enumerate(reversed(history)):
+            entry = copy.deepcopy(entry)
+            if i_entry < self.keep_last:
+                new_history.append(entry)
+            else:
+                if isinstance(entry["content"], list):
+                    for item in entry["content"]:
+                        if item["type"] == "text":
+                            for pattern in self.remove:
+                                item["text"] = re.sub(pattern, "", item["text"], flags=re.DOTALL)
+                else:
+                    assert isinstance(entry["content"], str), "Expected string content"
+                    for pattern in self.remove:
 ```
 
 This class is important because it defines how SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering implements the patterns covered in this chapter.
 
-### `sweagent/tools/parsing.py`
+### `sweagent/agent/history_processors.py`
 
-The `XMLFunctionCallingParser` class in [`sweagent/tools/parsing.py`](https://github.com/SWE-agent/SWE-agent/blob/HEAD/sweagent/tools/parsing.py) handles a key part of this chapter's functionality:
+The `ImageParsingHistoryProcessor` class in [`sweagent/agent/history_processors.py`](https://github.com/SWE-agent/SWE-agent/blob/HEAD/sweagent/agent/history_processors.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-class XMLFunctionCallingParser(AbstractParseFunction, BaseModel):
-    """
-    Expects the model response to be a tool calling format, where the command and parameters are specified
-    in XML tags.
-    Example:
-    Let's look at the files in the current directory.
-    <function=bash>
-    <parameter=command>find /testbed -type f -name "_discovery.py"</parameter>
-    </function>
-    """
+class ImageParsingHistoryProcessor(BaseModel):
+    """Parse embedded base64 images from markdown and convert to multi-modal format."""
 
-    error_message: str = dedent("""\
-    {%- if error_code == "missing" -%}
-    Your last output did not use any tool calls!
-    Please make sure your output includes exactly _ONE_ function call!
-    If you think you have already resolved the issue, please submit your changes by running the `submit` command.
-    If you think you cannot solve the problem, please run `submit`.
-    Else, please continue with a new tool call!
-    {%- elif error_code == "multiple" -%}
-    Your last output included multiple tool calls!
-    Please make sure your output includes a thought and exactly _ONE_ function call.
-    {%- elif error_code == "unexpected_arg" -%}
-    Your action could not be parsed properly: {{exception_message}}.
-    Make sure your function call doesn't include any extra arguments that are not in the allowed arguments, and only use the allowed commands.
-    {%- else -%}
-    Your action could not be parsed properly: {{exception_message}}.
-    {% endif %}
-    """)
+    type: Literal["image_parsing"] = "image_parsing"
+    allowed_mime_types: set[str] = {"image/png", "image/jpeg", "image/webp"}
 
-    type: Literal["xml_function_calling"] = "xml_function_calling"
+    _pattern = re.compile(r"(!\[([^\]]*)\]\(data:)([^;]+);base64,([^)]+)(\))")
+    model_config = ConfigDict(extra="forbid")
+
+    def __call__(self, history: History) -> History:
+        return [self._process_entry(entry) for entry in history]
+
+    def _process_entry(self, entry: HistoryItem) -> HistoryItem:
+        if entry.get("role") not in ["user", "tool"]:
+            return entry
+        entry = copy.deepcopy(entry)
+        content = _get_content_text(entry)
+        segments = self._parse_images(content)
+        if any(seg["type"] == "image_url" for seg in segments):
+            entry["content"] = segments
+        return entry
+
+    def _parse_images(self, content: str) -> list[dict]:
+        segments = []
+        last_end = 0
+        has_images = False
+
+        def add_text(text: str) -> None:
+            """Add text to the last segment if it's text, otherwise create new text segment."""
+            if text and segments and segments[-1]["type"] == "text":
 ```
 
 This class is important because it defines how SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering implements the patterns covered in this chapter.
@@ -212,11 +210,11 @@ This class is important because it defines how SWE-agent Tutorial: Autonomous Re
 
 ```mermaid
 flowchart TD
-    A[ActionOnlyParser]
-    B[ThoughtActionParser]
-    C[XMLThoughtActionParser]
-    D[XMLFunctionCallingParser]
-    E[EditFormat]
+    A[ClosedWindowHistoryProcessor]
+    B[CacheControlHistoryProcessor]
+    C[RemoveRegex]
+    D[ImageParsingHistoryProcessor]
+    E[AutoCorrectSuggestion]
     A --> B
     B --> C
     C --> D

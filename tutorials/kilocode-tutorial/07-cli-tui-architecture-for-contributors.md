@@ -33,170 +33,168 @@ You now have a contributor-level map for Kilo CLI internals.
 
 Next: [Chapter 8: Production Operations and Governance](08-production-operations-and-governance.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `script/duplicate-pr.ts`
+### `script/extract-source-links.ts`
 
-The `main` function in [`script/duplicate-pr.ts`](https://github.com/Kilo-Org/kilocode/blob/HEAD/script/duplicate-pr.ts) handles a key part of this chapter's functionality:
+The `shouldSkipFile` function in [`script/extract-source-links.ts`](https://github.com/Kilo-Org/kilocode/blob/HEAD/script/extract-source-links.ts) handles a key part of this chapter's functionality:
 
 ```ts
-import { parseArgs } from "util"
+}
 
-async function main() {
-  const { values, positionals } = parseArgs({
-    args: Bun.argv.slice(2),
-    options: {
-      file: { type: "string", short: "f" },
-      help: { type: "boolean", short: "h", default: false },
-    },
-    allowPositionals: true,
-  })
+function shouldSkipFile(filepath: string): boolean {
+  const rel = path.relative(ROOT, filepath)
+  const parts = rel.split(path.sep)
+  if (parts.some((p) => SKIP_DIRS.includes(p))) return true
+  if (SKIP_PATH_SEGMENTS.some((seg) => rel.includes(seg))) return true
+  if (/\.test\.[jt]sx?$/.test(filepath)) return true
+  if (/\.spec\.[jt]sx?$/.test(filepath)) return true
+  if (/\.stories\.[jt]sx?$/.test(filepath)) return true
+  if (/\/i18n\//.test(filepath) && !filepath.endsWith("en.ts")) return true
+  const basename = path.basename(filepath)
+  if (SKIP_FILES.includes(basename)) return true
+  return false
+}
 
-  if (values.help) {
-    console.log(`
-Usage: bun script/duplicate-pr.ts [options] <message>
+function clean(url: string): string {
+  return url.replace(/[.),:;]+$/, "").replace(/<\/?\w+>$/, "")
+}
 
-Options:
-  -f, --file <path>   File to attach to the prompt
-  -h, --help          Show this help message
+async function extract(): Promise<Map<string, Set<string>>> {
+  const links = new Map<string, Set<string>>()
 
-Examples:
-  bun script/duplicate-pr.ts -f pr_info.txt "Check the attached file for PR details"
-`)
-    process.exit(0)
-  }
-
-  const message = positionals.join(" ")
-  if (!message) {
-    console.error("Error: message is required")
-    process.exit(1)
-  }
-
+  for (const dir of DIRS) {
+    for (const ext of EXTENSIONS) {
+      const glob = new Glob(`**/*.${ext}`)
+      for await (const entry of glob.scan({ cwd: dir, absolute: true })) {
+        if (shouldSkipFile(entry)) continue
+        const content = await Bun.file(entry).text()
+        for (const line of content.split("\n")) {
+          for (const match of line.matchAll(URL_RE)) {
+            const url = clean(match[0])
 ```
 
 This function is important because it defines how Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces implements the patterns covered in this chapter.
 
-### `script/upstream/merge.ts`
+### `script/extract-source-links.ts`
 
-The `parseArgs` function in [`script/upstream/merge.ts`](https://github.com/Kilo-Org/kilocode/blob/HEAD/script/upstream/merge.ts) handles a key part of this chapter's functionality:
+The `clean` function in [`script/extract-source-links.ts`](https://github.com/Kilo-Org/kilocode/blob/HEAD/script/extract-source-links.ts) handles a key part of this chapter's functionality:
 
 ```ts
 }
 
-function parseArgs(): MergeOptions {
-  const args = process.argv.slice(2)
+function clean(url: string): string {
+  return url.replace(/[.),:;]+$/, "").replace(/<\/?\w+>$/, "")
+}
 
-  const options: MergeOptions = {
-    dryRun: args.includes("--dry-run"),
-    push: !args.includes("--no-push"),
-    reportOnly: args.includes("--report-only"),
-    verbose: args.includes("--verbose"),
+async function extract(): Promise<Map<string, Set<string>>> {
+  const links = new Map<string, Set<string>>()
+
+  for (const dir of DIRS) {
+    for (const ext of EXTENSIONS) {
+      const glob = new Glob(`**/*.${ext}`)
+      for await (const entry of glob.scan({ cwd: dir, absolute: true })) {
+        if (shouldSkipFile(entry)) continue
+        const content = await Bun.file(entry).text()
+        for (const line of content.split("\n")) {
+          for (const match of line.matchAll(URL_RE)) {
+            const url = clean(match[0])
+            if (shouldExclude(url)) continue
+            if (!links.has(url)) links.set(url, new Set())
+            links.get(url)!.add(path.relative(ROOT, entry))
+          }
+        }
+      }
+    }
   }
 
-  const versionIdx = args.indexOf("--version")
-  if (versionIdx !== -1 && args[versionIdx + 1]) {
-    options.version = args[versionIdx + 1]
-  }
+  return links
+}
 
-  const commitIdx = args.indexOf("--commit")
-  if (commitIdx !== -1 && args[commitIdx + 1]) {
-    options.commit = args[commitIdx + 1]
-  }
-
-  const authorIdx = args.indexOf("--author")
-  if (authorIdx !== -1 && args[authorIdx + 1]) {
-    options.author = args[authorIdx + 1]
-  }
-
-  const baseBranchIdx = args.indexOf("--base-branch")
-  if (baseBranchIdx !== -1 && args[baseBranchIdx + 1]) {
-    options.baseBranch = args[baseBranchIdx + 1]
-  }
-
+function render(sorted: [string, Set<string>][]): string {
+  const parts = [
 ```
 
 This function is important because it defines how Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces implements the patterns covered in this chapter.
 
-### `script/upstream/merge.ts`
+### `script/extract-source-links.ts`
 
-The `getAuthor` function in [`script/upstream/merge.ts`](https://github.com/Kilo-Org/kilocode/blob/HEAD/script/upstream/merge.ts) handles a key part of this chapter's functionality:
+The `extract` function in [`script/extract-source-links.ts`](https://github.com/Kilo-Org/kilocode/blob/HEAD/script/extract-source-links.ts) handles a key part of this chapter's functionality:
 
 ```ts
-}
+ *
+ * Usage:
+ *   bun run script/extract-source-links.ts          # Generate / update the committed file
+ *   bun run script/extract-source-links.ts --check   # CI mode — exit 1 if the file is stale
+ */
 
-async function getAuthor(): Promise<string> {
-  const result = await $`git config user.name`.text()
-  return result
-    .trim()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase()
-    .replace(/\s+/g, "")
-}
+import { Glob } from "bun"
+import path from "path"
 
-async function createBackupBranch(baseBranch: string): Promise<string> {
-  const timestamp = new Date().toISOString().replace(/[:.]/g, "-").slice(0, 19)
-  const backupName = `backup/${baseBranch}-${timestamp}`
+const ROOT = path.resolve(import.meta.dir, "..")
+const OUTPUT = path.join(ROOT, "packages/kilo-docs/source-links.md")
 
-  await git.createBranch(backupName, baseBranch)
-  await git.checkout(baseBranch)
+const check = process.argv.includes("--check")
 
-  return backupName
-}
+const DIRS = [
+  path.join(ROOT, "packages/kilo-vscode/src"),
+  path.join(ROOT, "packages/kilo-vscode/webview-ui"),
+  path.join(ROOT, "packages/opencode/src"),
+]
 
-async function main() {
-  const options = parseArgs()
-  const config = loadConfig(options.baseBranch ? { baseBranch: options.baseBranch } : undefined)
+const EXTENSIONS = ["ts", "tsx", "js", "jsx"]
 
-  if (options.verbose) {
-    logger.setVerbose(true)
-  }
+// Matches http:// and https:// URLs in string literals or comments
+const URL_RE = /https?:\/\/[^\s"'`)\]},;*\\<>]+/g
 
-  logger.header("Kilo Upstream Merge Tool")
-
+// URLs to exclude — only genuinely non-checkable URLs (API endpoints, localhost,
+// examples, dynamic templates, namespaces). Real external URLs should be extracted
+// and validated by lychee; add lychee.toml exclusions for sites that block bots.
+const EXCLUDE_PATTERNS = [
+  // Localhost and internal
+  /^https?:\/\/(localhost|127\.0\.0\.1|0\.0\.0\.0)/,
+  /^https?:\/\/kilo\.internal/,
 ```
 
 This function is important because it defines how Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces implements the patterns covered in this chapter.
 
-### `script/upstream/merge.ts`
+### `script/extract-source-links.ts`
 
-The `createBackupBranch` function in [`script/upstream/merge.ts`](https://github.com/Kilo-Org/kilocode/blob/HEAD/script/upstream/merge.ts) handles a key part of this chapter's functionality:
+The `render` function in [`script/extract-source-links.ts`](https://github.com/Kilo-Org/kilocode/blob/HEAD/script/extract-source-links.ts) handles a key part of this chapter's functionality:
 
 ```ts
 }
 
-async function createBackupBranch(baseBranch: string): Promise<string> {
-  const timestamp = new Date().toISOString().replace(/[:.]/g, "-").slice(0, 19)
-  const backupName = `backup/${baseBranch}-${timestamp}`
+function render(sorted: [string, Set<string>][]): string {
+  const parts = [
+    "# Source Code Links",
+    "",
+    "<!-- Auto-generated by script/extract-source-links.ts — DO NOT EDIT -->",
+    `<!-- ${sorted.length} unique URLs extracted from extension and CLI source -->`,
+    "",
+  ]
 
-  await git.createBranch(backupName, baseBranch)
-  await git.checkout(baseBranch)
+  for (const [url, files] of sorted) {
+    parts.push(`- <${url}>`)
+    for (const file of [...files].sort()) {
+      parts.push(`  <!-- ${file} -->`)
+    }
+  }
 
-  return backupName
+  parts.push("")
+  return parts.join("\n")
 }
 
-async function main() {
-  const options = parseArgs()
-  const config = loadConfig(options.baseBranch ? { baseBranch: options.baseBranch } : undefined)
+const links = await extract()
+const sorted = [...links.entries()].sort(([a], [b]) => a.localeCompare(b))
+const output = render(sorted)
 
-  if (options.verbose) {
-    logger.setVerbose(true)
-  }
-
-  logger.header("Kilo Upstream Merge Tool")
-
-  // Step 1: Validate environment
-  logger.step(1, 8, "Validating environment...")
-
-  if (!(await git.hasUpstreamRemote())) {
-    logger.error("No 'upstream' remote found. Please add it:")
-    logger.info("  git remote add upstream git@github.com:anomalyco/opencode.git")
-    process.exit(1)
-  }
-
-  if (await git.hasUncommittedChanges()) {
+if (check) {
+  const committed = await Bun.file(OUTPUT)
+    .text()
+    .catch(() => "")
+  if (committed === output) {
+    console.log("packages/kilo-docs/source-links.md is up to date.")
 ```
 
 This function is important because it defines how Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces implements the patterns covered in this chapter.
@@ -206,10 +204,10 @@ This function is important because it defines how Kilo Code Tutorial: Agentic En
 
 ```mermaid
 flowchart TD
-    A[main]
-    B[parseArgs]
-    C[getAuthor]
-    D[createBackupBranch]
+    A[shouldSkipFile]
+    B[clean]
+    C[extract]
+    D[render]
     A --> B
     B --> C
     C --> D

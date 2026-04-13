@@ -599,16 +599,29 @@ Under the hood, `Chapter 8: Production Deployment` usually follows a repeatable 
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
-## Source Walkthrough
+## Source Code Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+### `packages/elizaos/src/commands/version.ts`
 
-- [ElizaOS](https://github.com/elizaOS/eliza)
-  Why it matters: authoritative reference on `ElizaOS` (github.com).
+The `version` command in [`packages/elizaos/src/commands/version.ts`](https://github.com/elizaOS/eliza/blob/develop/packages/elizaos/src/commands/version.ts) reads the elizaOS CLI version from `package.json`. In production deployments this is used for health checks and compatibility validation between the CLI and the agent runtime packages:
 
-Suggested trace strategy:
-- search upstream code for `elizaos` and `wallet` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+```ts
+function getCliVersion(): string {
+  try {
+    const pkgPath = path.join(__dirname, "..", "..", "package.json");
+    const content = fs.readFileSync(pkgPath, "utf-8");
+    const pkg = JSON.parse(content) as { version: string };
+    return pkg.version;
+  } catch {
+    const distPkgPath = path.join(__dirname, "..", "..", "..", "package.json");
+    const content = fs.readFileSync(distPkgPath, "utf-8");
+    const pkg = JSON.parse(content) as { version: string };
+    return pkg.version;
+  }
+}
+```
+
+Production elizaOS deployments use Docker containers built from the repo's `Dockerfile`. The `daemon` package manages process lifecycle, restart policies, and health monitoring for long-running agent instances.
 
 ## Chapter Connections
 

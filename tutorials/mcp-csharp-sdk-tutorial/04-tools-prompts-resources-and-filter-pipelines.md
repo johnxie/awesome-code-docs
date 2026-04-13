@@ -40,9 +40,123 @@ You now have an extensibility model for primitives and filters that stays predic
 
 Next: [Chapter 5: Logging, Progress, Elicitation, and Tasks](05-logging-progress-elicitation-and-tasks.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
+
+### `src/ModelContextProtocol.Analyzers/XmlToDescriptionGenerator.cs`
+
+The `TypeInfo` interface in [`src/ModelContextProtocol.Analyzers/XmlToDescriptionGenerator.cs`](https://github.com/modelcontextprotocol/csharp-sdk/blob/HEAD/src/ModelContextProtocol.Analyzers/XmlToDescriptionGenerator.cs) handles a key part of this chapter's functionality:
+
+```cs
+        return new MethodToGenerate(
+            NeedsGeneration: true,
+            TypeInfo: ExtractTypeInfo(methodSymbol.ContainingType),
+            Modifiers: modifiersStr,
+            ReturnType: returnType,
+            MethodName: methodName,
+            Parameters: new EquatableArray<ParameterInfo>(parameters),
+            MethodDescription: needsMethodDescription ? xmlDocs?.MethodDescription : null,
+            ReturnDescription: needsReturnDescription ? xmlDocs?.Returns : null,
+            Diagnostics: diagnostics);
+    }
+
+    /// <summary>Checks if XML documentation would generate any Description attributes for a method.</summary>
+    private static bool HasGeneratableContent(XmlDocumentation xmlDocs, IMethodSymbol methodSymbol, INamedTypeSymbol descriptionAttribute)
+    {
+        if (!string.IsNullOrWhiteSpace(xmlDocs.MethodDescription) && !HasAttribute(methodSymbol, descriptionAttribute))
+        {
+            return true;
+        }
+
+        if (!string.IsNullOrWhiteSpace(xmlDocs.Returns) &&
+            methodSymbol.GetReturnTypeAttributes().All(attr => !SymbolEqualityComparer.Default.Equals(attr.AttributeClass, descriptionAttribute)))
+        {
+            return true;
+        }
+
+        foreach (var param in methodSymbol.Parameters)
+        {
+            if (!HasAttribute(param, descriptionAttribute) &&
+                xmlDocs.Parameters.TryGetValue(param.Name, out var paramDoc) &&
+                !string.IsNullOrWhiteSpace(paramDoc))
+            {
+```
+
+This interface is important because it defines how MCP C# SDK Tutorial: Production MCP in .NET with Hosting, ASP.NET Core, and Task Workflows implements the patterns covered in this chapter.
+
+### `src/ModelContextProtocol.Analyzers/XmlToDescriptionGenerator.cs`
+
+The `TypeDeclarationInfo` interface in [`src/ModelContextProtocol.Analyzers/XmlToDescriptionGenerator.cs`](https://github.com/modelcontextprotocol/csharp-sdk/blob/HEAD/src/ModelContextProtocol.Analyzers/XmlToDescriptionGenerator.cs) handles a key part of this chapter's functionality:
+
+```cs
+
+        // Build list of nested types from innermost to outermost
+        var typesBuilder = ImmutableArray.CreateBuilder<TypeDeclarationInfo>();
+        for (var current = typeSymbol; current is not null; current = current.ContainingType)
+        {
+            var typeDecl = current.DeclaringSyntaxReferences.FirstOrDefault()?.GetSyntax() as TypeDeclarationSyntax;
+            string typeKeyword;
+            if (typeDecl is RecordDeclarationSyntax rds)
+            {
+                string classOrStruct = rds.ClassOrStructKeyword.ValueText;
+                if (string.IsNullOrEmpty(classOrStruct))
+                {
+                    classOrStruct = "class";
+                }
+                typeKeyword = $"{typeDecl.Keyword.ValueText} {classOrStruct}";
+            }
+            else
+            {
+                typeKeyword = typeDecl?.Keyword.ValueText ?? "class";
+            }
+
+            typesBuilder.Add(new TypeDeclarationInfo(current.Name, typeKeyword));
+        }
+
+        // Reverse to get outermost first
+        typesBuilder.Reverse();
+        
+        string ns = typeSymbol.ContainingNamespace.IsGlobalNamespace ? "" : typeSymbol.ContainingNamespace.ToDisplayString();
+        return new TypeInfo(ns, new EquatableArray<TypeDeclarationInfo>(typesBuilder.ToImmutable()));
+    }
+
+    private static (XmlDocumentation? Docs, bool HasInvalidXml) TryExtractXmlDocumentation(IMethodSymbol methodSymbol)
+```
+
+This interface is important because it defines how MCP C# SDK Tutorial: Production MCP in .NET with Hosting, ASP.NET Core, and Task Workflows implements the patterns covered in this chapter.
+
+### `src/ModelContextProtocol.Analyzers/XmlToDescriptionGenerator.cs`
+
+The `LocationInfo` interface in [`src/ModelContextProtocol.Analyzers/XmlToDescriptionGenerator.cs`](https://github.com/modelcontextprotocol/csharp-sdk/blob/HEAD/src/ModelContextProtocol.Analyzers/XmlToDescriptionGenerator.cs) handles a key part of this chapter's functionality:
+
+```cs
+    /// causes issues when the generator returns cached data with locations from earlier compilations.
+    /// </remarks>
+    private readonly record struct LocationInfo(string FilePath, TextSpan TextSpan, LinePositionSpan LineSpan)
+    {
+        public static LocationInfo? FromLocation(Location? location) =>
+            location is null || !location.IsInSource ? null :
+            new LocationInfo(location.SourceTree?.FilePath ?? "", location.SourceSpan, location.GetLineSpan().Span);
+
+        public Location ToLocation() =>
+            Location.Create(FilePath, TextSpan, LineSpan);
+    }
+
+    /// <summary>Holds diagnostic information to be reported.</summary>
+    private readonly record struct DiagnosticInfo(string Id, LocationInfo? Location, string MethodName)
+    {
+        public static DiagnosticInfo Create(string id, Location? location, string methodName) =>
+            new(id, LocationInfo.FromLocation(location), methodName);
+
+        public object?[] MessageArgs => [MethodName];
+    }
+
+    /// <summary>Holds extracted XML documentation for a method (used only during extraction, not cached).</summary>
+    private sealed record XmlDocumentation(string MethodDescription, string Returns, Dictionary<string, string> Parameters);
+}
+
+```
+
+This interface is important because it defines how MCP C# SDK Tutorial: Production MCP in .NET with Hosting, ASP.NET Core, and Task Workflows implements the patterns covered in this chapter.
 
 ### `src/ModelContextProtocol.Analyzers/XmlToDescriptionGenerator.cs`
 
@@ -85,138 +199,15 @@ The `DiagnosticInfo` interface in [`src/ModelContextProtocol.Analyzers/XmlToDesc
 
 This interface is important because it defines how MCP C# SDK Tutorial: Production MCP in .NET with Hosting, ASP.NET Core, and Task Workflows implements the patterns covered in this chapter.
 
-### `src/ModelContextProtocol.AspNetCore/StreamableHttpHandler.cs`
-
-The `StreamableHttpHandler` class in [`src/ModelContextProtocol.AspNetCore/StreamableHttpHandler.cs`](https://github.com/modelcontextprotocol/csharp-sdk/blob/HEAD/src/ModelContextProtocol.AspNetCore/StreamableHttpHandler.cs) handles a key part of this chapter's functionality:
-
-```cs
-namespace ModelContextProtocol.AspNetCore;
-
-internal sealed class StreamableHttpHandler(
-    IOptions<McpServerOptions> mcpServerOptionsSnapshot,
-    IOptionsFactory<McpServerOptions> mcpServerOptionsFactory,
-    IOptions<HttpServerTransportOptions> httpServerTransportOptions,
-    StatefulSessionManager sessionManager,
-    IHostApplicationLifetime hostApplicationLifetime,
-    IServiceProvider applicationServices,
-    ILoggerFactory loggerFactory)
-{
-    private const string McpSessionIdHeaderName = "Mcp-Session-Id";
-    private const string McpProtocolVersionHeaderName = "MCP-Protocol-Version";
-    private const string LastEventIdHeaderName = "Last-Event-ID";
-
-    /// <summary>
-    /// All protocol versions supported by this implementation.
-    /// Keep in sync with McpSessionHandler.SupportedProtocolVersions in ModelContextProtocol.Core.
-    /// </summary>
-    private static readonly HashSet<string> s_supportedProtocolVersions =
-    [
-        "2024-11-05",
-        "2025-03-26",
-        "2025-06-18",
-        "2025-11-25",
-    ];
-
-    private static readonly JsonTypeInfo<JsonRpcMessage> s_messageTypeInfo = GetRequiredJsonTypeInfo<JsonRpcMessage>();
-    private static readonly JsonTypeInfo<JsonRpcError> s_errorTypeInfo = GetRequiredJsonTypeInfo<JsonRpcError>();
-
-    private static bool AllowNewSessionForNonInitializeRequests { get; } =
-        AppContext.TryGetSwitch("ModelContextProtocol.AspNetCore.AllowNewSessionForNonInitializeRequests", out var enabled) && enabled;
-```
-
-This class is important because it defines how MCP C# SDK Tutorial: Production MCP in .NET with Hosting, ASP.NET Core, and Task Workflows implements the patterns covered in this chapter.
-
-### `samples/LongRunningTasks/FileBasedMcpTaskStore.cs`
-
-The `FileBasedMcpTaskStore` class in [`samples/LongRunningTasks/FileBasedMcpTaskStore.cs`](https://github.com/modelcontextprotocol/csharp-sdk/blob/HEAD/samples/LongRunningTasks/FileBasedMcpTaskStore.cs) handles a key part of this chapter's functionality:
-
-```cs
-/// </para>
-/// </remarks>
-public sealed partial class FileBasedMcpTaskStore : IMcpTaskStore
-{
-    private readonly string _storePath;
-    private readonly TimeSpan _executionTime;
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="FileBasedMcpTaskStore"/> class.
-    /// </summary>
-    /// <param name="storePath">The directory path where task files will be stored.</param>
-    /// <param name="executionTime">
-    /// The fixed execution time for all tasks. Tasks are reported as completed once this
-    /// duration has elapsed since creation. Defaults to 5 seconds.
-    /// </param>
-    public FileBasedMcpTaskStore(string storePath, TimeSpan? executionTime = null)
-    {
-        _storePath = storePath ?? throw new ArgumentNullException(nameof(storePath));
-        _executionTime = executionTime ?? TimeSpan.FromSeconds(5);
-        Directory.CreateDirectory(_storePath);
-    }
-
-    /// <inheritdoc/>
-    public async Task<McpTask> CreateTaskAsync(
-        McpTaskMetadata taskParams,
-        RequestId requestId,
-        JsonRpcRequest request,
-        string? sessionId = null,
-        CancellationToken cancellationToken = default)
-    {
-        var taskId = Guid.NewGuid().ToString("N");
-        var now = DateTimeOffset.UtcNow;
-```
-
-This class is important because it defines how MCP C# SDK Tutorial: Production MCP in .NET with Hosting, ASP.NET Core, and Task Workflows implements the patterns covered in this chapter.
-
-### `samples/LongRunningTasks/FileBasedMcpTaskStore.cs`
-
-The `JsonContext` class in [`samples/LongRunningTasks/FileBasedMcpTaskStore.cs`](https://github.com/modelcontextprotocol/csharp-sdk/blob/HEAD/samples/LongRunningTasks/FileBasedMcpTaskStore.cs) handles a key part of this chapter's functionality:
-
-```cs
-            ExecutionTime = _executionTime,
-            TimeToLive = taskParams.TimeToLive,
-            Result = JsonSerializer.SerializeToElement(request.Params, JsonContext.Default.JsonNode)
-        };
-
-        await WriteTaskEntryAsync(GetTaskFilePath(taskId), entry);
-
-        return ToMcpTask(entry);
-    }
-
-    /// <inheritdoc/>
-    public async Task<McpTask?> GetTaskAsync(
-        string taskId,
-        string? sessionId = null,
-        CancellationToken cancellationToken = default)
-    {
-        var entry = await ReadTaskEntryAsync(taskId);
-        if (entry is null)
-        {
-            return null;
-        }
-
-        // Session isolation
-        if (sessionId is not null && entry.SessionId != sessionId)
-        {
-            return null;
-        }
-
-        // Skip if TTL has expired
-        if (IsExpired(entry))
-        {
-            return null;
-```
-
-This class is important because it defines how MCP C# SDK Tutorial: Production MCP in .NET with Hosting, ASP.NET Core, and Task Workflows implements the patterns covered in this chapter.
-
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[DiagnosticInfo]
-    B[StreamableHttpHandler]
-    C[FileBasedMcpTaskStore]
-    D[JsonContext]
+    A[TypeInfo]
+    B[TypeDeclarationInfo]
+    C[LocationInfo]
+    D[DiagnosticInfo]
     A --> B
     B --> C
     C --> D

@@ -38,136 +38,93 @@ You now have a practical operating model for both interactive and benchmark runs
 
 Next: [Chapter 4: Global and YAML Configuration Strategy](04-global-and-yaml-configuration-strategy.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `src/minisweagent/environments/docker.py`
+### `src/minisweagent/models/openrouter_model.py`
 
-The `DockerEnvironmentConfig` class in [`src/minisweagent/environments/docker.py`](https://github.com/SWE-agent/mini-swe-agent/blob/HEAD/src/minisweagent/environments/docker.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-class DockerEnvironmentConfig(BaseModel):
-    image: str
-    cwd: str = "/"
-    """Working directory in which to execute commands."""
-    env: dict[str, str] = {}
-    """Environment variables to set in the container."""
-    forward_env: list[str] = []
-    """Environment variables to forward to the container.
-    Variables are only forwarded if they are set in the host environment.
-    In case of conflict with `env`, the `env` variables take precedence.
-    """
-    timeout: int = 30
-    """Timeout for executing commands in the container."""
-    executable: str = os.getenv("MSWEA_DOCKER_EXECUTABLE", "docker")
-    """Path to the docker/container executable."""
-    run_args: list[str] = ["--rm"]
-    """Additional arguments to pass to the docker/container executable.
-    Default is ["--rm"], which removes the container after it exits.
-    """
-    container_timeout: str = "2h"
-    """Max duration to keep container running. Uses the same format as the sleep command."""
-    pull_timeout: int = 120
-    """Timeout in seconds for pulling images."""
-    interpreter: list[str] = ["bash", "-lc"]
-    """Interpreter to use to execute commands. Default is ["bash", "-lc"].
-    The actual command will be appended as argument to this. Override this to e.g., modify shell flags
-    (e.g., to remove the `-l` flag to disable login shell) or to use python instead of bash to interpret commands.
-    """
-
-
-```
-
-This class is important because it defines how Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale implements the patterns covered in this chapter.
-
-### `src/minisweagent/environments/docker.py`
-
-The `DockerEnvironment` class in [`src/minisweagent/environments/docker.py`](https://github.com/SWE-agent/mini-swe-agent/blob/HEAD/src/minisweagent/environments/docker.py) handles a key part of this chapter's functionality:
+The `OpenRouterAuthenticationError` class in [`src/minisweagent/models/openrouter_model.py`](https://github.com/SWE-agent/mini-swe-agent/blob/HEAD/src/minisweagent/models/openrouter_model.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-class DockerEnvironmentConfig(BaseModel):
-    image: str
-    cwd: str = "/"
-    """Working directory in which to execute commands."""
-    env: dict[str, str] = {}
-    """Environment variables to set in the container."""
-    forward_env: list[str] = []
-    """Environment variables to forward to the container.
-    Variables are only forwarded if they are set in the host environment.
-    In case of conflict with `env`, the `env` variables take precedence.
-    """
-    timeout: int = 30
-    """Timeout for executing commands in the container."""
-    executable: str = os.getenv("MSWEA_DOCKER_EXECUTABLE", "docker")
-    """Path to the docker/container executable."""
-    run_args: list[str] = ["--rm"]
-    """Additional arguments to pass to the docker/container executable.
-    Default is ["--rm"], which removes the container after it exits.
-    """
-    container_timeout: str = "2h"
-    """Max duration to keep container running. Uses the same format as the sleep command."""
-    pull_timeout: int = 120
-    """Timeout in seconds for pulling images."""
-    interpreter: list[str] = ["bash", "-lc"]
-    """Interpreter to use to execute commands. Default is ["bash", "-lc"].
-    The actual command will be appended as argument to this. Override this to e.g., modify shell flags
-    (e.g., to remove the `-l` flag to disable login shell) or to use python instead of bash to interpret commands.
-    """
+class OpenRouterAuthenticationError(Exception):
+    """Custom exception for OpenRouter authentication errors."""
 
 
-```
+class OpenRouterRateLimitError(Exception):
+    """Custom exception for OpenRouter rate limit errors."""
 
-This class is important because it defines how Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale implements the patterns covered in this chapter.
 
-### `src/minisweagent/environments/docker.py`
+class OpenRouterModel:
+    abort_exceptions: list[type[Exception]] = [OpenRouterAuthenticationError, KeyboardInterrupt]
 
-The `executes` class in [`src/minisweagent/environments/docker.py`](https://github.com/SWE-agent/mini-swe-agent/blob/HEAD/src/minisweagent/environments/docker.py) handles a key part of this chapter's functionality:
+    def __init__(self, **kwargs):
+        self.config = OpenRouterModelConfig(**kwargs)
+        self._api_url = "https://openrouter.ai/api/v1/chat/completions"
+        self._api_key = os.getenv("OPENROUTER_API_KEY", "")
 
-```py
-        **kwargs,
-    ):
-        """This class executes bash commands in a Docker container using direct docker commands.
-        See `DockerEnvironmentConfig` for keyword arguments.
-        """
-        self.logger = logger or logging.getLogger("minisweagent.environment")
-        self.container_id: str | None = None
-        self.config = config_class(**kwargs)
-        self._start_container()
-
-    def get_template_vars(self, **kwargs) -> dict[str, Any]:
-        return recursive_merge(self.config.model_dump(), platform.uname()._asdict(), kwargs)
-
-    def serialize(self) -> dict:
-        return {
-            "info": {
-                "config": {
-                    "environment": self.config.model_dump(mode="json"),
-                    "environment_type": f"{self.__class__.__module__}.{self.__class__.__name__}",
-                }
-            }
+    def _query(self, messages: list[dict[str, str]], **kwargs):
+        headers = {
+            "Authorization": f"Bearer {self._api_key}",
+            "Content-Type": "application/json",
         }
 
-    def _start_container(self):
-        """Start the Docker container and return the container ID."""
-        container_name = f"minisweagent-{uuid.uuid4().hex[:8]}"
-        cmd = [
-            self.config.executable,
-            "run",
-            "-d",
-            "--name",
-            container_name,
+        payload = {
+            "model": self.config.model_name,
+            "messages": messages,
+            "tools": [BASH_TOOL],
+            "usage": {"include": True},
+            **(self.config.model_kwargs | kwargs),
+        }
+
 ```
 
 This class is important because it defines how Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale implements the patterns covered in this chapter.
 
 ### `src/minisweagent/models/openrouter_model.py`
 
-The `OpenRouterModelConfig` class in [`src/minisweagent/models/openrouter_model.py`](https://github.com/SWE-agent/mini-swe-agent/blob/HEAD/src/minisweagent/models/openrouter_model.py) handles a key part of this chapter's functionality:
+The `OpenRouterRateLimitError` class in [`src/minisweagent/models/openrouter_model.py`](https://github.com/SWE-agent/mini-swe-agent/blob/HEAD/src/minisweagent/models/openrouter_model.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+class OpenRouterRateLimitError(Exception):
+    """Custom exception for OpenRouter rate limit errors."""
+
+
+class OpenRouterModel:
+    abort_exceptions: list[type[Exception]] = [OpenRouterAuthenticationError, KeyboardInterrupt]
+
+    def __init__(self, **kwargs):
+        self.config = OpenRouterModelConfig(**kwargs)
+        self._api_url = "https://openrouter.ai/api/v1/chat/completions"
+        self._api_key = os.getenv("OPENROUTER_API_KEY", "")
+
+    def _query(self, messages: list[dict[str, str]], **kwargs):
+        headers = {
+            "Authorization": f"Bearer {self._api_key}",
+            "Content-Type": "application/json",
+        }
+
+        payload = {
+            "model": self.config.model_name,
+            "messages": messages,
+            "tools": [BASH_TOOL],
+            "usage": {"include": True},
+            **(self.config.model_kwargs | kwargs),
+        }
+
+        try:
+            response = requests.post(self._api_url, headers=headers, data=json.dumps(payload), timeout=60)
+            response.raise_for_status()
+            return response.json()
+```
+
+This class is important because it defines how Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale implements the patterns covered in this chapter.
+
+### `src/minisweagent/models/openrouter_model.py`
+
+The `OpenRouterModel` class in [`src/minisweagent/models/openrouter_model.py`](https://github.com/SWE-agent/mini-swe-agent/blob/HEAD/src/minisweagent/models/openrouter_model.py) handles a key part of this chapter's functionality:
 
 ```py
 
@@ -206,16 +163,57 @@ class OpenRouterRateLimitError(Exception):
 
 This class is important because it defines how Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale implements the patterns covered in this chapter.
 
+### `src/minisweagent/models/openrouter_model.py`
+
+The `_DictToObj` class in [`src/minisweagent/models/openrouter_model.py`](https://github.com/SWE-agent/mini-swe-agent/blob/HEAD/src/minisweagent/models/openrouter_model.py) handles a key part of this chapter's functionality:
+
+```py
+        """Parse tool calls from the response. Raises FormatError if unknown tool."""
+        tool_calls = response["choices"][0]["message"].get("tool_calls") or []
+        tool_calls = [_DictToObj(tc) for tc in tool_calls]
+        return parse_toolcall_actions(tool_calls, format_error_template=self.config.format_error_template)
+
+    def format_message(self, **kwargs) -> dict:
+        return expand_multimodal_content(kwargs, pattern=self.config.multimodal_regex)
+
+    def format_observation_messages(
+        self, message: dict, outputs: list[dict], template_vars: dict | None = None
+    ) -> list[dict]:
+        """Format execution outputs into tool result messages."""
+        actions = message.get("extra", {}).get("actions", [])
+        return format_toolcall_observation_messages(
+            actions=actions,
+            outputs=outputs,
+            observation_template=self.config.observation_template,
+            template_vars=template_vars,
+            multimodal_regex=self.config.multimodal_regex,
+        )
+
+    def get_template_vars(self, **kwargs) -> dict[str, Any]:
+        return self.config.model_dump()
+
+    def serialize(self) -> dict:
+        return {
+            "info": {
+                "config": {
+                    "model": self.config.model_dump(mode="json"),
+                    "model_type": f"{self.__class__.__module__}.{self.__class__.__name__}",
+                },
+            }
+```
+
+This class is important because it defines how Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale implements the patterns covered in this chapter.
+
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[DockerEnvironmentConfig]
-    B[DockerEnvironment]
-    C[executes]
-    D[OpenRouterModelConfig]
-    E[OpenRouterAPIError]
+    A[OpenRouterAuthenticationError]
+    B[OpenRouterRateLimitError]
+    C[OpenRouterModel]
+    D[_DictToObj]
+    E[LitellmModelConfig]
     A --> B
     B --> C
     C --> D

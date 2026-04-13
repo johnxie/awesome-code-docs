@@ -595,16 +595,23 @@ Under the hood, `Chapter 2: Agent Runtime` usually follows a repeatable control 
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
-## Source Walkthrough
+## Source Code Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+### `packages/elizaos/src/index.ts`
 
-- [ElizaOS](https://github.com/elizaOS/eliza)
-  Why it matters: authoritative reference on `ElizaOS` (github.com).
+The public API of the elizaOS CLI in [`packages/elizaos/src/index.ts`](https://github.com/elizaOS/eliza/blob/develop/packages/elizaos/src/index.ts) exports the three core commands composing the agent runtime lifecycle:
 
-Suggested trace strategy:
-- search upstream code for `plugin` and `message` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+```ts
+/**
+ * elizaOS CLI - Public API
+ */
+
+export { create, info, version } from "./commands/index.js";
+export { loadManifest } from "./manifest.js";
+export type { Example, ExampleLanguage, ExamplesManifest } from "./types.js";
+```
+
+The `loadManifest` function resolves `examples-manifest.json`, which catalogs agent templates. The agent runtime loop (action → memory → response) is bootstrapped from the character file via `elizaos start`. The `daemon` package under `packages/daemon/` handles long-running agent process supervision.
 
 ## Chapter Connections
 

@@ -1270,6 +1270,19 @@ Under the hood, `Chapter 8: Production Deployment` usually follows a repeatable 
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
+## Production Deployment Architecture
+
+```mermaid
+flowchart LR
+    A[Load Balancer] --> B[RAGFlow API Nodes]
+    B --> C[Elasticsearch / Vector DB]
+    B --> D[MinIO Object Store]
+    B --> E[LLM Backend Pool]
+    B --> F[Redis Cache]
+    G[Monitoring] --> B
+    H[CI/CD] --> B
+```
+
 ## Source Walkthrough
 
 Use the following upstream sources to verify implementation details while reading this chapter:

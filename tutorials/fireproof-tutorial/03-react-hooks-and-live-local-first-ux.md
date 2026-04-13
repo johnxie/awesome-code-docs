@@ -40,184 +40,182 @@ You now have the React mental model for real-time local-first Fireproof UIs.
 
 Next: [Chapter 4: Ledger, CRDT, and Causal Consistency](04-ledger-crdt-and-causal-consistency.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `cli/well-known-cmd.ts`
+### `core/blockstore/attachable-store.ts`
 
-The `wellKnownCmd` function in [`cli/well-known-cmd.ts`](https://github.com/fireproof-storage/fireproof/blob/HEAD/cli/well-known-cmd.ts) handles a key part of this chapter's functionality:
-
-```ts
-import { exportSPKI } from "jose";
-
-export function wellKnownCmd(_sthis: SuperThis) {
-  return command({
-    name: "well-known",
-    description: "Fetch well-known JWKS from URLs",
-    version: "1.0.0",
-    args: {
-      json: flag({
-        long: "json",
-        description: "Output as JSON (default)",
-        defaultValue: () => false,
-      }),
-      jsons: flag({
-        long: "jsons",
-        description: "Output as single-line quoted JSON string",
-        defaultValue: () => false,
-      }),
-      pem: flag({
-        long: "pem",
-        description: "Output as PEM format per key",
-        defaultValue: () => false,
-      }),
-      env: flag({
-        long: "env",
-        description: "Output as environment variables with single-lined PEM",
-        defaultValue: () => false,
-      }),
-      presetKey: option({
-        type: string,
-        long: "presetKey",
-        defaultValue: () => "",
-```
-
-This function is important because it defines how Fireproof Tutorial: Local-First Document Database for AI-Native Apps implements the patterns covered in this chapter.
-
-### `cli/dependabot-cmd.ts`
-
-The `fetchDependabotPRs` function in [`cli/dependabot-cmd.ts`](https://github.com/fireproof-storage/fireproof/blob/HEAD/cli/dependabot-cmd.ts) handles a key part of this chapter's functionality:
+The `WALActiveStoreImpl` class in [`core/blockstore/attachable-store.ts`](https://github.com/fireproof-storage/fireproof/blob/HEAD/core/blockstore/attachable-store.ts) handles a key part of this chapter's functionality:
 
 ```ts
 }
 
-async function fetchDependabotPRs(): Promise<PR[]> {
-  try {
-    const result = await $`gh pr list --author app/dependabot --json number,title,author,url,headRefName --limit 100`;
-    const prs = JSON.parse(result.stdout) as PR[];
-    return prs;
-  } catch (error) {
-    console.error("Failed to fetch Dependabot PRs:", error);
-    throw error;
+class WALActiveStoreImpl extends WALActiveStore {
+  readonly ref: ActiveStore;
+  readonly active: WALStore;
+  protected readonly attached: WALAttachedStores;
+
+  constructor(ref: ActiveStore, active: WALStore, attached: WALAttachedStores) {
+    super();
+    this.ref = ref;
+    this.active = active;
+    this.attached = attached;
+  }
+
+  local(): WALStore {
+    return this.attached.local();
+  }
+  remotes(): WALStore[] {
+    return this.attached.remotes();
   }
 }
 
-async function applyPR(pr: PR, rebase: boolean): Promise<void> {
-  try {
-    console.log(`\nProcessing PR #${pr.number}: ${pr.title}`);
+class WALAttachedStoresImpl implements WALAttachedStores {
+  readonly attached: AttachedStores;
+  constructor(attached: AttachedStores) {
+    this.attached = attached;
+  }
+  local(): WALStore {
+    return this.attached.local().active.wal;
+  }
+  remotes(): WALStore[] {
+    return (
+```
 
-    if (rebase) {
-      // Rebase and merge the PR
-      await $`gh pr merge ${pr.number} --auto --rebase`;
-      console.log(`✓ Rebased and merged PR #${pr.number}`);
-    } else {
-      // Just checkout the PR
-      await $`gh pr checkout ${pr.number}`;
-      console.log(`✓ Checked out PR #${pr.number}`);
+This class is important because it defines how Fireproof Tutorial: Local-First Document Database for AI-Native Apps implements the patterns covered in this chapter.
+
+### `core/blockstore/attachable-store.ts`
+
+The `WALAttachedStoresImpl` class in [`core/blockstore/attachable-store.ts`](https://github.com/fireproof-storage/fireproof/blob/HEAD/core/blockstore/attachable-store.ts) handles a key part of this chapter's functionality:
+
+```ts
+}
+
+class WALAttachedStoresImpl implements WALAttachedStores {
+  readonly attached: AttachedStores;
+  constructor(attached: AttachedStores) {
+    this.attached = attached;
+  }
+  local(): WALStore {
+    return this.attached.local().active.wal;
+  }
+  remotes(): WALStore[] {
+    return (
+      this.attached
+        .remotes()
+        .filter(({ active }) => active.wal)
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        .map(({ active }) => active.wal!)
+    );
+  }
+}
+
+class ActiveStoreImpl<T extends DataAndMetaAndWalStore> implements ActiveStore {
+  readonly active: T;
+  readonly attached: AttachedRemotesImpl;
+
+  constructor(active: T, attached: AttachedRemotesImpl) {
+    this.active = active;
+    this.attached = attached;
+  }
+
+  local(): LocalActiveStore {
+    return this.attached.local();
+```
+
+This class is important because it defines how Fireproof Tutorial: Local-First Document Database for AI-Native Apps implements the patterns covered in this chapter.
+
+### `core/blockstore/attachable-store.ts`
+
+The `ActiveStoreImpl` class in [`core/blockstore/attachable-store.ts`](https://github.com/fireproof-storage/fireproof/blob/HEAD/core/blockstore/attachable-store.ts) handles a key part of this chapter's functionality:
+
+```ts
+}
+
+class FileActiveStoreImpl extends FileActiveStore {
+  readonly ref: ActiveStore;
+  readonly active: FileStore;
+  protected readonly attached: FileAttachedStores;
+
+  constructor(ref: ActiveStore, active: FileStore, attached: FileAttachedStores) {
+    super();
+    this.ref = ref;
+    this.active = active;
+    this.attached = attached;
+  }
+  local(): FileStore {
+    return this.attached.local();
+  }
+  remotes(): FileStore[] {
+    return this.attached.remotes();
+  }
+}
+
+class CarActiveStoreImpl extends CarActiveStore {
+  readonly ref: ActiveStore;
+  readonly active: CarStore;
+  protected readonly attached: CarAttachedStores;
+
+  constructor(ref: ActiveStore, active: CarStore, attached: CarAttachedStores) {
+    super();
+    this.ref = ref;
+    this.active = active;
+    this.attached = attached;
+  }
+```
+
+This class is important because it defines how Fireproof Tutorial: Local-First Document Database for AI-Native Apps implements the patterns covered in this chapter.
+
+### `core/blockstore/attachable-store.ts`
+
+The `AttachedRemotesImpl` class in [`core/blockstore/attachable-store.ts`](https://github.com/fireproof-storage/fireproof/blob/HEAD/core/blockstore/attachable-store.ts) handles a key part of this chapter's functionality:
+
+```ts
+class ActiveStoreImpl<T extends DataAndMetaAndWalStore> implements ActiveStore {
+  readonly active: T;
+  readonly attached: AttachedRemotesImpl;
+
+  constructor(active: T, attached: AttachedRemotesImpl) {
+    this.active = active;
+    this.attached = attached;
+  }
+
+  local(): LocalActiveStore {
+    return this.attached.local();
+  }
+  remotes(): ActiveStore[] {
+    return this.attached.remotes();
+    // return  [
+    //   this.attached.remotes().filter(i => i !== this.active)
+    // ]
+  }
+
+  baseStores(): BaseStore[] {
+    const bs: BaseStore[] = [this.active.car, this.active.file, this.active.meta];
+    if (this.active.wal) {
+      bs.push(this.active.wal);
     }
-  } catch (error) {
-    console.error(`✗ Failed to process PR #${pr.number}:`, error);
-    throw error;
+    return bs;
   }
-}
-
-```
-
-This function is important because it defines how Fireproof Tutorial: Local-First Document Database for AI-Native Apps implements the patterns covered in this chapter.
-
-### `cli/dependabot-cmd.ts`
-
-The `applyPR` function in [`cli/dependabot-cmd.ts`](https://github.com/fireproof-storage/fireproof/blob/HEAD/cli/dependabot-cmd.ts) handles a key part of this chapter's functionality:
-
-```ts
-}
-
-async function applyPR(pr: PR, rebase: boolean): Promise<void> {
-  try {
-    console.log(`\nProcessing PR #${pr.number}: ${pr.title}`);
-
-    if (rebase) {
-      // Rebase and merge the PR
-      await $`gh pr merge ${pr.number} --auto --rebase`;
-      console.log(`✓ Rebased and merged PR #${pr.number}`);
-    } else {
-      // Just checkout the PR
-      await $`gh pr checkout ${pr.number}`;
-      console.log(`✓ Checked out PR #${pr.number}`);
-    }
-  } catch (error) {
-    console.error(`✗ Failed to process PR #${pr.number}:`, error);
-    throw error;
+  carStore(): CarActiveStore {
+    return new CarActiveStoreImpl(this, this.active.car, new CarAttachedStoresImpl(this.attached));
   }
-}
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function dependabotCmd(sthis: SuperThis) {
-  const cmd = command({
-    name: "dependabot",
-    description: "Fetch and apply Dependabot PRs",
-    version: "1.0.0",
-    args: {
-      rebase: flag({
-        long: "rebase",
-        short: "r",
-        description: "Automatically rebase and merge the PRs",
+  fileStore(): FileActiveStore {
+    return new FileActiveStoreImpl(this, this.active.file, new FileAttachedStoresImpl(this.attached));
+  }
 ```
 
-This function is important because it defines how Fireproof Tutorial: Local-First Document Database for AI-Native Apps implements the patterns covered in this chapter.
-
-### `cli/dependabot-cmd.ts`
-
-The `dependabotCmd` function in [`cli/dependabot-cmd.ts`](https://github.com/fireproof-storage/fireproof/blob/HEAD/cli/dependabot-cmd.ts) handles a key part of this chapter's functionality:
-
-```ts
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function dependabotCmd(sthis: SuperThis) {
-  const cmd = command({
-    name: "dependabot",
-    description: "Fetch and apply Dependabot PRs",
-    version: "1.0.0",
-    args: {
-      rebase: flag({
-        long: "rebase",
-        short: "r",
-        description: "Automatically rebase and merge the PRs",
-      }),
-      apply: flag({
-        long: "apply",
-        short: "a",
-        description: "Apply (checkout) all Dependabot PRs",
-      }),
-      prNumber: option({
-        long: "pr",
-        short: "p",
-        type: string,
-        defaultValue: () => "",
-        description: "Apply a specific PR number",
-      }),
-      list: flag({
-        long: "list",
-        short: "l",
-        description: "List all Dependabot PRs (default action)",
-      }),
-    },
-    handler: async (args) => {
-```
-
-This function is important because it defines how Fireproof Tutorial: Local-First Document Database for AI-Native Apps implements the patterns covered in this chapter.
+This class is important because it defines how Fireproof Tutorial: Local-First Document Database for AI-Native Apps implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[wellKnownCmd]
-    B[fetchDependabotPRs]
-    C[applyPR]
-    D[dependabotCmd]
-    E[PR]
+    A[WALActiveStoreImpl]
+    B[WALAttachedStoresImpl]
+    C[ActiveStoreImpl]
+    D[AttachedRemotesImpl]
+    E[isLoadable]
     A --> B
     B --> C
     C --> D

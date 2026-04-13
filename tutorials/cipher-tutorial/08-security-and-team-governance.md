@@ -30,170 +30,168 @@ Team usage of Cipher requires explicit controls over secrets, memory write behav
 
 You now have a governance baseline for production Cipher deployments across teams and tools.
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `src/app/mcp/mcp_handler.ts`
+### `src/tui/components/logo.tsx`
 
-The `handleAskCipherTool` function in [`src/app/mcp/mcp_handler.ts`](https://github.com/campfirein/cipher/blob/HEAD/src/app/mcp/mcp_handler.ts) handles a key part of this chapter's functionality:
+The `calculatePadEnd` function in [`src/tui/components/logo.tsx`](https://github.com/campfirein/cipher/blob/HEAD/src/tui/components/logo.tsx) handles a key part of this chapter's functionality:
 
-```ts
-
-		if (name === 'ask_cipher') {
-			return await handleAskCipherTool(agent, args);
-		}
-
-		// Default mode only supports ask_cipher
-		throw new Error(
-			`Tool '${name}' not available in default mode. Use aggregator mode for access to all tools.`
-		);
-	});
+```tsx
+ * Calculate padding end string to fill remaining width
+ */
+function calculatePadEnd(contentLength: number, terminalWidth: number): string {
+  const availableWidth = terminalWidth
+  const padEndLength = availableWidth - PAD_START.length - contentLength - 1
+  return padEndLength > 0 ? ' ' + '/'.repeat(padEndLength) : ''
 }
 
 /**
- * Register aggregated tools as MCP tools (aggregator mode - all tools)
+ * Get header line with BRV and version
  */
-async function registerAggregatedTools(
-	server: Server,
-	agent: MemAgent,
-	config?: AggregatorConfig
-): Promise<void> {
-	logger.debug('[MCP Handler] Registering all tools (aggregator mode - built-in + MCP servers)');
+function getHeaderLine(logoLine: string, version: string, terminalWidth: number): HeaderLine {
+  const logoLength = [...logoLine].length
+  const brv = ''
+  const versionText = version ? `v${version}` : ''
 
-	// Get all agent-accessible tools from unifiedToolManager
-	const unifiedToolManager = agent.unifiedToolManager;
-	const combinedTools = await unifiedToolManager.getAllTools();
+  // Spaces between BRV and version to match logo width
+  const spacesLength = logoLength - brv.length - versionText.length
+  const spaces = spacesLength > 0 ? ' '.repeat(spacesLength) : ' '
 
-	// Apply conflict resolution if needed
-	const resolvedTools = new Map<string, any>();
-	const conflictResolution = config?.conflictResolution || 'prefix';
+  const contentLength = brv.length + spaces.length + versionText.length
+  const padEnd = calculatePadEnd(contentLength, terminalWidth)
 
-	Object.entries(combinedTools).forEach(([toolName, tool]) => {
-		let resolvedName = toolName;
+  return {brv, padEnd, padStart: PAD_START, spaces, version: versionText}
+}
+
+/**
+ * Get padded logo lines with '/' - 5 at start, fill rest to terminal width
+ */
+function getPaddedLogoLines(lines: string[], terminalWidth: number): PaddedLine[] {
+  return lines.map((line) => {
+    const lineLength = [...line].length // Handle unicode characters
 ```
 
 This function is important because it defines how Cipher Tutorial: Shared Memory Layer for Coding Agents implements the patterns covered in this chapter.
 
-### `src/app/mcp/mcp_handler.ts`
+### `src/tui/components/logo.tsx`
 
-The `registerAgentResources` function in [`src/app/mcp/mcp_handler.ts`](https://github.com/campfirein/cipher/blob/HEAD/src/app/mcp/mcp_handler.ts) handles a key part of this chapter's functionality:
+The `getHeaderLine` function in [`src/tui/components/logo.tsx`](https://github.com/campfirein/cipher/blob/HEAD/src/tui/components/logo.tsx) handles a key part of this chapter's functionality:
 
-```ts
-		await registerAgentTools(server, agent);
-	}
-	await registerAgentResources(server, agent, agentCard);
-	await registerAgentPrompts(server, agent);
+```tsx
+ * Get header line with BRV and version
+ */
+function getHeaderLine(logoLine: string, version: string, terminalWidth: number): HeaderLine {
+  const logoLength = [...logoLine].length
+  const brv = ''
+  const versionText = version ? `v${version}` : ''
 
-	logger.info(`[MCP Handler] MCP server initialized successfully (mode: ${mode})`);
-	logger.info('[MCP Handler] Agent is now available as MCP server for external clients');
+  // Spaces between BRV and version to match logo width
+  const spacesLength = logoLength - brv.length - versionText.length
+  const spaces = spacesLength > 0 ? ' '.repeat(spacesLength) : ' '
 
-	return server;
+  const contentLength = brv.length + spaces.length + versionText.length
+  const padEnd = calculatePadEnd(contentLength, terminalWidth)
+
+  return {brv, padEnd, padStart: PAD_START, spaces, version: versionText}
 }
 
 /**
- * Register agent tools as MCP tools (default mode - ask_cipher only)
+ * Get padded logo lines with '/' - 5 at start, fill rest to terminal width
  */
-async function registerAgentTools(server: Server, agent: MemAgent): Promise<void> {
-	logger.debug('[MCP Handler] Registering agent tools (default mode - ask_cipher only)');
+function getPaddedLogoLines(lines: string[], terminalWidth: number): PaddedLine[] {
+  return lines.map((line) => {
+    const lineLength = [...line].length // Handle unicode characters
+    const padEnd = calculatePadEnd(lineLength, terminalWidth)
 
-	// Default mode: Only expose ask_cipher tool (simplified)
-	const mcpTools = [
-		{
-			name: 'ask_cipher',
-			description:
-				'Use this tool to store new information or search existing information. When you encounter information not yet seen in the current conversation, call ask_cipher to store it. For questions outside the current context, use ask_cipher to search relevant memory. Users may not explicitly request it, but ask_cipher should be your first choice in these cases.',
-			inputSchema: {
-				type: 'object',
-				properties: {
-					message: {
-						type: 'string',
-						description: 'The message or question to send to the Cipher agent',
-					},
-					stream: {
-						type: 'boolean',
+    return {content: line, padEnd, padStart: PAD_START}
+  })
+}
+
+type LogoVariant = 'full' | 'text'
+
+/**
 ```
 
 This function is important because it defines how Cipher Tutorial: Shared Memory Layer for Coding Agents implements the patterns covered in this chapter.
 
-### `src/app/mcp/mcp_handler.ts`
+### `src/tui/components/logo.tsx`
 
-The `getAgentCardResource` function in [`src/app/mcp/mcp_handler.ts`](https://github.com/campfirein/cipher/blob/HEAD/src/app/mcp/mcp_handler.ts) handles a key part of this chapter's functionality:
+The `getPaddedLogoLines` function in [`src/tui/components/logo.tsx`](https://github.com/campfirein/cipher/blob/HEAD/src/tui/components/logo.tsx) handles a key part of this chapter's functionality:
 
-```ts
-		switch (uri) {
-			case 'cipher://agent/card':
-				return await getAgentCardResource(agentCard);
-			case 'cipher://agent/stats':
-				return await getAgentStatsResource(agent);
-			default:
-				throw new Error(`Unknown resource: ${uri}`);
-		}
-	});
+```tsx
+ * Get padded logo lines with '/' - 5 at start, fill rest to terminal width
+ */
+function getPaddedLogoLines(lines: string[], terminalWidth: number): PaddedLine[] {
+  return lines.map((line) => {
+    const lineLength = [...line].length // Handle unicode characters
+    const padEnd = calculatePadEnd(lineLength, terminalWidth)
+
+    return {content: line, padEnd, padStart: PAD_START}
+  })
+}
+
+type LogoVariant = 'full' | 'text'
+
+/**
+ * Select the best logo variant based on terminal size
+ */
+function selectLogoVariant(width: number, height: number): LogoVariant {
+  // Full logo needs >= 60 width, >= 20 height
+  if (width >= 60 && height >= 20) {
+    return 'full'
+  }
+
+  // Fall back to text-only
+  return 'text'
 }
 
 /**
- * Get agent card resource
+ * Get logo lines for variant
  */
-async function getAgentCardResource(agentCard: AgentCard): Promise<any> {
-	return {
-		contents: [
-			{
-				uri: 'cipher://agent/card',
-				mimeType: 'application/json',
-				text: JSON.stringify(redactSensitiveData(agentCard), null, 2),
-			},
-		],
-	};
-}
-
-/**
- * Get agent statistics resource
- */
-async function getAgentStatsResource(agent: MemAgent): Promise<any> {
-	try {
-		const sessionCount = await agent.sessionManager.getSessionCount();
+function getLogoLines(variant: LogoVariant, terminalWidth: number): PaddedLine[] {
+  switch (variant) {
+    case 'full': {
 ```
 
 This function is important because it defines how Cipher Tutorial: Shared Memory Layer for Coding Agents implements the patterns covered in this chapter.
 
-### `src/app/mcp/mcp_handler.ts`
+### `src/tui/components/logo.tsx`
 
-The `getAgentStatsResource` function in [`src/app/mcp/mcp_handler.ts`](https://github.com/campfirein/cipher/blob/HEAD/src/app/mcp/mcp_handler.ts) handles a key part of this chapter's functionality:
+The `selectLogoVariant` function in [`src/tui/components/logo.tsx`](https://github.com/campfirein/cipher/blob/HEAD/src/tui/components/logo.tsx) handles a key part of this chapter's functionality:
 
-```ts
-				return await getAgentCardResource(agentCard);
-			case 'cipher://agent/stats':
-				return await getAgentStatsResource(agent);
-			default:
-				throw new Error(`Unknown resource: ${uri}`);
-		}
-	});
+```tsx
+ * Select the best logo variant based on terminal size
+ */
+function selectLogoVariant(width: number, height: number): LogoVariant {
+  // Full logo needs >= 60 width, >= 20 height
+  if (width >= 60 && height >= 20) {
+    return 'full'
+  }
+
+  // Fall back to text-only
+  return 'text'
 }
 
 /**
- * Get agent card resource
+ * Get logo lines for variant
  */
-async function getAgentCardResource(agentCard: AgentCard): Promise<any> {
-	return {
-		contents: [
-			{
-				uri: 'cipher://agent/card',
-				mimeType: 'application/json',
-				text: JSON.stringify(redactSensitiveData(agentCard), null, 2),
-			},
-		],
-	};
+function getLogoLines(variant: LogoVariant, terminalWidth: number): PaddedLine[] {
+  switch (variant) {
+    case 'full': {
+      return getPaddedLogoLines(LOGO_FULL, terminalWidth)
+    }
+
+    default: {
+      return []
+    }
+  }
 }
 
-/**
- * Get agent statistics resource
- */
-async function getAgentStatsResource(agent: MemAgent): Promise<any> {
-	try {
-		const sessionCount = await agent.sessionManager.getSessionCount();
-		const activeSessionIds = await agent.sessionManager.getActiveSessionIds();
-		const mcpClients = agent.getMcpClients();
+interface LogoProps {
+  /**
+   * Compact mode, only show text logo
+   */
+  compact?: boolean
 ```
 
 This function is important because it defines how Cipher Tutorial: Shared Memory Layer for Coding Agents implements the patterns covered in this chapter.
@@ -203,11 +201,13 @@ This function is important because it defines how Cipher Tutorial: Shared Memory
 
 ```mermaid
 flowchart TD
-    A[handleAskCipherTool]
-    B[registerAgentResources]
-    C[getAgentCardResource]
-    D[getAgentStatsResource]
+    A[calculatePadEnd]
+    B[getHeaderLine]
+    C[getPaddedLogoLines]
+    D[selectLogoVariant]
+    E[getLogoLines]
     A --> B
     B --> C
     C --> D
+    D --> E
 ```

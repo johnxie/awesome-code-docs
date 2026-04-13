@@ -32,7 +32,7 @@ A document store in Haystack is a component that stores and manages your documen
 - **Updates**: Adding, modifying, and deleting documents
 
 ```python
-from haystack.document_stores import InMemoryDocumentStore
+from haystack.document_stores.in_memory import InMemoryDocumentStore
 
 # Create a simple in-memory document store
 document_store = InMemoryDocumentStore()
@@ -53,7 +53,7 @@ document_store.write_documents(documents)
 Perfect for development, testing, and small datasets:
 
 ```python
-from haystack.document_stores import InMemoryDocumentStore
+from haystack.document_stores.in_memory import InMemoryDocumentStore
 
 # Create in-memory store
 document_store = InMemoryDocumentStore()
@@ -82,7 +82,7 @@ document_store.write_documents(documents)
 Production-ready with advanced search capabilities:
 
 ```python
-from haystack.document_stores import ElasticsearchDocumentStore
+from haystack_integrations.document_stores.elasticsearch import ElasticsearchDocumentStore
 
 # Connect to Elasticsearch
 document_store = ElasticsearchDocumentStore(
@@ -114,7 +114,7 @@ document_store = ElasticsearchDocumentStore(
 Cloud-native vector database for large-scale deployments:
 
 ```python
-from haystack.document_stores import PineconeDocumentStore
+from haystack_integrations.document_stores.pinecone import PineconeDocumentStore
 
 # Initialize Pinecone
 document_store = PineconeDocumentStore(
@@ -143,7 +143,7 @@ document_store = PineconeDocumentStore(
 Graph-based vector database with advanced features:
 
 ```python
-from haystack.document_stores import WeaviateDocumentStore
+from haystack_integrations.document_stores.weaviate import WeaviateDocumentStore
 
 # Connect to Weaviate
 document_store = WeaviateDocumentStore(
@@ -213,7 +213,7 @@ documents = [
 ### Document Preprocessing
 
 ```python
-from haystack.nodes import PreProcessor
+from haystack.components.preprocessors import DocumentSplitter  # Haystack 2.x: PreProcessor replaced by DocumentSplitter
 
 # Text preprocessing
 preprocessor = PreProcessor(
@@ -544,6 +544,22 @@ Ready to explore retrieval techniques? Let's dive into [Chapter 3: Retrievers & 
 5. Set up monitoring and health checks
 
 *What's your preferred document store for different use cases?* 📚
+
+## Document Store Architecture
+
+```mermaid
+flowchart TD
+    A[Haystack Pipeline] --> B{Document Store type}
+    B -->|Development| C[InMemoryDocumentStore]
+    B -->|Production search| D[ElasticsearchDocumentStore]
+    B -->|Vector search cloud| E[PineconeDocumentStore]
+    B -->|OSS vector search| F[WeaviateDocumentStore]
+    C --> G[write_documents / filter_documents]
+    D --> G
+    E --> G
+    F --> G
+    G --> H[Retriever component reads from store]
+```
 
 ## What Problem Does This Solve?
 

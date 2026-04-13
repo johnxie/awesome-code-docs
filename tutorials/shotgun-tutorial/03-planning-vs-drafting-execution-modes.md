@@ -50,8 +50,6 @@ You can now choose execution mode based on risk, ambiguity, and throughput needs
 
 Next: [Chapter 4: Codebase Indexing and Context Retrieval](04-codebase-indexing-and-context-retrieval.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `evals/models.py`

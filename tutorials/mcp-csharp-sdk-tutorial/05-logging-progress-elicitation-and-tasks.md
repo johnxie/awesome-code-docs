@@ -41,88 +41,127 @@ You now have a plan for operating advanced MCP capability flows with better dura
 
 Next: [Chapter 6: OAuth-Protected MCP Servers and Clients](06-oauth-protected-mcp-servers-and-clients.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `src/ModelContextProtocol.AspNetCore/AuthorizationFilterSetup.cs`
+### `src/ModelContextProtocol.Core/AIContentExtensions.cs`
 
-The `AuthorizationFilterSetup` class in [`src/ModelContextProtocol.AspNetCore/AuthorizationFilterSetup.cs`](https://github.com/modelcontextprotocol/csharp-sdk/blob/HEAD/src/ModelContextProtocol.AspNetCore/AuthorizationFilterSetup.cs) handles a key part of this chapter's functionality:
+The `serves` class in [`src/ModelContextProtocol.Core/AIContentExtensions.cs`](https://github.com/modelcontextprotocol/csharp-sdk/blob/HEAD/src/ModelContextProtocol.Core/AIContentExtensions.cs) handles a key part of this chapter's functionality:
 
 ```cs
-/// Evaluates authorization policies from endpoint metadata.
 /// </summary>
-internal sealed class AuthorizationFilterSetup(IAuthorizationPolicyProvider? policyProvider = null) : IConfigureOptions<McpServerOptions>, IPostConfigureOptions<McpServerOptions>
+/// <remarks>
+/// This class serves as an adapter layer between Model Context Protocol (MCP) types and the <see cref="AIContent"/> model types
+/// from the Microsoft.Extensions.AI namespace.
+/// </remarks>
+public static class AIContentExtensions
 {
-    private static readonly string AuthorizationFilterInvokedKey = "ModelContextProtocol.AspNetCore.AuthorizationFilter.Invoked";
-
-    public void Configure(McpServerOptions options)
+    /// <summary>
+    /// Creates a sampling handler for use with <see cref="McpClientHandlers.SamplingHandler"/> that will
+    /// satisfy sampling requests using the specified <see cref="IChatClient"/>.
+    /// </summary>
+    /// <param name="chatClient">The <see cref="IChatClient"/> with which to satisfy sampling requests.</param>
+    /// <param name="serializerOptions">The <see cref="JsonSerializerOptions"/> to use for serializing user-provided objects. If <see langword="null"/>, <see cref="McpJsonUtilities.DefaultOptions"/> is used.</param>
+    /// <returns>The created handler delegate that can be assigned to <see cref="McpClientHandlers.SamplingHandler"/>.</returns>
+    /// <remarks>
+    /// <para>
+    /// This method creates a function that converts MCP message requests into chat client calls, enabling
+    /// an MCP client to generate text or other content using an actual AI model via the provided chat client.
+    /// </para>
+    /// <para>
+    /// The handler can process text messages, image messages, resource messages, and tool use/results as defined in the
+    /// Model Context Protocol.
+    /// </para>
+    /// </remarks>
+    /// <exception cref="ArgumentNullException"><paramref name="chatClient"/> is <see langword="null"/>.</exception>
+    public static Func<CreateMessageRequestParams?, IProgress<ProgressNotificationValue>, CancellationToken, ValueTask<CreateMessageResult>> CreateSamplingHandler(
+        this IChatClient chatClient,
+        JsonSerializerOptions? serializerOptions = null)
     {
-        ConfigureListToolsFilter(options);
-        ConfigureCallToolFilter(options);
+        Throw.IfNull(chatClient);
 
-        ConfigureListResourcesFilter(options);
-        ConfigureListResourceTemplatesFilter(options);
-        ConfigureReadResourceFilter(options);
-
-        ConfigureListPromptsFilter(options);
-        ConfigureGetPromptFilter(options);
-    }
-
-    public void PostConfigure(string? name, McpServerOptions options)
-    {
-        CheckListToolsFilter(options);
-        CheckCallToolFilter(options);
-
-        CheckListResourcesFilter(options);
-        CheckListResourceTemplatesFilter(options);
-        CheckReadResourceFilter(options);
-
-        CheckListPromptsFilter(options);
-        CheckGetPromptFilter(options);
-    }
-
+        serializerOptions ??= McpJsonUtilities.DefaultOptions;
 ```
 
 This class is important because it defines how MCP C# SDK Tutorial: Production MCP in .NET with Hosting, ASP.NET Core, and Task Workflows implements the patterns covered in this chapter.
 
-### `src/ModelContextProtocol.AspNetCore/AuthorizationFilterSetup.cs`
+### `src/ModelContextProtocol.Core/AIContentExtensions.cs`
 
-The `or` class in [`src/ModelContextProtocol.AspNetCore/AuthorizationFilterSetup.cs`](https://github.com/modelcontextprotocol/csharp-sdk/blob/HEAD/src/ModelContextProtocol.AspNetCore/AuthorizationFilterSetup.cs) handles a key part of this chapter's functionality:
+The `AIContentExtensions` class in [`src/ModelContextProtocol.Core/AIContentExtensions.cs`](https://github.com/modelcontextprotocol/csharp-sdk/blob/HEAD/src/ModelContextProtocol.Core/AIContentExtensions.cs) handles a key part of this chapter's functionality:
 
 ```cs
-using System.Diagnostics.CodeAnalysis;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
-using ModelContextProtocol.Protocol;
-using ModelContextProtocol.Server;
-
-namespace ModelContextProtocol.AspNetCore;
-
-/// <summary>
-/// Evaluates authorization policies from endpoint metadata.
-/// </summary>
-internal sealed class AuthorizationFilterSetup(IAuthorizationPolicyProvider? policyProvider = null) : IConfigureOptions<McpServerOptions>, IPostConfigureOptions<McpServerOptions>
+/// from the Microsoft.Extensions.AI namespace.
+/// </remarks>
+public static class AIContentExtensions
 {
-    private static readonly string AuthorizationFilterInvokedKey = "ModelContextProtocol.AspNetCore.AuthorizationFilter.Invoked";
-
-    public void Configure(McpServerOptions options)
+    /// <summary>
+    /// Creates a sampling handler for use with <see cref="McpClientHandlers.SamplingHandler"/> that will
+    /// satisfy sampling requests using the specified <see cref="IChatClient"/>.
+    /// </summary>
+    /// <param name="chatClient">The <see cref="IChatClient"/> with which to satisfy sampling requests.</param>
+    /// <param name="serializerOptions">The <see cref="JsonSerializerOptions"/> to use for serializing user-provided objects. If <see langword="null"/>, <see cref="McpJsonUtilities.DefaultOptions"/> is used.</param>
+    /// <returns>The created handler delegate that can be assigned to <see cref="McpClientHandlers.SamplingHandler"/>.</returns>
+    /// <remarks>
+    /// <para>
+    /// This method creates a function that converts MCP message requests into chat client calls, enabling
+    /// an MCP client to generate text or other content using an actual AI model via the provided chat client.
+    /// </para>
+    /// <para>
+    /// The handler can process text messages, image messages, resource messages, and tool use/results as defined in the
+    /// Model Context Protocol.
+    /// </para>
+    /// </remarks>
+    /// <exception cref="ArgumentNullException"><paramref name="chatClient"/> is <see langword="null"/>.</exception>
+    public static Func<CreateMessageRequestParams?, IProgress<ProgressNotificationValue>, CancellationToken, ValueTask<CreateMessageResult>> CreateSamplingHandler(
+        this IChatClient chatClient,
+        JsonSerializerOptions? serializerOptions = null)
     {
-        ConfigureListToolsFilter(options);
-        ConfigureCallToolFilter(options);
+        Throw.IfNull(chatClient);
 
-        ConfigureListResourcesFilter(options);
-        ConfigureListResourceTemplatesFilter(options);
-        ConfigureReadResourceFilter(options);
+        serializerOptions ??= McpJsonUtilities.DefaultOptions;
 
-        ConfigureListPromptsFilter(options);
-        ConfigureGetPromptFilter(options);
-    }
+        return async (requestParams, progress, cancellationToken) =>
+        {
+```
 
-    public void PostConfigure(string? name, McpServerOptions options)
-    {
+This class is important because it defines how MCP C# SDK Tutorial: Production MCP in .NET with Hosting, ASP.NET Core, and Task Workflows implements the patterns covered in this chapter.
+
+### `src/ModelContextProtocol.Core/AIContentExtensions.cs`
+
+The `ToolAIFunctionDeclaration` class in [`src/ModelContextProtocol.Core/AIContentExtensions.cs`](https://github.com/modelcontextprotocol/csharp-sdk/blob/HEAD/src/ModelContextProtocol.Core/AIContentExtensions.cs) handles a key part of this chapter's functionality:
+
+```cs
+                    foreach (var tool in tools)
+                    {
+                        ((options ??= new()).Tools ??= []).Add(new ToolAIFunctionDeclaration(tool));
+                    }
+
+                    if (options.Tools is { Count: > 0 } && requestParams.ToolChoice is { } toolChoice)
+                    {
+                        options.ToolMode = toolChoice.Mode switch
+                        {
+                            ToolChoice.ModeAuto => ChatToolMode.Auto,
+                            ToolChoice.ModeRequired => ChatToolMode.RequireAny,
+                            ToolChoice.ModeNone => ChatToolMode.None,
+                            _ => null,
+                        };
+                    }
+                }
+
+                List<ChatMessage> messages = [];
+                foreach (var sm in requestParams.Messages)
+                {
+                    if (sm.Content?.Select(b => b.ToAIContent(serializerOptions)).OfType<AIContent>().ToList() is { Count: > 0 } aiContents)
+                    {
+                        ChatRole role =
+                            aiContents.All(static c => c is FunctionResultContent) ? ChatRole.Tool :
+                            sm.Role is Role.Assistant ? ChatRole.Assistant :
+                            ChatRole.User;
+                        messages.Add(new ChatMessage(role, aiContents));
+                    }
+                }
+
+                return (messages, options);
+            }
 ```
 
 This class is important because it defines how MCP C# SDK Tutorial: Production MCP in .NET with Hosting, ASP.NET Core, and Task Workflows implements the patterns covered in this chapter.
@@ -168,56 +207,15 @@ internal sealed class NotificationHandlers
 
 This class is important because it defines how MCP C# SDK Tutorial: Production MCP in .NET with Hosting, ASP.NET Core, and Task Workflows implements the patterns covered in this chapter.
 
-### `src/ModelContextProtocol.Core/NotificationHandlers.cs`
-
-The `Registration` class in [`src/ModelContextProtocol.Core/NotificationHandlers.cs`](https://github.com/modelcontextprotocol/csharp-sdk/blob/HEAD/src/ModelContextProtocol.Core/NotificationHandlers.cs) handles a key part of this chapter's functionality:
-
-```cs
-{
-    /// <summary>A dictionary of linked lists of registrations, indexed by the notification method.</summary>
-    private readonly Dictionary<string, Registration> _handlers = [];
-
-    /// <summary>Gets the object to be used for all synchronization.</summary>
-    private object SyncObj => _handlers;
-
-    /// <summary>
-    /// Registers a collection of notification handlers at once.
-    /// </summary>
-    /// <param name="handlers">
-    /// A collection of notification method names paired with their corresponding handler functions.
-    /// Each key in the collection is a notification method name, and each value is a handler function
-    /// that will be invoked when a notification with that method name is received.
-    /// </param>
-    /// <remarks>
-    /// <para>
-    /// This method is typically used during client or server initialization to register
-    /// all notification handlers provided in capabilities.
-    /// </para>
-    /// <para>
-    /// Registrations completed with this method are permanent and non-removable.
-    /// This differs from handlers registered with <see cref="Register"/> which can be temporary.
-    /// </para>
-    /// <para>
-    /// When multiple handlers are registered for the same method, all handlers will be invoked
-    /// in reverse order of registration (newest first) when a notification is received.
-    /// </para>
-    /// <para>
-    /// The registered handlers will be invoked by <see cref="InvokeHandlers"/> when a notification
-    /// with the corresponding method name is received.
-    /// </para>
-```
-
-This class is important because it defines how MCP C# SDK Tutorial: Production MCP in .NET with Hosting, ASP.NET Core, and Task Workflows implements the patterns covered in this chapter.
-
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[AuthorizationFilterSetup]
-    B[or]
-    C[NotificationHandlers]
-    D[Registration]
+    A[serves]
+    B[AIContentExtensions]
+    C[ToolAIFunctionDeclaration]
+    D[NotificationHandlers]
     A --> B
     B --> C
     C --> D

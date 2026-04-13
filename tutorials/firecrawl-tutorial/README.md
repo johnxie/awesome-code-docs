@@ -13,7 +13,7 @@ format_version: v2
 [![TypeScript](https://img.shields.io/badge/TypeScript-blue)](https://github.com/mendableai/firecrawl)
 
 
-Firecrawl<sup>[View Repo](https://github.com/firecrawl/firecrawl)</sup> is a powerful web scraping and data extraction platform specifically designed for Large Language Models. It provides clean, structured data extraction from websites, making it easy to build RAG systems, content analysis tools, and AI-powered applications that need access to web content.
+Firecrawl<sup>[View Repo](https://github.com/mendableai/firecrawl)</sup> is a powerful web scraping and data extraction platform specifically designed for Large Language Models. It provides clean, structured data extraction from websites, making it easy to build RAG systems, content analysis tools, and AI-powered applications that need access to web content.
 
 Firecrawl handles the complexity of web scraping - dealing with JavaScript rendering, anti-bot measures, and data cleaning - so you can focus on building amazing AI applications.
 

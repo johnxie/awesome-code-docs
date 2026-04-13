@@ -26,169 +26,167 @@ You now know how to model retrieval workflows with clear graph boundaries.
 
 Next: [Chapter 5: Multi-Agent and Supervision](05-multi-agent-and-supervision.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `cookbook/pocketflow-fastapi-hitl/server.py`
+### `cookbook/pocketflow-visualization/visualize.py`
 
-The `run_flow_background` function in [`cookbook/pocketflow-fastapi-hitl/server.py`](https://github.com/The-Pocket/PocketFlow/blob/HEAD/cookbook/pocketflow-fastapi-hitl/server.py) handles a key part of this chapter's functionality:
+The `find_free_port` function in [`cookbook/pocketflow-visualization/visualize.py`](https://github.com/The-Pocket/PocketFlow/blob/HEAD/cookbook/pocketflow-visualization/visualize.py) handles a key part of this chapter's functionality:
 
 ```py
-# This function remains mostly the same, as it defines the work to be done.
-# It will be scheduled by FastAPI's BackgroundTasks now.
-async def run_flow_background(task_id: str, flow, shared: Dict[str, Any]):
-    """Runs the flow in background, uses queue in shared for SSE."""
-    # Check if task exists (might have been cancelled/deleted)
-    if task_id not in tasks:
-        print(f"Background task {task_id}: Task not found, aborting.")
-        return
-    queue = shared.get("sse_queue")
-    if not queue:
-        print(f"ERROR: Task {task_id} missing sse_queue in shared store!")
-        tasks[task_id]["status"] = "failed"
-        # Cannot report failure via SSE if queue is missing
-        return
 
-    tasks[task_id]["status"] = "running"
-    await queue.put({"status": "running"})
-    print(f"Task {task_id}: Background flow starting.")
 
-    final_status = "unknown"
-    error_message = None
-    try:
-        # Execute the potentially long-running PocketFlow
-        await flow.run_async(shared)
+def find_free_port():
+    """Find a free port on localhost."""
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        s.bind(("", 0))
+        s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        return s.getsockname()[1]
 
-        # Determine final status based on shared state after flow completion
-        if shared.get("final_result") is not None:
-            final_status = "completed"
-        else:
-            # If flow ends without setting final_result
-            final_status = "finished_incomplete"
-        print(f"Task {task_id}: Flow finished with status: {final_status}")
+
+def start_http_server(directory, port=None):
+    """Start an HTTP server in the given directory.
+
+    Args:
+        directory: Directory to serve files from
+        port: Port to use (finds a free port if None)
+
+    Returns:
+        tuple: (server_thread, port)
+    """
+    if port is None:
+        port = find_free_port()
+
+    # Get the absolute path of the directory
+    directory = str(Path(directory).absolute())
+
+    # Change to the directory to serve files
+    os.chdir(directory)
+
+    # Create HTTP server
+    handler = http.server.SimpleHTTPRequestHandler
+    httpd = socketserver.TCPServer(("", port), handler)
 ```
 
 This function is important because it defines how PocketFlow Tutorial: Minimal LLM Framework with Graph-Based Power implements the patterns covered in this chapter.
 
-### `cookbook/pocketflow-fastapi-hitl/server.py`
+### `cookbook/pocketflow-visualization/visualize.py`
 
-The `get_index` function in [`cookbook/pocketflow-fastapi-hitl/server.py`](https://github.com/The-Pocket/PocketFlow/blob/HEAD/cookbook/pocketflow-fastapi-hitl/server.py) handles a key part of this chapter's functionality:
+The `start_http_server` function in [`cookbook/pocketflow-visualization/visualize.py`](https://github.com/The-Pocket/PocketFlow/blob/HEAD/cookbook/pocketflow-visualization/visualize.py) handles a key part of this chapter's functionality:
 
 ```py
-# --- FastAPI Routes ---
-@app.get("/", response_class=HTMLResponse, include_in_schema=False)
-async def get_index(request: Request):
-    """Serves the main HTML frontend."""
-    if templates is None:
-        raise HTTPException(status_code=500, detail="Templates directory not configured.")
-    return templates.TemplateResponse("index.html", {"request": request})
 
-@app.post("/submit", response_model=SubmitResponse, status_code=status.HTTP_202_ACCEPTED)
-async def submit_task(
-    submit_request: SubmitRequest, # Use Pydantic model for validation
-    background_tasks: BackgroundTasks # Inject BackgroundTasks instance
-):
+
+def start_http_server(directory, port=None):
+    """Start an HTTP server in the given directory.
+
+    Args:
+        directory: Directory to serve files from
+        port: Port to use (finds a free port if None)
+
+    Returns:
+        tuple: (server_thread, port)
     """
-    Submits a new task. The actual processing runs in the background.
-    Returns immediately with the task ID.
-    """
-    task_id = str(uuid.uuid4())
-    feedback_event = asyncio.Event()
-    status_queue = asyncio.Queue()
+    if port is None:
+        port = find_free_port()
 
-    shared = {
-        "task_input": submit_request.data,
-        "processed_output": None,
-        "feedback": None,
-        "review_event": feedback_event,
-        "sse_queue": status_queue,
-        "final_result": None,
-        "task_id": task_id
-    }
+    # Get the absolute path of the directory
+    directory = str(Path(directory).absolute())
 
-    flow = create_feedback_flow()
+    # Change to the directory to serve files
+    os.chdir(directory)
+
+    # Create HTTP server
+    handler = http.server.SimpleHTTPRequestHandler
+    httpd = socketserver.TCPServer(("", port), handler)
+
+    # Start server in a separate thread
+    server_thread = threading.Thread(target=httpd.serve_forever)
+    server_thread.daemon = (
+        True  # This makes the thread exit when the main program exits
+    )
+    server_thread.start()
+
 ```
 
 This function is important because it defines how PocketFlow Tutorial: Minimal LLM Framework with Graph-Based Power implements the patterns covered in this chapter.
 
-### `cookbook/pocketflow-fastapi-hitl/server.py`
+### `cookbook/pocketflow-visualization/visualize.py`
 
-The `submit_task` function in [`cookbook/pocketflow-fastapi-hitl/server.py`](https://github.com/The-Pocket/PocketFlow/blob/HEAD/cookbook/pocketflow-fastapi-hitl/server.py) handles a key part of this chapter's functionality:
+The `serve_and_open_visualization` function in [`cookbook/pocketflow-visualization/visualize.py`](https://github.com/The-Pocket/PocketFlow/blob/HEAD/cookbook/pocketflow-visualization/visualize.py) handles a key part of this chapter's functionality:
 
 ```py
 
-@app.post("/submit", response_model=SubmitResponse, status_code=status.HTTP_202_ACCEPTED)
-async def submit_task(
-    submit_request: SubmitRequest, # Use Pydantic model for validation
-    background_tasks: BackgroundTasks # Inject BackgroundTasks instance
-):
+
+def serve_and_open_visualization(html_path, auto_open=True):
+    """Serve the HTML file and open it in a browser.
+
+    Args:
+        html_path: Path to the HTML file
+        auto_open: Whether to automatically open the browser
+
+    Returns:
+        tuple: (server_thread, url)
     """
-    Submits a new task. The actual processing runs in the background.
-    Returns immediately with the task ID.
-    """
-    task_id = str(uuid.uuid4())
-    feedback_event = asyncio.Event()
-    status_queue = asyncio.Queue()
+    # Get the directory and filename
+    directory = os.path.dirname(os.path.abspath(html_path))
+    filename = os.path.basename(html_path)
 
-    shared = {
-        "task_input": submit_request.data,
-        "processed_output": None,
-        "feedback": None,
-        "review_event": feedback_event,
-        "sse_queue": status_queue,
-        "final_result": None,
-        "task_id": task_id
-    }
+    # Start the server
+    server_thread, port = start_http_server(directory)
 
-    flow = create_feedback_flow()
+    # Build the URL
+    url = f"http://localhost:{port}/{filename}"
 
-    # Store task state BEFORE scheduling background task
-    tasks[task_id] = {
-        "shared": shared,
-        "status": "pending",
-        "task_obj": None # Placeholder for the asyncio Task created by BackgroundTasks
-    }
+    # Open the URL in a browser
+    if auto_open:
+        print(f"Opening {url} in your browser...")
+        webbrowser.open(url)
+    else:
+        print(f"Visualization available at {url}")
+
+    return server_thread, url
+
+
 ```
 
 This function is important because it defines how PocketFlow Tutorial: Minimal LLM Framework with Graph-Based Power implements the patterns covered in this chapter.
 
-### `cookbook/pocketflow-fastapi-hitl/server.py`
+### `cookbook/pocketflow-visualization/visualize.py`
 
-The `provide_feedback` function in [`cookbook/pocketflow-fastapi-hitl/server.py`](https://github.com/The-Pocket/PocketFlow/blob/HEAD/cookbook/pocketflow-fastapi-hitl/server.py) handles a key part of this chapter's functionality:
+The `visualize_flow` function in [`cookbook/pocketflow-visualization/visualize.py`](https://github.com/The-Pocket/PocketFlow/blob/HEAD/cookbook/pocketflow-visualization/visualize.py) handles a key part of this chapter's functionality:
 
 ```py
 
-@app.post("/feedback/{task_id}", response_model=FeedbackResponse)
-async def provide_feedback(task_id: str, feedback_request: FeedbackRequest):
-    """Provides feedback (approved/rejected) to potentially unblock a waiting task."""
-    if task_id not in tasks:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Task not found")
 
-    task_info = tasks[task_id]
-    shared = task_info["shared"]
-    queue = shared.get("sse_queue")
-    review_event = shared.get("review_event")
+def visualize_flow(
+    flow: Flow,
+    flow_name: str,
+    serve: bool = True,
+    auto_open: bool = True,
+    output_dir: str = "./viz",
+    html_title: Optional[str] = None,
+) -> Union[str, Tuple[str, Any, str]]:
+    """Helper function to visualize a flow with both mermaid and D3.js
 
-    async def report_error(message, status_code=status.HTTP_400_BAD_REQUEST):
-        # Helper to log, put status on queue, and raise HTTP exception
-        print(f"Task {task_id}: Feedback error - {message}")
-        if queue: await queue.put({"status": "feedback_error", "error": message})
-        raise HTTPException(status_code=status_code, detail=message)
+    Args:
+        flow: Flow object to visualize
+        flow_name: Name of the flow (used for filename and display)
+        serve: Whether to start a server for the visualization
+        auto_open: Whether to automatically open in browser
+        output_dir: Directory to save visualization files
+        html_title: Custom title for the HTML page (defaults to flow_name if None)
 
-    if not review_event:
-        # This indicates an internal setup error if the task exists but has no event
-        await report_error("Task not configured for feedback", status.HTTP_500_INTERNAL_SERVER_ERROR)
-    if review_event.is_set():
-        # Prevent processing feedback multiple times or if the task isn't waiting
-        await report_error("Task not awaiting feedback or feedback already sent", status.HTTP_409_CONFLICT)
+    Returns:
+        str or tuple: Path to HTML file, or (path, server_thread, url) if serve=True
+    """
+    print(f"\n--- {flow_name} Mermaid Diagram ---")
+    print(build_mermaid(start=flow))
 
-    feedback = feedback_request.feedback # Already validated by Pydantic
-    print(f"Task {task_id}: Received feedback via POST: {feedback}")
+    print(f"\n--- {flow_name} D3.js Visualization ---")
+    json_data = flow_to_json(flow)
 
-    # Update status *before* setting the event, so client sees 'processing' first
-    if queue: await queue.put({"status": "processing_feedback", "feedback_value": feedback})
-    tasks[task_id]["status"] = "processing_feedback" # Update central status tracker
+    # Create the visualization
+    output_filename = f"{flow_name.lower().replace(' ', '_')}"
 
 ```
 
@@ -199,11 +197,11 @@ This function is important because it defines how PocketFlow Tutorial: Minimal L
 
 ```mermaid
 flowchart TD
-    A[run_flow_background]
-    B[get_index]
-    C[submit_task]
-    D[provide_feedback]
-    E[stream_status]
+    A[find_free_port]
+    B[start_http_server]
+    C[serve_and_open_visualization]
+    D[visualize_flow]
+    E[load_flow_from_module]
     A --> B
     B --> C
     C --> D

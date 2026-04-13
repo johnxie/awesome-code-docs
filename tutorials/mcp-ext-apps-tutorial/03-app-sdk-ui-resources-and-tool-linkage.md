@@ -39,170 +39,168 @@ You now have an app-side implementation model for tool-linked MCP UI resources.
 
 Next: [Chapter 4: Host Bridge and Context Management](04-host-bridge-and-context-management.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `docs/patterns.tsx`
+### `src/app.examples.ts`
 
-The `binaryBlobResourceServer` function in [`docs/patterns.tsx`](https://github.com/modelcontextprotocol/ext-apps/blob/HEAD/docs/patterns.tsx) handles a key part of this chapter's functionality:
+The `App_oncalltool_handleFromHost` function in [`src/app.examples.ts`](https://github.com/modelcontextprotocol/ext-apps/blob/HEAD/src/app.examples.ts) handles a key part of this chapter's functionality:
 
-```tsx
- * Example: Serving binary blobs via resources (server-side)
+```ts
+ * Example: Handle tool calls from the host.
  */
-function binaryBlobResourceServer(
-  server: McpServer,
-  getVideoData: (id: string) => Promise<ArrayBuffer>,
+function App_oncalltool_handleFromHost(app: App) {
+  //#region App_oncalltool_handleFromHost
+  app.oncalltool = async (params, extra) => {
+    if (params.name === "greet") {
+      const name = params.arguments?.name ?? "World";
+      return { content: [{ type: "text", text: `Hello, ${name}!` }] };
+    }
+    throw new Error(`Unknown tool: ${params.name}`);
+  };
+  //#endregion App_oncalltool_handleFromHost
+}
+
+/**
+ * Example: Return available tools from the onlisttools handler.
+ */
+function App_onlisttools_returnTools(app: App) {
+  //#region App_onlisttools_returnTools
+  app.onlisttools = async (params, extra) => {
+    return {
+      tools: [
+        { name: "greet", inputSchema: { type: "object" as const } },
+        { name: "calculate", inputSchema: { type: "object" as const } },
+        { name: "format", inputSchema: { type: "object" as const } },
+      ],
+    };
+  };
+  //#endregion App_onlisttools_returnTools
+}
+
+/**
+```
+
+This function is important because it defines how MCP Ext Apps Tutorial: Building Interactive MCP Apps and Hosts implements the patterns covered in this chapter.
+
+### `src/app.examples.ts`
+
+The `App_onlisttools_returnTools` function in [`src/app.examples.ts`](https://github.com/modelcontextprotocol/ext-apps/blob/HEAD/src/app.examples.ts) handles a key part of this chapter's functionality:
+
+```ts
+ * Example: Return available tools from the onlisttools handler.
+ */
+function App_onlisttools_returnTools(app: App) {
+  //#region App_onlisttools_returnTools
+  app.onlisttools = async (params, extra) => {
+    return {
+      tools: [
+        { name: "greet", inputSchema: { type: "object" as const } },
+        { name: "calculate", inputSchema: { type: "object" as const } },
+        { name: "format", inputSchema: { type: "object" as const } },
+      ],
+    };
+  };
+  //#endregion App_onlisttools_returnTools
+}
+
+/**
+ * Example: Fetch updated weather data using callServerTool.
+ */
+async function App_callServerTool_fetchWeather(app: App) {
+  //#region App_callServerTool_fetchWeather
+  try {
+    const result = await app.callServerTool({
+      name: "get_weather",
+      arguments: { location: "Tokyo" },
+    });
+    if (result.isError) {
+      console.error("Tool returned error:", result.content);
+    } else {
+      console.log(result.content);
+    }
+  } catch (error) {
+```
+
+This function is important because it defines how MCP Ext Apps Tutorial: Building Interactive MCP Apps and Hosts implements the patterns covered in this chapter.
+
+### `src/app.examples.ts`
+
+The `App_callServerTool_fetchWeather` function in [`src/app.examples.ts`](https://github.com/modelcontextprotocol/ext-apps/blob/HEAD/src/app.examples.ts) handles a key part of this chapter's functionality:
+
+```ts
+ * Example: Fetch updated weather data using callServerTool.
+ */
+async function App_callServerTool_fetchWeather(app: App) {
+  //#region App_callServerTool_fetchWeather
+  try {
+    const result = await app.callServerTool({
+      name: "get_weather",
+      arguments: { location: "Tokyo" },
+    });
+    if (result.isError) {
+      console.error("Tool returned error:", result.content);
+    } else {
+      console.log(result.content);
+    }
+  } catch (error) {
+    console.error("Tool call failed:", error);
+  }
+  //#endregion App_callServerTool_fetchWeather
+}
+
+/**
+ * Example: Read a video resource and play it.
+ */
+async function App_readServerResource_playVideo(
+  app: App,
+  videoElement: HTMLVideoElement,
 ) {
-  //#region binaryBlobResourceServer
-  server.registerResource(
-    "Video",
-    new ResourceTemplate("video://{id}", { list: undefined }),
-    {
-      description: "Video data served as base64 blob",
-      mimeType: "video/mp4",
-    },
-    async (uri, { id }): Promise<ReadResourceResult> => {
-      // Fetch or load your binary data
-      const idString = Array.isArray(id) ? id[0] : id;
-      const buffer = await getVideoData(idString);
-      const blob = Buffer.from(buffer).toString("base64");
+  //#region App_readServerResource_playVideo
+  try {
+    const result = await app.readServerResource({
+      uri: "videos://bunny-1mb",
+    });
+```
 
-      return { contents: [{ uri: uri.href, mimeType: "video/mp4", blob }] };
-    },
-  );
-  //#endregion binaryBlobResourceServer
+This function is important because it defines how MCP Ext Apps Tutorial: Building Interactive MCP Apps and Hosts implements the patterns covered in this chapter.
+
+### `src/app.examples.ts`
+
+The `App_readServerResource_playVideo` function in [`src/app.examples.ts`](https://github.com/modelcontextprotocol/ext-apps/blob/HEAD/src/app.examples.ts) handles a key part of this chapter's functionality:
+
+```ts
+ * Example: Read a video resource and play it.
+ */
+async function App_readServerResource_playVideo(
+  app: App,
+  videoElement: HTMLVideoElement,
+) {
+  //#region App_readServerResource_playVideo
+  try {
+    const result = await app.readServerResource({
+      uri: "videos://bunny-1mb",
+    });
+    const content = result.contents[0];
+    if (content && "blob" in content) {
+      const binary = Uint8Array.from(atob(content.blob), (c) =>
+        c.charCodeAt(0),
+      );
+      const url = URL.createObjectURL(
+        new Blob([binary], { type: content.mimeType || "video/mp4" }),
+      );
+      videoElement.src = url;
+      videoElement.play();
+    }
+  } catch (error) {
+    console.error("Failed to read resource:", error);
+  }
+  //#endregion App_readServerResource_playVideo
 }
 
 /**
- * Example: Serving binary blobs via resources (client-side)
+ * Example: Discover available videos and build a picker UI.
  */
-async function binaryBlobResourceClient(app: App, videoId: string) {
-  //#region binaryBlobResourceClient
-  const result = await app.request(
-```
-
-This function is important because it defines how MCP Ext Apps Tutorial: Building Interactive MCP Apps and Hosts implements the patterns covered in this chapter.
-
-### `docs/patterns.tsx`
-
-The `binaryBlobResourceClient` function in [`docs/patterns.tsx`](https://github.com/modelcontextprotocol/ext-apps/blob/HEAD/docs/patterns.tsx) handles a key part of this chapter's functionality:
-
-```tsx
- * Example: Serving binary blobs via resources (client-side)
- */
-async function binaryBlobResourceClient(app: App, videoId: string) {
-  //#region binaryBlobResourceClient
-  const result = await app.request(
-    { method: "resources/read", params: { uri: `video://${videoId}` } },
-    ReadResourceResultSchema,
-  );
-
-  const content = result.contents[0];
-  if (!content || !("blob" in content)) {
-    throw new Error("Resource did not contain blob data");
-  }
-
-  const videoEl = document.querySelector("video")!;
-  videoEl.src = `data:${content.mimeType!};base64,${content.blob}`;
-  //#endregion binaryBlobResourceClient
-}
-
-/**
- * Example: Adapting to host context (theme, CSS variables, fonts, safe areas)
- */
-function hostContextVanillaJs(app: App, mainEl: HTMLElement) {
-  //#region hostContextVanillaJs
-  function applyHostContext(ctx: McpUiHostContext) {
-    if (ctx.theme) {
-      applyDocumentTheme(ctx.theme);
-    }
-    if (ctx.styles?.variables) {
-      applyHostStyleVariables(ctx.styles.variables);
-    }
-    if (ctx.styles?.css?.fonts) {
-```
-
-This function is important because it defines how MCP Ext Apps Tutorial: Building Interactive MCP Apps and Hosts implements the patterns covered in this chapter.
-
-### `docs/patterns.tsx`
-
-The `hostContextVanillaJs` function in [`docs/patterns.tsx`](https://github.com/modelcontextprotocol/ext-apps/blob/HEAD/docs/patterns.tsx) handles a key part of this chapter's functionality:
-
-```tsx
- * Example: Adapting to host context (theme, CSS variables, fonts, safe areas)
- */
-function hostContextVanillaJs(app: App, mainEl: HTMLElement) {
-  //#region hostContextVanillaJs
-  function applyHostContext(ctx: McpUiHostContext) {
-    if (ctx.theme) {
-      applyDocumentTheme(ctx.theme);
-    }
-    if (ctx.styles?.variables) {
-      applyHostStyleVariables(ctx.styles.variables);
-    }
-    if (ctx.styles?.css?.fonts) {
-      applyHostFonts(ctx.styles.css.fonts);
-    }
-    if (ctx.safeAreaInsets) {
-      mainEl.style.paddingTop = `${ctx.safeAreaInsets.top}px`;
-      mainEl.style.paddingRight = `${ctx.safeAreaInsets.right}px`;
-      mainEl.style.paddingBottom = `${ctx.safeAreaInsets.bottom}px`;
-      mainEl.style.paddingLeft = `${ctx.safeAreaInsets.left}px`;
-    }
-  }
-
-  // Apply when host context changes
-  app.onhostcontextchanged = applyHostContext;
-
-  // Apply initial context after connecting
-  app.connect().then(() => {
-    const ctx = app.getHostContext();
-    if (ctx) {
-      applyHostContext(ctx);
-    }
-  });
-```
-
-This function is important because it defines how MCP Ext Apps Tutorial: Building Interactive MCP Apps and Hosts implements the patterns covered in this chapter.
-
-### `docs/patterns.tsx`
-
-The `applyHostContext` function in [`docs/patterns.tsx`](https://github.com/modelcontextprotocol/ext-apps/blob/HEAD/docs/patterns.tsx) handles a key part of this chapter's functionality:
-
-```tsx
-function hostContextVanillaJs(app: App, mainEl: HTMLElement) {
-  //#region hostContextVanillaJs
-  function applyHostContext(ctx: McpUiHostContext) {
-    if (ctx.theme) {
-      applyDocumentTheme(ctx.theme);
-    }
-    if (ctx.styles?.variables) {
-      applyHostStyleVariables(ctx.styles.variables);
-    }
-    if (ctx.styles?.css?.fonts) {
-      applyHostFonts(ctx.styles.css.fonts);
-    }
-    if (ctx.safeAreaInsets) {
-      mainEl.style.paddingTop = `${ctx.safeAreaInsets.top}px`;
-      mainEl.style.paddingRight = `${ctx.safeAreaInsets.right}px`;
-      mainEl.style.paddingBottom = `${ctx.safeAreaInsets.bottom}px`;
-      mainEl.style.paddingLeft = `${ctx.safeAreaInsets.left}px`;
-    }
-  }
-
-  // Apply when host context changes
-  app.onhostcontextchanged = applyHostContext;
-
-  // Apply initial context after connecting
-  app.connect().then(() => {
-    const ctx = app.getHostContext();
-    if (ctx) {
-      applyHostContext(ctx);
-    }
-  });
-  //#endregion hostContextVanillaJs
-}
+async function App_listServerResources_buildPicker(
 ```
 
 This function is important because it defines how MCP Ext Apps Tutorial: Building Interactive MCP Apps and Hosts implements the patterns covered in this chapter.
@@ -212,11 +210,11 @@ This function is important because it defines how MCP Ext Apps Tutorial: Buildin
 
 ```mermaid
 flowchart TD
-    A[binaryBlobResourceServer]
-    B[binaryBlobResourceClient]
-    C[hostContextVanillaJs]
-    D[applyHostContext]
-    E[hostContextReact]
+    A[App_oncalltool_handleFromHost]
+    B[App_onlisttools_returnTools]
+    C[App_callServerTool_fetchWeather]
+    D[App_readServerResource_playVideo]
+    E[App_listServerResources_buildPicker]
     A --> B
     B --> C
     C --> D

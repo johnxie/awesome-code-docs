@@ -46,170 +46,168 @@ You now have a transport strategy that is aligned with Go SDK behavior and opera
 
 Next: [Chapter 4: Building Tools, Resources, and Prompts in Go](04-building-tools-resources-and-prompts-in-go.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `mcp/shared.go`
+### `mcp/client.go`
 
-The `setProgressToken` function in [`mcp/shared.go`](https://github.com/modelcontextprotocol/go-sdk/blob/HEAD/mcp/shared.go) handles a key part of this chapter's functionality:
-
-```go
-}
-
-func setProgressToken(p Params, pt any) {
-	switch pt.(type) {
-	// Support int32 and int64 for atomic.IntNN.
-	case int, int32, int64, string:
-	default:
-		panic(fmt.Sprintf("progress token %v is of type %[1]T, not int or string", pt))
-	}
-	m := p.GetMeta()
-	if m == nil {
-		m = map[string]any{}
-		p.SetMeta(m)
-	}
-	m[progressTokenKey] = pt
-}
-
-// A Request is a method request with parameters and additional information, such as the session.
-// Request is implemented by [*ClientRequest] and [*ServerRequest].
-type Request interface {
-	isRequest()
-	GetSession() Session
-	GetParams() Params
-	// GetExtra returns the Extra field for ServerRequests, and nil for ClientRequests.
-	GetExtra() *RequestExtra
-}
-
-// A ClientRequest is a request to a client.
-type ClientRequest[P Params] struct {
-	Session *ClientSession
-	Params  P
-}
-```
-
-This function is important because it defines how MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go implements the patterns covered in this chapter.
-
-### `mcp/shared.go`
-
-The `startKeepalive` function in [`mcp/shared.go`](https://github.com/modelcontextprotocol/go-sdk/blob/HEAD/mcp/shared.go) handles a key part of this chapter's functionality:
+The `Error` function in [`mcp/client.go`](https://github.com/modelcontextprotocol/go-sdk/blob/HEAD/mcp/client.go) handles a key part of this chapter's functionality:
 
 ```go
+
+// TODO: Consider exporting this type and its field.
+type unsupportedProtocolVersionError struct {
+	version string
 }
 
-// startKeepalive starts the keepalive mechanism for a session.
-// It assigns the cancel function to the provided cancelPtr and starts a goroutine
-// that sends ping messages at the specified interval.
-func startKeepalive(session keepaliveSession, interval time.Duration, cancelPtr *context.CancelFunc) {
-	ctx, cancel := context.WithCancel(context.Background())
-	// Assign cancel function before starting goroutine to avoid race condition.
-	// We cannot return it because the caller may need to cancel during the
-	// window between goroutine scheduling and function return.
-	*cancelPtr = cancel
+func (e unsupportedProtocolVersionError) Error() string {
+	return fmt.Sprintf("unsupported protocol version: %q", e.version)
+}
 
-	go func() {
-		ticker := time.NewTicker(interval)
-		defer ticker.Stop()
+// ClientSessionOptions is reserved for future use.
+type ClientSessionOptions struct {
+	// protocolVersion overrides the protocol version sent in the initialize
+	// request, for testing. If empty, latestProtocolVersion is used.
+	protocolVersion string
+}
 
-		for {
-			select {
-			case <-ctx.Done():
-				return
-			case <-ticker.C:
-				pingCtx, pingCancel := context.WithTimeout(context.Background(), interval/2)
-				err := session.Ping(pingCtx, nil)
-				pingCancel()
-				if err != nil {
-					// Ping failed, close the session
-					_ = session.Close()
-					return
-				}
-			}
+func (c *Client) capabilities(protocolVersion string) *ClientCapabilities {
+	// Start with user-provided capabilities as defaults, or use SDK defaults.
+	var caps *ClientCapabilities
+	if c.opts.Capabilities != nil {
+		// Deep copy the user-provided capabilities to avoid mutation.
+		caps = c.opts.Capabilities.clone()
+	} else {
+		// SDK defaults: roots with listChanged.
+		// (this was the default behavior at v1.0.0, and so cannot be changed)
+		caps = &ClientCapabilities{
+			RootsV2: &RootCapabilities{
+				ListChanged: true,
+			},
 		}
-	}()
+	}
 ```
 
 This function is important because it defines how MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go implements the patterns covered in this chapter.
 
-### `mcp/shared.go`
+### `mcp/client.go`
 
-The `the` interface in [`mcp/shared.go`](https://github.com/modelcontextprotocol/go-sdk/blob/HEAD/mcp/shared.go) handles a key part of this chapter's functionality:
+The `capabilities` function in [`mcp/client.go`](https://github.com/modelcontextprotocol/go-sdk/blob/HEAD/mcp/client.go) handles a key part of this chapter's functionality:
 
 ```go
-// Copyright 2025 The Go MCP SDK Authors. All rights reserved.
-// Use of this source code is governed by an MIT-style
-// license that can be found in the LICENSE file.
+	// overrides the inferred capability.
+	ElicitationHandler func(context.Context, *ElicitRequest) (*ElicitResult, error)
+	// Capabilities optionally configures the client's default capabilities,
+	// before any capabilities are inferred from other configuration.
+	//
+	// If Capabilities is nil, the default client capabilities are
+	// {"roots":{"listChanged":true}}, for historical reasons. Setting
+	// Capabilities to a non-nil value overrides this default. As a special case,
+	// to work around #607, Capabilities.Roots is ignored: set
+	// Capabilities.RootsV2 to configure the roots capability. This allows the
+	// "roots" capability to be disabled entirely.
+	//
+	// For example:
+	//   - To disable the "roots" capability, use &ClientCapabilities{}
+	//   - To configure "roots", but disable "listChanged" notifications, use
+	//     &ClientCapabilities{RootsV2:&RootCapabilities{}}.
+	//
+	// # Interaction with capability inference
+	//
+	// Sampling and elicitation capabilities are automatically added when their
+	// corresponding handlers are set, with the default value described at
+	// [ClientOptions.CreateMessageHandler] and
+	// [ClientOptions.ElicitationHandler]. If the Sampling or Elicitation fields
+	// are set in the Capabilities field, their values override the inferred
+	// value.
+	//
+	// For example, to advertise sampling with tools and context support:
+	//
+	//	Capabilities: &ClientCapabilities{
+	//	    Sampling: &SamplingCapabilities{
+	//	        Tools:   &SamplingToolsCapabilities{},
+	//	        Context: &SamplingContextCapabilities{},
+```
 
-// This file contains code shared between client and server, including
-// method handler and middleware definitions.
+This function is important because it defines how MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go implements the patterns covered in this chapter.
+
+### `mcp/client.go`
+
+The `Connect` function in [`mcp/client.go`](https://github.com/modelcontextprotocol/go-sdk/blob/HEAD/mcp/client.go) handles a key part of this chapter's functionality:
+
+```go
+
+// A Client is an MCP client, which may be connected to an MCP server
+// using the [Client.Connect] method.
+type Client struct {
+	impl                    *Implementation
+	opts                    ClientOptions
+	mu                      sync.Mutex
+	roots                   *featureSet[*Root]
+	sessions                []*ClientSession
+	sendingMethodHandler_   MethodHandler
+	receivingMethodHandler_ MethodHandler
+}
+
+// NewClient creates a new [Client].
 //
-// Much of this is here so that we can factor out commonalities using
-// generics. If this becomes unwieldy, it can perhaps be simplified with
-// reflection.
+// Use [Client.Connect] to connect it to an MCP server.
+//
+// The first argument must not be nil.
+//
+// If non-nil, the provided options configure the Client.
+func NewClient(impl *Implementation, options *ClientOptions) *Client {
+	if impl == nil {
+		panic("nil Implementation")
+	}
+	var opts ClientOptions
+	if options != nil {
+		opts = *options
+	}
+	options = nil // prevent reuse
 
-package mcp
-
-import (
-	"context"
-	"encoding/json"
-	"fmt"
-	"log/slog"
-	"net/http"
-	"reflect"
-	"slices"
-	"strings"
-	"time"
-
-	"github.com/modelcontextprotocol/go-sdk/auth"
-	internaljson "github.com/modelcontextprotocol/go-sdk/internal/json"
-	"github.com/modelcontextprotocol/go-sdk/internal/jsonrpc2"
-	"github.com/modelcontextprotocol/go-sdk/jsonrpc"
-)
-
-const (
-	// latestProtocolVersion is the latest protocol version that this version of
+	if opts.CreateMessageHandler != nil && opts.CreateMessageWithToolsHandler != nil {
+		panic("cannot set both CreateMessageHandler and CreateMessageWithToolsHandler; use CreateMessageWithToolsHandler for tool support, or CreateMessageHandler for basic sampling")
 ```
 
-This interface is important because it defines how MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go implements the patterns covered in this chapter.
+This function is important because it defines how MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go implements the patterns covered in this chapter.
 
-### `auth/authorization_code.go`
+### `mcp/client.go`
 
-The `isOAuthHandler` function in [`auth/authorization_code.go`](https://github.com/modelcontextprotocol/go-sdk/blob/HEAD/auth/authorization_code.go) handles a key part of this chapter's functionality:
+The `InitializeResult` function in [`mcp/client.go`](https://github.com/modelcontextprotocol/go-sdk/blob/HEAD/mcp/client.go) handles a key part of this chapter's functionality:
 
 ```go
-var _ OAuthHandler = (*AuthorizationCodeHandler)(nil)
+	}
+	req := &InitializeRequest{Session: cs, Params: params}
+	res, err := handleSend[*InitializeResult](ctx, methodInitialize, req)
+	if err != nil {
+		_ = cs.Close()
+		return nil, err
+	}
+	if !slices.Contains(supportedProtocolVersions, res.ProtocolVersion) {
+		return nil, unsupportedProtocolVersionError{res.ProtocolVersion}
+	}
+	cs.state.InitializeResult = res
+	if hc, ok := cs.mcpConn.(clientConnection); ok {
+		hc.sessionUpdated(cs.state)
+	}
+	req2 := &initializedClientRequest{Session: cs, Params: &InitializedParams{}}
+	if err := handleNotify(ctx, notificationInitialized, req2); err != nil {
+		_ = cs.Close()
+		return nil, err
+	}
 
-func (h *AuthorizationCodeHandler) isOAuthHandler() {}
+	if c.opts.KeepAlive > 0 {
+		cs.startKeepalive(c.opts.KeepAlive)
+	}
 
-func (h *AuthorizationCodeHandler) TokenSource(ctx context.Context) (oauth2.TokenSource, error) {
-	return h.tokenSource, nil
+	return cs, nil
 }
 
-// NewAuthorizationCodeHandler creates a new AuthorizationCodeHandler.
-// It performs validation of the configuration and returns an error if it is invalid.
-// The passed config is consumed by the handler and should not be modified after.
-func NewAuthorizationCodeHandler(config *AuthorizationCodeHandlerConfig) (*AuthorizationCodeHandler, error) {
-	if config == nil {
-		return nil, errors.New("config must be provided")
-	}
-	if config.ClientIDMetadataDocumentConfig == nil &&
-		config.PreregisteredClientConfig == nil &&
-		config.DynamicClientRegistrationConfig == nil {
-		return nil, errors.New("at least one client registration configuration must be provided")
-	}
-	if config.AuthorizationCodeFetcher == nil {
-		return nil, errors.New("AuthorizationCodeFetcher is required")
-	}
-	if config.ClientIDMetadataDocumentConfig != nil && !isNonRootHTTPSURL(config.ClientIDMetadataDocumentConfig.URL) {
-		return nil, fmt.Errorf("client ID metadata document URL must be a non-root HTTPS URL")
-	}
-	preCfg := config.PreregisteredClientConfig
-	if preCfg != nil {
-		if preCfg.ClientSecretAuthConfig == nil {
-			return nil, errors.New("ClientSecretAuthConfig is required for pre-registered client")
-		}
-		if preCfg.ClientSecretAuthConfig.ClientID == "" || preCfg.ClientSecretAuthConfig.ClientSecret == "" {
+// A ClientSession is a logical connection with an MCP server. Its
+// methods can be used to send requests or notifications to the server. Create
+// a session by calling [Client.Connect].
+//
+// Call [ClientSession.Close] to close the connection, or await server
 ```
 
 This function is important because it defines how MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go implements the patterns covered in this chapter.
@@ -219,11 +217,11 @@ This function is important because it defines how MCP Go SDK Tutorial: Building 
 
 ```mermaid
 flowchart TD
-    A[setProgressToken]
-    B[startKeepalive]
-    C[the]
-    D[isOAuthHandler]
-    E[TokenSource]
+    A[Error]
+    B[capabilities]
+    C[Connect]
+    D[InitializeResult]
+    E[ID]
     A --> B
     B --> C
     C --> D

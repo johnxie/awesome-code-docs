@@ -272,6 +272,16 @@ The core engine works as an event-driven loop:
 
 In this chapter you installed MetaGPT, configured it for your LLM provider, and ran your first multi-agent generation. You saw how a single requirement flows through ProductManager, Architect, Engineer, and QA agents to produce a complete project.
 
+## Source Code Walkthrough
+
+Key source files to explore in [`geekan/MetaGPT`](https://github.com/geekan/MetaGPT):
+
+- [`metagpt/software_company.py`](https://github.com/geekan/MetaGPT/blob/main/metagpt/software_company.py) -- entry point for `generate_repo`; shows how the team is assembled and the run loop started
+- [`metagpt/config2.py`](https://github.com/geekan/MetaGPT/blob/main/metagpt/config2.py) -- `Config` dataclass with `llm`, `max_budget`, and workspace settings
+- [`metagpt/team.py`](https://github.com/geekan/MetaGPT/blob/main/metagpt/team.py) -- `Team.run()` method: the main event loop that drives all role executions
+
+Suggested trace: follow `Team.run()` → `Role._act()` → `Action.run()` to understand the full execution chain from requirement to output.
+
 **Next:** [Chapter 2: Agent Roles](02-agent-roles.md) -- dive deep into each built-in role and learn how to customize agent behavior.
 
 ---

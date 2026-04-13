@@ -23,8 +23,6 @@ This chapter covers team-scale rollout of CodeMachine orchestration workflows.
 
 You now have a baseline for operationalizing CodeMachine in production engineering teams.
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `src/workflows/mcp.ts`

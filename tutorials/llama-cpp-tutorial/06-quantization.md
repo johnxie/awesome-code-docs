@@ -13,6 +13,20 @@ Welcome to **Chapter 6: Quantization**. In this part of **llama.cpp Tutorial: Lo
 
 > Convert and quantize models to reduce memory usage while maintaining quality.
 
+## Quantization Workflow
+
+```mermaid
+flowchart LR
+    A[HuggingFace Model] -->|python convert_hf_to_gguf.py| B[model-f16.gguf]
+    B -->|./llama-quantize model-f16.gguf model-q4.gguf Q4_K_M| C[model-q4_k_m.gguf]
+    B -->|./llama-quantize ... Q8_0| D[model-q8.gguf]
+    B -->|./llama-quantize ... Q2_K| E[model-q2.gguf - smallest]
+
+    C --> V[Validation: llama-perplexity]
+    D --> V
+    E --> V
+```
+
 ## Overview
 
 Quantization reduces model precision to save memory and improve speed. This chapter covers converting PyTorch models to GGUF and applying different quantization schemes.
@@ -485,16 +499,13 @@ When debugging, walk this sequence in order and confirm each stage has explicit 
 
 ## Source Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+Key source files in [`ggerganov/llama.cpp`](https://github.com/ggerganov/llama.cpp):
 
-- [View Repo](https://github.com/ggerganov/llama.cpp)
-  Why it matters: authoritative reference on `View Repo` (github.com).
-- [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
-  Why it matters: authoritative reference on `Awesome Code Docs` (github.com).
+- [`examples/quantize/quantize.cpp`](https://github.com/ggerganov/llama.cpp/blob/master/examples/quantize/quantize.cpp) -- `llama-quantize` tool entry point; maps quantization type names like `Q4_K_M` to `ggml_type` enum
+- [`ggml/src/ggml-quants.c`](https://github.com/ggerganov/llama.cpp/blob/master/ggml/src/ggml-quants.c) -- actual quantization math: `quantize_row_q4_K`, block-wise quantization algorithms
+- [`src/llama.cpp`](https://github.com/ggerganov/llama.cpp/blob/master/src/llama.cpp) -- `llama_model_quantize()` function: orchestrates tensor-by-tensor quantization with the selected scheme
 
-Suggested trace strategy:
-- search upstream code for `model` and `gguf` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+Suggested trace: in `quantize.cpp` find the quant type enum → follow to `llama_model_quantize()` → see which tensors use k-quants vs. legacy quantization.
 
 ## Chapter Connections
 

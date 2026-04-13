@@ -39,170 +39,168 @@ You now have a practical security model for operating or auditing Open SWE forks
 
 Next: [Chapter 7: Fork Maintenance and Migration Strategy](07-fork-maintenance-and-migration-strategy.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `agent/utils/github.py`
+### `agent/utils/github_comments.py`
 
-The `git_add_all` function in [`agent/utils/github.py`](https://github.com/langchain-ai/open-swe/blob/HEAD/agent/utils/github.py) handles a key part of this chapter's functionality:
+The `get_thread_id_from_branch` function in [`agent/utils/github_comments.py`](https://github.com/langchain-ai/open-swe/blob/HEAD/agent/utils/github_comments.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def git_add_all(sandbox_backend: SandboxBackendProtocol, repo_dir: str) -> ExecuteResponse:
-    """Stage all changes."""
-    return _run_git(sandbox_backend, repo_dir, "git add -A")
+def get_thread_id_from_branch(branch_name: str) -> str | None:
+    match = re.search(
+        r"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+        branch_name,
+        re.IGNORECASE,
+    )
+    return match.group(0) if match else None
 
 
-def git_commit(
-    sandbox_backend: SandboxBackendProtocol, repo_dir: str, message: str
-) -> ExecuteResponse:
-    """Commit staged changes with the given message."""
-    safe_message = shlex.quote(message)
-    return _run_git(sandbox_backend, repo_dir, f"git commit -m {safe_message}")
+def sanitize_github_comment_body(body: str) -> str:
+    """Strip reserved trust wrapper tags from raw GitHub comment bodies."""
+    sanitized = body.replace(
+        UNTRUSTED_GITHUB_COMMENT_OPEN_TAG,
+        _SANITIZED_UNTRUSTED_GITHUB_COMMENT_OPEN_TAG,
+    ).replace(
+        UNTRUSTED_GITHUB_COMMENT_CLOSE_TAG,
+        _SANITIZED_UNTRUSTED_GITHUB_COMMENT_CLOSE_TAG,
+    )
+    if sanitized != body:
+        logger.warning("Sanitized reserved untrusted-comment tags from GitHub comment body")
+    return sanitized
 
 
-def git_get_remote_url(sandbox_backend: SandboxBackendProtocol, repo_dir: str) -> str | None:
-    """Get the origin remote URL."""
-    result = _run_git(sandbox_backend, repo_dir, "git remote get-url origin")
-    if result.exit_code != 0:
-        return None
-    return result.output.strip()
+def format_github_comment_body_for_prompt(author: str, body: str) -> str:
+    """Format a GitHub comment body for prompt inclusion."""
+    sanitized_body = sanitize_github_comment_body(body)
+    if author in GITHUB_USER_EMAIL_MAP:
+        return sanitized_body
 
-
-_CRED_FILE_PATH = "/tmp/.git-credentials"
-
-
-def setup_git_credentials(sandbox_backend: SandboxBackendProtocol, github_token: str) -> None:
-    """Write GitHub credentials to a temporary file using the sandbox write API.
-
-    The write API sends content in the HTTP body (not via a shell command),
-    so the token never appears in shell history or process listings.
-    """
+    return (
 ```
 
 This function is important because it defines how Open SWE Tutorial: Asynchronous Cloud Coding Agent Architecture and Migration Playbook implements the patterns covered in this chapter.
 
-### `agent/utils/github.py`
+### `agent/utils/github_comments.py`
 
-The `git_commit` function in [`agent/utils/github.py`](https://github.com/langchain-ai/open-swe/blob/HEAD/agent/utils/github.py) handles a key part of this chapter's functionality:
+The `sanitize_github_comment_body` function in [`agent/utils/github_comments.py`](https://github.com/langchain-ai/open-swe/blob/HEAD/agent/utils/github_comments.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def git_commit(
-    sandbox_backend: SandboxBackendProtocol, repo_dir: str, message: str
-) -> ExecuteResponse:
-    """Commit staged changes with the given message."""
-    safe_message = shlex.quote(message)
-    return _run_git(sandbox_backend, repo_dir, f"git commit -m {safe_message}")
+def sanitize_github_comment_body(body: str) -> str:
+    """Strip reserved trust wrapper tags from raw GitHub comment bodies."""
+    sanitized = body.replace(
+        UNTRUSTED_GITHUB_COMMENT_OPEN_TAG,
+        _SANITIZED_UNTRUSTED_GITHUB_COMMENT_OPEN_TAG,
+    ).replace(
+        UNTRUSTED_GITHUB_COMMENT_CLOSE_TAG,
+        _SANITIZED_UNTRUSTED_GITHUB_COMMENT_CLOSE_TAG,
+    )
+    if sanitized != body:
+        logger.warning("Sanitized reserved untrusted-comment tags from GitHub comment body")
+    return sanitized
 
 
-def git_get_remote_url(sandbox_backend: SandboxBackendProtocol, repo_dir: str) -> str | None:
-    """Get the origin remote URL."""
-    result = _run_git(sandbox_backend, repo_dir, "git remote get-url origin")
-    if result.exit_code != 0:
-        return None
-    return result.output.strip()
+def format_github_comment_body_for_prompt(author: str, body: str) -> str:
+    """Format a GitHub comment body for prompt inclusion."""
+    sanitized_body = sanitize_github_comment_body(body)
+    if author in GITHUB_USER_EMAIL_MAP:
+        return sanitized_body
+
+    return (
+        f"{UNTRUSTED_GITHUB_COMMENT_OPEN_TAG}\n"
+        f"{sanitized_body}\n"
+        f"{UNTRUSTED_GITHUB_COMMENT_CLOSE_TAG}"
+    )
 
 
-_CRED_FILE_PATH = "/tmp/.git-credentials"
-
-
-def setup_git_credentials(sandbox_backend: SandboxBackendProtocol, github_token: str) -> None:
-    """Write GitHub credentials to a temporary file using the sandbox write API.
-
-    The write API sends content in the HTTP body (not via a shell command),
-    so the token never appears in shell history or process listings.
-    """
-    sandbox_backend.write(_CRED_FILE_PATH, f"https://git:{github_token}@github.com\n")
-    sandbox_backend.execute(f"chmod 600 {_CRED_FILE_PATH}")
-
-
-def cleanup_git_credentials(sandbox_backend: SandboxBackendProtocol) -> None:
+async def react_to_github_comment(
+    repo_config: dict[str, str],
+    comment_id: int,
 ```
 
 This function is important because it defines how Open SWE Tutorial: Asynchronous Cloud Coding Agent Architecture and Migration Playbook implements the patterns covered in this chapter.
 
-### `agent/utils/github.py`
+### `agent/utils/github_comments.py`
 
-The `git_get_remote_url` function in [`agent/utils/github.py`](https://github.com/langchain-ai/open-swe/blob/HEAD/agent/utils/github.py) handles a key part of this chapter's functionality:
+The `format_github_comment_body_for_prompt` function in [`agent/utils/github_comments.py`](https://github.com/langchain-ai/open-swe/blob/HEAD/agent/utils/github_comments.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def git_get_remote_url(sandbox_backend: SandboxBackendProtocol, repo_dir: str) -> str | None:
-    """Get the origin remote URL."""
-    result = _run_git(sandbox_backend, repo_dir, "git remote get-url origin")
-    if result.exit_code != 0:
-        return None
-    return result.output.strip()
+def format_github_comment_body_for_prompt(author: str, body: str) -> str:
+    """Format a GitHub comment body for prompt inclusion."""
+    sanitized_body = sanitize_github_comment_body(body)
+    if author in GITHUB_USER_EMAIL_MAP:
+        return sanitized_body
+
+    return (
+        f"{UNTRUSTED_GITHUB_COMMENT_OPEN_TAG}\n"
+        f"{sanitized_body}\n"
+        f"{UNTRUSTED_GITHUB_COMMENT_CLOSE_TAG}"
+    )
 
 
-_CRED_FILE_PATH = "/tmp/.git-credentials"
+async def react_to_github_comment(
+    repo_config: dict[str, str],
+    comment_id: int,
+    *,
+    event_type: str,
+    token: str,
+    pull_number: int | None = None,
+    node_id: str | None = None,
+) -> bool:
+    if event_type == "pull_request_review":
+        return await _react_via_graphql(node_id, token=token)
 
+    owner = repo_config.get("owner", "")
+    repo = repo_config.get("name", "")
 
-def setup_git_credentials(sandbox_backend: SandboxBackendProtocol, github_token: str) -> None:
-    """Write GitHub credentials to a temporary file using the sandbox write API.
-
-    The write API sends content in the HTTP body (not via a shell command),
-    so the token never appears in shell history or process listings.
-    """
-    sandbox_backend.write(_CRED_FILE_PATH, f"https://git:{github_token}@github.com\n")
-    sandbox_backend.execute(f"chmod 600 {_CRED_FILE_PATH}")
-
-
-def cleanup_git_credentials(sandbox_backend: SandboxBackendProtocol) -> None:
-    """Remove the temporary credentials file."""
-    sandbox_backend.execute(f"rm -f {_CRED_FILE_PATH}")
-
-
-def _git_with_credentials(
-    sandbox_backend: SandboxBackendProtocol,
-    repo_dir: str,
-    command: str,
+    url_template = _REACTION_ENDPOINTS.get(event_type, _REACTION_ENDPOINTS["issue_comment"])
+    url = url_template.format(
 ```
 
 This function is important because it defines how Open SWE Tutorial: Asynchronous Cloud Coding Agent Architecture and Migration Playbook implements the patterns covered in this chapter.
 
-### `agent/utils/github.py`
+### `agent/utils/github_comments.py`
 
-The `setup_git_credentials` function in [`agent/utils/github.py`](https://github.com/langchain-ai/open-swe/blob/HEAD/agent/utils/github.py) handles a key part of this chapter's functionality:
+The `react_to_github_comment` function in [`agent/utils/github_comments.py`](https://github.com/langchain-ai/open-swe/blob/HEAD/agent/utils/github_comments.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def setup_git_credentials(sandbox_backend: SandboxBackendProtocol, github_token: str) -> None:
-    """Write GitHub credentials to a temporary file using the sandbox write API.
+async def react_to_github_comment(
+    repo_config: dict[str, str],
+    comment_id: int,
+    *,
+    event_type: str,
+    token: str,
+    pull_number: int | None = None,
+    node_id: str | None = None,
+) -> bool:
+    if event_type == "pull_request_review":
+        return await _react_via_graphql(node_id, token=token)
 
-    The write API sends content in the HTTP body (not via a shell command),
-    so the token never appears in shell history or process listings.
-    """
-    sandbox_backend.write(_CRED_FILE_PATH, f"https://git:{github_token}@github.com\n")
-    sandbox_backend.execute(f"chmod 600 {_CRED_FILE_PATH}")
+    owner = repo_config.get("owner", "")
+    repo = repo_config.get("name", "")
 
+    url_template = _REACTION_ENDPOINTS.get(event_type, _REACTION_ENDPOINTS["issue_comment"])
+    url = url_template.format(
+        owner=owner, repo=repo, comment_id=comment_id, pull_number=pull_number
+    )
 
-def cleanup_git_credentials(sandbox_backend: SandboxBackendProtocol) -> None:
-    """Remove the temporary credentials file."""
-    sandbox_backend.execute(f"rm -f {_CRED_FILE_PATH}")
-
-
-def _git_with_credentials(
-    sandbox_backend: SandboxBackendProtocol,
-    repo_dir: str,
-    command: str,
-) -> ExecuteResponse:
-    """Run a git command using the temporary credential file."""
-    cred_helper = shlex.quote(f"store --file={_CRED_FILE_PATH}")
-    return _run_git(sandbox_backend, repo_dir, f"git -c credential.helper={cred_helper} {command}")
-
-
-def git_push(
-    sandbox_backend: SandboxBackendProtocol,
-    repo_dir: str,
-    branch: str,
-    github_token: str | None = None,
+    async with httpx.AsyncClient() as http_client:
+        try:
+            response = await http_client.post(
+                url,
+                headers={
+                    "Authorization": f"Bearer {token}",
+                    "Accept": "application/vnd.github+json",
+                    "X-GitHub-Api-Version": "2022-11-28",
+                },
+                json={"content": "eyes"},
 ```
 
 This function is important because it defines how Open SWE Tutorial: Asynchronous Cloud Coding Agent Architecture and Migration Playbook implements the patterns covered in this chapter.
@@ -212,11 +210,11 @@ This function is important because it defines how Open SWE Tutorial: Asynchronou
 
 ```mermaid
 flowchart TD
-    A[git_add_all]
-    B[git_commit]
-    C[git_get_remote_url]
-    D[setup_git_credentials]
-    E[cleanup_git_credentials]
+    A[get_thread_id_from_branch]
+    B[sanitize_github_comment_body]
+    C[format_github_comment_body_for_prompt]
+    D[react_to_github_comment]
+    E[post_github_comment]
     A --> B
     B --> C
     C --> D

@@ -28,170 +28,168 @@ This chapter covers local/self-hosted operation patterns for production-grade Pl
 
 You now have an operations baseline for running Plandex as a serious engineering tool.
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `app/server/litellm_proxy.py`
+### `app/shared/utils.go`
 
-The `passthrough` function in [`app/server/litellm_proxy.py`](https://github.com/plandex-ai/plandex/blob/HEAD/app/server/litellm_proxy.py) handles a key part of this chapter's functionality:
+The `ReplaceReverse` function in [`app/shared/utils.go`](https://github.com/plandex-ai/plandex/blob/HEAD/app/shared/utils.go) handles a key part of this chapter's functionality:
 
-```py
+```go
+}
 
-@app.post("/v1/chat/completions")
-async def passthrough(request: Request):
-  payload = await request.json()
+func ReplaceReverse(s, old, new string, n int) string {
+	// If n is negative, there is no limit to the number of replacements
+	if n == 0 {
+		return s
+	}
 
-  if LOGGING_ENABLED:
-    # Log the request data for debugging
-    try:
-      # Get headers (excluding authorization to avoid logging credentials)
-      headers = dict(request.headers)
-      if "Authorization" in headers:
-        headers["Authorization"] = "Bearer [REDACTED]"
-      if "api-key" in headers:
-        headers["api-key"] = "[REDACTED]"
-      
-      # Create a log-friendly representation
-      request_data = {
-        "method": request.method,
-        "url": str(request.url),
-        "headers": headers,
-        "body": payload
-      }
-    
-      # Log the request data
-      print("Incoming request to /v1/chat/completions:")
-      print(json.dumps(request_data, indent=2))
-    except Exception as e:
-      print(f"Error logging request: {str(e)}")
+	if n < 0 {
+		return strings.Replace(s, old, new, -1)
+	}
 
-  model = payload.get("model", None)
-  print(f"Litellm proxy: calling model: {model}")
+	// If n is positive, replace the last n occurrences of old with new
+	var res string
+	for i := 0; i < n; i++ {
+		idx := strings.LastIndex(s, old)
+		if idx == -1 {
+			break
+		}
+		res = s[:idx] + new + s[idx+len(old):]
+		s = res
+	}
+	return res
+}
 
+func NormalizeEOL(data []byte) []byte {
+	if !looksTextish(data) {
+		return data
+	}
+
+	// CRLF -> LF
+	n := bytes.ReplaceAll(data, []byte{'\r', '\n'}, []byte{'\n'})
 ```
 
 This function is important because it defines how Plandex Tutorial: Large-Task AI Coding Agent Workflows implements the patterns covered in this chapter.
 
-### `app/server/litellm_proxy.py`
+### `app/shared/utils.go`
 
-The `error_response` function in [`app/server/litellm_proxy.py`](https://github.com/plandex-ai/plandex/blob/HEAD/app/server/litellm_proxy.py) handles a key part of this chapter's functionality:
+The `NormalizeEOL` function in [`app/shared/utils.go`](https://github.com/plandex-ai/plandex/blob/HEAD/app/shared/utils.go) handles a key part of this chapter's functionality:
 
-```py
-        response_stream = completion(api_key=api_key, **payload)
-      except Exception as e:
-        return error_response(e)
-      def stream_generator():
-        try:  
-          for chunk in response_stream:
-            yield f"data: {json.dumps(chunk.to_dict())}\n\n"
-          yield "data: [DONE]\n\n"
-        except Exception as e:
-          # surface the problem to the client _inside_ the SSE stream
-          yield f"data: {json.dumps({'error': str(e)})}\n\n"
-          return
+```go
+}
 
-        finally:
-          try:
-            response_stream.close()
-          except AttributeError:
-            pass
+func NormalizeEOL(data []byte) []byte {
+	if !looksTextish(data) {
+		return data
+	}
 
-      print(f"Litellm proxy: Initiating streaming response for model: {payload.get('model', 'unknown')}")
-      return StreamingResponse(stream_generator(), media_type="text/event-stream")
+	// CRLF -> LF
+	n := bytes.ReplaceAll(data, []byte{'\r', '\n'}, []byte{'\n'})
 
-    else:
-      print(f"Litellm proxy: Non-streaming response requested for model: {payload.get('model', 'unknown')}")
-      try:
-        result = completion(api_key=api_key, **payload)
-      except Exception as e:
-        return error_response(e)
-      return JSONResponse(content=result)
+	// treat stray CR as newline as well
+	n = bytes.ReplaceAll(n, []byte{'\r'}, []byte{'\n'})
+	return n
+}
 
-  except Exception as e:
-    err_msg = str(e)
+// looksTextish checks some very cheap heuristics:
+//  1. no NUL bytes      → probably not binary
+//  2. valid UTF-8       → BOMs are OK
+//  3. printable ratio   → ≥ 90 % of runes are >= 0x20 or common whitespace
+func looksTextish(b []byte) bool {
+	if bytes.IndexByte(b, 0x00) != -1 { // 1
+		return false
+	}
+	if !utf8.Valid(b) { // 2
+		return false
+	}
+
+	printable := 0
+	for len(b) > 0 {
+		r, size := utf8.DecodeRune(b)
+		b = b[size:]
+		switch {
 ```
 
 This function is important because it defines how Plandex Tutorial: Large-Task AI Coding Agent Workflows implements the patterns covered in this chapter.
 
-### `app/server/litellm_proxy.py`
+### `app/shared/utils.go`
 
-The `normalise_for_ollama` function in [`app/server/litellm_proxy.py`](https://github.com/plandex-ai/plandex/blob/HEAD/app/server/litellm_proxy.py) handles a key part of this chapter's functionality:
+The `looksTextish` function in [`app/shared/utils.go`](https://github.com/plandex-ai/plandex/blob/HEAD/app/shared/utils.go) handles a key part of this chapter's functionality:
 
-```py
+```go
 
-  # clean up for ollama if needed
-  payload = normalise_for_ollama(payload)
+func NormalizeEOL(data []byte) []byte {
+	if !looksTextish(data) {
+		return data
+	}
 
-  try:
-    if payload.get("stream"):
-      
-      try:
-        response_stream = completion(api_key=api_key, **payload)
-      except Exception as e:
-        return error_response(e)
-      def stream_generator():
-        try:  
-          for chunk in response_stream:
-            yield f"data: {json.dumps(chunk.to_dict())}\n\n"
-          yield "data: [DONE]\n\n"
-        except Exception as e:
-          # surface the problem to the client _inside_ the SSE stream
-          yield f"data: {json.dumps({'error': str(e)})}\n\n"
-          return
+	// CRLF -> LF
+	n := bytes.ReplaceAll(data, []byte{'\r', '\n'}, []byte{'\n'})
 
-        finally:
-          try:
-            response_stream.close()
-          except AttributeError:
-            pass
+	// treat stray CR as newline as well
+	n = bytes.ReplaceAll(n, []byte{'\r'}, []byte{'\n'})
+	return n
+}
 
-      print(f"Litellm proxy: Initiating streaming response for model: {payload.get('model', 'unknown')}")
-      return StreamingResponse(stream_generator(), media_type="text/event-stream")
+// looksTextish checks some very cheap heuristics:
+//  1. no NUL bytes      → probably not binary
+//  2. valid UTF-8       → BOMs are OK
+//  3. printable ratio   → ≥ 90 % of runes are >= 0x20 or common whitespace
+func looksTextish(b []byte) bool {
+	if bytes.IndexByte(b, 0x00) != -1 { // 1
+		return false
+	}
+	if !utf8.Valid(b) { // 2
+		return false
+	}
 
-    else:
-      print(f"Litellm proxy: Non-streaming response requested for model: {payload.get('model', 'unknown')}")
+	printable := 0
+	for len(b) > 0 {
+		r, size := utf8.DecodeRune(b)
+		b = b[size:]
+		switch {
+		case r == '\n', r == '\r', r == '\t':
 ```
 
 This function is important because it defines how Plandex Tutorial: Large-Task AI Coding Agent Workflows implements the patterns covered in this chapter.
 
-### `app/shared/images.go`
+### `app/shared/plan_result.go`
 
-The `GetImageTokens` function in [`app/shared/images.go`](https://github.com/plandex-ai/plandex/blob/HEAD/app/shared/images.go) handles a key part of this chapter's functionality:
+The `IsPending` function in [`app/shared/plan_result.go`](https://github.com/plandex-ai/plandex/blob/HEAD/app/shared/plan_result.go) handles a key part of this chapter's functionality:
 
 ```go
 )
 
-func GetImageTokens(base64Image string, detail openai.ImageURLDetail) (int, error) {
-	imageData, err := base64.StdEncoding.DecodeString(base64Image)
-	if err != nil {
-		log.Println("failed to decode base64 image data:", err)
-		return 0, fmt.Errorf("failed to decode base64 image data: %w", err)
-	}
-
-	return GetImageTokensFromHeader(bytes.NewReader(imageData), detail, int64(len(imageData)))
+func (rep *Replacement) IsPending() bool {
+	return !rep.Failed && rep.RejectedAt == nil
 }
 
-func GetImageTokensFromHeader(reader io.Reader, detail openai.ImageURLDetail, maxBytes int64) (int, error) {
-	reader = io.LimitReader(reader, maxBytes)
-	img, _, err := image.DecodeConfig(reader)
-	if err != nil {
-		log.Println("failed to decode image config:", err)
-		return 0, fmt.Errorf("failed to decode image config: %w", err)
+func (rep *Replacement) SetRejected(t time.Time) {
+	rep.RejectedAt = &t
+}
+
+func (res *PlanFileResult) NumPendingReplacements() int {
+	numPending := 0
+	for _, rep := range res.Replacements {
+		if rep.IsPending() {
+			numPending++
+		}
 	}
+	return numPending
+}
 
-	width, height := img.Width, img.Height
+func (res *PlanFileResult) IsPending() bool {
+	return res.AppliedAt == nil && res.RejectedAt == nil && (res.Content != "" || res.NumPendingReplacements() > 0 || res.RemovedFile)
+}
 
-	anthropicTokens := getAnthropicImageTokens(width, height)
-	googleTokens := getGoogleImageTokens(width, height)
-	openaiTokens := getOpenAIImageTokens(width, height, detail)
-
-	// log.Printf("GetImageTokens - width: %d, height: %d\n", width, height)
-	// log.Printf("GetImageTokens - anthropicTokens: %d\n", anthropicTokens)
-	// log.Printf("GetImageTokens - googleTokens: %d\n", googleTokens)
-	// log.Printf("GetImageTokens - openaiTokens: %d\n", openaiTokens)
-
-	// get max of the three
+func (p PlanFileResultsByPath) SetApplied(t time.Time) {
+	for _, planResults := range p {
+		for _, planResult := range planResults {
+			if !planResult.IsPending() {
+				continue
+			}
+			planResult.AppliedAt = &t
+		}
 ```
 
 This function is important because it defines how Plandex Tutorial: Large-Task AI Coding Agent Workflows implements the patterns covered in this chapter.
@@ -201,11 +199,11 @@ This function is important because it defines how Plandex Tutorial: Large-Task A
 
 ```mermaid
 flowchart TD
-    A[passthrough]
-    B[error_response]
-    C[normalise_for_ollama]
-    D[GetImageTokens]
-    E[GetImageTokensFromHeader]
+    A[ReplaceReverse]
+    B[NormalizeEOL]
+    C[looksTextish]
+    D[IsPending]
+    E[SetRejected]
     A --> B
     B --> C
     C --> D

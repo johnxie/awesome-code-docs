@@ -12,6 +12,20 @@ Welcome to **Chapter 2: Pattern System**. In this part of **Fabric Tutorial: Ope
 
 > Understand Fabric's modular pattern architecture for creating reusable AI-powered cognitive workflows.
 
+## Pattern System Architecture
+
+```mermaid
+graph TD
+    PatternDir["data/patterns/<name>/"] --> SystemMD["system.md\n(expert prompt)"]
+    PatternDir --> UserMD["user.md\n(optional user template)"]
+    CLI["fabric --pattern <name>"] --> Chatter["internal/core/chatter.go\nChatter.Send()"]
+    SystemMD --> Chatter
+    UserMD --> Chatter
+    Stdin["stdin / --text"] --> Chatter
+    Chatter --> Vendor["ai.Vendor\n(OpenAI / Anthropic / Ollama...)"]
+    Vendor --> Output["stdout / file"]
+```
+
 ## Overview
 
 Patterns are the core building blocks of Fabric. They are carefully crafted prompt templates that encode expert knowledge for specific cognitive tasks. This chapter explores how patterns work and how to use them effectively.
@@ -467,22 +481,30 @@ Under the hood, `Chapter 2: Pattern System` usually follows a repeatable control
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
-## Source Walkthrough
+## Source Code Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+### `internal/plugins/template/extension_manager.go`
 
-- [GitHub Repository](https://github.com/danielmiessler/Fabric)
-  Why it matters: authoritative reference on `GitHub Repository` (github.com).
-- [Pattern Library](https://github.com/danielmiessler/fabric/tree/main/data/patterns)
-  Why it matters: authoritative reference on `Pattern Library` (github.com).
-- [Community Patterns](https://github.com/danielmiessler/Fabric#community-patterns)
-  Why it matters: authoritative reference on `Community Patterns` (github.com).
-- [AI Codebase Knowledge Builder](https://github.com/johnxie/awesome-code-docs)
-  Why it matters: authoritative reference on `AI Codebase Knowledge Builder` (github.com).
+The `ExtensionManager` in [`internal/plugins/template/extension_manager.go`](https://github.com/danielmiessler/fabric/blob/main/internal/plugins/template/extension_manager.go) manages how template extensions (custom patterns with YAML config) are registered and executed:
 
-Suggested trace strategy:
-- search upstream code for `fabric` and `summarize` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+```go
+type ExtensionManager struct {
+    registry  *ExtensionRegistry
+    executor  *ExtensionExecutor
+    configDir string
+}
+
+func NewExtensionManager(configDir string) *ExtensionManager {
+    registry := NewExtensionRegistry(configDir)
+    return &ExtensionManager{
+        registry:  registry,
+        executor:  NewExtensionExecutor(registry),
+        configDir: configDir,
+    }
+}
+```
+
+Built-in patterns live in `data/patterns/<name>/system.md`. Each pattern's `system.md` is a pure markdown prompt with no code — the entire AI logic is encoded in natural language, making patterns easy to audit, version, and share.
 
 ## Chapter Connections
 

@@ -35,170 +35,168 @@ For team usage, OpenSrc works best with explicit policy on what to fetch, where 
 
 You now have a governance baseline for scaling OpenSrc usage across repositories and teams.
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `src/lib/registries/pypi.ts`
-
-The `PyPIResponse` interface in [`src/lib/registries/pypi.ts`](https://github.com/vercel-labs/opensrc/blob/HEAD/src/lib/registries/pypi.ts) handles a key part of this chapter's functionality:
-
-```ts
-}
-
-interface PyPIResponse {
-  info: {
-    name: string;
-    version: string;
-    home_page?: string;
-    project_urls?: Record<string, string>;
-    project_url?: string;
-  };
-  releases: Record<string, PyPIRelease[]>;
-}
-
-/**
- * Parse a PyPI package specifier like "requests==2.31.0" into name and version
- */
-export function parsePyPISpec(spec: string): {
-  name: string;
-  version?: string;
-} {
-  // Handle version specifiers: requests==2.31.0 or requests>=2.31.0
-  const eqMatch = spec.match(/^([^=<>!~]+)==(.+)$/);
-  if (eqMatch) {
-    return { name: eqMatch[1].trim(), version: eqMatch[2].trim() };
-  }
-
-  // Handle @ version specifier: requests@2.31.0
-  const atIndex = spec.lastIndexOf("@");
-  if (atIndex > 0) {
-    return {
-      name: spec.slice(0, atIndex).trim(),
-      version: spec.slice(atIndex + 1).trim(),
-```
-
-This interface is important because it defines how OpenSrc Tutorial: Deep Source Context for Coding Agents implements the patterns covered in this chapter.
-
 ### `src/lib/registries/crates.ts`
 
-The `parseCratesSpec` function in [`src/lib/registries/crates.ts`](https://github.com/vercel-labs/opensrc/blob/HEAD/src/lib/registries/crates.ts) handles a key part of this chapter's functionality:
+The `isGitRepoUrl` function in [`src/lib/registries/crates.ts`](https://github.com/vercel-labs/opensrc/blob/HEAD/src/lib/registries/crates.ts) handles a key part of this chapter's functionality:
 
 ```ts
- * Parse a crates.io package specifier like "serde@1.0.0" into name and version
- */
-export function parseCratesSpec(spec: string): {
-  name: string;
-  version?: string;
-} {
-  // Handle @ version specifier: serde@1.0.0
-  const atIndex = spec.lastIndexOf("@");
-  if (atIndex > 0) {
-    return {
-      name: spec.slice(0, atIndex).trim(),
-      version: spec.slice(atIndex + 1).trim(),
-    };
+function extractRepoUrl(crate: CrateResponse["crate"]): string | null {
+  // Check repository field first
+  if (crate.repository && isGitRepoUrl(crate.repository)) {
+    return normalizeRepoUrl(crate.repository);
   }
 
-  return { name: spec.trim() };
+  // Fall back to homepage if it's a git repo
+  if (crate.homepage && isGitRepoUrl(crate.homepage)) {
+    return normalizeRepoUrl(crate.homepage);
+  }
+
+  return null;
+}
+
+function isGitRepoUrl(url: string): boolean {
+  return (
+    url.includes("github.com") ||
+    url.includes("gitlab.com") ||
+    url.includes("bitbucket.org")
+  );
+}
+
+function normalizeRepoUrl(url: string): string {
+  // Remove trailing slashes and common suffixes
+  return url
+    .replace(/\/+$/, "")
+    .replace(/\.git$/, "")
+    .replace(/\/tree\/.*$/, "")
+    .replace(/\/blob\/.*$/, "");
 }
 
 /**
- * Fetch crate metadata from crates.io
- */
-async function fetchCrateInfo(crateName: string): Promise<CrateResponse> {
-  const url = `${CRATES_API}/crates/${crateName}`;
-
-  const response = await fetch(url, {
-    headers: {
-      Accept: "application/json",
-      "User-Agent": "opensrc-cli (https://github.com/vercel-labs/opensrc)",
-    },
-  });
-
-  if (!response.ok) {
 ```
 
 This function is important because it defines how OpenSrc Tutorial: Deep Source Context for Coding Agents implements the patterns covered in this chapter.
 
 ### `src/lib/registries/crates.ts`
 
-The `fetchCrateInfo` function in [`src/lib/registries/crates.ts`](https://github.com/vercel-labs/opensrc/blob/HEAD/src/lib/registries/crates.ts) handles a key part of this chapter's functionality:
+The `normalizeRepoUrl` function in [`src/lib/registries/crates.ts`](https://github.com/vercel-labs/opensrc/blob/HEAD/src/lib/registries/crates.ts) handles a key part of this chapter's functionality:
 
 ```ts
- * Fetch crate metadata from crates.io
- */
-async function fetchCrateInfo(crateName: string): Promise<CrateResponse> {
-  const url = `${CRATES_API}/crates/${crateName}`;
-
-  const response = await fetch(url, {
-    headers: {
-      Accept: "application/json",
-      "User-Agent": "opensrc-cli (https://github.com/vercel-labs/opensrc)",
-    },
-  });
-
-  if (!response.ok) {
-    if (response.status === 404) {
-      throw new Error(`Crate "${crateName}" not found on crates.io`);
-    }
-    throw new Error(
-      `Failed to fetch crate info: ${response.status} ${response.statusText}`,
-    );
+  // Check repository field first
+  if (crate.repository && isGitRepoUrl(crate.repository)) {
+    return normalizeRepoUrl(crate.repository);
   }
 
-  return response.json() as Promise<CrateResponse>;
+  // Fall back to homepage if it's a git repo
+  if (crate.homepage && isGitRepoUrl(crate.homepage)) {
+    return normalizeRepoUrl(crate.homepage);
+  }
+
+  return null;
+}
+
+function isGitRepoUrl(url: string): boolean {
+  return (
+    url.includes("github.com") ||
+    url.includes("gitlab.com") ||
+    url.includes("bitbucket.org")
+  );
+}
+
+function normalizeRepoUrl(url: string): string {
+  // Remove trailing slashes and common suffixes
+  return url
+    .replace(/\/+$/, "")
+    .replace(/\.git$/, "")
+    .replace(/\/tree\/.*$/, "")
+    .replace(/\/blob\/.*$/, "");
 }
 
 /**
- * Fetch specific version info from crates.io
- */
-async function fetchCrateVersionInfo(
-  crateName: string,
-  version: string,
-): Promise<CrateVersionResponse> {
-  const url = `${CRATES_API}/crates/${crateName}/${version}`;
+ * Get available versions sorted by release date (newest first)
 ```
 
 This function is important because it defines how OpenSrc Tutorial: Deep Source Context for Coding Agents implements the patterns covered in this chapter.
 
 ### `src/lib/registries/crates.ts`
 
-The `fetchCrateVersionInfo` function in [`src/lib/registries/crates.ts`](https://github.com/vercel-labs/opensrc/blob/HEAD/src/lib/registries/crates.ts) handles a key part of this chapter's functionality:
+The `getAvailableVersions` function in [`src/lib/registries/crates.ts`](https://github.com/vercel-labs/opensrc/blob/HEAD/src/lib/registries/crates.ts) handles a key part of this chapter's functionality:
 
 ```ts
- * Fetch specific version info from crates.io
+ * Get available versions sorted by release date (newest first)
  */
-async function fetchCrateVersionInfo(
-  crateName: string,
-  version: string,
-): Promise<CrateVersionResponse> {
-  const url = `${CRATES_API}/crates/${crateName}/${version}`;
-
-  const response = await fetch(url, {
-    headers: {
-      Accept: "application/json",
-      "User-Agent": "opensrc-cli (https://github.com/vercel-labs/opensrc)",
-    },
-  });
-
-  if (!response.ok) {
-    if (response.status === 404) {
-      throw new Error(
-        `Version "${version}" not found for crate "${crateName}"`,
-      );
-    }
-    throw new Error(
-      `Failed to fetch crate version info: ${response.status} ${response.statusText}`,
-    );
-  }
-
-  return response.json() as Promise<CrateVersionResponse>;
+function getAvailableVersions(versions: CrateVersion[]): string[] {
+  return versions
+    .filter((v) => !v.yanked)
+    .sort(
+      (a, b) =>
+        new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
+    )
+    .map((v) => v.num);
 }
 
 /**
- * Extract repository URL from crate metadata
+ * Resolve a crate to its repository information
  */
+export async function resolveCrate(
+  crateName: string,
+  version?: string,
+): Promise<ResolvedPackage> {
+  const info = await fetchCrateInfo(crateName);
+
+  // If version specified, verify it exists
+  let resolvedVersion = version || info.crate.max_version;
+
+  if (version) {
+    await fetchCrateVersionInfo(crateName, version);
+    resolvedVersion = version;
+  }
+
+  const repoUrl = extractRepoUrl(info.crate);
+
+  if (!repoUrl) {
+```
+
+This function is important because it defines how OpenSrc Tutorial: Deep Source Context for Coding Agents implements the patterns covered in this chapter.
+
+### `src/lib/registries/crates.ts`
+
+The `resolveCrate` function in [`src/lib/registries/crates.ts`](https://github.com/vercel-labs/opensrc/blob/HEAD/src/lib/registries/crates.ts) handles a key part of this chapter's functionality:
+
+```ts
+ * Resolve a crate to its repository information
+ */
+export async function resolveCrate(
+  crateName: string,
+  version?: string,
+): Promise<ResolvedPackage> {
+  const info = await fetchCrateInfo(crateName);
+
+  // If version specified, verify it exists
+  let resolvedVersion = version || info.crate.max_version;
+
+  if (version) {
+    await fetchCrateVersionInfo(crateName, version);
+    resolvedVersion = version;
+  }
+
+  const repoUrl = extractRepoUrl(info.crate);
+
+  if (!repoUrl) {
+    const availableVersions = getAvailableVersions(info.versions)
+      .slice(0, 5)
+      .join(", ");
+    throw new Error(
+      `No repository URL found for "${crateName}@${resolvedVersion}". ` +
+        `This crate may not have its source published. ` +
+        `Recent versions: ${availableVersions}`,
+    );
+  }
+
+  // Rust crates commonly use v1.2.3 as tags
+  const gitTag = `v${resolvedVersion}`;
+
 ```
 
 This function is important because it defines how OpenSrc Tutorial: Deep Source Context for Coding Agents implements the patterns covered in this chapter.
@@ -208,11 +206,11 @@ This function is important because it defines how OpenSrc Tutorial: Deep Source 
 
 ```mermaid
 flowchart TD
-    A[PyPIResponse]
-    B[parseCratesSpec]
-    C[fetchCrateInfo]
-    D[fetchCrateVersionInfo]
-    E[extractRepoUrl]
+    A[isGitRepoUrl]
+    B[normalizeRepoUrl]
+    C[getAvailableVersions]
+    D[resolveCrate]
+    E[CrateVersion]
     A --> B
     B --> C
     C --> D

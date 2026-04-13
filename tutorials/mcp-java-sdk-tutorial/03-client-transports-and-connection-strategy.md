@@ -41,170 +41,168 @@ You now have a transport selection framework for Java clients that balances simp
 
 Next: [Chapter 4: Server Transports and Deployment Patterns](04-server-transports-and-deployment-patterns.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `mcp-core/src/main/java/io/modelcontextprotocol/client/McpClient.java`
 
-The `McpClient` interface in [`mcp-core/src/main/java/io/modelcontextprotocol/client/McpClient.java`](https://github.com/modelcontextprotocol/java-sdk/blob/HEAD/mcp-core/src/main/java/io/modelcontextprotocol/client/McpClient.java) handles a key part of this chapter's functionality:
+The `follows` class in [`mcp-core/src/main/java/io/modelcontextprotocol/client/McpClient.java`](https://github.com/modelcontextprotocol/java-sdk/blob/HEAD/mcp-core/src/main/java/io/modelcontextprotocol/client/McpClient.java) handles a key part of this chapter's functionality:
 
 ```java
-import io.modelcontextprotocol.json.McpJsonDefaults;
-import io.modelcontextprotocol.json.schema.JsonSchemaValidator;
-import io.modelcontextprotocol.spec.McpClientTransport;
-import io.modelcontextprotocol.spec.McpSchema;
-import io.modelcontextprotocol.spec.McpSchema.ClientCapabilities;
-import io.modelcontextprotocol.spec.McpSchema.CreateMessageRequest;
-import io.modelcontextprotocol.spec.McpSchema.CreateMessageResult;
-import io.modelcontextprotocol.spec.McpSchema.ElicitRequest;
-import io.modelcontextprotocol.spec.McpSchema.ElicitResult;
-import io.modelcontextprotocol.spec.McpSchema.Implementation;
-import io.modelcontextprotocol.spec.McpSchema.Root;
-import io.modelcontextprotocol.spec.McpTransport;
-import io.modelcontextprotocol.util.Assert;
-import reactor.core.publisher.Mono;
-
-import java.time.Duration;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Supplier;
-
-/**
- * Factory class for creating Model Context Protocol (MCP) clients. MCP is a protocol that
- * enables AI models to interact with external tools and resources through a standardized
- * interface.
- *
  * <p>
  * This class serves as the main entry point for establishing connections with MCP
  * servers, implementing the client-side of the MCP specification. The protocol follows a
-```
-
-This interface is important because it defines how MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring implements the patterns covered in this chapter.
-
-### `mcp-core/src/main/java/io/modelcontextprotocol/server/McpStatelessAsyncServer.java`
-
-The `McpStatelessAsyncServer` class in [`mcp-core/src/main/java/io/modelcontextprotocol/server/McpStatelessAsyncServer.java`](https://github.com/modelcontextprotocol/java-sdk/blob/HEAD/mcp-core/src/main/java/io/modelcontextprotocol/server/McpStatelessAsyncServer.java) handles a key part of this chapter's functionality:
-
-```java
- * @author Dariusz Jędrzejczyk
- */
-public class McpStatelessAsyncServer {
-
-	private static final Logger logger = LoggerFactory.getLogger(McpStatelessAsyncServer.class);
-
-	private final McpStatelessServerTransport mcpTransportProvider;
-
-	private final McpJsonMapper jsonMapper;
-
-	private final McpSchema.ServerCapabilities serverCapabilities;
-
-	private final McpSchema.Implementation serverInfo;
-
-	private final String instructions;
-
-	private final CopyOnWriteArrayList<McpStatelessServerFeatures.AsyncToolSpecification> tools = new CopyOnWriteArrayList<>();
-
-	private final ConcurrentHashMap<String, McpStatelessServerFeatures.AsyncResourceTemplateSpecification> resourceTemplates = new ConcurrentHashMap<>();
-
-	private final ConcurrentHashMap<String, McpStatelessServerFeatures.AsyncResourceSpecification> resources = new ConcurrentHashMap<>();
-
-	private final ConcurrentHashMap<String, McpStatelessServerFeatures.AsyncPromptSpecification> prompts = new ConcurrentHashMap<>();
-
-	private final ConcurrentHashMap<McpSchema.CompleteReference, McpStatelessServerFeatures.AsyncCompletionSpecification> completions = new ConcurrentHashMap<>();
-
-	private List<String> protocolVersions;
-
-	private McpUriTemplateManagerFactory uriTemplateManagerFactory = new DefaultMcpUriTemplateManagerFactory();
-
-	private final JsonSchemaValidator jsonSchemaValidator;
-
+ * client-server architecture where:
+ * <ul>
+ * <li>The client (this implementation) initiates connections and sends requests
+ * <li>The server responds to requests and provides access to tools and resources
+ * <li>Communication occurs through a transport layer (e.g., stdio, SSE) using JSON-RPC
+ * 2.0
+ * </ul>
+ *
+ * <p>
+ * The class provides factory methods to create either:
+ * <ul>
+ * <li>{@link McpAsyncClient} for non-blocking operations with CompletableFuture responses
+ * <li>{@link McpSyncClient} for blocking operations with direct responses
+ * </ul>
+ *
+ * <p>
+ * Example of creating a basic synchronous client: <pre>{@code
+ * McpClient.sync(transport)
+ *     .requestTimeout(Duration.ofSeconds(5))
+ *     .build();
+ * }</pre>
+ *
+ * Example of creating a basic asynchronous client: <pre>{@code
+ * McpClient.async(transport)
+ *     .requestTimeout(Duration.ofSeconds(5))
+ *     .build();
+ * }</pre>
+ *
+ * <p>
 ```
 
 This class is important because it defines how MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring implements the patterns covered in this chapter.
 
-### `mcp-core/src/main/java/io/modelcontextprotocol/server/McpStatelessAsyncServer.java`
+### `mcp-core/src/main/java/io/modelcontextprotocol/client/McpClient.java`
 
-The `StructuredOutputCallToolHandler` class in [`mcp-core/src/main/java/io/modelcontextprotocol/server/McpStatelessAsyncServer.java`](https://github.com/modelcontextprotocol/java-sdk/blob/HEAD/mcp-core/src/main/java/io/modelcontextprotocol/server/McpStatelessAsyncServer.java) handles a key part of this chapter's functionality:
+The `SyncSpec` class in [`mcp-core/src/main/java/io/modelcontextprotocol/client/McpClient.java`](https://github.com/modelcontextprotocol/java-sdk/blob/HEAD/mcp-core/src/main/java/io/modelcontextprotocol/client/McpClient.java) handles a key part of this chapter's functionality:
 
 ```java
-			McpStatelessServerFeatures.AsyncToolSpecification toolSpecification) {
-
-		if (toolSpecification.callHandler() instanceof StructuredOutputCallToolHandler) {
-			// If the tool is already wrapped, return it as is
-			return toolSpecification;
-		}
-
-		if (toolSpecification.tool().outputSchema() == null) {
-			// If the tool does not have an output schema, return it as is
-			return toolSpecification;
-		}
-
-		return new McpStatelessServerFeatures.AsyncToolSpecification(toolSpecification.tool(),
-				new StructuredOutputCallToolHandler(jsonSchemaValidator, toolSpecification.tool().outputSchema(),
-						toolSpecification.callHandler()));
+	 * @throws IllegalArgumentException if transport is null
+	 */
+	static SyncSpec sync(McpClientTransport transport) {
+		return new SyncSpec(transport);
 	}
 
-	private static class StructuredOutputCallToolHandler
-			implements BiFunction<McpTransportContext, McpSchema.CallToolRequest, Mono<McpSchema.CallToolResult>> {
+	/**
+	 * Start building an asynchronous MCP client with the specified transport layer. The
+	 * asynchronous MCP client provides non-blocking operations. Asynchronous clients
+	 * return reactive primitives (Mono/Flux) immediately, allowing for concurrent
+	 * operations and reactive programming patterns. The transport layer handles the
+	 * low-level communication between client and server using protocols like stdio or
+	 * Server-Sent Events (SSE).
+	 * @param transport The transport layer implementation for MCP communication. Common
+	 * implementations include {@code StdioClientTransport} for stdio-based communication
+	 * and {@code SseClientTransport} for SSE-based communication.
+	 * @return A new builder instance for configuring the client
+	 * @throws IllegalArgumentException if transport is null
+	 */
+	static AsyncSpec async(McpClientTransport transport) {
+		return new AsyncSpec(transport);
+	}
 
-		private final BiFunction<McpTransportContext, McpSchema.CallToolRequest, Mono<McpSchema.CallToolResult>> delegateHandler;
-
-		private final JsonSchemaValidator jsonSchemaValidator;
-
-		private final Map<String, Object> outputSchema;
-
-		public StructuredOutputCallToolHandler(JsonSchemaValidator jsonSchemaValidator,
-				Map<String, Object> outputSchema,
-				BiFunction<McpTransportContext, McpSchema.CallToolRequest, Mono<McpSchema.CallToolResult>> delegateHandler) {
-
-			Assert.notNull(jsonSchemaValidator, "JsonSchemaValidator must not be null");
-			Assert.notNull(delegateHandler, "Delegate call tool result handler must not be null");
+	/**
+	 * Synchronous client specification. This class follows the builder pattern to provide
+	 * a fluent API for setting up clients with custom configurations.
+	 *
+	 * <p>
+	 * The builder supports configuration of:
+	 * <ul>
+	 * <li>Transport layer for client-server communication
+	 * <li>Request timeouts for operation boundaries
 ```
 
 This class is important because it defines how MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring implements the patterns covered in this chapter.
 
-### `mcp-core/src/main/java/io/modelcontextprotocol/client/McpAsyncClient.java`
+### `mcp-core/src/main/java/io/modelcontextprotocol/client/McpClient.java`
 
-The `McpAsyncClient` class in [`mcp-core/src/main/java/io/modelcontextprotocol/client/McpAsyncClient.java`](https://github.com/modelcontextprotocol/java-sdk/blob/HEAD/mcp-core/src/main/java/io/modelcontextprotocol/client/McpAsyncClient.java) handles a key part of this chapter's functionality:
+The `follows` class in [`mcp-core/src/main/java/io/modelcontextprotocol/client/McpClient.java`](https://github.com/modelcontextprotocol/java-sdk/blob/HEAD/mcp-core/src/main/java/io/modelcontextprotocol/client/McpClient.java) handles a key part of this chapter's functionality:
 
 ```java
- * @see McpClientTransport
- */
-public class McpAsyncClient {
+ * <p>
+ * This class serves as the main entry point for establishing connections with MCP
+ * servers, implementing the client-side of the MCP specification. The protocol follows a
+ * client-server architecture where:
+ * <ul>
+ * <li>The client (this implementation) initiates connections and sends requests
+ * <li>The server responds to requests and provides access to tools and resources
+ * <li>Communication occurs through a transport layer (e.g., stdio, SSE) using JSON-RPC
+ * 2.0
+ * </ul>
+ *
+ * <p>
+ * The class provides factory methods to create either:
+ * <ul>
+ * <li>{@link McpAsyncClient} for non-blocking operations with CompletableFuture responses
+ * <li>{@link McpSyncClient} for blocking operations with direct responses
+ * </ul>
+ *
+ * <p>
+ * Example of creating a basic synchronous client: <pre>{@code
+ * McpClient.sync(transport)
+ *     .requestTimeout(Duration.ofSeconds(5))
+ *     .build();
+ * }</pre>
+ *
+ * Example of creating a basic asynchronous client: <pre>{@code
+ * McpClient.async(transport)
+ *     .requestTimeout(Duration.ofSeconds(5))
+ *     .build();
+ * }</pre>
+ *
+ * <p>
+```
 
-	private static final Logger logger = LoggerFactory.getLogger(McpAsyncClient.class);
+This class is important because it defines how MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring implements the patterns covered in this chapter.
 
-	private static final TypeRef<Void> VOID_TYPE_REFERENCE = new TypeRef<>() {
-	};
+### `mcp-core/src/main/java/io/modelcontextprotocol/client/McpClient.java`
 
-	public static final TypeRef<Object> OBJECT_TYPE_REF = new TypeRef<>() {
-	};
+The `AsyncSpec` class in [`mcp-core/src/main/java/io/modelcontextprotocol/client/McpClient.java`](https://github.com/modelcontextprotocol/java-sdk/blob/HEAD/mcp-core/src/main/java/io/modelcontextprotocol/client/McpClient.java) handles a key part of this chapter's functionality:
 
-	public static final TypeRef<PaginatedRequest> PAGINATED_REQUEST_TYPE_REF = new TypeRef<>() {
-	};
-
-	public static final TypeRef<McpSchema.InitializeResult> INITIALIZE_RESULT_TYPE_REF = new TypeRef<>() {
-	};
-
-	public static final TypeRef<CreateMessageRequest> CREATE_MESSAGE_REQUEST_TYPE_REF = new TypeRef<>() {
-	};
-
-	public static final TypeRef<LoggingMessageNotification> LOGGING_MESSAGE_NOTIFICATION_TYPE_REF = new TypeRef<>() {
-	};
-
-	public static final TypeRef<McpSchema.ProgressNotification> PROGRESS_NOTIFICATION_TYPE_REF = new TypeRef<>() {
-	};
-
-	public static final String NEGOTIATED_PROTOCOL_VERSION = "io.modelcontextprotocol.client.negotiated-protocol-version";
+```java
+	 * @throws IllegalArgumentException if transport is null
+	 */
+	static AsyncSpec async(McpClientTransport transport) {
+		return new AsyncSpec(transport);
+	}
 
 	/**
-	 * Client capabilities.
+	 * Synchronous client specification. This class follows the builder pattern to provide
+	 * a fluent API for setting up clients with custom configurations.
+	 *
+	 * <p>
+	 * The builder supports configuration of:
+	 * <ul>
+	 * <li>Transport layer for client-server communication
+	 * <li>Request timeouts for operation boundaries
+	 * <li>Client capabilities for feature negotiation
+	 * <li>Client implementation details for version tracking
+	 * <li>Root URIs for resource access
+	 * <li>Change notification handlers for tools, resources, and prompts
+	 * <li>Custom message sampling logic
+	 * </ul>
 	 */
+	class SyncSpec {
+
+		private final McpClientTransport transport;
+
+		private Duration requestTimeout = Duration.ofSeconds(20); // Default timeout
+
+		private Duration initializationTimeout = Duration.ofSeconds(20);
+
+		private ClientCapabilities capabilities;
+
 ```
 
 This class is important because it defines how MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring implements the patterns covered in this chapter.
@@ -214,11 +212,11 @@ This class is important because it defines how MCP Java SDK Tutorial: Building M
 
 ```mermaid
 flowchart TD
-    A[McpClient]
-    B[McpStatelessAsyncServer]
-    C[StructuredOutputCallToolHandler]
-    D[McpAsyncClient]
-    E[McpServerFeatures]
+    A[follows]
+    B[SyncSpec]
+    C[follows]
+    D[AsyncSpec]
+    E[McpClient]
     A --> B
     B --> C
     C --> D

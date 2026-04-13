@@ -13,6 +13,18 @@ Welcome to **Chapter 7: Advanced Configuration and Tuning**. In this part of **L
 
 > Optimize LocalAI performance with advanced configuration options, hardware tuning, and production settings.
 
+## Configuration Hierarchy
+
+```mermaid
+flowchart TD
+    CONF[LocalAI Configuration] --> ENV[Environment Variables\nTHREADS, DEBUG, etc.]
+    CONF --> YAML[Model Config YAML\nper-model parameters]
+    CONF --> CLI[CLI Flags\n--models-path, --port]
+    YAML --> PARAM[inference parameters\nctx-size, batch, GPU layers]
+    YAML --> TMPL[Prompt Templates\nchat format, system prompt]
+    YAML --> BACK[Backend Selection\nllama.cpp, exllama2]
+```
+
 ## Overview
 
 LocalAI offers extensive configuration options for performance tuning, hardware optimization, and production deployment.
@@ -625,14 +637,22 @@ When debugging, walk this sequence in order and confirm each stage has explicit 
 
 Use the following upstream sources to verify implementation details while reading this chapter:
 
-- [View Repo](https://github.com/mudler/LocalAI)
-  Why it matters: authoritative reference on `View Repo` (github.com).
-- [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
-  Why it matters: authoritative reference on `Awesome Code Docs` (github.com).
+- [`core/config/backend_config.go`](https://github.com/mudler/LocalAI/blob/master/core/config/backend_config.go)
+  The authoritative definition of every field in per-model YAML configuration files. `BackendConfig` fields include `ContextSize`, `Threads`, `GPU` (number of GPU layers), `F16`, `NUMA`, `Rope*`, `ModelPath`, `PromptCachePath`, and generation parameters. This is the schema reference for all advanced tuning.
+
+- [`core/config/application_config.go`](https://github.com/mudler/LocalAI/blob/master/core/config/application_config.go)
+  Global server configuration. Controls `ConcurrentRequests` (parallelism), `ContextSize` (default context window), `Threads` (default CPU threads), `ModelsPath`, `UploadDir`, `ImageDir`, and feature flags like `DisableGallery` and `SingleActiveBackend`.
+
+- [`core/config/config_loader.go`](https://github.com/mudler/LocalAI/blob/master/core/config/config_loader.go)
+  Config loader that merges application defaults with per-model YAML overrides. Shows the priority order: CLI flags → environment variables → per-model YAML → built-in defaults. Critical for understanding how settings propagate.
+
+- [`core/http/middleware/`](https://github.com/mudler/LocalAI/tree/master/core/http/middleware)
+  HTTP middleware including API key authentication (`auth.go`), CORS configuration, and request logging. The auth middleware reads the `API_KEY` environment variable or `--api-key` flag to enforce bearer token authentication.
 
 Suggested trace strategy:
-- search upstream code for `enabled` and `localai` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+- Read `core/config/backend_config.go` to find the exact YAML key names for GPU offloading (`gpu-layers`), context size, and generation parameters
+- Trace `core/config/config_loader.go` `LoadConfigs()` to understand config merge priority and which fields can be overridden per-model
+- Check `core/http/middleware/auth.go` to understand how API key validation works and what happens on unauthorized requests
 
 ## Chapter Connections
 

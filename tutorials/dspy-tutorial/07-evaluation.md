@@ -25,8 +25,8 @@ Evaluation is crucial for DSPy programs. Unlike traditional ML where you train o
 import dspy
 
 # Configure DSPy
-lm = dspy.OpenAI(model="gpt-3.5-turbo")
-dspy.settings.configure(lm=lm)
+lm = dspy.LM("openai/gpt-3.5-turbo")
+dspy.configure(lm=lm)
 
 # Create a simple program to evaluate
 class BasicQA(dspy.Signature):
@@ -736,6 +736,20 @@ In practical terms, this chapter helps you avoid three common failures:
 After working through this chapter, you should be able to reason about `Chapter 7: Evaluation & Metrics - Systematic Assessment of DSPy Programs` as an operating subsystem inside **DSPy Tutorial: Programming Language Models**, with explicit contracts for inputs, state transitions, and outputs.
 
 Use the implementation notes around `program`, `testset`, `example` as your checklist when adapting these patterns to your own repository.
+
+## DSPy Evaluation Framework
+
+```mermaid
+flowchart TD
+    A[Dev/test dataset] --> B[dspy.Evaluate]
+    B --> C[Run module on each example]
+    C --> D[Apply metric function]
+    D --> E[Score per example]
+    E --> F[Aggregate score]
+    F --> G{Sufficient?}
+    G -->|No| H[Re-optimize or tune]
+    G -->|Yes| I[Deploy program]
+```
 
 ## How it Works Under the Hood
 

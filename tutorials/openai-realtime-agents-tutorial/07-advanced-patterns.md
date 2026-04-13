@@ -85,27 +85,48 @@ You now have a practical framework for choosing and operating multi-agent realti
 
 Next: [Chapter 8: Production Deployment](08-production-deployment.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `src/app/contexts/TranscriptContext.tsx`
+### `src/app/components/Events.tsx`
 
-The `useTranscript` function in [`src/app/contexts/TranscriptContext.tsx`](https://github.com/openai/openai-realtime-agents/blob/HEAD/src/app/contexts/TranscriptContext.tsx) handles a key part of this chapter's functionality:
+The `EventsProps` interface in [`src/app/components/Events.tsx`](https://github.com/openai/openai-realtime-agents/blob/HEAD/src/app/components/Events.tsx) handles a key part of this chapter's functionality:
 
 ```tsx
-};
+import { LoggedEvent } from "@/app/types";
 
-export function useTranscript() {
-  const context = useContext(TranscriptContext);
-  if (!context) {
-    throw new Error("useTranscript must be used within a TranscriptProvider");
-  }
-  return context;
+export interface EventsProps {
+  isExpanded: boolean;
 }
+
+function Events({ isExpanded }: EventsProps) {
+  const [prevEventLogs, setPrevEventLogs] = useState<LoggedEvent[]>([]);
+  const eventLogsContainerRef = useRef<HTMLDivElement | null>(null);
+
+  const { loggedEvents, toggleExpand } = useEvent();
+
+  const getDirectionArrow = (direction: string) => {
+    if (direction === "client") return { symbol: "▲", color: "#7f5af0" };
+    if (direction === "server") return { symbol: "▼", color: "#2cb67d" };
+    return { symbol: "•", color: "#555" };
+  };
+
+  useEffect(() => {
+    const hasNewEvent = loggedEvents.length > prevEventLogs.length;
+
+    if (isExpanded && hasNewEvent && eventLogsContainerRef.current) {
+      eventLogsContainerRef.current.scrollTop =
+        eventLogsContainerRef.current.scrollHeight;
+    }
+
+    setPrevEventLogs(loggedEvents);
+  }, [loggedEvents, isExpanded]);
+
+  return (
+    <div
+      className={
 ```
 
-This function is important because it defines how OpenAI Realtime Agents Tutorial: Voice-First AI Systems implements the patterns covered in this chapter.
+This interface is important because it defines how OpenAI Realtime Agents Tutorial: Voice-First AI Systems implements the patterns covered in this chapter.
 
 ### `src/app/components/BottomToolbar.tsx`
 
@@ -235,7 +256,7 @@ This function is important because it defines how OpenAI Realtime Agents Tutoria
 
 ```mermaid
 flowchart TD
-    A[useTranscript]
+    A[EventsProps]
     B[BottomToolbar]
     C[getConnectionButtonLabel]
     D[getConnectionButtonClasses]

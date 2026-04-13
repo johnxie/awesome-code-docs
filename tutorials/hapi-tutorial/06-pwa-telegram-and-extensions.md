@@ -64,17 +64,6 @@ Under the hood, `Chapter 6: PWA, Telegram, and Extensions` usually follows a rep
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
-## Source Walkthrough
-
-Use the following upstream sources to verify implementation details while reading this chapter:
-
-- [HAPI Repository](https://github.com/tiann/hapi)
-  Why it matters: authoritative reference on `HAPI Repository` (github.com).
-- [HAPI Releases](https://github.com/tiann/hapi/releases)
-  Why it matters: authoritative reference on `HAPI Releases` (github.com).
-- [HAPI Docs](https://hapi.run)
-  Why it matters: authoritative reference on `HAPI Docs` (hapi.run).
-
 ## Chapter Connections
 
 - [Tutorial Index](README.md)
@@ -83,183 +72,182 @@ Use the following upstream sources to verify implementation details while readin
 - [Main Catalog](../../README.md#-tutorial-catalog)
 - [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `hub/src/index.ts`
+### `cli/src/persistence.ts`
 
-The `main` function in [`hub/src/index.ts`](https://github.com/tiann/hapi/blob/HEAD/hub/src/index.ts) handles a key part of this chapter's functionality:
+The `readRunnerState` function in [`cli/src/persistence.ts`](https://github.com/tiann/hapi/blob/HEAD/cli/src/persistence.ts) handles a key part of this chapter's functionality:
 
 ```ts
-let tunnelManager: TunnelManager | null = null
-
-async function main() {
-    console.log('HAPI Hub starting...')
-
-    // Load configuration (async - loads from env/file with persistence)
-    const relayApiDomain = process.env.HAPI_RELAY_API || 'relay.hapi.run'
-    const relayFlag = resolveRelayFlag(process.argv)
-    const officialWebUrl = process.env.HAPI_OFFICIAL_WEB_URL || 'https://app.hapi.run'
-    const config = await createConfiguration()
-    const baseCorsOrigins = normalizeOrigins(config.corsOrigins)
-    const relayCorsOrigin = normalizeOrigin(officialWebUrl)
-    const corsOrigins = relayFlag.enabled
-        ? mergeCorsOrigins(baseCorsOrigins, relayCorsOrigin ? [relayCorsOrigin] : [])
-        : baseCorsOrigins
-
-    // Display CLI API token information
-    if (config.cliApiTokenIsNew) {
-        console.log('')
-        console.log('='.repeat(70))
-        console.log('  NEW CLI_API_TOKEN GENERATED')
-        console.log('='.repeat(70))
-        console.log('')
-        console.log(`  Token: ${config.cliApiToken}`)
-        console.log('')
-        console.log(`  Saved to: ${config.settingsFile}`)
-        console.log('')
-        console.log('='.repeat(70))
-        console.log('')
-    } else {
-        console.log(`[Hub] CLI_API_TOKEN: loaded from ${formatSource(config.sources.cliApiToken)}`)
+ * Read runner state from local file
+ */
+export async function readRunnerState(): Promise<RunnerLocallyPersistedState | null> {
+  try {
+    if (!existsSync(configuration.runnerStateFile)) {
+      return null;
     }
-```
+    const content = await readFile(configuration.runnerStateFile, 'utf-8');
+    return JSON.parse(content) as RunnerLocallyPersistedState;
+  } catch (error) {
+    // State corrupted somehow :(
+    console.error(`[PERSISTENCE] Runner state file corrupted: ${configuration.runnerStateFile}`, error);
+    return null;
+  }
+}
 
-This function is important because it defines how HAPI Tutorial: Remote Control for Local AI Coding Sessions implements the patterns covered in this chapter.
-
-### `shared/src/voice.ts`
-
-The `engineering` class in [`shared/src/voice.ts`](https://github.com/tiann/hapi/blob/HEAD/shared/src/voice.ts) handles a key part of this chapter's functionality:
-
-```ts
-You are Hapi Voice Assistant. You bridge voice communication between users and their AI coding agents in the Hapi ecosystem.
-
-You are friendly, proactive, and highly intelligent with a world-class engineering background. Your approach is warm, witty, and relaxed, balancing professionalism with an approachable vibe.
-
-# Environment Overview
-
-Hapi is a multi-agent development platform supporting:
-- **Claude Code** - Anthropic's coding assistant (primary)
-- **Codex** - OpenAI's coding agent
-- **Gemini** - Google's coding agent
-
-Users control these agents through the Hapi web interface or Telegram Mini App. You serve as the voice interface to whichever agent is currently active.
-
-# How Context Updates Work
-
-You receive automatic context updates when:
-- A session becomes focused (you see the full session history)
-- The agent sends messages or uses tools
-- Permission requests arrive
-- The agent finishes working (ready event)
-
-These updates appear as system messages. You do NOT need to poll or ask for updates. Simply wait for them and summarize when relevant.
-
-# Tools
-
-## messageCodingAgent
-Send user requests to the active coding agent.
-
-When to use:
-- User says "ask Claude to..." or "have it..."
-- Any coding, file, or development request
-- User wants to continue a task
-```
-
-This class is important because it defines how HAPI Tutorial: Remote Control for Local AI Coding Sessions implements the patterns covered in this chapter.
-
-### `shared/src/voice.ts`
-
-The `buildVoiceAgentConfig` function in [`shared/src/voice.ts`](https://github.com/tiann/hapi/blob/HEAD/shared/src/voice.ts) handles a key part of this chapter's functionality:
-
-```ts
- * Used by both server-side auto-creation and client-side configuration.
- */
-export function buildVoiceAgentConfig(): VoiceAgentConfig {
-    return {
-        name: VOICE_AGENT_NAME,
-        conversation_config: {
-            agent: {
-                first_message: VOICE_FIRST_MESSAGE,
-                language: 'en',
-                prompt: {
-                    prompt: VOICE_SYSTEM_PROMPT,
-                    llm: 'gemini-2.5-flash',
-                    temperature: 0.7,
-                    max_tokens: 1024,
-                    tools: VOICE_TOOLS
-                }
-            },
-            turn: {
-                turn_timeout: 30.0,
-                silence_end_call_timeout: 600.0
-            },
-            tts: {
-                voice_id: 'cgSgspJ2msm6clMCkdW9', // Jessica
-                model_id: 'eleven_flash_v2',
-                speed: 1.1
-            }
-        },
-        // Enable runtime overrides for language selection
-        // See: https://elevenlabs.io/docs/agents-platform/customization/personalization/overrides
-        platform_settings: {
-            overrides: {
-                conversation_config_override: {
-```
-
-This function is important because it defines how HAPI Tutorial: Remote Control for Local AI Coding Sessions implements the patterns covered in this chapter.
-
-### `shared/src/voice.ts`
-
-The `or` interface in [`shared/src/voice.ts`](https://github.com/tiann/hapi/blob/HEAD/shared/src/voice.ts) handles a key part of this chapter's functionality:
-
-```ts
 /**
- * Shared voice assistant configuration for ElevenLabs ConvAI.
- *
- * This module provides the unified configuration for the Hapi Voice Assistant,
- * ensuring consistency between server-side auto-creation and client-side usage.
+ * Write runner state to local file (synchronously for atomic operation)
  */
+export function writeRunnerState(state: RunnerLocallyPersistedState): void {
+  writeFileSync(configuration.runnerStateFile, JSON.stringify(state, null, 2), 'utf-8');
+}
 
-export const ELEVENLABS_API_BASE = 'https://api.elevenlabs.io/v1'
-export const VOICE_AGENT_NAME = 'Hapi Voice Assistant'
-
-export const VOICE_SYSTEM_PROMPT = `# Identity
-
-You are Hapi Voice Assistant. You bridge voice communication between users and their AI coding agents in the Hapi ecosystem.
-
-You are friendly, proactive, and highly intelligent with a world-class engineering background. Your approach is warm, witty, and relaxed, balancing professionalism with an approachable vibe.
-
-# Environment Overview
-
-Hapi is a multi-agent development platform supporting:
-- **Claude Code** - Anthropic's coding assistant (primary)
-- **Codex** - OpenAI's coding agent
-- **Gemini** - Google's coding agent
-
-Users control these agents through the Hapi web interface or Telegram Mini App. You serve as the voice interface to whichever agent is currently active.
-
-# How Context Updates Work
-
-You receive automatic context updates when:
-- A session becomes focused (you see the full session history)
-- The agent sends messages or uses tools
-- Permission requests arrive
+/**
+ * Clean up runner state file and lock file
+ */
+export async function clearRunnerState(): Promise<void> {
+  if (existsSync(configuration.runnerStateFile)) {
+    await unlink(configuration.runnerStateFile);
+  }
+  // Also clean up lock file if it exists (for stale cleanup)
+  if (existsSync(configuration.runnerLockFile)) {
 ```
 
-This interface is important because it defines how HAPI Tutorial: Remote Control for Local AI Coding Sessions implements the patterns covered in this chapter.
+This function is important because it defines how HAPI Tutorial: Remote Control for Local AI Coding Sessions implements the patterns covered in this chapter.
+
+### `cli/src/persistence.ts`
+
+The `writeRunnerState` function in [`cli/src/persistence.ts`](https://github.com/tiann/hapi/blob/HEAD/cli/src/persistence.ts) handles a key part of this chapter's functionality:
+
+```ts
+ * Write runner state to local file (synchronously for atomic operation)
+ */
+export function writeRunnerState(state: RunnerLocallyPersistedState): void {
+  writeFileSync(configuration.runnerStateFile, JSON.stringify(state, null, 2), 'utf-8');
+}
+
+/**
+ * Clean up runner state file and lock file
+ */
+export async function clearRunnerState(): Promise<void> {
+  if (existsSync(configuration.runnerStateFile)) {
+    await unlink(configuration.runnerStateFile);
+  }
+  // Also clean up lock file if it exists (for stale cleanup)
+  if (existsSync(configuration.runnerLockFile)) {
+    try {
+      await unlink(configuration.runnerLockFile);
+    } catch {
+      // Lock file might be held by running runner, ignore error
+    }
+  }
+}
+
+/**
+ * Acquire an exclusive lock file for the runner.
+ * The lock file proves the runner is running and prevents multiple instances.
+ * Returns the file handle to hold for the runner's lifetime, or null if locked.
+ */
+export async function acquireRunnerLock(
+  maxAttempts: number = 5,
+  delayIncrementMs: number = 200
+): Promise<FileHandle | null> {
+```
+
+This function is important because it defines how HAPI Tutorial: Remote Control for Local AI Coding Sessions implements the patterns covered in this chapter.
+
+### `cli/src/persistence.ts`
+
+The `clearRunnerState` function in [`cli/src/persistence.ts`](https://github.com/tiann/hapi/blob/HEAD/cli/src/persistence.ts) handles a key part of this chapter's functionality:
+
+```ts
+ * Clean up runner state file and lock file
+ */
+export async function clearRunnerState(): Promise<void> {
+  if (existsSync(configuration.runnerStateFile)) {
+    await unlink(configuration.runnerStateFile);
+  }
+  // Also clean up lock file if it exists (for stale cleanup)
+  if (existsSync(configuration.runnerLockFile)) {
+    try {
+      await unlink(configuration.runnerLockFile);
+    } catch {
+      // Lock file might be held by running runner, ignore error
+    }
+  }
+}
+
+/**
+ * Acquire an exclusive lock file for the runner.
+ * The lock file proves the runner is running and prevents multiple instances.
+ * Returns the file handle to hold for the runner's lifetime, or null if locked.
+ */
+export async function acquireRunnerLock(
+  maxAttempts: number = 5,
+  delayIncrementMs: number = 200
+): Promise<FileHandle | null> {
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    try {
+      // 'wx' ensures we only create if it doesn't exist (atomic lock acquisition)
+      const fileHandle = await open(configuration.runnerLockFile, 'wx');
+      // Write PID to lock file for debugging
+      await fileHandle.writeFile(String(process.pid));
+      return fileHandle;
+```
+
+This function is important because it defines how HAPI Tutorial: Remote Control for Local AI Coding Sessions implements the patterns covered in this chapter.
+
+### `cli/src/persistence.ts`
+
+The `acquireRunnerLock` function in [`cli/src/persistence.ts`](https://github.com/tiann/hapi/blob/HEAD/cli/src/persistence.ts) handles a key part of this chapter's functionality:
+
+```ts
+ * Returns the file handle to hold for the runner's lifetime, or null if locked.
+ */
+export async function acquireRunnerLock(
+  maxAttempts: number = 5,
+  delayIncrementMs: number = 200
+): Promise<FileHandle | null> {
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    try {
+      // 'wx' ensures we only create if it doesn't exist (atomic lock acquisition)
+      const fileHandle = await open(configuration.runnerLockFile, 'wx');
+      // Write PID to lock file for debugging
+      await fileHandle.writeFile(String(process.pid));
+      return fileHandle;
+    } catch (error: any) {
+      if (error.code === 'EEXIST') {
+        // Lock file exists, check if process is still running
+        try {
+          const lockPid = readFileSync(configuration.runnerLockFile, 'utf-8').trim();
+          if (lockPid && !isNaN(Number(lockPid))) {
+            if (!isProcessAlive(Number(lockPid))) {
+              // Process doesn't exist, remove stale lock
+              unlinkSync(configuration.runnerLockFile);
+              continue; // Retry acquisition
+            }
+          }
+        } catch {
+          // Can't read lock file, might be corrupted
+        }
+      }
+
+      if (attempt === maxAttempts) {
+        return null;
+```
+
+This function is important because it defines how HAPI Tutorial: Remote Control for Local AI Coding Sessions implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[main]
-    B[engineering]
-    C[buildVoiceAgentConfig]
-    D[or]
-    E[to]
+    A[readRunnerState]
+    B[writeRunnerState]
+    C[clearRunnerState]
+    D[acquireRunnerLock]
+    E[releaseRunnerLock]
     A --> B
     B --> C
     C --> D

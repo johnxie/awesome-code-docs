@@ -47,22 +47,7 @@ You now have a stable Kotlin baseline and module selection model.
 
 Next: [Chapter 2: Core Protocol Model and Module Architecture](02-core-protocol-model-and-module-architecture.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
-
-### `kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/ExperimentalMcpApi.kt`
-
-The `ExperimentalMcpApi` class in [`kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/ExperimentalMcpApi.kt`](https://github.com/modelcontextprotocol/kotlin-sdk/blob/HEAD/kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/ExperimentalMcpApi.kt) handles a key part of this chapter's functionality:
-
-```kt
-)
-@Retention(AnnotationRetention.BINARY)
-public annotation class ExperimentalMcpApi
-
-```
-
-This class is important because it defines how MCP Kotlin SDK Tutorial: Building Multiplatform MCP Clients and Servers implements the patterns covered in this chapter.
 
 ### `kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/InternalMcpApi.kt`
 
@@ -77,84 +62,97 @@ public annotation class InternalMcpApi
 
 This class is important because it defines how MCP Kotlin SDK Tutorial: Building Multiplatform MCP Clients and Servers implements the patterns covered in this chapter.
 
-### `kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/shared/Protocol.kt`
+### `kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/ExperimentalMcpApi.kt`
 
-The `ProtocolOptions` class in [`kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/shared/Protocol.kt`](https://github.com/modelcontextprotocol/kotlin-sdk/blob/HEAD/kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/shared/Protocol.kt) handles a key part of this chapter's functionality:
+The `ExperimentalMcpApi` class in [`kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/ExperimentalMcpApi.kt`](https://github.com/modelcontextprotocol/kotlin-sdk/blob/HEAD/kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/ExperimentalMcpApi.kt) handles a key part of this chapter's functionality:
 
 ```kt
- * Additional initialization options.
- */
-public open class ProtocolOptions(
-    /**
-     * Whether to restrict emitted requests to only those that the remote side has indicated
-     * that they can handle, through their advertised capabilities.
-     *
-     * Note that this DOES NOT affect checking of _local_ side capabilities, as it is
-     * considered a logic error to mis-specify those.
-     *
-     * Currently, this defaults to false, for backwards compatibility with SDK versions
-     * that did not advertise capabilities correctly.
-     * In the future, this will default to true.
-     */
-    public var enforceStrictCapabilities: Boolean = false,
-
-    public var timeout: Duration = DEFAULT_REQUEST_TIMEOUT,
 )
+@Retention(AnnotationRetention.BINARY)
+public annotation class ExperimentalMcpApi
 
-/**
- * The default request timeout.
- */
-public val DEFAULT_REQUEST_TIMEOUT: Duration = 60.seconds
-
-/**
- * Options that can be given per request.
- *
- * @property relatedRequestId if present,
- * `relatedRequestId` is used to indicate to the transport which incoming request to associate this outgoing message with.
- * @property resumptionToken the resumption token used to continue long-running requests that were interrupted.
- * This allows clients to reconnect and continue from where they left off, if supported by the transport.
- * @property onResumptionToken a callback that is invoked when the resumption token changes, if supported by the transport.
 ```
 
 This class is important because it defines how MCP Kotlin SDK Tutorial: Building Multiplatform MCP Clients and Servers implements the patterns covered in this chapter.
 
-### `kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/shared/Protocol.kt`
+### `kotlin-sdk-server/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/server/StreamableHttpServerTransport.kt`
 
-The `RequestOptions` class in [`kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/shared/Protocol.kt`](https://github.com/modelcontextprotocol/kotlin-sdk/blob/HEAD/kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/shared/Protocol.kt) handles a key part of this chapter's functionality:
+The `SessionContext` class in [`kotlin-sdk-server/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/server/StreamableHttpServerTransport.kt`](https://github.com/modelcontextprotocol/kotlin-sdk/blob/HEAD/kotlin-sdk-server/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/server/StreamableHttpServerTransport.kt) handles a key part of this chapter's functionality:
 
 ```kt
- * If not specified, `DEFAULT_REQUEST_TIMEOUT` will be used as the timeout.
+ * Otherwise, the session is not null.
  */
-public class RequestOptions(
-    relatedRequestId: RequestId? = null,
-    resumptionToken: String? = null,
-    onResumptionToken: ((String) -> Unit)? = null,
-    public val onProgress: ProgressCallback? = null,
-    public val timeout: Duration = DEFAULT_REQUEST_TIMEOUT,
-) : TransportSendOptions(relatedRequestId, resumptionToken, onResumptionToken) {
-    public operator fun component4(): ProgressCallback? = onProgress
-    public operator fun component5(): Duration = timeout
+private data class SessionContext(val session: ServerSSESession?, val call: ApplicationCall)
 
-    public fun copy(
-        relatedRequestId: RequestId? = this.relatedRequestId,
-        resumptionToken: String? = this.resumptionToken,
-        onResumptionToken: ((String) -> Unit)? = this.onResumptionToken,
-        onProgress: ProgressCallback? = this.onProgress,
-        timeout: Duration = this.timeout,
-    ): RequestOptions = RequestOptions(relatedRequestId, resumptionToken, onResumptionToken, onProgress, timeout)
+/**
+ * Server transport for Streamable HTTP: this implements the MCP Streamable HTTP transport specification.
+ * It supports both SSE streaming and direct HTTP responses.
+ *
+ * In stateful mode:
+ * - Session ID is generated and included in response headers
+ * - Session ID is always included in initialization responses
+ * - Requests with invalid session IDs are rejected with 404 Not Found
+ * - Non-initialization requests without a session ID are rejected with 400 Bad Request
+ * - State is maintained in-memory (connections, message history)
+ *
+ * In stateless mode:
+ * - No Session ID is included in any responses
+ * - No session validation is performed
+ *
+ * @param configuration Transport configuration. See [Configuration] for available options.
+ * @property sessionId session identifier assigned after initialization, or `null` in stateless mode
+ */
+@OptIn(ExperimentalUuidApi::class, ExperimentalAtomicApi::class)
+@Suppress("TooManyFunctions")
+public class StreamableHttpServerTransport(private val configuration: Configuration) : AbstractTransport() {
 
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (other == null || this::class != other::class) return false
-        if (!super.equals(other)) return false
+    @Deprecated("Use default constructor with explicit Configuration()")
+    public constructor() : this(configuration = Configuration())
 
-        other as RequestOptions
+    /**
+     * Secondary constructor for `StreamableHttpServerTransport` that simplifies initialization by directly taking the
+     * configurable parameters without requiring a `Configuration` instance.
+```
 
-        return onProgress == other.onProgress && timeout == other.timeout
-    }
+This class is important because it defines how MCP Kotlin SDK Tutorial: Building Multiplatform MCP Clients and Servers implements the patterns covered in this chapter.
 
-    override fun hashCode(): Int {
-        var result = super.hashCode()
+### `kotlin-sdk-server/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/server/StreamableHttpServerTransport.kt`
+
+The `StreamableHttpServerTransport` class in [`kotlin-sdk-server/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/server/StreamableHttpServerTransport.kt`](https://github.com/modelcontextprotocol/kotlin-sdk/blob/HEAD/kotlin-sdk-server/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/server/StreamableHttpServerTransport.kt) handles a key part of this chapter's functionality:
+
+```kt
+/**
+ * A holder for an active request call.
+ * If [StreamableHttpServerTransport.Configuration.enableJsonResponse] is true, the session is null.
+ * Otherwise, the session is not null.
+ */
+private data class SessionContext(val session: ServerSSESession?, val call: ApplicationCall)
+
+/**
+ * Server transport for Streamable HTTP: this implements the MCP Streamable HTTP transport specification.
+ * It supports both SSE streaming and direct HTTP responses.
+ *
+ * In stateful mode:
+ * - Session ID is generated and included in response headers
+ * - Session ID is always included in initialization responses
+ * - Requests with invalid session IDs are rejected with 404 Not Found
+ * - Non-initialization requests without a session ID are rejected with 400 Bad Request
+ * - State is maintained in-memory (connections, message history)
+ *
+ * In stateless mode:
+ * - No Session ID is included in any responses
+ * - No session validation is performed
+ *
+ * @param configuration Transport configuration. See [Configuration] for available options.
+ * @property sessionId session identifier assigned after initialization, or `null` in stateless mode
+ */
+@OptIn(ExperimentalUuidApi::class, ExperimentalAtomicApi::class)
+@Suppress("TooManyFunctions")
+public class StreamableHttpServerTransport(private val configuration: Configuration) : AbstractTransport() {
+
+    @Deprecated("Use default constructor with explicit Configuration()")
+    public constructor() : this(configuration = Configuration())
+
 ```
 
 This class is important because it defines how MCP Kotlin SDK Tutorial: Building Multiplatform MCP Clients and Servers implements the patterns covered in this chapter.
@@ -164,11 +162,11 @@ This class is important because it defines how MCP Kotlin SDK Tutorial: Building
 
 ```mermaid
 flowchart TD
-    A[ExperimentalMcpApi]
-    B[InternalMcpApi]
-    C[ProtocolOptions]
-    D[RequestOptions]
-    E[RequestHandlerExtra]
+    A[InternalMcpApi]
+    B[ExperimentalMcpApi]
+    C[SessionContext]
+    D[StreamableHttpServerTransport]
+    E[Configuration]
     A --> B
     B --> C
     C --> D

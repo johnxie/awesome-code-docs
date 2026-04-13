@@ -50,169 +50,168 @@ You now have an end-to-end framework for adopting Crush as a governed coding-age
 
 Compare terminal-first practices in the [Goose Tutorial](../goose-tutorial/).
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `internal/session/session.go`
+### `internal/workspace/app_workspace.go`
 
-The `marshalTodos` function in [`internal/session/session.go`](https://github.com/charmbracelet/crush/blob/HEAD/internal/session/session.go) handles a key part of this chapter's functionality:
-
-```go
-
-func (s *service) Save(ctx context.Context, session Session) (Session, error) {
-	todosJSON, err := marshalTodos(session.Todos)
-	if err != nil {
-		return Session{}, err
-	}
-
-	dbSession, err := s.q.UpdateSession(ctx, db.UpdateSessionParams{
-		ID:               session.ID,
-		Title:            session.Title,
-		PromptTokens:     session.PromptTokens,
-		CompletionTokens: session.CompletionTokens,
-		SummaryMessageID: sql.NullString{
-			String: session.SummaryMessageID,
-			Valid:  session.SummaryMessageID != "",
-		},
-		Cost: session.Cost,
-		Todos: sql.NullString{
-			String: todosJSON,
-			Valid:  todosJSON != "",
-		},
-	})
-	if err != nil {
-		return Session{}, err
-	}
-	session = s.fromDBItem(dbSession)
-	s.Publish(pubsub.UpdatedEvent, session)
-	return session, nil
-}
-
-// UpdateTitleAndUsage updates only the title and usage fields atomically.
-// This is safer than fetching, modifying, and saving the entire session.
-```
-
-This function is important because it defines how Crush Tutorial: Multi-Model Terminal Coding Agent with Strong Extensibility implements the patterns covered in this chapter.
-
-### `internal/session/session.go`
-
-The `unmarshalTodos` function in [`internal/session/session.go`](https://github.com/charmbracelet/crush/blob/HEAD/internal/session/session.go) handles a key part of this chapter's functionality:
+The `PermissionGrant` function in [`internal/workspace/app_workspace.go`](https://github.com/charmbracelet/crush/blob/HEAD/internal/workspace/app_workspace.go) handles a key part of this chapter's functionality:
 
 ```go
+// -- Permissions --
 
-func (s service) fromDBItem(item db.Session) Session {
-	todos, err := unmarshalTodos(item.Todos.String)
-	if err != nil {
-		slog.Error("Failed to unmarshal todos", "session_id", item.ID, "error", err)
-	}
-	return Session{
-		ID:               item.ID,
-		ParentSessionID:  item.ParentSessionID.String,
-		Title:            item.Title,
-		MessageCount:     item.MessageCount,
-		PromptTokens:     item.PromptTokens,
-		CompletionTokens: item.CompletionTokens,
-		SummaryMessageID: item.SummaryMessageID.String,
-		Cost:             item.Cost,
-		Todos:            todos,
-		CreatedAt:        item.CreatedAt,
-		UpdatedAt:        item.UpdatedAt,
-	}
+func (w *AppWorkspace) PermissionGrant(perm permission.PermissionRequest) {
+	w.app.Permissions.Grant(perm)
 }
 
-func marshalTodos(todos []Todo) (string, error) {
-	if len(todos) == 0 {
-		return "", nil
-	}
-	data, err := json.Marshal(todos)
-	if err != nil {
-		return "", err
-	}
-	return string(data), nil
+func (w *AppWorkspace) PermissionGrantPersistent(perm permission.PermissionRequest) {
+	w.app.Permissions.GrantPersistent(perm)
+}
+
+func (w *AppWorkspace) PermissionDeny(perm permission.PermissionRequest) {
+	w.app.Permissions.Deny(perm)
+}
+
+func (w *AppWorkspace) PermissionSkipRequests() bool {
+	return w.app.Permissions.SkipRequests()
+}
+
+func (w *AppWorkspace) PermissionSetSkipRequests(skip bool) {
+	w.app.Permissions.SetSkipRequests(skip)
+}
+
+// -- FileTracker --
+
+func (w *AppWorkspace) FileTrackerRecordRead(ctx context.Context, sessionID, path string) {
+	w.app.FileTracker.RecordRead(ctx, sessionID, path)
+}
+
+func (w *AppWorkspace) FileTrackerLastReadTime(ctx context.Context, sessionID, path string) time.Time {
+	return w.app.FileTracker.LastReadTime(ctx, sessionID, path)
 }
 
 ```
 
 This function is important because it defines how Crush Tutorial: Multi-Model Terminal Coding Agent with Strong Extensibility implements the patterns covered in this chapter.
 
-### `internal/session/session.go`
+### `internal/workspace/app_workspace.go`
 
-The `NewService` function in [`internal/session/session.go`](https://github.com/charmbracelet/crush/blob/HEAD/internal/session/session.go) handles a key part of this chapter's functionality:
+The `PermissionGrantPersistent` function in [`internal/workspace/app_workspace.go`](https://github.com/charmbracelet/crush/blob/HEAD/internal/workspace/app_workspace.go) handles a key part of this chapter's functionality:
 
 ```go
 }
 
-func NewService(q *db.Queries, conn *sql.DB) Service {
-	broker := pubsub.NewBroker[Session]()
-	return &service{
-		Broker: broker,
-		db:     conn,
-		q:      q,
-	}
+func (w *AppWorkspace) PermissionGrantPersistent(perm permission.PermissionRequest) {
+	w.app.Permissions.GrantPersistent(perm)
 }
 
-// CreateAgentToolSessionID creates a session ID for agent tool sessions using the format "messageID$$toolCallID"
-func (s *service) CreateAgentToolSessionID(messageID, toolCallID string) string {
-	return fmt.Sprintf("%s$$%s", messageID, toolCallID)
+func (w *AppWorkspace) PermissionDeny(perm permission.PermissionRequest) {
+	w.app.Permissions.Deny(perm)
 }
 
-// ParseAgentToolSessionID parses an agent tool session ID into its components
-func (s *service) ParseAgentToolSessionID(sessionID string) (messageID string, toolCallID string, ok bool) {
-	parts := strings.Split(sessionID, "$$")
-	if len(parts) != 2 {
-		return "", "", false
-	}
-	return parts[0], parts[1], true
+func (w *AppWorkspace) PermissionSkipRequests() bool {
+	return w.app.Permissions.SkipRequests()
 }
 
-// IsAgentToolSession checks if a session ID follows the agent tool session format
-func (s *service) IsAgentToolSession(sessionID string) bool {
-	_, _, ok := s.ParseAgentToolSessionID(sessionID)
-	return ok
+func (w *AppWorkspace) PermissionSetSkipRequests(skip bool) {
+	w.app.Permissions.SetSkipRequests(skip)
+}
+
+// -- FileTracker --
+
+func (w *AppWorkspace) FileTrackerRecordRead(ctx context.Context, sessionID, path string) {
+	w.app.FileTracker.RecordRead(ctx, sessionID, path)
+}
+
+func (w *AppWorkspace) FileTrackerLastReadTime(ctx context.Context, sessionID, path string) time.Time {
+	return w.app.FileTracker.LastReadTime(ctx, sessionID, path)
+}
+
+func (w *AppWorkspace) FileTrackerListReadFiles(ctx context.Context, sessionID string) ([]string, error) {
+	return w.app.FileTracker.ListReadFiles(ctx, sessionID)
 }
 
 ```
 
 This function is important because it defines how Crush Tutorial: Multi-Model Terminal Coding Agent with Strong Extensibility implements the patterns covered in this chapter.
 
-### `internal/session/session.go`
+### `internal/workspace/app_workspace.go`
 
-The `CreateAgentToolSessionID` function in [`internal/session/session.go`](https://github.com/charmbracelet/crush/blob/HEAD/internal/session/session.go) handles a key part of this chapter's functionality:
+The `PermissionDeny` function in [`internal/workspace/app_workspace.go`](https://github.com/charmbracelet/crush/blob/HEAD/internal/workspace/app_workspace.go) handles a key part of this chapter's functionality:
 
 ```go
-
-	// Agent tool session management
-	CreateAgentToolSessionID(messageID, toolCallID string) string
-	ParseAgentToolSessionID(sessionID string) (messageID string, toolCallID string, ok bool)
-	IsAgentToolSession(sessionID string) bool
 }
 
-type service struct {
-	*pubsub.Broker[Session]
-	db *sql.DB
-	q  *db.Queries
+func (w *AppWorkspace) PermissionDeny(perm permission.PermissionRequest) {
+	w.app.Permissions.Deny(perm)
 }
 
-func (s *service) Create(ctx context.Context, title string) (Session, error) {
-	dbSession, err := s.q.CreateSession(ctx, db.CreateSessionParams{
-		ID:    uuid.New().String(),
-		Title: title,
-	})
-	if err != nil {
-		return Session{}, err
-	}
-	session := s.fromDBItem(dbSession)
-	s.Publish(pubsub.CreatedEvent, session)
-	event.SessionCreated()
-	return session, nil
+func (w *AppWorkspace) PermissionSkipRequests() bool {
+	return w.app.Permissions.SkipRequests()
 }
 
-func (s *service) CreateTaskSession(ctx context.Context, toolCallID, parentSessionID, title string) (Session, error) {
-	dbSession, err := s.q.CreateSession(ctx, db.CreateSessionParams{
-		ID:              toolCallID,
-		ParentSessionID: sql.NullString{String: parentSessionID, Valid: true},
-		Title:           title,
+func (w *AppWorkspace) PermissionSetSkipRequests(skip bool) {
+	w.app.Permissions.SetSkipRequests(skip)
+}
+
+// -- FileTracker --
+
+func (w *AppWorkspace) FileTrackerRecordRead(ctx context.Context, sessionID, path string) {
+	w.app.FileTracker.RecordRead(ctx, sessionID, path)
+}
+
+func (w *AppWorkspace) FileTrackerLastReadTime(ctx context.Context, sessionID, path string) time.Time {
+	return w.app.FileTracker.LastReadTime(ctx, sessionID, path)
+}
+
+func (w *AppWorkspace) FileTrackerListReadFiles(ctx context.Context, sessionID string) ([]string, error) {
+	return w.app.FileTracker.ListReadFiles(ctx, sessionID)
+}
+
+// -- History --
+
+func (w *AppWorkspace) ListSessionHistory(ctx context.Context, sessionID string) ([]history.File, error) {
+	return w.app.History.ListBySession(ctx, sessionID)
+```
+
+This function is important because it defines how Crush Tutorial: Multi-Model Terminal Coding Agent with Strong Extensibility implements the patterns covered in this chapter.
+
+### `internal/workspace/app_workspace.go`
+
+The `PermissionSkipRequests` function in [`internal/workspace/app_workspace.go`](https://github.com/charmbracelet/crush/blob/HEAD/internal/workspace/app_workspace.go) handles a key part of this chapter's functionality:
+
+```go
+}
+
+func (w *AppWorkspace) PermissionSkipRequests() bool {
+	return w.app.Permissions.SkipRequests()
+}
+
+func (w *AppWorkspace) PermissionSetSkipRequests(skip bool) {
+	w.app.Permissions.SetSkipRequests(skip)
+}
+
+// -- FileTracker --
+
+func (w *AppWorkspace) FileTrackerRecordRead(ctx context.Context, sessionID, path string) {
+	w.app.FileTracker.RecordRead(ctx, sessionID, path)
+}
+
+func (w *AppWorkspace) FileTrackerLastReadTime(ctx context.Context, sessionID, path string) time.Time {
+	return w.app.FileTracker.LastReadTime(ctx, sessionID, path)
+}
+
+func (w *AppWorkspace) FileTrackerListReadFiles(ctx context.Context, sessionID string) ([]string, error) {
+	return w.app.FileTracker.ListReadFiles(ctx, sessionID)
+}
+
+// -- History --
+
+func (w *AppWorkspace) ListSessionHistory(ctx context.Context, sessionID string) ([]history.File, error) {
+	return w.app.History.ListBySession(ctx, sessionID)
+}
+
+// -- LSP --
+
 ```
 
 This function is important because it defines how Crush Tutorial: Multi-Model Terminal Coding Agent with Strong Extensibility implements the patterns covered in this chapter.
@@ -222,11 +221,11 @@ This function is important because it defines how Crush Tutorial: Multi-Model Te
 
 ```mermaid
 flowchart TD
-    A[marshalTodos]
-    B[unmarshalTodos]
-    C[NewService]
-    D[CreateAgentToolSessionID]
-    E[ParseAgentToolSessionID]
+    A[PermissionGrant]
+    B[PermissionGrantPersistent]
+    C[PermissionDeny]
+    D[PermissionSkipRequests]
+    E[PermissionSetSkipRequests]
     A --> B
     B --> C
     C --> D

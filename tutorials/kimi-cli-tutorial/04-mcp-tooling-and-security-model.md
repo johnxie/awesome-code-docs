@@ -39,129 +39,127 @@ You now know how to add MCP capabilities while preserving operator control.
 
 Next: [Chapter 5: ACP and IDE Integrations](05-acp-and-ide-integrations.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `scripts/cleanup_tmp_sessions.py`
+### `scripts/check_version_tag.py`
 
-The `dir_total_size` function in [`scripts/cleanup_tmp_sessions.py`](https://github.com/MoonshotAI/kimi-cli/blob/HEAD/scripts/cleanup_tmp_sessions.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-def dir_total_size(d: Path) -> int:
-    return sum(f.stat().st_size for f in d.rglob("*") if f.is_file())
-
-
-def main() -> None:
-    parser = argparse.ArgumentParser(
-        description=__doc__,
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-    )
-    parser.add_argument("--apply", action="store_true", help="Actually delete (default is dry-run)")
-    args = parser.parse_args()
-
-    if not METADATA_FILE.exists():
-        print(f"Metadata file not found: {METADATA_FILE}")
-        sys.exit(1)
-
-    with open(METADATA_FILE, encoding="utf-8") as f:
-        metadata = json.load(f)
-
-    work_dirs: list[dict] = metadata.get("work_dirs", [])
-
-    # --- Phase 1: tmp entries in kimi.json ---
-    tmp_entries: list[dict] = []
-    keep_entries: list[dict] = []
-    keep_hashes: set[str] = set()
-    for wd in work_dirs:
-        if is_tmp_path(wd.get("path", "")):
-            tmp_entries.append(wd)
-        else:
-            keep_entries.append(wd)
-```
-
-This function is important because it defines how Kimi CLI Tutorial: Multi-Mode Terminal Agent with MCP and ACP implements the patterns covered in this chapter.
-
-### `scripts/cleanup_tmp_sessions.py`
-
-The `main` function in [`scripts/cleanup_tmp_sessions.py`](https://github.com/MoonshotAI/kimi-cli/blob/HEAD/scripts/cleanup_tmp_sessions.py) handles a key part of this chapter's functionality:
+The `load_project_version` function in [`scripts/check_version_tag.py`](https://github.com/MoonshotAI/kimi-cli/blob/HEAD/scripts/check_version_tag.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def main() -> None:
-    parser = argparse.ArgumentParser(
-        description=__doc__,
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-    )
-    parser.add_argument("--apply", action="store_true", help="Actually delete (default is dry-run)")
+def load_project_version(pyproject_path: Path) -> str:
+    with pyproject_path.open("rb") as handle:
+        data = tomllib.load(handle)
+
+    project = data.get("project")
+    if not isinstance(project, dict):
+        raise ValueError(f"Missing [project] table in {pyproject_path}")
+
+    version = project.get("version")
+    if not isinstance(version, str) or not version:
+        raise ValueError(f"Missing project.version in {pyproject_path}")
+
+    return version
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description="Validate tag version against pyproject.")
+    parser.add_argument("--pyproject", type=Path, required=True)
+    parser.add_argument("--expected-version", required=True)
     args = parser.parse_args()
 
-    if not METADATA_FILE.exists():
-        print(f"Metadata file not found: {METADATA_FILE}")
-        sys.exit(1)
+    semver_re = re.compile(r"^\d+\.\d+\.\d+$")
+    if not semver_re.match(args.expected_version):
+        print(
+            f"error: expected version must include patch (x.y.z): {args.expected_version}",
+            file=sys.stderr,
+        )
+        return 1
 
-    with open(METADATA_FILE, encoding="utf-8") as f:
-        metadata = json.load(f)
-
-    work_dirs: list[dict] = metadata.get("work_dirs", [])
-
-    # --- Phase 1: tmp entries in kimi.json ---
-    tmp_entries: list[dict] = []
-    keep_entries: list[dict] = []
-    keep_hashes: set[str] = set()
-    for wd in work_dirs:
-        if is_tmp_path(wd.get("path", "")):
-            tmp_entries.append(wd)
-        else:
-            keep_entries.append(wd)
-            keep_hashes.add(work_dir_hash(wd["path"], wd.get("kaos", "local")))
-
-    tmp_dirs: list[Path] = []
-    for wd in tmp_entries:
+    try:
 ```
 
 This function is important because it defines how Kimi CLI Tutorial: Multi-Mode Terminal Agent with MCP and ACP implements the patterns covered in this chapter.
 
-### `web/src/App.tsx`
+### `scripts/check_version_tag.py`
 
-The `getSessionIdFromUrl` function in [`web/src/App.tsx`](https://github.com/MoonshotAI/kimi-cli/blob/HEAD/web/src/App.tsx) handles a key part of this chapter's functionality:
+The `main` function in [`scripts/check_version_tag.py`](https://github.com/MoonshotAI/kimi-cli/blob/HEAD/scripts/check_version_tag.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description="Validate tag version against pyproject.")
+    parser.add_argument("--pyproject", type=Path, required=True)
+    parser.add_argument("--expected-version", required=True)
+    args = parser.parse_args()
+
+    semver_re = re.compile(r"^\d+\.\d+\.\d+$")
+    if not semver_re.match(args.expected_version):
+        print(
+            f"error: expected version must include patch (x.y.z): {args.expected_version}",
+            file=sys.stderr,
+        )
+        return 1
+
+    try:
+        project_version = load_project_version(args.pyproject)
+    except ValueError as exc:
+        print(f"error: {exc}", file=sys.stderr)
+        return 1
+
+    if not semver_re.match(project_version):
+        print(
+            "error: project version must include patch (x.y.z): "
+            f"{args.pyproject} has {project_version}",
+            file=sys.stderr,
+        )
+        return 1
+
+    if project_version != args.expected_version:
+        print(
+```
+
+This function is important because it defines how Kimi CLI Tutorial: Multi-Mode Terminal Agent with MCP and ACP implements the patterns covered in this chapter.
+
+### `vis/src/App.tsx`
+
+The `computeStats` function in [`vis/src/App.tsx`](https://github.com/MoonshotAI/kimi-cli/blob/HEAD/vis/src/App.tsx) handles a key part of this chapter's functionality:
 
 ```tsx
- * Get session ID from URL search params
- */
-function getSessionIdFromUrl(): string | null {
-  const params = new URLSearchParams(window.location.search);
-  return params.get("session");
 }
 
-/**
- * Update URL with session ID without triggering page reload
- */
-function updateUrlWithSession(sessionId: string | null): void {
-  const url = new URL(window.location.href);
-  if (sessionId) {
-    url.searchParams.set("session", sessionId);
-  } else {
-    url.searchParams.delete("session");
-  }
-  window.history.replaceState({}, "", url.toString());
-}
+function computeStats(events: WireEvent[]): SessionStatsData {
+  let turns = 0;
+  let steps = 0;
+  let toolCalls = 0;
+  let errors = 0;
+  let compactions = 0;
+  let inputTokens = 0;
+  let outputTokens = 0;
+  let totalCacheRead = 0;
+  let totalInputOther = 0;
+  let totalCacheCreation = 0;
 
-const SIDEBAR_COLLAPSED_SIZE = 48;
-const SIDEBAR_MIN_SIZE = 200;
-const SIDEBAR_DEFAULT_SIZE = 260;
-const SIDEBAR_ANIMATION_MS = 250;
-
-function App() {
-  // Initialize theme on app startup
-  useTheme();
-
-  const sidebarElementRef = useRef<HTMLDivElement | null>(null);
-  const sidebarPanelRef = useRef<PanelImperativeHandle | null>(null);
-  const sessionsHook = useSessions();
+  for (const e of events) {
+    if (e.type === "TurnBegin") turns++;
+    if (e.type === "StepBegin") steps++;
+    if (e.type === "ToolCall") toolCalls++;
+    if (e.type === "CompactionBegin") compactions++;
+    if (isErrorEvent(e)) errors++;
+    if (e.type === "StatusUpdate") {
+      const tu = e.payload.token_usage as Record<string, number> | undefined;
+      if (tu) {
+        inputTokens += (tu.input_other ?? 0) + (tu.input_cache_read ?? 0) + (tu.input_cache_creation ?? 0);
+        outputTokens += tu.output ?? 0;
+        totalCacheRead += tu.input_cache_read ?? 0;
+        totalInputOther += tu.input_other ?? 0;
+        totalCacheCreation += tu.input_cache_creation ?? 0;
+      }
+    }
+    // Count tokens from SubagentEvent-wrapped StatusUpdate
+    if (e.type === "SubagentEvent") {
 ```
 
 This function is important because it defines how Kimi CLI Tutorial: Multi-Mode Terminal Agent with MCP and ACP implements the patterns covered in this chapter.
@@ -171,9 +169,9 @@ This function is important because it defines how Kimi CLI Tutorial: Multi-Mode 
 
 ```mermaid
 flowchart TD
-    A[dir_total_size]
+    A[load_project_version]
     B[main]
-    C[getSessionIdFromUrl]
+    C[computeStats]
     A --> B
     B --> C
 ```

@@ -44,9 +44,89 @@ You now have a practical, repeatable UI workflow for MCP server debugging.
 
 Next: [Chapter 4: CLI Mode, Automation, and CI Loops](04-cli-mode-automation-and-ci-loops.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
+
+### `cli/src/transport.ts`
+
+The `createStdioTransport` function in [`cli/src/transport.ts`](https://github.com/modelcontextprotocol/inspector/blob/HEAD/cli/src/transport.ts) handles a key part of this chapter's functionality:
+
+```ts
+};
+
+function createStdioTransport(options: TransportOptions): Transport {
+  let args: string[] = [];
+
+  if (options.args !== undefined) {
+    args = options.args;
+  }
+
+  const processEnv: Record<string, string> = {};
+
+  for (const [key, value] of Object.entries(process.env)) {
+    if (value !== undefined) {
+      processEnv[key] = value;
+    }
+  }
+
+  const defaultEnv = getDefaultEnvironment();
+
+  const env: Record<string, string> = {
+    ...defaultEnv,
+    ...processEnv,
+  };
+
+  const { cmd: actualCommand, args: actualArgs } = findActualExecutable(
+    options.command ?? "",
+    args,
+  );
+
+  return new StdioClientTransport({
+    command: actualCommand,
+    args: actualArgs,
+```
+
+This function is important because it defines how MCP Inspector Tutorial: Debugging and Validating MCP Servers implements the patterns covered in this chapter.
+
+### `cli/src/transport.ts`
+
+The `createTransport` function in [`cli/src/transport.ts`](https://github.com/modelcontextprotocol/inspector/blob/HEAD/cli/src/transport.ts) handles a key part of this chapter's functionality:
+
+```ts
+}
+
+export function createTransport(options: TransportOptions): Transport {
+  const { transportType } = options;
+
+  try {
+    if (transportType === "stdio") {
+      return createStdioTransport(options);
+    }
+
+    // If not STDIO, then it must be either SSE or HTTP.
+    if (!options.url) {
+      throw new Error("URL must be provided for SSE or HTTP transport types.");
+    }
+    const url = new URL(options.url);
+
+    if (transportType === "sse") {
+      const transportOptions = options.headers
+        ? {
+            requestInit: {
+              headers: options.headers,
+            },
+          }
+        : undefined;
+      return new SSEClientTransport(url, transportOptions);
+    }
+
+    if (transportType === "http") {
+      const transportOptions = options.headers
+        ? {
+            requestInit: {
+              headers: options.headers,
+```
+
+This function is important because it defines how MCP Inspector Tutorial: Debugging and Validating MCP Servers implements the patterns covered in this chapter.
 
 ### `client/bin/start.js`
 
@@ -89,96 +169,14 @@ async function startDevServer(serverOptions) {
 
 This function is important because it defines how MCP Inspector Tutorial: Debugging and Validating MCP Servers implements the patterns covered in this chapter.
 
-### `client/bin/start.js`
-
-The `getClientUrl` function in [`client/bin/start.js`](https://github.com/modelcontextprotocol/inspector/blob/HEAD/client/bin/start.js) handles a key part of this chapter's functionality:
-
-```js
-}
-
-function getClientUrl(port, authDisabled, sessionToken, serverPort) {
-  const host = process.env.HOST || "localhost";
-  const baseUrl = `http://${host}:${port}`;
-
-  const params = new URLSearchParams();
-  if (serverPort && serverPort !== DEFAULT_MCP_PROXY_LISTEN_PORT) {
-    params.set("MCP_PROXY_PORT", serverPort);
-  }
-  if (!authDisabled) {
-    params.set("MCP_PROXY_AUTH_TOKEN", sessionToken);
-  }
-  return params.size > 0 ? `${baseUrl}/?${params.toString()}` : baseUrl;
-}
-
-async function startDevServer(serverOptions) {
-  const {
-    SERVER_PORT,
-    CLIENT_PORT,
-    sessionToken,
-    envVars,
-    abort,
-    transport,
-    serverUrl,
-  } = serverOptions;
-  const serverCommand = "npx";
-  const serverArgs = ["tsx", "watch", "--clear-screen=false", "src/index.ts"];
-  const isWindows = process.platform === "win32";
-
-  const spawnOptions = {
-    cwd: resolve(__dirname, "../..", "server"),
-```
-
-This function is important because it defines how MCP Inspector Tutorial: Debugging and Validating MCP Servers implements the patterns covered in this chapter.
-
-### `client/bin/start.js`
-
-The `startDevServer` function in [`client/bin/start.js`](https://github.com/modelcontextprotocol/inspector/blob/HEAD/client/bin/start.js) handles a key part of this chapter's functionality:
-
-```js
-}
-
-async function startDevServer(serverOptions) {
-  const {
-    SERVER_PORT,
-    CLIENT_PORT,
-    sessionToken,
-    envVars,
-    abort,
-    transport,
-    serverUrl,
-  } = serverOptions;
-  const serverCommand = "npx";
-  const serverArgs = ["tsx", "watch", "--clear-screen=false", "src/index.ts"];
-  const isWindows = process.platform === "win32";
-
-  const spawnOptions = {
-    cwd: resolve(__dirname, "../..", "server"),
-    env: {
-      ...process.env,
-      SERVER_PORT,
-      CLIENT_PORT,
-      MCP_PROXY_AUTH_TOKEN: sessionToken,
-      MCP_ENV_VARS: JSON.stringify(envVars),
-      ...(transport ? { MCP_TRANSPORT: transport } : {}),
-      ...(serverUrl ? { MCP_SERVER_URL: serverUrl } : {}),
-    },
-    signal: abort.signal,
-    echoOutput: true,
-  };
-
-  // For Windows, we need to ignore stdin to simulate < NUL
-```
-
-This function is important because it defines how MCP Inspector Tutorial: Debugging and Validating MCP Servers implements the patterns covered in this chapter.
-
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[delay]
-    B[getClientUrl]
-    C[startDevServer]
+    A[createStdioTransport]
+    B[createTransport]
+    C[delay]
     A --> B
     B --> C
 ```

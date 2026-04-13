@@ -72,8 +72,6 @@ You now have a full production-oriented lifecycle for adopting and maintaining T
 
 Natural next step: cross-link this with your workspace/Genesis governance patterns from [Taskade Tutorial](../taskade-tutorial/).
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `packages/server/src/cli.ts`

@@ -663,11 +663,23 @@ Under the hood, `Chapter 3: JSON Schema & Structured Data Generation` usually fo
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
+## JSON Schema Generation Flow
+
+```mermaid
+flowchart TD
+    A[JSON Schema] --> B[Schema Parser]
+    B --> C[Build JSON FSM]
+    C --> D[Token Masks for Each Key/Value Position]
+    D --> E[LLM Sampling]
+    E --> F[Valid JSON Object]
+    F --> G[Schema Validation Check]
+```
+
 ## Source Walkthrough
 
 Use the following upstream sources to verify implementation details while reading this chapter:
 
-- [View Repo](https://github.com/outlines-dev/outlines)
+- [View Repo](https://github.com/dottxt-ai/outlines)
   Why it matters: authoritative reference on `View Repo` (github.com).
 
 Suggested trace strategy:

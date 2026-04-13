@@ -40,9 +40,51 @@ You now can improve Context7 retrieval quality from the library-owner side.
 
 Next: [Chapter 7: Troubleshooting and Local Development](07-troubleshooting-and-local-development.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
+
+### `package.json`
+
+The `package` module in [`package.json`](https://github.com/upstash/context7/blob/HEAD/package.json) handles a key part of this chapter's functionality:
+
+```json
+{
+  "name": "@upstash/context7",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Context7 monorepo - Documentation tools and SDKs",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "pnpm -r run build",
+    "build:sdk": "pnpm --filter @upstash/context7-sdk build",
+    "build:mcp": "pnpm --filter @upstash/context7-mcp build",
+    "build:ai-sdk": "pnpm --filter @upstash/context7-tools-ai-sdk build",
+    "typecheck": "pnpm -r run typecheck",
+    "test": "pnpm -r run test",
+    "test:sdk": "pnpm --filter @upstash/context7-sdk test",
+    "test:tools-ai-sdk": "pnpm --filter @upstash/context7-tools-ai-sdk test",
+    "clean": "pnpm -r run clean && rm -rf node_modules",
+    "lint": "pnpm -r run lint",
+    "lint:check": "pnpm -r run lint:check",
+    "format": "pnpm -r run format",
+    "format:check": "pnpm -r run format:check",
+    "release": "pnpm build && changeset publish",
+    "release:snapshot": "changeset version --snapshot canary && pnpm build && changeset publish --tag canary --no-git-tag"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/upstash/context7.git"
+  },
+  "keywords": [
+    "modelcontextprotocol",
+    "mcp",
+    "context7",
+    "vibe-coding",
+    "developer tools",
+```
+
+This module is important because it defines how Context7 Tutorial: Live Documentation Context for Coding Agents implements the patterns covered in this chapter.
 
 ### `server.json`
 
@@ -88,102 +130,12 @@ The `server` module in [`server.json`](https://github.com/upstash/context7/blob/
 
 This module is important because it defines how Context7 Tutorial: Live Documentation Context for Coding Agents implements the patterns covered in this chapter.
 
-### `docs/docs.json`
-
-The `docs` module in [`docs/docs.json`](https://github.com/upstash/context7/blob/HEAD/docs/docs.json) handles a key part of this chapter's functionality:
-
-```json
-{
-  "$schema": "https://mintlify.com/docs.json",
-  "theme": "mint",
-  "name": "Context7 MCP",
-  "description": "Up-to-date code docs for any prompt.",
-  "colors": {
-    "primary": "#10B981",
-    "light": "#ECFDF5",
-    "dark": "#064E3B"
-  },
-  "contextual": {
-    "options": [
-      "copy",
-      "view",
-      "chatgpt",
-      "claude"
-    ]
-  },
-  "navigation": {
-    "groups": [
-      {
-        "group": "Overview",
-        "pages": [
-          "overview",
-          "installation",
-          "plans-pricing",
-          "clients/cli",
-          "adding-libraries",
-          "api-guide",
-          "skills",
-          "tips"
-        ]
-      },
-      {
-        "group": "How To",
-```
-
-This module is important because it defines how Context7 Tutorial: Live Documentation Context for Coding Agents implements the patterns covered in this chapter.
-
-### `eslint.config.js`
-
-The `eslint.config` module in [`eslint.config.js`](https://github.com/upstash/context7/blob/HEAD/eslint.config.js) handles a key part of this chapter's functionality:
-
-```js
-import tseslint from "typescript-eslint";
-import eslintPluginPrettier from "eslint-plugin-prettier";
-
-export default tseslint.config({
-  // Base ESLint configuration
-  ignores: ["node_modules/**", "build/**", "dist/**", ".git/**", ".github/**"],
-  languageOptions: {
-    ecmaVersion: 2020,
-    sourceType: "module",
-    parser: tseslint.parser,
-    parserOptions: {},
-    globals: {
-      // Add Node.js globals
-      process: "readonly",
-      require: "readonly",
-      module: "writable",
-      console: "readonly",
-    },
-  },
-  // Settings for all files
-  linterOptions: {
-    reportUnusedDisableDirectives: true,
-  },
-  // Apply ESLint recommended rules
-  extends: [tseslint.configs.recommended],
-  plugins: {
-    prettier: eslintPluginPrettier,
-  },
-  rules: {
-    // TypeScript rules
-    "@typescript-eslint/explicit-module-boundary-types": "off",
-    "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
-    "@typescript-eslint/no-explicit-any": "warn",
-    // Prettier integration
-    "prettier/prettier": "error",
-```
-
-This module is important because it defines how Context7 Tutorial: Live Documentation Context for Coding Agents implements the patterns covered in this chapter.
-
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[server]
-    B[docs]
-    C[eslint.config]
+    A[package]
+    B[server]
     A --> B
-    B --> C
 ```

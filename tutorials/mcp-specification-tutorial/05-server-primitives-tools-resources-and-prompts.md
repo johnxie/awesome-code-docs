@@ -49,8 +49,6 @@ You now have a practical design framework for server primitives that is easier f
 
 Next: [Chapter 6: Client Primitives: Roots, Sampling, Elicitation, and Tasks](06-client-primitives-roots-sampling-elicitation-and-tasks.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `schema/2025-03-26/schema.ts`

@@ -47,170 +47,168 @@ You now understand the core behavioral pattern that drives Sweep output quality.
 
 Next: [Chapter 7: Limitations, Risk Controls, and Safe Scope](07-limitations-risk-controls-and-safe-scope.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `sweepai/cli.py`
+### `sweepai/api.py`
 
-The `load_config` function in [`sweepai/cli.py`](https://github.com/sweepai/sweep/blob/HEAD/sweepai/cli.py) handles a key part of this chapter's functionality:
+The `progress` function in [`sweepai/api.py`](https://github.com/sweepai/sweep/blob/HEAD/sweepai/api.py) handles a key part of this chapter's functionality:
 
 ```py
+from sweepai.utils.github_utils import CURRENT_USERNAME, get_github_client
+from sweepai.utils.hash import verify_signature
+from sweepai.utils.progress import TicketProgress
+from sweepai.utils.safe_pqueue import SafePriorityQueue
+from sweepai.utils.str_utils import BOT_SUFFIX, get_hash
+from sweepai.utils.validate_license import validate_license
+from sweepai.web.events import (
+    CheckRunCompleted,
+    CommentCreatedRequest,
+    IssueCommentRequest,
+    IssueRequest,
+    PREdited,
+    PRLabeledRequest,
+    PRRequest,
+)
+from sweepai.web.health import health_check
+import sentry_sdk
+from sentry_sdk import set_user
 
+version = time.strftime("%y.%m.%d.%H")
 
-def load_config():
-    if os.path.exists(config_path):
-        cprint(f"\nLoading configuration from {config_path}", style="yellow")
-        with open(config_path, "r") as f:
-            config = json.load(f)
-        for key, value in config.items():
-            try:
-                os.environ[key] = value
-            except Exception as e:
-                cprint(f"Error loading config: {e}, skipping.", style="yellow")
-        os.environ["POSTHOG_DISTINCT_ID"] = str(os.environ.get("POSTHOG_DISTINCT_ID", ""))
-        # Should contain:
-        # GITHUB_PAT
-        # OPENAI_API_KEY
-        # ANTHROPIC_API_KEY
-        # VOYAGE_API_KEY
-        # POSTHOG_DISTINCT_ID
+if SENTRY_URL:
+    sentry_sdk.init(
+        dsn=SENTRY_URL,
+        traces_sample_rate=1.0,
+        profiles_sample_rate=1.0,
+        release=version
+    )
 
+app = FastAPI()
 
-def fetch_issue_request(issue_url: str, __version__: str = "0"):
-    (
-        protocol_name,
-        _,
-        _base_url,
-        org_name,
-        repo_name,
-        _issues,
-        issue_number,
-    ) = issue_url.split("/")
-    cprint("Fetching installation ID...")
+app.mount("/chat", chat_app)
 ```
 
 This function is important because it defines how Sweep Tutorial: Issue-to-PR AI Coding Workflows on GitHub implements the patterns covered in this chapter.
 
-### `sweepai/cli.py`
+### `sweepai/api.py`
 
-The `fetch_issue_request` function in [`sweepai/cli.py`](https://github.com/sweepai/sweep/blob/HEAD/sweepai/cli.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-def fetch_issue_request(issue_url: str, __version__: str = "0"):
-    (
-        protocol_name,
-        _,
-        _base_url,
-        org_name,
-        repo_name,
-        _issues,
-        issue_number,
-    ) = issue_url.split("/")
-    cprint("Fetching installation ID...")
-    installation_id = -1
-    cprint("Fetching access token...")
-    _token, g = get_github_client(installation_id)
-    g: Github = g
-    cprint("Fetching repo...")
-    issue = g.get_repo(f"{org_name}/{repo_name}").get_issue(int(issue_number))
-
-    issue_request = IssueRequest(
-        action="labeled",
-        issue=IssueRequest.Issue(
-            title=issue.title,
-            number=int(issue_number),
-            html_url=issue_url,
-            user=IssueRequest.Issue.User(
-                login=issue.user.login,
-                type="User",
-            ),
-            body=issue.body,
-            labels=[
-```
-
-This function is important because it defines how Sweep Tutorial: Issue-to-PR AI Coding Workflows on GitHub implements the patterns covered in this chapter.
-
-### `sweepai/cli.py`
-
-The `pascal_to_snake` function in [`sweepai/cli.py`](https://github.com/sweepai/sweep/blob/HEAD/sweepai/cli.py) handles a key part of this chapter's functionality:
+The `handle_github_webhook` function in [`sweepai/api.py`](https://github.com/sweepai/sweep/blob/HEAD/sweepai/api.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def pascal_to_snake(name):
-    return "".join(["_" + i.lower() if i.isupper() else i for i in name]).lstrip("_")
+def handle_github_webhook(event_payload):
+    handle_event(event_payload.get("request"), event_payload.get("event"))
 
 
-def get_event_type(event: Event | IssueEvent):
-    if isinstance(event, IssueEvent):
-        return "issues"
-    else:
-        return pascal_to_snake(event.type)[: -len("_event")]
+def handle_request(request_dict, event=None):
+    """So it can be exported to the listen endpoint."""
+    with logger.contextualize(tracking_id="main", env=ENV):
+        action = request_dict.get("action")
 
-@app.command()
-def test():
-    cprint("Sweep AI is installed correctly and ready to go!", style="yellow")
+        try:
+            handle_github_webhook(
+                {
+                    "request": request_dict,
+                    "event": event,
+                }
+            )
+        except Exception as e:
+            logger.exception(str(e))
+        logger.info(f"Done handling {event}, {action}")
+        return {"success": True}
 
-@app.command()
-def watch(
-    repo_name: str,
-    debug: bool = False,
-    record_events: bool = False,
-    max_events: int = 30,
+
+# @app.post("/")
+async def validate_signature(
+    request: Request,
+    x_hub_signature: Optional[str] = Header(None, alias="X-Hub-Signature-256")
 ):
-    if not os.path.exists(config_path):
-        cprint(
-            f"\nConfiguration not found at {config_path}. Please run [green]'sweep init'[/green] to initialize the CLI.\n",
-            style="yellow",
-        )
-        raise ValueError(
-            "Configuration not found, please run 'sweep init' to initialize the CLI."
-        )
-    posthog_capture(
+    payload_body = await request.body()
+    if not verify_signature(payload_body=payload_body, signature_header=x_hub_signature):
+        raise HTTPException(status_code=403, detail="Request signatures didn't match!")
 ```
 
 This function is important because it defines how Sweep Tutorial: Issue-to-PR AI Coding Workflows on GitHub implements the patterns covered in this chapter.
 
-### `sweepai/cli.py`
+### `sweepai/api.py`
 
-The `get_event_type` function in [`sweepai/cli.py`](https://github.com/sweepai/sweep/blob/HEAD/sweepai/cli.py) handles a key part of this chapter's functionality:
+The `handle_request` function in [`sweepai/api.py`](https://github.com/sweepai/sweep/blob/HEAD/sweepai/api.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def get_event_type(event: Event | IssueEvent):
-    if isinstance(event, IssueEvent):
-        return "issues"
-    else:
-        return pascal_to_snake(event.type)[: -len("_event")]
+def handle_request(request_dict, event=None):
+    """So it can be exported to the listen endpoint."""
+    with logger.contextualize(tracking_id="main", env=ENV):
+        action = request_dict.get("action")
 
-@app.command()
-def test():
-    cprint("Sweep AI is installed correctly and ready to go!", style="yellow")
+        try:
+            handle_github_webhook(
+                {
+                    "request": request_dict,
+                    "event": event,
+                }
+            )
+        except Exception as e:
+            logger.exception(str(e))
+        logger.info(f"Done handling {event}, {action}")
+        return {"success": True}
 
-@app.command()
-def watch(
-    repo_name: str,
-    debug: bool = False,
-    record_events: bool = False,
-    max_events: int = 30,
+
+# @app.post("/")
+async def validate_signature(
+    request: Request,
+    x_hub_signature: Optional[str] = Header(None, alias="X-Hub-Signature-256")
 ):
-    if not os.path.exists(config_path):
-        cprint(
-            f"\nConfiguration not found at {config_path}. Please run [green]'sweep init'[/green] to initialize the CLI.\n",
-            style="yellow",
-        )
-        raise ValueError(
-            "Configuration not found, please run 'sweep init' to initialize the CLI."
-        )
-    posthog_capture(
-        "sweep_watch_started",
-        {
-            "repo": repo_name,
-            "debug": debug,
+    payload_body = await request.body()
+    if not verify_signature(payload_body=payload_body, signature_header=x_hub_signature):
+        raise HTTPException(status_code=403, detail="Request signatures didn't match!")
+
+@app.post("/", dependencies=[Depends(validate_signature)])
+def webhook(
+    request_dict: dict = Body(...),
+```
+
+This function is important because it defines how Sweep Tutorial: Issue-to-PR AI Coding Workflows on GitHub implements the patterns covered in this chapter.
+
+### `sweepai/api.py`
+
+The `validate_signature` function in [`sweepai/api.py`](https://github.com/sweepai/sweep/blob/HEAD/sweepai/api.py) handles a key part of this chapter's functionality:
+
+```py
+
+# @app.post("/")
+async def validate_signature(
+    request: Request,
+    x_hub_signature: Optional[str] = Header(None, alias="X-Hub-Signature-256")
+):
+    payload_body = await request.body()
+    if not verify_signature(payload_body=payload_body, signature_header=x_hub_signature):
+        raise HTTPException(status_code=403, detail="Request signatures didn't match!")
+
+@app.post("/", dependencies=[Depends(validate_signature)])
+def webhook(
+    request_dict: dict = Body(...),
+    x_github_event: Optional[str] = Header(None, alias="X-GitHub-Event"),
+):
+    """Handle a webhook request from GitHub"""
+    with logger.contextualize(tracking_id="main", env=ENV):
+        action = request_dict.get("action", None)
+
+        logger.info(f"Received event: {x_github_event}, {action}")
+        return handle_request(request_dict, event=x_github_event)
+
+@app.post("/jira")
+def jira_webhook(
+    request_dict: dict = Body(...),
+) -> None:
+    def call_jira_ticket(*args, **kwargs):
+        thread = threading.Thread(target=handle_jira_ticket, args=args, kwargs=kwargs)
+        thread.start()
+    call_jira_ticket(event=request_dict)
+
+# Set up cronjob for this
 ```
 
 This function is important because it defines how Sweep Tutorial: Issue-to-PR AI Coding Workflows on GitHub implements the patterns covered in this chapter.
@@ -220,10 +218,10 @@ This function is important because it defines how Sweep Tutorial: Issue-to-PR AI
 
 ```mermaid
 flowchart TD
-    A[load_config]
-    B[fetch_issue_request]
-    C[pascal_to_snake]
-    D[get_event_type]
+    A[progress]
+    B[handle_github_webhook]
+    C[handle_request]
+    D[validate_signature]
     A --> B
     B --> C
     C --> D

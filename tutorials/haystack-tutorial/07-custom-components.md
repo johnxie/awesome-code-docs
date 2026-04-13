@@ -1149,6 +1149,20 @@ With custom components mastered, you're ready for:
 
 *Congratulations! You've now completed the comprehensive Haystack tutorial with 8 full chapters covering everything from basic search to advanced custom components. You have the knowledge and skills to build sophisticated search systems and extend Haystack for specialized use cases.*
 
+## Custom Component Architecture
+
+```mermaid
+flowchart TD
+    A[Custom component class] --> B[Decorate with @component]
+    B --> C[Define run method]
+    C --> D[Annotate inputs with Input type]
+    C --> E[Annotate outputs with Output type]
+    D --> F[Component registered in pipeline]
+    E --> F
+    F --> G[Pipeline.add_component]
+    G --> H[Connected to other components]
+```
+
 ## What Problem Does This Solve?
 
 Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `self`, `content`, `text` so behavior stays predictable as complexity grows.

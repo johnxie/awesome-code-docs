@@ -13,6 +13,19 @@ Welcome to **Chapter 6: Vector Embeddings for RAG**. In this part of **LocalAI T
 
 > Generate embeddings locally and build semantic search applications with LocalAI.
 
+## Embeddings and RAG Flow
+
+```mermaid
+flowchart LR
+    TEXT[Text Input] --> API[POST /v1/embeddings\nmodel: all-minilm-l6-v2]
+    API --> EMB[Embedding Model\nSentence Transformers]
+    EMB --> VEC[Float Vector\n384 or 768 dims]
+    VEC --> VS[Vector Store\nChroma / Qdrant]
+    VS --> SEARCH[Similarity Search]
+    SEARCH --> CTX[Retrieved Context]
+    CTX --> LLM[LLM Generation\n/v1/chat/completions]
+```
+
 ## Overview
 
 LocalAI supports various embedding models for generating vector representations of text, enabling semantic search and RAG (Retrieval-Augmented Generation) applications.
@@ -538,14 +551,22 @@ When debugging, walk this sequence in order and confirm each stage has explicit 
 
 Use the following upstream sources to verify implementation details while reading this chapter:
 
-- [View Repo](https://github.com/mudler/LocalAI)
-  Why it matters: authoritative reference on `View Repo` (github.com).
-- [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
-  Why it matters: authoritative reference on `Awesome Code Docs` (github.com).
+- [`core/http/endpoints/openai/embeddings.go`](https://github.com/mudler/LocalAI/blob/master/core/http/endpoints/openai/embeddings.go)
+  HTTP handler for `POST /v1/embeddings`. Accepts the OpenAI embeddings request format (input text, model name), dispatches to the embeddings backend, and returns float vector arrays in the OpenAI API response shape.
+
+- [`core/backend/embeddings.go`](https://github.com/mudler/LocalAI/blob/master/core/backend/embeddings.go)
+  Embeddings backend dispatcher. Routes embedding requests to the appropriate backend - llama.cpp (which supports embedding generation for GGUF models), bert.cpp, or Python sentence-transformers via gRPC.
+
+- [`backend/python/sentencetransformers/`](https://github.com/mudler/LocalAI/tree/master/backend/python/sentencetransformers)
+  Python backend for HuggingFace sentence-transformers. Enables high-quality embedding models like `all-MiniLM-L6-v2`, `BGE`, and `E5` without converting to GGUF format.
+
+- [`core/config/backend_config.go`](https://github.com/mudler/LocalAI/blob/master/core/config/backend_config.go)
+  `BackendConfig.Embeddings` field enables embedding mode for a model. When set to `true`, the model is treated as an embedding-only model and the `/v1/embeddings` endpoint is activated for it.
 
 Suggested trace strategy:
-- search upstream code for `self` and `documents` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+- Trace `core/http/endpoints/openai/embeddings.go` → `core/backend/embeddings.go` to follow an embedding request to backend dispatch
+- Compare llama.cpp embedding mode (GGUF model with `embeddings: true`) vs the Python sentence-transformers backend for model support and performance tradeoffs
+- Check model YAML config `embeddings: true` flag to understand how LocalAI selects the embedding pipeline for a given model name
 
 ## Chapter Connections
 

@@ -38,107 +38,51 @@ You now understand how BabyAGI's three-agent loop operates as a coherent autonom
 
 Next: [Chapter 3: LLM Backend Integration and Configuration](03-llm-backend-integration-and-configuration.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `babyagi/__init__.py`
+### `examples/custom_flask_example.py`
 
-The `__getattr__` function in [`babyagi/__init__.py`](https://github.com/yoheinakajima/babyagi/blob/HEAD/babyagi/__init__.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-def __getattr__(name):
-    """
-    Dynamic attribute access for the babyagi module.
-    If a function with the given name exists in the database,
-    return a callable that executes the function via the executor.
-    """
-    try:
-        if _func_instance.get_function(name):
-            # Return a callable that executes the function via the executor
-            return lambda *args, **kwargs: _func_instance.executor.execute(name, *args, **kwargs)
-    except Exception as e:
-        pass
-    raise AttributeError(f"module '{__name__}' has no attribute '{name}'")
-
-
-# Auto-load default function packs when babyagi is imported
-try:
-    print("Attempting to load default function packs...")
-    # Uncomment if needed
-    _func_instance.load_function_pack('default/default_functions')
-    _func_instance.load_function_pack('default/ai_functions')
-    _func_instance.load_function_pack('default/os')
-    _func_instance.load_function_pack('default/function_calling_chat')
-except Exception as e:
-    print(f"Error loading default function packs: {e}")
-    traceback.print_exc()
-
-print("babyagi/__init__.py loaded")
-
-```
-
-This function is important because it defines how BabyAGI Tutorial: The Original Autonomous AI Task Agent Framework implements the patterns covered in this chapter.
-
-### `examples/simple_example.py`
-
-The `world` function in [`examples/simple_example.py`](https://github.com/yoheinakajima/babyagi/blob/HEAD/examples/simple_example.py) handles a key part of this chapter's functionality:
+The `integrated_function` function in [`examples/custom_flask_example.py`](https://github.com/yoheinakajima/babyagi/blob/HEAD/examples/custom_flask_example.py) handles a key part of this chapter's functionality:
 
 ```py
 
-@babyagi.register_function()
-def world():
-    return "world"
+@register_function()
+def integrated_function():
+    return "Hello from integrated function!"
 
-@babyagi.register_function(dependencies=["world"])
-def hello_world():
-    x = world()
-    return f"Hello {x}!"
-
-print(hello_world())
+load_functions('plugins/firecrawl')
 
 @app.route('/')
 def home():
-    return f"Welcome to the main app. Visit <a href=\"/dashboard\">/dashboard</a> for BabyAGI dashboard."
+    return "Welcome to the main app. Visit /dashboard for BabyAGI dashboard."
 
 if __name__ == "__main__":
-    app = babyagi.create_app('/dashboard')
     app.run(host='0.0.0.0', port=8080)
 
 ```
 
 This function is important because it defines how BabyAGI Tutorial: The Original Autonomous AI Task Agent Framework implements the patterns covered in this chapter.
 
-### `examples/simple_example.py`
+### `examples/custom_flask_example.py`
 
-The `hello_world` function in [`examples/simple_example.py`](https://github.com/yoheinakajima/babyagi/blob/HEAD/examples/simple_example.py) handles a key part of this chapter's functionality:
+The `home` function in [`examples/custom_flask_example.py`](https://github.com/yoheinakajima/babyagi/blob/HEAD/examples/custom_flask_example.py) handles a key part of this chapter's functionality:
 
 ```py
 
-@babyagi.register_function(dependencies=["world"])
-def hello_world():
-    x = world()
-    return f"Hello {x}!"
-
-print(hello_world())
-
 @app.route('/')
 def home():
-    return f"Welcome to the main app. Visit <a href=\"/dashboard\">/dashboard</a> for BabyAGI dashboard."
+    return "Welcome to the main app. Visit /dashboard for BabyAGI dashboard."
 
 if __name__ == "__main__":
-    app = babyagi.create_app('/dashboard')
     app.run(host='0.0.0.0', port=8080)
 
 ```
 
 This function is important because it defines how BabyAGI Tutorial: The Original Autonomous AI Task Agent Framework implements the patterns covered in this chapter.
 
-### `examples/simple_example.py`
+### `main.py`
 
-The `home` function in [`examples/simple_example.py`](https://github.com/yoheinakajima/babyagi/blob/HEAD/examples/simple_example.py) handles a key part of this chapter's functionality:
+The `home` function in [`main.py`](https://github.com/yoheinakajima/babyagi/blob/HEAD/main.py) handles a key part of this chapter's functionality:
 
 ```py
 
@@ -147,9 +91,49 @@ def home():
     return f"Welcome to the main app. Visit <a href=\"/dashboard\">/dashboard</a> for BabyAGI dashboard."
 
 if __name__ == "__main__":
-    app = babyagi.create_app('/dashboard')
     app.run(host='0.0.0.0', port=8080)
 
+```
+
+This function is important because it defines how BabyAGI Tutorial: The Original Autonomous AI Task Agent Framework implements the patterns covered in this chapter.
+
+### `setup.py`
+
+The `parse_requirements` function in [`setup.py`](https://github.com/yoheinakajima/babyagi/blob/HEAD/setup.py) handles a key part of this chapter's functionality:
+
+```py
+
+# Read requirements from requirements.txt
+def parse_requirements(filename):
+    with open(filename, "r") as f:
+        lines = f.readlines()
+    # Remove comments and empty lines
+    return [line.strip() for line in lines if line.strip() and not line.startswith("#")]
+
+setup(
+    name="babyagi",  # Ensure this is the desired package name
+    version="0.1.2",  # Update this version appropriately
+    author="Yohei Nakajima",
+    author_email="babyagi@untapped.vc",
+    description="An experimental prototype framework for building self building autonomous agents.",
+    long_description=  long_description,
+    long_description_content_type="text/markdown",
+    url="https://github.com/yoheinakajima/babyagi",  # Update if necessary
+    packages=find_packages(),
+    include_package_data=True,  # Include package data as specified in MANIFEST.in
+    classifiers=[
+        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
+    ],
+    python_requires='>=3.6',
+    install_requires=parse_requirements("requirements.txt"),
+    entry_points={
+        'console_scripts': [
+            'babyagi=babyagi.main:main',  # Example entry point
+        ],
+    },
+    keywords="AGI, AI, Framework, Baby AGI",
 ```
 
 This function is important because it defines how BabyAGI Tutorial: The Original Autonomous AI Task Agent Framework implements the patterns covered in this chapter.
@@ -159,11 +143,11 @@ This function is important because it defines how BabyAGI Tutorial: The Original
 
 ```mermaid
 flowchart TD
-    A[__getattr__]
-    B[world]
-    C[hello_world]
-    D[home]
-    E[home]
+    A[integrated_function]
+    B[home]
+    C[home]
+    D[parse_requirements]
+    E[create_api_blueprint]
     A --> B
     B --> C
     C --> D

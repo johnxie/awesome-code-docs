@@ -38,183 +38,181 @@ You now have a working stdio baseline for .NET MCP development.
 
 Next: [Chapter 3: ASP.NET Core HTTP Transport and Session Routing](03-aspnetcore-http-transport-and-session-routing.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `src/ModelContextProtocol.Core/AIContentExtensions.cs`
+### `src/ModelContextProtocol.Core/UriTemplate.cs`
 
-The `AIContentExtensions` class in [`src/ModelContextProtocol.Core/AIContentExtensions.cs`](https://github.com/modelcontextprotocol/csharp-sdk/blob/HEAD/src/ModelContextProtocol.Core/AIContentExtensions.cs) handles a key part of this chapter's functionality:
+The `UriTemplateComparer` class in [`src/ModelContextProtocol.Core/UriTemplate.cs`](https://github.com/modelcontextprotocol/csharp-sdk/blob/HEAD/src/ModelContextProtocol.Core/UriTemplate.cs) handles a key part of this chapter's functionality:
 
 ```cs
-/// from the Microsoft.Extensions.AI namespace.
-/// </remarks>
-public static class AIContentExtensions
+    /// there to distinguish between different templates.
+    /// </summary>
+    internal sealed class UriTemplateComparer : IEqualityComparer<string>
+    {
+        public static IEqualityComparer<string> Instance { get; } = new UriTemplateComparer();
+
+        public bool Equals(string? uriTemplate1, string? uriTemplate2)
+        {
+            if (TryParseAsNonTemplatedUri(uriTemplate1, out Uri? uri1) &&
+                TryParseAsNonTemplatedUri(uriTemplate2, out Uri? uri2))
+            {
+                return uri1 == uri2;
+            }
+
+            return string.Equals(uriTemplate1, uriTemplate2, StringComparison.Ordinal);
+        }
+
+        public int GetHashCode([DisallowNull] string uriTemplate)
+        {
+            if (TryParseAsNonTemplatedUri(uriTemplate, out Uri? uri))
+            {
+                return uri.GetHashCode();
+            }
+            else
+            {
+                return StringComparer.Ordinal.GetHashCode(uriTemplate);
+            }
+        }
+
+        private static bool TryParseAsNonTemplatedUri(string? uriTemplate, [NotNullWhen(true)] out Uri? uri)
+        {
+            if (uriTemplate is null || uriTemplate.Contains('{'))
+```
+
+This class is important because it defines how MCP C# SDK Tutorial: Production MCP in .NET with Hosting, ASP.NET Core, and Task Workflows implements the patterns covered in this chapter.
+
+### `src/ModelContextProtocol.Core/McpJsonUtilities.cs`
+
+The `McpJsonUtilities` class in [`src/ModelContextProtocol.Core/McpJsonUtilities.cs`](https://github.com/modelcontextprotocol/csharp-sdk/blob/HEAD/src/ModelContextProtocol.Core/McpJsonUtilities.cs) handles a key part of this chapter's functionality:
+
+```cs
+
+/// <summary>Provides a collection of utility methods for working with JSON data in the context of MCP.</summary>
+public static partial class McpJsonUtilities
 {
     /// <summary>
-    /// Creates a sampling handler for use with <see cref="McpClientHandlers.SamplingHandler"/> that will
-    /// satisfy sampling requests using the specified <see cref="IChatClient"/>.
+    /// Gets the <see cref="JsonSerializerOptions"/> singleton used as the default in JSON serialization operations.
     /// </summary>
-    /// <param name="chatClient">The <see cref="IChatClient"/> with which to satisfy sampling requests.</param>
-    /// <param name="serializerOptions">The <see cref="JsonSerializerOptions"/> to use for serializing user-provided objects. If <see langword="null"/>, <see cref="McpJsonUtilities.DefaultOptions"/> is used.</param>
-    /// <returns>The created handler delegate that can be assigned to <see cref="McpClientHandlers.SamplingHandler"/>.</returns>
     /// <remarks>
     /// <para>
-    /// This method creates a function that converts MCP message requests into chat client calls, enabling
-    /// an MCP client to generate text or other content using an actual AI model via the provided chat client.
+    /// For Native AOT or applications disabling <see cref="JsonSerializer.IsReflectionEnabledByDefault"/>, this instance
+    /// includes source generated contracts for all common exchange types contained in the ModelContextProtocol library.
     /// </para>
     /// <para>
-    /// The handler can process text messages, image messages, resource messages, and tool use/results as defined in the
-    /// Model Context Protocol.
+    /// It additionally turns on the following settings:
+    /// <list type="number">
+    /// <item>Enables <see cref="JsonSerializerDefaults.Web"/> defaults.</item>
+    /// <item>Enables <see cref="JsonIgnoreCondition.WhenWritingNull"/> as the default ignore condition for properties.</item>
+    /// <item>Enables <see cref="JsonNumberHandling.AllowReadingFromString"/> as the default number handling for number types.</item>
+    /// </list>
     /// </para>
     /// </remarks>
-    /// <exception cref="ArgumentNullException"><paramref name="chatClient"/> is <see langword="null"/>.</exception>
-    public static Func<CreateMessageRequestParams?, IProgress<ProgressNotificationValue>, CancellationToken, ValueTask<CreateMessageResult>> CreateSamplingHandler(
-        this IChatClient chatClient,
-        JsonSerializerOptions? serializerOptions = null)
+    public static JsonSerializerOptions DefaultOptions { get; } = CreateDefaultOptions();
+
+    /// <summary>
+    /// Creates default options to use for MCP-related serialization.
+    /// </summary>
+    /// <returns>The configured options.</returns>
+    [UnconditionalSuppressMessage("ReflectionAnalysis", "IL3050:RequiresDynamicCode", Justification = "Converter is guarded by IsReflectionEnabledByDefault check.")]
+    [UnconditionalSuppressMessage("Trimming", "IL2026:Members annotated with 'RequiresUnreferencedCodeAttribute' require dynamic access", Justification = "Converter is guarded by IsReflectionEnabledByDefault check.")]
+    private static JsonSerializerOptions CreateDefaultOptions()
     {
-        Throw.IfNull(chatClient);
+        // Copy the configuration from the source generated context.
+```
 
-        serializerOptions ??= McpJsonUtilities.DefaultOptions;
+This class is important because it defines how MCP C# SDK Tutorial: Production MCP in .NET with Hosting, ASP.NET Core, and Task Workflows implements the patterns covered in this chapter.
 
-        return async (requestParams, progress, cancellationToken) =>
+### `src/ModelContextProtocol.Core/McpJsonUtilities.cs`
+
+The `JsonContext` class in [`src/ModelContextProtocol.Core/McpJsonUtilities.cs`](https://github.com/modelcontextprotocol/csharp-sdk/blob/HEAD/src/ModelContextProtocol.Core/McpJsonUtilities.cs) handles a key part of this chapter's functionality:
+
+```cs
+    {
+        // Copy the configuration from the source generated context.
+        JsonSerializerOptions options = new(JsonContext.Default.Options);
+
+        // Chain with all supported types from MEAI.
+        options.TypeInfoResolverChain.Add(AIJsonUtilities.DefaultOptions.TypeInfoResolver!);
+
+        // Add a converter for user-defined enums, if reflection is enabled by default.
+        if (JsonSerializer.IsReflectionEnabledByDefault)
+        {
+            options.Converters.Add(new JsonStringEnumConverter());
+        }
+
+        options.MakeReadOnly();
+        return options;
+    }
+
+    internal static JsonTypeInfo<T> GetTypeInfo<T>(this JsonSerializerOptions options) =>
+        (JsonTypeInfo<T>)options.GetTypeInfo(typeof(T));
+
+    internal static JsonElement DefaultMcpToolSchema { get; } = ParseJsonElement("""{"type":"object"}"""u8);
+    internal static object? AsObject(this JsonElement element) => element.ValueKind is JsonValueKind.Null ? null : element;
+
+    internal static bool IsValidMcpToolSchema(JsonElement element)
+    {
+        if (element.ValueKind is not JsonValueKind.Object)
+        {
+            return false;
+        }
+
+        foreach (JsonProperty property in element.EnumerateObject())
         {
 ```
 
 This class is important because it defines how MCP C# SDK Tutorial: Production MCP in .NET with Hosting, ASP.NET Core, and Task Workflows implements the patterns covered in this chapter.
 
-### `src/ModelContextProtocol.Core/AIContentExtensions.cs`
+### `src/ModelContextProtocol.AspNetCore/AuthorizationFilterSetup.cs`
 
-The `ToolAIFunctionDeclaration` class in [`src/ModelContextProtocol.Core/AIContentExtensions.cs`](https://github.com/modelcontextprotocol/csharp-sdk/blob/HEAD/src/ModelContextProtocol.Core/AIContentExtensions.cs) handles a key part of this chapter's functionality:
-
-```cs
-                    foreach (var tool in tools)
-                    {
-                        ((options ??= new()).Tools ??= []).Add(new ToolAIFunctionDeclaration(tool));
-                    }
-
-                    if (options.Tools is { Count: > 0 } && requestParams.ToolChoice is { } toolChoice)
-                    {
-                        options.ToolMode = toolChoice.Mode switch
-                        {
-                            ToolChoice.ModeAuto => ChatToolMode.Auto,
-                            ToolChoice.ModeRequired => ChatToolMode.RequireAny,
-                            ToolChoice.ModeNone => ChatToolMode.None,
-                            _ => null,
-                        };
-                    }
-                }
-
-                List<ChatMessage> messages = [];
-                foreach (var sm in requestParams.Messages)
-                {
-                    if (sm.Content?.Select(b => b.ToAIContent(serializerOptions)).OfType<AIContent>().ToList() is { Count: > 0 } aiContents)
-                    {
-                        ChatRole role =
-                            aiContents.All(static c => c is FunctionResultContent) ? ChatRole.Tool :
-                            sm.Role is Role.Assistant ? ChatRole.Assistant :
-                            ChatRole.User;
-                        messages.Add(new ChatMessage(role, aiContents));
-                    }
-                }
-
-                return (messages, options);
-            }
-```
-
-This class is important because it defines how MCP C# SDK Tutorial: Production MCP in .NET with Hosting, ASP.NET Core, and Task Workflows implements the patterns covered in this chapter.
-
-### `src/ModelContextProtocol.Analyzers/XmlToDescriptionGenerator.cs`
-
-The `XmlToDescriptionGenerator` class in [`src/ModelContextProtocol.Analyzers/XmlToDescriptionGenerator.cs`](https://github.com/modelcontextprotocol/csharp-sdk/blob/HEAD/src/ModelContextProtocol.Analyzers/XmlToDescriptionGenerator.cs) handles a key part of this chapter's functionality:
+The `AuthorizationFilterSetup` class in [`src/ModelContextProtocol.AspNetCore/AuthorizationFilterSetup.cs`](https://github.com/modelcontextprotocol/csharp-sdk/blob/HEAD/src/ModelContextProtocol.AspNetCore/AuthorizationFilterSetup.cs) handles a key part of this chapter's functionality:
 
 ```cs
+/// Evaluates authorization policies from endpoint metadata.
 /// </summary>
-[Generator]
-public sealed class XmlToDescriptionGenerator : IIncrementalGenerator
+internal sealed class AuthorizationFilterSetup(IAuthorizationPolicyProvider? policyProvider = null) : IConfigureOptions<McpServerOptions>, IPostConfigureOptions<McpServerOptions>
 {
-    private const string GeneratedFileName = "ModelContextProtocol.Descriptions.g.cs";
+    private static readonly string AuthorizationFilterInvokedKey = "ModelContextProtocol.AspNetCore.AuthorizationFilter.Invoked";
 
-    /// <summary>
-    /// A display format that produces fully-qualified type names with "global::" prefix
-    /// and includes nullability annotations.
-    /// </summary>
-    private static readonly SymbolDisplayFormat s_fullyQualifiedFormatWithNullability =
-        SymbolDisplayFormat.FullyQualifiedFormat.AddMiscellaneousOptions(
-            SymbolDisplayMiscellaneousOptions.IncludeNullableReferenceTypeModifier);
-
-    public void Initialize(IncrementalGeneratorInitializationContext context)
+    public void Configure(McpServerOptions options)
     {
-        // Extract method information for all MCP tools, prompts, and resources.
-        // The transform extracts all necessary data upfront so the output doesn't depend on the compilation.
-        var allMethods = CreateProviderForAttribute(context, McpAttributeNames.McpServerToolAttribute).Collect()
-            .Combine(CreateProviderForAttribute(context, McpAttributeNames.McpServerPromptAttribute).Collect())
-            .Combine(CreateProviderForAttribute(context, McpAttributeNames.McpServerResourceAttribute).Collect())
-            .Select(static (tuple, _) =>
-            {
-                var ((tools, prompts), resources) = tuple;
-                return new EquatableArray<MethodToGenerate>(tools.Concat(prompts).Concat(resources));
-            });
+        ConfigureListToolsFilter(options);
+        ConfigureCallToolFilter(options);
 
-        // Report diagnostics for all methods.
-        context.RegisterSourceOutput(
-            allMethods, 
-            static (spc, methods) =>
-            {
-```
+        ConfigureListResourcesFilter(options);
+        ConfigureListResourceTemplatesFilter(options);
+        ConfigureReadResourceFilter(options);
 
-This class is important because it defines how MCP C# SDK Tutorial: Production MCP in .NET with Hosting, ASP.NET Core, and Task Workflows implements the patterns covered in this chapter.
-
-### `src/ModelContextProtocol.Analyzers/XmlToDescriptionGenerator.cs`
-
-The `MethodToGenerate` interface in [`src/ModelContextProtocol.Analyzers/XmlToDescriptionGenerator.cs`](https://github.com/modelcontextprotocol/csharp-sdk/blob/HEAD/src/ModelContextProtocol.Analyzers/XmlToDescriptionGenerator.cs) handles a key part of this chapter's functionality:
-
-```cs
-            {
-                var ((tools, prompts), resources) = tuple;
-                return new EquatableArray<MethodToGenerate>(tools.Concat(prompts).Concat(resources));
-            });
-
-        // Report diagnostics for all methods.
-        context.RegisterSourceOutput(
-            allMethods, 
-            static (spc, methods) =>
-            {
-                foreach (var method in methods)
-                {
-                    foreach (var diagnostic in method.Diagnostics)
-                    {
-                        spc.ReportDiagnostic(CreateDiagnostic(diagnostic));
-                    }
-                }
-            });
-
-        // Generate source code only for methods that need generation.
-        context.RegisterSourceOutput(
-            allMethods.Select(static (methods, _) => new EquatableArray<MethodToGenerate>(methods.Where(m => m.NeedsGeneration))),
-            static (spc, methods) =>
-            {
-                if (methods.Length > 0)
-                {
-                    spc.AddSource(GeneratedFileName, SourceText.From(GenerateSourceFile(methods), Encoding.UTF8));
-                }
-            });
+        ConfigureListPromptsFilter(options);
+        ConfigureGetPromptFilter(options);
     }
 
-    private static Diagnostic CreateDiagnostic(DiagnosticInfo info) =>
+    public void PostConfigure(string? name, McpServerOptions options)
+    {
+        CheckListToolsFilter(options);
+        CheckCallToolFilter(options);
+
+        CheckListResourcesFilter(options);
+        CheckListResourceTemplatesFilter(options);
+        CheckReadResourceFilter(options);
+
+        CheckListPromptsFilter(options);
+        CheckGetPromptFilter(options);
+    }
+
 ```
 
-This interface is important because it defines how MCP C# SDK Tutorial: Production MCP in .NET with Hosting, ASP.NET Core, and Task Workflows implements the patterns covered in this chapter.
+This class is important because it defines how MCP C# SDK Tutorial: Production MCP in .NET with Hosting, ASP.NET Core, and Task Workflows implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[AIContentExtensions]
-    B[ToolAIFunctionDeclaration]
-    C[XmlToDescriptionGenerator]
-    D[MethodToGenerate]
+    A[UriTemplateComparer]
+    B[McpJsonUtilities]
+    C[JsonContext]
+    D[AuthorizationFilterSetup]
     A --> B
     B --> C
     C --> D

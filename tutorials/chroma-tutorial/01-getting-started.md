@@ -411,16 +411,30 @@ Under the hood, `Chapter 1: Getting Started with Chroma` usually follows a repea
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
-## Source Walkthrough
+## Source Code Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+### `chromadb/api/client.py`
 
-- [View Repo](https://github.com/chroma-core/chroma)
-  Why it matters: authoritative reference on `View Repo` (github.com).
+The `Client` class in [`chromadb/api/client.py`](https://github.com/chroma-core/chroma/blob/main/chromadb/api/client.py) is the main entrypoint for interacting with Chroma. It extends `SharedSystemClient` and `ClientAPI`, maintaining `tenant` and `database` as first-class attributes:
 
-Suggested trace strategy:
-- search upstream code for `collection` and `documents` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+```python
+class Client(SharedSystemClient, ClientAPI):
+    """A client for Chroma. This is the main entrypoint for interacting with Chroma.
+    A client internally stores its tenant and database and proxies calls to a
+    Server API instance of Chroma. It treats the Server API and corresponding System
+    as a singleton, so multiple clients connecting to the same resource will share the
+    same API instance.
+    """
+
+    tenant: str = DEFAULT_TENANT
+    database: str = DEFAULT_DATABASE
+
+    _server: ServerAPI
+    _admin_client: AdminAPI
+    _closed: bool = False
+```
+
+Chroma uses a `Settings` + `System` dependency injection pattern — the `Client` holds a `ServerAPI` reference (which may be an in-process segment API or an HTTP proxy), meaning the same API surface works for both embedded and client-server mode.
 
 ## Chapter Connections
 

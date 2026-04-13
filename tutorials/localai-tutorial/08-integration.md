@@ -13,6 +13,19 @@ Welcome to **Chapter 8: Production Integration and Applications**. In this part 
 
 > Build production applications with LocalAI, integrating with web frameworks, APIs, and enterprise systems.
 
+## Integration Architecture
+
+```mermaid
+flowchart TD
+    APP[Application] --> OACLIENT[OpenAI SDK\nbase_url=http://localhost:8080/v1]
+    OACLIENT --> LOCALAI[LocalAI Server]
+    APP --> LCHAIN[LangChain\nChatOpenAI with custom base_url]
+    LCHAIN --> LOCALAI
+    APP --> LLAMAIDX[LlamaIndex\nOpenAILike LLM]
+    LLAMAIDX --> LOCALAI
+    LOCALAI --> MODELS[Local Models\nno data leaves your machine]
+```
+
 ## Overview
 
 LocalAI's OpenAI-compatible API makes it easy to integrate into existing applications. This chapter covers production integration patterns and real-world applications.
@@ -823,14 +836,22 @@ When debugging, walk this sequence in order and confirm each stage has explicit 
 
 Use the following upstream sources to verify implementation details while reading this chapter:
 
-- [View Repo](https://github.com/mudler/LocalAI)
-  Why it matters: authoritative reference on `View Repo` (github.com).
-- [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
-  Why it matters: authoritative reference on `Awesome Code Docs` (github.com).
+- [`core/http/app.go`](https://github.com/mudler/LocalAI/blob/master/core/http/app.go)
+  All registered API routes including the OpenAI-compatible endpoints (`/v1/*`) and LocalAI-specific endpoints (`/tts`, `/v1/rerank`). This is the integration surface - any client using the OpenAI SDK can point its `base_url` to LocalAI and use all registered routes.
+
+- [`core/http/endpoints/openai/`](https://github.com/mudler/LocalAI/tree/master/core/http/endpoints/openai)
+  Full collection of OpenAI-compatible endpoint handlers: `chat.go`, `completion.go`, `embeddings.go`, `image.go`, `transcription.go`, `files.go`, `models.go`. These are the integration points for any OpenAI SDK (Python, Node.js, Go) or tool (LangChain, LlamaIndex) that uses the OpenAI protocol.
+
+- [`docker-compose.yaml`](https://github.com/mudler/LocalAI/blob/master/docker-compose.yaml)
+  Reference Docker Compose configuration showing volume mounts for models directory, environment variable injection for `API_KEY`, `THREADS`, `CONTEXT_SIZE`, and GPU device access via `deploy.resources.reservations`. Use this as the production deployment template.
+
+- [`examples/`](https://github.com/mudler/LocalAI/tree/master/examples)
+  Integration examples including LangChain, OpenAI SDK usage, function calling demos, and RAG pipeline examples. Reference these for concrete integration patterns with popular frameworks.
 
 Suggested trace strategy:
-- search upstream code for `model` and `response` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+- Review `core/http/app.go` route list to confirm which OpenAI API versions and endpoints are supported before writing integration code
+- Use `docker-compose.yaml` as the baseline for production container configuration, adding GPU device reservations and volume mounts for your models directory
+- Check `examples/` for working code snippets showing LangChain and LlamaIndex integration pointing to a LocalAI base URL
 
 ## Chapter Connections
 

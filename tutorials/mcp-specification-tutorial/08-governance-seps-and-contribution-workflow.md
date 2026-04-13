@@ -49,8 +49,6 @@ You now have a governance-aware operating model for shipping MCP changes and tra
 
 Next: Continue with [MCP Go SDK Tutorial](../mcp-go-sdk-tutorial/)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `schema/2024-11-05/schema.ts`

@@ -46,170 +46,168 @@ You now have a concrete troubleshooting and safety baseline for MCP Chrome opera
 
 Next: [Chapter 8: Contribution, Release, and Runtime Operations](08-contribution-release-and-runtime-operations.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `app/chrome-extension/common/web-editor-types.ts`
+### `packages/shared/src/agent-types.ts`
 
-The `WebEditorRevertElementPayload` interface in [`app/chrome-extension/common/web-editor-types.ts`](https://github.com/hangwin/mcp-chrome/blob/HEAD/app/chrome-extension/common/web-editor-types.ts) handles a key part of this chapter's functionality:
-
-```ts
- * Used for Phase 2 - Selective Undo (reverting individual element changes).
- */
-export interface WebEditorRevertElementPayload {
-  /** Target tab ID */
-  tabId: number;
-  /** Element key to revert */
-  elementKey: WebEditorElementKey;
-}
-
-/**
- * Revert element response from content script.
- */
-export interface WebEditorRevertElementResponse {
-  /** Whether the revert was successful */
-  success: boolean;
-  /** What was reverted (for UI feedback) */
-  reverted?: {
-    style?: boolean;
-    text?: boolean;
-    class?: boolean;
-  };
-  /** Error message if revert failed */
-  error?: string;
-}
-
-// =============================================================================
-// Selection Sync Types
-// =============================================================================
-
-/**
- * Summary of currently selected element.
- * Lightweight payload for selection sync (no transaction data).
-```
-
-This interface is important because it defines how MCP Chrome Tutorial: Control Your Real Chrome Browser Through MCP implements the patterns covered in this chapter.
-
-### `app/chrome-extension/common/web-editor-types.ts`
-
-The `WebEditorRevertElementResponse` interface in [`app/chrome-extension/common/web-editor-types.ts`](https://github.com/hangwin/mcp-chrome/blob/HEAD/app/chrome-extension/common/web-editor-types.ts) handles a key part of this chapter's functionality:
+The `AgentActResponse` interface in [`packages/shared/src/agent-types.ts`](https://github.com/hangwin/mcp-chrome/blob/HEAD/packages/shared/src/agent-types.ts) handles a key part of this chapter's functionality:
 
 ```ts
- * Revert element response from content script.
- */
-export interface WebEditorRevertElementResponse {
-  /** Whether the revert was successful */
-  success: boolean;
-  /** What was reverted (for UI feedback) */
-  reverted?: {
-    style?: boolean;
-    text?: boolean;
-    class?: boolean;
-  };
-  /** Error message if revert failed */
-  error?: string;
 }
 
-// =============================================================================
-// Selection Sync Types
-// =============================================================================
-
-/**
- * Summary of currently selected element.
- * Lightweight payload for selection sync (no transaction data).
- */
-export interface SelectedElementSummary {
-  /** Stable element identifier */
-  elementKey: WebEditorElementKey;
-  /** Locator for element identification and highlighting */
-  locator: ElementLocator;
-  /** Short display label (e.g., "div#app") */
-  label: string;
-  /** Full label with context (e.g., "body > div#app") */
-  fullLabel: string;
-```
-
-This interface is important because it defines how MCP Chrome Tutorial: Control Your Real Chrome Browser Through MCP implements the patterns covered in this chapter.
-
-### `app/chrome-extension/common/web-editor-types.ts`
-
-The `SelectedElementSummary` interface in [`app/chrome-extension/common/web-editor-types.ts`](https://github.com/hangwin/mcp-chrome/blob/HEAD/app/chrome-extension/common/web-editor-types.ts) handles a key part of this chapter's functionality:
-
-```ts
- * Lightweight payload for selection sync (no transaction data).
- */
-export interface SelectedElementSummary {
-  /** Stable element identifier */
-  elementKey: WebEditorElementKey;
-  /** Locator for element identification and highlighting */
-  locator: ElementLocator;
-  /** Short display label (e.g., "div#app") */
-  label: string;
-  /** Full label with context (e.g., "body > div#app") */
-  fullLabel: string;
-  /** Tag name of the element */
-  tagName: string;
-  /** Timestamp for deduplication */
-  updatedAt: number;
-}
-
-/**
- * Selection change broadcast payload.
- * Sent immediately when user selects/deselects elements (no debounce).
- */
-export interface WebEditorSelectionChangedPayload {
-  /** Source tab ID (filled by background from sender.tab.id) */
-  tabId: number;
-  /** Currently selected element, or null if deselected */
-  selected: SelectedElementSummary | null;
-  /** Page URL for context */
-  pageUrl?: string;
-}
-
-// =============================================================================
-// Execution Cancel Types
-```
-
-This interface is important because it defines how MCP Chrome Tutorial: Control Your Real Chrome Browser Through MCP implements the patterns covered in this chapter.
-
-### `app/chrome-extension/common/web-editor-types.ts`
-
-The `WebEditorSelectionChangedPayload` interface in [`app/chrome-extension/common/web-editor-types.ts`](https://github.com/hangwin/mcp-chrome/blob/HEAD/app/chrome-extension/common/web-editor-types.ts) handles a key part of this chapter's functionality:
-
-```ts
- * Sent immediately when user selects/deselects elements (no debounce).
- */
-export interface WebEditorSelectionChangedPayload {
-  /** Source tab ID (filled by background from sender.tab.id) */
-  tabId: number;
-  /** Currently selected element, or null if deselected */
-  selected: SelectedElementSummary | null;
-  /** Page URL for context */
-  pageUrl?: string;
-}
-
-// =============================================================================
-// Execution Cancel Types
-// =============================================================================
-
-/**
- * Payload for canceling an ongoing Apply execution.
- * Sent from web-editor toolbar or sidepanel to background.
- */
-export interface WebEditorCancelExecutionPayload {
-  /** Session ID of the execution to cancel */
-  sessionId: string;
-  /** Request ID of the execution to cancel */
+export interface AgentActResponse {
   requestId: string;
+  sessionId: string;
+  status: 'accepted';
+}
+
+// ============================================================
+// Project & Engine Types
+// ============================================================
+
+export interface AgentProject {
+  id: string;
+  name: string;
+  description?: string;
+  /**
+   * Absolute filesystem path for this project workspace.
+   */
+  rootPath: string;
+  preferredCli?: AgentCliPreference;
+  selectedModel?: string;
+  /**
+   * Active Claude session ID (UUID format) for session resumption.
+   * Captured from SDK's system/init message and used for the 'resume' parameter.
+   */
+  activeClaudeSessionId?: string;
+  /**
+   * Whether to use Claude Code Router (CCR) for this project.
+   * When enabled, the engine will auto-detect CCR configuration.
+   */
+  useCcr?: boolean;
+```
+
+This interface is important because it defines how MCP Chrome Tutorial: Control Your Real Chrome Browser Through MCP implements the patterns covered in this chapter.
+
+### `packages/shared/src/agent-types.ts`
+
+The `AgentProject` interface in [`packages/shared/src/agent-types.ts`](https://github.com/hangwin/mcp-chrome/blob/HEAD/packages/shared/src/agent-types.ts) handles a key part of this chapter's functionality:
+
+```ts
+// ============================================================
+
+export interface AgentProject {
+  id: string;
+  name: string;
+  description?: string;
+  /**
+   * Absolute filesystem path for this project workspace.
+   */
+  rootPath: string;
+  preferredCli?: AgentCliPreference;
+  selectedModel?: string;
+  /**
+   * Active Claude session ID (UUID format) for session resumption.
+   * Captured from SDK's system/init message and used for the 'resume' parameter.
+   */
+  activeClaudeSessionId?: string;
+  /**
+   * Whether to use Claude Code Router (CCR) for this project.
+   * When enabled, the engine will auto-detect CCR configuration.
+   */
+  useCcr?: boolean;
+  /**
+   * Whether to enable Chrome MCP integration for this project.
+   * Default: true
+   */
+  enableChromeMcp?: boolean;
+  createdAt: string;
+  updatedAt: string;
+  lastActiveAt?: string;
+}
+
+```
+
+This interface is important because it defines how MCP Chrome Tutorial: Control Your Real Chrome Browser Through MCP implements the patterns covered in this chapter.
+
+### `packages/shared/src/agent-types.ts`
+
+The `AgentEngineInfo` interface in [`packages/shared/src/agent-types.ts`](https://github.com/hangwin/mcp-chrome/blob/HEAD/packages/shared/src/agent-types.ts) handles a key part of this chapter's functionality:
+
+```ts
+}
+
+export interface AgentEngineInfo {
+  name: string;
+  supportsMcp?: boolean;
+}
+
+// ============================================================
+// Session Types
+// ============================================================
+
+/**
+ * System prompt configuration for a session.
+ */
+export type AgentSystemPromptConfig =
+  | { type: 'custom'; text: string }
+  | { type: 'preset'; preset: 'claude_code'; append?: string };
+
+/**
+ * Tools configuration - can be a list of tool names or a preset.
+ */
+export type AgentToolsConfig = string[] | { type: 'preset'; preset: 'claude_code' };
+
+/**
+ * Session options configuration.
+ */
+export interface AgentSessionOptionsConfig {
+  settingSources?: string[];
+  allowedTools?: string[];
+  disallowedTools?: string[];
+  tools?: AgentToolsConfig;
+  betas?: string[];
+```
+
+This interface is important because it defines how MCP Chrome Tutorial: Control Your Real Chrome Browser Through MCP implements the patterns covered in this chapter.
+
+### `packages/shared/src/agent-types.ts`
+
+The `AgentSessionOptionsConfig` interface in [`packages/shared/src/agent-types.ts`](https://github.com/hangwin/mcp-chrome/blob/HEAD/packages/shared/src/agent-types.ts) handles a key part of this chapter's functionality:
+
+```ts
+ * Session options configuration.
+ */
+export interface AgentSessionOptionsConfig {
+  settingSources?: string[];
+  allowedTools?: string[];
+  disallowedTools?: string[];
+  tools?: AgentToolsConfig;
+  betas?: string[];
+  maxThinkingTokens?: number;
+  maxTurns?: number;
+  maxBudgetUsd?: number;
+  mcpServers?: Record<string, unknown>;
+  outputFormat?: Record<string, unknown>;
+  enableFileCheckpointing?: boolean;
+  sandbox?: Record<string, unknown>;
+  env?: Record<string, string>;
+  /**
+   * Optional Codex-specific configuration overrides.
+   * Only applicable when using CodexEngine.
+   */
+  codexConfig?: Partial<CodexEngineConfig>;
 }
 
 /**
- * Response from cancel execution request.
+ * Cached management information from Claude SDK.
  */
-export interface WebEditorCancelExecutionResponse {
-  /** Whether the cancel request was successful */
-  success: boolean;
+export interface AgentManagementInfo {
+  tools?: string[];
+  agents?: string[];
+  plugins?: Array<{ name: string; path?: string }>;
+  skills?: string[];
+  mcpServers?: Array<{ name: string; status: string }>;
 ```
 
 This interface is important because it defines how MCP Chrome Tutorial: Control Your Real Chrome Browser Through MCP implements the patterns covered in this chapter.
@@ -219,11 +217,11 @@ This interface is important because it defines how MCP Chrome Tutorial: Control 
 
 ```mermaid
 flowchart TD
-    A[WebEditorRevertElementPayload]
-    B[WebEditorRevertElementResponse]
-    C[SelectedElementSummary]
-    D[WebEditorSelectionChangedPayload]
-    E[WebEditorCancelExecutionPayload]
+    A[AgentActResponse]
+    B[AgentProject]
+    C[AgentEngineInfo]
+    D[AgentSessionOptionsConfig]
+    E[AgentManagementInfo]
     A --> B
     B --> C
     C --> D

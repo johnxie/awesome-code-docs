@@ -75,91 +75,89 @@ You now have a practical security and governance baseline for operating VibeSDK 
 
 Next: [Chapter 8: Production Operations and Scaling](08-production-operations-and-scaling.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `scripts/undeploy.ts`
+### `debug-tools/conversation_analyzer.py`
 
-The `CloudflareUndeploymentManager` class in [`scripts/undeploy.ts`](https://github.com/cloudflare/vibesdk/blob/HEAD/scripts/undeploy.ts) handles a key part of this chapter's functionality:
+The `ConversationAnalyzer` class in [`debug-tools/conversation_analyzer.py`](https://github.com/cloudflare/vibesdk/blob/HEAD/debug-tools/conversation_analyzer.py) handles a key part of this chapter's functionality:
 
-```ts
-}
+```py
+    recommendations: List[str]
 
-class CloudflareUndeploymentManager {
-  private config: WranglerConfig;
-  private forceMode: boolean = false;
-  private allMode: boolean = false;
-
-  constructor() {
-    this.parseArguments();
-    this.config = this.parseWranglerConfig();
-  }
-
-  /**
-   * Parse command line arguments
-   */
-  private parseArguments(): void {
-    const args = process.argv.slice(2);
-    this.allMode = args.includes('all');
-    this.forceMode = args.includes('--force');
-
-    if (this.allMode && !this.forceMode) {
-      console.warn('⚠️  Warning: "all" mode requires --force flag for safety');
-      console.warn('   Usage: bun scripts/undeploy.ts all --force');
-      process.exit(1);
-    }
-
-    console.log(`🚨 Undeployment Mode: ${this.allMode ? 'COMPLETE DESTRUCTION' : 'Standard Cleanup'}`);
-    if (this.allMode) {
-      console.log('⚠️  This will DELETE ALL RESOURCES including D1 database and dispatch namespace!');
-    } else {
-      console.log('ℹ️  This will preserve D1 database and dispatch namespace');
-    }
+class ConversationAnalyzer:
+    def __init__(self):
+        self.size_thresholds = {
+            'small': 1000,      # 1KB
+            'medium': 5000,     # 5KB  
+            'large': 20000,     # 20KB
+            'huge': 100000      # 100KB
+        }
+    
+    def analyze_conversation_messages(self, messages: List[Dict[str, Any]]) -> ConversationAnalysis:
+        """Analyze conversation messages for size and content"""
+        print(f"🔍 Analyzing {len(messages)} conversation messages...")
+        
+        total_size = 0
+        message_types = Counter()
+        size_by_type = defaultdict(int)
+        largest_messages = []
+        
+        for i, msg in enumerate(messages):
+            # Calculate message size
+            msg_size = len(json.dumps(msg, default=str))
+            total_size += msg_size
+            
+            # Categorize by type/role
+            msg_type = msg.get('role', msg.get('type', 'unknown'))
+            message_types[msg_type] += 1
+            size_by_type[msg_type] += msg_size
+            
+            # Track largest messages
+            msg_info = {
 ```
 
 This class is important because it defines how VibeSDK Tutorial: Build a Vibe-Coding Platform on Cloudflare implements the patterns covered in this chapter.
 
-### `scripts/undeploy.ts`
+### `debug-tools/conversation_analyzer.py`
 
-The `WranglerConfig` interface in [`scripts/undeploy.ts`](https://github.com/cloudflare/vibesdk/blob/HEAD/scripts/undeploy.ts) handles a key part of this chapter's functionality:
+The `main` function in [`debug-tools/conversation_analyzer.py`](https://github.com/cloudflare/vibesdk/blob/HEAD/debug-tools/conversation_analyzer.py) handles a key part of this chapter's functionality:
 
-```ts
+```py
+        return "\n".join(report)
 
-// Types for configuration
-interface WranglerConfig {
-  name: string;
-  dispatch_namespaces?: Array<{
-    binding: string;
-    namespace: string;
-    experimental_remote?: boolean;
-  }>;
-  r2_buckets?: Array<{
-    binding: string;
-    bucket_name: string;
-    experimental_remote?: boolean;
-  }>;
-  containers?: Array<{
-    class_name: string;
-    image: string;
-    max_instances: number;
-  }>;
-  d1_databases?: Array<{
-    binding: string;
-    database_name: string;
-    database_id: string;
-    migrations_dir?: string;
-    experimental_remote?: boolean;
-  }>;
-  kv_namespaces?: Array<{
-    binding: string;
-    id: string;
-    experimental_remote?: boolean;
-  }>;
-}
+def main():
+    # Check if we have debug files from the main analyzer
+    conversation_file = "debug_output/conversationMessages_new.json"
+    
+    if not os.path.exists(conversation_file):
+        print("❌ Conversation messages debug file not found!")
+        print("   Please run the main state analyzer first: python state_analyzer.py errorfile.json")
+        print("   This will generate the required debug files in debug_output/")
+        return
+    
+    print("🚀 Starting conversation messages analysis...")
+    print(f"📁 Reading conversation data from: {conversation_file}")
+    
+    try:
+        with open(conversation_file, 'r') as f:
+            messages = json.load(f)
+        
+        print(f"📄 Loaded {len(messages)} conversation messages")
+        
+        analyzer = ConversationAnalyzer()
+        analysis = analyzer.analyze_conversation_messages(messages)
+        
+        # Generate report
+        report = analyzer.generate_report(analysis)
+        
+        # Save report
+        report_file = "conversation_analysis_report.txt"
+        with open(report_file, 'w') as f:
+            f.write(report)
+        
 ```
 
-This interface is important because it defines how VibeSDK Tutorial: Build a Vibe-Coding Platform on Cloudflare implements the patterns covered in this chapter.
+This function is important because it defines how VibeSDK Tutorial: Build a Vibe-Coding Platform on Cloudflare implements the patterns covered in this chapter.
 
 ### `container/types.ts`
 
@@ -248,8 +246,8 @@ This interface is important because it defines how VibeSDK Tutorial: Build a Vib
 
 ```mermaid
 flowchart TD
-    A[CloudflareUndeploymentManager]
-    B[WranglerConfig]
+    A[ConversationAnalyzer]
+    B[main]
     C[LogLine]
     D[ProcessInfo]
     E[MonitoringOptions]

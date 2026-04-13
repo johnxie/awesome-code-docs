@@ -12,6 +12,22 @@ Welcome to **Chapter 3: Text-to-Image Generation**. In this part of **ComfyUI Tu
 
 Now that you understand nodes and workflows, let's create stunning images from text prompts! This chapter covers the art and science of text-to-image generation, from basic prompts to advanced techniques.
 
+## Text-to-Image Node Pipeline
+
+```mermaid
+flowchart LR
+    Checkpoint["CheckpointLoaderSimple\n(load SD model)"] --> CLIP["CLIPTextEncode\n(positive prompt)"]
+    Checkpoint --> CLIP_NEG["CLIPTextEncode\n(negative prompt)"]
+    Checkpoint --> VAE["VAE"]
+    CLIP --> KSampler["KSampler\n(steps, cfg, sampler)"]
+    CLIP_NEG --> KSampler
+    EmptyLatent["EmptyLatentImage\n(width x height)"] --> KSampler
+    KSampler --> LatentOut["Latent Tensor"]
+    VAE --> VAEDecode["VAEDecode"]
+    LatentOut --> VAEDecode
+    VAEDecode --> SaveImage["SaveImage / PreviewImage"]
+```
+
 ## Prompt Engineering Fundamentals
 
 ### Basic Prompt Structure
@@ -493,16 +509,27 @@ Under the hood, `Chapter 3: Text-to-Image Generation` usually follows a repeatab
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
-## Source Walkthrough
+## Source Code Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+### `comfy/samplers.py`
 
-- [View Repo](https://github.com/comfyanonymous/ComfyUI)
-  Why it matters: authoritative reference on `View Repo` (github.com).
+The `get_area_and_mult` function in [`comfy/samplers.py`](https://github.com/comfyanonymous/ComfyUI/blob/master/comfy/samplers.py) controls how conditioning (positive and negative prompts) is applied to spatial regions of the latent during sampling:
 
-Suggested trace strategy:
-- search upstream code for `quality` and `useCase` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+```python
+def get_area_and_mult(conds, x_in, timestep_in):
+    dims = tuple(x_in.shape[2:])
+    area = None
+    strength = 1.0
+
+    if 'timestep_start' in conds:
+        timestep_start = conds['timestep_start']
+        if timestep_in[0] > timestep_start:
+            return None
+    if 'area' in conds:
+        area = list(conds['area'])
+```
+
+The sampler reads `timestep_start` / `timestep_end` to apply conditioning only at specific denoising steps. This underpins ComfyUI's "advanced conditioning" nodes that enable multi-stage prompting and compositional workflows.
 
 ## Chapter Connections
 

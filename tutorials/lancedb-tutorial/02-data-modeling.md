@@ -14,6 +14,17 @@ Welcome to **Chapter 2: Data Modeling**. In this part of **LanceDB Tutorial: Ser
 
 ## Overview
 
+```mermaid
+flowchart TD
+    A[PyArrow schema] --> B[LanceDB table]
+    B --> C[vector column float32 dim=768]
+    B --> D[scalar columns text metadata]
+    B --> E[nested columns struct]
+    C --> F[Vector index IVF_PQ]
+    D --> G[Scalar index BTree]
+    E --> H[Full-text index BM25]
+```
+
 Proper data modeling is crucial for building efficient vector search applications. This chapter covers schema design, data types, Pydantic models, and best practices for structuring your data in LanceDB.
 
 ## Schema Definition

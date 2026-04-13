@@ -580,6 +580,17 @@ helm upgrade windmill windmill/windmill \
   --set windmill.image.tag=latest
 ```
 
+## Source Code Walkthrough
+
+### Docker Compose — `docker-compose.yml`
+
+The official [`docker-compose.yml`](https://github.com/windmill-labs/windmill/blob/main/docker-compose.yml) at the repo root is the recommended production deployment template. It defines the server, worker(s), PostgreSQL, and Caddy reverse proxy services — all the components described in this chapter's self-hosting section.
+
+### Worker scaling — `backend/windmill-worker/src/worker.rs`
+
+The worker process entry point in [`backend/windmill-worker/src/worker.rs`](https://github.com/windmill-labs/windmill/blob/main/backend/windmill-worker/src/worker.rs) reads `NUM_WORKERS`, `WORKER_TAGS`, and concurrency settings from environment variables. Worker pools (native, gpu, etc.) are configured by setting `WORKER_TAGS` to specific tag sets — the horizontal scaling model described in this chapter.
+
+
 ## What You Learned
 
 In this chapter you:

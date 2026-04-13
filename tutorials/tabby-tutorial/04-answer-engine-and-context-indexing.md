@@ -63,51 +63,22 @@ Next: [Chapter 5: Editor Agents and Client Integrations](05-editor-agents-and-cl
 
 ## Source Code Walkthrough
 
-### `python/tabby/trainer.py`
+Use the following upstream sources to verify answer engine and context indexing details while reading this chapter:
 
-The `class` class in [`python/tabby/trainer.py`](https://github.com/TabbyML/tabby/blob/HEAD/python/tabby/trainer.py) handles a key part of this chapter's functionality:
+- [`crates/tabby-index/src/lib.rs`](https://github.com/TabbyML/tabby/blob/HEAD/crates/tabby-index/src/lib.rs) — the repository and documentation indexing crate that builds the vector store used by the answer engine to retrieve relevant code context.
+- [`crates/tabby-crawler/src/lib.rs`](https://github.com/TabbyML/tabby/blob/HEAD/crates/tabby-crawler/src/lib.rs) — the document crawler that fetches and preprocesses external documentation sources before they are passed to the indexer.
 
-```py
-import os
-import glob
-from dataclasses import dataclass, field
-from typing import List
-
-import peft
-import torch
-from transformers import (
-    AutoModelForCausalLM,
-    AutoTokenizer,
-    HfArgumentParser,
-    Trainer,
-    TrainingArguments,
-)
-from datasets import Dataset, load_dataset
-
-
-class ConstantLengthDataset:
-    """
-    Iterable dataset that returns constant length chunks of tokens from stream of text files.
-        Args:
-            tokenizer (Tokenizer): The processor used for proccessing the data.
-            dataset (dataset.Dataset): Dataset with text files.
-            infinite (bool): If True the iterator is reset after dataset reaches end else stops.
-            seq_length (int): Length of token sequences to return.
-            num_of_sequences (int): Number of token sequences to keep in buffer.
-            chars_per_token (int): Number of characters per token used to estimate number of tokens in text buffer.
-    """
-
-    def __init__(
-        self,
-        tokenizer,
-```
-
-This class is important because it defines how Tabby Tutorial: Self-Hosted AI Coding Assistant Architecture and Operations implements the patterns covered in this chapter.
-
+Suggested trace strategy:
+- trace the indexing pipeline in `tabby-index` from document ingestion through embedding to vector store write
+- review the `tabby-crawler` to understand which source types (git, web, docs) are supported and how content is extracted
+- check `crates/tabby/src/routes/chat.rs` to see how the answer engine retrieves context from the index before generating chat responses
 
 ## How These Components Connect
 
 ```mermaid
-flowchart TD
-    A[class]
+flowchart LR
+    A[Repository or docs source] --> B[tabby-crawler ingestion]
+    B --> C[tabby-index embedding and storage]
+    C --> D[Answer engine context retrieval]
+    D --> E[Chat response grounded in repo knowledge]
 ```

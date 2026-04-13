@@ -40,8 +40,6 @@ You now have a validated local loop for running and invoking Toolbox tools.
 
 Next: [Chapter 2: Architecture and Control Plane](02-architecture-and-control-plane.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `server.json`
@@ -50,21 +48,21 @@ The `the` interface in [`server.json`](https://github.com/googleapis/genai-toolb
 
 ```json
                     "type": "named",
-                    "name": "--tools-file",
+                    "name": "--config",
                     "description": "File path specifying the tool configuration.",
                     "default": "tools.yaml",
                     "isRequired": false
                 },
                 {
                     "type": "named",
-                    "name": "--tools-files",
-                    "description": "Multiple file paths specifying tool configurations. Files will be merged. Cannot be used with –-tools-file or –-tools-folder.",
+                    "name": "--configs",
+                    "description": "Multiple file paths specifying tool configurations. Files will be merged. Cannot be used with –-config or –-config-folder.",
                     "isRequired": false
                 },
                 {
                     "type": "named",
-                    "name": "--tools-folder",
-                    "description": "Directory path containing YAML tool configuration files. All .yaml and .yml files in the directory will be loaded and merged. Cannot be used with –-tools-file or –-tools-files.",
+                    "name": "--config-folder",
+                    "description": "Directory path containing YAML tool configuration files. All .yaml and .yml files in the directory will be loaded and merged. Cannot be used with –-config or –-configs.",
                     "isRequired": false
                 },
                 {

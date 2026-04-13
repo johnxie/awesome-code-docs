@@ -43,170 +43,168 @@ You now have a practical command/agent orchestration baseline.
 
 Next: [Chapter 5: Hooks, MCP, and Continuous Learning Loops](05-hooks-mcp-and-continuous-learning-loops.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `scripts/harness-audit.js`
+### `scripts/claw.js`
 
-The `summarizeCategoryScores` function in [`scripts/harness-audit.js`](https://github.com/affaan-m/everything-claude-code/blob/HEAD/scripts/harness-audit.js) handles a key part of this chapter's functionality:
+The `handleHistory` function in [`scripts/claw.js`](https://github.com/affaan-m/everything-claude-code/blob/HEAD/scripts/claw.js) handles a key part of this chapter's functionality:
 
 ```js
 }
 
-function summarizeCategoryScores(checks) {
-  const scores = {};
-  for (const category of CATEGORIES) {
-    const inCategory = checks.filter(check => check.category === category);
-    const max = inCategory.reduce((sum, check) => sum + check.points, 0);
-    const earned = inCategory
-      .filter(check => check.pass)
-      .reduce((sum, check) => sum + check.points, 0);
-
-    const normalized = max === 0 ? 0 : Math.round((earned / max) * 10);
-    scores[category] = {
-      score: normalized,
-      earned,
-      max,
-    };
+function handleHistory(sessionPath) {
+  const history = loadHistory(sessionPath);
+  if (!history) {
+    console.log('(no history)');
+    return;
   }
-
-  return scores;
+  console.log(history);
 }
 
-function buildReport(scope) {
-  const checks = getChecks().filter(check => check.scopes.includes(scope));
-  const categoryScores = summarizeCategoryScores(checks);
-  const maxScore = checks.reduce((sum, check) => sum + check.points, 0);
-  const overallScore = checks
-    .filter(check => check.pass)
-    .reduce((sum, check) => sum + check.points, 0);
+function handleSessions(dir) {
+  const sessions = listSessions(dir);
+  if (sessions.length === 0) {
+    console.log('(no sessions)');
+    return;
+  }
 
-  const failedChecks = checks.filter(check => !check.pass);
-  const topActions = failedChecks
+  console.log('Sessions:');
+  for (const s of sessions) {
+    console.log(`  - ${s}`);
+  }
+}
+
+function handleHelp() {
+  console.log('NanoClaw REPL Commands:');
+  console.log('  /help                          Show this help');
+  console.log('  /clear                         Clear current session history');
+  console.log('  /history                       Print full conversation history');
+  console.log('  /sessions                      List saved sessions');
+  console.log('  /model [name]                  Show/set model');
+  console.log('  /load <skill-name>             Load a skill into active context');
 ```
 
 This function is important because it defines how Everything Claude Code Tutorial: Production Configuration Patterns for Claude Code implements the patterns covered in this chapter.
 
-### `scripts/harness-audit.js`
+### `scripts/claw.js`
 
-The `buildReport` function in [`scripts/harness-audit.js`](https://github.com/affaan-m/everything-claude-code/blob/HEAD/scripts/harness-audit.js) handles a key part of this chapter's functionality:
-
-```js
-}
-
-function buildReport(scope) {
-  const checks = getChecks().filter(check => check.scopes.includes(scope));
-  const categoryScores = summarizeCategoryScores(checks);
-  const maxScore = checks.reduce((sum, check) => sum + check.points, 0);
-  const overallScore = checks
-    .filter(check => check.pass)
-    .reduce((sum, check) => sum + check.points, 0);
-
-  const failedChecks = checks.filter(check => !check.pass);
-  const topActions = failedChecks
-    .sort((left, right) => right.points - left.points)
-    .slice(0, 3)
-    .map(check => ({
-      action: check.fix,
-      path: check.path,
-      category: check.category,
-      points: check.points,
-    }));
-
-  return {
-    scope,
-    deterministic: true,
-    rubric_version: '2026-03-16',
-    overall_score: overallScore,
-    max_score: maxScore,
-    categories: categoryScores,
-    checks: checks.map(check => ({
-      id: check.id,
-      category: check.category,
-      points: check.points,
-```
-
-This function is important because it defines how Everything Claude Code Tutorial: Production Configuration Patterns for Claude Code implements the patterns covered in this chapter.
-
-### `scripts/harness-audit.js`
-
-The `printText` function in [`scripts/harness-audit.js`](https://github.com/affaan-m/everything-claude-code/blob/HEAD/scripts/harness-audit.js) handles a key part of this chapter's functionality:
+The `handleSessions` function in [`scripts/claw.js`](https://github.com/affaan-m/everything-claude-code/blob/HEAD/scripts/claw.js) handles a key part of this chapter's functionality:
 
 ```js
 }
 
-function printText(report) {
-  console.log(`Harness Audit (${report.scope}): ${report.overall_score}/${report.max_score}`);
-  console.log('');
-
-  for (const category of CATEGORIES) {
-    const data = report.categories[category];
-    if (!data || data.max === 0) {
-      continue;
-    }
-
-    console.log(`- ${category}: ${data.score}/10 (${data.earned}/${data.max} pts)`);
+function handleSessions(dir) {
+  const sessions = listSessions(dir);
+  if (sessions.length === 0) {
+    console.log('(no sessions)');
+    return;
   }
 
-  const failed = report.checks.filter(check => !check.pass);
-  console.log('');
-  console.log(`Checks: ${report.checks.length} total, ${failed.length} failing`);
-
-  if (failed.length > 0) {
-    console.log('');
-    console.log('Top 3 Actions:');
-    report.top_actions.forEach((action, index) => {
-      console.log(`${index + 1}) [${action.category}] ${action.action} (${action.path})`);
-    });
+  console.log('Sessions:');
+  for (const s of sessions) {
+    console.log(`  - ${s}`);
   }
 }
 
-function showHelp(exitCode = 0) {
-  console.log(`
-Usage: node scripts/harness-audit.js [scope] [--scope <repo|hooks|skills|commands|agents>] [--format <text|json>]
-
-```
-
-This function is important because it defines how Everything Claude Code Tutorial: Production Configuration Patterns for Claude Code implements the patterns covered in this chapter.
-
-### `scripts/harness-audit.js`
-
-The `showHelp` function in [`scripts/harness-audit.js`](https://github.com/affaan-m/everything-claude-code/blob/HEAD/scripts/harness-audit.js) handles a key part of this chapter's functionality:
-
-```js
-}
-
-function showHelp(exitCode = 0) {
-  console.log(`
-Usage: node scripts/harness-audit.js [scope] [--scope <repo|hooks|skills|commands|agents>] [--format <text|json>]
-
-Deterministic harness audit based on explicit file/rule checks.
-`);
-  process.exit(exitCode);
+function handleHelp() {
+  console.log('NanoClaw REPL Commands:');
+  console.log('  /help                          Show this help');
+  console.log('  /clear                         Clear current session history');
+  console.log('  /history                       Print full conversation history');
+  console.log('  /sessions                      List saved sessions');
+  console.log('  /model [name]                  Show/set model');
+  console.log('  /load <skill-name>             Load a skill into active context');
+  console.log('  /branch <session-name>         Branch current session into a new session');
+  console.log('  /search <query>                Search query across sessions');
+  console.log('  /compact                       Keep recent turns, compact older context');
+  console.log('  /export <md|json|txt> [path]   Export current session');
+  console.log('  /metrics                       Show session metrics');
+  console.log('  exit                           Quit the REPL');
 }
 
 function main() {
-  try {
-    const args = parseArgs(process.argv);
+```
 
-    if (args.help) {
-      showHelp(0);
-      return;
-    }
+This function is important because it defines how Everything Claude Code Tutorial: Production Configuration Patterns for Claude Code implements the patterns covered in this chapter.
 
-    const report = buildReport(args.scope);
+### `scripts/claw.js`
 
-    if (args.format === 'json') {
-      console.log(JSON.stringify(report, null, 2));
-    } else {
-      printText(report);
-    }
-  } catch (error) {
-    console.error(`Error: ${error.message}`);
+The `handleHelp` function in [`scripts/claw.js`](https://github.com/affaan-m/everything-claude-code/blob/HEAD/scripts/claw.js) handles a key part of this chapter's functionality:
+
+```js
+}
+
+function handleHelp() {
+  console.log('NanoClaw REPL Commands:');
+  console.log('  /help                          Show this help');
+  console.log('  /clear                         Clear current session history');
+  console.log('  /history                       Print full conversation history');
+  console.log('  /sessions                      List saved sessions');
+  console.log('  /model [name]                  Show/set model');
+  console.log('  /load <skill-name>             Load a skill into active context');
+  console.log('  /branch <session-name>         Branch current session into a new session');
+  console.log('  /search <query>                Search query across sessions');
+  console.log('  /compact                       Keep recent turns, compact older context');
+  console.log('  /export <md|json|txt> [path]   Export current session');
+  console.log('  /metrics                       Show session metrics');
+  console.log('  exit                           Quit the REPL');
+}
+
+function main() {
+  const initialSessionName = process.env.CLAW_SESSION || 'default';
+  if (!isValidSessionName(initialSessionName)) {
+    console.error(`Error: Invalid session name "${initialSessionName}". Use alphanumeric characters and hyphens only.`);
     process.exit(1);
   }
+
+  fs.mkdirSync(getClawDir(), { recursive: true });
+
+  const state = {
+    sessionName: initialSessionName,
+    sessionPath: getSessionPath(initialSessionName),
+    model: DEFAULT_MODEL,
+    skills: normalizeSkillList(process.env.CLAW_SKILLS || ''),
+```
+
+This function is important because it defines how Everything Claude Code Tutorial: Production Configuration Patterns for Claude Code implements the patterns covered in this chapter.
+
+### `scripts/claw.js`
+
+The `main` function in [`scripts/claw.js`](https://github.com/affaan-m/everything-claude-code/blob/HEAD/scripts/claw.js) handles a key part of this chapter's functionality:
+
+```js
 }
+
+function main() {
+  const initialSessionName = process.env.CLAW_SESSION || 'default';
+  if (!isValidSessionName(initialSessionName)) {
+    console.error(`Error: Invalid session name "${initialSessionName}". Use alphanumeric characters and hyphens only.`);
+    process.exit(1);
+  }
+
+  fs.mkdirSync(getClawDir(), { recursive: true });
+
+  const state = {
+    sessionName: initialSessionName,
+    sessionPath: getSessionPath(initialSessionName),
+    model: DEFAULT_MODEL,
+    skills: normalizeSkillList(process.env.CLAW_SKILLS || ''),
+  };
+
+  let eccContext = loadECCContext(state.skills);
+
+  const loadedCount = state.skills.filter(skillExists).length;
+
+  console.log(`NanoClaw v2 — Session: ${state.sessionName}`);
+  console.log(`Model: ${state.model}`);
+  if (loadedCount > 0) {
+    console.log(`Loaded ${loadedCount} skill(s) as context.`);
+  }
+  console.log('Type /help for commands, exit to quit.\n');
+
+  const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+
+  const prompt = () => {
 ```
 
 This function is important because it defines how Everything Claude Code Tutorial: Production Configuration Patterns for Claude Code implements the patterns covered in this chapter.
@@ -216,11 +214,11 @@ This function is important because it defines how Everything Claude Code Tutoria
 
 ```mermaid
 flowchart TD
-    A[summarizeCategoryScores]
-    B[buildReport]
-    C[printText]
-    D[showHelp]
-    E[main]
+    A[handleHistory]
+    B[handleSessions]
+    C[handleHelp]
+    D[main]
+    E[showHelp]
     A --> B
     B --> C
     C --> D

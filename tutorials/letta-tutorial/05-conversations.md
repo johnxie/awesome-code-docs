@@ -13,6 +13,19 @@ Welcome to **Chapter 5: Conversation Management**. In this part of **Letta Tutor
 
 > Handle long-running dialogues, manage conversation state, and implement conversation patterns.
 
+## Conversation Lifecycle
+
+```mermaid
+stateDiagram-v2
+    [*] --> Created: create_agent()
+    Created --> Active: send_message()
+    Active --> Processing: LLM inference + memory ops
+    Processing --> Active: response returned
+    Active --> Archived: agent inactive for extended period
+    Archived --> Active: send_message() resumes
+    Active --> [*]: agent deleted
+```
+
 ## Overview
 
 Letta excels at managing long-term conversations. This chapter covers conversation lifecycle, state management, branching conversations, and implementing conversation patterns.
@@ -437,16 +450,13 @@ When debugging, walk this sequence in order and confirm each stage has explicit 
 
 ## Source Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+Key source files in [`letta-ai/letta`](https://github.com/letta-ai/letta):
 
-- [View Repo](https://github.com/letta-ai/letta)
-  Why it matters: authoritative reference on `View Repo` (github.com).
-- [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
-  Why it matters: authoritative reference on `Awesome Code Docs` (github.com).
+- [`letta/client/client.py`](https://github.com/letta-ai/letta/blob/main/letta/client/client.py) -- `send_message()` and `get_messages()`: the primary conversation API surface
+- [`letta/server/server.py`](https://github.com/letta-ai/letta/blob/main/letta/server/server.py) -- `user_message()`: processes incoming messages and triggers `Agent.step()`
+- [`letta/agent.py`](https://github.com/letta-ai/letta/blob/main/letta/agent.py) -- `_init_messages()` shows how conversation history is reconstructed at the start of each `step()`
 
-Suggested trace strategy:
-- search upstream code for `agent_name` and `self` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+Suggested trace: follow `send_message()` → `user_message()` → `Agent.step()` → observe how prior conversation turns from recall memory are injected into the prompt.
 
 ## Chapter Connections
 

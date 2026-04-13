@@ -24,6 +24,19 @@ By the end of this chapter, you'll understand:
 
 ## 🌳 Tree Data Structure Fundamentals
 
+```mermaid
+flowchart TD
+    A[IRoot root node] --> B[IList item 1]
+    A --> C[IList item 2]
+    B --> D[IList child 1.1]
+    B --> E[IList child 1.2]
+    C --> F[IList child 2.1]
+    D --> G[IList leaf 1.1.1]
+    B --> H[content: bullet marker + text]
+    D --> I[content: indented bullet]
+```
+
+
 ### **Outline Tree Representation**
 
 The Outliner plugin uses a tree structure to represent hierarchical content, where each node represents a list item and edges represent parent-child relationships.
@@ -883,6 +896,16 @@ Under the hood, `Chapter 3: Tree Data Structures` usually follows a repeatable c
 6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
+
+## Source Code Walkthrough
+
+### `src/root/` — IRoot and IList types
+
+The [`src/root/`](https://github.com/vslinko/obsidian-outliner/tree/HEAD/src/root) directory defines the `IRoot` and `IList` interfaces and their implementations. `IRoot` is the top-level container returned by the parser. `IList` represents a single outline node with `getChildren()`, `getParent()`, `getIndent()`, and `getContent()` methods that drive all tree traversal and manipulation algorithms.
+
+### `src/services/Parser.ts` — tree construction
+
+The `Parser` class in [`src/services/Parser.ts`](https://github.com/vslinko/obsidian-outliner/blob/HEAD/src/services/Parser.ts) converts raw editor line ranges into the `IRoot`/`IList` tree. Its indent-tracking logic determines parent-child relationships by comparing leading whitespace, implementing the tree construction algorithm described in this chapter.
 
 ## Source Walkthrough
 

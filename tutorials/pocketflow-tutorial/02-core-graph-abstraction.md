@@ -25,8 +25,6 @@ You now understand how the graph abstraction underpins all PocketFlow capabiliti
 
 Next: [Chapter 3: Agent and Workflow Patterns](03-agent-and-workflow-patterns.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `cookbook/pocketflow-code-generator/nodes.py`

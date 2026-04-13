@@ -436,9 +436,26 @@ curl -X POST "http://localhost:3000/predict" \
 docker stop test-service
 ```
 
+## Testing Architecture
+
+```mermaid
+flowchart TD
+    A[Unit tests: test runners and model logic]
+    B[Integration tests: spin up service locally]
+    C[bentoml.testing.Client sends test requests]
+    D[Assert response shape and values]
+    E[Load tests with concurrent requests]
+    F[Docker integration test: build and curl]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    E --> F
+```
+
 ## What We've Accomplished
 
-Congratulations! 🎉 You've successfully learned:
+You've successfully learned:
 
 1. **Unit Testing** - Testing individual components and functions
 2. **Integration Testing** - Testing complete workflows and API integrations

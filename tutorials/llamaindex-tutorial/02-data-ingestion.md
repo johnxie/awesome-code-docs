@@ -12,6 +12,18 @@ Welcome to **Chapter 2: Data Ingestion & Loading**. In this part of **LlamaIndex
 
 > Master the art of loading diverse data sources into LlamaIndex for comprehensive RAG systems.
 
+## Data Ingestion Pipeline
+
+```mermaid
+flowchart LR
+    SRC[Files, PDFs, URLs\nAPIs, Databases] --> LOAD[SimpleDirectoryReader\nor LlamaHub connectors]
+    LOAD --> DOC[Document objects\nwith metadata]
+    DOC --> SPLIT[NodeParser\nSentenceSplitter]
+    SPLIT --> NODES[TextNode chunks]
+    NODES --> EMBED[Embedding Model]
+    EMBED --> INDEX[VectorStoreIndex]
+```
+
 ## 🎯 Overview
 
 This chapter covers LlamaIndex's powerful data ingestion capabilities, showing you how to load data from various sources including files, APIs, databases, and web content. You'll learn to handle different data formats and create robust data pipelines for your RAG applications.
@@ -1153,12 +1165,22 @@ When debugging, walk this sequence in order and confirm each stage has explicit 
 
 Use the following upstream sources to verify implementation details while reading this chapter:
 
-- [View Repo](https://github.com/run-llama/llama_index)
-  Why it matters: authoritative reference on `View Repo` (github.com).
+- [`llama_index/core/readers/base.py`](https://github.com/run-llama/llama_index/blob/main/llama-index-core/llama_index/core/readers/base.py)
+  Defines the `BaseReader` abstract class with `load_data()` method. All connectors (PDFReader, WebBaseLoader, DatabaseReader) implement this interface and return lists of `Document` objects.
+
+- [`llama_index/core/schema.py`](https://github.com/run-llama/llama_index/blob/main/llama-index-core/llama_index/core/schema.py)
+  Core data model definitions: `Document`, `TextNode`, `NodeWithScore`, `MediaResource`. Understanding `Document.metadata` structure and `TextNode.relationships` is essential for understanding how ingestion populates the graph for downstream retrieval.
+
+- [`llama_index/core/node_parser/text/sentence.py`](https://github.com/run-llama/llama_index/blob/main/llama-index-core/llama_index/core/node_parser/text/sentence.py)
+  `SentenceSplitter` implementation - the default text chunking strategy. Shows how `chunk_size`, `chunk_overlap`, and sentence boundary detection interact to produce `TextNode` objects from raw document text.
+
+- [`llama_index/core/ingestion/pipeline.py`](https://github.com/run-llama/llama_index/blob/main/llama-index-core/llama_index/core/ingestion/pipeline.py)
+  `IngestionPipeline` that chains readers → transformations → vector store upsert. Supports deduplication via document ID tracking and async execution for large-scale ingestion jobs.
 
 Suggested trace strategy:
-- search upstream code for `documents` and `text` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+- Trace `BaseReader.load_data()` → `Document` creation to understand how metadata is attached from source connectors
+- Follow `SentenceSplitter.get_nodes_from_documents()` to see how chunk boundaries are calculated with overlap
+- Inspect `IngestionPipeline.run()` to see how transformation stages are chained and cached for incremental re-ingestion
 
 ## Chapter Connections
 

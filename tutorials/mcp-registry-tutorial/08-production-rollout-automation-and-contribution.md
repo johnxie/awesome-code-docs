@@ -47,170 +47,155 @@ You now have an end-to-end plan to publish, operate, and evolve registry workflo
 
 Next: Continue with [MCP Inspector Tutorial](../mcp-inspector-tutorial/)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `internal/validators/utils.go`
+### `internal/auth/jwt.go`
 
-The `replaceTemplateVariables` function in [`internal/validators/utils.go`](https://github.com/modelcontextprotocol/registry/blob/HEAD/internal/validators/utils.go) handles a key part of this chapter's functionality:
-
-```go
-}
-
-// replaceTemplateVariables replaces template variables with placeholder values for URL validation
-func replaceTemplateVariables(rawURL string) string {
-	// Replace common template variables with valid placeholder values for parsing
-	templateReplacements := map[string]string{
-		"{host}":     "example.com",
-		"{port}":     "8080",
-		"{path}":     "api",
-		"{protocol}": "http",
-		"{scheme}":   "http",
-	}
-
-	result := rawURL
-	for placeholder, replacement := range templateReplacements {
-		result = strings.ReplaceAll(result, placeholder, replacement)
-	}
-
-	// Handle any remaining {variable} patterns with context-appropriate placeholders
-	// If the variable is in a port position (after a colon in the host), use a numeric placeholder
-	// Pattern: :/{variable} or :{variable}/ or :{variable} at end
-	portRe := regexp.MustCompile(`:(\{[^}]+\})(/|$)`)
-	result = portRe.ReplaceAllString(result, ":8080$2")
-
-	// Replace any other remaining {variable} patterns with generic placeholder
-	re := regexp.MustCompile(`\{[^}]+\}`)
-	result = re.ReplaceAllString(result, "placeholder")
-
-	return result
-}
-
-// IsValidURL checks if a URL is in valid format (basic structure validation)
-```
-
-This function is important because it defines how MCP Registry Tutorial: Publishing, Discovery, and Governance for MCP Servers implements the patterns covered in this chapter.
-
-### `internal/validators/utils.go`
-
-The `IsValidURL` function in [`internal/validators/utils.go`](https://github.com/modelcontextprotocol/registry/blob/HEAD/internal/validators/utils.go) handles a key part of this chapter's functionality:
+The `ValidateToken` function in [`internal/auth/jwt.go`](https://github.com/modelcontextprotocol/registry/blob/HEAD/internal/auth/jwt.go) handles a key part of this chapter's functionality:
 
 ```go
 }
 
-// IsValidURL checks if a URL is in valid format (basic structure validation)
-func IsValidURL(rawURL string) bool {
-	// Replace template variables with placeholders for parsing
-	testURL := replaceTemplateVariables(rawURL)
-
-	// Parse the URL
-	u, err := url.Parse(testURL)
+// ValidateToken validates a Registry JWT token and returns the claims
+func (j *JWTManager) ValidateToken(_ context.Context, tokenString string) (*JWTClaims, error) {
+	// Parse token
+	// This also validates expiry
+	token, err := jwt.ParseWithClaims(
+		tokenString,
+		&JWTClaims{},
+		func(_ *jwt.Token) (interface{}, error) { return j.publicKey, nil },
+		jwt.WithValidMethods([]string{"EdDSA"}),
+		jwt.WithExpirationRequired(),
+	)
+	// Validate token
 	if err != nil {
-		return false
+		return nil, fmt.Errorf("failed to parse token: %w", err)
+	}
+	if !token.Valid {
+		return nil, fmt.Errorf("invalid token")
 	}
 
-	// Check if scheme is present (http or https)
-	if u.Scheme != "http" && u.Scheme != "https" {
-		return false
+	// Extract claims
+	claims, ok := token.Claims.(*JWTClaims)
+	if !ok {
+		return nil, fmt.Errorf("invalid token claims")
 	}
 
-	if u.Host == "" {
-		return false
-	}
-	return true
+	return claims, nil
 }
 
-// IsValidSubfolderPath checks if a subfolder path is valid
-func IsValidSubfolderPath(path string) bool {
-	// Empty path is valid (subfolder is optional)
-	if path == "" {
-		return true
-	}
-
-	// Must not start with / (must be relative)
+func (j *JWTManager) HasPermission(resource string, action PermissionAction, permissions []Permission) bool {
+	for _, perm := range permissions {
 ```
 
 This function is important because it defines how MCP Registry Tutorial: Publishing, Discovery, and Governance for MCP Servers implements the patterns covered in this chapter.
 
-### `internal/validators/utils.go`
+### `internal/auth/jwt.go`
 
-The `IsValidSubfolderPath` function in [`internal/validators/utils.go`](https://github.com/modelcontextprotocol/registry/blob/HEAD/internal/validators/utils.go) handles a key part of this chapter's functionality:
+The `HasPermission` function in [`internal/auth/jwt.go`](https://github.com/modelcontextprotocol/registry/blob/HEAD/internal/auth/jwt.go) handles a key part of this chapter's functionality:
 
 ```go
-}
-
-// IsValidSubfolderPath checks if a subfolder path is valid
-func IsValidSubfolderPath(path string) bool {
-	// Empty path is valid (subfolder is optional)
-	if path == "" {
-		return true
-	}
-
-	// Must not start with / (must be relative)
-	if strings.HasPrefix(path, "/") {
-		return false
-	}
-
-	// Must not end with / (clean path format)
-	if strings.HasSuffix(path, "/") {
-		return false
-	}
-
-	// Check for valid path characters (alphanumeric, dash, underscore, dot, forward slash)
-	validPathRegex := regexp.MustCompile(`^[a-zA-Z0-9\-_./]+$`)
-	if !validPathRegex.MatchString(path) {
-		return false
-	}
-
-	// Check that path segments are valid
-	segments := strings.Split(path, "/")
-	for _, segment := range segments {
-		// Disallow empty segments ("//"), current dir ("."), and parent dir ("..")
-		if segment == "" || segment == "." || segment == ".." {
-			return false
+	if !hasGlobalPermissions {
+		for _, blockedNamespace := range BlockedNamespaces {
+			if j.HasPermission(blockedNamespace+"/test", PermissionActionPublish, claims.Permissions) {
+				return nil, fmt.Errorf("your namespace is blocked. raise an issue at https://github.com/modelcontextprotocol/registry/ if you think this is a mistake")
+			}
 		}
+	}
+
+	if claims.IssuedAt == nil {
+		claims.IssuedAt = jwt.NewNumericDate(time.Now())
+	}
+	if claims.ExpiresAt == nil {
+		claims.ExpiresAt = jwt.NewNumericDate(time.Now().Add(j.tokenDuration))
+	}
+	if claims.NotBefore == nil {
+		claims.NotBefore = jwt.NewNumericDate(time.Now())
+	}
+	if claims.Issuer == "" {
+		claims.Issuer = "mcp-registry"
+	}
+
+	// Create token with claims
+	token := jwt.NewWithClaims(&jwt.SigningMethodEd25519{}, claims)
+
+	// Sign token with Ed25519 private key
+	tokenString, err := token.SignedString(j.privateKey)
+	if err != nil {
+		return nil, fmt.Errorf("failed to sign token: %w", err)
+	}
+
+	return &TokenResponse{
+		RegistryToken: tokenString,
 ```
 
 This function is important because it defines how MCP Registry Tutorial: Publishing, Discovery, and Governance for MCP Servers implements the patterns covered in this chapter.
 
-### `internal/validators/utils.go`
+### `internal/auth/jwt.go`
 
-The `IsValidRemoteURL` function in [`internal/validators/utils.go`](https://github.com/modelcontextprotocol/registry/blob/HEAD/internal/validators/utils.go) handles a key part of this chapter's functionality:
+The `isResourceMatch` function in [`internal/auth/jwt.go`](https://github.com/modelcontextprotocol/registry/blob/HEAD/internal/auth/jwt.go) handles a key part of this chapter's functionality:
 
 ```go
+func (j *JWTManager) HasPermission(resource string, action PermissionAction, permissions []Permission) bool {
+	for _, perm := range permissions {
+		if perm.Action == action && isResourceMatch(resource, perm.ResourcePattern) {
+			return true
+		}
+	}
+	return false
 }
 
-// IsValidRemoteURL checks if a URL is valid for remotes (stricter than packages - no localhost allowed)
-func IsValidRemoteURL(rawURL string) bool {
-	// First check basic URL structure
-	if !IsValidURL(rawURL) {
-		return false
+func isResourceMatch(resource, pattern string) bool {
+	if pattern == "*" {
+		return true
 	}
-
-	// Replace template variables with placeholders before parsing for localhost check
-	testURL := replaceTemplateVariables(rawURL)
-
-	// Parse the URL to check for localhost restriction
-	u, err := url.Parse(testURL)
-	if err != nil {
-		return false
+	if strings.HasSuffix(pattern, "*") {
+		return strings.HasPrefix(resource, strings.TrimSuffix(pattern, "*"))
 	}
-
-	// Reject localhost URLs for remotes (security/production concerns)
-	hostname := u.Hostname()
-	if hostname == "localhost" || hostname == "127.0.0.1" || strings.HasSuffix(hostname, ".localhost") {
-		return false
-	}
-
-	if u.Scheme != "https" {
-		return false
-	}
-
-	return true
+	return resource == pattern
 }
 
-// IsValidTemplatedURL validates a URL with template variables against available variables
+```
+
+This function is important because it defines how MCP Registry Tutorial: Publishing, Discovery, and Governance for MCP Servers implements the patterns covered in this chapter.
+
+### `internal/api/server.go`
+
+The `NulByteValidationMiddleware` function in [`internal/api/server.go`](https://github.com/modelcontextprotocol/registry/blob/HEAD/internal/api/server.go) handles a key part of this chapter's functionality:
+
+```go
+)
+
+// NulByteValidationMiddleware rejects requests containing NUL bytes in URL path or query parameters.
+// This prevents PostgreSQL encoding errors (SQLSTATE 22021) and returns a proper 400 Bad Request.
+// Checks for both literal NUL bytes (\x00) and URL-encoded form (%00).
+func NulByteValidationMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		// Check URL path for literal NUL bytes or URL-encoded %00
+		// Path needs %00 check because handlers call url.PathUnescape() which would decode it
+		if containsNulByte(r.URL.Path) {
+			writeErrorResponse(w, http.StatusBadRequest, "Invalid request: URL path contains null bytes")
+			return
+		}
+
+		// Check raw query string for literal NUL bytes or URL-encoded %00
+		if containsNulByte(r.URL.RawQuery) {
+			writeErrorResponse(w, http.StatusBadRequest, "Invalid request: query parameters contain null bytes")
+			return
+		}
+
+		next.ServeHTTP(w, r)
+	})
+}
+
+// writeErrorResponse writes a JSON error response using huma's ErrorModel format
+// for consistency with the rest of the API.
+func writeErrorResponse(w http.ResponseWriter, status int, detail string) {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(status)
+
+	errModel := &huma.ErrorModel{
+		Title:  http.StatusText(status),
 ```
 
 This function is important because it defines how MCP Registry Tutorial: Publishing, Discovery, and Governance for MCP Servers implements the patterns covered in this chapter.
@@ -220,11 +205,11 @@ This function is important because it defines how MCP Registry Tutorial: Publish
 
 ```mermaid
 flowchart TD
-    A[replaceTemplateVariables]
-    B[IsValidURL]
-    C[IsValidSubfolderPath]
-    D[IsValidRemoteURL]
-    E[IsValidTemplatedURL]
+    A[ValidateToken]
+    B[HasPermission]
+    C[isResourceMatch]
+    D[NulByteValidationMiddleware]
+    E[writeErrorResponse]
     A --> B
     B --> C
     C --> D

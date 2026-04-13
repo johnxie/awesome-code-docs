@@ -38,170 +38,168 @@ You can now choose the right execution mode for local debugging or scale evaluat
 
 Next: [Chapter 4: Tooling, Environments, and Model Strategy](04-tooling-environments-and-model-strategy.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `sweagent/run/batch_instances.py`
+### `sweagent/agent/models.py`
 
-The `InstancesFromFile` class in [`sweagent/run/batch_instances.py`](https://github.com/SWE-agent/SWE-agent/blob/HEAD/sweagent/run/batch_instances.py) handles a key part of this chapter's functionality:
+The `InstantEmptySubmitModelConfig` class in [`sweagent/agent/models.py`](https://github.com/SWE-agent/SWE-agent/blob/HEAD/sweagent/agent/models.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-class InstancesFromFile(BaseModel, AbstractInstanceSource):
-    """Load instances from a file."""
+class InstantEmptySubmitModelConfig(GenericAPIModelConfig):
+    """Model that immediately submits an empty patch"""
 
-    path: Path
-    filter: str = ".*"
-    """Regular expression to filter the instances by instance id."""
-    slice: str = ""
-    """Select only a slice of the instances (after filtering by `filter`).
-    Possible values are stop or start:stop or start:stop:step
-    (i.e., it behaves exactly like python's list slicing `list[slice]`).
-    """
-    shuffle: bool = False
-    """Shuffle the instances (before filtering and slicing)."""
+    name: Literal["instant_empty_submit"] = Field(default="instant_empty_submit", description="Model name.")
 
-    deployment: DeploymentConfig = Field(
-        default_factory=lambda: DockerDeploymentConfig(image="python:3.11"),
-        description="Deployment options.",
+    per_instance_cost_limit: float = Field(
+        default=0.0, description="Cost limit for every instance (task). This is a dummy value here."
     )
-    """Note that the image_name option is overwritten by the images specified in the task instances."""
+    total_cost_limit: float = Field(
+        default=0.0, description="Cost limit for all instances (tasks). This is a dummy value here."
+    )
+    delay: float = 0.0
+    """Delay before answering"""
 
-    simple: Literal[True] = True
-    """Convenience discriminator for (de)serialization/CLI. Do not change."""
+    model_config = ConfigDict(extra="forbid")
 
-    type: Literal["file"] = "file"
-    """Discriminator for (de)serialization/CLI. Do not change."""
 
-    def get_instance_configs(self) -> list[BatchInstance]:
-        instance_dicts = load_file(self.path)
-        simple_instances = [SimpleBatchInstance.model_validate(instance_dict) for instance_dict in instance_dicts]
-        instances = [instance.to_full_batch_instance(self.deployment) for instance in simple_instances]
+class HumanModelConfig(GenericAPIModelConfig):
+    name: Literal["human"] = Field(default="human", description="Model name.")
+
+    per_instance_cost_limit: float = Field(
+        default=0.0, description="Cost limit for every instance (task). This is a dummy value here."
+    )
+    total_cost_limit: float = Field(default=0.0, description="Cost limit for all instances (tasks).")
+    cost_per_call: float = 0.0
+    catch_eof: bool = True
+    """Whether to catch EOF and return 'exit' when ^D is pressed. Set to False when used in human_step_in mode."""
+    model_config = ConfigDict(extra="forbid")
+
+
 ```
 
 This class is important because it defines how SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering implements the patterns covered in this chapter.
 
-### `sweagent/run/batch_instances.py`
+### `sweagent/agent/models.py`
 
-The `InstancesFromHuggingFace` class in [`sweagent/run/batch_instances.py`](https://github.com/SWE-agent/SWE-agent/blob/HEAD/sweagent/run/batch_instances.py) handles a key part of this chapter's functionality:
+The `HumanModelConfig` class in [`sweagent/agent/models.py`](https://github.com/SWE-agent/SWE-agent/blob/HEAD/sweagent/agent/models.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-class InstancesFromHuggingFace(BaseModel, AbstractInstanceSource):
-    """Load instances from HuggingFace."""
+class HumanModelConfig(GenericAPIModelConfig):
+    name: Literal["human"] = Field(default="human", description="Model name.")
 
-    dataset_name: str
-    """Name of the HuggingFace dataset. Same as when using `datasets.load_dataset`."""
-    split: str = "dev"
-    filter: str = ".*"
-    """Regular expression to filter the instances by instance id."""
-    slice: str = ""
-    """Select only a slice of the instances (after filtering by `filter`).
-    Possible values are stop or start:stop or start:stop:step.
-    (i.e., it behaves exactly like python's list slicing `list[slice]`).
-    """
-    shuffle: bool = False
-    """Shuffle the instances (before filtering and slicing)."""
-
-    deployment: DeploymentConfig = Field(
-        default_factory=lambda: DockerDeploymentConfig(image="python:3.11"),
+    per_instance_cost_limit: float = Field(
+        default=0.0, description="Cost limit for every instance (task). This is a dummy value here."
     )
-    """Deployment configuration. Note that the `image_name` option is overwritten by the images specified in the task instances.
-    """
-    type: Literal["huggingface"] = "huggingface"
-    """Discriminator for (de)serialization/CLI. Do not change."""
+    total_cost_limit: float = Field(default=0.0, description="Cost limit for all instances (tasks).")
+    cost_per_call: float = 0.0
+    catch_eof: bool = True
+    """Whether to catch EOF and return 'exit' when ^D is pressed. Set to False when used in human_step_in mode."""
+    model_config = ConfigDict(extra="forbid")
 
-    def get_instance_configs(self) -> list[BatchInstance]:
-        from datasets import load_dataset
 
-        ds: list[dict[str, Any]] = load_dataset(self.dataset_name, split=self.split)  # type: ignore
-        simple_instances: list[SimpleBatchInstance] = [SimpleBatchInstance.model_validate(instance) for instance in ds]
-        instances = [instance.to_full_batch_instance(self.deployment) for instance in simple_instances]
+class HumanThoughtModelConfig(HumanModelConfig):
+    name: Literal["human_thought"] = Field(default="human_thought", description="Model name.")
+
+    per_instance_cost_limit: float = Field(
+        default=0.0, description="Cost limit for every instance (task). This is a dummy value here."
+    )
+    total_cost_limit: float = Field(
+        default=0.0, description="Cost limit for all instances (tasks). This is a dummy value here."
+    )
+    cost_per_call: float = 0.0
+
+    model_config = ConfigDict(extra="forbid")
+
+
+ModelConfig = Annotated[
+    GenericAPIModelConfig
+    | ReplayModelConfig
 ```
 
 This class is important because it defines how SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering implements the patterns covered in this chapter.
 
-### `sweagent/run/batch_instances.py`
+### `sweagent/agent/models.py`
 
-The `SWEBenchInstances` class in [`sweagent/run/batch_instances.py`](https://github.com/SWE-agent/SWE-agent/blob/HEAD/sweagent/run/batch_instances.py) handles a key part of this chapter's functionality:
+The `HumanThoughtModelConfig` class in [`sweagent/agent/models.py`](https://github.com/SWE-agent/SWE-agent/blob/HEAD/sweagent/agent/models.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-class SWEBenchInstances(BaseModel, AbstractInstanceSource):
-    """Load instances from SWE-bench."""
+class HumanThoughtModelConfig(HumanModelConfig):
+    name: Literal["human_thought"] = Field(default="human_thought", description="Model name.")
 
-    subset: Literal["lite", "verified", "full", "multimodal", "multilingual"] = "lite"
-    """Subset of swe-bench to use"""
-
-    # IMPORTANT: Do not call this `path`, because then if people do not specify instance.type,
-    # it might be resolved to ExpertInstancesFromFile or something like that.
-    path_override: str | Path | None = None
-    """Allow to specify a different huggingface dataset name or path to a huggingface
-    dataset. This will override the automatic path set by `subset`.
-    """
-
-    split: Literal["dev", "test"] = "dev"
-
-    deployment: DeploymentConfig = Field(
-        default_factory=lambda: DockerDeploymentConfig(image="python:3.11"),
+    per_instance_cost_limit: float = Field(
+        default=0.0, description="Cost limit for every instance (task). This is a dummy value here."
     )
-    """Deployment configuration. Note that the image_name option is overwritten by the images specified in the task instances.
-    """
+    total_cost_limit: float = Field(
+        default=0.0, description="Cost limit for all instances (tasks). This is a dummy value here."
+    )
+    cost_per_call: float = 0.0
 
-    type: Literal["swe_bench"] = "swe_bench"
-    """Discriminator for (de)serialization/CLI. Do not change."""
+    model_config = ConfigDict(extra="forbid")
 
-    filter: str = ".*"
-    """Regular expression to filter the instances by instance id."""
-    slice: str = ""
-    """Select only a slice of the instances (after filtering by `filter`).
-    Possible values are stop or start:stop or start:stop:step.
-    (i.e., it behaves exactly like python's list slicing `list[slice]`).
+
+ModelConfig = Annotated[
+    GenericAPIModelConfig
+    | ReplayModelConfig
+    | InstantEmptySubmitModelConfig
+    | HumanModelConfig
+    | HumanThoughtModelConfig,
+    Field(union_mode="left_to_right"),
+]
+
+
+class GlobalStats(PydanticBaseModel):
+    """This class tracks usage numbers (costs etc.) across all instances."""
+
+    total_cost: float = 0
+    """Cumulative cost for all instances so far"""
+
 ```
 
 This class is important because it defines how SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering implements the patterns covered in this chapter.
 
-### `sweagent/run/batch_instances.py`
+### `sweagent/agent/models.py`
 
-The `ExpertInstancesFromFile` class in [`sweagent/run/batch_instances.py`](https://github.com/SWE-agent/SWE-agent/blob/HEAD/sweagent/run/batch_instances.py) handles a key part of this chapter's functionality:
+The `GlobalStats` class in [`sweagent/agent/models.py`](https://github.com/SWE-agent/SWE-agent/blob/HEAD/sweagent/agent/models.py) handles a key part of this chapter's functionality:
 
 ```py
 
-    # IMPORTANT: Do not call this `path`, because then if people do not specify instance.type,
-    # it might be resolved to ExpertInstancesFromFile or something like that.
-    path_override: str | Path | None = None
-    """Allow to specify a different huggingface dataset name or path to a huggingface
-    dataset. This will override the automatic path set by `subset`.
-    """
 
-    split: Literal["dev", "test"] = "dev"
+class GlobalStats(PydanticBaseModel):
+    """This class tracks usage numbers (costs etc.) across all instances."""
 
-    deployment: DeploymentConfig = Field(
-        default_factory=lambda: DockerDeploymentConfig(image="python:3.11"),
-    )
-    """Deployment configuration. Note that the image_name option is overwritten by the images specified in the task instances.
-    """
+    total_cost: float = 0
+    """Cumulative cost for all instances so far"""
 
-    type: Literal["swe_bench"] = "swe_bench"
-    """Discriminator for (de)serialization/CLI. Do not change."""
+    last_query_timestamp: float = 0
+    """Timestamp of the last query. Currently only used with API models."""
 
-    filter: str = ".*"
-    """Regular expression to filter the instances by instance id."""
-    slice: str = ""
-    """Select only a slice of the instances (after filtering by `filter`).
-    Possible values are stop or start:stop or start:stop:step.
-    (i.e., it behaves exactly like python's list slicing `list[slice]`).
-    """
-    shuffle: bool = False
-    """Shuffle the instances (before filtering and slicing)."""
 
-    evaluate: bool = False
-    """Run sb-cli to evaluate"""
+GLOBAL_STATS = GlobalStats()
+"""This object tracks usage numbers (costs etc.) across all instances.
+Please use the `GLOBAL_STATS_LOCK` lock when accessing this object to avoid race conditions.
+"""
 
+GLOBAL_STATS_LOCK = Lock()
+"""Lock for accessing `GLOBAL_STATS` without race conditions"""
+
+
+class InstanceStats(PydanticBaseModel):
+    """This object tracks usage numbers (costs etc.) for a single instance."""
+
+    instance_cost: float = 0
+    tokens_sent: int = 0
+    tokens_received: int = 0
+    api_calls: int = 0
+
+    def __add__(self, other: InstanceStats) -> InstanceStats:
+        return InstanceStats(
+            **{field: getattr(self, field) + getattr(other, field) for field in self.model_fields.keys()},
 ```
 
 This class is important because it defines how SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering implements the patterns covered in this chapter.
@@ -211,11 +209,11 @@ This class is important because it defines how SWE-agent Tutorial: Autonomous Re
 
 ```mermaid
 flowchart TD
-    A[InstancesFromFile]
-    B[InstancesFromHuggingFace]
-    C[SWEBenchInstances]
-    D[ExpertInstancesFromFile]
-    E[SWESmithInstances]
+    A[InstantEmptySubmitModelConfig]
+    B[HumanModelConfig]
+    C[HumanThoughtModelConfig]
+    D[GlobalStats]
+    E[tracks]
     A --> B
     B --> C
     C --> D

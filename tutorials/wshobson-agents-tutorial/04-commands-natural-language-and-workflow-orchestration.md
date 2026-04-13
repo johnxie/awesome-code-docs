@@ -63,98 +63,28 @@ You now have a balanced command/NL operating model for reliable multi-agent work
 
 Next: [Chapter 5: Agents, Skills, and Model Tier Strategy](05-agents-skills-and-model-tier-strategy.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `tools/yt-design-extractor.py`
+> **Note:** `wshobson/agents` is a prompt-file collection. Command invocation patterns are defined in the plugin command files, not in compiled source. The relevant references for this chapter are the command definition files and usage documentation.
 
-The `ocr_frame_tesseract` function in [`tools/yt-design-extractor.py`](https://github.com/wshobson/agents/blob/HEAD/tools/yt-design-extractor.py) handles a key part of this chapter's functionality:
+### `docs/usage.md` — Command patterns
 
-```py
+The [usage guide](https://github.com/wshobson/agents/blob/main/docs/usage.md) documents both the slash-command invocation pattern (e.g. `/full-stack-orchestration:full-stack-feature`) and the natural-language fallback approach. It also covers the hybrid workflow pattern (command scaffold + NL refinement) described in this chapter.
 
+### `plugins/` command files
 
-def ocr_frame_tesseract(frame_path: Path) -> str:
-    """Extract text from a frame using Tesseract OCR. Converts to grayscale first."""
-    if not TESSERACT_AVAILABLE:
-        return ""
-    try:
-        img = Image.open(frame_path)
-        if img.mode != "L":
-            img = img.convert("L")
-        text = pytesseract.image_to_string(img, config="--psm 6")
-        return text.strip()
-    except Exception as e:
-        print(f"[!] OCR failed for {frame_path}: {e}")
-        return ""
-
-
-def ocr_frame_easyocr(frame_path: Path, reader) -> str:
-    """Extract text from a frame using EasyOCR (better for stylized text)."""
-    try:
-        results = reader.readtext(str(frame_path), detail=0)
-        return "\n".join(results).strip()
-    except Exception as e:
-        print(f"[!] OCR failed for {frame_path}: {e}")
-        return ""
-
-
-def run_ocr_on_frames(
-    frames: list[Path], ocr_engine: str = "tesseract", workers: int = 4
-) -> dict[Path, str]:
-    """Run OCR on frames. Tesseract runs in parallel; EasyOCR sequentially.
-    Returns {frame_path: text}."""
-```
-
-This function is important because it defines how Wshobson Agents Tutorial: Pluginized Multi-Agent Workflows for Claude Code implements the patterns covered in this chapter.
-
-### `tools/yt-design-extractor.py`
-
-The `ocr_frame_easyocr` function in [`tools/yt-design-extractor.py`](https://github.com/wshobson/agents/blob/HEAD/tools/yt-design-extractor.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-def ocr_frame_easyocr(frame_path: Path, reader) -> str:
-    """Extract text from a frame using EasyOCR (better for stylized text)."""
-    try:
-        results = reader.readtext(str(frame_path), detail=0)
-        return "\n".join(results).strip()
-    except Exception as e:
-        print(f"[!] OCR failed for {frame_path}: {e}")
-        return ""
-
-
-def run_ocr_on_frames(
-    frames: list[Path], ocr_engine: str = "tesseract", workers: int = 4
-) -> dict[Path, str]:
-    """Run OCR on frames. Tesseract runs in parallel; EasyOCR sequentially.
-    Returns {frame_path: text}."""
-    if not frames:
-        return {}
-
-    results = {}
-
-    if ocr_engine == "easyocr":
-        if not EASYOCR_AVAILABLE:
-            sys.exit(
-                "EasyOCR was explicitly requested but is not installed.\n"
-                "  Install: pip install torch torchvision --index-url "
-                "https://download.pytorch.org/whl/cpu && pip install easyocr\n"
-                "  Or use: --ocr-engine tesseract"
-            )
-        else:
-            print("[*] Initializing EasyOCR (this may take a moment) …")
-```
-
-This function is important because it defines how Wshobson Agents Tutorial: Pluginized Multi-Agent Workflows for Claude Code implements the patterns covered in this chapter.
-
+Individual command behavior is defined in files like [`plugins/full-stack-orchestration/commands/`](https://github.com/wshobson/agents/tree/main/plugins) — each command file specifies its arguments, default behaviors, and expected outputs, making the invocation contract explicit.
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[ocr_frame_tesseract]
-    B[ocr_frame_easyocr]
-    A --> B
+    A[User Intent] -->|explicit args| B[Slash Command invocation]
+    A -->|open-ended task| C[Natural Language prompt]
+    B -->|predictable path| D[Command definition file]
+    C -->|agent reasoning| E[Dynamic agent selection]
+    D --> F[Deterministic output]
+    E --> G[Flexible output]
+    F --> H[Review command / quality gate]
+    G --> H
 ```

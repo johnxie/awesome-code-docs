@@ -3,215 +3,355 @@ layout: default
 title: "Chapter 1: Getting Started"
 nav_order: 1
 parent: AutoAgent Tutorial
+format_version: v2
+why: "AutoAgent collapses the gap between describing an agent in English and running it in production. Understanding the three operating modes and how to configure your environment from day one prevents wasted debugging time and unlocks the framework's full power."
+mental_model: "Think of AutoAgent as a meta-developer: you describe what you want, and it writes the agent code, tests it in a Docker sandbox, registers it, and hands you the running agent — no orchestration boilerplate required."
+learning_outcomes:
+  - Install AutoAgent and configure API keys for at least one LLM provider
+  - Understand when to use User Mode vs Agent Editor vs Workflow Editor
+  - Run a first deep-research task with the `auto main` CLI
+  - Understand the MetaChain vs AutoAgent naming relationship
+snapshot:
+  source_repo: https://github.com/HKUDS/AutoAgent
+  stars: 9116
+  language: Python
+  license: MIT
+chapter_map:
+  - autoagent/cli.py
+  - autoagent/constant.py
+  - autoagent/core.py
+sources:
+  - https://github.com/HKUDS/AutoAgent
+  - https://arxiv.org/abs/2502.05957
 ---
-
 
 # Chapter 1: Getting Started
 
-Welcome to **Chapter 1: Getting Started**. In this part of **AutoAgent Tutorial: Zero-Code Agent Creation and Automated Workflow Orchestration**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
+## What Problem Does This Solve?
 
+Building multi-agent systems today requires deep framework knowledge: defining agent schemas, wiring tool registries, managing handoffs between agents, handling retries, isolating code execution, and instrumenting everything for debugging. A single research assistant agent can take days to build properly.
 
-This chapter gets AutoAgent installed and running in its core CLI flow.
+AutoAgent (HKUDS, arxiv:2502.05957) solves this by treating agent creation as a **natural language task**. You describe your agent in plain English, and the framework generates the Python code, tool definitions, tests them in Docker, and registers them — all without you writing a line of orchestration code.
 
-## Learning Goals
+The framework ships with three operating modes that cover the most common use cases:
 
-- install AutoAgent from source
-- configure basic `.env` API credentials
-- run first `auto main` flow
-- verify baseline interactive functionality
+1. **User Mode (Deep Research)** — a general-purpose research assistant that browses the web, reads documents, and writes code
+2. **Agent Editor** — creates new custom agents from natural language descriptions
+3. **Workflow Editor** — composes async parallel pipelines for batch or recurring tasks
 
-## Source References
+### The MetaChain / AutoAgent Naming Situation
 
-- [AutoAgent README Quick Start](https://github.com/HKUDS/AutoAgent/blob/main/README.md)
-- [Installation Docs](https://autoagent-ai.github.io/docs/get-started-installation)
-- [Quickstart Docs](https://autoagent-ai.github.io/docs/get-started-quickstart)
+You will encounter this confusion immediately when reading the source code. The project was publicly renamed from **MetaChain** to **AutoAgent** in February 2025. The GitHub repository, README, and pip package are all called `autoagent`. However, the internal Python class, imports, and Docker image still use the original name:
 
-## Summary
+```python
+# This is correct — the class is still MetaChain internally
+from autoagent import MetaChain
 
-You now have a working AutoAgent baseline.
-
-Next: [Chapter 2: Architecture and Interaction Modes](02-architecture-and-interaction-modes.md)
-
-## Depth Expansion Playbook
-
-## Source Code Walkthrough
-
-### `constant.py`
-
-The `str_to_bool` function in [`constant.py`](https://github.com/HKUDS/AutoAgent/blob/HEAD/constant.py) handles a key part of this chapter's functionality:
-
-```py
-# utils: 
-load_dotenv()  # 加载.env文件
-def str_to_bool(value):
-    """convert string to bool"""
-    true_values = {'true', 'yes', '1', 'on', 't', 'y'}
-    false_values = {'false', 'no', '0', 'off', 'f', 'n'}
-    
-    if isinstance(value, bool):
-        return value
-        
-    if value == None:
-        return None
-        
-    value = str(value).lower().strip()
-    if value in true_values:
-        return True
-    if value in false_values:
-        return False
-    return True  # default return True
-
-
-DOCKER_WORKPLACE_NAME = os.getenv('DOCKER_WORKPLACE_NAME', 'workplace')
-GITHUB_AI_TOKEN = os.getenv('GITHUB_AI_TOKEN', None)
-AI_USER = os.getenv('AI_USER', "tjb-tech")
-LOCAL_ROOT = os.getenv('LOCAL_ROOT', os.getcwd())
-
-DEBUG = str_to_bool(os.getenv('DEBUG', False))
-
-DEFAULT_LOG = str_to_bool(os.getenv('DEFAULT_LOG', False))
-LOG_PATH = os.getenv('LOG_PATH', None)
-EVAL_MODE = str_to_bool(os.getenv('EVAL_MODE', False))
-BASE_IMAGES = os.getenv('BASE_IMAGES', None)
+chain = MetaChain(model="gpt-4o")
 ```
 
-This function is important because it defines how AutoAgent Tutorial: Zero-Code Agent Creation and Automated Workflow Orchestration implements the patterns covered in this chapter.
+This tutorial uses "AutoAgent" for the product and "MetaChain" for the specific Python class.
 
-### `constant.py`
+---
 
-The `get_architecture` function in [`constant.py`](https://github.com/HKUDS/AutoAgent/blob/HEAD/constant.py) handles a key part of this chapter's functionality:
+## Installation
 
-```py
-BASE_IMAGES = os.getenv('BASE_IMAGES', None)
+### Prerequisites
 
-def get_architecture():
-    machine = platform.machine().lower()
-    if 'x86' in machine or 'amd64' in machine or 'i386' in machine:
-        return "tjbtech1/metachain:amd64_latest"
-    elif 'arm' in machine:
-        return "tjbtech1/metachain:latest"
-    else: 
-        return "tjbtech1/metachain:latest"
-if BASE_IMAGES is None:
-    BASE_IMAGES = get_architecture()
+| Requirement | Version | Notes |
+|-------------|---------|-------|
+| Python | 3.10+ | Required for `match` statement patterns |
+| Docker | Latest | Required for code execution sandbox |
+| Git | Any | For cloning the repo |
+| GITHUB_AI_TOKEN | — | Required only for Agent Editor mode |
 
-COMPLETION_MODEL = os.getenv('COMPLETION_MODEL', "claude-3-5-sonnet-20241022")
-EMBEDDING_MODEL = os.getenv('EMBEDDING_MODEL', "text-embedding-3-small")
+### Step 1: Clone and Install
 
-MC_MODE = str_to_bool(os.getenv('MC_MODE', True))
-
-# add Env for function call and non-function call
-
-FN_CALL = str_to_bool(os.getenv('FN_CALL', None))
-API_BASE_URL = os.getenv('API_BASE_URL', None)
-ADD_USER = str_to_bool(os.getenv('ADD_USER', None))
-
-
-
-NOT_SUPPORT_SENDER = ["mistral", "groq"]
-MUST_ADD_USER = ["deepseek-reasoner", "o1-mini", "deepseek-r1"]
-
-NOT_SUPPORT_FN_CALL = ["o1-mini", "deepseek-reasoner", "deepseek-r1", "llama", "grok-2"]
-NOT_USE_FN_CALL = [ "deepseek-chat"] + NOT_SUPPORT_FN_CALL
-
+```bash
+git clone https://github.com/HKUDS/AutoAgent
+cd AutoAgent
+pip install -e .
 ```
 
-This function is important because it defines how AutoAgent Tutorial: Zero-Code Agent Creation and Automated Workflow Orchestration implements the patterns covered in this chapter.
+The `-e` flag installs in editable mode, which is important for local development and for the self-modification workflows in Agent Editor mode (the framework clones its own repo into Docker for meta-programming).
 
-### `evaluation/utils.py`
+### Step 2: Verify the CLI
 
-The `make_metadata` function in [`evaluation/utils.py`](https://github.com/HKUDS/AutoAgent/blob/HEAD/evaluation/utils.py) handles a key part of this chapter's functionality:
-
-```py
-import queue  # 添加这行导入
-
-def make_metadata(
-    model: str,
-    dataset_name: str,
-    agent_func: str,
-    eval_note: str | None,
-    eval_output_dir: str,
-    data_split: str | None = None,
-    details: dict[str, Any] | None = None,
-    port: int | None = None,
-    container_name: str | None = None,
-    git_clone: bool = False,
-    test_pull_name: str | None = None,
-) -> EvalMetadata:
-    eval_note = f'_N_{eval_note}' if eval_note else ''
-
-    eval_output_path = os.path.join(
-        eval_output_dir,
-        dataset_name,
-        agent_func.replace('get_', ''),
-        f'{model}_maxiter{eval_note}',
-    )
-
-    pathlib.Path(eval_output_path).mkdir(parents=True, exist_ok=True)
-    pathlib.Path(os.path.join(eval_output_path, 'logs')).mkdir(
-        parents=True, exist_ok=True
-    )
-
-    metadata = EvalMetadata(
-        agent_func=agent_func,
-        model=model,
+```bash
+auto --help
 ```
 
-This function is important because it defines how AutoAgent Tutorial: Zero-Code Agent Creation and Automated Workflow Orchestration implements the patterns covered in this chapter.
+You should see:
 
-### `evaluation/utils.py`
+```
+Usage: auto [OPTIONS] COMMAND [ARGS]...
 
-The `prepare_dataset` function in [`evaluation/utils.py`](https://github.com/HKUDS/AutoAgent/blob/HEAD/evaluation/utils.py) handles a key part of this chapter's functionality:
+Options:
+  --help  Show this message and exit.
 
-```py
-    return metadata
-
-def prepare_dataset(
-    dataset: pd.DataFrame,
-    output_file: str,
-    eval_n_limit: int,
-    eval_ids: list[str] | None = None,
-    skip_num: int | None = None,
-):
-    assert (
-        'instance_id' in dataset.columns
-    ), "Expected 'instance_id' column in the dataset. You should define your own unique identifier for each instance and use it as the 'instance_id' column."
-    logger = LoggerManager.get_logger()
-    id_column = 'instance_id'
-    logger.info(f'Writing evaluation output to {output_file}')
-    finished_ids: set[str] = set()
-    if os.path.exists(output_file):
-        with open(output_file, 'r') as f:
-            for line in f:
-                data = json.loads(line)
-                finished_ids.add(str(data[id_column]))
-        logger.info(
-            f'\nOutput file {output_file} already exists. Loaded {len(finished_ids)} finished instances.', title='Warning', color='red'
-        )
-
-    if eval_ids:
-        eval_ids_converted = [dataset[id_column].dtype.type(id) for id in eval_ids]
-        dataset = dataset[dataset[id_column].isin(eval_ids_converted)]
-        logger.info(f'Limiting evaluation to {len(eval_ids)} specific instances.')
-    elif skip_num and skip_num >= 0:
-        skip_num = min(skip_num, len(dataset))
-        dataset = dataset.iloc[skip_num:]
+Commands:
+  deep-research  Run a deep research task directly
+  main           Start the AutoAgent interactive session
 ```
 
-This function is important because it defines how AutoAgent Tutorial: Zero-Code Agent Creation and Automated Workflow Orchestration implements the patterns covered in this chapter.
+The two primary entry points are `auto main` (interactive session with all three modes) and `auto deep-research` (non-interactive single-shot research).
 
+---
 
-## How These Components Connect
+## Environment Configuration
+
+AutoAgent uses a `.env` file at the project root. Copy the example:
+
+```bash
+cp .env.example .env
+```
+
+### Required Variables
+
+```bash
+# .env
+
+# Choose at least one LLM provider
+OPENAI_API_KEY=sk-...
+ANTHROPIC_API_KEY=sk-ant-...
+DEEPSEEK_API_KEY=...
+GEMINI_API_KEY=...
+
+# Required for Agent Editor (clones AutoAgent repo into Docker)
+GITHUB_AI_TOKEN=ghp_...
+
+# Optional: default model override
+AUTOAGENT_MODEL=gpt-4o
+
+# Optional: workspace directory (defaults to ./workspace)
+WORKSPACE_DIR=./workspace
+```
+
+### Model Selection
+
+AutoAgent routes all LLM calls through **LiteLLM 1.55.0**, which supports 100+ providers. The model string follows LiteLLM conventions:
+
+```bash
+# OpenAI
+AUTOAGENT_MODEL=gpt-4o
+
+# Anthropic
+AUTOAGENT_MODEL=claude-3-5-sonnet-20241022
+
+# DeepSeek (uses XML fallback, not function calling)
+AUTOAGENT_MODEL=deepseek/deepseek-r1
+
+# Local Ollama
+AUTOAGENT_MODEL=ollama/llama3.2
+```
+
+Models that do not support native function calling (DeepSeek-R1, LLaMA, Grok, etc.) fall back to an XML-based tool call syntax handled by `fn_call_converter.py`. Chapter 2 covers this in depth.
+
+---
+
+## Architecture Overview
+
+Before running your first task, it helps to understand the four layers:
 
 ```mermaid
 flowchart TD
-    A[str_to_bool]
-    B[get_architecture]
-    C[make_metadata]
-    D[prepare_dataset]
-    E[run_evaluation]
-    A --> B
-    B --> C
-    C --> D
-    D --> E
+    subgraph "Layer 1: Entry Points"
+        CLI["auto main / auto deep-research"]
+    end
+
+    subgraph "Layer 2: MetaChain Engine"
+        MC["MetaChain.run()"]
+        GCC["get_chat_completion()"]
+        HTC["handle_tool_calls()"]
+    end
+
+    subgraph "Layer 3: Environment Triad"
+        DE["DockerEnv\n(TCP :12346)"]
+        BE["BrowserEnv\n(Playwright)"]
+        MB["RequestsMarkdownBrowser"]
+    end
+
+    subgraph "Layer 4: Registry"
+        PT["plugin_tools"]
+        PA["plugin_agents"]
+        WF["workflows"]
+    end
+
+    CLI --> MC
+    MC --> GCC
+    GCC --> HTC
+    HTC --> DE
+    HTC --> BE
+    HTC --> MB
+    MC --> PT
+    MC --> PA
+    MC --> WF
 ```
+
+**Layer 1 (CLI):** `cli.py` uses Click to expose `auto main` and `auto deep-research`. Both read `constant.py` for defaults.
+
+**Layer 2 (MetaChain Engine):** `core.py` contains the main `MetaChain` class. Its `run()` method loops: call the LLM, dispatch tool calls, check for agent handoff signals, repeat until `case_resolved`.
+
+**Layer 3 (Environment Triad):** Three execution environments that tools can use. `DockerEnv` runs Python code in an isolated container via TCP. `BrowserEnv` drives Playwright for web automation. `RequestsMarkdownBrowser` handles file reading and format conversion.
+
+**Layer 4 (Registry):** A singleton that tracks all registered tools, agents, and workflows. Plugin tools are auto-registered with a 12,000-token output cap.
+
+---
+
+## Three Operating Modes in Detail
+
+### Mode 1: User Mode (Deep Research)
+
+This is the default mode when you run `auto main`. It activates the `SystemTriageAgent`, which routes your requests to specialized sub-agents:
+
+```mermaid
+flowchart LR
+    U[Your Query] --> ST[SystemTriageAgent]
+    ST -->|web task| WS[WebSurferAgent]
+    ST -->|file task| FS[FileSurferAgent]
+    ST -->|code task| PA[ProgrammingAgent]
+    WS -->|handoff| ST
+    FS -->|handoff| ST
+    PA -->|handoff| ST
+    ST -->|done| CR[case_resolved]
+```
+
+Each sub-agent signals completion by calling `case_resolved` or routes to another agent via `transfer_to_X()` functions injected at runtime.
+
+**Example session:**
+
+```
+$ auto main
+
+AutoAgent> Research the top 5 Python async frameworks and compare their performance benchmarks. Save results to a report.
+
+[SystemTriageAgent routing to WebSurferAgent]
+[WebSurferAgent browsing: asyncio benchmarks 2024...]
+[WebSurferAgent browsing: trio vs asyncio performance...]
+[SystemTriageAgent routing to FileSurferAgent]
+[FileSurferAgent writing report to workspace/async_report.md]
+Done. Report saved to workspace/async_report.md
+```
+
+### Mode 2: Agent Editor
+
+Activated when your message includes intent to create or modify an agent. The framework detects this and routes to `AgentFormerAgent`, which starts a 4-phase pipeline: NL → XML form → tool generation → agent code → registration.
+
+```
+AutoAgent> Create a sales agent that recommends products based on user budget and category preferences
+```
+
+Chapter 5 covers this pipeline in full detail.
+
+### Mode 3: Workflow Editor
+
+Activated when your message requests a workflow (batch processing, parallel execution, scheduled runs). Routes to `WorkflowCreatorAgent`, which generates an `EventEngine`-based async pipeline.
+
+```
+AutoAgent> Create a workflow that solves 10 math problems in parallel and picks the majority answer
+```
+
+Chapter 6 covers the EventEngine architecture.
+
+---
+
+## Your First Research Task
+
+With your `.env` configured, start an interactive session:
+
+```bash
+auto main
+```
+
+Try this prompt to verify all three environments are working:
+
+```
+Research what AutoAgent (HKUDS) is, find the GitHub star count, and write a one-paragraph summary to workspace/autoagent_summary.md
+```
+
+This task exercises:
+- `WebSurferAgent` (Playwright browser to fetch GitHub)
+- `FileSurferAgent` (writing the summary file)
+- `SystemTriageAgent` (orchestration between the two)
+
+Expected output flow:
+
+```
+[SystemTriageAgent] Analyzing request...
+[SystemTriageAgent] Routing to WebSurferAgent for GitHub research
+[WebSurferAgent] Navigating to github.com/HKUDS/AutoAgent
+[WebSurferAgent] Extracted: 9,116 stars, Python, MIT license
+[SystemTriageAgent] Routing to FileSurferAgent for writing
+[FileSurferAgent] Writing to workspace/autoagent_summary.md
+[SystemTriageAgent] Task complete
+```
+
+### Non-Interactive Mode
+
+For scripting and CI use cases:
+
+```bash
+auto deep-research "What are the key architectural patterns in AutoAgent? Cite the arxiv paper."
+```
+
+This runs a single research task and exits, printing results to stdout.
+
+---
+
+## @mention Syntax for Direct Routing
+
+You can bypass the triage agent and route directly to a specific agent using `@AgentName` syntax:
+
+```
+AutoAgent> @WebSurferAgent search for the latest LiteLLM release notes
+AutoAgent> @ProgrammingAgent write a Python script to parse CSV files
+AutoAgent> @FileSurferAgent summarize all PDFs in workspace/papers/
+```
+
+This is useful when you know which capability you need and want to skip triage overhead.
+
+---
+
+## Workspace Directory
+
+All file operations default to `./workspace/`. This directory is:
+- Mounted into the Docker container as a shared volume
+- The default read/write location for `FileSurferAgent`
+- Where generated agent code is stored after Agent Editor runs
+
+```bash
+ls workspace/
+# agents/          # Generated agent Python files
+# tools/           # Generated tool Python files
+# workflows/       # Generated workflow files
+# reports/         # Research output files
+```
+
+---
+
+## Common Setup Issues
+
+| Issue | Cause | Fix |
+|-------|-------|-----|
+| `auto: command not found` | Package not installed | Run `pip install -e .` from repo root |
+| `Docker not available` | Docker not running | Start Docker Desktop or Docker daemon |
+| `LiteLLM: No API key` | Missing `.env` entry | Add the key for your chosen provider |
+| `Agent Editor fails` | Missing `GITHUB_AI_TOKEN` | Create a GitHub personal access token |
+| `TCP connection refused :12346` | Docker container not started | DockerEnv auto-starts; check Docker is running |
+
+---
+
+## Summary
+
+| Concept | Key Point |
+|---------|-----------|
+| MetaChain vs AutoAgent | Same thing — MetaChain is the internal class name; AutoAgent is the product name since Feb 2025 |
+| `auto main` | Interactive session; activates all three modes based on your intent |
+| `auto deep-research` | Non-interactive single-shot research task |
+| `.env` | Required for all LLM providers; `GITHUB_AI_TOKEN` required only for Agent Editor |
+| Three modes | User Mode (research), Agent Editor (create agents), Workflow Editor (async pipelines) |
+| Docker | Required for code execution sandbox; auto-started by `DockerEnv` |
+| @mention syntax | Routes directly to a named agent, bypassing triage |
+| workspace/ | Shared file directory between host and Docker container |
+
+Continue to [Chapter 2: Core Architecture: MetaChain Engine](./02-core-architecture-metachain-engine.md) to understand how the run loop, context variables, and tool dispatch work under the hood.

@@ -35,184 +35,169 @@ You now know how to use subagents to scale complex coding tasks.
 
 Next: [Chapter 6: Programmatic and Non-Interactive Modes](06-programmatic-and-non-interactive-modes.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `vibe/core/types.py`
+### `vibe/cli/cli.py`
 
-The `AgentStats` class in [`vibe/core/types.py`](https://github.com/mistralai/mistral-vibe/blob/HEAD/vibe/core/types.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-class AgentStats(BaseModel):
-    steps: int = 0
-    session_prompt_tokens: int = 0
-    session_completion_tokens: int = 0
-    tool_calls_agreed: int = 0
-    tool_calls_rejected: int = 0
-    tool_calls_failed: int = 0
-    tool_calls_succeeded: int = 0
-
-    context_tokens: int = 0
-
-    last_turn_prompt_tokens: int = 0
-    last_turn_completion_tokens: int = 0
-    last_turn_duration: float = 0.0
-    tokens_per_second: float = 0.0
-
-    input_price_per_million: float = 0.0
-    output_price_per_million: float = 0.0
-
-    _listeners: dict[str, Callable[[AgentStats], None]] = PrivateAttr(
-        default_factory=dict
-    )
-
-    def __setattr__(self, name: str, value: Any) -> None:
-        super().__setattr__(name, value)
-        if name in self._listeners:
-            self._listeners[name](self)
-
-    def trigger_listeners(self) -> None:
-        for listener in self._listeners.values():
-```
-
-This class is important because it defines how Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral implements the patterns covered in this chapter.
-
-### `vibe/core/types.py`
-
-The `SessionInfo` class in [`vibe/core/types.py`](https://github.com/mistralai/mistral-vibe/blob/HEAD/vibe/core/types.py) handles a key part of this chapter's functionality:
+The `run_cli` function in [`vibe/cli/cli.py`](https://github.com/mistralai/mistral-vibe/blob/HEAD/vibe/cli/cli.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-class SessionInfo(BaseModel):
-    session_id: str
-    start_time: str
-    message_count: int
-    stats: AgentStats
-    save_dir: str
+def run_cli(args: argparse.Namespace) -> None:
+    load_dotenv_values()
+    bootstrap_config_files()
 
+    if args.setup:
+        run_onboarding()
+        sys.exit(0)
 
-class SessionMetadata(BaseModel):
-    session_id: str
-    start_time: str
-    end_time: str | None
-    git_commit: str | None
-    git_branch: str | None
-    environment: dict[str, str | None]
-    username: str
+    try:
+        initial_agent_name = get_initial_agent_name(args)
+        config = load_config_or_exit()
+        setup_tracing(config)
 
+        if args.enabled_tools:
+            config.enabled_tools = args.enabled_tools
 
-class ClientMetadata(BaseModel):
-    name: str
-    version: str
+        loaded_session = load_session(args, config)
 
-
-class EntrypointMetadata(BaseModel):
-    agent_entrypoint: Literal["cli", "acp", "programmatic"]
-    agent_version: str
-    client_name: str
-    client_version: str
-
-
+        stdin_prompt = get_prompt_from_stdin()
+        if args.prompt is not None:
+            config.disabled_tools = [*config.disabled_tools, "ask_user_question"]
+            programmatic_prompt = args.prompt or stdin_prompt
+            if not programmatic_prompt:
+                print(
+                    "Error: No prompt provided for programmatic mode", file=sys.stderr
+                )
+                sys.exit(1)
+            output_format = OutputFormat(
+                args.output if hasattr(args, "output") else "text"
+            )
 ```
 
-This class is important because it defines how Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral implements the patterns covered in this chapter.
+This function is important because it defines how Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral implements the patterns covered in this chapter.
 
-### `vibe/core/types.py`
+### `vibe/acp/acp_agent_loop.py`
 
-The `SessionMetadata` class in [`vibe/core/types.py`](https://github.com/mistralai/mistral-vibe/blob/HEAD/vibe/core/types.py) handles a key part of this chapter's functionality:
+The `AcpSessionLoop` class in [`vibe/acp/acp_agent_loop.py`](https://github.com/mistralai/mistral-vibe/blob/HEAD/vibe/acp/acp_agent_loop.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-class SessionMetadata(BaseModel):
-    session_id: str
-    start_time: str
-    end_time: str | None
-    git_commit: str | None
-    git_branch: str | None
-    environment: dict[str, str | None]
-    username: str
+class AcpSessionLoop(BaseModel):
+    model_config = ConfigDict(arbitrary_types_allowed=True)
+    id: str
+    agent_loop: AgentLoop
+    task: asyncio.Task[None] | None = None
 
 
-class ClientMetadata(BaseModel):
-    name: str
-    version: str
+class VibeAcpAgentLoop(AcpAgent):
+    client: Client
 
+    def __init__(self) -> None:
+        self.sessions: dict[str, AcpSessionLoop] = {}
+        self.client_capabilities: ClientCapabilities | None = None
+        self.client_info: Implementation | None = None
 
-class EntrypointMetadata(BaseModel):
-    agent_entrypoint: Literal["cli", "acp", "programmatic"]
-    agent_version: str
-    client_name: str
-    client_version: str
+    @override
+    async def initialize(
+        self,
+        protocol_version: int,
+        client_capabilities: ClientCapabilities | None = None,
+        client_info: Implementation | None = None,
+        **kwargs: Any,
+    ) -> InitializeResponse:
+        self.client_capabilities = client_capabilities
+        self.client_info = client_info
 
-
-StrToolChoice = Literal["auto", "none", "any", "required"]
-
-
-class AvailableFunction(BaseModel):
-    name: str
-    description: str
-    parameters: dict[str, Any]
-
+        # The ACP Agent process can be launched in 3 different ways, depending on installation
+        #  - dev mode: `uv run vibe-acp`, ran from the project root
+        #  - uv tool install: `vibe-acp`, similar to dev mode, but uv takes care of path resolution
+        #  - bundled binary: `./vibe-acp` from binary location
 ```
 
 This class is important because it defines how Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral implements the patterns covered in this chapter.
 
-### `vibe/core/types.py`
+### `vibe/acp/acp_agent_loop.py`
 
-The `ClientMetadata` class in [`vibe/core/types.py`](https://github.com/mistralai/mistral-vibe/blob/HEAD/vibe/core/types.py) handles a key part of this chapter's functionality:
+The `VibeAcpAgentLoop` class in [`vibe/acp/acp_agent_loop.py`](https://github.com/mistralai/mistral-vibe/blob/HEAD/vibe/acp/acp_agent_loop.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-class ClientMetadata(BaseModel):
-    name: str
-    version: str
+class VibeAcpAgentLoop(AcpAgent):
+    client: Client
 
+    def __init__(self) -> None:
+        self.sessions: dict[str, AcpSessionLoop] = {}
+        self.client_capabilities: ClientCapabilities | None = None
+        self.client_info: Implementation | None = None
 
-class EntrypointMetadata(BaseModel):
-    agent_entrypoint: Literal["cli", "acp", "programmatic"]
-    agent_version: str
-    client_name: str
-    client_version: str
+    @override
+    async def initialize(
+        self,
+        protocol_version: int,
+        client_capabilities: ClientCapabilities | None = None,
+        client_info: Implementation | None = None,
+        **kwargs: Any,
+    ) -> InitializeResponse:
+        self.client_capabilities = client_capabilities
+        self.client_info = client_info
 
-
-StrToolChoice = Literal["auto", "none", "any", "required"]
-
-
-class AvailableFunction(BaseModel):
-    name: str
-    description: str
-    parameters: dict[str, Any]
-
-
-class AvailableTool(BaseModel):
-    type: Literal["function"] = "function"
-    function: AvailableFunction
-
-
-class FunctionCall(BaseModel):
-    name: str | None = None
-    arguments: str | None = None
-
+        # The ACP Agent process can be launched in 3 different ways, depending on installation
+        #  - dev mode: `uv run vibe-acp`, ran from the project root
+        #  - uv tool install: `vibe-acp`, similar to dev mode, but uv takes care of path resolution
+        #  - bundled binary: `./vibe-acp` from binary location
+        # The 2 first modes are working similarly, under the hood uv runs `/some/python /my/entrypoint.py``
+        # The last mode is quite different as our bundler also includes the python install.
+        # So sys.executable is already /path/to/binary/vibe-acp.
+        # For this reason, we make a distinction in the way we call the setup command
+        command = sys.executable
+        if "python" not in Path(command).name:
+            # It's the case for bundled binaries, we don't need any other arguments
 ```
 
 This class is important because it defines how Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral implements the patterns covered in this chapter.
+
+### `vibe/acp/acp_agent_loop.py`
+
+The `run_acp_server` function in [`vibe/acp/acp_agent_loop.py`](https://github.com/mistralai/mistral-vibe/blob/HEAD/vibe/acp/acp_agent_loop.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+def run_acp_server() -> None:
+    try:
+        asyncio.run(
+            run_agent(
+                agent=VibeAcpAgentLoop(),
+                use_unstable_protocol=True,
+                observers=[acp_message_observer],
+            )
+        )
+    except KeyboardInterrupt:
+        # This is expected when the server is terminated
+        pass
+    except Exception as e:
+        # Log any unexpected errors
+        print(f"ACP Agent Server error: {e}", file=sys.stderr)
+        raise
+
+```
+
+This function is important because it defines how Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[AgentStats]
-    B[SessionInfo]
-    C[SessionMetadata]
-    D[ClientMetadata]
-    E[EntrypointMetadata]
+    A[run_cli]
+    B[AcpSessionLoop]
+    C[VibeAcpAgentLoop]
+    D[run_acp_server]
+    E[from]
     A --> B
     B --> C
     C --> D

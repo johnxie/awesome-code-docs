@@ -46,184 +46,159 @@ You now understand how to map tasks to the right MCP Chrome tool group with lowe
 
 Next: [Chapter 4: Semantic Search and Vector Processing](04-semantic-search-and-vector-processing.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `packages/shared/src/agent-types.ts`
+### `app/chrome-extension/utils/content-indexer.ts`
 
-The `AgentStatusEvent` interface in [`packages/shared/src/agent-types.ts`](https://github.com/hangwin/mcp-chrome/blob/HEAD/packages/shared/src/agent-types.ts) handles a key part of this chapter's functionality:
+The `to` class in [`app/chrome-extension/utils/content-indexer.ts`](https://github.com/hangwin/mcp-chrome/blob/HEAD/app/chrome-extension/utils/content-indexer.ts) handles a key part of this chapter's functionality:
 
 ```ts
-export type StreamTransport = 'sse' | 'websocket';
+/**
+ * Content index manager
+ * Responsible for automatically extracting, chunking and indexing tab content
+ */
 
-export interface AgentStatusEvent {
-  sessionId: string;
-  status: 'starting' | 'ready' | 'running' | 'completed' | 'error' | 'cancelled';
-  message?: string;
-  requestId?: string;
+import { TextChunker } from './text-chunker';
+import { VectorDatabase, getGlobalVectorDatabase } from './vector-database';
+import {
+  SemanticSimilarityEngine,
+  SemanticSimilarityEngineProxy,
+  PREDEFINED_MODELS,
+  type ModelPreset,
+} from './semantic-similarity-engine';
+import { TOOL_MESSAGE_TYPES } from '@/common/message-types';
+
+export interface IndexingOptions {
+  autoIndex?: boolean;
+  maxChunksPerPage?: number;
+  skipDuplicates?: boolean;
 }
 
-export interface AgentConnectedEvent {
-  sessionId: string;
-  transport: StreamTransport;
-  timestamp: string;
-}
+export class ContentIndexer {
+  private textChunker: TextChunker;
+  private vectorDatabase!: VectorDatabase;
+  private semanticEngine!: SemanticSimilarityEngine | SemanticSimilarityEngineProxy;
+  private isInitialized = false;
+  private isInitializing = false;
+  private initPromise: Promise<void> | null = null;
+  private indexedPages = new Set<string>();
+  private readonly options: Required<IndexingOptions>;
 
-export interface AgentHeartbeatEvent {
-  timestamp: string;
-}
+  constructor(options?: IndexingOptions) {
+```
 
-/** Usage statistics for a request */
-export interface AgentUsageStats {
-  sessionId: string;
-  requestId?: string;
-  inputTokens: number;
-  outputTokens: number;
-  cacheReadInputTokens?: number;
-  cacheCreationInputTokens?: number;
-  totalCostUsd: number;
-  durationMs: number;
-  numTurns: number;
+This class is important because it defines how MCP Chrome Tutorial: Control Your Real Chrome Browser Through MCP implements the patterns covered in this chapter.
+
+### `app/chrome-extension/utils/content-indexer.ts`
+
+The `getGlobalContentIndexer` function in [`app/chrome-extension/utils/content-indexer.ts`](https://github.com/hangwin/mcp-chrome/blob/HEAD/app/chrome-extension/utils/content-indexer.ts) handles a key part of this chapter's functionality:
+
+```ts
+ * Get global ContentIndexer instance
+ */
+export function getGlobalContentIndexer(): ContentIndexer {
+  if (!globalContentIndexer) {
+    globalContentIndexer = new ContentIndexer();
+  }
+  return globalContentIndexer;
 }
 
 ```
 
-This interface is important because it defines how MCP Chrome Tutorial: Control Your Real Chrome Browser Through MCP implements the patterns covered in this chapter.
+This function is important because it defines how MCP Chrome Tutorial: Control Your Real Chrome Browser Through MCP implements the patterns covered in this chapter.
 
-### `packages/shared/src/agent-types.ts`
+### `app/chrome-extension/utils/content-indexer.ts`
 
-The `AgentConnectedEvent` interface in [`packages/shared/src/agent-types.ts`](https://github.com/hangwin/mcp-chrome/blob/HEAD/packages/shared/src/agent-types.ts) handles a key part of this chapter's functionality:
+The `IndexingOptions` interface in [`app/chrome-extension/utils/content-indexer.ts`](https://github.com/hangwin/mcp-chrome/blob/HEAD/app/chrome-extension/utils/content-indexer.ts) handles a key part of this chapter's functionality:
 
 ```ts
+import { TOOL_MESSAGE_TYPES } from '@/common/message-types';
+
+export interface IndexingOptions {
+  autoIndex?: boolean;
+  maxChunksPerPage?: number;
+  skipDuplicates?: boolean;
 }
 
-export interface AgentConnectedEvent {
-  sessionId: string;
-  transport: StreamTransport;
-  timestamp: string;
-}
+export class ContentIndexer {
+  private textChunker: TextChunker;
+  private vectorDatabase!: VectorDatabase;
+  private semanticEngine!: SemanticSimilarityEngine | SemanticSimilarityEngineProxy;
+  private isInitialized = false;
+  private isInitializing = false;
+  private initPromise: Promise<void> | null = null;
+  private indexedPages = new Set<string>();
+  private readonly options: Required<IndexingOptions>;
 
-export interface AgentHeartbeatEvent {
-  timestamp: string;
-}
+  constructor(options?: IndexingOptions) {
+    this.options = {
+      autoIndex: true,
+      maxChunksPerPage: 50,
+      skipDuplicates: true,
+      ...options,
+    };
 
-/** Usage statistics for a request */
-export interface AgentUsageStats {
-  sessionId: string;
-  requestId?: string;
-  inputTokens: number;
-  outputTokens: number;
-  cacheReadInputTokens?: number;
-  cacheCreationInputTokens?: number;
-  totalCostUsd: number;
-  durationMs: number;
-  numTurns: number;
-}
+    this.textChunker = new TextChunker();
+  }
 
-export type RealtimeEvent =
-  | { type: 'message'; data: AgentMessage }
-  | { type: 'status'; data: AgentStatusEvent }
-  | { type: 'error'; error: string; data?: { sessionId?: string; requestId?: string } }
-  | { type: 'connected'; data: AgentConnectedEvent }
-  | { type: 'heartbeat'; data: AgentHeartbeatEvent }
-  | { type: 'usage'; data: AgentUsageStats };
+  /**
+   * Get current selected model configuration
+   */
 ```
 
 This interface is important because it defines how MCP Chrome Tutorial: Control Your Real Chrome Browser Through MCP implements the patterns covered in this chapter.
 
-### `packages/shared/src/agent-types.ts`
+### `app/chrome-extension/common/web-editor-types.ts`
 
-The `AgentHeartbeatEvent` interface in [`packages/shared/src/agent-types.ts`](https://github.com/hangwin/mcp-chrome/blob/HEAD/packages/shared/src/agent-types.ts) handles a key part of this chapter's functionality:
-
-```ts
-}
-
-export interface AgentHeartbeatEvent {
-  timestamp: string;
-}
-
-/** Usage statistics for a request */
-export interface AgentUsageStats {
-  sessionId: string;
-  requestId?: string;
-  inputTokens: number;
-  outputTokens: number;
-  cacheReadInputTokens?: number;
-  cacheCreationInputTokens?: number;
-  totalCostUsd: number;
-  durationMs: number;
-  numTurns: number;
-}
-
-export type RealtimeEvent =
-  | { type: 'message'; data: AgentMessage }
-  | { type: 'status'; data: AgentStatusEvent }
-  | { type: 'error'; error: string; data?: { sessionId?: string; requestId?: string } }
-  | { type: 'connected'; data: AgentConnectedEvent }
-  | { type: 'heartbeat'; data: AgentHeartbeatEvent }
-  | { type: 'usage'; data: AgentUsageStats };
-
-// ============================================================
-// HTTP API Contracts
-// ============================================================
-
-export interface AgentAttachment {
-```
-
-This interface is important because it defines how MCP Chrome Tutorial: Control Your Real Chrome Browser Through MCP implements the patterns covered in this chapter.
-
-### `packages/shared/src/agent-types.ts`
-
-The `AgentUsageStats` interface in [`packages/shared/src/agent-types.ts`](https://github.com/hangwin/mcp-chrome/blob/HEAD/packages/shared/src/agent-types.ts) handles a key part of this chapter's functionality:
+The `changes` class in [`app/chrome-extension/common/web-editor-types.ts`](https://github.com/hangwin/mcp-chrome/blob/HEAD/app/chrome-extension/common/web-editor-types.ts) handles a key part of this chapter's functionality:
 
 ```ts
-
-/** Usage statistics for a request */
-export interface AgentUsageStats {
-  sessionId: string;
-  requestId?: string;
-  inputTokens: number;
-  outputTokens: number;
-  cacheReadInputTokens?: number;
-  cacheCreationInputTokens?: number;
-  totalCostUsd: number;
-  durationMs: number;
-  numTurns: number;
+ *
+ * Uses multiple strategies to locate elements, supporting:
+ * - HMR/DOM changes recovery
+ * - Cross-session persistence
+ * - Framework-agnostic identification
+ */
+export interface ElementLocator {
+  /** CSS selector candidates (ordered by specificity) */
+  selectors: string[];
+  /** Structural fingerprint for similarity matching */
+  fingerprint: string;
+  /** Framework debug information (React/Vue) */
+  debugSource?: DebugSource;
+  /** DOM tree path (child indices from root) */
+  path: number[];
+  /** iframe selector chain (from top to target frame) - Phase 4 */
+  frameChain?: string[];
+  /** Shadow DOM host selector chain - Phase 2 */
+  shadowHostChain?: string[];
 }
 
-export type RealtimeEvent =
-  | { type: 'message'; data: AgentMessage }
-  | { type: 'status'; data: AgentStatusEvent }
-  | { type: 'error'; error: string; data?: { sessionId?: string; requestId?: string } }
-  | { type: 'connected'; data: AgentConnectedEvent }
-  | { type: 'heartbeat'; data: AgentHeartbeatEvent }
-  | { type: 'usage'; data: AgentUsageStats };
+// =============================================================================
+// Transaction System (Phase 1 - Basic Structure, Low Priority)
+// =============================================================================
 
-// ============================================================
-// HTTP API Contracts
-// ============================================================
+/** Transaction operation types */
+export type TransactionType = 'style' | 'text' | 'class' | 'move' | 'structure';
 
-export interface AgentAttachment {
-  type: 'file' | 'image';
-  name: string;
-  mimeType: string;
-  dataBase64: string;
-}
+/**
+ * Transaction snapshot for undo/redo
+ * Captures element state before/after changes
+ */
 ```
 
-This interface is important because it defines how MCP Chrome Tutorial: Control Your Real Chrome Browser Through MCP implements the patterns covered in this chapter.
+This class is important because it defines how MCP Chrome Tutorial: Control Your Real Chrome Browser Through MCP implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[AgentStatusEvent]
-    B[AgentConnectedEvent]
-    C[AgentHeartbeatEvent]
-    D[AgentUsageStats]
-    E[AgentAttachment]
+    A[to]
+    B[getGlobalContentIndexer]
+    C[IndexingOptions]
+    D[changes]
+    E[WebEditorState]
     A --> B
     B --> C
     C --> D

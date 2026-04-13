@@ -63,51 +63,22 @@ Next: [Chapter 6: Configuration, Security, and Enterprise Controls](06-configura
 
 ## Source Code Walkthrough
 
-### `python/tabby/trainer.py`
+Use the following upstream sources to verify editor agent and client integration details while reading this chapter:
 
-The `parse_args` function in [`python/tabby/trainer.py`](https://github.com/TabbyML/tabby/blob/HEAD/python/tabby/trainer.py) handles a key part of this chapter's functionality:
+- [`clients/tabby-agent/src/index.ts`](https://github.com/TabbyML/tabby/blob/HEAD/clients/tabby-agent/src/index.ts) — the TypeScript LSP bridge that editor extensions communicate with; it handles completion requests, inline completion debounce, and connection management to the Tabby server.
+- [`clients/tabby-agent/src/TabbyClient.ts`](https://github.com/TabbyML/tabby/blob/HEAD/clients/tabby-agent/src/TabbyClient.ts) — the HTTP client layer inside `tabby-agent` that sends requests to the Tabby server API and handles authentication headers and retry logic.
 
-```py
-
-
-def parse_args() -> TrainLoraArguments:
-    parser = HfArgumentParser(TrainLoraArguments)
-    return parser.parse_args()
-
-
-def train(args: TrainLoraArguments):
-    gradient_accumulation_steps = args.batch_size // args.micro_batch_size
-
-    model = AutoModelForCausalLM.from_pretrained(
-        args.base_model, torch_dtype=torch.float16 if args.half else torch.float32
-    )
-
-    tokenizer = AutoTokenizer.from_pretrained(args.base_model)
-
-    config = peft.LoraConfig(
-        r=args.lora_r,
-        lora_alpha=args.lora_alpha,
-        target_modules=args.lora_target_modules,
-        lora_dropout=args.lora_dropout,
-        bias="none",
-        task_type=peft.TaskType.CAUSAL_LM,
-    )
-    model = peft.get_peft_model(model, config)
-
-    data_files = glob.glob(os.path.join(args.data_path, "*.jsonl"))
-    print("Collected data files...", data_files)
-    dataset = load_dataset("json", data_files=data_files)["train"]
-    data = Dataset.from_generator(ConstantLengthDataset(tokenizer, dataset))
-
-    resume_from_checkpoint = args.resume_from_checkpoint
-```
-
-This function is important because it defines how Tabby Tutorial: Self-Hosted AI Coding Assistant Architecture and Operations implements the patterns covered in this chapter.
-
+Suggested trace strategy:
+- trace how the VS Code extension calls `tabby-agent` for inline completions and how the agent proxies to the server
+- review `TabbyClient.ts` to understand the request/response lifecycle including token auth and error recovery
+- check `clients/tabby-vscode/` for the VS Code extension source to see the full editor integration surface
 
 ## How These Components Connect
 
 ```mermaid
-flowchart TD
-    A[parse_args]
+flowchart LR
+    A[VS Code inline completion trigger] --> B[tabby-vscode extension]
+    B --> C[tabby-agent LSP bridge]
+    C --> D[TabbyClient HTTP request]
+    D --> E[Tabby server completion API]
 ```

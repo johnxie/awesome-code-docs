@@ -559,9 +559,29 @@ class RobustAPIService:
         return True
 ```
 
+## API Development Architecture
+
+```mermaid
+flowchart TD
+    A[Define Service class]
+    B[Add api endpoints with @bentoml.api decorator]
+    C[Specify input and output types]
+    D[Add auth and rate limiting middleware]
+    E[Client sends HTTP request to endpoint]
+    F[BentoML deserializes input]
+    G[Service method executes with runner]
+    H[Response serialized and returned]
+    A --> B
+    B --> C
+    C --> D
+    E --> F
+    F --> G
+    G --> H
+```
+
 ## What We've Accomplished
 
-Congratulations! 🎉 You've successfully learned:
+You've successfully learned:
 
 1. **Multiple API Formats** - JSON, NumPy, File, and Image APIs
 2. **Authentication** - JWT-based authentication for secure APIs

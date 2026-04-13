@@ -2,7 +2,7 @@
 
 Auto-generated topical clusters to strengthen internal linking and query-to-tutorial mapping.
 
-- Total tutorials: **201**
+- Total tutorials: **203**
 - Total clusters: **9**
 - Source: `scripts/generate_discoverability_assets.py`
 
@@ -64,7 +64,7 @@ Auto-generated topical clusters to strengthen internal linking and query-to-tuto
 
 ## ai-coding-agents
 
-- tutorial_count: **89**
+- tutorial_count: **92**
 
 - [A2A Protocol Tutorial: Building Interoperable Agent Systems With Google's Agent-to-Agent Standard](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/a2a-protocol-tutorial/README.md)
   - intents: agentic-coding
@@ -82,11 +82,11 @@ Auto-generated topical clusters to strengthen internal linking and query-to-tuto
   - intents: production-operations, agentic-coding
 - [Aider Tutorial: AI Pair Programming in Your Terminal](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/aider-tutorial/README.md)
   - intents: agentic-coding
-- [Anthropic Skills Tutorial: Reusable AI Agent Capabilities](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/anthropic-skills-tutorial/README.md)
-  - intents: production-operations, agentic-coding
+- [Anthropic Quickstarts Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/anthropic-skills-tutorial/README.md)
+  - intents: agentic-coding
 - [AnythingLLM Tutorial: Self-Hosted RAG and Agents Platform](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/anything-llm-tutorial/README.md)
   - intents: production-operations, agentic-coding
-- [AutoAgent Tutorial: Zero-Code Agent Creation and Automated Workflow Orchestration](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/autoagent-tutorial/README.md)
+- [AutoAgent Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/autoagent-tutorial/README.md)
   - intents: production-operations, agentic-coding
 - [Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/awesome-claude-code-tutorial/README.md)
   - intents: tool-selection, agentic-coding
@@ -116,16 +116,14 @@ Auto-generated topical clusters to strengthen internal linking and query-to-tuto
   - intents: agentic-coding
 - [Cline Tutorial: Agentic Coding with Human Control](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/cline-tutorial/README.md)
   - intents: agentic-coding
-- ... plus 64 more tutorials in this cluster
+- ... plus 67 more tutorials in this cluster
 
 ## data-and-storage
 
-- tutorial_count: **9**
+- tutorial_count: **8**
 
 - [AFFiNE Tutorial: Open-Source AI Workspace with Docs, Whiteboards, and Databases](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/affine-tutorial/README.md)
   - intents: general-learning
-- [Athens Research: Deep Dive Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/athens-research-tutorial/README.md)
-  - intents: architecture-deep-dive
 - [ClickHouse Tutorial: High-Performance Analytical Database](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/clickhouse-tutorial/README.md)
   - intents: general-learning
 - [Logseq: Deep Dive Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/logseq-tutorial/README.md)
@@ -145,13 +143,13 @@ Auto-generated topical clusters to strengthen internal linking and query-to-tuto
 
 - tutorial_count: **17**
 
+- [Athens Research: Deep Dive Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/athens-research-tutorial/README.md)
+  - intents: production-operations, architecture-deep-dive
 - [Botpress Tutorial: Open Source Conversational AI Platform](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/botpress-tutorial/README.md)
   - intents: production-operations
 - [Claude Task Master Tutorial: AI-Powered Task Management for Developers](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-task-master-tutorial/README.md)
   - intents: general-learning
 - [DSPy Tutorial: Programming Language Models](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/dspy-tutorial/README.md)
-  - intents: general-learning
-- [Deer Flow Tutorial: Distributed Workflow Orchestration Platform](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/deer-flow-tutorial/README.md)
   - intents: general-learning
 - [Fabric Tutorial: Open-Source Framework for Augmenting Humans with AI](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/fabric-tutorial/README.md)
   - intents: general-learning

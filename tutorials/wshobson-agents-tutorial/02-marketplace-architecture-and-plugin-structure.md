@@ -58,98 +58,27 @@ You now understand the composable architecture that powers the ecosystem.
 
 Next: [Chapter 3: Installation and Plugin Selection Strategy](03-installation-and-plugin-selection-strategy.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `tools/yt-design-extractor.py`
+> **Note:** `wshobson/agents` is a collection of Claude Code plugin definitions (YAML/Markdown prompt files), not a traditional compiled library. The architecture is expressed through directory structure and file conventions rather than executable code.
 
-The `get_transcript` function in [`tools/yt-design-extractor.py`](https://github.com/wshobson/agents/blob/HEAD/tools/yt-design-extractor.py) handles a key part of this chapter's functionality:
+### `docs/architecture.md`
 
-```py
+The [architecture guide](https://github.com/wshobson/agents/blob/main/docs/architecture.md) explains the composable plugin design: how `plugins/<name>/agents/`, `plugins/<name>/commands/`, and `plugins/<name>/skills/` directories implement the single-responsibility principle described in this chapter.
 
+### `.claude-plugin/marketplace.json`
 
-def get_transcript(video_id: str) -> list[dict] | None:
-    """Grab the transcript via youtube-transcript-api. Returns list of
-    {text, start, duration} dicts, or None if unavailable."""
-    try:
-        from youtube_transcript_api import YouTubeTranscriptApi
-        from youtube_transcript_api._errors import (
-            TranscriptsDisabled,
-            NoTranscriptFound,
-            VideoUnavailable,
-        )
-    except ImportError:
-        print("[!] youtube-transcript-api not installed. Skipping transcript.")
-        return None
-
-    try:
-        print("[*] Fetching transcript …")
-        ytt_api = YouTubeTranscriptApi()
-        transcript = ytt_api.fetch(video_id)
-        entries = []
-        for snippet in transcript:
-            entries.append(
-                {
-                    "text": snippet.text,
-                    "start": snippet.start,
-                    "duration": snippet.duration,
-                }
-            )
-        return entries
-    except (TranscriptsDisabled, NoTranscriptFound, VideoUnavailable) as e:
-        print(f"[!] Transcript unavailable ({e}). Will proceed without it.")
-```
-
-This function is important because it defines how Wshobson Agents Tutorial: Pluginized Multi-Agent Workflows for Claude Code implements the patterns covered in this chapter.
-
-### `tools/yt-design-extractor.py`
-
-The `download_video` function in [`tools/yt-design-extractor.py`](https://github.com/wshobson/agents/blob/HEAD/tools/yt-design-extractor.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-def download_video(url: str, out_dir: Path) -> Path:
-    """Download video, preferring 720p or lower. Falls back to best available."""
-    out_template = str(out_dir / "video.%(ext)s")
-    cmd = [
-        "yt-dlp",
-        "-f",
-        "bestvideo[height<=720]+bestaudio/best[height<=720]/best",
-        "--merge-output-format",
-        "mp4",
-        "-o",
-        out_template,
-        "--no-playlist",
-        url,
-    ]
-    print("[*] Downloading video (720p preferred) …")
-    try:
-        result = subprocess.run(cmd, capture_output=True, text=True, timeout=600)
-    except subprocess.TimeoutExpired:
-        sys.exit(
-            "Video download timed out after 10 minutes. "
-            "The video may be too large or your connection too slow."
-        )
-    if result.returncode != 0:
-        sys.exit(f"yt-dlp download failed:\n{result.stderr}")
-
-    # Find the downloaded file
-    for f in out_dir.iterdir():
-        if f.name.startswith("video.") and f.suffix in (".mp4", ".mkv", ".webm"):
-            return f
-    sys.exit("Download succeeded but could not locate video file.")
-```
-
-This function is important because it defines how Wshobson Agents Tutorial: Pluginized Multi-Agent Workflows for Claude Code implements the patterns covered in this chapter.
-
+The [marketplace manifest](https://github.com/wshobson/agents/blob/main/.claude-plugin/marketplace.json) is the structural root of the plugin catalog — it maps plugin names to their directory paths, categories, and descriptions, making the composability model concrete.
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[get_transcript]
-    B[download_video]
-    A --> B
+    A[marketplace.json] -->|catalog metadata| B[Plugin Discovery]
+    B -->|points to| C[plugins/name/agents/]
+    B -->|points to| D[plugins/name/commands/]
+    B -->|points to| E[plugins/name/skills/]
+    C --> F[specialist agent prompt files]
+    D --> G[slash command definitions]
+    E --> H[progressive-disclosure skill packs]
 ```

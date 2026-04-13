@@ -853,6 +853,18 @@ Under the hood, `Chapter 3: Tools & Functions - Extending Agent Capabilities` us
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
+## Tool Integration Flow
+
+```mermaid
+flowchart TD
+    A[Tool Definition] --> B[Function Signature]
+    B --> C[JSON Schema Generation]
+    C --> D[LLM Function Calling]
+    D --> E[Tool Invocation]
+    E --> F[Result]
+    F --> G[Back to Agent Context]
+```
+
 ## Source Walkthrough
 
 Use the following upstream sources to verify implementation details while reading this chapter:

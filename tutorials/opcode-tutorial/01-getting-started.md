@@ -50,8 +50,6 @@ You now have Opcode connected to a working Claude Code environment.
 
 Next: [Chapter 2: Architecture and Platform Stack](02-architecture-and-platform-stack.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `src-tauri/tauri.conf.json`
@@ -177,43 +175,43 @@ function AppContent() {
 
 This function is important because it defines how Opcode Tutorial: GUI Command Center for Claude Code Workflows implements the patterns covered in this chapter.
 
-### `src/components/Settings.tsx`
+### `src/components/FloatingPromptInput.tsx`
 
-The `SettingsProps` interface in [`src/components/Settings.tsx`](https://github.com/winfunc/opcode/blob/HEAD/src/components/Settings.tsx) handles a key part of this chapter's functionality:
+The `FloatingPromptInputProps` interface in [`src/components/FloatingPromptInput.tsx`](https://github.com/winfunc/opcode/blob/HEAD/src/components/FloatingPromptInput.tsx) handles a key part of this chapter's functionality:
 
 ```tsx
-import { TabPersistenceService } from "@/services/tabPersistence";
+const getCurrentWebviewWindow = tauriGetCurrentWebviewWindow || (() => ({ listen: () => Promise.resolve(() => {}) }));
 
-interface SettingsProps {
+interface FloatingPromptInputProps {
   /**
-   * Callback to go back to the main view
+   * Callback when prompt is sent
    */
-  onBack: () => void;
+  onSend: (prompt: string, model: "sonnet" | "opus") => void;
+  /**
+   * Whether the input is loading
+   */
+  isLoading?: boolean;
+  /**
+   * Whether the input is disabled
+   */
+  disabled?: boolean;
+  /**
+   * Default model to select
+   */
+  defaultModel?: "sonnet" | "opus";
+  /**
+   * Project path for file picker
+   */
+  projectPath?: string;
   /**
    * Optional className for styling
    */
   className?: string;
-}
-
-interface PermissionRule {
-  id: string;
-  value: string;
-}
-
-interface EnvironmentVariable {
-  id: string;
-  key: string;
-  value: string;
-}
-
-/**
- * Comprehensive Settings UI for managing Claude Code settings
- * Provides a no-code interface for editing the settings.json file
- */
-export const Settings: React.FC<SettingsProps> = ({
-  className,
-}) => {
-  const [settings, setSettings] = useState<ClaudeSettings | null>(null);
+  /**
+   * Callback when cancel is clicked (only during loading)
+   */
+  onCancel?: () => void;
+  /**
 ```
 
 This interface is important because it defines how Opcode Tutorial: GUI Command Center for Claude Code Workflows implements the patterns covered in this chapter.
@@ -226,8 +224,8 @@ flowchart TD
     A[for]
     B[AppContent]
     C[App]
-    D[SettingsProps]
-    E[PermissionRule]
+    D[FloatingPromptInputProps]
+    E[FloatingPromptInputRef]
     A --> B
     B --> C
     C --> D

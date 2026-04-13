@@ -47,9 +47,89 @@ You now understand the core architecture choices that shape Opcode behavior.
 
 Next: [Chapter 3: Projects and Session Management](03-projects-and-session-management.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
+
+### `src/components/Settings.tsx`
+
+The `SettingsProps` interface in [`src/components/Settings.tsx`](https://github.com/winfunc/opcode/blob/HEAD/src/components/Settings.tsx) handles a key part of this chapter's functionality:
+
+```tsx
+import { TabPersistenceService } from "@/services/tabPersistence";
+
+interface SettingsProps {
+  /**
+   * Callback to go back to the main view
+   */
+  onBack: () => void;
+  /**
+   * Optional className for styling
+   */
+  className?: string;
+}
+
+interface PermissionRule {
+  id: string;
+  value: string;
+}
+
+interface EnvironmentVariable {
+  id: string;
+  key: string;
+  value: string;
+}
+
+/**
+ * Comprehensive Settings UI for managing Claude Code settings
+ * Provides a no-code interface for editing the settings.json file
+ */
+export const Settings: React.FC<SettingsProps> = ({
+  className,
+}) => {
+  const [settings, setSettings] = useState<ClaudeSettings | null>(null);
+```
+
+This interface is important because it defines how Opcode Tutorial: GUI Command Center for Claude Code Workflows implements the patterns covered in this chapter.
+
+### `src/components/Settings.tsx`
+
+The `PermissionRule` interface in [`src/components/Settings.tsx`](https://github.com/winfunc/opcode/blob/HEAD/src/components/Settings.tsx) handles a key part of this chapter's functionality:
+
+```tsx
+}
+
+interface PermissionRule {
+  id: string;
+  value: string;
+}
+
+interface EnvironmentVariable {
+  id: string;
+  key: string;
+  value: string;
+}
+
+/**
+ * Comprehensive Settings UI for managing Claude Code settings
+ * Provides a no-code interface for editing the settings.json file
+ */
+export const Settings: React.FC<SettingsProps> = ({
+  className,
+}) => {
+  const [settings, setSettings] = useState<ClaudeSettings | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState("general");
+  const [currentBinaryPath, setCurrentBinaryPath] = useState<string | null>(null);
+  const [selectedInstallation, setSelectedInstallation] = useState<ClaudeInstallation | null>(null);
+  const [binaryPathChanged, setBinaryPathChanged] = useState(false);
+  const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
+  
+  // Permission rules state
+  const [allowRules, setAllowRules] = useState<PermissionRule[]>([]);
+```
+
+This interface is important because it defines how Opcode Tutorial: GUI Command Center for Claude Code Workflows implements the patterns covered in this chapter.
 
 ### `src/components/Settings.tsx`
 
@@ -133,98 +213,16 @@ export const Settings: React.FC<SettingsProps> = ({
 
 This interface is important because it defines how Opcode Tutorial: GUI Command Center for Claude Code Workflows implements the patterns covered in this chapter.
 
-### `src/components/AgentExecution.tsx`
-
-The `AgentExecutionProps` interface in [`src/components/AgentExecution.tsx`](https://github.com/winfunc/opcode/blob/HEAD/src/components/AgentExecution.tsx) handles a key part of this chapter's functionality:
-
-```tsx
-import { useTabState } from "@/hooks/useTabState";
-
-interface AgentExecutionProps {
-  /**
-   * The agent to execute
-   */
-  agent: Agent;
-  /**
-   * Optional initial project path
-   */
-  projectPath?: string;
-  /**
-   * Optional tab ID for updating tab status
-   */
-  tabId?: string;
-  /**
-   * Callback to go back to the agents list
-   */
-  onBack: () => void;
-  /**
-   * Optional className for styling
-   */
-  className?: string;
-}
-
-export interface ClaudeStreamMessage {
-  type: "system" | "assistant" | "user" | "result";
-  subtype?: string;
-  message?: {
-    content?: any[];
-    usage?: {
-      input_tokens: number;
-```
-
-This interface is important because it defines how Opcode Tutorial: GUI Command Center for Claude Code Workflows implements the patterns covered in this chapter.
-
-### `src/components/AgentExecution.tsx`
-
-The `ClaudeStreamMessage` interface in [`src/components/AgentExecution.tsx`](https://github.com/winfunc/opcode/blob/HEAD/src/components/AgentExecution.tsx) handles a key part of this chapter's functionality:
-
-```tsx
-}
-
-export interface ClaudeStreamMessage {
-  type: "system" | "assistant" | "user" | "result";
-  subtype?: string;
-  message?: {
-    content?: any[];
-    usage?: {
-      input_tokens: number;
-      output_tokens: number;
-    };
-  };
-  usage?: {
-    input_tokens: number;
-    output_tokens: number;
-  };
-  [key: string]: any;
-}
-
-/**
- * AgentExecution component for running CC agents
- * 
- * @example
- * <AgentExecution agent={agent} onBack={() => setView('list')} />
- */
-export const AgentExecution: React.FC<AgentExecutionProps> = ({
-  agent,
-  projectPath: initialProjectPath,
-  tabId,
-  onBack,
-  className,
-}) => {
-```
-
-This interface is important because it defines how Opcode Tutorial: GUI Command Center for Claude Code Workflows implements the patterns covered in this chapter.
-
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[EnvironmentVariable]
-    B[for]
-    C[AgentExecutionProps]
-    D[ClaudeStreamMessage]
-    E[StreamMessageProps]
+    A[SettingsProps]
+    B[PermissionRule]
+    C[EnvironmentVariable]
+    D[for]
+    E[AgentExecutionProps]
     A --> B
     B --> C
     C --> D

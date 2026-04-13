@@ -922,6 +922,23 @@ Under the hood, `Chapter 4: Memory Systems - Building Context-Aware Agents` usua
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
+## Memory System Architecture
+
+```mermaid
+flowchart LR
+    A[User Message] --> B[Agent]
+    B --> C{Memory Type}
+    C --> D[Short-term: Session Context]
+    C --> E[Long-term: Vector Store]
+    C --> F[Structured: Database]
+    D --> G[In-context]
+    E --> H[Similarity Search]
+    F --> I[SQL / Key-value Lookup]
+    G --> B
+    H --> B
+    I --> B
+```
+
 ## Source Walkthrough
 
 Use the following upstream sources to verify implementation details while reading this chapter:

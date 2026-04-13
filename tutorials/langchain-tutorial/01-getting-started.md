@@ -171,6 +171,20 @@ Now that you have the basics working, you're ready to explore more advanced feat
 
 *What would you like to build with your new LangChain setup? Try modifying the example to ask different questions or change the system message!* 🚀
 
+## LangChain Building Blocks
+
+```mermaid
+flowchart TD
+    A[User input] --> B[LangChain chain]
+    B --> C[PromptTemplate]
+    C --> D[ChatModel / LLM]
+    D --> E[OutputParser]
+    E --> F[Structured response]
+    D --> G[Tool calls]
+    G --> H[External API / DB]
+    H --> D
+```
+
 ## What Problem Does This Solve?
 
 Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `langchain`, `messages`, `chat` so behavior stays predictable as complexity grows.

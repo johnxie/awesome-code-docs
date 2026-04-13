@@ -46,170 +46,168 @@ You now have a repeatable way to build server primitives that stay understandabl
 
 Next: [Chapter 5: Client Capabilities: Roots, Sampling, and Elicitation](05-client-capabilities-roots-sampling-and-elicitation.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `mcp/transport.go`
+### `mcp/client.go`
 
-The `Close` function in [`mcp/transport.go`](https://github.com/modelcontextprotocol/go-sdk/blob/HEAD/mcp/transport.go) handles a key part of this chapter's functionality:
+The `handle` function in [`mcp/client.go`](https://github.com/modelcontextprotocol/go-sdk/blob/HEAD/mcp/client.go) handles a key part of this chapter's functionality:
 
 ```go
-)
-
-// ErrConnectionClosed is returned when sending a message to a connection that
-// is closed or in the process of closing.
-var ErrConnectionClosed = errors.New("connection closed")
-
-// ErrSessionMissing is returned when the session is known to not be present on
-// the server.
-var ErrSessionMissing = errors.New("session not found")
-
-// A Transport is used to create a bidirectional connection between MCP client
-// and server.
-//
-// Transports should be used for at most one call to [Server.Connect] or
-// [Client.Connect].
-type Transport interface {
-	// Connect returns the logical JSON-RPC connection..
+	// Logger may be set to a non-nil value to enable logging of client activity.
+	Logger *slog.Logger
+	// CreateMessageHandler handles incoming requests for sampling/createMessage.
 	//
-	// It is called exactly once by [Server.Connect] or [Client.Connect].
-	Connect(ctx context.Context) (Connection, error)
-}
-
-// A Connection is a logical bidirectional JSON-RPC connection.
-type Connection interface {
-	// Read reads the next message to process off the connection.
+	// Setting CreateMessageHandler to a non-nil value automatically causes the
+	// client to advertise the sampling capability, with default value
+	// &SamplingCapabilities{}. If [ClientOptions.Capabilities] is set and has a
+	// non nil value for [ClientCapabilities.Sampling], that value overrides the
+	// inferred capability.
+	CreateMessageHandler func(context.Context, *CreateMessageRequest) (*CreateMessageResult, error)
+	// CreateMessageWithToolsHandler handles incoming sampling/createMessage
+	// requests that may involve tool use. It returns
+	// [CreateMessageWithToolsResult], which supports array content for parallel
+	// tool calls.
 	//
-	// Connections must allow Read to be called concurrently with Close. In
-	// particular, calling Close should unblock a Read waiting for input.
-	Read(context.Context) (jsonrpc.Message, error)
-
-	// Write writes a new message to the connection.
+	// Setting this handler causes the client to advertise the sampling
+	// capability with tools support (sampling.tools). As with
+	// [CreateMessageHandler], [ClientOptions.Capabilities].Sampling overrides
+	// the inferred capability.
 	//
+	// It is a panic to set both CreateMessageHandler and
+	// CreateMessageWithToolsHandler.
+	CreateMessageWithToolsHandler func(context.Context, *CreateMessageWithToolsRequest) (*CreateMessageWithToolsResult, error)
+	// ElicitationHandler handles incoming requests for elicitation/create.
+	//
+	// Setting ElicitationHandler to a non-nil value automatically causes the
+	// client to advertise the elicitation capability, with default value
+	// &ElicitationCapabilities{}. If [ClientOptions.Capabilities] is set and has
+	// a non nil value for [ClientCapabilities.ELicitattion], that value
+	// overrides the inferred capability.
+	ElicitationHandler func(context.Context, *ElicitRequest) (*ElicitResult, error)
+	// Capabilities optionally configures the client's default capabilities,
 ```
 
 This function is important because it defines how MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go implements the patterns covered in this chapter.
 
-### `mcp/transport.go`
+### `mcp/client.go`
 
-The `Read` function in [`mcp/transport.go`](https://github.com/modelcontextprotocol/go-sdk/blob/HEAD/mcp/transport.go) handles a key part of this chapter's functionality:
+The `sendingMethodHandler` function in [`mcp/client.go`](https://github.com/modelcontextprotocol/go-sdk/blob/HEAD/mcp/client.go) handles a key part of this chapter's functionality:
 
 ```go
-// A Connection is a logical bidirectional JSON-RPC connection.
-type Connection interface {
-	// Read reads the next message to process off the connection.
-	//
-	// Connections must allow Read to be called concurrently with Close. In
-	// particular, calling Close should unblock a Read waiting for input.
-	Read(context.Context) (jsonrpc.Message, error)
-
-	// Write writes a new message to the connection.
-	//
-	// Write may be called concurrently, as calls or responses may occur
-	// concurrently in user code.
-	Write(context.Context, jsonrpc.Message) error
-
-	// Close closes the connection. It is implicitly called whenever a Read or
-	// Write fails.
-	//
-	// Close may be called multiple times, potentially concurrently.
-	Close() error
-
-	// TODO(#148): remove SessionID from this interface.
-	SessionID() string
+	roots                   *featureSet[*Root]
+	sessions                []*ClientSession
+	sendingMethodHandler_   MethodHandler
+	receivingMethodHandler_ MethodHandler
 }
 
-// A ClientConnection is a [Connection] that is specific to the MCP client.
+// NewClient creates a new [Client].
 //
-// If client connections implement this interface, they may receive information
-// about changes to the client session.
+// Use [Client.Connect] to connect it to an MCP server.
 //
-// TODO: should this interface be exported?
-type clientConnection interface {
-	Connection
+// The first argument must not be nil.
+//
+// If non-nil, the provided options configure the Client.
+func NewClient(impl *Implementation, options *ClientOptions) *Client {
+	if impl == nil {
+		panic("nil Implementation")
+	}
+	var opts ClientOptions
+	if options != nil {
+		opts = *options
+	}
+	options = nil // prevent reuse
+
+	if opts.CreateMessageHandler != nil && opts.CreateMessageWithToolsHandler != nil {
+		panic("cannot set both CreateMessageHandler and CreateMessageWithToolsHandler; use CreateMessageWithToolsHandler for tool support, or CreateMessageHandler for basic sampling")
+	}
+	if opts.Logger == nil { // ensure we have a logger
+		opts.Logger = ensureLogger(nil)
+	}
+
+	return &Client{
+		impl:                    impl,
 ```
 
 This function is important because it defines how MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go implements the patterns covered in this chapter.
 
-### `mcp/transport.go`
+### `mcp/client.go`
 
-The `Write` function in [`mcp/transport.go`](https://github.com/modelcontextprotocol/go-sdk/blob/HEAD/mcp/transport.go) handles a key part of this chapter's functionality:
+The `receivingMethodHandler` function in [`mcp/client.go`](https://github.com/modelcontextprotocol/go-sdk/blob/HEAD/mcp/client.go) handles a key part of this chapter's functionality:
 
 ```go
-	Read(context.Context) (jsonrpc.Message, error)
-
-	// Write writes a new message to the connection.
-	//
-	// Write may be called concurrently, as calls or responses may occur
-	// concurrently in user code.
-	Write(context.Context, jsonrpc.Message) error
-
-	// Close closes the connection. It is implicitly called whenever a Read or
-	// Write fails.
-	//
-	// Close may be called multiple times, potentially concurrently.
-	Close() error
-
-	// TODO(#148): remove SessionID from this interface.
-	SessionID() string
+	sessions                []*ClientSession
+	sendingMethodHandler_   MethodHandler
+	receivingMethodHandler_ MethodHandler
 }
 
-// A ClientConnection is a [Connection] that is specific to the MCP client.
+// NewClient creates a new [Client].
 //
-// If client connections implement this interface, they may receive information
-// about changes to the client session.
+// Use [Client.Connect] to connect it to an MCP server.
 //
-// TODO: should this interface be exported?
-type clientConnection interface {
-	Connection
+// The first argument must not be nil.
+//
+// If non-nil, the provided options configure the Client.
+func NewClient(impl *Implementation, options *ClientOptions) *Client {
+	if impl == nil {
+		panic("nil Implementation")
+	}
+	var opts ClientOptions
+	if options != nil {
+		opts = *options
+	}
+	options = nil // prevent reuse
 
-	// sessionUpdated is called whenever the client session state changes.
-	sessionUpdated(clientSessionState)
-}
+	if opts.CreateMessageHandler != nil && opts.CreateMessageWithToolsHandler != nil {
+		panic("cannot set both CreateMessageHandler and CreateMessageWithToolsHandler; use CreateMessageWithToolsHandler for tool support, or CreateMessageHandler for basic sampling")
+	}
+	if opts.Logger == nil { // ensure we have a logger
+		opts.Logger = ensureLogger(nil)
+	}
 
-// A serverConnection is a Connection that is specific to the MCP server.
+	return &Client{
+		impl:                    impl,
+		opts:                    opts,
 ```
 
 This function is important because it defines how MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go implements the patterns covered in this chapter.
 
-### `mcp/transport.go`
+### `mcp/client.go`
 
-The `Close` function in [`mcp/transport.go`](https://github.com/modelcontextprotocol/go-sdk/blob/HEAD/mcp/transport.go) handles a key part of this chapter's functionality:
+The `getConn` function in [`mcp/client.go`](https://github.com/modelcontextprotocol/go-sdk/blob/HEAD/mcp/client.go) handles a key part of this chapter's functionality:
 
 ```go
-)
-
-// ErrConnectionClosed is returned when sending a message to a connection that
-// is closed or in the process of closing.
-var ErrConnectionClosed = errors.New("connection closed")
-
-// ErrSessionMissing is returned when the session is known to not be present on
-// the server.
-var ErrSessionMissing = errors.New("session not found")
-
-// A Transport is used to create a bidirectional connection between MCP client
-// and server.
-//
-// Transports should be used for at most one call to [Server.Connect] or
-// [Client.Connect].
-type Transport interface {
-	// Connect returns the logical JSON-RPC connection..
-	//
-	// It is called exactly once by [Server.Connect] or [Client.Connect].
-	Connect(ctx context.Context) (Connection, error)
 }
 
-// A Connection is a logical bidirectional JSON-RPC connection.
-type Connection interface {
-	// Read reads the next message to process off the connection.
-	//
-	// Connections must allow Read to be called concurrently with Close. In
-	// particular, calling Close should unblock a Read waiting for input.
-	Read(context.Context) (jsonrpc.Message, error)
+// getConn implements [Session.getConn].
+func (cs *ClientSession) getConn() *jsonrpc2.Connection { return cs.conn }
 
-	// Write writes a new message to the connection.
-	//
+func (*ClientSession) ping(context.Context, *PingParams) (*emptyResult, error) {
+	return &emptyResult{}, nil
+}
+
+// cancel is a placeholder: cancellation is handled the jsonrpc2 package.
+//
+// It should never be invoked in practice because cancellation is preempted,
+// but having its signature here facilitates the construction of methodInfo
+// that can be used to validate incoming cancellation notifications.
+func (*ClientSession) cancel(context.Context, *CancelledParams) (Result, error) {
+	return nil, nil
+}
+
+func newClientRequest[P Params](cs *ClientSession, params P) *ClientRequest[P] {
+	return &ClientRequest[P]{Session: cs, Params: params}
+}
+
+// Ping makes an MCP "ping" request to the server.
+func (cs *ClientSession) Ping(ctx context.Context, params *PingParams) error {
+	_, err := handleSend[*emptyResult](ctx, methodPing, newClientRequest(cs, orZero[Params](params)))
+	return err
+}
+
+// ListPrompts lists prompts that are currently available on the server.
+func (cs *ClientSession) ListPrompts(ctx context.Context, params *ListPromptsParams) (*ListPromptsResult, error) {
+	return handleSend[*ListPromptsResult](ctx, methodListPrompts, newClientRequest(cs, orZero[Params](params)))
+}
 ```
 
 This function is important because it defines how MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go implements the patterns covered in this chapter.
@@ -219,11 +217,11 @@ This function is important because it defines how MCP Go SDK Tutorial: Building 
 
 ```mermaid
 flowchart TD
-    A[Close]
-    B[Read]
-    C[Write]
-    D[Close]
-    E[newIOConn]
+    A[handle]
+    B[sendingMethodHandler]
+    C[receivingMethodHandler]
+    D[getConn]
+    E[Ping]
     A --> B
     B --> C
     C --> D

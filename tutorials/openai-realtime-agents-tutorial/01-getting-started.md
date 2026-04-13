@@ -103,8 +103,6 @@ You now have a reproducible local baseline and a structured way to verify realti
 
 Next: [Chapter 2: Realtime API Fundamentals](02-realtime-api-fundamentals.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `src/app/page.tsx`
@@ -123,29 +121,6 @@ export default function Page() {
         </EventProvider>
       </TranscriptProvider>
     </Suspense>
-  );
-}
-
-```
-
-This function is important because it defines how OpenAI Realtime Agents Tutorial: Voice-First AI Systems implements the patterns covered in this chapter.
-
-### `src/app/layout.tsx`
-
-The `RootLayout` function in [`src/app/layout.tsx`](https://github.com/openai/openai-realtime-agents/blob/HEAD/src/app/layout.tsx) handles a key part of this chapter's functionality:
-
-```tsx
-};
-
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  return (
-    <html lang="en">
-      <body className={`antialiased`}>{children}</body>
-    </html>
   );
 }
 
@@ -235,16 +210,57 @@ export type AllAgentConfigsType = Record<string, AgentConfig[]>;
 
 This interface is important because it defines how OpenAI Realtime Agents Tutorial: Voice-First AI Systems implements the patterns covered in this chapter.
 
+### `src/app/types.ts`
+
+The `Tool` interface in [`src/app/types.ts`](https://github.com/openai/openai-realtime-agents/blob/HEAD/src/app/types.ts) handles a key part of this chapter's functionality:
+
+```ts
+export type SessionStatus = "DISCONNECTED" | "CONNECTING" | "CONNECTED";
+
+export interface ToolParameterProperty {
+  type: string;
+  description?: string;
+  enum?: string[];
+  pattern?: string;
+  properties?: Record<string, ToolParameterProperty>;
+  required?: string[];
+  additionalProperties?: boolean;
+  items?: ToolParameterProperty;
+}
+
+export interface ToolParameters {
+  type: string;
+  properties: Record<string, ToolParameterProperty>;
+  required?: string[];
+  additionalProperties?: boolean;
+}
+
+export interface Tool {
+  type: "function";
+  name: string;
+  description: string;
+  parameters: ToolParameters;
+}
+
+export interface AgentConfig {
+  name: string;
+  publicDescription: string; // gives context to agent transfer tool
+  instructions: string;
+  tools: Tool[];
+```
+
+This interface is important because it defines how OpenAI Realtime Agents Tutorial: Voice-First AI Systems implements the patterns covered in this chapter.
+
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
     A[Page]
-    B[RootLayout]
-    C[ToolParameterProperty]
-    D[ToolParameters]
-    E[Tool]
+    B[ToolParameterProperty]
+    C[ToolParameters]
+    D[Tool]
+    E[AgentConfig]
     A --> B
     B --> C
     C --> D

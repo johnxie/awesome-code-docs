@@ -99,186 +99,34 @@ Suggested trace strategy:
 - [Main Catalog](../../README.md#-tutorial-catalog)
 - [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `whisper/decoding.py`
 
-The `SequenceRanker` class in [`whisper/decoding.py`](https://github.com/openai/whisper/blob/HEAD/whisper/decoding.py) handles a key part of this chapter's functionality:
+The `detect_language` function in [`whisper/decoding.py`](https://github.com/openai/whisper/blob/HEAD/whisper/decoding.py) is the entry point for language detection, covered in this advanced chapter:
 
 ```py
-
-
-class SequenceRanker:
-    def rank(
-        self, tokens: List[List[Tensor]], sum_logprobs: List[List[float]]
-    ) -> List[int]:
-        """
-        Given a list of groups of samples and their cumulative log probabilities,
-        return the indices of the samples in each group to select as the final result
-        """
-        raise NotImplementedError
-
-
-class MaximumLikelihoodRanker(SequenceRanker):
+@torch.no_grad()
+def detect_language(
+    model: "Whisper", mel: Tensor, tokenizer: Tokenizer = None
+) -> Tuple[Tensor, List[dict]]:
     """
-    Select the sample with the highest log probabilities, penalized using either
-    a simple length normalization or Google NMT paper's length penalty
+    Detect the spoken language in the audio, and return them as list of strings, along with the ids
+    of the most probable language tokens and the probability distribution over all language tokens.
+    This is performed outside the main decode loop in order to not interfere with kv-caching.
     """
-
-    def __init__(self, length_penalty: Optional[float]):
-        self.length_penalty = length_penalty
-
-    def rank(self, tokens: List[List[Tensor]], sum_logprobs: List[List[float]]):
-        def scores(logprobs, lengths):
-            result = []
-            for logprob, length in zip(logprobs, lengths):
-                if self.length_penalty is None:
-                    penalty = length
-                else:
-                    # from the Google NMT paper
-                    penalty = ((5 + length) / 6) ** self.length_penalty
-                result.append(logprob / penalty)
 ```
 
-This class is important because it defines how OpenAI Whisper Tutorial: Speech Recognition and Translation implements the patterns covered in this chapter.
-
-### `whisper/decoding.py`
-
-The `MaximumLikelihoodRanker` class in [`whisper/decoding.py`](https://github.com/openai/whisper/blob/HEAD/whisper/decoding.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-class MaximumLikelihoodRanker(SequenceRanker):
-    """
-    Select the sample with the highest log probabilities, penalized using either
-    a simple length normalization or Google NMT paper's length penalty
-    """
-
-    def __init__(self, length_penalty: Optional[float]):
-        self.length_penalty = length_penalty
-
-    def rank(self, tokens: List[List[Tensor]], sum_logprobs: List[List[float]]):
-        def scores(logprobs, lengths):
-            result = []
-            for logprob, length in zip(logprobs, lengths):
-                if self.length_penalty is None:
-                    penalty = length
-                else:
-                    # from the Google NMT paper
-                    penalty = ((5 + length) / 6) ** self.length_penalty
-                result.append(logprob / penalty)
-            return result
-
-        # get the sequence with the highest score
-        lengths = [[len(t) for t in s] for s in tokens]
-        return [np.argmax(scores(p, l)) for p, l in zip(sum_logprobs, lengths)]
-
-
-class TokenDecoder:
-    def reset(self):
-        """Initialize any stateful variables for decoding a new sequence"""
-
-```
-
-This class is important because it defines how OpenAI Whisper Tutorial: Speech Recognition and Translation implements the patterns covered in this chapter.
-
-### `whisper/decoding.py`
-
-The `TokenDecoder` class in [`whisper/decoding.py`](https://github.com/openai/whisper/blob/HEAD/whisper/decoding.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-class TokenDecoder:
-    def reset(self):
-        """Initialize any stateful variables for decoding a new sequence"""
-
-    def update(
-        self, tokens: Tensor, logits: Tensor, sum_logprobs: Tensor
-    ) -> Tuple[Tensor, bool]:
-        """Specify how to select the next token, based on the current trace and logits
-
-        Parameters
-        ----------
-        tokens : Tensor, shape = (n_batch, current_sequence_length)
-            all tokens in the context so far, including the prefix and sot_sequence tokens
-
-        logits : Tensor, shape = (n_batch, vocab_size)
-            per-token logits of the probability distribution at the current step
-
-        sum_logprobs : Tensor, shape = (n_batch)
-            cumulative log probabilities for each sequence
-
-        Returns
-        -------
-        tokens : Tensor, shape = (n_batch, current_sequence_length + 1)
-            the tokens, appended with the selected next token
-
-        completed : bool
-            True if all sequences has reached the end of text
-
-        """
-        raise NotImplementedError
-```
-
-This class is important because it defines how OpenAI Whisper Tutorial: Speech Recognition and Translation implements the patterns covered in this chapter.
-
-### `whisper/decoding.py`
-
-The `GreedyDecoder` class in [`whisper/decoding.py`](https://github.com/openai/whisper/blob/HEAD/whisper/decoding.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-class GreedyDecoder(TokenDecoder):
-    def __init__(self, temperature: float, eot: int):
-        self.temperature = temperature
-        self.eot = eot
-
-    def update(
-        self, tokens: Tensor, logits: Tensor, sum_logprobs: Tensor
-    ) -> Tuple[Tensor, bool]:
-        if self.temperature == 0:
-            next_tokens = logits.argmax(dim=-1)
-        else:
-            next_tokens = Categorical(logits=logits / self.temperature).sample()
-
-        logprobs = F.log_softmax(logits.float(), dim=-1)
-        current_logprobs = logprobs[torch.arange(logprobs.shape[0]), next_tokens]
-        sum_logprobs += current_logprobs * (tokens[:, -1] != self.eot)
-
-        next_tokens[tokens[:, -1] == self.eot] = self.eot
-        tokens = torch.cat([tokens, next_tokens[:, None]], dim=-1)
-
-        completed = (tokens[:, -1] == self.eot).all()
-        return tokens, completed
-
-    def finalize(self, tokens: Tensor, sum_logprobs: Tensor):
-        # make sure each sequence has at least one EOT token at the end
-        tokens = F.pad(tokens, (0, 1), value=self.eot)
-        return tokens, sum_logprobs.tolist()
-
-
-class BeamSearchDecoder(TokenDecoder):
-```
-
-This class is important because it defines how OpenAI Whisper Tutorial: Speech Recognition and Translation implements the patterns covered in this chapter.
-
+This function is important because it enables multilingual detection and is the basis for advanced word-timestamp and diarization workflows described in this chapter.
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[SequenceRanker]
-    B[MaximumLikelihoodRanker]
-    C[TokenDecoder]
-    D[GreedyDecoder]
-    E[BeamSearchDecoder]
-    A --> B
-    B --> C
-    C --> D
-    D --> E
+    A[whisper.transcribe with word_timestamps=True] --> B[detect_language]
+    B --> C[decode with timestamps]
+    C --> D[timing.add_word_timestamps]
+    D --> E[DTW Alignment]
+    E --> F[Word-level Timestamps]
+    F --> G[Diarization Integration]
 ```

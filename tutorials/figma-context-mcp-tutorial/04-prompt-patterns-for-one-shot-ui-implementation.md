@@ -32,184 +32,182 @@ You now have prompt patterns that convert design context into higher-fidelity co
 
 Next: [Chapter 5: MCP Client Integrations](05-mcp-client-integrations.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `src/transformers/style.ts`
+### `src/transformers/layout.ts`
 
-The `mapGradientStops` function in [`src/transformers/style.ts`](https://github.com/GLips/Figma-Context-MCP/blob/HEAD/src/transformers/style.ts) handles a key part of this chapter's functionality:
+The `convertSizing` function in [`src/transformers/layout.ts`](https://github.com/GLips/Figma-Context-MCP/blob/HEAD/src/transformers/layout.ts) handles a key part of this chapter's functionality:
 
 ```ts
- * Map gradient stops from Figma's handle-based coordinate system to CSS percentages
- */
-function mapGradientStops(
-  gradient: Extract<
-    Paint,
-    { type: "GRADIENT_LINEAR" | "GRADIENT_RADIAL" | "GRADIENT_ANGULAR" | "GRADIENT_DIAMOND" }
-  >,
-  elementBounds: { width: number; height: number } = { width: 1, height: 1 },
-): { stops: string; cssGeometry: string } {
-  const handles = gradient.gradientHandlePositions;
-  if (!handles || handles.length < 2) {
-    const stops = gradient.gradientStops
-      .map(({ position, color }) => {
-        const cssColor = formatRGBAColor(color, 1);
-        return `${cssColor} ${Math.round(position * 100)}%`;
-      })
-      .join(", ");
-    return { stops, cssGeometry: "0deg" };
+
+// interpret sizing
+function convertSizing(
+  s?: HasLayoutTrait["layoutSizingHorizontal"] | HasLayoutTrait["layoutSizingVertical"],
+) {
+  if (s === "FIXED") return "fixed";
+  if (s === "FILL") return "fill";
+  if (s === "HUG") return "hug";
+  return undefined;
+}
+
+function buildSimplifiedFrameValues(n: FigmaDocumentNode): SimplifiedLayout | { mode: "none" } {
+  if (!isFrame(n)) {
+    return { mode: "none" };
   }
 
-  const [handle1, handle2, handle3] = handles;
+  const frameValues: SimplifiedLayout = {
+    mode:
+      !n.layoutMode || n.layoutMode === "NONE"
+        ? "none"
+        : n.layoutMode === "HORIZONTAL"
+          ? "row"
+          : "column",
+  };
 
-  switch (gradient.type) {
-    case "GRADIENT_LINEAR": {
-      return mapLinearGradient(gradient.gradientStops, handle1, handle2, elementBounds);
-    }
-    case "GRADIENT_RADIAL": {
-      return mapRadialGradient(gradient.gradientStops, handle1, handle2, handle3, elementBounds);
-    }
-    case "GRADIENT_ANGULAR": {
-      return mapAngularGradient(gradient.gradientStops, handle1, handle2, handle3, elementBounds);
-    }
+  const overflowScroll: SimplifiedLayout["overflowScroll"] = [];
+  if (n.overflowDirection?.includes("HORIZONTAL")) overflowScroll.push("x");
+  if (n.overflowDirection?.includes("VERTICAL")) overflowScroll.push("y");
+  if (overflowScroll.length > 0) frameValues.overflowScroll = overflowScroll;
+
+  if (frameValues.mode === "none") {
+    return frameValues;
 ```
 
 This function is important because it defines how Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents implements the patterns covered in this chapter.
 
-### `src/transformers/style.ts`
+### `src/transformers/layout.ts`
 
-The `mapLinearGradient` function in [`src/transformers/style.ts`](https://github.com/GLips/Figma-Context-MCP/blob/HEAD/src/transformers/style.ts) handles a key part of this chapter's functionality:
+The `buildSimplifiedFrameValues` function in [`src/transformers/layout.ts`](https://github.com/GLips/Figma-Context-MCP/blob/HEAD/src/transformers/layout.ts) handles a key part of this chapter's functionality:
 
 ```ts
-  switch (gradient.type) {
-    case "GRADIENT_LINEAR": {
-      return mapLinearGradient(gradient.gradientStops, handle1, handle2, elementBounds);
-    }
-    case "GRADIENT_RADIAL": {
-      return mapRadialGradient(gradient.gradientStops, handle1, handle2, handle3, elementBounds);
-    }
-    case "GRADIENT_ANGULAR": {
-      return mapAngularGradient(gradient.gradientStops, handle1, handle2, handle3, elementBounds);
-    }
-    case "GRADIENT_DIAMOND": {
-      return mapDiamondGradient(gradient.gradientStops, handle1, handle2, handle3, elementBounds);
-    }
-    default: {
-      const stops = gradient.gradientStops
-        .map(({ position, color }) => {
-          const cssColor = formatRGBAColor(color, 1);
-          return `${cssColor} ${Math.round(position * 100)}%`;
-        })
-        .join(", ");
-      return { stops, cssGeometry: "0deg" };
-    }
+  parent?: FigmaDocumentNode,
+): SimplifiedLayout {
+  const frameValues = buildSimplifiedFrameValues(n);
+  const layoutValues = buildSimplifiedLayoutValues(n, parent, frameValues.mode) || {};
+
+  return { ...frameValues, ...layoutValues };
+}
+
+function convertJustifyContent(align?: HasFramePropertiesTrait["primaryAxisAlignItems"]) {
+  switch (align) {
+    case "MIN":
+      return undefined;
+    case "MAX":
+      return "flex-end";
+    case "CENTER":
+      return "center";
+    case "SPACE_BETWEEN":
+      return "space-between";
+    default:
+      return undefined;
   }
 }
 
-/**
- * Map linear gradient from Figma handles to CSS
- */
-function mapLinearGradient(
-  gradientStops: { position: number; color: RGBA }[],
-  start: Vector,
-  end: Vector,
+function convertAlignItems(
+  align: HasFramePropertiesTrait["counterAxisAlignItems"] | undefined,
+  children: FigmaDocumentNode[],
+  mode: "row" | "column",
+) {
+  // Row cross-axis is vertical; column cross-axis is horizontal
+  const crossSizing = mode === "row" ? "layoutSizingVertical" : "layoutSizingHorizontal";
+  const allStretch =
+    children.length > 0 &&
 ```
 
 This function is important because it defines how Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents implements the patterns covered in this chapter.
 
-### `src/transformers/style.ts`
+### `src/transformers/layout.ts`
 
-The `findExtendedLineIntersections` function in [`src/transformers/style.ts`](https://github.com/GLips/Figma-Context-MCP/blob/HEAD/src/transformers/style.ts) handles a key part of this chapter's functionality:
-
-```ts
-
-  // Find where the extended gradient line intersects the element boundaries
-  const extendedIntersections = findExtendedLineIntersections(start, end);
-
-  if (extendedIntersections.length >= 2) {
-    // The gradient line extended to fill the element
-    const fullLineStart = Math.min(extendedIntersections[0], extendedIntersections[1]);
-    const fullLineEnd = Math.max(extendedIntersections[0], extendedIntersections[1]);
-    // Map gradient stops from the Figma line segment to the full CSS line
-    const mappedStops = gradientStops.map(({ position, color }) => {
-      const cssColor = formatRGBAColor(color, 1);
-
-      // Position along the Figma gradient line (0 = start handle, 1 = end handle)
-      const figmaLinePosition = position;
-
-      // The Figma line spans from t=0 to t=1
-      // The full extended line spans from fullLineStart to fullLineEnd
-      // Map the figma position to the extended line
-      const tOnExtendedLine = figmaLinePosition * (1 - 0) + 0; // This is just figmaLinePosition
-      const extendedPosition = (tOnExtendedLine - fullLineStart) / (fullLineEnd - fullLineStart);
-      const clampedPosition = Math.max(0, Math.min(1, extendedPosition));
-
-      return `${cssColor} ${Math.round(clampedPosition * 100)}%`;
-    });
-
-    return {
-      stops: mappedStops.join(", "),
-      cssGeometry: `${Math.round(angle)}deg`,
-    };
-  }
-
-  // Fallback to simple gradient if intersection calculation fails
-```
-
-This function is important because it defines how Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents implements the patterns covered in this chapter.
-
-### `src/transformers/style.ts`
-
-The `mapRadialGradient` function in [`src/transformers/style.ts`](https://github.com/GLips/Figma-Context-MCP/blob/HEAD/src/transformers/style.ts) handles a key part of this chapter's functionality:
+The `buildSimplifiedLayoutValues` function in [`src/transformers/layout.ts`](https://github.com/GLips/Figma-Context-MCP/blob/HEAD/src/transformers/layout.ts) handles a key part of this chapter's functionality:
 
 ```ts
-    }
-    case "GRADIENT_RADIAL": {
-      return mapRadialGradient(gradient.gradientStops, handle1, handle2, handle3, elementBounds);
-    }
-    case "GRADIENT_ANGULAR": {
-      return mapAngularGradient(gradient.gradientStops, handle1, handle2, handle3, elementBounds);
-    }
-    case "GRADIENT_DIAMOND": {
-      return mapDiamondGradient(gradient.gradientStops, handle1, handle2, handle3, elementBounds);
-    }
-    default: {
-      const stops = gradient.gradientStops
-        .map(({ position, color }) => {
-          const cssColor = formatRGBAColor(color, 1);
-          return `${cssColor} ${Math.round(position * 100)}%`;
-        })
-        .join(", ");
-      return { stops, cssGeometry: "0deg" };
-    }
+): SimplifiedLayout {
+  const frameValues = buildSimplifiedFrameValues(n);
+  const layoutValues = buildSimplifiedLayoutValues(n, parent, frameValues.mode) || {};
+
+  return { ...frameValues, ...layoutValues };
+}
+
+function convertJustifyContent(align?: HasFramePropertiesTrait["primaryAxisAlignItems"]) {
+  switch (align) {
+    case "MIN":
+      return undefined;
+    case "MAX":
+      return "flex-end";
+    case "CENTER":
+      return "center";
+    case "SPACE_BETWEEN":
+      return "space-between";
+    default:
+      return undefined;
   }
 }
 
-/**
- * Map linear gradient from Figma handles to CSS
- */
-function mapLinearGradient(
-  gradientStops: { position: number; color: RGBA }[],
-  start: Vector,
-  end: Vector,
-  _elementBounds: { width: number; height: number },
-): { stops: string; cssGeometry: string } {
-  // Calculate the gradient line in element space
+function convertAlignItems(
+  align: HasFramePropertiesTrait["counterAxisAlignItems"] | undefined,
+  children: FigmaDocumentNode[],
+  mode: "row" | "column",
+) {
+  // Row cross-axis is vertical; column cross-axis is horizontal
+  const crossSizing = mode === "row" ? "layoutSizingVertical" : "layoutSizingHorizontal";
+  const allStretch =
+    children.length > 0 &&
+    children.every(
 ```
 
 This function is important because it defines how Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents implements the patterns covered in this chapter.
+
+### `src/transformers/layout.ts`
+
+The `SimplifiedLayout` interface in [`src/transformers/layout.ts`](https://github.com/GLips/Figma-Context-MCP/blob/HEAD/src/transformers/layout.ts) handles a key part of this chapter's functionality:
+
+```ts
+import { generateCSSShorthand, pixelRound } from "~/utils/common.js";
+
+export interface SimplifiedLayout {
+  mode: "none" | "row" | "column";
+  justifyContent?: "flex-start" | "flex-end" | "center" | "space-between" | "baseline" | "stretch";
+  alignItems?: "flex-start" | "flex-end" | "center" | "space-between" | "baseline" | "stretch";
+  alignSelf?: "flex-start" | "flex-end" | "center" | "stretch";
+  wrap?: boolean;
+  gap?: string;
+  locationRelativeToParent?: {
+    x: number;
+    y: number;
+  };
+  dimensions?: {
+    width?: number;
+    height?: number;
+    aspectRatio?: number;
+  };
+  padding?: string;
+  sizing?: {
+    horizontal?: "fixed" | "fill" | "hug";
+    vertical?: "fixed" | "fill" | "hug";
+  };
+  overflowScroll?: ("x" | "y")[];
+  position?: "absolute";
+}
+
+// Convert Figma's layout config into a more typical flex-like schema
+export function buildSimplifiedLayout(
+  n: FigmaDocumentNode,
+  parent?: FigmaDocumentNode,
+): SimplifiedLayout {
+```
+
+This interface is important because it defines how Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[mapGradientStops]
-    B[mapLinearGradient]
-    C[findExtendedLineIntersections]
-    D[mapRadialGradient]
-    E[mapAngularGradient]
+    A[convertSizing]
+    B[buildSimplifiedFrameValues]
+    C[buildSimplifiedLayoutValues]
+    D[SimplifiedLayout]
+    E[translateScaleMode]
     A --> B
     B --> C
     C --> D

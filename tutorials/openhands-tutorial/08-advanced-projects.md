@@ -736,6 +736,20 @@ Under the hood, `Chapter 8: Advanced Projects - Complete Applications and System
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
+## Architecture Diagram
+
+```mermaid
+flowchart TD
+    A[Complex Task] --> B[Decompose into Subtasks]
+    B --> C[Execute Subtask 1]
+    B --> D[Execute Subtask 2]
+    C --> E[Validate Output]
+    D --> E
+    E --> F{All Done?}
+    F -->|No| B
+    F -->|Yes| G[Final Deliverable]
+```
+
 ## Source Walkthrough
 
 Use the following upstream sources to verify implementation details while reading this chapter:

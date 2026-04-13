@@ -39,15 +39,19 @@ You now have a client execution model for handling advanced capability flows und
 
 Next: [Chapter 5: Server Patterns: Tools, Resources, Prompts, and Tasks](05-server-patterns-tools-resources-prompts-and-tasks.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `crates/rmcp/src/service.rs`
 
-The `RunningService` interface in [`crates/rmcp/src/service.rs`](https://github.com/modelcontextprotocol/rust-sdk/blob/HEAD/crates/rmcp/src/service.rs) handles a key part of this chapter's functionality:
+The `DynService` interface in [`crates/rmcp/src/service.rs`](https://github.com/modelcontextprotocol/rust-sdk/blob/HEAD/crates/rmcp/src/service.rs) handles a key part of this chapter's functionality:
 
 ```rs
+    ///
+    /// This could be very helpful when you want to store the services in a collection
+    fn into_dyn(self) -> Box<dyn DynService<R>> {
+        Box::new(self)
+    }
+    fn serve<T, E, A>(
         self,
         transport: T,
     ) -> impl Future<Output = Result<RunningService<R, Self>, R::InitializeError>> + MaybeSendFuture
@@ -74,135 +78,129 @@ impl<R: ServiceRole> Service<R> for Box<dyn DynService<R>> {
         &self,
         request: R::PeerReq,
         context: RequestContext<R>,
-    ) -> impl Future<Output = Result<R::Resp, McpError>> + MaybeSendFuture + '_ {
-        DynService::handle_request(self.as_ref(), request, context)
-    }
-
-    fn handle_notification(
-        &self,
 ```
 
 This interface is important because it defines how MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP implements the patterns covered in this chapter.
 
 ### `crates/rmcp/src/service.rs`
 
-The `RunningServiceCancellationToken` interface in [`crates/rmcp/src/service.rs`](https://github.com/modelcontextprotocol/rust-sdk/blob/HEAD/crates/rmcp/src/service.rs) handles a key part of this chapter's functionality:
+The `RequestIdProvider` interface in [`crates/rmcp/src/service.rs`](https://github.com/modelcontextprotocol/rust-sdk/blob/HEAD/crates/rmcp/src/service.rs) handles a key part of this chapter's functionality:
 
 ```rs
-    }
-    #[inline]
-    pub fn cancellation_token(&self) -> RunningServiceCancellationToken {
-        RunningServiceCancellationToken(self.cancellation_token.clone())
-    }
+use tokio::sync::mpsc;
 
-    /// Returns true if the service has been closed or cancelled.
-    #[inline]
-    pub fn is_closed(&self) -> bool {
-        self.handle.is_none() || self.cancellation_token.is_cancelled()
-    }
+pub trait RequestIdProvider: Send + Sync + 'static {
+    fn next_request_id(&self) -> RequestId;
+}
 
-    /// Wait for the service to complete.
-    ///
-    /// This will block until the service loop terminates (either due to
-    /// cancellation, transport closure, or an error).
-    #[inline]
-    pub async fn waiting(mut self) -> Result<QuitReason, tokio::task::JoinError> {
-        match self.handle.take() {
-            Some(handle) => handle.await,
-            None => Ok(QuitReason::Closed),
-        }
-    }
+pub trait ProgressTokenProvider: Send + Sync + 'static {
+    fn next_progress_token(&self) -> ProgressToken;
+}
 
-    /// Gracefully close the connection and wait for cleanup to complete.
-    ///
-    /// This method cancels the service, waits for the background task to finish
-    /// (which includes calling `transport.close()`), and ensures all cleanup
-    /// operations complete before returning.
-    ///
-    /// Unlike [`cancel`](Self::cancel), this method takes `&mut self` and can be
-    /// called without consuming the `RunningService`. After calling this method,
+pub type AtomicU32RequestIdProvider = AtomicU32Provider;
+pub type AtomicU32ProgressTokenProvider = AtomicU32Provider;
+
+#[derive(Debug, Default)]
+pub struct AtomicU32Provider {
+    id: AtomicU64,
+}
+
+impl RequestIdProvider for AtomicU32Provider {
+    fn next_request_id(&self) -> RequestId {
+        let id = self.id.fetch_add(1, std::sync::atomic::Ordering::SeqCst);
+        // Safe conversion: we start at 0 and increment by 1, so we won't overflow i64::MAX in practice
+        RequestId::Number(id as i64)
+    }
+}
+
+impl ProgressTokenProvider for AtomicU32Provider {
+    fn next_progress_token(&self) -> ProgressToken {
+        let id = self.id.fetch_add(1, std::sync::atomic::Ordering::SeqCst);
+        ProgressToken(NumberOrString::Number(id as i64))
+    }
+}
 ```
 
 This interface is important because it defines how MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP implements the patterns covered in this chapter.
 
 ### `crates/rmcp/src/service.rs`
 
-The `RequestContext` interface in [`crates/rmcp/src/service.rs`](https://github.com/modelcontextprotocol/rust-sdk/blob/HEAD/crates/rmcp/src/service.rs) handles a key part of this chapter's functionality:
+The `ProgressTokenProvider` interface in [`crates/rmcp/src/service.rs`](https://github.com/modelcontextprotocol/rust-sdk/blob/HEAD/crates/rmcp/src/service.rs) handles a key part of this chapter's functionality:
 
 ```rs
-        &self,
-        request: R::PeerReq,
-        context: RequestContext<R>,
-    ) -> impl Future<Output = Result<R::Resp, McpError>> + MaybeSendFuture + '_;
-    fn handle_notification(
-        &self,
-        notification: R::PeerNot,
-        context: NotificationContext<R>,
-    ) -> impl Future<Output = Result<(), McpError>> + MaybeSendFuture + '_;
-    fn get_info(&self) -> R::Info;
 }
 
-#[cfg(feature = "local")]
-pub trait Service<R: ServiceRole>: 'static {
-    fn handle_request(
-        &self,
-        request: R::PeerReq,
-        context: RequestContext<R>,
-    ) -> impl Future<Output = Result<R::Resp, McpError>> + MaybeSendFuture + '_;
-    fn handle_notification(
-        &self,
-        notification: R::PeerNot,
-        context: NotificationContext<R>,
-    ) -> impl Future<Output = Result<(), McpError>> + MaybeSendFuture + '_;
-    fn get_info(&self) -> R::Info;
+pub trait ProgressTokenProvider: Send + Sync + 'static {
+    fn next_progress_token(&self) -> ProgressToken;
 }
 
-pub trait ServiceExt<R: ServiceRole>: Service<R> + Sized {
-    /// Convert this service to a dynamic boxed service
-    ///
-    /// This could be very helpful when you want to store the services in a collection
-    fn into_dyn(self) -> Box<dyn DynService<R>> {
+pub type AtomicU32RequestIdProvider = AtomicU32Provider;
+pub type AtomicU32ProgressTokenProvider = AtomicU32Provider;
+
+#[derive(Debug, Default)]
+pub struct AtomicU32Provider {
+    id: AtomicU64,
+}
+
+impl RequestIdProvider for AtomicU32Provider {
+    fn next_request_id(&self) -> RequestId {
+        let id = self.id.fetch_add(1, std::sync::atomic::Ordering::SeqCst);
+        // Safe conversion: we start at 0 and increment by 1, so we won't overflow i64::MAX in practice
+        RequestId::Number(id as i64)
+    }
+}
+
+impl ProgressTokenProvider for AtomicU32Provider {
+    fn next_progress_token(&self) -> ProgressToken {
+        let id = self.id.fetch_add(1, std::sync::atomic::Ordering::SeqCst);
+        ProgressToken(NumberOrString::Number(id as i64))
+    }
+}
+
+type Responder<T> = tokio::sync::oneshot::Sender<T>;
+
+/// A handle to a remote request
 ```
 
 This interface is important because it defines how MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP implements the patterns covered in this chapter.
 
 ### `crates/rmcp/src/service.rs`
 
-The `NotificationContext` interface in [`crates/rmcp/src/service.rs`](https://github.com/modelcontextprotocol/rust-sdk/blob/HEAD/crates/rmcp/src/service.rs) handles a key part of this chapter's functionality:
+The `ServiceError` interface in [`crates/rmcp/src/service.rs`](https://github.com/modelcontextprotocol/rust-sdk/blob/HEAD/crates/rmcp/src/service.rs) handles a key part of this chapter's functionality:
 
 ```rs
-        &self,
-        notification: R::PeerNot,
-        context: NotificationContext<R>,
-    ) -> impl Future<Output = Result<(), McpError>> + MaybeSendFuture + '_;
-    fn get_info(&self) -> R::Info;
+#[derive(Error, Debug)]
+#[non_exhaustive]
+pub enum ServiceError {
+    #[error("Mcp error: {0}")]
+    McpError(McpError),
+    #[error("Transport send error: {0}")]
+    TransportSend(DynamicTransportError),
+    #[error("Transport closed")]
+    TransportClosed,
+    #[error("Unexpected response type")]
+    UnexpectedResponse,
+    #[error("task cancelled for reason {}", reason.as_deref().unwrap_or("<unknown>"))]
+    Cancelled { reason: Option<String> },
+    #[error("request timeout after {}", chrono::Duration::from_std(*timeout).unwrap_or_default())]
+    Timeout { timeout: Duration },
 }
 
-#[cfg(feature = "local")]
-pub trait Service<R: ServiceRole>: 'static {
-    fn handle_request(
-        &self,
-        request: R::PeerReq,
-        context: RequestContext<R>,
-    ) -> impl Future<Output = Result<R::Resp, McpError>> + MaybeSendFuture + '_;
-    fn handle_notification(
-        &self,
-        notification: R::PeerNot,
-        context: NotificationContext<R>,
-    ) -> impl Future<Output = Result<(), McpError>> + MaybeSendFuture + '_;
-    fn get_info(&self) -> R::Info;
+trait TransferObject:
+    std::fmt::Debug + Clone + serde::Serialize + serde::de::DeserializeOwned + Send + Sync + 'static
+{
 }
 
-pub trait ServiceExt<R: ServiceRole>: Service<R> + Sized {
-    /// Convert this service to a dynamic boxed service
-    ///
-    /// This could be very helpful when you want to store the services in a collection
-    fn into_dyn(self) -> Box<dyn DynService<R>> {
-        Box::new(self)
-    }
-    fn serve<T, E, A>(
-        self,
-        transport: T,
+impl<T> TransferObject for T where
+    T: std::fmt::Debug
+        + serde::Serialize
+        + serde::de::DeserializeOwned
+        + Send
+        + Sync
+        + 'static
+        + Clone
+{
+}
 ```
 
 This interface is important because it defines how MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP implements the patterns covered in this chapter.
@@ -212,11 +210,11 @@ This interface is important because it defines how MCP Rust SDK Tutorial: Buildi
 
 ```mermaid
 flowchart TD
-    A[RunningService]
-    B[RunningServiceCancellationToken]
-    C[RequestContext]
-    D[NotificationContext]
-    E[alias]
+    A[DynService]
+    B[RequestIdProvider]
+    C[ProgressTokenProvider]
+    D[ServiceError]
+    E[PeerSinkMessage]
     A --> B
     B --> C
     C --> D

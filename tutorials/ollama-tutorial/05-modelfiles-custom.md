@@ -6,6 +6,7 @@ has_children: false
 parent: Ollama Tutorial
 ---
 
+
 # Chapter 5: Modelfiles, Templates, and Custom Models
 
 Welcome to **Chapter 5: Modelfiles, Templates, and Custom Models**. In this part of **Ollama Tutorial: Running and Serving LLMs Locally**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
@@ -571,151 +572,184 @@ ollama push yourname/code-reviewer:v1.0
 | Next | [Chapter 6: Performance & Hardware Tuning](./06-performance.md) |
 | Index | [Ollama Tutorial Home](./README.md) |
 
-## Depth Expansion Playbook
+## Source Code Walkthrough
 
-<!-- depth-expansion-v2 -->
+### `ml/device.go`
 
-This chapter is expanded to v1-style depth for production-grade learning and implementation quality.
+The `updateVisibleDevicesEnv` function in [`ml/device.go`](https://github.com/ollama/ollama/blob/HEAD/ml/device.go) handles a key part of this chapter's functionality:
 
-### Strategic Context
+```go
+	env := map[string]string{}
+	for _, d := range l {
+		d.updateVisibleDevicesEnv(env, mustFilter)
+	}
+	return env
+}
 
-- tutorial: **Ollama Tutorial: Running and Serving LLMs Locally**
-- tutorial slug: **ollama-tutorial**
-- chapter focus: **Chapter 5: Modelfiles, Templates, and Custom Models**
-- system context: **Ollama Tutorial**
-- objective: move from surface-level usage to repeatable engineering operation
+// NeedsInitValidation returns true if the device in question has the potential
+// to crash at inference time and requires deeper validation before we include
+// it in the supported devices list.
+func (d DeviceInfo) NeedsInitValidation() bool {
+	// ROCm: rocblas will crash on unsupported devices.
+	// CUDA: verify CC is supported by the version of the library
+	return d.Library == "ROCm" || d.Library == "CUDA"
+}
 
-### Architecture Decomposition
+// Set the init validation environment variable
+func (d DeviceInfo) AddInitValidation(env map[string]string) {
+	env["GGML_CUDA_INIT"] = "1" // force deep initialization to trigger crash on unsupported GPUs
+}
 
-1. Define the runtime boundary for `Chapter 5: Modelfiles, Templates, and Custom Models`.
-2. Separate control-plane decisions from data-plane execution.
-3. Capture input contracts, transformation points, and output contracts.
-4. Trace state transitions across request lifecycle stages.
-5. Identify extension hooks and policy interception points.
-6. Map ownership boundaries for team and automation workflows.
-7. Specify rollback and recovery paths for unsafe changes.
-8. Track observability signals for correctness, latency, and cost.
+// PreferredLibrary returns true if this library is preferred over the other input
+// library
+// Used to filter out Vulkan in favor of CUDA or ROCm
+func (d DeviceInfo) PreferredLibrary(other DeviceInfo) bool {
+	// TODO in the future if we find Vulkan is better than ROCm on some devices
+	// that implementation can live here.
 
-### Operator Decision Matrix
+	if d.Library == "CUDA" || d.Library == "ROCm" {
+		return true
+	}
+	return false
+```
 
-| Decision Area | Low-Risk Path | High-Control Path | Tradeoff |
-|:--------------|:--------------|:------------------|:---------|
-| Runtime mode | managed defaults | explicit policy config | speed vs control |
-| State handling | local ephemeral | durable persisted state | simplicity vs auditability |
-| Tool integration | direct API use | mediated adapter layer | velocity vs governance |
-| Rollout method | manual change | staged + canary rollout | effort vs safety |
-| Incident response | best effort logs | runbooks + SLO alerts | cost vs reliability |
+This function is important because it defines how Ollama Tutorial: Running and Serving LLMs Locally implements the patterns covered in this chapter.
 
-### Failure Modes and Countermeasures
+### `ml/device.go`
 
-| Failure Mode | Early Signal | Root Cause Pattern | Countermeasure |
-|:-------------|:-------------|:-------------------|:---------------|
-| stale context | inconsistent outputs | missing refresh window | enforce context TTL and refresh hooks |
-| policy drift | unexpected execution | ad hoc overrides | centralize policy profiles |
-| auth mismatch | 401/403 bursts | credential sprawl | rotation schedule + scope minimization |
-| schema breakage | parser/validation errors | unmanaged upstream changes | contract tests per release |
-| retry storms | queue congestion | no backoff controls | jittered backoff + circuit breakers |
-| silent regressions | quality drop without alerts | weak baseline metrics | eval harness with thresholds |
+The `GetDevicesFromRunner` function in [`ml/device.go`](https://github.com/ollama/ollama/blob/HEAD/ml/device.go) handles a key part of this chapter's functionality:
 
-### Implementation Runbook
+```go
+}
 
-1. Establish a reproducible baseline environment.
-2. Capture chapter-specific success criteria before changes.
-3. Implement minimal viable path with explicit interfaces.
-4. Add observability before expanding feature scope.
-5. Run deterministic tests for happy-path behavior.
-6. Inject failure scenarios for negative-path validation.
-7. Compare output quality against baseline snapshots.
-8. Promote through staged environments with rollback gates.
-9. Record operational lessons in release notes.
+func GetDevicesFromRunner(ctx context.Context, runner BaseRunner) ([]DeviceInfo, error) {
+	var moreDevices []DeviceInfo
+	port := runner.GetPort()
+	tick := time.Tick(10 * time.Millisecond)
+	for {
+		select {
+		case <-ctx.Done():
+			return nil, fmt.Errorf("failed to finish discovery before timeout")
+		case <-tick:
+			r, err := http.NewRequestWithContext(ctx, http.MethodGet, fmt.Sprintf("http://127.0.0.1:%d/info", port), nil)
+			if err != nil {
+				return nil, fmt.Errorf("failed to create request: %w", err)
+			}
+			r.Header.Set("Content-Type", "application/json")
 
-### Quality Gate Checklist
+			resp, err := http.DefaultClient.Do(r)
+			if err != nil {
+				// slog.Warn("failed to send request", "error", err)
+				if runner.HasExited() {
+					return nil, fmt.Errorf("runner crashed")
+				}
+				continue
+			}
+			defer resp.Body.Close()
 
-- [ ] chapter-level assumptions are explicit and testable
-- [ ] API/tool boundaries are documented with input/output examples
-- [ ] failure handling includes retry, timeout, and fallback policy
-- [ ] security controls include auth scopes and secret rotation plans
-- [ ] observability includes logs, metrics, traces, and alert thresholds
-- [ ] deployment guidance includes canary and rollback paths
-- [ ] docs include links to upstream sources and related tracks
-- [ ] post-release verification confirms expected behavior under load
+			if resp.StatusCode == http.StatusNotFound {
+				// old runner, fall back to bootstrapping model
+				return nil, fmt.Errorf("llamarunner free vram reporting not supported")
+			}
 
-### Source Alignment
+```
 
-- [Ollama Repository](https://github.com/ollama/ollama)
-- [Ollama Releases](https://github.com/ollama/ollama/releases)
-- [Ollama Website and Docs](https://ollama.com/)
+This function is important because it defines how Ollama Tutorial: Running and Serving LLMs Locally implements the patterns covered in this chapter.
 
-### Cross-Tutorial Connection Map
+### `convert/convert_glmocr.go`
 
-- [Open WebUI Tutorial](../open-webui-tutorial/)
-- [LiteLLM Tutorial](../litellm-tutorial/)
-- [Llama.cpp Tutorial](../llama-cpp-tutorial/)
-- [VLLM Tutorial](../vllm-tutorial/)
-- [Chapter 1: Getting Started](01-getting-started.md)
+The `normalToNeoXRepacker` function in [`convert/convert_glmocr.go`](https://github.com/ollama/ollama/blob/HEAD/convert/convert_glmocr.go) handles a key part of this chapter's functionality:
 
-### Advanced Practice Exercises
+```go
+)
 
-1. Build a minimal end-to-end implementation for `Chapter 5: Modelfiles, Templates, and Custom Models`.
-2. Add instrumentation and measure baseline latency and error rate.
-3. Introduce one controlled failure and confirm graceful recovery.
-4. Add policy constraints and verify they are enforced consistently.
-5. Run a staged rollout and document rollback decision criteria.
+// normalToNeoXRepacker creates a repacker that permutes Q/K weights from interleaved (LLaMA)
+// to NeoX ordering for compatibility with GGML's M-RoPE kernel.
+//
+// For weights: reshape [out, in] -> [n_heads, head_dim, in], permute rotary dims, reshape back
+// For biases: reshape [out] -> [n_heads, head_dim], permute rotary dims, reshape back
+func normalToNeoXRepacker(nHeads, headDim int, partialRotaryFactor float32) func(string, []float32, []uint64) ([]float32, error) {
+	return func(_ string, data []float32, shape []uint64) ([]float32, error) {
+		rotaryDim := int(float32(headDim) * partialRotaryFactor)
+		if rotaryDim%2 != 0 {
+			rotaryDim = (rotaryDim / 2) * 2 // Round down to even
+		}
 
-### Review Questions
+		// Handle 1D (bias) or 2D (weight) tensors
+		is1D := len(shape) == 1
+		var inFeatures int
+		if is1D {
+			inFeatures = 1
+		} else {
+			inFeatures = int(shape[1])
+		}
+		outFeatures := int(shape[0])
+		nEffectiveHeads := outFeatures / headDim
 
-1. Which execution boundary matters most for this chapter and why?
-2. What signal detects regressions earliest in your environment?
-3. What tradeoff did you make between delivery speed and governance?
-4. How would you recover from the highest-impact failure mode?
-5. What must be automated before scaling to team-wide adoption?
+		if nEffectiveHeads != nHeads {
+			slog.Warn("normalToNeoX: unexpected head count", "effective", nEffectiveHeads, "expected", nHeads)
+		}
 
-## What Problem Does This Solve?
+		// Reshape to [n_heads, head_dim, in_features]
+		reshaped := make([]float32, len(data))
+		copy(reshaped, data)
+```
 
-Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `PARAMETER`, `code`, `ollama` so behavior stays predictable as complexity grows.
+This function is important because it defines how Ollama Tutorial: Running and Serving LLMs Locally implements the patterns covered in this chapter.
 
-In practical terms, this chapter helps you avoid three common failures:
+### `convert/convert_glmocr.go`
 
-- coupling core logic too tightly to one implementation path
-- missing the handoff boundaries between setup, execution, and validation
-- shipping changes without clear rollback or observability strategy
+The `parseMore` function in [`convert/convert_glmocr.go`](https://github.com/ollama/ollama/blob/HEAD/convert/convert_glmocr.go) handles a key part of this chapter's functionality:
 
-After working through this chapter, you should be able to reason about `Chapter 5: Modelfiles, Templates, and Custom Models` as an operating subsystem inside **Ollama Tutorial: Running and Serving LLMs Locally**, with explicit contracts for inputs, state transitions, and outputs.
+```go
+var _ ModelConverter = (*glmOcrModel)(nil)
 
-Use the implementation notes around `reviewer`, `System`, `Modelfile` as your checklist when adapting these patterns to your own repository.
+func (m *glmOcrModel) parseMore(fsys fs.FS) error {
+	bts, err := fs.ReadFile(fsys, "preprocessor_config.json")
+	if err != nil {
+		return err
+	}
 
-## How it Works Under the Hood
+	return json.Unmarshal(bts, &m.Preprocessor)
+}
 
-Under the hood, `Chapter 5: Modelfiles, Templates, and Custom Models` usually follows a repeatable control path:
+func (m *glmOcrModel) KV(t *Tokenizer) KV {
+	kv := m.ModelParameters.KV(t)
+	kv["general.architecture"] = "glmocr"
 
-1. **Context bootstrap**: initialize runtime config and prerequisites for `PARAMETER`.
-2. **Input normalization**: shape incoming data so `code` receives stable contracts.
-3. **Core execution**: run the main logic branch and propagate intermediate state through `ollama`.
-4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
-5. **Output composition**: return canonical result payloads for downstream consumers.
-6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
+	// Text model parameters
+	kv["glmocr.block_count"] = cmp.Or(m.TextConfig.NumHiddenLayers, 16)
+	kv["glmocr.embedding_length"] = cmp.Or(m.TextConfig.HiddenSize, 1536)
+	kv["glmocr.attention.head_count"] = cmp.Or(m.TextConfig.NumAttentionHeads, 16)
+	kv["glmocr.attention.head_count_kv"] = cmp.Or(m.TextConfig.NumKeyValueHeads, 8)
+	headDim := cmp.Or(m.TextConfig.HeadDim, m.TextConfig.HiddenSize/m.TextConfig.NumAttentionHeads)
+	kv["glmocr.attention.key_length"] = headDim
+	kv["glmocr.attention.value_length"] = headDim
+	kv["glmocr.feed_forward_length"] = cmp.Or(m.TextConfig.IntermediateSize, 4608)
+	kv["glmocr.attention.layer_norm_rms_epsilon"] = cmp.Or(m.TextConfig.RMSNormEps, 1e-5)
+	kv["glmocr.context_length"] = cmp.Or(m.TextConfig.MaxPositionEmbed, 131072)
+	kv["glmocr.rope.freq_base"] = cmp.Or(m.TextConfig.RopeParameters.RopeTheta, float32(10000))
+	kv["glmocr.rope.partial_rotary_factor"] = cmp.Or(m.TextConfig.RopeParameters.PartialRotaryFactor, m.TextConfig.PartialRotaryFactor, float32(1.0))
+	if len(m.TextConfig.RopeParameters.MRopeSection) > 0 {
+		kv["glmocr.rope.mrope_section"] = m.TextConfig.RopeParameters.MRopeSection
+	}
 
-When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
+```
 
-## Source Walkthrough
+This function is important because it defines how Ollama Tutorial: Running and Serving LLMs Locally implements the patterns covered in this chapter.
 
-Use the following upstream sources to verify implementation details while reading this chapter:
 
-- [Ollama Repository](https://github.com/ollama/ollama)
-  Why it matters: authoritative reference on `Ollama Repository` (github.com).
-- [Ollama Releases](https://github.com/ollama/ollama/releases)
-  Why it matters: authoritative reference on `Ollama Releases` (github.com).
-- [Ollama Website and Docs](https://ollama.com/)
-  Why it matters: authoritative reference on `Ollama Website and Docs` (ollama.com).
+## How These Components Connect
 
-Suggested trace strategy:
-- search upstream code for `PARAMETER` and `code` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
-
-## Chapter Connections
-
-- [Tutorial Index](README.md)
-- [Previous Chapter: Chapter 4: Embeddings and RAG with Ollama](04-embeddings-rag.md)
-- [Next Chapter: Chapter 6: Performance, GPU Tuning, and Quantization](06-performance.md)
-- [Main Catalog](../../README.md#-tutorial-catalog)
-- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
+```mermaid
+flowchart TD
+    A[updateVisibleDevicesEnv]
+    B[GetDevicesFromRunner]
+    C[normalToNeoXRepacker]
+    D[parseMore]
+    E[KV]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+```

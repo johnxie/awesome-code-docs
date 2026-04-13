@@ -12,6 +12,20 @@ Welcome to **Chapter 3: Basic Usage**. In this part of **Fabric Tutorial: Open-S
 
 > Master core commands and workflows for everyday cognitive augmentation with Fabric.
 
+## Basic Usage Flow
+
+```mermaid
+flowchart LR
+    Stdin["stdin\necho 'text' |"] --> CLI["fabric --pattern <name>"]
+    FileIn["--text 'content'"] --> CLI
+    URL["--youtube / --url"] --> CLI
+    CLI --> Chatter["Chatter.Send()"]
+    Chatter --> Stream["--stream\n(real-time output)"]
+    Chatter --> Save["--output <file>"]
+    Chatter --> Copy["--copy\n(clipboard)"]
+    Stream --> Terminal["Terminal output"]
+```
+
 ## Overview
 
 This chapter covers the fundamental ways to use Fabric for daily tasks. You'll learn command-line operations, input/output handling, and common workflow patterns.
@@ -430,22 +444,29 @@ Under the hood, `Chapter 3: Basic Usage` usually follows a repeatable control pa
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
-## Source Walkthrough
+## Source Code Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+### `internal/core/chatter.go`
 
-- [GitHub Repository](https://github.com/danielmiessler/Fabric)
-  Why it matters: authoritative reference on `GitHub Repository` (github.com).
-- [Pattern Library](https://github.com/danielmiessler/fabric/tree/main/data/patterns)
-  Why it matters: authoritative reference on `Pattern Library` (github.com).
-- [Community Patterns](https://github.com/danielmiessler/Fabric#community-patterns)
-  Why it matters: authoritative reference on `Community Patterns` (github.com).
-- [AI Codebase Knowledge Builder](https://github.com/johnxie/awesome-code-docs)
-  Why it matters: authoritative reference on `AI Codebase Knowledge Builder` (github.com).
+The `recordFirstStreamError` helper in [`internal/core/chatter.go`](https://github.com/danielmiessler/fabric/blob/main/internal/core/chatter.go) shows how Fabric handles streaming errors gracefully — only the first error is recorded, subsequent ones are discarded:
 
-Suggested trace strategy:
-- search upstream code for `fabric` and `summarize` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+```go
+// recordFirstStreamError sends err to errChan if the channel is empty; subsequent errors are discarded.
+func recordFirstStreamError(errChan chan error, err error) {
+    if err == nil {
+        return
+    }
+
+    select {
+    case errChan <- err:
+    default:
+        // Second+ error discarded; log for observability
+        debuglog.Debug(debuglog.Wire, "additional stream error discarded: %v\n", err)
+    }
+}
+```
+
+The `--stream` flag activates streaming output mode — the AI response tokens are printed as they arrive. The `--dry-run` flag prints the composed prompt without making the API call, which is useful for debugging pattern composition.
 
 ## Chapter Connections
 

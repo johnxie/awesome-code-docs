@@ -699,6 +699,17 @@ Under the hood, `Chapter 3: Tool Integration` usually follows a repeatable contr
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
+## Architecture Flow
+
+```mermaid
+flowchart LR
+    A[Agent task] --> B[Tool selector]
+    B --> C[Tool executor]
+    C --> D[External API or service]
+    D --> E[Tool result returned to agent]
+    E --> B
+```
+
 ## Source Walkthrough
 
 Use the following upstream sources to verify implementation details while reading this chapter:

@@ -40,47 +40,45 @@ You now have deployment-level transport guidance for selecting the right Java ru
 
 Next: [Chapter 5: Tools, Resources, Prompts, and Schema Validation](05-tools-resources-prompts-and-schema-validation.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `mcp-core/src/main/java/io/modelcontextprotocol/server/McpServerFeatures.java`
+### `mcp-core/src/main/java/io/modelcontextprotocol/server/McpStatelessAsyncServer.java`
 
-The `Builder` class in [`mcp-core/src/main/java/io/modelcontextprotocol/server/McpServerFeatures.java`](https://github.com/modelcontextprotocol/java-sdk/blob/HEAD/mcp-core/src/main/java/io/modelcontextprotocol/server/McpServerFeatures.java) handles a key part of this chapter's functionality:
+The `StructuredOutputCallToolHandler` class in [`mcp-core/src/main/java/io/modelcontextprotocol/server/McpStatelessAsyncServer.java`](https://github.com/modelcontextprotocol/java-sdk/blob/HEAD/mcp-core/src/main/java/io/modelcontextprotocol/server/McpStatelessAsyncServer.java) handles a key part of this chapter's functionality:
 
 ```java
+			McpStatelessServerFeatures.AsyncToolSpecification toolSpecification) {
 
-		/**
-		 * Builder for creating AsyncToolSpecification instances.
-		 */
-		public static class Builder {
+		if (toolSpecification.callHandler() instanceof StructuredOutputCallToolHandler) {
+			// If the tool is already wrapped, return it as is
+			return toolSpecification;
+		}
 
-			private McpSchema.Tool tool;
+		if (toolSpecification.tool().outputSchema() == null) {
+			// If the tool does not have an output schema, return it as is
+			return toolSpecification;
+		}
 
-			private BiFunction<McpAsyncServerExchange, McpSchema.CallToolRequest, Mono<McpSchema.CallToolResult>> callHandler;
+		return new McpStatelessServerFeatures.AsyncToolSpecification(toolSpecification.tool(),
+				new StructuredOutputCallToolHandler(jsonSchemaValidator, toolSpecification.tool().outputSchema(),
+						toolSpecification.callHandler()));
+	}
 
-			/**
-			 * Sets the tool definition.
-			 * @param tool The tool definition including name, description, and parameter
-			 * schema
-			 * @return this builder instance
-			 */
-			public Builder tool(McpSchema.Tool tool) {
-				this.tool = tool;
-				return this;
-			}
+	private static class StructuredOutputCallToolHandler
+			implements BiFunction<McpTransportContext, McpSchema.CallToolRequest, Mono<McpSchema.CallToolResult>> {
 
-			/**
-			 * Sets the call tool handler function.
-			 * @param callHandler The function that implements the tool's logic
-			 * @return this builder instance
-			 */
-			public Builder callHandler(
-					BiFunction<McpAsyncServerExchange, McpSchema.CallToolRequest, Mono<McpSchema.CallToolResult>> callHandler) {
-				this.callHandler = callHandler;
-				return this;
-			}
+		private final BiFunction<McpTransportContext, McpSchema.CallToolRequest, Mono<McpSchema.CallToolResult>> delegateHandler;
 
+		private final JsonSchemaValidator jsonSchemaValidator;
+
+		private final Map<String, Object> outputSchema;
+
+		public StructuredOutputCallToolHandler(JsonSchemaValidator jsonSchemaValidator,
+				Map<String, Object> outputSchema,
+				BiFunction<McpTransportContext, McpSchema.CallToolRequest, Mono<McpSchema.CallToolResult>> delegateHandler) {
+
+			Assert.notNull(jsonSchemaValidator, "JsonSchemaValidator must not be null");
+			Assert.notNull(delegateHandler, "Delegate call tool result handler must not be null");
 ```
 
 This class is important because it defines how MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring implements the patterns covered in this chapter.
@@ -213,11 +211,11 @@ This class is important because it defines how MCP Java SDK Tutorial: Building M
 
 ```mermaid
 flowchart TD
-    A[Builder]
+    A[StructuredOutputCallToolHandler]
     B[delegates]
     C[converts]
     D[McpSyncServer]
-    E[provides]
+    E[LifecycleInitializer]
     A --> B
     B --> C
     C --> D

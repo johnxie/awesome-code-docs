@@ -15,6 +15,20 @@ Welcome to **Chapter 3: The Reconciliation Loop - Core Operator Logic**. In this
 
 ## Overview
 
+```mermaid
+flowchart TD
+    A[Watch event] --> B[Work queue]
+    B --> C[Reconcile called]
+    C --> D[Get CR from cache]
+    D --> E[Observe current state]
+    E --> F[Compute desired state]
+    F --> G{Diff?}
+    G -->|yes| H[Apply changes]
+    G -->|no| I[Return nil]
+    H --> J[Update CR status]
+    J --> I
+```
+
 The reconciliation loop is the core mechanism that makes operators work. This chapter covers implementing robust reconciliation logic, managing state transitions, ensuring idempotency, and handling errors gracefully.
 
 ## Reconciliation Fundamentals

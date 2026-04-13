@@ -39,170 +39,168 @@ You now have a dependency baseline that keeps early integrations predictable.
 
 Next: [Chapter 2: Service Model and Macro-Based Tooling](02-service-model-and-macro-based-tooling.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `examples/servers/src/completion_stdio.rs`
+### `crates/rmcp/src/service.rs`
 
-The `SqlQueryArgs` interface in [`examples/servers/src/completion_stdio.rs`](https://github.com/modelcontextprotocol/rust-sdk/blob/HEAD/examples/servers/src/completion_stdio.rs) handles a key part of this chapter's functionality:
+The `serve_directly` function in [`crates/rmcp/src/service.rs`](https://github.com/modelcontextprotocol/rust-sdk/blob/HEAD/crates/rmcp/src/service.rs) handles a key part of this chapter's functionality:
 
 ```rs
-#[derive(Debug, Serialize, Deserialize, JsonSchema)]
-#[schemars(description = "SQL query builder with progressive completion")]
-pub struct SqlQueryArgs {
-    #[schemars(description = "SQL operation type (SELECT, INSERT, UPDATE, DELETE)")]
-    pub operation: String,
-    #[schemars(description = "Database table name")]
-    pub table: String,
-    #[schemars(description = "Columns to select/update (only for SELECT/UPDATE)")]
-    pub columns: Option<String>,
-    #[schemars(description = "WHERE clause condition (optional for all operations)")]
-    pub where_clause: Option<String>,
-    #[schemars(description = "Values to insert (only for INSERT)")]
-    pub values: Option<String>,
+
+/// Use this function to skip initialization process
+pub fn serve_directly<R, S, T, E, A>(
+    service: S,
+    transport: T,
+    peer_info: Option<R::PeerInfo>,
+) -> RunningService<R, S>
+where
+    R: ServiceRole,
+    S: Service<R>,
+    T: IntoTransport<R, E, A>,
+    E: std::error::Error + Send + Sync + 'static,
+{
+    serve_directly_with_ct(service, transport, peer_info, Default::default())
 }
 
-/// SQL query builder server with progressive completion
-#[derive(Clone)]
-pub struct SqlQueryServer {
-    prompt_router: PromptRouter<SqlQueryServer>,
+/// Use this function to skip initialization process
+pub fn serve_directly_with_ct<R, S, T, E, A>(
+    service: S,
+    transport: T,
+    peer_info: Option<R::PeerInfo>,
+    ct: CancellationToken,
+) -> RunningService<R, S>
+where
+    R: ServiceRole,
+    S: Service<R>,
+    T: IntoTransport<R, E, A>,
+    E: std::error::Error + Send + Sync + 'static,
+{
+    let (peer, peer_rx) = Peer::new(Arc::new(AtomicU32RequestIdProvider::default()), peer_info);
+    serve_inner(service, transport.into_transport(), peer, peer_rx, ct)
+}
+```
+
+This function is important because it defines how MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP implements the patterns covered in this chapter.
+
+### `crates/rmcp/src/service.rs`
+
+The `serve_directly_with_ct` function in [`crates/rmcp/src/service.rs`](https://github.com/modelcontextprotocol/rust-sdk/blob/HEAD/crates/rmcp/src/service.rs) handles a key part of this chapter's functionality:
+
+```rs
+    E: std::error::Error + Send + Sync + 'static,
+{
+    serve_directly_with_ct(service, transport, peer_info, Default::default())
 }
 
-impl SqlQueryServer {
-    pub fn new() -> Self {
-        Self {
-            prompt_router: Self::prompt_router(),
-        }
-    }
+/// Use this function to skip initialization process
+pub fn serve_directly_with_ct<R, S, T, E, A>(
+    service: S,
+    transport: T,
+    peer_info: Option<R::PeerInfo>,
+    ct: CancellationToken,
+) -> RunningService<R, S>
+where
+    R: ServiceRole,
+    S: Service<R>,
+    T: IntoTransport<R, E, A>,
+    E: std::error::Error + Send + Sync + 'static,
+{
+    let (peer, peer_rx) = Peer::new(Arc::new(AtomicU32RequestIdProvider::default()), peer_info);
+    serve_inner(service, transport.into_transport(), peer, peer_rx, ct)
 }
 
-impl Default for SqlQueryServer {
-    fn default() -> Self {
-        Self::new()
+/// Spawn a task that may hold `!Send` state when the `local` feature is active.
+///
+/// Without the `local` feature this is `tokio::spawn` (requires `Future: Send + 'static`).
+/// With `local` it uses `tokio::task::spawn_local` (requires only `Future: 'static`).
+#[cfg(not(feature = "local"))]
+fn spawn_service_task<F>(future: F) -> tokio::task::JoinHandle<F::Output>
+where
+    F: Future + Send + 'static,
+    F::Output: Send + 'static,
+{
+```
+
+This function is important because it defines how MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP implements the patterns covered in this chapter.
+
+### `crates/rmcp/src/service.rs`
+
+The `to` interface in [`crates/rmcp/src/service.rs`](https://github.com/modelcontextprotocol/rust-sdk/blob/HEAD/crates/rmcp/src/service.rs) handles a key part of this chapter's functionality:
+
+```rs
+        NumberOrString, ProgressToken, RequestId,
+    },
+    transport::{DynamicTransportError, IntoTransport, Transport},
+};
+#[cfg(feature = "client")]
+mod client;
+#[cfg(feature = "client")]
+pub use client::*;
+#[cfg(feature = "server")]
+mod server;
+#[cfg(feature = "server")]
+pub use server::*;
+#[cfg(feature = "tower")]
+mod tower;
+use tokio_util::sync::{CancellationToken, DropGuard};
+#[cfg(feature = "tower")]
+pub use tower::*;
+use tracing::{Instrument as _, instrument};
+#[derive(Error, Debug)]
+#[non_exhaustive]
+pub enum ServiceError {
+    #[error("Mcp error: {0}")]
+    McpError(McpError),
+    #[error("Transport send error: {0}")]
+    TransportSend(DynamicTransportError),
+    #[error("Transport closed")]
+    TransportClosed,
+    #[error("Unexpected response type")]
+    UnexpectedResponse,
+    #[error("task cancelled for reason {}", reason.as_deref().unwrap_or("<unknown>"))]
+    Cancelled { reason: Option<String> },
+    #[error("request timeout after {}", chrono::Duration::from_std(*timeout).unwrap_or_default())]
 ```
 
 This interface is important because it defines how MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP implements the patterns covered in this chapter.
 
-### `examples/servers/src/completion_stdio.rs`
+### `crates/rmcp/src/service.rs`
 
-The `SqlQueryServer` interface in [`examples/servers/src/completion_stdio.rs`](https://github.com/modelcontextprotocol/rust-sdk/blob/HEAD/examples/servers/src/completion_stdio.rs) handles a key part of this chapter's functionality:
-
-```rs
-/// SQL query builder server with progressive completion
-#[derive(Clone)]
-pub struct SqlQueryServer {
-    prompt_router: PromptRouter<SqlQueryServer>,
-}
-
-impl SqlQueryServer {
-    pub fn new() -> Self {
-        Self {
-            prompt_router: Self::prompt_router(),
-        }
-    }
-}
-
-impl Default for SqlQueryServer {
-    fn default() -> Self {
-        Self::new()
-    }
-}
-
-impl SqlQueryServer {
-    /// Fuzzy matching with scoring for completion suggestions
-    fn fuzzy_match(&self, query: &str, candidates: &[&str]) -> Vec<String> {
-        if query.is_empty() {
-            return candidates.iter().take(10).map(|s| s.to_string()).collect();
-        }
-
-        let query_lower = query.to_lowercase();
-        let mut scored_matches = Vec::new();
-
-        for candidate in candidates {
-            let candidate_lower = candidate.to_lowercase();
-```
-
-This interface is important because it defines how MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP implements the patterns covered in this chapter.
-
-### `conformance/src/bin/client.rs`
-
-The `ConformanceContext` interface in [`conformance/src/bin/client.rs`](https://github.com/modelcontextprotocol/rust-sdk/blob/HEAD/conformance/src/bin/client.rs) handles a key part of this chapter's functionality:
+The `to` interface in [`crates/rmcp/src/service.rs`](https://github.com/modelcontextprotocol/rust-sdk/blob/HEAD/crates/rmcp/src/service.rs) handles a key part of this chapter's functionality:
 
 ```rs
-
-#[derive(Debug, Default, serde::Deserialize)]
-struct ConformanceContext {
-    #[serde(default)]
-    client_id: Option<String>,
-    #[serde(default)]
-    client_secret: Option<String>,
-    // client-credentials-jwt
-    #[serde(default)]
-    private_key_pem: Option<String>,
-    #[serde(default)]
-    signing_algorithm: Option<String>,
-}
-
-fn load_context() -> ConformanceContext {
-    std::env::var("MCP_CONFORMANCE_CONTEXT")
-        .ok()
-        .and_then(|s| serde_json::from_str(&s).ok())
-        .unwrap_or_default()
-}
-
-// ─── Client handlers ────────────────────────────────────────────────────────
-
-/// A basic client handler that does nothing special
-struct BasicClientHandler;
-impl ClientHandler for BasicClientHandler {}
-
-/// A client handler that handles elicitation requests by applying schema defaults.
-struct ElicitationDefaultsClientHandler;
-
-impl ClientHandler for ElicitationDefaultsClientHandler {
-    fn get_info(&self) -> ClientInfo {
-```
-
-This interface is important because it defines how MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP implements the patterns covered in this chapter.
-
-### `conformance/src/bin/client.rs`
-
-The `BasicClientHandler` interface in [`conformance/src/bin/client.rs`](https://github.com/modelcontextprotocol/rust-sdk/blob/HEAD/conformance/src/bin/client.rs) handles a key part of this chapter's functionality:
-
-```rs
-
-/// A basic client handler that does nothing special
-struct BasicClientHandler;
-impl ClientHandler for BasicClientHandler {}
-
-/// A client handler that handles elicitation requests by applying schema defaults.
-struct ElicitationDefaultsClientHandler;
-
-impl ClientHandler for ElicitationDefaultsClientHandler {
-    fn get_info(&self) -> ClientInfo {
-        let mut info = ClientInfo::default();
-        info.capabilities.elicitation = Some(ElicitationCapability {
-            form: Some(FormElicitationCapability {
-                schema_validation: Some(true),
-            }),
-            url: None,
-        });
-        info
-    }
-
-    async fn create_elicitation(
-        &self,
-        request: CreateElicitationRequestParams,
-        _cx: RequestContext<RoleClient>,
-    ) -> Result<CreateElicitationResult, ErrorData> {
-        let content = match &request {
-            CreateElicitationRequestParams::FormElicitationParams {
-                requested_schema, ..
-            } => {
-                let mut defaults = serde_json::Map::new();
-                for (name, prop) in &requested_schema.properties {
-                    match prop {
+        NumberOrString, ProgressToken, RequestId,
+    },
+    transport::{DynamicTransportError, IntoTransport, Transport},
+};
+#[cfg(feature = "client")]
+mod client;
+#[cfg(feature = "client")]
+pub use client::*;
+#[cfg(feature = "server")]
+mod server;
+#[cfg(feature = "server")]
+pub use server::*;
+#[cfg(feature = "tower")]
+mod tower;
+use tokio_util::sync::{CancellationToken, DropGuard};
+#[cfg(feature = "tower")]
+pub use tower::*;
+use tracing::{Instrument as _, instrument};
+#[derive(Error, Debug)]
+#[non_exhaustive]
+pub enum ServiceError {
+    #[error("Mcp error: {0}")]
+    McpError(McpError),
+    #[error("Transport send error: {0}")]
+    TransportSend(DynamicTransportError),
+    #[error("Transport closed")]
+    TransportClosed,
+    #[error("Unexpected response type")]
+    UnexpectedResponse,
+    #[error("task cancelled for reason {}", reason.as_deref().unwrap_or("<unknown>"))]
+    Cancelled { reason: Option<String> },
+    #[error("request timeout after {}", chrono::Duration::from_std(*timeout).unwrap_or_default())]
 ```
 
 This interface is important because it defines how MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP implements the patterns covered in this chapter.
@@ -212,11 +210,11 @@ This interface is important because it defines how MCP Rust SDK Tutorial: Buildi
 
 ```mermaid
 flowchart TD
-    A[SqlQueryArgs]
-    B[SqlQueryServer]
-    C[ConformanceContext]
-    D[BasicClientHandler]
-    E[ElicitationDefaultsClientHandler]
+    A[serve_directly]
+    B[serve_directly_with_ct]
+    C[to]
+    D[to]
+    E[to]
     A --> B
     B --> C
     C --> D

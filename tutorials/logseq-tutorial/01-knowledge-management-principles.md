@@ -6,6 +6,7 @@ has_children: false
 parent: "Logseq Knowledge Management"
 ---
 
+
 # Chapter 1: Knowledge Management Philosophy
 
 Welcome to **Chapter 1: Knowledge Management Philosophy**. In this part of **Logseq: Deep Dive Tutorial**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
@@ -526,94 +527,184 @@ Suggested trace strategy:
 
 ## Depth Expansion Playbook
 
-<!-- depth-expansion-v2 -->
+## Source Code Walkthrough
 
-This chapter is expanded to v1-style depth for production-grade learning and implementation quality.
+### `tailwind.config.js`
 
-### Strategic Context
+The `exposeColorsToCssVars` function in [`tailwind.config.js`](https://github.com/logseq/logseq/blob/HEAD/tailwind.config.js) handles a key part of this chapter's functionality:
 
-- tutorial: **Logseq: Deep Dive Tutorial**
-- tutorial slug: **logseq-tutorial**
-- chapter focus: **Chapter 1: Knowledge Management Philosophy**
-- system context: **Logseq Knowledge Management**
-- objective: move from surface-level usage to repeatable engineering operation
+```js
+}
 
-### Architecture Decomposition
+function exposeColorsToCssVars ({ addBase, theme }) {
+  function extractColorVars (colorObj, colorGroup = '') {
+    return Object.keys(colorObj).reduce((vars, colorKey) => {
+      const value = colorObj[colorKey]
 
-1. Define the runtime boundary for `Chapter 1: Knowledge Management Philosophy`.
-2. Separate control-plane decisions from data-plane execution.
-3. Capture input contracts, transformation points, and output contracts.
-4. Trace state transitions across request lifecycle stages.
-5. Identify extension hooks and policy interception points.
-6. Map ownership boundaries for team and automation workflows.
-7. Specify rollback and recovery paths for unsafe changes.
-8. Track observability signals for correctness, latency, and cost.
+      const newVars =
+        typeof value === 'string'
+          ? { [`--color${colorGroup}-${colorKey}`]: value }
+          : extractColorVars(value, `-${colorKey}`)
 
-### Operator Decision Matrix
+      return { ...vars, ...newVars }
+    }, {})
+  }
 
-| Decision Area | Low-Risk Path | High-Control Path | Tradeoff |
-|:--------------|:--------------|:------------------|:---------|
-| Runtime mode | managed defaults | explicit policy config | speed vs control |
-| State handling | local ephemeral | durable persisted state | simplicity vs auditability |
-| Tool integration | direct API use | mediated adapter layer | velocity vs governance |
-| Rollout method | manual change | staged + canary rollout | effort vs safety |
-| Incident response | best effort logs | runbooks + SLO alerts | cost vs reliability |
+  addBase({
+    ':root': extractColorVars(theme('colors')),
+  })
+}
 
-### Failure Modes and Countermeasures
+const withOverride = plugin(function ({ matchUtilities }) {
+  matchUtilities({
+    'or': (value, b) => {
+      // check if the value starts with "bg-"
+      if (value.startsWith('bg-')) {
+        return { [`--lx-bg-override`]: `var(--lx-${value})` }
+      }
+      // check if the value starts with "text-"
+      if (value.startsWith('text-')) {
+        return { [`--lx-text-override`]: `var(--lx-${value})` }
+      }
+```
 
-| Failure Mode | Early Signal | Root Cause Pattern | Countermeasure |
-|:-------------|:-------------|:-------------------|:---------------|
-| stale context | inconsistent outputs | missing refresh window | enforce context TTL and refresh hooks |
-| policy drift | unexpected execution | ad hoc overrides | centralize policy profiles |
-| auth mismatch | 401/403 bursts | credential sprawl | rotation schedule + scope minimization |
-| schema breakage | parser/validation errors | unmanaged upstream changes | contract tests per release |
-| retry storms | queue congestion | no backoff controls | jittered backoff + circuit breakers |
-| silent regressions | quality drop without alerts | weak baseline metrics | eval harness with thresholds |
+This function is important because it defines how Logseq: Deep Dive Tutorial implements the patterns covered in this chapter.
 
-### Implementation Runbook
+### `tailwind.config.js`
 
-1. Establish a reproducible baseline environment.
-2. Capture chapter-specific success criteria before changes.
-3. Implement minimal viable path with explicit interfaces.
-4. Add observability before expanding feature scope.
-5. Run deterministic tests for happy-path behavior.
-6. Inject failure scenarios for negative-path validation.
-7. Compare output quality against baseline snapshots.
-8. Promote through staged environments with rollback gates.
-9. Record operational lessons in release notes.
+The `extractColorVars` function in [`tailwind.config.js`](https://github.com/logseq/logseq/blob/HEAD/tailwind.config.js) handles a key part of this chapter's functionality:
 
-### Quality Gate Checklist
+```js
 
-- [ ] chapter-level assumptions are explicit and testable
-- [ ] API/tool boundaries are documented with input/output examples
-- [ ] failure handling includes retry, timeout, and fallback policy
-- [ ] security controls include auth scopes and secret rotation plans
-- [ ] observability includes logs, metrics, traces, and alert thresholds
-- [ ] deployment guidance includes canary and rollback paths
-- [ ] docs include links to upstream sources and related tracks
-- [ ] post-release verification confirms expected behavior under load
+function exposeColorsToCssVars ({ addBase, theme }) {
+  function extractColorVars (colorObj, colorGroup = '') {
+    return Object.keys(colorObj).reduce((vars, colorKey) => {
+      const value = colorObj[colorKey]
 
-### Source Alignment
+      const newVars =
+        typeof value === 'string'
+          ? { [`--color${colorGroup}-${colorKey}`]: value }
+          : extractColorVars(value, `-${colorKey}`)
 
-- [Logseq](https://github.com/logseq/logseq)
-- [AI Codebase Knowledge Builder](https://github.com/The-Pocket/Tutorial-Codebase-Knowledge)
+      return { ...vars, ...newVars }
+    }, {})
+  }
 
-### Cross-Tutorial Connection Map
+  addBase({
+    ':root': extractColorVars(theme('colors')),
+  })
+}
 
-- Related tutorials are listed in this tutorial index.
+const withOverride = plugin(function ({ matchUtilities }) {
+  matchUtilities({
+    'or': (value, b) => {
+      // check if the value starts with "bg-"
+      if (value.startsWith('bg-')) {
+        return { [`--lx-bg-override`]: `var(--lx-${value})` }
+      }
+      // check if the value starts with "text-"
+      if (value.startsWith('text-')) {
+        return { [`--lx-text-override`]: `var(--lx-${value})` }
+      }
+      // check if the value starts with "border-"
+```
 
-### Advanced Practice Exercises
+This function is important because it defines how Logseq: Deep Dive Tutorial implements the patterns covered in this chapter.
 
-1. Build a minimal end-to-end implementation for `Chapter 1: Knowledge Management Philosophy`.
-2. Add instrumentation and measure baseline latency and error rate.
-3. Introduce one controlled failure and confirm graceful recovery.
-4. Add policy constraints and verify they are enforced consistently.
-5. Run a staged rollout and document rollback decision criteria.
+### `tailwind.config.js`
 
-### Review Questions
+The `mapRadixColorToTailwind` function in [`tailwind.config.js`](https://github.com/logseq/logseq/blob/HEAD/tailwind.config.js) handles a key part of this chapter's functionality:
 
-1. Which execution boundary matters most for this chapter and why?
-2. What signal detects regressions earliest in your environment?
-3. What tradeoff did you make between delivery speed and governance?
-4. How would you recover from the highest-impact failure mode?
-5. What must be automated before scaling to team-wide adoption?
+```js
+})
+
+function mapRadixColorToTailwind (color) {
+  const radixColor = radix[color]
+  if (!radixColor) throw new Error(`[radix color] not exist for ${color}`)
+  const twSteps = [10, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950]
+  const rxSteps = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+  const colors = {}
+
+  twSteps.forEach((twStep, index) => {
+    const rxStep = rxSteps[index]
+    // base color
+    colors[twStep] = radixColor[`${color}${rxStep}`]
+    // theme vars color
+    const rxStepName = `${(rxStep < 10) ? '0' : ''}${rxStep}`
+    const rxVarName = `--rx-${color}-${rxStepName}`
+    colors[`rx-${rxStepName}`] = `var(${rxVarName})`
+    colors[`rx-${rxStepName}-alpha`] = `var(${rxVarName}-alpha)`
+  })
+
+  return colors
+}
+
+module.exports = {
+  darkMode: 'class',
+  content: [
+    './src/**/*.js',
+    './src/**/*.cljs',
+    './resources/**/*.html',
+    './deps/shui/src/**/*.cljs',
+    './deps/shui/src/**/*.cljc',
+    './packages/ui/@/components/**/*.{ts,tsx}',
+```
+
+This function is important because it defines how Logseq: Deep Dive Tutorial implements the patterns covered in this chapter.
+
+### `libs/src/LSPlugin.user.ts`
+
+The `LSPluginUser` class in [`libs/src/LSPlugin.user.ts`](https://github.com/logseq/logseq/blob/HEAD/libs/src/LSPlugin.user.ts) handles a key part of this chapter's functionality:
+
+```ts
+  IDBProxy,
+  IEditorProxy,
+  ILSPluginUser,
+  LSPluginBaseInfo,
+  LSPluginUserEvents,
+  SlashCommandAction,
+  BlockCommandCallback,
+  StyleString,
+  Theme,
+  UIOptions,
+  IHookEvent,
+  BlockIdentity,
+  BlockPageName,
+  UIContainerAttrs,
+  SimpleCommandCallback,
+  SimpleCommandKeybinding,
+  SettingSchemaDesc,
+  IUserOffHook,
+  IGitProxy,
+  IUIProxy,
+  UserProxyNSTags,
+  BlockUUID,
+  BlockEntity,
+  IDatom,
+  IAssetsProxy,
+  AppInfo,
+  IPluginSearchServiceHooks,
+  PageEntity, IUtilsProxy,
+} from './LSPlugin'
+import Debug from 'debug'
+import * as CSS from 'csstype'
+import EventEmitter from 'eventemitter3'
+```
+
+This class is important because it defines how Logseq: Deep Dive Tutorial implements the patterns covered in this chapter.
+
+
+## How These Components Connect
+
+```mermaid
+flowchart TD
+    A[exposeColorsToCssVars]
+    B[extractColorVars]
+    C[mapRadixColorToTailwind]
+    D[LSPluginUser]
+    E[registerSimpleCommand]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+```

@@ -6,6 +6,7 @@ has_children: false
 parent: Ollama Tutorial
 ---
 
+
 # Chapter 1: Getting Started with Ollama
 
 Welcome to **Chapter 1: Getting Started with Ollama**. In this part of **Ollama Tutorial: Running and Serving LLMs Locally**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
@@ -449,186 +450,184 @@ The `config.json` file is rarely needed -- environment variables and CLI flags c
 
 Next: [Chapter 2: Models & Modelfiles](02-models.md)
 
-## Depth Expansion Playbook
+## Source Code Walkthrough
 
-<!-- depth-expansion-v2 -->
+### `middleware/anthropic.go`
 
-This chapter is expanded to v1-style depth for production-grade learning and implementation quality.
+The `writeError` function in [`middleware/anthropic.go`](https://github.com/ollama/ollama/blob/HEAD/middleware/anthropic.go) handles a key part of this chapter's functionality:
 
-### Strategic Context
+```go
+}
 
-- tutorial: **Ollama Tutorial: Running and Serving LLMs Locally**
-- tutorial slug: **ollama-tutorial**
-- chapter focus: **Chapter 1: Getting Started with Ollama**
-- system context: **Ollama Tutorial**
-- objective: move from surface-level usage to repeatable engineering operation
+func (w *AnthropicWriter) writeError(data []byte) (int, error) {
+	var errData struct {
+		Error string `json:"error"`
+	}
+	if err := json.Unmarshal(data, &errData); err != nil {
+		// If the error response isn't valid JSON, use the raw bytes as the
+		// error message rather than surfacing a confusing JSON parse error.
+		errData.Error = string(data)
+	}
 
-### Architecture Decomposition
+	w.ResponseWriter.Header().Set("Content-Type", "application/json")
+	if err := json.NewEncoder(w.ResponseWriter).Encode(anthropic.NewError(w.Status(), errData.Error)); err != nil {
+		return 0, err
+	}
 
-1. Define the runtime boundary for `Chapter 1: Getting Started with Ollama`.
-2. Separate control-plane decisions from data-plane execution.
-3. Capture input contracts, transformation points, and output contracts.
-4. Trace state transitions across request lifecycle stages.
-5. Identify extension hooks and policy interception points.
-6. Map ownership boundaries for team and automation workflows.
-7. Specify rollback and recovery paths for unsafe changes.
-8. Track observability signals for correctness, latency, and cost.
+	return len(data), nil
+}
 
-### Operator Decision Matrix
+func (w *AnthropicWriter) writeEvent(eventType string, data any) error {
+	return writeSSE(w.ResponseWriter, eventType, data)
+}
 
-| Decision Area | Low-Risk Path | High-Control Path | Tradeoff |
-|:--------------|:--------------|:------------------|:---------|
-| Runtime mode | managed defaults | explicit policy config | speed vs control |
-| State handling | local ephemeral | durable persisted state | simplicity vs auditability |
-| Tool integration | direct API use | mediated adapter layer | velocity vs governance |
-| Rollout method | manual change | staged + canary rollout | effort vs safety |
-| Incident response | best effort logs | runbooks + SLO alerts | cost vs reliability |
+func (w *AnthropicWriter) writeResponse(data []byte) (int, error) {
+	var chatResponse api.ChatResponse
+	err := json.Unmarshal(data, &chatResponse)
+	if err != nil {
+		return 0, err
+	}
 
-### Failure Modes and Countermeasures
+	if w.stream {
+```
 
-| Failure Mode | Early Signal | Root Cause Pattern | Countermeasure |
-|:-------------|:-------------|:-------------------|:---------------|
-| stale context | inconsistent outputs | missing refresh window | enforce context TTL and refresh hooks |
-| policy drift | unexpected execution | ad hoc overrides | centralize policy profiles |
-| auth mismatch | 401/403 bursts | credential sprawl | rotation schedule + scope minimization |
-| schema breakage | parser/validation errors | unmanaged upstream changes | contract tests per release |
-| retry storms | queue congestion | no backoff controls | jittered backoff + circuit breakers |
-| silent regressions | quality drop without alerts | weak baseline metrics | eval harness with thresholds |
+This function is important because it defines how Ollama Tutorial: Running and Serving LLMs Locally implements the patterns covered in this chapter.
 
-### Implementation Runbook
+### `middleware/anthropic.go`
 
-1. Establish a reproducible baseline environment.
-2. Capture chapter-specific success criteria before changes.
-3. Implement minimal viable path with explicit interfaces.
-4. Add observability before expanding feature scope.
-5. Run deterministic tests for happy-path behavior.
-6. Inject failure scenarios for negative-path validation.
-7. Compare output quality against baseline snapshots.
-8. Promote through staged environments with rollback gates.
-9. Record operational lessons in release notes.
+The `writeEvent` function in [`middleware/anthropic.go`](https://github.com/ollama/ollama/blob/HEAD/middleware/anthropic.go) handles a key part of this chapter's functionality:
 
-### Quality Gate Checklist
+```go
+}
 
-- [ ] chapter-level assumptions are explicit and testable
-- [ ] API/tool boundaries are documented with input/output examples
-- [ ] failure handling includes retry, timeout, and fallback policy
-- [ ] security controls include auth scopes and secret rotation plans
-- [ ] observability includes logs, metrics, traces, and alert thresholds
-- [ ] deployment guidance includes canary and rollback paths
-- [ ] docs include links to upstream sources and related tracks
-- [ ] post-release verification confirms expected behavior under load
+func (w *AnthropicWriter) writeEvent(eventType string, data any) error {
+	return writeSSE(w.ResponseWriter, eventType, data)
+}
 
-### Source Alignment
+func (w *AnthropicWriter) writeResponse(data []byte) (int, error) {
+	var chatResponse api.ChatResponse
+	err := json.Unmarshal(data, &chatResponse)
+	if err != nil {
+		return 0, err
+	}
 
-- [Ollama Repository](https://github.com/ollama/ollama)
-- [Ollama Releases](https://github.com/ollama/ollama/releases)
-- [Ollama Website and Docs](https://ollama.com/)
+	if w.stream {
+		w.ResponseWriter.Header().Set("Content-Type", "text/event-stream")
 
-### Cross-Tutorial Connection Map
+		events := w.converter.Process(chatResponse)
+		logutil.Trace("anthropic middleware: stream chunk", "resp", anthropic.TraceChatResponse(chatResponse), "events", len(events))
+		for _, event := range events {
+			if err := w.writeEvent(event.Event, event.Data); err != nil {
+				return 0, err
+			}
+		}
+		return len(data), nil
+	}
 
-- [Open WebUI Tutorial](../open-webui-tutorial/)
-- [LiteLLM Tutorial](../litellm-tutorial/)
-- [Llama.cpp Tutorial](../llama-cpp-tutorial/)
-- [VLLM Tutorial](../vllm-tutorial/)
-- [Chapter 1: Getting Started](01-getting-started.md)
+	w.ResponseWriter.Header().Set("Content-Type", "application/json")
+	response := anthropic.ToMessagesResponse(w.id, chatResponse)
+	logutil.Trace("anthropic middleware: converted response", "resp", anthropic.TraceMessagesResponse(response))
+	return len(data), json.NewEncoder(w.ResponseWriter).Encode(response)
+}
 
-### Advanced Practice Exercises
+```
 
-1. Build a minimal end-to-end implementation for `Chapter 1: Getting Started with Ollama`.
-2. Add instrumentation and measure baseline latency and error rate.
-3. Introduce one controlled failure and confirm graceful recovery.
-4. Add policy constraints and verify they are enforced consistently.
-5. Run a staged rollout and document rollback decision criteria.
+This function is important because it defines how Ollama Tutorial: Running and Serving LLMs Locally implements the patterns covered in this chapter.
 
-### Review Questions
+### `middleware/anthropic.go`
 
-1. Which execution boundary matters most for this chapter and why?
-2. What signal detects regressions earliest in your environment?
-3. What tradeoff did you make between delivery speed and governance?
-4. How would you recover from the highest-impact failure mode?
-5. What must be automated before scaling to team-wide adoption?
+The `writeResponse` function in [`middleware/anthropic.go`](https://github.com/ollama/ollama/blob/HEAD/middleware/anthropic.go) handles a key part of this chapter's functionality:
 
-### Scenario Playbook 1: Chapter 1: Getting Started with Ollama
+```go
+}
 
-- tutorial context: **Ollama Tutorial: Running and Serving LLMs Locally**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
+func (w *AnthropicWriter) writeResponse(data []byte) (int, error) {
+	var chatResponse api.ChatResponse
+	err := json.Unmarshal(data, &chatResponse)
+	if err != nil {
+		return 0, err
+	}
 
-### Scenario Playbook 2: Chapter 1: Getting Started with Ollama
+	if w.stream {
+		w.ResponseWriter.Header().Set("Content-Type", "text/event-stream")
 
-- tutorial context: **Ollama Tutorial: Running and Serving LLMs Locally**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
+		events := w.converter.Process(chatResponse)
+		logutil.Trace("anthropic middleware: stream chunk", "resp", anthropic.TraceChatResponse(chatResponse), "events", len(events))
+		for _, event := range events {
+			if err := w.writeEvent(event.Event, event.Data); err != nil {
+				return 0, err
+			}
+		}
+		return len(data), nil
+	}
 
-### Scenario Playbook 3: Chapter 1: Getting Started with Ollama
+	w.ResponseWriter.Header().Set("Content-Type", "application/json")
+	response := anthropic.ToMessagesResponse(w.id, chatResponse)
+	logutil.Trace("anthropic middleware: converted response", "resp", anthropic.TraceMessagesResponse(response))
+	return len(data), json.NewEncoder(w.ResponseWriter).Encode(response)
+}
 
-- tutorial context: **Ollama Tutorial: Running and Serving LLMs Locally**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
+func (w *AnthropicWriter) Write(data []byte) (int, error) {
+	code := w.ResponseWriter.Status()
+	if code != http.StatusOK {
+		return w.writeError(data)
+```
 
-## What Problem Does This Solve?
+This function is important because it defines how Ollama Tutorial: Running and Serving LLMs Locally implements the patterns covered in this chapter.
 
-Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `ollama`, `model`, `content` so behavior stays predictable as complexity grows.
+### `middleware/anthropic.go`
 
-In practical terms, this chapter helps you avoid three common failures:
+The `Write` function in [`middleware/anthropic.go`](https://github.com/ollama/ollama/blob/HEAD/middleware/anthropic.go) handles a key part of this chapter's functionality:
 
-- coupling core logic too tightly to one implementation path
-- missing the handoff boundaries between setup, execution, and validation
-- shipping changes without clear rollback or observability strategy
+```go
+)
 
-After working through this chapter, you should be able to reason about `Chapter 1: Getting Started with Ollama` as an operating subsystem inside **Ollama Tutorial: Running and Serving LLMs Locally**, with explicit contracts for inputs, state transitions, and outputs.
+// AnthropicWriter wraps the response writer to transform Ollama responses to Anthropic format
+type AnthropicWriter struct {
+	BaseWriter
+	stream    bool
+	id        string
+	converter *anthropic.StreamConverter
+}
 
-Use the implementation notes around `llama3`, `chat`, `role` as your checklist when adapting these patterns to your own repository.
+func (w *AnthropicWriter) writeError(data []byte) (int, error) {
+	var errData struct {
+		Error string `json:"error"`
+	}
+	if err := json.Unmarshal(data, &errData); err != nil {
+		// If the error response isn't valid JSON, use the raw bytes as the
+		// error message rather than surfacing a confusing JSON parse error.
+		errData.Error = string(data)
+	}
 
-## How it Works Under the Hood
+	w.ResponseWriter.Header().Set("Content-Type", "application/json")
+	if err := json.NewEncoder(w.ResponseWriter).Encode(anthropic.NewError(w.Status(), errData.Error)); err != nil {
+		return 0, err
+	}
 
-Under the hood, `Chapter 1: Getting Started with Ollama` usually follows a repeatable control path:
+	return len(data), nil
+}
 
-1. **Context bootstrap**: initialize runtime config and prerequisites for `ollama`.
-2. **Input normalization**: shape incoming data so `model` receives stable contracts.
-3. **Core execution**: run the main logic branch and propagate intermediate state through `content`.
-4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
-5. **Output composition**: return canonical result payloads for downstream consumers.
-6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
+func (w *AnthropicWriter) writeEvent(eventType string, data any) error {
+	return writeSSE(w.ResponseWriter, eventType, data)
+}
 
-When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
+```
 
-## Source Walkthrough
+This function is important because it defines how Ollama Tutorial: Running and Serving LLMs Locally implements the patterns covered in this chapter.
 
-Use the following upstream sources to verify implementation details while reading this chapter:
 
-- [Ollama Repository](https://github.com/ollama/ollama)
-  Why it matters: authoritative reference on `Ollama Repository` (github.com).
-- [Ollama Releases](https://github.com/ollama/ollama/releases)
-  Why it matters: authoritative reference on `Ollama Releases` (github.com).
-- [Ollama Website and Docs](https://ollama.com/)
-  Why it matters: authoritative reference on `Ollama Website and Docs` (ollama.com).
+## How These Components Connect
 
-Suggested trace strategy:
-- search upstream code for `ollama` and `model` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
-
-## Chapter Connections
-
-- [Tutorial Index](README.md)
-- [Next Chapter: Chapter 2: Models, Pulling, and Modelfiles](02-models.md)
-- [Main Catalog](../../README.md#-tutorial-catalog)
-- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
+```mermaid
+flowchart TD
+    A[writeError]
+    B[writeEvent]
+    C[writeResponse]
+    D[Write]
+    E[Error]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+```

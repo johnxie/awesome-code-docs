@@ -12,6 +12,19 @@ Welcome to **Chapter 8: Real-World Examples**. In this part of **MCP Python SDK 
 
 > Complete production-ready MCP server implementations for common use cases.
 
+## Example Server Implementations Overview
+
+```mermaid
+flowchart TD
+    EXAMPLES[Real-World MCP Servers] --> FS[File System Server\nread/write files, search]
+    EXAMPLES --> DB[Database Server\nSQL queries, schema inspection]
+    EXAMPLES --> API[API Integration Server\nHTTP tools, webhooks]
+    EXAMPLES --> CODE[Code Execution Server\nsandboxed Python/JS runner]
+
+    FS --> TOOLS_FS[read_file, write_file\nlist_directory, search_files]
+    DB --> TOOLS_DB[query_db, list_tables\ndescribe_schema]
+```
+
 ## Example 1: File System Server
 
 ```python

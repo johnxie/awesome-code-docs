@@ -25,8 +25,8 @@ The true power of DSPy lies in its optimization capabilities. Unlike traditional
 import dspy
 
 # Configure DSPy
-lm = dspy.OpenAI(model="gpt-3.5-turbo")
-dspy.settings.configure(lm=lm)
+lm = dspy.LM("openai/gpt-4o-mini")
+dspy.configure(lm=lm)
 
 # Define a simple program
 class BasicQA(dspy.Signature):
@@ -668,6 +668,24 @@ In practical terms, this chapter helps you avoid three common failures:
 After working through this chapter, you should be able to reason about `Chapter 5: Automatic Optimization - DSPy's Superpower` as an operating subsystem inside **DSPy Tutorial: Programming Language Models**, with explicit contracts for inputs, state transitions, and outputs.
 
 Use the implementation notes around `print`, `program`, `score` as your checklist when adapting these patterns to your own repository.
+
+## DSPy Optimization Loop
+
+```mermaid
+flowchart TD
+    A[Training examples] --> B[Optimizer / Teleprompter]
+    B --> C{Optimizer type}
+    C -->|BootstrapFewShot| D[Select few-shot demos]
+    C -->|MIPRO| E[Propose and score instructions]
+    C -->|BootstrapFinetune| F[Fine-tune weights]
+    D --> G[Optimized module]
+    E --> G
+    F --> G
+    G --> H[Evaluate on dev set]
+    H --> I{Metric improves?}
+    I -->|Yes| J[Save optimized program]
+    I -->|No| B
+```
 
 ## How it Works Under the Hood
 

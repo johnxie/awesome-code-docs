@@ -116,177 +116,181 @@ Related:
 - [OpenHands Tutorial](../openhands-tutorial/)
 - [MCP Servers Tutorial](../mcp-servers-tutorial/)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `scripts/generate-stubs.js`
+### `src/extension.ts`
 
-The `mapReturn` function in [`scripts/generate-stubs.js`](https://github.com/cline/cline/blob/HEAD/scripts/generate-stubs.js) handles a key part of this chapter's functionality:
+The `getBinaryLocation` function in [`src/extension.ts`](https://github.com/cline/cline/blob/HEAD/src/extension.ts) handles a key part of this chapter's functionality:
 
-```js
-			const typeNode = node.getReturnTypeNode()
-			const returnType = typeNode ? typeNode.getText() : ""
-			const ret = mapReturn(returnType)
-			output.push(
-				`${prefix}.${name} = function(${params.join(", ")}) { console.log('Called stubbed function: ${prefix}.${name}');  ${ret} };`,
-			)
-		} else if (kind === SyntaxKind.EnumDeclaration) {
-			const name = node.getName()
-			const members = node.getMembers().map((m) => m.getName())
-			output.push(`${prefix}.${name} = { ${members.map((m) => `${m}: 0`).join(", ")} };`)
-		} else if (kind === SyntaxKind.VariableStatement) {
-			for (const decl of node.getDeclarations()) {
-				const name = decl.getName()
-				output.push(`${prefix}.${name} = createStub("${prefix}.${name}");`)
-			}
-		} else if (kind === SyntaxKind.ClassDeclaration) {
-			const name = node.getName()
-			output.push(
-				`${prefix}.${name} = class { constructor(...args) {
-  console.log('Constructed stubbed class: new ${prefix}.${name}(', args, ')');
-  return createStub(${prefix}.${name});
-}};`,
-			)
-		} else if (kind === SyntaxKind.TypeAliasDeclaration || kind === SyntaxKind.InterfaceDeclaration) {
-			//console.log("Skipping", SyntaxKind[kind], node.getName())
-			// Skip interfaces and type aliases because they are only used at compile time by typescript.
-		} else {
-			console.log("Can't handle: ", SyntaxKind[kind])
+```ts
+		() => {}, // No-op logger, logging is handled via HostProvider.env.debugLog
+		getCallbackUrl,
+		getBinaryLocation,
+		context.extensionUri.fsPath,
+		context.globalStorageUri.fsPath,
+	)
+}
+
+function getUriPath(url: string): string | undefined {
+	try {
+		return new URL(url).pathname
+	} catch {
+		return undefined
+	}
+}
+
+async function openClineSidebarForTaskUri(): Promise<void> {
+	const sidebarWaitTimeoutMs = 3000
+	const sidebarWaitIntervalMs = 50
+
+	await vscode.commands.executeCommand(`${ExtensionRegistryInfo.views.Sidebar}.focus`)
+
+	const startedAt = Date.now()
+	while (Date.now() - startedAt < sidebarWaitTimeoutMs) {
+		if (WebviewProvider.getVisibleInstance()) {
+			return
 		}
+		await new Promise((resolve) => setTimeout(resolve, sidebarWaitIntervalMs))
 	}
-}
 
+	Logger.warn("Task URI handling timed out waiting for Cline sidebar visibility")
+}
 ```
 
 This function is important because it defines how Cline Tutorial: Agentic Coding with Human Control implements the patterns covered in this chapter.
 
-### `scripts/generate-stubs.js`
+### `src/extension.ts`
 
-The `sanitizeParam` function in [`scripts/generate-stubs.js`](https://github.com/cline/cline/blob/HEAD/scripts/generate-stubs.js) handles a key part of this chapter's functionality:
+The `deactivate` function in [`src/extension.ts`](https://github.com/cline/cline/blob/HEAD/src/extension.ts) handles a key part of this chapter's functionality:
 
-```js
-		} else if (kind === SyntaxKind.FunctionDeclaration) {
-			const name = node.getName()
-			const params = node.getParameters().map((p, i) => sanitizeParam(p.getName(), i))
-			const typeNode = node.getReturnTypeNode()
-			const returnType = typeNode ? typeNode.getText() : ""
-			const ret = mapReturn(returnType)
-			output.push(
-				`${prefix}.${name} = function(${params.join(", ")}) { console.log('Called stubbed function: ${prefix}.${name}');  ${ret} };`,
-			)
-		} else if (kind === SyntaxKind.EnumDeclaration) {
-			const name = node.getName()
-			const members = node.getMembers().map((m) => m.getName())
-			output.push(`${prefix}.${name} = { ${members.map((m) => `${m}: 0`).join(", ")} };`)
-		} else if (kind === SyntaxKind.VariableStatement) {
-			for (const decl of node.getDeclarations()) {
-				const name = decl.getName()
-				output.push(`${prefix}.${name} = createStub("${prefix}.${name}");`)
+```ts
+				const pattern = new vscode.RelativePattern(dir, "*")
+				const watcher = vscode.workspace.createFileSystemWatcher(pattern)
+				// Ensure watcher is disposed when extension is deactivated
+				context.subscriptions.push(watcher)
+				// Adapt VSCode FileSystemWatcher to generic interface
+				return {
+					onDidCreate: (listener: () => void) => watcher.onDidCreate(listener),
+					onDidChange: (listener: () => void) => watcher.onDidChange(listener),
+					onDidDelete: (listener: () => void) => watcher.onDidDelete(listener),
+					dispose: () => watcher.dispose(),
+				}
+			} catch {
+				return null
 			}
-		} else if (kind === SyntaxKind.ClassDeclaration) {
-			const name = node.getName()
-			output.push(
-				`${prefix}.${name} = class { constructor(...args) {
-  console.log('Constructed stubbed class: new ${prefix}.${name}(', args, ')');
-  return createStub(${prefix}.${name});
-}};`,
-			)
-		} else if (kind === SyntaxKind.TypeAliasDeclaration || kind === SyntaxKind.InterfaceDeclaration) {
-			//console.log("Skipping", SyntaxKind[kind], node.getName())
-			// Skip interfaces and type aliases because they are only used at compile time by typescript.
-		} else {
-			console.log("Can't handle: ", SyntaxKind[kind])
-		}
-```
+		},
+		(callback: () => void) => {
+			// Adapt VSCode Disposable to generic interface
+			const disposable = vscode.workspace.onDidChangeWorkspaceFolders(callback)
+			context.subscriptions.push(disposable)
+			return disposable
+		},
+	)
 
-This function is important because it defines how Cline Tutorial: Agentic Coding with Human Control implements the patterns covered in this chapter.
+	context.subscriptions.push(
+		vscode.window.registerWebviewViewProvider(VscodeWebviewProvider.SIDEBAR_ID, webview, {
+			webviewOptions: { retainContextWhenHidden: true },
+		}),
+	)
 
-### `scripts/generate-stubs.js`
-
-The `main` function in [`scripts/generate-stubs.js`](https://github.com/cline/cline/blob/HEAD/scripts/generate-stubs.js) handles a key part of this chapter's functionality:
-
-```js
-}
-
-async function main() {
-	const inputPath = "node_modules/@types/vscode/index.d.ts"
-	const outputPath = "standalone/runtime-files/vscode/vscode-stubs.js"
-
-	const project = new Project()
-	const sourceFile = project.addSourceFileAtPath(inputPath)
-
-	const output = []
-	output.push("// GENERATED CODE -- DO NOT EDIT!")
-	output.push('console.log("Loading stubs...");')
-	output.push('const { createStub } = require("./stub-utils")')
-	traverse(sourceFile, output)
-	output.push("module.exports = vscode;")
-	output.push('console.log("Finished loading stubs");')
-
-	fs.mkdirSync(path.dirname(outputPath), { recursive: true })
-	fs.writeFileSync(outputPath, output.join("\n"))
-
-	console.log(`Wrote vscode SDK stubs to ${outputPath}`)
-}
-
-main().catch((err) => {
-	console.error(err)
-	process.exit(1)
-})
+	// NOTE: Commands must be added to the internal registry before registering them with VSCode
+	const { commands } = ExtensionRegistryInfo
 
 ```
 
 This function is important because it defines how Cline Tutorial: Agentic Coding with Human Control implements the patterns covered in this chapter.
 
-### `scripts/report-issue.js`
+### `src/extension.ts`
 
-The `main` function in [`scripts/report-issue.js`](https://github.com/cline/cline/blob/HEAD/scripts/report-issue.js) handles a key part of this chapter's functionality:
+The `cleanupLegacyVSCodeStorage` function in [`src/extension.ts`](https://github.com/cline/cline/blob/HEAD/src/extension.ts) handles a key part of this chapter's functionality:
 
-```js
-}
+```ts
+	// Moves workspace→global keys, task history→file, custom instructions→rules, etc.
+	// Must run BEFORE the file export so we copy clean state.
+	await cleanupLegacyVSCodeStorage(context)
 
-async function main() {
-	const consent = await ask("Do you consent to collect system data and submit a GitHub issue? (y/n): ")
-	if (consent.trim().toLowerCase() !== "y") {
-		console.log("\nAborted.")
-		rl.close()
-		return
-	}
+	// 3. One-time export of VSCode's native storage to shared file-backed stores.
+	// After this, all platforms (VSCode, CLI, JetBrains) read from ~/.cline/data/.
+	const workspacePath = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath
+	const storageContext = createStorageContext({ workspacePath })
+	await exportVSCodeStorageToSharedFiles(context, storageContext)
 
-	console.log("Collecting system data...")
-	const systemInfo = collectSystemInfo()
+	// 4. Register services and perform common initialization
+	// IMPORTANT: Must be done after host provider is setup and migrations are complete
+	const webview = (await initialize(storageContext)) as VscodeWebviewProvider
 
-	const isAuthenticated = await checkGitHubAuth()
-	if (!isAuthenticated) {
-		rl.close()
-		return
-	}
+	// 5. Register services and commands specific to VS Code
+	// Initialize test mode and add disposables to context
+	const testModeWatchers = await initializeTestMode(webview)
+	context.subscriptions.push(...testModeWatchers)
 
-	const issueTitle = await ask("Enter the title for your issue: ")
-
-	await submitIssue(issueTitle, systemInfo)
-	rl.close()
-}
-
-main().catch((err) => {
-	console.error("\nAn error occurred:", err)
-	rl.close()
-})
-
+	// Initialize hook discovery cache for performance optimization
+	HookDiscoveryCache.getInstance().initialize(
+		context as any, // Adapt VSCode ExtensionContext to generic interface
+		(dir: string) => {
+			try {
+				const pattern = new vscode.RelativePattern(dir, "*")
+				const watcher = vscode.workspace.createFileSystemWatcher(pattern)
+				// Ensure watcher is disposed when extension is deactivated
+				context.subscriptions.push(watcher)
+				// Adapt VSCode FileSystemWatcher to generic interface
+				return {
+					onDidCreate: (listener: () => void) => watcher.onDidCreate(listener),
+					onDidChange: (listener: () => void) => watcher.onDidChange(listener),
 ```
 
 This function is important because it defines how Cline Tutorial: Agentic Coding with Human Control implements the patterns covered in this chapter.
+
+### `src/extension.ts`
+
+The `return` interface in [`src/extension.ts`](https://github.com/cline/cline/blob/HEAD/src/extension.ts) handles a key part of this chapter's functionality:
+
+```ts
+				context.subscriptions.push(watcher)
+				// Adapt VSCode FileSystemWatcher to generic interface
+				return {
+					onDidCreate: (listener: () => void) => watcher.onDidCreate(listener),
+					onDidChange: (listener: () => void) => watcher.onDidChange(listener),
+					onDidDelete: (listener: () => void) => watcher.onDidDelete(listener),
+					dispose: () => watcher.dispose(),
+				}
+			} catch {
+				return null
+			}
+		},
+		(callback: () => void) => {
+			// Adapt VSCode Disposable to generic interface
+			const disposable = vscode.workspace.onDidChangeWorkspaceFolders(callback)
+			context.subscriptions.push(disposable)
+			return disposable
+		},
+	)
+
+	context.subscriptions.push(
+		vscode.window.registerWebviewViewProvider(VscodeWebviewProvider.SIDEBAR_ID, webview, {
+			webviewOptions: { retainContextWhenHidden: true },
+		}),
+	)
+
+	// NOTE: Commands must be added to the internal registry before registering them with VSCode
+	const { commands } = ExtensionRegistryInfo
+
+	context.subscriptions.push(
+		vscode.commands.registerCommand(commands.PlusButton, async () => {
+			const sidebarInstance = WebviewProvider.getInstance()
+```
+
+This interface is important because it defines how Cline Tutorial: Agentic Coding with Human Control implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[mapReturn]
-    B[sanitizeParam]
-    C[main]
-    D[main]
+    A[getBinaryLocation]
+    B[deactivate]
+    C[cleanupLegacyVSCodeStorage]
+    D[return]
     A --> B
     B --> C
     C --> D

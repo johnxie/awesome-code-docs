@@ -38,170 +38,168 @@ You now have a client setup model that keeps capability assumptions and transpor
 
 Next: [Chapter 3: Tools, Resources, Prompts, and Request Patterns](03-tools-resources-prompts-and-request-patterns.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `Sources/MCP/Client/Sampling.swift`
+### `Sources/MCP/Client/Client.swift`
 
-The `Result` interface in [`Sources/MCP/Client/Sampling.swift`](https://github.com/modelcontextprotocol/swift-sdk/blob/HEAD/Sources/MCP/Client/Sampling.swift) handles a key part of this chapter's functionality:
+The `Capabilities` interface in [`Sources/MCP/Client/Client.swift`](https://github.com/modelcontextprotocol/swift-sdk/blob/HEAD/Sources/MCP/Client/Client.swift) handles a key part of this chapter's functionality:
 
 ```swift
-                case toolUse(Sampling.ToolUseContent)
-                /// Tool result content
-                case toolResult(Sampling.ToolResultContent)
+
+    /// The client capabilities
+    public struct Capabilities: Hashable, Codable, Sendable {
+        /// The roots capabilities
+        public struct Roots: Hashable, Codable, Sendable {
+            /// Whether the list of roots has changed
+            public var listChanged: Bool?
+
+            public init(listChanged: Bool? = nil) {
+                self.listChanged = listChanged
+            }
+        }
+
+        /// The sampling capabilities
+        public struct Sampling: Hashable, Sendable {
+            /// Tools sub-capability for sampling
+            public struct Tools: Hashable, Codable, Sendable {
+                public init() {}
             }
 
-            /// Returns true if this is a single content block
-            public var isSingle: Bool {
-                if case .single = self { return true }
-                return false
+            /// Context sub-capability for sampling
+            public struct Context: Hashable, Codable, Sendable {
+                public init() {}
             }
 
-            /// Returns content as an array of blocks
-            public var asArray: [ContentBlock] {
-                switch self {
-                case .single(let block):
-                    return [block]
-                case .multiple(let blocks):
-                    return blocks
-                }
-            }
+            /// Whether tools are supported in sampling
+            public var tools: Tools?
+            /// Whether context is supported in sampling
+            public var context: Context?
 
-            /// Creates content from a text string (convenience)
-            public static func text(_ text: String) -> Content {
-                .single(.text(text))
-            }
-
-            /// Creates content from an image (convenience)
-            public static func image(data: String, mimeType: String) -> Content {
-                .single(.image(data: data, mimeType: mimeType))
-            }
-
-            /// Creates content from audio (convenience)
+            public init(tools: Tools? = nil, context: Context? = nil) {
+                self.tools = tools
 ```
 
 This interface is important because it defines how MCP Swift SDK Tutorial: Building MCP Clients and Servers in Swift implements the patterns covered in this chapter.
 
-### `Sources/MCP/Client/Sampling.swift`
+### `Sources/MCP/Client/Client.swift`
 
-The `Sampling` interface in [`Sources/MCP/Client/Sampling.swift`](https://github.com/modelcontextprotocol/swift-sdk/blob/HEAD/Sources/MCP/Client/Sampling.swift) handles a key part of this chapter's functionality:
+The `Roots` interface in [`Sources/MCP/Client/Client.swift`](https://github.com/modelcontextprotocol/swift-sdk/blob/HEAD/Sources/MCP/Client/Client.swift) handles a key part of this chapter's functionality:
 
 ```swift
-///
-/// - SeeAlso: https://modelcontextprotocol.io/docs/concepts/sampling#how-sampling-works
-public enum Sampling {
-    /// A message in the conversation history.
-    public struct Message: Hashable, Sendable {
-        /// The message role
-        public enum Role: String, Hashable, Codable, Sendable {
-            /// A user message
-            case user
-            /// An assistant message
-            case assistant
+    public struct Capabilities: Hashable, Codable, Sendable {
+        /// The roots capabilities
+        public struct Roots: Hashable, Codable, Sendable {
+            /// Whether the list of roots has changed
+            public var listChanged: Bool?
+
+            public init(listChanged: Bool? = nil) {
+                self.listChanged = listChanged
+            }
         }
 
-        /// The message role
-        public let role: Role
-        /// The message content
-        public let content: Content
-        /// Optional metadata
-        public var _meta: Metadata?
+        /// The sampling capabilities
+        public struct Sampling: Hashable, Sendable {
+            /// Tools sub-capability for sampling
+            public struct Tools: Hashable, Codable, Sendable {
+                public init() {}
+            }
 
-        /// Creates a message with the specified role and content
-        @available(
-            *, deprecated, message: "Use static factory methods .user(_:) or .assistant(_:) instead"
-        )
-        public init(role: Role, content: Content, _meta: Metadata? = nil) {
-            self.role = role
-            self.content = content
-            self._meta = _meta
-        }
+            /// Context sub-capability for sampling
+            public struct Context: Hashable, Codable, Sendable {
+                public init() {}
+            }
 
-        /// Private initializer for convenience methods to avoid deprecation warnings
-        private init(_role role: Role, _content content: Content, _meta: Metadata? = nil) {
+            /// Whether tools are supported in sampling
+            public var tools: Tools?
+            /// Whether context is supported in sampling
+            public var context: Context?
+
+            public init(tools: Tools? = nil, context: Context? = nil) {
+                self.tools = tools
+                self.context = context
+            }
 ```
 
 This interface is important because it defines how MCP Swift SDK Tutorial: Building MCP Clients and Servers in Swift implements the patterns covered in this chapter.
 
-### `Sources/MCP/Client/Sampling.swift`
+### `Sources/MCP/Client/Client.swift`
 
-The `Role` interface in [`Sources/MCP/Client/Sampling.swift`](https://github.com/modelcontextprotocol/swift-sdk/blob/HEAD/Sources/MCP/Client/Sampling.swift) handles a key part of this chapter's functionality:
+The `Sampling` interface in [`Sources/MCP/Client/Client.swift`](https://github.com/modelcontextprotocol/swift-sdk/blob/HEAD/Sources/MCP/Client/Client.swift) handles a key part of this chapter's functionality:
 
 ```swift
-    public struct Message: Hashable, Sendable {
-        /// The message role
-        public enum Role: String, Hashable, Codable, Sendable {
-            /// A user message
-            case user
-            /// An assistant message
-            case assistant
+
+        /// The sampling capabilities
+        public struct Sampling: Hashable, Sendable {
+            /// Tools sub-capability for sampling
+            public struct Tools: Hashable, Codable, Sendable {
+                public init() {}
+            }
+
+            /// Context sub-capability for sampling
+            public struct Context: Hashable, Codable, Sendable {
+                public init() {}
+            }
+
+            /// Whether tools are supported in sampling
+            public var tools: Tools?
+            /// Whether context is supported in sampling
+            public var context: Context?
+
+            public init(tools: Tools? = nil, context: Context? = nil) {
+                self.tools = tools
+                self.context = context
+            }
         }
 
-        /// The message role
-        public let role: Role
-        /// The message content
-        public let content: Content
-        /// Optional metadata
-        public var _meta: Metadata?
+        /// The elicitation capabilities
+        public struct Elicitation: Hashable, Sendable {
+            /// Form-based elicitation sub-capability
+            public struct Form: Hashable, Codable, Sendable {
+                public init() {}
+            }
 
-        /// Creates a message with the specified role and content
-        @available(
-            *, deprecated, message: "Use static factory methods .user(_:) or .assistant(_:) instead"
-        )
-        public init(role: Role, content: Content, _meta: Metadata? = nil) {
-            self.role = role
-            self.content = content
-            self._meta = _meta
-        }
-
-        /// Private initializer for convenience methods to avoid deprecation warnings
-        private init(_role role: Role, _content content: Content, _meta: Metadata? = nil) {
-            self.role = role
-            self.content = content
-            self._meta = _meta
-        }
+            /// URL-based elicitation sub-capability
 ```
 
 This interface is important because it defines how MCP Swift SDK Tutorial: Building MCP Clients and Servers in Swift implements the patterns covered in this chapter.
 
-### `Sources/MCP/Client/Sampling.swift`
+### `Sources/MCP/Client/Client.swift`
 
-The `Content` interface in [`Sources/MCP/Client/Sampling.swift`](https://github.com/modelcontextprotocol/swift-sdk/blob/HEAD/Sources/MCP/Client/Sampling.swift) handles a key part of this chapter's functionality:
+The `Tools` interface in [`Sources/MCP/Client/Client.swift`](https://github.com/modelcontextprotocol/swift-sdk/blob/HEAD/Sources/MCP/Client/Client.swift) handles a key part of this chapter's functionality:
 
 ```swift
-        public let role: Role
-        /// The message content
-        public let content: Content
-        /// Optional metadata
-        public var _meta: Metadata?
+        /// The sampling capabilities
+        public struct Sampling: Hashable, Sendable {
+            /// Tools sub-capability for sampling
+            public struct Tools: Hashable, Codable, Sendable {
+                public init() {}
+            }
 
-        /// Creates a message with the specified role and content
-        @available(
-            *, deprecated, message: "Use static factory methods .user(_:) or .assistant(_:) instead"
-        )
-        public init(role: Role, content: Content, _meta: Metadata? = nil) {
-            self.role = role
-            self.content = content
-            self._meta = _meta
+            /// Context sub-capability for sampling
+            public struct Context: Hashable, Codable, Sendable {
+                public init() {}
+            }
+
+            /// Whether tools are supported in sampling
+            public var tools: Tools?
+            /// Whether context is supported in sampling
+            public var context: Context?
+
+            public init(tools: Tools? = nil, context: Context? = nil) {
+                self.tools = tools
+                self.context = context
+            }
         }
 
-        /// Private initializer for convenience methods to avoid deprecation warnings
-        private init(_role role: Role, _content content: Content, _meta: Metadata? = nil) {
-            self.role = role
-            self.content = content
-            self._meta = _meta
-        }
+        /// The elicitation capabilities
+        public struct Elicitation: Hashable, Sendable {
+            /// Form-based elicitation sub-capability
+            public struct Form: Hashable, Codable, Sendable {
+                public init() {}
+            }
 
-        /// Creates a user message with the specified content
-        public static func user(_ content: Content, _meta: Metadata? = nil) -> Message {
-            return Message(_role: .user, _content: content, _meta: _meta)
-        }
-
-        /// Creates an assistant message with the specified content
-        public static func assistant(_ content: Content, _meta: Metadata? = nil) -> Message {
-            return Message(_role: .assistant, _content: content, _meta: _meta)
-        }
+            /// URL-based elicitation sub-capability
+            public struct URL: Hashable, Codable, Sendable {
 ```
 
 This interface is important because it defines how MCP Swift SDK Tutorial: Building MCP Clients and Servers in Swift implements the patterns covered in this chapter.
@@ -211,11 +209,11 @@ This interface is important because it defines how MCP Swift SDK Tutorial: Build
 
 ```mermaid
 flowchart TD
-    A[Result]
-    B[Sampling]
-    C[Role]
-    D[Content]
-    E[ContentBlock]
+    A[Capabilities]
+    B[Roots]
+    C[Sampling]
+    D[Tools]
+    E[Context]
     A --> B
     B --> C
     C --> D

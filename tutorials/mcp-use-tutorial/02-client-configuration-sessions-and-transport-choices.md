@@ -40,88 +40,85 @@ You now have a repeatable client configuration baseline for local and remote MCP
 
 Next: [Chapter 3: Agent Configuration, Tool Governance, and Memory](03-agent-configuration-tool-governance-and-memory.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `libraries/python/examples/example_middleware.py`
+### `libraries/python/examples/google_integration_example.py`
 
-The `TimingMiddleware` class in [`libraries/python/examples/example_middleware.py`](https://github.com/mcp-use/mcp-use/blob/HEAD/libraries/python/examples/example_middleware.py) handles a key part of this chapter's functionality:
-
-```py
-
-    # Create custom middleware
-    class TimingMiddleware(Middleware):
-        async def on_request(self, context: MiddlewareContext[Any], call_next: NextFunctionT) -> Any:
-            start = time.time()
-            try:
-                print("--------------------------------")
-                print(f"{context.method} started")
-                print("--------------------------------")
-                print(f"{context.params}, {context.metadata}, {context.timestamp}, {context.connection_id}")
-                print("--------------------------------")
-                result = await call_next(context)
-                return result
-            finally:
-                duration = time.time() - start
-                print("--------------------------------")
-                print(f"{context.method} took {int(1000 * duration)}ms")
-                print("--------------------------------")
-
-    # Middleware that demonstrates mutating params and adding headers-like metadata
-    class MutationMiddleware(Middleware):
-        async def on_call_tool(self, context: MiddlewareContext[Any], call_next: NextFunctionT) -> Any:
-            # Defensive mutation of params: ensure `arguments` exists before writing
-            try:
-                print("[MutationMiddleware] context.params=", context.params)
-                args = getattr(context.params, "arguments", None)
-                if args is None:
-                    args = {}
-
-                # Inject a URL argument (example) and a trace id
-                args["url"] = "https://github.com"
-                meta = args.setdefault("meta", {})
-```
-
-This class is important because it defines how MCP Use Tutorial: Full-Stack MCP Development Across Agents, Clients, Servers, and Inspector implements the patterns covered in this chapter.
-
-### `libraries/python/examples/example_middleware.py`
-
-The `MutationMiddleware` class in [`libraries/python/examples/example_middleware.py`](https://github.com/mcp-use/mcp-use/blob/HEAD/libraries/python/examples/example_middleware.py) handles a key part of this chapter's functionality:
+The `main` function in [`libraries/python/examples/google_integration_example.py`](https://github.com/mcp-use/mcp-use/blob/HEAD/libraries/python/examples/google_integration_example.py) handles a key part of this chapter's functionality:
 
 ```py
 
-    # Middleware that demonstrates mutating params and adding headers-like metadata
-    class MutationMiddleware(Middleware):
-        async def on_call_tool(self, context: MiddlewareContext[Any], call_next: NextFunctionT) -> Any:
-            # Defensive mutation of params: ensure `arguments` exists before writing
-            try:
-                print("[MutationMiddleware] context.params=", context.params)
-                args = getattr(context.params, "arguments", None)
-                if args is None:
-                    args = {}
 
-                # Inject a URL argument (example) and a trace id
-                args["url"] = "https://github.com"
-                meta = args.setdefault("meta", {})
-                meta["trace_id"] = "trace-123"
-
-                # Write back the mutated arguments to the params object
-                context.params.arguments = args
-
-                # Also demonstrate carrying header-like info via metadata
-                context.metadata.setdefault("headers", {})["X-Trace-Id"] = "trace-123"
-                # Debug: show the mutated params/metadata immediately
-                print("[AddTraceMiddleware] after mutation:", context.params, context.metadata)
-
-            except Exception as e:
-                # Don't break the request flow in an example
-                print(f"[AddTraceMiddleware] failed to mutate params: {e}")
-
-            return await call_next(context)
-
+async def main():
     config = {
         "mcpServers": {"playwright": {"command": "npx", "args": ["@playwright/mcp@latest"], "env": {"DISPLAY": ":1"}}}
+    }
+
+    try:
+        client = MCPClient(config=config)
+
+        # Creates the adapter for Google's format
+        adapter = GoogleMCPAdapter()
+
+        # Convert tools from active connectors to the Google's format
+        await adapter.create_all(client)
+
+        # List concatenation (if you loaded all tools)
+        all_tools = adapter.tools + adapter.resources + adapter.prompts
+        google_tools = [types.Tool(function_declarations=all_tools)]
+
+        # If you don't want to create all tools, you can call single functions
+        # await adapter.create_tools(client)
+        # await adapter.create_resources(client)
+        # await adapter.create_prompts(client)
+
+        # Use tools with Google's SDK (not agent in this case)
+        gemini = genai.Client()
+
+        messages = [
+            types.Content(
+                role="user",
+                parts=[
+```
+
+This function is important because it defines how MCP Use Tutorial: Full-Stack MCP Development Across Agents, Clients, Servers, and Inspector implements the patterns covered in this chapter.
+
+### `libraries/python/mcp_use/logging.py`
+
+The `Logger` class in [`libraries/python/mcp_use/logging.py`](https://github.com/mcp-use/mcp-use/blob/HEAD/libraries/python/mcp_use/logging.py) handles a key part of this chapter's functionality:
+
+```py
+"""
+Logger module for mcp_use.
+
+This module provides a centralized logging configuration for the mcp_use library,
+with customizable log levels and formatters.
+"""
+
+import logging
+import os
+import sys
+
+from langchain_core.globals import set_debug as langchain_set_debug
+
+# Global debug flag - can be set programmatically or from environment
+MCP_USE_DEBUG = 1
+
+
+class Logger:
+    """Centralized logger for mcp_use.
+
+    This class provides logging functionality with configurable levels,
+    formatters, and handlers.
+    """
+
+    # Default log format
+    DEFAULT_FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+
+    # Module-specific loggers
+    _loggers = {}
+
+    @classmethod
 ```
 
 This class is important because it defines how MCP Use Tutorial: Full-Stack MCP Development Across Agents, Clients, Servers, and Inspector implements the patterns covered in this chapter.
@@ -131,7 +128,7 @@ This class is important because it defines how MCP Use Tutorial: Full-Stack MCP 
 
 ```mermaid
 flowchart TD
-    A[TimingMiddleware]
-    B[MutationMiddleware]
+    A[main]
+    B[Logger]
     A --> B
 ```

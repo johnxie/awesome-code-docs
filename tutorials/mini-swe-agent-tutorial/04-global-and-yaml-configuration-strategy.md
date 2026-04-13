@@ -38,170 +38,166 @@ You now have a disciplined configuration strategy for mini-swe-agent.
 
 Next: [Chapter 5: Environments, Sandboxing, and Deployment](05-environments-sandboxing-and-deployment.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `src/minisweagent/models/openrouter_model.py`
+### `src/minisweagent/agents/default.py`
 
-The `OpenRouterModel` class in [`src/minisweagent/models/openrouter_model.py`](https://github.com/SWE-agent/mini-swe-agent/blob/HEAD/src/minisweagent/models/openrouter_model.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-class OpenRouterModelConfig(BaseModel):
-    model_name: str
-    model_kwargs: dict[str, Any] = {}
-    set_cache_control: Literal["default_end"] | None = None
-    """Set explicit cache control markers, for example for Anthropic models"""
-    cost_tracking: Literal["default", "ignore_errors"] = os.getenv("MSWEA_COST_TRACKING", "default")
-    """Cost tracking mode for this model. Can be "default" or "ignore_errors" (ignore errors/missing cost info)"""
-    format_error_template: str = "{{ error }}"
-    """Template used when the LM's output is not in the expected format."""
-    observation_template: str = (
-        "{% if output.exception_info %}<exception>{{output.exception_info}}</exception>\n{% endif %}"
-        "<returncode>{{output.returncode}}</returncode>\n<output>\n{{output.output}}</output>"
-    )
-    """Template used to render the observation after executing an action."""
-    multimodal_regex: str = ""
-    """Regex to extract multimodal content. Empty string disables multimodal processing."""
-
-
-class OpenRouterAPIError(Exception):
-    """Custom exception for OpenRouter API errors."""
-
-
-class OpenRouterAuthenticationError(Exception):
-    """Custom exception for OpenRouter authentication errors."""
-
-
-class OpenRouterRateLimitError(Exception):
-    """Custom exception for OpenRouter rate limit errors."""
-
-
-```
-
-This class is important because it defines how Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale implements the patterns covered in this chapter.
-
-### `src/minisweagent/models/openrouter_model.py`
-
-The `_DictToObj` class in [`src/minisweagent/models/openrouter_model.py`](https://github.com/SWE-agent/mini-swe-agent/blob/HEAD/src/minisweagent/models/openrouter_model.py) handles a key part of this chapter's functionality:
+The `DefaultAgent` class in [`src/minisweagent/agents/default.py`](https://github.com/SWE-agent/mini-swe-agent/blob/HEAD/src/minisweagent/agents/default.py) handles a key part of this chapter's functionality:
 
 ```py
-        """Parse tool calls from the response. Raises FormatError if unknown tool."""
-        tool_calls = response["choices"][0]["message"].get("tool_calls") or []
-        tool_calls = [_DictToObj(tc) for tc in tool_calls]
-        return parse_toolcall_actions(tool_calls, format_error_template=self.config.format_error_template)
 
-    def format_message(self, **kwargs) -> dict:
-        return expand_multimodal_content(kwargs, pattern=self.config.multimodal_regex)
 
-    def format_observation_messages(
-        self, message: dict, outputs: list[dict], template_vars: dict | None = None
-    ) -> list[dict]:
-        """Format execution outputs into tool result messages."""
-        actions = message.get("extra", {}).get("actions", [])
-        return format_toolcall_observation_messages(
-            actions=actions,
-            outputs=outputs,
-            observation_template=self.config.observation_template,
-            template_vars=template_vars,
-            multimodal_regex=self.config.multimodal_regex,
+class DefaultAgent:
+    def __init__(self, model: Model, env: Environment, *, config_class: type = AgentConfig, **kwargs):
+        """See the `AgentConfig` class for permitted keyword arguments."""
+        self.config = config_class(**kwargs)
+        self.messages: list[dict] = []
+        self.model = model
+        self.env = env
+        self.extra_template_vars = {}
+        self.logger = logging.getLogger("agent")
+        self.cost = 0.0
+        self.n_calls = 0
+
+    def get_template_vars(self, **kwargs) -> dict:
+        return recursive_merge(
+            self.config.model_dump(),
+            self.env.get_template_vars(),
+            self.model.get_template_vars(),
+            {"n_model_calls": self.n_calls, "model_cost": self.cost},
+            self.extra_template_vars,
+            kwargs,
         )
 
-    def get_template_vars(self, **kwargs) -> dict[str, Any]:
-        return self.config.model_dump()
+    def _render_template(self, template: str) -> str:
+        return Template(template, undefined=StrictUndefined).render(**self.get_template_vars())
 
-    def serialize(self) -> dict:
-        return {
-            "info": {
-                "config": {
-                    "model": self.config.model_dump(mode="json"),
-                    "model_type": f"{self.__class__.__module__}.{self.__class__.__name__}",
-                },
-            }
+    def add_messages(self, *messages: dict) -> list[dict]:
+        self.logger.debug(messages)  # set log level to debug to see
+        self.messages.extend(messages)
+        return list(messages)
+
 ```
 
 This class is important because it defines how Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale implements the patterns covered in this chapter.
 
-### `src/minisweagent/models/portkey_response_model.py`
+### `src/minisweagent/agents/default.py`
 
-The `PortkeyResponseAPIModelConfig` class in [`src/minisweagent/models/portkey_response_model.py`](https://github.com/SWE-agent/mini-swe-agent/blob/HEAD/src/minisweagent/models/portkey_response_model.py) handles a key part of this chapter's functionality:
+The `for` class in [`src/minisweagent/agents/default.py`](https://github.com/SWE-agent/mini-swe-agent/blob/HEAD/src/minisweagent/agents/default.py) handles a key part of this chapter's functionality:
 
 ```py
+"""Basic agent class. See https://mini-swe-agent.com/latest/advanced/control_flow/ for visual explanation
+or https://minimal-agent.com for a tutorial on the basic building principles.
+"""
+
+import json
+import logging
+import traceback
+from pathlib import Path
+
+from jinja2 import StrictUndefined, Template
+from pydantic import BaseModel
+
+from minisweagent import Environment, Model, __version__
+from minisweagent.exceptions import InterruptAgentFlow, LimitsExceeded
+from minisweagent.utils.serialize import recursive_merge
 
 
-class PortkeyResponseAPIModelConfig(BaseModel):
-    model_name: str
-    model_kwargs: dict[str, Any] = {}
-    litellm_model_registry: Path | str | None = os.getenv("LITELLM_MODEL_REGISTRY_PATH")
-    litellm_model_name_override: str = ""
-    cost_tracking: Literal["default", "ignore_errors"] = os.getenv("MSWEA_COST_TRACKING", "default")
-    format_error_template: str = "{{ error }}"
-    observation_template: str = (
-        "{% if output.exception_info %}<exception>{{output.exception_info}}</exception>\n{% endif %}"
-        "<returncode>{{output.returncode}}</returncode>\n<output>\n{{output.output}}</output>"
-    )
-    multimodal_regex: str = ""
+class AgentConfig(BaseModel):
+    """Check the config files in minisweagent/config for example settings."""
 
-
-class PortkeyResponseAPIModel:
-    """Portkey model using the Responses API with native tool calling.
-
-    Note: This implementation is stateless - each request must include
-    the full conversation history. previous_response_id is not used.
-    """
-
-    abort_exceptions: list[type[Exception]] = [KeyboardInterrupt, TypeError, ValueError]
-
-    def __init__(self, **kwargs):
-        self.config = PortkeyResponseAPIModelConfig(**kwargs)
-        if self.config.litellm_model_registry and Path(self.config.litellm_model_registry).is_file():
-            litellm.utils.register_model(json.loads(Path(self.config.litellm_model_registry).read_text()))
-
-        self._api_key = os.getenv("PORTKEY_API_KEY")
-        if not self._api_key:
+    system_template: str
+    """Template for the system message (the first message)."""
+    instance_template: str
+    """Template for the first user message specifying the task (the second message overall)."""
+    step_limit: int = 0
+    """Maximum number of steps the agent can take."""
+    cost_limit: float = 3.0
+    """Stop agent after exceeding (!) this cost."""
+    output_path: Path | None = None
+    """Save the trajectory to this path."""
 ```
 
 This class is important because it defines how Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale implements the patterns covered in this chapter.
 
-### `src/minisweagent/models/portkey_response_model.py`
+### `src/minisweagent/environments/docker.py`
 
-The `PortkeyResponseAPIModel` class in [`src/minisweagent/models/portkey_response_model.py`](https://github.com/SWE-agent/mini-swe-agent/blob/HEAD/src/minisweagent/models/portkey_response_model.py) handles a key part of this chapter's functionality:
+The `DockerEnvironmentConfig` class in [`src/minisweagent/environments/docker.py`](https://github.com/SWE-agent/mini-swe-agent/blob/HEAD/src/minisweagent/environments/docker.py) handles a key part of this chapter's functionality:
 
 ```py
-except ImportError:
-    raise ImportError(
-        "The portkey-ai package is required to use PortkeyResponseAPIModel. Please install it with: pip install portkey-ai"
-    )
 
 
-class PortkeyResponseAPIModelConfig(BaseModel):
-    model_name: str
-    model_kwargs: dict[str, Any] = {}
-    litellm_model_registry: Path | str | None = os.getenv("LITELLM_MODEL_REGISTRY_PATH")
-    litellm_model_name_override: str = ""
-    cost_tracking: Literal["default", "ignore_errors"] = os.getenv("MSWEA_COST_TRACKING", "default")
-    format_error_template: str = "{{ error }}"
-    observation_template: str = (
-        "{% if output.exception_info %}<exception>{{output.exception_info}}</exception>\n{% endif %}"
-        "<returncode>{{output.returncode}}</returncode>\n<output>\n{{output.output}}</output>"
-    )
-    multimodal_regex: str = ""
-
-
-class PortkeyResponseAPIModel:
-    """Portkey model using the Responses API with native tool calling.
-
-    Note: This implementation is stateless - each request must include
-    the full conversation history. previous_response_id is not used.
+class DockerEnvironmentConfig(BaseModel):
+    image: str
+    cwd: str = "/"
+    """Working directory in which to execute commands."""
+    env: dict[str, str] = {}
+    """Environment variables to set in the container."""
+    forward_env: list[str] = []
+    """Environment variables to forward to the container.
+    Variables are only forwarded if they are set in the host environment.
+    In case of conflict with `env`, the `env` variables take precedence.
+    """
+    timeout: int = 30
+    """Timeout for executing commands in the container."""
+    executable: str = os.getenv("MSWEA_DOCKER_EXECUTABLE", "docker")
+    """Path to the docker/container executable."""
+    run_args: list[str] = ["--rm"]
+    """Additional arguments to pass to the docker/container executable.
+    Default is ["--rm"], which removes the container after it exits.
+    """
+    container_timeout: str = "2h"
+    """Max duration to keep container running. Uses the same format as the sleep command."""
+    pull_timeout: int = 120
+    """Timeout in seconds for pulling images."""
+    interpreter: list[str] = ["bash", "-lc"]
+    """Interpreter to use to execute commands. Default is ["bash", "-lc"].
+    The actual command will be appended as argument to this. Override this to e.g., modify shell flags
+    (e.g., to remove the `-l` flag to disable login shell) or to use python instead of bash to interpret commands.
     """
 
-    abort_exceptions: list[type[Exception]] = [KeyboardInterrupt, TypeError, ValueError]
 
-    def __init__(self, **kwargs):
-        self.config = PortkeyResponseAPIModelConfig(**kwargs)
-        if self.config.litellm_model_registry and Path(self.config.litellm_model_registry).is_file():
+```
+
+This class is important because it defines how Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale implements the patterns covered in this chapter.
+
+### `src/minisweagent/environments/docker.py`
+
+The `DockerEnvironment` class in [`src/minisweagent/environments/docker.py`](https://github.com/SWE-agent/mini-swe-agent/blob/HEAD/src/minisweagent/environments/docker.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+class DockerEnvironmentConfig(BaseModel):
+    image: str
+    cwd: str = "/"
+    """Working directory in which to execute commands."""
+    env: dict[str, str] = {}
+    """Environment variables to set in the container."""
+    forward_env: list[str] = []
+    """Environment variables to forward to the container.
+    Variables are only forwarded if they are set in the host environment.
+    In case of conflict with `env`, the `env` variables take precedence.
+    """
+    timeout: int = 30
+    """Timeout for executing commands in the container."""
+    executable: str = os.getenv("MSWEA_DOCKER_EXECUTABLE", "docker")
+    """Path to the docker/container executable."""
+    run_args: list[str] = ["--rm"]
+    """Additional arguments to pass to the docker/container executable.
+    Default is ["--rm"], which removes the container after it exits.
+    """
+    container_timeout: str = "2h"
+    """Max duration to keep container running. Uses the same format as the sleep command."""
+    pull_timeout: int = 120
+    """Timeout in seconds for pulling images."""
+    interpreter: list[str] = ["bash", "-lc"]
+    """Interpreter to use to execute commands. Default is ["bash", "-lc"].
+    The actual command will be appended as argument to this. Override this to e.g., modify shell flags
+    (e.g., to remove the `-l` flag to disable login shell) or to use python instead of bash to interpret commands.
+    """
+
+
 ```
 
 This class is important because it defines how Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale implements the patterns covered in this chapter.
@@ -211,11 +207,11 @@ This class is important because it defines how Mini-SWE-Agent Tutorial: Minimal 
 
 ```mermaid
 flowchart TD
-    A[OpenRouterModel]
-    B[_DictToObj]
-    C[PortkeyResponseAPIModelConfig]
-    D[PortkeyResponseAPIModel]
-    E[RequestyModelConfig]
+    A[DefaultAgent]
+    B[for]
+    C[DockerEnvironmentConfig]
+    D[DockerEnvironment]
+    E[executes]
     A --> B
     B --> C
     C --> D

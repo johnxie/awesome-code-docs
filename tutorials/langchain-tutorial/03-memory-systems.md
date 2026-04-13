@@ -371,6 +371,19 @@ Create a memory-enabled chatbot that remembers user preferences (like favorite c
 
 *What kind of memory would you use for a personal assistant that needs to remember appointments, preferences, and ongoing tasks?* 🤔
 
+## Memory System Architecture
+
+```mermaid
+flowchart TD
+    A[User message] --> B[Memory: load history]
+    B --> C[Prompt with history + new message]
+    C --> D[LLM call]
+    D --> E[AI response]
+    E --> F[Memory: save interaction]
+    F --> G[Updated conversation buffer]
+    G --> B
+```
+
 ## What Problem Does This Solve?
 
 Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `memory`, `input`, `langchain` so behavior stays predictable as complexity grows.

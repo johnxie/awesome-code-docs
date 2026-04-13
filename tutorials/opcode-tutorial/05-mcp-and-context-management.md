@@ -43,8 +43,6 @@ You now have a structured approach to managing integrations and context artifact
 
 Next: [Chapter 6: Timeline, Checkpoints, and Recovery](06-timeline-checkpoints-and-recovery.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `src-tauri/src/web_server.rs`

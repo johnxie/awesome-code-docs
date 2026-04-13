@@ -37,141 +37,139 @@ Team-scale Kimi usage needs clear policy around approvals, skills, integrations,
 
 You now have a production-ready operating framework for Kimi CLI across developer teams.
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
+
+### `src/kimi_cli/app.py`
+
+The `enable_logging` function in [`src/kimi_cli/app.py`](https://github.com/MoonshotAI/kimi-cli/blob/HEAD/src/kimi_cli/app.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+def enable_logging(debug: bool = False, *, redirect_stderr: bool = True) -> None:
+    # NOTE: stderr redirection is implemented by swapping the process-level fd=2 (dup2).
+    # That can hide Click/Typer error output during CLI startup, so some entrypoints delay
+    # installing it until after critical initialization succeeds.
+    logger.remove()  # Remove default stderr handler
+    logger.enable("kimi_cli")
+    if debug:
+        logger.enable("kosong")
+    logger.add(
+        get_share_dir() / "logs" / "kimi.log",
+        # FIXME: configure level for different modules
+        level="TRACE" if debug else "INFO",
+        rotation="06:00",
+        retention="10 days",
+    )
+    if redirect_stderr:
+        redirect_stderr_to_logger()
+
+
+def _cleanup_stale_foreground_subagents(runtime: Runtime) -> None:
+    subagent_store = getattr(runtime, "subagent_store", None)
+    if subagent_store is None:
+        return
+
+    stale_agent_ids = [
+        record.agent_id
+        for record in subagent_store.list_instances()
+        if record.status == "running_foreground"
+    ]
+    for agent_id in stale_agent_ids:
+```
+
+This function is important because it defines how Kimi CLI Tutorial: Multi-Mode Terminal Agent with MCP and ACP implements the patterns covered in this chapter.
 
 ### `examples/kimi-psql/main.py`
 
-The `import` interface in [`examples/kimi-psql/main.py`](https://github.com/MoonshotAI/kimi-cli/blob/HEAD/examples/kimi-psql/main.py) handles a key part of this chapter's functionality:
+The `ExecuteSqlParams` class in [`examples/kimi-psql/main.py`](https://github.com/MoonshotAI/kimi-cli/blob/HEAD/examples/kimi-psql/main.py) handles a key part of this chapter's functionality:
 
 ```py
-"""
 
-import asyncio
-import contextlib
-import fcntl
-import os
-import pty
-import select
-import signal
-import sys
-import termios
-import tty
-from enum import Enum
-from pathlib import Path
-from typing import LiteralString, cast
 
-import psycopg
-import typer
-from kaos.path import KaosPath
-from kosong.tooling import CallableTool2, ToolError, ToolOk, ToolReturnValue
-from prompt_toolkit import PromptSession
-from prompt_toolkit.formatted_text import FormattedText
-from prompt_toolkit.key_binding import KeyBindings
-from prompt_toolkit.patch_stdout import patch_stdout
-from pydantic import BaseModel, Field, SecretStr
-from rich.console import Console
-from rich.panel import Panel
-from rich.text import Text
+class ExecuteSqlParams(BaseModel):
+    """Parameters for ExecuteSql tool."""
 
-from kimi_cli.auth.oauth import OAuthManager
-from kimi_cli.config import LLMModel, LLMProvider
-from kimi_cli.llm import LLM, create_llm
+    sql: str = Field(description="The SQL query to execute in the connected PostgreSQL database")
+
+
+class ExecuteSql(CallableTool2[ExecuteSqlParams]):
+    """Execute read-only SQL query in the connected PostgreSQL database."""
+
+    name: str = "ExecuteSql"
+    description: str = (
+        "Execute a READ-ONLY SQL query in the connected PostgreSQL database. "
+        "Use this tool for SELECT queries and database introspection queries. "
+        "This tool CANNOT execute write operations (INSERT, UPDATE, DELETE, DROP, etc.). "
+        "For write operations, return the SQL in a markdown code block for the user to "
+        "execute manually. "
+        "Note: psql meta-commands (\\d, \\dt, etc.) are NOT supported - use SQL queries "
+        "instead (e.g., SELECT * FROM pg_tables WHERE schemaname = 'public')."
+    )
+    params: type[ExecuteSqlParams] = ExecuteSqlParams
+
+    def __init__(self, conninfo: str):
+        """
+        Initialize ExecuteSql tool with database connection info.
+
+        Args:
+            conninfo: PostgreSQL connection string
+                (e.g., "host=localhost port=5432 dbname=mydb user=postgres")
+        """
+        super().__init__()
 ```
 
-This interface is important because it defines how Kimi CLI Tutorial: Multi-Mode Terminal Agent with MCP and ACP implements the patterns covered in this chapter.
+This class is important because it defines how Kimi CLI Tutorial: Multi-Mode Terminal Agent with MCP and ACP implements the patterns covered in this chapter.
 
-### `vis/src/App.tsx`
+### `examples/kimi-psql/main.py`
 
-The `computeStats` function in [`vis/src/App.tsx`](https://github.com/MoonshotAI/kimi-cli/blob/HEAD/vis/src/App.tsx) handles a key part of this chapter's functionality:
+The `ExecuteSql` class in [`examples/kimi-psql/main.py`](https://github.com/MoonshotAI/kimi-cli/blob/HEAD/examples/kimi-psql/main.py) handles a key part of this chapter's functionality:
 
-```tsx
-}
+```py
 
-function computeStats(events: WireEvent[]): SessionStatsData {
-  let turns = 0;
-  let steps = 0;
-  let toolCalls = 0;
-  let errors = 0;
-  let compactions = 0;
-  let inputTokens = 0;
-  let outputTokens = 0;
 
-  for (const e of events) {
-    if (e.type === "TurnBegin") turns++;
-    if (e.type === "StepBegin") steps++;
-    if (e.type === "ToolCall") toolCalls++;
-    if (e.type === "CompactionBegin") compactions++;
-    if (isErrorEvent(e)) errors++;
-    if (e.type === "StatusUpdate") {
-      const tu = e.payload.token_usage as Record<string, number> | undefined;
-      if (tu) {
-        inputTokens += (tu.input_other ?? 0) + (tu.input_cache_read ?? 0) + (tu.input_cache_creation ?? 0);
-        outputTokens += tu.output ?? 0;
-      }
-    }
-  }
+class ExecuteSqlParams(BaseModel):
+    """Parameters for ExecuteSql tool."""
 
-  const durationSec =
-    events.length >= 2
-      ? events[events.length - 1].timestamp - events[0].timestamp
-      : 0;
+    sql: str = Field(description="The SQL query to execute in the connected PostgreSQL database")
 
-  return { turns, steps, toolCalls, errors, compactions, durationSec, inputTokens, outputTokens };
+
+class ExecuteSql(CallableTool2[ExecuteSqlParams]):
+    """Execute read-only SQL query in the connected PostgreSQL database."""
+
+    name: str = "ExecuteSql"
+    description: str = (
+        "Execute a READ-ONLY SQL query in the connected PostgreSQL database. "
+        "Use this tool for SELECT queries and database introspection queries. "
+        "This tool CANNOT execute write operations (INSERT, UPDATE, DELETE, DROP, etc.). "
+        "For write operations, return the SQL in a markdown code block for the user to "
+        "execute manually. "
+        "Note: psql meta-commands (\\d, \\dt, etc.) are NOT supported - use SQL queries "
+        "instead (e.g., SELECT * FROM pg_tables WHERE schemaname = 'public')."
+    )
+    params: type[ExecuteSqlParams] = ExecuteSqlParams
+
+    def __init__(self, conninfo: str):
+        """
+        Initialize ExecuteSql tool with database connection info.
+
+        Args:
+            conninfo: PostgreSQL connection string
+                (e.g., "host=localhost port=5432 dbname=mydb user=postgres")
+        """
+        super().__init__()
 ```
 
-This function is important because it defines how Kimi CLI Tutorial: Multi-Mode Terminal Agent with MCP and ACP implements the patterns covered in this chapter.
-
-### `vis/src/App.tsx`
-
-The `formatDuration` function in [`vis/src/App.tsx`](https://github.com/MoonshotAI/kimi-cli/blob/HEAD/vis/src/App.tsx) handles a key part of this chapter's functionality:
-
-```tsx
-}
-
-function formatDuration(sec: number): string {
-  if (sec < 1) return `${(sec * 1000).toFixed(0)}ms`;
-  if (sec < 60) return `${sec.toFixed(1)}s`;
-  return `${(sec / 60).toFixed(1)}min`;
-}
-
-function formatTokens(n: number): string {
-  if (n === 0) return "0";
-  if (n < 1000) return `${n}`;
-  return `${(n / 1000).toFixed(1)}k`;
-}
-
-function getSessionDir(session: SessionInfo): string {
-  return session.session_dir;
-}
-
-function SessionDirectoryActions({
-  session,
-  openInSupported,
-}: {
-  session: SessionInfo;
-  openInSupported: boolean;
-}) {
-  const [copied, setCopied] = useState(false);
-
-  const handleOpenSessionDir = useCallback(async () => {
-    try {
-      await openInPath("finder", session.session_dir);
-    } catch (error) {
-      console.error("Failed to open session directory:", error);
-```
-
-This function is important because it defines how Kimi CLI Tutorial: Multi-Mode Terminal Agent with MCP and ACP implements the patterns covered in this chapter.
+This class is important because it defines how Kimi CLI Tutorial: Multi-Mode Terminal Agent with MCP and ACP implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[import]
-    B[computeStats]
-    C[formatDuration]
+    A[enable_logging]
+    B[ExecuteSqlParams]
+    C[ExecuteSql]
     A --> B
     B --> C
 ```

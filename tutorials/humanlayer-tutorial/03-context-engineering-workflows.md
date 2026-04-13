@@ -37,156 +37,168 @@ You now have a repeatable context workflow pattern for hard coding tasks.
 
 Next: [Chapter 4: Parallel Agent Orchestration](04-parallel-agent-orchestration.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `claudecode-go/types.go`
+### `claudecode-go/client.go`
 
-The `MarshalJSON` function in [`claudecode-go/types.go`](https://github.com/humanlayer/humanlayer/blob/HEAD/claudecode-go/types.go) handles a key part of this chapter's functionality:
+The `buildArgs` function in [`claudecode-go/client.go`](https://github.com/humanlayer/humanlayer/blob/HEAD/claudecode-go/client.go) handles a key part of this chapter's functionality:
 
 ```go
 }
 
-// MarshalJSON implements custom marshaling to always output as string
-func (c ContentField) MarshalJSON() ([]byte, error) {
-	return json.Marshal(c.Value)
-}
+// buildArgs converts SessionConfig into command line arguments
+func (c *Client) buildArgs(config SessionConfig) ([]string, error) {
+	args := []string{}
 
-// Content can be text or tool use
-type Content struct {
-	Type      string                 `json:"type"`
-	Text      string                 `json:"text,omitempty"`
-	Thinking  string                 `json:"thinking,omitempty"`
-	ID        string                 `json:"id,omitempty"`
-	Name      string                 `json:"name,omitempty"`
-	Input     map[string]interface{} `json:"input,omitempty"`
-	ToolUseID string                 `json:"tool_use_id,omitempty"`
-	Content   ContentField           `json:"content,omitempty"`
-}
+	// Session management
+	if config.SessionID != "" {
+		args = append(args, "--resume", config.SessionID)
 
-// ServerToolUse tracks server-side tool usage
-type ServerToolUse struct {
-	WebSearchRequests int `json:"web_search_requests,omitempty"`
-}
+		// Add fork flag if specified
+		if config.ForkSession {
+			args = append(args, "--fork-session")
+		}
+	}
 
-// CacheCreation tracks cache creation metrics
-type CacheCreation struct {
-	Ephemeral1HInputTokens int `json:"ephemeral_1h_input_tokens,omitempty"`
-	Ephemeral5MInputTokens int `json:"ephemeral_5m_input_tokens,omitempty"`
-}
+	// Model
+	if config.Model != "" {
+		args = append(args, "--model", string(config.Model))
+	}
 
-// Usage tracks token usage
-type Usage struct {
+	// Output format
+	if config.OutputFormat != "" {
+		args = append(args, "--output-format", string(config.OutputFormat))
+		// stream-json requires --verbose
+		if config.OutputFormat == OutputStreamJSON && !config.Verbose {
+			args = append(args, "--verbose")
+		}
+	}
+
+	// MCP configuration
+	if config.MCPConfig != nil {
 ```
 
 This function is important because it defines how HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents implements the patterns covered in this chapter.
 
-### `claudecode-go/types.go`
+### `claudecode-go/client.go`
 
-The `ToStrings` function in [`claudecode-go/types.go`](https://github.com/humanlayer/humanlayer/blob/HEAD/claudecode-go/types.go) handles a key part of this chapter's functionality:
+The `Launch` function in [`claudecode-go/client.go`](https://github.com/humanlayer/humanlayer/blob/HEAD/claudecode-go/client.go) handles a key part of this chapter's functionality:
 
 ```go
 }
 
-// ToStrings converts denials to string array for backward compatibility
-func (p PermissionDenials) ToStrings() []string {
-	if p.Denials == nil {
-		return nil
+// Launch starts a new Claude session and returns immediately
+func (c *Client) Launch(config SessionConfig) (*Session, error) {
+	args, err := c.buildArgs(config)
+	if err != nil {
+		return nil, err
 	}
-	result := make([]string, len(p.Denials))
-	for i, d := range p.Denials {
-		result[i] = d.ToolName
+
+	log.Printf("Executing Claude command: %s %v", c.claudePath, args)
+	cmd := exec.Command(c.claudePath, args...)
+
+	// Set environment variables if specified
+	if len(config.Env) > 0 {
+		cmd.Env = os.Environ() // Start with current environment
+		for key, value := range config.Env {
+			cmd.Env = append(cmd.Env, fmt.Sprintf("%s=%s", key, value))
+		}
 	}
-	return result
-}
 
-// ModelUsageDetail represents usage details for a specific model
-type ModelUsageDetail struct {
-	InputTokens              int     `json:"inputTokens"`
-	OutputTokens             int     `json:"outputTokens"`
-	CacheReadInputTokens     int     `json:"cacheReadInputTokens"`
-	CacheCreationInputTokens int     `json:"cacheCreationInputTokens"`
-	WebSearchRequests        int     `json:"webSearchRequests"`
-	CostUSD                  float64 `json:"costUSD"`
-	ContextWindow            int     `json:"contextWindow,omitempty"`
-}
+	// Set working directory if specified
+	if config.WorkingDir != "" {
+		workingDir := config.WorkingDir
 
-// Result represents the final result of a Claude session
-type Result struct {
-	Type              string                      `json:"type"`
-	Subtype           string                      `json:"subtype"`
-	CostUSD           float64                     `json:"total_cost_usd"`
-	IsError           bool                        `json:"is_error"`
-	DurationMS        int                         `json:"duration_ms"`
+		// Expand tilde to user home directory
+		if strings.HasPrefix(workingDir, "~/") {
+			if home, err := os.UserHomeDir(); err == nil {
+				workingDir = filepath.Join(home, workingDir[2:])
+			}
+		} else if workingDir == "~" {
+			if home, err := os.UserHomeDir(); err == nil {
+				workingDir = home
 ```
 
 This function is important because it defines how HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents implements the patterns covered in this chapter.
 
-### `claudecode-go/types.go`
+### `claudecode-go/client.go`
 
-The `SetError` function in [`claudecode-go/types.go`](https://github.com/humanlayer/humanlayer/blob/HEAD/claudecode-go/types.go) handles a key part of this chapter's functionality:
+The `LaunchAndWait` function in [`claudecode-go/client.go`](https://github.com/humanlayer/humanlayer/blob/HEAD/claudecode-go/client.go) handles a key part of this chapter's functionality:
 
 ```go
 }
 
-// SetError safely sets the error
-func (s *Session) SetError(err error) {
-	s.mu.Lock()
-	defer s.mu.Unlock()
-	if s.err == nil {
-		s.err = err
+// LaunchAndWait starts a Claude session and waits for it to complete
+func (c *Client) LaunchAndWait(config SessionConfig) (*Result, error) {
+	session, err := c.Launch(config)
+	if err != nil {
+		return nil, err
 	}
+
+	return session.Wait()
 }
 
-// Error safely gets the error
-func (s *Session) Error() error {
-	s.mu.RLock()
-	defer s.mu.RUnlock()
-	return s.err
+// Wait blocks until the session completes and returns the result
+// TODO: Add context support to allow cancellation/timeout. This would help prevent
+// indefinite blocking when waiting for interrupted sessions or hanging processes.
+// Consider adding WaitContext(ctx context.Context) method or updating Wait() signature.
+func (s *Session) Wait() (*Result, error) {
+	<-s.done
+
+	if err := s.Error(); err != nil && s.result == nil {
+		return nil, fmt.Errorf("claude process failed: %w", err)
+	}
+
+	return s.result, nil
 }
 
+// Kill terminates the session
+func (s *Session) Kill() error {
+	if s.cmd.Process != nil {
+		return s.cmd.Process.Kill()
+	}
+	return nil
 ```
 
 This function is important because it defines how HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents implements the patterns covered in this chapter.
 
-### `claudecode-go/types.go`
+### `claudecode-go/client.go`
 
-The `Error` function in [`claudecode-go/types.go`](https://github.com/humanlayer/humanlayer/blob/HEAD/claudecode-go/types.go) handles a key part of this chapter's functionality:
+The `Wait` function in [`claudecode-go/client.go`](https://github.com/humanlayer/humanlayer/blob/HEAD/claudecode-go/client.go) handles a key part of this chapter's functionality:
 
 ```go
-	// Result event fields (when type="result")
-	CostUSD           float64                     `json:"total_cost_usd,omitempty"`
-	IsError           bool                        `json:"is_error,omitempty"`
-	DurationMS        int                         `json:"duration_ms,omitempty"`
-	DurationAPI       int                         `json:"duration_api_ms,omitempty"`
-	NumTurns          int                         `json:"num_turns,omitempty"`
-	Result            string                      `json:"result,omitempty"`
-	Usage             *Usage                      `json:"usage,omitempty"`
-	ModelUsage        map[string]ModelUsageDetail `json:"modelUsage,omitempty"`
-	Error             string                      `json:"error,omitempty"`
-	PermissionDenials *PermissionDenials          `json:"permission_denials,omitempty"`
-	UUID              string                      `json:"uuid,omitempty"`
+	}
+
+	// Wait for process to complete in background
+	go func() {
+		// Wait for the command to exit
+		session.SetError(cmd.Wait())
+
+		// IMPORTANT: Wait for parsing to complete before signaling done.
+		// This ensures that all output has been read and processed before
+		// the session is considered complete. Without this synchronization,
+		// Wait() might return before the result is available.
+		<-parseDone
+
+		close(session.done)
+	}()
+
+	return session, nil
 }
 
-// MCPStatus represents the status of an MCP server
-type MCPStatus struct {
-	Name   string `json:"name"`
-	Status string `json:"status"`
+// LaunchAndWait starts a Claude session and waits for it to complete
+func (c *Client) LaunchAndWait(config SessionConfig) (*Result, error) {
+	session, err := c.Launch(config)
+	if err != nil {
+		return nil, err
+	}
+
+	return session.Wait()
 }
 
-// Message represents an assistant or user message
-type Message struct {
-	ID      string    `json:"id"`
-	Type    string    `json:"type"`
-	Role    string    `json:"role"`
-	Model   string    `json:"model,omitempty"`
-	Content []Content `json:"content"`
-	Usage   *Usage    `json:"usage,omitempty"`
-}
-
-// ContentField handles both string and array content formats
-type ContentField struct {
+// Wait blocks until the session completes and returns the result
+// TODO: Add context support to allow cancellation/timeout. This would help prevent
+// indefinite blocking when waiting for interrupted sessions or hanging processes.
 ```
 
 This function is important because it defines how HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents implements the patterns covered in this chapter.
@@ -196,11 +208,11 @@ This function is important because it defines how HumanLayer Tutorial: Context E
 
 ```mermaid
 flowchart TD
-    A[MarshalJSON]
-    B[ToStrings]
-    C[SetError]
-    D[Error]
-    E[isClosedPipeError]
+    A[buildArgs]
+    B[Launch]
+    C[LaunchAndWait]
+    D[Wait]
+    E[Kill]
     A --> B
     B --> C
     C --> D

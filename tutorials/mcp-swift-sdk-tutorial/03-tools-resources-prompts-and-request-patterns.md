@@ -39,168 +39,168 @@ You now have a predictable pattern for primitive interactions in Swift MCP clien
 
 Next: [Chapter 4: Sampling, Human-in-the-Loop, and Error Handling](04-sampling-human-in-the-loop-and-error-handling.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `Sources/MCP/Server/Server.swift`
+### `Sources/MCP/Server/Tools.swift`
 
-The `Logging` interface in [`Sources/MCP/Server/Server.swift`](https://github.com/modelcontextprotocol/swift-sdk/blob/HEAD/Sources/MCP/Server/Server.swift) handles a key part of this chapter's functionality:
+The `Content` interface in [`Sources/MCP/Server/Tools.swift`](https://github.com/modelcontextprotocol/swift-sdk/blob/HEAD/Sources/MCP/Server/Tools.swift) handles a key part of this chapter's functionality:
 
 ```swift
-import Logging
-
-import struct Foundation.Data
-import struct Foundation.Date
-import class Foundation.JSONDecoder
-import class Foundation.JSONEncoder
-
-/// Model Context Protocol server
-public actor Server {
-    /// The server configuration
-    public struct Configuration: Hashable, Codable, Sendable {
-        /// The default configuration.
-        public static let `default` = Configuration(strict: false)
-
-        /// The strict configuration.
-        public static let strict = Configuration(strict: true)
-
-        /// When strict mode is enabled, the server:
-        /// - Requires clients to send an initialize request before any other requests
-        /// - Rejects all requests from uninitialized clients with a protocol error
-        ///
-        /// While the MCP specification requires clients to initialize the connection
-        /// before sending other requests, some implementations may not follow this.
-        /// Disabling strict mode allows the server to be more lenient with non-compliant
-        /// clients, though this may lead to undefined behavior.
-        public var strict: Bool
     }
 
-    /// Implementation information
-    public struct Info: Hashable, Codable, Sendable {
+    /// Content types that can be returned by a tool
+    public enum Content: Hashable, Codable, Sendable {
+        /// Text content
+        case text(text: String, annotations: Resource.Annotations?, _meta: Metadata?)
+        /// Image content
+        case image(data: String, mimeType: String, annotations: Resource.Annotations?, _meta: Metadata?)
+        /// Audio content
+        case audio(data: String, mimeType: String, annotations: Resource.Annotations?, _meta: Metadata?)
+        /// Embedded resource content (EmbeddedResource from spec)
+        case resource(resource: Resource.Content, annotations: Resource.Annotations? = nil, _meta: Metadata? = nil)
+        /// Resource link
+        case resourceLink(
+            uri: String, name: String, title: String? = nil, description: String? = nil,
+            mimeType: String? = nil,
+            annotations: Resource.Annotations? = nil
+        )
+
+        /// Deprecated compatibility factory for older call sites that used `.text("...")` and `.text("...", metadata: ...)`.
+        @available(*, deprecated, message: "Use .text(text:annotations:_meta:) instead.")
+        public static func text(_ text: String, metadata: Metadata? = nil) -> Self {
+            .text(text: text, annotations: nil, _meta: metadata)
+        }
+
+        /// Deprecated compatibility factory for older call sites that used `.text(text: ..., metadata: ...)`.
+        @available(*, deprecated, message: "Use .text(text:annotations:_meta:) instead.")
+        public static func text(text: String, metadata: Metadata? = nil) -> Self {
+            .text(text: text, annotations: nil, _meta: metadata)
+        }
+
+        /// Deprecated compatibility factory for older call sites that used `.image(..., metadata: ...)`.
 ```
 
 This interface is important because it defines how MCP Swift SDK Tutorial: Building MCP Clients and Servers in Swift implements the patterns covered in this chapter.
 
-### `Sources/MCP/Server/Server.swift`
+### `Sources/MCP/Server/Tools.swift`
 
-The `Completions` interface in [`Sources/MCP/Server/Server.swift`](https://github.com/modelcontextprotocol/swift-sdk/blob/HEAD/Sources/MCP/Server/Server.swift) handles a key part of this chapter's functionality:
+The `CodingKeys` interface in [`Sources/MCP/Server/Tools.swift`](https://github.com/modelcontextprotocol/swift-sdk/blob/HEAD/Sources/MCP/Server/Tools.swift) handles a key part of this chapter's functionality:
 
 ```swift
         }
 
-        /// Completions capabilities
-        public struct Completions: Hashable, Codable, Sendable {
-            public init() {}
+        private enum CodingKeys: String, CodingKey {
+            case type
+            case text
+            case image
+            case resource
+            case resource_link
+            case audio
+            case uri
+            case name
+            case title
+            case description
+            case annotations
+            case mimeType
+            case data
+            case _meta
         }
 
-        /// Completions capabilities
-        public var completions: Completions?
-        /// Logging capabilities
-        public var logging: Logging?
-        /// Prompts capabilities
-        public var prompts: Prompts?
-        /// Resources capabilities
-        public var resources: Resources?
-        /// Tools capabilities
-        public var tools: Tools?
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            let type = try container.decode(String.self, forKey: .type)
+
+            switch type {
+            case "text":
+                let text = try container.decode(String.self, forKey: .text)
+                let annotations = try container.decodeIfPresent(Resource.Annotations.self, forKey: .annotations)
+                let _meta = try container.decodeIfPresent(Metadata.self, forKey: ._meta)
+                self = .text(text: text, annotations: annotations, _meta: _meta)
+            case "image":
+                let data = try container.decode(String.self, forKey: .data)
+                let mimeType = try container.decode(String.self, forKey: .mimeType)
+```
+
+This interface is important because it defines how MCP Swift SDK Tutorial: Building MCP Clients and Servers in Swift implements the patterns covered in this chapter.
+
+### `Sources/MCP/Server/Tools.swift`
+
+The `CodingKeys` interface in [`Sources/MCP/Server/Tools.swift`](https://github.com/modelcontextprotocol/swift-sdk/blob/HEAD/Sources/MCP/Server/Tools.swift) handles a key part of this chapter's functionality:
+
+```swift
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case type
+            case text
+            case image
+            case resource
+            case resource_link
+            case audio
+            case uri
+            case name
+            case title
+            case description
+            case annotations
+            case mimeType
+            case data
+            case _meta
+        }
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            let type = try container.decode(String.self, forKey: .type)
+
+            switch type {
+            case "text":
+                let text = try container.decode(String.self, forKey: .text)
+                let annotations = try container.decodeIfPresent(Resource.Annotations.self, forKey: .annotations)
+                let _meta = try container.decodeIfPresent(Metadata.self, forKey: ._meta)
+                self = .text(text: text, annotations: annotations, _meta: _meta)
+            case "image":
+                let data = try container.decode(String.self, forKey: .data)
+                let mimeType = try container.decode(String.self, forKey: .mimeType)
+```
+
+This interface is important because it defines how MCP Swift SDK Tutorial: Building MCP Clients and Servers in Swift implements the patterns covered in this chapter.
+
+### `Sources/MCP/Server/Tools.swift`
+
+The `ListTools` interface in [`Sources/MCP/Server/Tools.swift`](https://github.com/modelcontextprotocol/swift-sdk/blob/HEAD/Sources/MCP/Server/Tools.swift) handles a key part of this chapter's functionality:
+
+```swift
+/// To discover available tools, clients send a `tools/list` request.
+/// - SeeAlso: https://modelcontextprotocol.io/specification/2025-11-25/server/tools/#listing-tools
+public enum ListTools: Method {
+    public static let name = "tools/list"
+
+    public struct Parameters: NotRequired, Hashable, Codable, Sendable {
+        public let cursor: String?
+
+        public init() {
+            self.cursor = nil
+        }
+
+        public init(cursor: String) {
+            self.cursor = cursor
+        }
+    }
+
+    public struct Result: Hashable, Codable, Sendable {
+        public let tools: [Tool]
+        public let nextCursor: String?
+        public var _meta: Metadata?
 
         public init(
-            completions: Completions? = nil,
-            logging: Logging? = nil,
-            prompts: Prompts? = nil,
-            resources: Resources? = nil,
-            tools: Tools? = nil
+            tools: [Tool],
+            nextCursor: String? = nil,
+            _meta: Metadata? = nil
         ) {
-            self.completions = completions
-            self.logging = logging
-            self.prompts = prompts
-            self.resources = resources
             self.tools = tools
-        }
-    }
-```
-
-This interface is important because it defines how MCP Swift SDK Tutorial: Building MCP Clients and Servers in Swift implements the patterns covered in this chapter.
-
-### `Sources/MCP/Server/Server.swift`
-
-The `Batch` interface in [`Sources/MCP/Server/Server.swift`](https://github.com/modelcontextprotocol/swift-sdk/blob/HEAD/Sources/MCP/Server/Server.swift) handles a key part of this chapter's functionality:
-
-```swift
-                        // Attempt to decode as batch first, then as individual response, request, or notification
-                        let decoder = JSONDecoder()
-                        if let batch = try? decoder.decode(Server.Batch.self, from: data) {
-                            try await handleBatch(batch)
-                        } else if let response = try? decoder.decode(AnyResponse.self, from: data) {
-                            await handleResponse(response)
-                        } else if let request = try? decoder.decode(AnyRequest.self, from: data) {
-                            // Handle request in a separate task to avoid blocking the receive loop
-                            Task {
-                                _ = try? await self.handleRequest(request, sendResponse: true)
-                            }
-                        } else if let message = try? decoder.decode(AnyMessage.self, from: data) {
-                            try await handleMessage(message)
-                        } else {
-                            // Try to extract request ID from raw JSON if possible
-                            if let json = try? JSONDecoder().decode(
-                                [String: Value].self, from: data),
-                                let idValue = json["id"]
-                            {
-                                if let strValue = idValue.stringValue {
-                                    requestID = .string(strValue)
-                                } else if let intValue = idValue.intValue {
-                                    requestID = .number(intValue)
-                                }
-                            }
-                            throw MCPError.parseError("Invalid message format")
-                        }
-                    } catch let error where MCPError.isResourceTemporarilyUnavailable(error) {
-                        // Resource temporarily unavailable, retry after a short delay
-                        try? await Task.sleep(for: .milliseconds(10))
-                        continue
-                    } catch {
-```
-
-This interface is important because it defines how MCP Swift SDK Tutorial: Building MCP Clients and Servers in Swift implements the patterns covered in this chapter.
-
-### `Sources/MCP/Server/Server.swift`
-
-The `Item` interface in [`Sources/MCP/Server/Server.swift`](https://github.com/modelcontextprotocol/swift-sdk/blob/HEAD/Sources/MCP/Server/Server.swift) handles a key part of this chapter's functionality:
-
-```swift
-    struct Batch: Sendable {
-        /// An item in a JSON-RPC batch
-        enum Item: Sendable {
-            case request(Request<AnyMethod>)
-            case notification(Message<AnyNotification>)
-
+            self.nextCursor = nextCursor
+            self._meta = _meta
         }
 
-        var items: [Item]
-
-        init(items: [Item]) {
-            self.items = items
-        }
-    }
-
-    /// Process a batch of requests and/or notifications
-    private func handleBatch(_ batch: Batch) async throws {
-        await logger?.trace("Processing batch request", metadata: ["size": "\(batch.items.count)"])
-
-        if batch.items.isEmpty {
-            // Empty batch is invalid according to JSON-RPC spec
-            let error = MCPError.invalidRequest("Batch array must not be empty")
-            let response = AnyMethod.response(id: .random, error: error)
-            try await send(response)
-            return
-        }
-
-        // Process each item in the batch and collect responses
-        var responses: [Response<AnyMethod>] = []
-
-        for item in batch.items {
-            do {
 ```
 
 This interface is important because it defines how MCP Swift SDK Tutorial: Building MCP Clients and Servers in Swift implements the patterns covered in this chapter.
@@ -210,10 +210,10 @@ This interface is important because it defines how MCP Swift SDK Tutorial: Build
 
 ```mermaid
 flowchart TD
-    A[Logging]
-    B[Completions]
-    C[Batch]
-    D[Item]
+    A[Content]
+    B[CodingKeys]
+    C[CodingKeys]
+    D[ListTools]
     E[CodingKeys]
     A --> B
     B --> C

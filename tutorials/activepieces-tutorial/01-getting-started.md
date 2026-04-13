@@ -41,50 +41,8 @@ Next: [Chapter 2: System Architecture: App, Worker, Engine](02-system-architectu
 
 ## Source Code Walkthrough
 
-### `deploy/pulumi/taggable.ts`
+### `docker-compose.yml`
 
-The `isTaggable` function in [`deploy/pulumi/taggable.ts`](https://github.com/activepieces/activepieces/blob/HEAD/deploy/pulumi/taggable.ts) handles a key part of this chapter's functionality:
+The [`docker-compose.yml`](https://github.com/activepieces/activepieces/blob/HEAD/docker-compose.yml) file is the primary reference for getting started with Activepieces locally. It defines the app, worker, postgres, and redis service configuration that Chapter 1 walks through — including port mapping, environment variable injection via `.env`, and the `AP_CONTAINER_TYPE` variable that determines whether a container runs as the main app or a background worker.
 
-```ts
-/**
- * isTaggable returns true if the given resource type is an AWS resource that supports tags.
- */
- export function isTaggable(t: string): boolean {
-    return (taggableResourceTypes.indexOf(t) !== -1);
-}
-
-// taggableResourceTypes is a list of known AWS type tokens that are taggable.
-const taggableResourceTypes = [
-    "aws:accessanalyzer/analyzer:Analyzer",
-    "aws:acm/certificate:Certificate",
-    "aws:acmpca/certificateAuthority:CertificateAuthority",
-    "aws:alb/loadBalancer:LoadBalancer",
-    "aws:alb/targetGroup:TargetGroup",
-    "aws:apigateway/apiKey:ApiKey",
-    "aws:apigateway/clientCertificate:ClientCertificate",
-    "aws:apigateway/domainName:DomainName",
-    "aws:apigateway/restApi:RestApi",
-    "aws:apigateway/stage:Stage",
-    "aws:apigateway/usagePlan:UsagePlan",
-    "aws:apigateway/vpcLink:VpcLink",
-    "aws:applicationloadbalancing/loadBalancer:LoadBalancer",
-    "aws:applicationloadbalancing/targetGroup:TargetGroup",
-    "aws:appmesh/mesh:Mesh",
-    "aws:appmesh/route:Route",
-    "aws:appmesh/virtualNode:VirtualNode",
-    "aws:appmesh/virtualRouter:VirtualRouter",
-    "aws:appmesh/virtualService:VirtualService",
-    "aws:appsync/graphQLApi:GraphQLApi",
-    "aws:athena/workgroup:Workgroup",
-    "aws:autoscaling/group:Group",
-```
-
-This function is important because it defines how Activepieces Tutorial: Open-Source Automation, Pieces, and AI-Ready Workflow Operations implements the patterns covered in this chapter.
-
-
-## How These Components Connect
-
-```mermaid
-flowchart TD
-    A[isTaggable]
-```
+Review this file alongside the [install overview docs](https://github.com/activepieces/activepieces/blob/main/docs/install/overview.mdx) to understand the minimal setup required before creating your first flow.

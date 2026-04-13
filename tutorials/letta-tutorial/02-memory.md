@@ -13,6 +13,41 @@ Welcome to **Chapter 2: Memory Architecture in Letta**. In this part of **Letta 
 
 > Understand core memory, archival memory, and recall memory - the three pillars of persistent agent memory.
 
+## Memory Architecture
+
+```mermaid
+flowchart TD
+    CTX[LLM Context Window]
+
+    subgraph CoreMem["Core Memory (In-Context)"]
+        PM[Persona Block]
+        HM[Human Block]
+    end
+
+    subgraph ArchivalMem["Archival Memory (External Store)"]
+        VS[Vector Database]
+        KG[Knowledge Graph]
+    end
+
+    subgraph RecallMem["Recall Memory (Conversation History)"]
+        CH[Past Messages Index]
+    end
+
+    CTX --> CoreMem
+    CoreMem -->|search_archival| ArchivalMem
+    CoreMem -->|search_recall| RecallMem
+    ArchivalMem -->|retrieved chunks| CTX
+    RecallMem -->|retrieved messages| CTX
+
+    classDef ctx fill:#e1f5fe,stroke:#01579b
+    classDef core fill:#f3e5f5,stroke:#4a148c
+    classDef external fill:#fff3e0,stroke:#ef6c00
+
+    class CTX ctx
+    class PM,HM core
+    class VS,KG,CH external
+```
+
 ## Overview
 
 Letta's memory system is hierarchical and designed to give agents virtually unlimited context. This chapter explores the three types of memory and how they work together.
@@ -246,16 +281,13 @@ When debugging, walk this sequence in order and confirm each stage has explicit 
 
 ## Source Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+Key source files in [`letta-ai/letta`](https://github.com/letta-ai/letta):
 
-- [View Repo](https://github.com/letta-ai/letta)
-  Why it matters: authoritative reference on `View Repo` (github.com).
-- [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
-  Why it matters: authoritative reference on `Awesome Code Docs` (github.com).
+- [`letta/memory.py`](https://github.com/letta-ai/letta/blob/main/letta/memory.py) -- `CoreMemory`, `ArchivalMemory`, `RecallMemory` base classes; `__repr__` shows what's visible in context
+- [`letta/agent.py`](https://github.com/letta-ai/letta/blob/main/letta/agent.py) -- `_build_system_message()` assembles the context window by combining core memory blocks with tool definitions
+- [`letta/functions/function_sets/base.py`](https://github.com/letta-ai/letta/blob/main/letta/functions/function_sets/base.py) -- built-in memory tools: `archival_memory_search`, `archival_memory_insert`, `recall_memory_search`
 
-Suggested trace strategy:
-- search upstream code for `client` and `memory` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+Suggested trace: watch how `Agent.step()` calls `_build_system_message()` to construct the prompt, then observe how archival search results get injected into the tool response context.
 
 ## Chapter Connections
 

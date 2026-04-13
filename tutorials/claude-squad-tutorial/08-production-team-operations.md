@@ -30,170 +30,168 @@ Successful team adoption of Claude Squad depends on clear process boundaries aro
 
 You now have a team-operations baseline for scaling Claude Squad safely.
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `config/state.go`
+### `ui/tabbed_window.go`
 
-The `LoadState` function in [`config/state.go`](https://github.com/smtg-ai/claude-squad/blob/HEAD/config/state.go) handles a key part of this chapter's functionality:
+The `NewTabbedWindow` function in [`ui/tabbed_window.go`](https://github.com/smtg-ai/claude-squad/blob/HEAD/ui/tabbed_window.go) handles a key part of this chapter's functionality:
 
 ```go
 }
 
-// LoadState loads the state from disk. If it cannot be done, we return the default state.
-func LoadState() *State {
-	configDir, err := GetConfigDir()
-	if err != nil {
-		log.ErrorLog.Printf("failed to get config directory: %v", err)
-		return DefaultState()
+func NewTabbedWindow(preview *PreviewPane, diff *DiffPane, terminal *TerminalPane) *TabbedWindow {
+	return &TabbedWindow{
+		tabs: []string{
+			"Preview",
+			"Diff",
+			"Terminal",
+		},
+		preview:  preview,
+		diff:     diff,
+		terminal: terminal,
 	}
+}
 
-	statePath := filepath.Join(configDir, StateFileName)
-	data, err := os.ReadFile(statePath)
-	if err != nil {
-		if os.IsNotExist(err) {
-			// Create and save default state if file doesn't exist
-			defaultState := DefaultState()
-			if saveErr := SaveState(defaultState); saveErr != nil {
-				log.WarningLog.Printf("failed to save default state: %v", saveErr)
-			}
-			return defaultState
-		}
+func (w *TabbedWindow) SetInstance(instance *session.Instance) {
+	w.instance = instance
+}
 
-		log.WarningLog.Printf("failed to get state file: %v", err)
-		return DefaultState()
-	}
+// AdjustPreviewWidth adjusts the width of the preview pane to be 90% of the provided width.
+func AdjustPreviewWidth(width int) int {
+	return int(float64(width) * 0.9)
+}
 
-	var state State
-	if err := json.Unmarshal(data, &state); err != nil {
-		log.ErrorLog.Printf("failed to parse state file: %v", err)
-		return DefaultState()
-	}
+func (w *TabbedWindow) SetSize(width, height int) {
+	w.width = AdjustPreviewWidth(width)
+	w.height = height
 
+	// Calculate the content height by subtracting:
+	// 1. Tab height (including border and padding)
+	// 2. Window style vertical frame size
+	// 3. Additional padding/spacing (2 for the newline and spacing)
 ```
 
 This function is important because it defines how Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration implements the patterns covered in this chapter.
 
-### `config/state.go`
+### `ui/tabbed_window.go`
 
-The `SaveState` function in [`config/state.go`](https://github.com/smtg-ai/claude-squad/blob/HEAD/config/state.go) handles a key part of this chapter's functionality:
-
-```go
-			// Create and save default state if file doesn't exist
-			defaultState := DefaultState()
-			if saveErr := SaveState(defaultState); saveErr != nil {
-				log.WarningLog.Printf("failed to save default state: %v", saveErr)
-			}
-			return defaultState
-		}
-
-		log.WarningLog.Printf("failed to get state file: %v", err)
-		return DefaultState()
-	}
-
-	var state State
-	if err := json.Unmarshal(data, &state); err != nil {
-		log.ErrorLog.Printf("failed to parse state file: %v", err)
-		return DefaultState()
-	}
-
-	return &state
-}
-
-// SaveState saves the state to disk
-func SaveState(state *State) error {
-	configDir, err := GetConfigDir()
-	if err != nil {
-		return fmt.Errorf("failed to get config directory: %w", err)
-	}
-
-	if err := os.MkdirAll(configDir, 0755); err != nil {
-		return fmt.Errorf("failed to create config directory: %w", err)
-	}
-
-```
-
-This function is important because it defines how Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration implements the patterns covered in this chapter.
-
-### `config/state.go`
-
-The `SaveInstances` function in [`config/state.go`](https://github.com/smtg-ai/claude-squad/blob/HEAD/config/state.go) handles a key part of this chapter's functionality:
+The `SetInstance` function in [`ui/tabbed_window.go`](https://github.com/smtg-ai/claude-squad/blob/HEAD/ui/tabbed_window.go) handles a key part of this chapter's functionality:
 
 ```go
-// InstanceStorage handles instance-related operations
-type InstanceStorage interface {
-	// SaveInstances saves the raw instance data
-	SaveInstances(instancesJSON json.RawMessage) error
-	// GetInstances returns the raw instance data
-	GetInstances() json.RawMessage
-	// DeleteAllInstances removes all stored instances
-	DeleteAllInstances() error
 }
 
-// AppState handles application-level state
-type AppState interface {
-	// GetHelpScreensSeen returns the bitmask of seen help screens
-	GetHelpScreensSeen() uint32
-	// SetHelpScreensSeen updates the bitmask of seen help screens
-	SetHelpScreensSeen(seen uint32) error
+func (w *TabbedWindow) SetInstance(instance *session.Instance) {
+	w.instance = instance
 }
 
-// StateManager combines instance storage and app state management
-type StateManager interface {
-	InstanceStorage
-	AppState
+// AdjustPreviewWidth adjusts the width of the preview pane to be 90% of the provided width.
+func AdjustPreviewWidth(width int) int {
+	return int(float64(width) * 0.9)
 }
 
-// State represents the application state that persists between sessions
-type State struct {
-	// HelpScreensSeen is a bitmask tracking which help screens have been shown
-	HelpScreensSeen uint32 `json:"help_screens_seen"`
-	// Instances stores the serialized instance data as raw JSON
-	InstancesData json.RawMessage `json:"instances"`
+func (w *TabbedWindow) SetSize(width, height int) {
+	w.width = AdjustPreviewWidth(width)
+	w.height = height
+
+	// Calculate the content height by subtracting:
+	// 1. Tab height (including border and padding)
+	// 2. Window style vertical frame size
+	// 3. Additional padding/spacing (2 for the newline and spacing)
+	tabHeight := activeTabStyle.GetVerticalFrameSize() + 1
+	contentHeight := height - tabHeight - windowStyle.GetVerticalFrameSize() - 2
+	contentWidth := w.width - windowStyle.GetHorizontalFrameSize()
+
+	w.preview.SetSize(contentWidth, contentHeight)
+	w.diff.SetSize(contentWidth, contentHeight)
+	w.terminal.SetSize(contentWidth, contentHeight)
+}
+
+func (w *TabbedWindow) GetPreviewSize() (width, height int) {
+	return w.preview.width, w.preview.height
 }
 
 ```
 
 This function is important because it defines how Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration implements the patterns covered in this chapter.
 
-### `config/state.go`
+### `ui/tabbed_window.go`
 
-The `GetInstances` function in [`config/state.go`](https://github.com/smtg-ai/claude-squad/blob/HEAD/config/state.go) handles a key part of this chapter's functionality:
+The `AdjustPreviewWidth` function in [`ui/tabbed_window.go`](https://github.com/smtg-ai/claude-squad/blob/HEAD/ui/tabbed_window.go) handles a key part of this chapter's functionality:
 
 ```go
-	// SaveInstances saves the raw instance data
-	SaveInstances(instancesJSON json.RawMessage) error
-	// GetInstances returns the raw instance data
-	GetInstances() json.RawMessage
-	// DeleteAllInstances removes all stored instances
-	DeleteAllInstances() error
 }
 
-// AppState handles application-level state
-type AppState interface {
-	// GetHelpScreensSeen returns the bitmask of seen help screens
-	GetHelpScreensSeen() uint32
-	// SetHelpScreensSeen updates the bitmask of seen help screens
-	SetHelpScreensSeen(seen uint32) error
+// AdjustPreviewWidth adjusts the width of the preview pane to be 90% of the provided width.
+func AdjustPreviewWidth(width int) int {
+	return int(float64(width) * 0.9)
 }
 
-// StateManager combines instance storage and app state management
-type StateManager interface {
-	InstanceStorage
-	AppState
+func (w *TabbedWindow) SetSize(width, height int) {
+	w.width = AdjustPreviewWidth(width)
+	w.height = height
+
+	// Calculate the content height by subtracting:
+	// 1. Tab height (including border and padding)
+	// 2. Window style vertical frame size
+	// 3. Additional padding/spacing (2 for the newline and spacing)
+	tabHeight := activeTabStyle.GetVerticalFrameSize() + 1
+	contentHeight := height - tabHeight - windowStyle.GetVerticalFrameSize() - 2
+	contentWidth := w.width - windowStyle.GetHorizontalFrameSize()
+
+	w.preview.SetSize(contentWidth, contentHeight)
+	w.diff.SetSize(contentWidth, contentHeight)
+	w.terminal.SetSize(contentWidth, contentHeight)
 }
 
-// State represents the application state that persists between sessions
-type State struct {
-	// HelpScreensSeen is a bitmask tracking which help screens have been shown
-	HelpScreensSeen uint32 `json:"help_screens_seen"`
-	// Instances stores the serialized instance data as raw JSON
-	InstancesData json.RawMessage `json:"instances"`
+func (w *TabbedWindow) GetPreviewSize() (width, height int) {
+	return w.preview.width, w.preview.height
 }
 
-// DefaultState returns the default state
-func DefaultState() *State {
+func (w *TabbedWindow) Toggle() {
+	w.activeTab = (w.activeTab + 1) % len(w.tabs)
+}
+
+```
+
+This function is important because it defines how Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration implements the patterns covered in this chapter.
+
+### `ui/tabbed_window.go`
+
+The `SetSize` function in [`ui/tabbed_window.go`](https://github.com/smtg-ai/claude-squad/blob/HEAD/ui/tabbed_window.go) handles a key part of this chapter's functionality:
+
+```go
+}
+
+func (w *TabbedWindow) SetSize(width, height int) {
+	w.width = AdjustPreviewWidth(width)
+	w.height = height
+
+	// Calculate the content height by subtracting:
+	// 1. Tab height (including border and padding)
+	// 2. Window style vertical frame size
+	// 3. Additional padding/spacing (2 for the newline and spacing)
+	tabHeight := activeTabStyle.GetVerticalFrameSize() + 1
+	contentHeight := height - tabHeight - windowStyle.GetVerticalFrameSize() - 2
+	contentWidth := w.width - windowStyle.GetHorizontalFrameSize()
+
+	w.preview.SetSize(contentWidth, contentHeight)
+	w.diff.SetSize(contentWidth, contentHeight)
+	w.terminal.SetSize(contentWidth, contentHeight)
+}
+
+func (w *TabbedWindow) GetPreviewSize() (width, height int) {
+	return w.preview.width, w.preview.height
+}
+
+func (w *TabbedWindow) Toggle() {
+	w.activeTab = (w.activeTab + 1) % len(w.tabs)
+}
+
+// UpdatePreview updates the content of the preview pane. instance may be nil.
+func (w *TabbedWindow) UpdatePreview(instance *session.Instance) error {
+	if w.activeTab != PreviewTab {
+		return nil
+	}
 ```
 
 This function is important because it defines how Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration implements the patterns covered in this chapter.
@@ -203,11 +201,11 @@ This function is important because it defines how Claude Squad Tutorial: Multi-A
 
 ```mermaid
 flowchart TD
-    A[LoadState]
-    B[SaveState]
-    C[SaveInstances]
-    D[GetInstances]
-    E[DeleteAllInstances]
+    A[NewTabbedWindow]
+    B[SetInstance]
+    C[AdjustPreviewWidth]
+    D[SetSize]
+    E[GetPreviewSize]
     A --> B
     B --> C
     C --> D

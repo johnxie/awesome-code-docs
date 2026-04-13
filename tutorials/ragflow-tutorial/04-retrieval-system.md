@@ -795,6 +795,21 @@ Under the hood, `Chapter 4: Retrieval System` usually follows a repeatable contr
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
+## Retrieval System Flow
+
+```mermaid
+flowchart TD
+    A[User Query] --> B[Query Embedding]
+    B --> C[Vector Search]
+    A --> D[Keyword Extraction]
+    D --> E[Full-text Search]
+    C --> F[Score Fusion]
+    E --> F
+    F --> G[Reranking Model]
+    G --> H[Top-K Chunks]
+    H --> I[LLM Context]
+```
+
 ## Source Walkthrough
 
 Use the following upstream sources to verify implementation details while reading this chapter:

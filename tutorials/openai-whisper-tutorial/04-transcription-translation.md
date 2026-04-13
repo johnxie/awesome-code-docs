@@ -99,170 +99,168 @@ Suggested trace strategy:
 - [Main Catalog](../../README.md#-tutorial-catalog)
 - [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `whisper/utils.py`
+### `whisper/tokenizer.py`
 
-The `WriteTSV` class in [`whisper/utils.py`](https://github.com/openai/whisper/blob/HEAD/whisper/utils.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-class WriteTSV(ResultWriter):
-    """
-    Write a transcript to a file in TSV (tab-separated values) format containing lines like:
-    <start time in integer milliseconds>\t<end time in integer milliseconds>\t<transcript text>
-
-    Using integer milliseconds as start and end times means there's no chance of interference from
-    an environment setting a language encoding that causes the decimal in a floating point number
-    to appear as a comma; also is faster and more efficient to parse & store, e.g., in C++.
-    """
-
-    extension: str = "tsv"
-
-    def write_result(
-        self, result: dict, file: TextIO, options: Optional[dict] = None, **kwargs
-    ):
-        print("start", "end", "text", sep="\t", file=file)
-        for segment in result["segments"]:
-            print(round(1000 * segment["start"]), file=file, end="\t")
-            print(round(1000 * segment["end"]), file=file, end="\t")
-            print(segment["text"].strip().replace("\t", " "), file=file, flush=True)
-
-
-class WriteJSON(ResultWriter):
-    extension: str = "json"
-
-    def write_result(
-        self, result: dict, file: TextIO, options: Optional[dict] = None, **kwargs
-    ):
-        json.dump(result, file)
-
-```
-
-This class is important because it defines how OpenAI Whisper Tutorial: Speech Recognition and Translation implements the patterns covered in this chapter.
-
-### `whisper/utils.py`
-
-The `WriteJSON` class in [`whisper/utils.py`](https://github.com/openai/whisper/blob/HEAD/whisper/utils.py) handles a key part of this chapter's functionality:
+The `get_encoding` function in [`whisper/tokenizer.py`](https://github.com/openai/whisper/blob/HEAD/whisper/tokenizer.py) handles a key part of this chapter's functionality:
 
 ```py
 
-
-class WriteJSON(ResultWriter):
-    extension: str = "json"
-
-    def write_result(
-        self, result: dict, file: TextIO, options: Optional[dict] = None, **kwargs
-    ):
-        json.dump(result, file)
-
-
-def get_writer(
-    output_format: str, output_dir: str
-) -> Callable[[dict, TextIO, dict], None]:
-    writers = {
-        "txt": WriteTXT,
-        "vtt": WriteVTT,
-        "srt": WriteSRT,
-        "tsv": WriteTSV,
-        "json": WriteJSON,
+@lru_cache(maxsize=None)
+def get_encoding(name: str = "gpt2", num_languages: int = 99):
+    vocab_path = os.path.join(os.path.dirname(__file__), "assets", f"{name}.tiktoken")
+    ranks = {
+        base64.b64decode(token): int(rank)
+        for token, rank in (line.split() for line in open(vocab_path) if line)
     }
+    n_vocab = len(ranks)
+    special_tokens = {}
 
-    if output_format == "all":
-        all_writers = [writer(output_dir) for writer in writers.values()]
+    specials = [
+        "<|endoftext|>",
+        "<|startoftranscript|>",
+        *[f"<|{lang}|>" for lang in list(LANGUAGES.keys())[:num_languages]],
+        "<|translate|>",
+        "<|transcribe|>",
+        "<|startoflm|>",
+        "<|startofprev|>",
+        "<|nospeech|>",
+        "<|notimestamps|>",
+        *[f"<|{i * 0.02:.2f}|>" for i in range(1501)],
+    ]
 
-        def write_all(
-            result: dict, file: TextIO, options: Optional[dict] = None, **kwargs
-        ):
-            for writer in all_writers:
-                writer(result, file, options, **kwargs)
+    for token in specials:
+        special_tokens[token] = n_vocab
+        n_vocab += 1
 
-        return write_all
-```
-
-This class is important because it defines how OpenAI Whisper Tutorial: Speech Recognition and Translation implements the patterns covered in this chapter.
-
-### `whisper/utils.py`
-
-The `exact_div` function in [`whisper/utils.py`](https://github.com/openai/whisper/blob/HEAD/whisper/utils.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-def exact_div(x, y):
-    assert x % y == 0
-    return x // y
-
-
-def str2bool(string):
-    str2val = {"True": True, "False": False}
-    if string in str2val:
-        return str2val[string]
-    else:
-        raise ValueError(f"Expected one of {set(str2val.keys())}, got {string}")
-
-
-def optional_int(string):
-    return None if string == "None" else int(string)
-
-
-def optional_float(string):
-    return None if string == "None" else float(string)
-
-
-def compression_ratio(text) -> float:
-    text_bytes = text.encode("utf-8")
-    return len(text_bytes) / len(zlib.compress(text_bytes))
-
-
-def format_timestamp(
-    seconds: float, always_include_hours: bool = False, decimal_marker: str = "."
-):
-    assert seconds >= 0, "non-negative timestamp expected"
+    return tiktoken.Encoding(
+        name=os.path.basename(vocab_path),
+        explicit_n_vocab=n_vocab,
+        pat_str=r"""'s|'t|'re|'ve|'m|'ll|'d| ?\p{L}+| ?\p{N}+| ?[^\s\p{L}\p{N}]+|\s+(?!\S)|\s+""",
 ```
 
 This function is important because it defines how OpenAI Whisper Tutorial: Speech Recognition and Translation implements the patterns covered in this chapter.
 
-### `whisper/utils.py`
+### `whisper/tokenizer.py`
 
-The `str2bool` function in [`whisper/utils.py`](https://github.com/openai/whisper/blob/HEAD/whisper/utils.py) handles a key part of this chapter's functionality:
+The `get_tokenizer` function in [`whisper/tokenizer.py`](https://github.com/openai/whisper/blob/HEAD/whisper/tokenizer.py) handles a key part of this chapter's functionality:
+
+```py
+
+@lru_cache(maxsize=None)
+def get_tokenizer(
+    multilingual: bool,
+    *,
+    num_languages: int = 99,
+    language: Optional[str] = None,
+    task: Optional[str] = None,  # Literal["transcribe", "translate", None]
+) -> Tokenizer:
+    if language is not None:
+        language = language.lower()
+        if language not in LANGUAGES:
+            if language in TO_LANGUAGE_CODE:
+                language = TO_LANGUAGE_CODE[language]
+            else:
+                raise ValueError(f"Unsupported language: {language}")
+
+    if multilingual:
+        encoding_name = "multilingual"
+        language = language or "en"
+        task = task or "transcribe"
+    else:
+        encoding_name = "gpt2"
+        language = None
+        task = None
+
+    encoding = get_encoding(name=encoding_name, num_languages=num_languages)
+
+    return Tokenizer(
+        encoding=encoding, num_languages=num_languages, language=language, task=task
+    )
+
+```
+
+This function is important because it defines how OpenAI Whisper Tutorial: Speech Recognition and Translation implements the patterns covered in this chapter.
+
+### `whisper/transcribe.py`
+
+The `transcribe` function in [`whisper/transcribe.py`](https://github.com/openai/whisper/blob/HEAD/whisper/transcribe.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def str2bool(string):
-    str2val = {"True": True, "False": False}
-    if string in str2val:
-        return str2val[string]
-    else:
-        raise ValueError(f"Expected one of {set(str2val.keys())}, got {string}")
-
-
-def optional_int(string):
-    return None if string == "None" else int(string)
-
-
-def optional_float(string):
-    return None if string == "None" else float(string)
-
-
-def compression_ratio(text) -> float:
-    text_bytes = text.encode("utf-8")
-    return len(text_bytes) / len(zlib.compress(text_bytes))
-
-
-def format_timestamp(
-    seconds: float, always_include_hours: bool = False, decimal_marker: str = "."
+def transcribe(
+    model: "Whisper",
+    audio: Union[str, np.ndarray, torch.Tensor],
+    *,
+    verbose: Optional[bool] = None,
+    temperature: Union[float, Tuple[float, ...]] = (0.0, 0.2, 0.4, 0.6, 0.8, 1.0),
+    compression_ratio_threshold: Optional[float] = 2.4,
+    logprob_threshold: Optional[float] = -1.0,
+    no_speech_threshold: Optional[float] = 0.6,
+    condition_on_previous_text: bool = True,
+    initial_prompt: Optional[str] = None,
+    carry_initial_prompt: bool = False,
+    word_timestamps: bool = False,
+    prepend_punctuations: str = "\"'“¿([{-",
+    append_punctuations: str = "\"'.。,，!！?？:：”)]}、",
+    clip_timestamps: Union[str, List[float]] = "0",
+    hallucination_silence_threshold: Optional[float] = None,
+    **decode_options,
 ):
-    assert seconds >= 0, "non-negative timestamp expected"
-    milliseconds = round(seconds * 1000.0)
+    """
+    Transcribe an audio file using Whisper
 
-    hours = milliseconds // 3_600_000
-    milliseconds -= hours * 3_600_000
+    Parameters
+    ----------
+    model: Whisper
+        The Whisper model instance
 
+    audio: Union[str, np.ndarray, torch.Tensor]
+        The path to the audio file to open, or the audio waveform
+
+```
+
+This function is important because it defines how OpenAI Whisper Tutorial: Speech Recognition and Translation implements the patterns covered in this chapter.
+
+### `whisper/transcribe.py`
+
+The `cli` function in [`whisper/transcribe.py`](https://github.com/openai/whisper/blob/HEAD/whisper/transcribe.py) handles a key part of this chapter's functionality:
+
+```py
+    prepend_punctuations: str = "\"'“¿([{-",
+    append_punctuations: str = "\"'.。,，!！?？:：”)]}、",
+    clip_timestamps: Union[str, List[float]] = "0",
+    hallucination_silence_threshold: Optional[float] = None,
+    **decode_options,
+):
+    """
+    Transcribe an audio file using Whisper
+
+    Parameters
+    ----------
+    model: Whisper
+        The Whisper model instance
+
+    audio: Union[str, np.ndarray, torch.Tensor]
+        The path to the audio file to open, or the audio waveform
+
+    verbose: bool
+        Whether to display the text being decoded to the console. If True, displays all the details,
+        If False, displays minimal details. If None, does not display anything
+
+    temperature: Union[float, Tuple[float, ...]]
+        Temperature for sampling. It can be a tuple of temperatures, which will be successively used
+        upon failures according to either `compression_ratio_threshold` or `logprob_threshold`.
+
+    compression_ratio_threshold: float
+        If the gzip compression ratio is above this value, treat as failed
+
+    logprob_threshold: float
+        If the average log probability over sampled tokens is below this value, treat as failed
+
+    no_speech_threshold: float
 ```
 
 This function is important because it defines how OpenAI Whisper Tutorial: Speech Recognition and Translation implements the patterns covered in this chapter.
@@ -272,11 +270,11 @@ This function is important because it defines how OpenAI Whisper Tutorial: Speec
 
 ```mermaid
 flowchart TD
-    A[WriteTSV]
-    B[WriteJSON]
-    C[exact_div]
-    D[str2bool]
-    E[optional_int]
+    A[get_encoding]
+    B[get_tokenizer]
+    C[transcribe]
+    D[cli]
+    E[DecodingOptions]
     A --> B
     B --> C
     C --> D

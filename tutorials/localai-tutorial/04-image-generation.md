@@ -13,6 +13,17 @@ Welcome to **Chapter 4: Image Generation with Stable Diffusion**. In this part o
 
 > Generate images locally using Stable Diffusion models through LocalAI's OpenAI-compatible API.
 
+## Image Generation Pipeline
+
+```mermaid
+flowchart LR
+    PROMPT[Text Prompt] --> API[POST /v1/images/generations]
+    API --> SD[Stable Diffusion Backend\nstablediffusion-cpp or diffusers]
+    SD --> STEPS[Denoising Steps\nscheduler: euler, ddim]
+    STEPS --> IMG[Generated Image\nbase64 or URL]
+    IMG --> CLIENT[Client Application]
+```
+
 ## Overview
 
 LocalAI supports image generation using Stable Diffusion models, providing an OpenAI DALL-E compatible API that runs entirely on your local hardware.
@@ -476,14 +487,22 @@ When debugging, walk this sequence in order and confirm each stage has explicit 
 
 Use the following upstream sources to verify implementation details while reading this chapter:
 
-- [View Repo](https://github.com/mudler/LocalAI)
-  Why it matters: authoritative reference on `View Repo` (github.com).
-- [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
-  Why it matters: authoritative reference on `Awesome Code Docs` (github.com).
+- [`core/http/endpoints/openai/image.go`](https://github.com/mudler/LocalAI/blob/master/core/http/endpoints/openai/image.go)
+  HTTP handler for `POST /v1/images/generations`. Parses the image generation request (prompt, size, n, response_format), dispatches to the image backend, and returns base64 or URL responses matching the OpenAI Images API format.
+
+- [`backend/go/stablediffusion/`](https://github.com/mudler/LocalAI/tree/master/backend/go/stablediffusion)
+  Go-native Stable Diffusion backend using the `go-stable-diffusion` library. The `stablediffusion.go` file shows how the prompt, negative prompt, steps, CFG scale, and seed are passed to the C++ diffusion engine.
+
+- [`backend/python/diffusers/`](https://github.com/mudler/LocalAI/tree/master/backend/python/diffusers)
+  Python HuggingFace Diffusers backend enabling Stable Diffusion XL, FLUX, and other HuggingFace image generation models. Uses gRPC to communicate with the Go server, allowing GPU-accelerated diffusion via PyTorch.
+
+- [`core/backend/image.go`](https://github.com/mudler/LocalAI/blob/master/core/backend/image.go)
+  Image generation backend dispatcher. Routes image requests to either the Go `stablediffusion` backend or the Python `diffusers` backend based on the model's `Backend` config field.
 
 Suggested trace strategy:
-- search upstream code for `stablediffusion` and `model` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+- Trace `core/http/endpoints/openai/image.go` → `core/backend/image.go` to follow an image generation request to the backend
+- Compare `backend/go/stablediffusion/` vs `backend/python/diffusers/` to understand backend selection tradeoffs (native speed vs HuggingFace model support)
+- Check the model YAML `Backend: diffusers` vs `Backend: stable-diffusion` field to understand how LocalAI selects the image generation engine
 
 ## Chapter Connections
 

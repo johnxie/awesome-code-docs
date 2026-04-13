@@ -49,8 +49,6 @@ You now have MCP Chrome installed and reachable from an MCP client.
 
 Next: [Chapter 2: Architecture and Component Boundaries](02-architecture-and-component-boundaries.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `app/chrome-extension/inject-scripts/element-picker.js`

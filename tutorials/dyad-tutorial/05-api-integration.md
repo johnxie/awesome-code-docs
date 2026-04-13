@@ -817,20 +817,26 @@ Under the hood, `Chapter 5: API Integration` usually follows a repeatable contro
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
-## Source Walkthrough
+## Source Code Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+### `src/lib/chat.ts`
 
-- [Dyad README](https://github.com/dyad-sh/dyad/blob/main/README.md)
-  Why it matters: authoritative reference on `Dyad README` (github.com).
-- [Dyad Releases](https://github.com/dyad-sh/dyad/releases)
-  Why it matters: authoritative reference on `Dyad Releases` (github.com).
-- [Dyad Repository](https://github.com/dyad-sh/dyad)
-  Why it matters: authoritative reference on `Dyad Repository` (github.com).
+The `createApp` function in [`src/lib/chat.ts`](https://github.com/dyad-sh/dyad/blob/main/src/lib/chat.ts) is the API integration entrypoint for creating new app projects via the IPC bridge:
 
-Suggested trace strategy:
-- search upstream code for `response` and `Error` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+```ts
+export async function createApp(
+  params: CreateAppParams,
+): Promise<CreateAppResult> {
+  try {
+    return await ipc.app.createApp(params);
+  } catch (error) {
+    console.error("[CHAT] Error creating app:", error);
+    throw error;
+  }
+}
+```
+
+All API calls between the renderer (React) and main (Electron) processes go through the `ipc` object from `src/ipc/types.ts`. This pattern ensures type safety across the process boundary and enables Dyad to run all AI generation locally without any external server.
 
 ## Chapter Connections
 

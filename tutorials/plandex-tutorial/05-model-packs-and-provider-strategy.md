@@ -25,91 +25,7 @@ You now have a model strategy framework for production Plandex usage.
 
 Next: [Chapter 6: Autonomy, Control, and Debugging](06-autonomy-control-and-debugging.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
-
-### `app/shared/plan_model_settings.go`
-
-The `GetCoderMaxTokens` function in [`app/shared/plan_model_settings.go`](https://github.com/plandex-ai/plandex/blob/HEAD/app/shared/plan_model_settings.go) handles a key part of this chapter's functionality:
-
-```go
-}
-
-func (ps PlanSettings) GetCoderMaxTokens() int {
-	modelPack := ps.GetModelPack()
-	coder := modelPack.GetCoder()
-	fallback := coder.GetFinalLargeContextFallback()
-	return fallback.GetSharedBaseConfig(&ps).MaxTokens
-}
-
-func (ps PlanSettings) GetCoderMaxReservedOutputTokens() int {
-	modelPack := ps.GetModelPack()
-	coder := modelPack.GetCoder()
-	fallback := coder.GetFinalLargeContextFallback()
-	return fallback.GetReservedOutputTokens(ps.CustomModelsById)
-}
-
-func (ps PlanSettings) GetWholeFileBuilderMaxTokens() int {
-	modelPack := ps.GetModelPack()
-	builder := modelPack.GetWholeFileBuilder()
-	fallback := builder.GetFinalLargeContextFallback()
-	return fallback.GetSharedBaseConfig(&ps).MaxTokens
-}
-
-func (ps PlanSettings) GetWholeFileBuilderMaxReservedOutputTokens() int {
-	modelPack := ps.GetModelPack()
-	builder := modelPack.GetWholeFileBuilder()
-	fallback := builder.GetFinalLargeOutputFallback()
-	return fallback.GetReservedOutputTokens(ps.CustomModelsById)
-}
-
-func (ps PlanSettings) GetPlannerMaxConvoTokens() int {
-	modelPack := ps.GetModelPack()
-```
-
-This function is important because it defines how Plandex Tutorial: Large-Task AI Coding Agent Workflows implements the patterns covered in this chapter.
-
-### `app/shared/plan_model_settings.go`
-
-The `GetCoderMaxReservedOutputTokens` function in [`app/shared/plan_model_settings.go`](https://github.com/plandex-ai/plandex/blob/HEAD/app/shared/plan_model_settings.go) handles a key part of this chapter's functionality:
-
-```go
-}
-
-func (ps PlanSettings) GetCoderMaxReservedOutputTokens() int {
-	modelPack := ps.GetModelPack()
-	coder := modelPack.GetCoder()
-	fallback := coder.GetFinalLargeContextFallback()
-	return fallback.GetReservedOutputTokens(ps.CustomModelsById)
-}
-
-func (ps PlanSettings) GetWholeFileBuilderMaxTokens() int {
-	modelPack := ps.GetModelPack()
-	builder := modelPack.GetWholeFileBuilder()
-	fallback := builder.GetFinalLargeContextFallback()
-	return fallback.GetSharedBaseConfig(&ps).MaxTokens
-}
-
-func (ps PlanSettings) GetWholeFileBuilderMaxReservedOutputTokens() int {
-	modelPack := ps.GetModelPack()
-	builder := modelPack.GetWholeFileBuilder()
-	fallback := builder.GetFinalLargeOutputFallback()
-	return fallback.GetReservedOutputTokens(ps.CustomModelsById)
-}
-
-func (ps PlanSettings) GetPlannerMaxConvoTokens() int {
-	modelPack := ps.GetModelPack()
-
-	// for max convo tokens, we use the planner's default max convo tokens, *not* the fallback, so that we don't end up switching to the fallback just based on the conversation length
-	planner := modelPack.Planner
-	if planner.MaxConvoTokens != 0 {
-		return planner.MaxConvoTokens
-	}
-
-```
-
-This function is important because it defines how Plandex Tutorial: Large-Task AI Coding Agent Workflows implements the patterns covered in this chapter.
 
 ### `app/shared/plan_model_settings.go`
 
@@ -193,16 +109,98 @@ func (ps PlanSettings) GetArchitectEffectiveMaxTokens() int {
 
 This function is important because it defines how Plandex Tutorial: Large-Task AI Coding Agent Workflows implements the patterns covered in this chapter.
 
+### `app/shared/plan_model_settings.go`
+
+The `GetPlannerMaxConvoTokens` function in [`app/shared/plan_model_settings.go`](https://github.com/plandex-ai/plandex/blob/HEAD/app/shared/plan_model_settings.go) handles a key part of this chapter's functionality:
+
+```go
+}
+
+func (ps PlanSettings) GetPlannerMaxConvoTokens() int {
+	modelPack := ps.GetModelPack()
+
+	// for max convo tokens, we use the planner's default max convo tokens, *not* the fallback, so that we don't end up switching to the fallback just based on the conversation length
+	planner := modelPack.Planner
+	if planner.MaxConvoTokens != 0 {
+		return planner.MaxConvoTokens
+	}
+
+	return planner.GetSharedBaseConfig(&ps).DefaultMaxConvoTokens
+}
+
+func (ps PlanSettings) GetPlannerEffectiveMaxTokens() int {
+	maxPlannerTokens := ps.GetPlannerMaxTokens()
+	maxReservedOutputTokens := ps.GetPlannerMaxReservedOutputTokens()
+
+	return maxPlannerTokens - maxReservedOutputTokens
+}
+
+func (ps PlanSettings) GetArchitectEffectiveMaxTokens() int {
+	maxArchitectTokens := ps.GetArchitectMaxTokens()
+	maxReservedOutputTokens := ps.GetArchitectMaxReservedOutputTokens()
+
+	return maxArchitectTokens - maxReservedOutputTokens
+}
+
+func (ps PlanSettings) GetCoderEffectiveMaxTokens() int {
+	maxCoderTokens := ps.GetCoderMaxTokens()
+	maxReservedOutputTokens := ps.GetCoderMaxReservedOutputTokens()
+
+```
+
+This function is important because it defines how Plandex Tutorial: Large-Task AI Coding Agent Workflows implements the patterns covered in this chapter.
+
+### `app/shared/plan_model_settings.go`
+
+The `GetPlannerEffectiveMaxTokens` function in [`app/shared/plan_model_settings.go`](https://github.com/plandex-ai/plandex/blob/HEAD/app/shared/plan_model_settings.go) handles a key part of this chapter's functionality:
+
+```go
+}
+
+func (ps PlanSettings) GetPlannerEffectiveMaxTokens() int {
+	maxPlannerTokens := ps.GetPlannerMaxTokens()
+	maxReservedOutputTokens := ps.GetPlannerMaxReservedOutputTokens()
+
+	return maxPlannerTokens - maxReservedOutputTokens
+}
+
+func (ps PlanSettings) GetArchitectEffectiveMaxTokens() int {
+	maxArchitectTokens := ps.GetArchitectMaxTokens()
+	maxReservedOutputTokens := ps.GetArchitectMaxReservedOutputTokens()
+
+	return maxArchitectTokens - maxReservedOutputTokens
+}
+
+func (ps PlanSettings) GetCoderEffectiveMaxTokens() int {
+	maxCoderTokens := ps.GetCoderMaxTokens()
+	maxReservedOutputTokens := ps.GetCoderMaxReservedOutputTokens()
+
+	return maxCoderTokens - maxReservedOutputTokens
+}
+
+func (ps PlanSettings) GetWholeFileBuilderEffectiveMaxTokens() int {
+	maxWholeFileBuilderTokens := ps.GetWholeFileBuilderMaxTokens()
+	maxReservedOutputTokens := ps.GetWholeFileBuilderMaxReservedOutputTokens()
+
+	return maxWholeFileBuilderTokens - maxReservedOutputTokens
+}
+
+func (ps PlanSettings) GetModelProviderOptions() ModelProviderOptions {
+	opts := ModelProviderOptions{}
+```
+
+This function is important because it defines how Plandex Tutorial: Large-Task AI Coding Agent Workflows implements the patterns covered in this chapter.
+
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[GetCoderMaxTokens]
-    B[GetCoderMaxReservedOutputTokens]
-    C[GetWholeFileBuilderMaxTokens]
-    D[GetWholeFileBuilderMaxReservedOutputTokens]
-    E[GetPlannerMaxConvoTokens]
+    A[GetWholeFileBuilderMaxTokens]
+    B[GetWholeFileBuilderMaxReservedOutputTokens]
+    C[GetPlannerMaxConvoTokens]
+    D[GetPlannerEffectiveMaxTokens]
+    E[GetArchitectEffectiveMaxTokens]
     A --> B
     B --> C
     C --> D

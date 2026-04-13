@@ -42,170 +42,168 @@ You now have a production rollout framework for operating Kotlin MCP systems wit
 
 Return to the [MCP Kotlin SDK Tutorial index](README.md).
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
-
-### `kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/notification.kt`
-
-The `ServerNotification` interface in [`kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/notification.kt`](https://github.com/modelcontextprotocol/kotlin-sdk/blob/HEAD/kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/notification.kt) handles a key part of this chapter's functionality:
-
-```kt
- * Represents a notification sent by the server.
- */
-@Serializable(with = ServerNotificationPolymorphicSerializer::class)
-public sealed interface ServerNotification : Notification
-
-/**
- * Interface for notification parameter types.
- *
- * @property meta Optional metadata for the notification.
- */
-@Serializable
-public sealed interface NotificationParams : WithMeta
-
-/**
- * Base parameters for notifications that only contain metadata.
- */
-@Serializable
-public data class BaseNotificationParams(@SerialName("_meta") override val meta: JsonObject? = null) :
-    NotificationParams
-
-/**
- * Represents a progress notification.
- *
- * @property progress The progress thus far. This should increase every time progress is made,
- * even if the total is unknown.
- * @property total Total number of items to a process (or total progress required), if known.
- * @property message An optional message describing the current progress.
- */
-@Serializable
-public class Progress(
-    public val progress: Double,
-    public val total: Double? = null,
-```
-
-This interface is important because it defines how MCP Kotlin SDK Tutorial: Building Multiplatform MCP Clients and Servers implements the patterns covered in this chapter.
-
-### `kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/notification.kt`
-
-The `NotificationParams` interface in [`kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/notification.kt`](https://github.com/modelcontextprotocol/kotlin-sdk/blob/HEAD/kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/notification.kt) handles a key part of this chapter's functionality:
-
-```kt
-public sealed interface Notification {
-    public val method: Method
-    public val params: NotificationParams?
-}
-
-/**
- * Represents a notification sent by the client.
- */
-@Serializable(with = ClientNotificationPolymorphicSerializer::class)
-public sealed interface ClientNotification : Notification
-
-/**
- * Represents a notification sent by the server.
- */
-@Serializable(with = ServerNotificationPolymorphicSerializer::class)
-public sealed interface ServerNotification : Notification
-
-/**
- * Interface for notification parameter types.
- *
- * @property meta Optional metadata for the notification.
- */
-@Serializable
-public sealed interface NotificationParams : WithMeta
-
-/**
- * Base parameters for notifications that only contain metadata.
- */
-@Serializable
-public data class BaseNotificationParams(@SerialName("_meta") override val meta: JsonObject? = null) :
-    NotificationParams
-
-```
-
-This interface is important because it defines how MCP Kotlin SDK Tutorial: Building Multiplatform MCP Clients and Servers implements the patterns covered in this chapter.
 
 ### `kotlin-sdk-client/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/client/StdioClientTransport.kt`
 
-The `StdioClientTransport` class in [`kotlin-sdk-client/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/client/StdioClientTransport.kt`](https://github.com/modelcontextprotocol/kotlin-sdk/blob/HEAD/kotlin-sdk-client/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/client/StdioClientTransport.kt) handles a key part of this chapter's functionality:
+The `JsonRpc` class in [`kotlin-sdk-client/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/client/StdioClientTransport.kt`](https://github.com/modelcontextprotocol/kotlin-sdk/blob/HEAD/kotlin-sdk-client/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/client/StdioClientTransport.kt) handles a key part of this chapter's functionality:
 
 ```kt
-import io.github.oshai.kotlinlogging.KLogger
-import io.github.oshai.kotlinlogging.KotlinLogging
-import io.modelcontextprotocol.kotlin.sdk.client.StdioClientTransport.StderrSeverity.DEBUG
-import io.modelcontextprotocol.kotlin.sdk.client.StdioClientTransport.StderrSeverity.FATAL
-import io.modelcontextprotocol.kotlin.sdk.client.StdioClientTransport.StderrSeverity.IGNORE
-import io.modelcontextprotocol.kotlin.sdk.client.StdioClientTransport.StderrSeverity.INFO
-import io.modelcontextprotocol.kotlin.sdk.client.StdioClientTransport.StderrSeverity.WARNING
-import io.modelcontextprotocol.kotlin.sdk.internal.IODispatcher
-import io.modelcontextprotocol.kotlin.sdk.shared.AbstractClientTransport
-import io.modelcontextprotocol.kotlin.sdk.shared.ReadBuffer
-import io.modelcontextprotocol.kotlin.sdk.shared.TransportSendOptions
-import io.modelcontextprotocol.kotlin.sdk.shared.serializeMessage
-import io.modelcontextprotocol.kotlin.sdk.types.JSONRPCMessage
-import io.modelcontextprotocol.kotlin.sdk.types.McpException
-import io.modelcontextprotocol.kotlin.sdk.types.RPCError.ErrorCode.CONNECTION_CLOSED
-import io.modelcontextprotocol.kotlin.sdk.types.RPCError.ErrorCode.INTERNAL_ERROR
-import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.CoroutineName
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.cancel
-import kotlinx.coroutines.cancelAndJoin
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.channels.ClosedSendChannelException
-import kotlinx.coroutines.channels.ProducerScope
-import kotlinx.coroutines.channels.consumeEach
-import kotlinx.coroutines.flow.channelFlow
-import kotlinx.coroutines.isActive
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.yield
+                            do {
+                                val msg = readBuffer.readMessage()
+                                msg?.let { send(Event.JsonRpc(msg)) }
+                            } while (msg != null)
+                        }
+                    }.invokeOnCompletion {
+                        logger.debug(it) { "Read stdin coroutine finished." }
+                    }
+
+                    error?.let { source ->
+                        launch(ioCoroutineContext) {
+                            logger.debug { "Read stderr coroutine started." }
+                            readSource(
+                                stream = ProcessStream.Stderr,
+                                source = source,
+                                channel = this@channelFlow,
+                            ) { bytes ->
+                                val str = bytes.decodeToString()
+                                send(Event.StderrEvent(str))
+                            }
+                        }
+                    }
+                }
+
+                // Collect events on handlerCoroutineContext (Dispatchers.Default from parent scope)
+                // No flowOn necessary - collection runs in parent launch context
+                eventsFlow
+                    .collect { event ->
+                        when (event) {
+                            is Event.JsonRpc -> {
+                                handleJSONRPCMessage(event.message)
+                            }
 ```
 
 This class is important because it defines how MCP Kotlin SDK Tutorial: Building Multiplatform MCP Clients and Servers implements the patterns covered in this chapter.
 
 ### `kotlin-sdk-client/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/client/StdioClientTransport.kt`
 
-The `StderrSeverity` class in [`kotlin-sdk-client/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/client/StdioClientTransport.kt`](https://github.com/modelcontextprotocol/kotlin-sdk/blob/HEAD/kotlin-sdk-client/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/client/StdioClientTransport.kt) handles a key part of this chapter's functionality:
+The `StderrEvent` class in [`kotlin-sdk-client/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/client/StdioClientTransport.kt`](https://github.com/modelcontextprotocol/kotlin-sdk/blob/HEAD/kotlin-sdk-client/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/client/StdioClientTransport.kt) handles a key part of this chapter's functionality:
 
 ```kt
-import io.github.oshai.kotlinlogging.KLogger
-import io.github.oshai.kotlinlogging.KotlinLogging
-import io.modelcontextprotocol.kotlin.sdk.client.StdioClientTransport.StderrSeverity.DEBUG
-import io.modelcontextprotocol.kotlin.sdk.client.StdioClientTransport.StderrSeverity.FATAL
-import io.modelcontextprotocol.kotlin.sdk.client.StdioClientTransport.StderrSeverity.IGNORE
-import io.modelcontextprotocol.kotlin.sdk.client.StdioClientTransport.StderrSeverity.INFO
-import io.modelcontextprotocol.kotlin.sdk.client.StdioClientTransport.StderrSeverity.WARNING
-import io.modelcontextprotocol.kotlin.sdk.internal.IODispatcher
-import io.modelcontextprotocol.kotlin.sdk.shared.AbstractClientTransport
-import io.modelcontextprotocol.kotlin.sdk.shared.ReadBuffer
-import io.modelcontextprotocol.kotlin.sdk.shared.TransportSendOptions
-import io.modelcontextprotocol.kotlin.sdk.shared.serializeMessage
-import io.modelcontextprotocol.kotlin.sdk.types.JSONRPCMessage
-import io.modelcontextprotocol.kotlin.sdk.types.McpException
-import io.modelcontextprotocol.kotlin.sdk.types.RPCError.ErrorCode.CONNECTION_CLOSED
-import io.modelcontextprotocol.kotlin.sdk.types.RPCError.ErrorCode.INTERNAL_ERROR
-import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.CoroutineName
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.cancel
-import kotlinx.coroutines.cancelAndJoin
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.channels.ClosedSendChannelException
-import kotlinx.coroutines.channels.ProducerScope
-import kotlinx.coroutines.channels.consumeEach
-import kotlinx.coroutines.flow.channelFlow
-import kotlinx.coroutines.isActive
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.yield
+                            ) { bytes ->
+                                val str = bytes.decodeToString()
+                                send(Event.StderrEvent(str))
+                            }
+                        }
+                    }
+                }
+
+                // Collect events on handlerCoroutineContext (Dispatchers.Default from parent scope)
+                // No flowOn necessary - collection runs in parent launch context
+                eventsFlow
+                    .collect { event ->
+                        when (event) {
+                            is Event.JsonRpc -> {
+                                handleJSONRPCMessage(event.message)
+                            }
+
+                            is Event.StderrEvent -> {
+                                val errorSeverity = classifyStderr(event.message)
+                                when (errorSeverity) {
+                                    FATAL -> {
+                                        runCatching {
+                                            _onError(
+                                                McpException(INTERNAL_ERROR, "Message in StdErr: ${event.message}"),
+                                            )
+                                        }
+                                        stopProcessing("Fatal STDERR message received")
+                                    }
+
+                                    WARNING -> {
+                                        logger.warn { "STDERR message received: ${event.message}" }
+                                    }
+```
+
+This class is important because it defines how MCP Kotlin SDK Tutorial: Building Multiplatform MCP Clients and Servers implements the patterns covered in this chapter.
+
+### `kotlin-sdk-client/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/client/StdioClientTransport.kt`
+
+The `EOFEvent` class in [`kotlin-sdk-client/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/client/StdioClientTransport.kt`](https://github.com/modelcontextprotocol/kotlin-sdk/blob/HEAD/kotlin-sdk-client/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/client/StdioClientTransport.kt) handles a key part of this chapter's functionality:
+
+```kt
+                            }
+
+                            is Event.EOFEvent -> {
+                                if (event.stream == ProcessStream.Stdin) {
+                                    stopProcessing("EOF in ${event.stream}")
+                                }
+                            }
+
+                            is Event.IOErrorEvent -> {
+                                runCatching { _onError(event.cause) }
+                                stopProcessing("IO Error", event.cause)
+                            }
+                        }
+                    }
+            } finally {
+                // Wait for write job to complete before closing, matching old implementation
+                writeJob?.cancelAndJoin()
+                logger.debug { "Transport coroutine completed, calling onClose" }
+                invokeOnCloseCallback()
+            }
+        }
+    }
+
+    override suspend fun performSend(message: JSONRPCMessage, options: TransportSendOptions?) {
+        @Suppress("SwallowedException")
+        try {
+            sendChannel.send(message)
+        } catch (e: CancellationException) {
+            throw e // MUST rethrow immediately - don't log, don't wrap
+        } catch (e: ClosedSendChannelException) {
+            logger.debug(e) { "Cannot send message: transport is closed" }
+            throw McpException(
+```
+
+This class is important because it defines how MCP Kotlin SDK Tutorial: Building Multiplatform MCP Clients and Servers implements the patterns covered in this chapter.
+
+### `kotlin-sdk-client/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/client/StdioClientTransport.kt`
+
+The `IOErrorEvent` class in [`kotlin-sdk-client/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/client/StdioClientTransport.kt`](https://github.com/modelcontextprotocol/kotlin-sdk/blob/HEAD/kotlin-sdk-client/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/client/StdioClientTransport.kt) handles a key part of this chapter's functionality:
+
+```kt
+                            }
+
+                            is Event.IOErrorEvent -> {
+                                runCatching { _onError(event.cause) }
+                                stopProcessing("IO Error", event.cause)
+                            }
+                        }
+                    }
+            } finally {
+                // Wait for write job to complete before closing, matching old implementation
+                writeJob?.cancelAndJoin()
+                logger.debug { "Transport coroutine completed, calling onClose" }
+                invokeOnCloseCallback()
+            }
+        }
+    }
+
+    override suspend fun performSend(message: JSONRPCMessage, options: TransportSendOptions?) {
+        @Suppress("SwallowedException")
+        try {
+            sendChannel.send(message)
+        } catch (e: CancellationException) {
+            throw e // MUST rethrow immediately - don't log, don't wrap
+        } catch (e: ClosedSendChannelException) {
+            logger.debug(e) { "Cannot send message: transport is closed" }
+            throw McpException(
+                code = CONNECTION_CLOSED,
+                message = "Transport is closed",
+                cause = e,
+            )
+        }
+    }
 ```
 
 This class is important because it defines how MCP Kotlin SDK Tutorial: Building Multiplatform MCP Clients and Servers implements the patterns covered in this chapter.
@@ -215,11 +213,11 @@ This class is important because it defines how MCP Kotlin SDK Tutorial: Building
 
 ```mermaid
 flowchart TD
-    A[ServerNotification]
-    B[NotificationParams]
-    C[StdioClientTransport]
-    D[StderrSeverity]
-    E[ProcessStream]
+    A[JsonRpc]
+    B[StderrEvent]
+    C[EOFEvent]
+    D[IOErrorEvent]
+    E[Event]
     A --> B
     B --> C
     C --> D

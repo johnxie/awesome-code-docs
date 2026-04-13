@@ -77,170 +77,135 @@ You now have a practical incident-response playbook for AgenticSeek operations.
 
 Next: [Chapter 8: Contribution Workflow and Project Governance](08-contribution-workflow-and-project-governance.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `sources/text_to_speech.py`
+### `llm_server/app.py`
 
-The `Speech` class in [`sources/text_to_speech.py`](https://github.com/Fosowl/agenticSeek/blob/HEAD/sources/text_to_speech.py) handles a key part of this chapter's functionality:
+The `setup` function in [`llm_server/app.py`](https://github.com/Fosowl/agenticSeek/blob/HEAD/llm_server/app.py) handles a key part of this chapter's functionality:
 
 ```py
-    import soundfile as sf
-except ImportError:
-    print("Speech synthesis disabled. To enable TTS, install: pip install kokoro==0.9.4 soundfile ipython")
-    print("Note: kokoro requires Python <3.12 due to num2words dependency.")
-    IMPORT_FOUND = False
+    return jsonify({"error": "Generation already in progress"}), 402
 
-if __name__ == "__main__":
-    from utility import pretty_print, animate_thinking
-else:
-    from sources.utility import pretty_print, animate_thinking
+@app.route('/setup', methods=['POST'])
+def setup():
+    data = request.get_json()
+    model = data.get('model', None)
+    if model is None:
+        return jsonify({"error": "Model not provided"}), 403
+    generator.set_model(model)
+    return jsonify({"message": "Model set"}), 200
 
-class Speech():
-    """
-    Speech is a class for generating speech from text.
-    """
-    def __init__(self, enable: bool = True, language: str = "en", voice_idx: int = 6) -> None:
-        self.lang_map = {
-            "en": 'a',
-            "zh": 'z',
-            "fr": 'f',
-            "ja": 'j'
-        }
-        self.voice_map = {
-            "en": ['af_kore', 'af_bella', 'af_alloy', 'af_nicole', 'af_nova', 'af_sky', 'am_echo', 'am_michael', 'am_puck'],
-            "zh": ['zf_xiaobei', 'zf_xiaoni', 'zf_xiaoxiao', 'zf_xiaoyi', 'zm_yunjian', 'zm_yunxi', 'zm_yunxia', 'zm_yunyang'],
-            "ja": ['jf_alpha', 'jf_gongitsune', 'jm_kumo'],
-            "fr": ['ff_siwis']
-        }
-        self.pipeline = None
-        self.language = language
-        if enable and IMPORT_FOUND:
-            self.pipeline = KPipeline(lang_code=self.lang_map[language])
+@app.route('/get_updated_sentence')
+def get_updated_sentence():
+    if not generator:
+        return jsonify({"error": "Generator not initialized"}), 405
+    print(generator.get_status())
+    return generator.get_status()
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', threaded=True, debug=True, port=args.port)
 ```
 
-This class is important because it defines how AgenticSeek Tutorial: Local-First Autonomous Agent Operations implements the patterns covered in this chapter.
+This function is important because it defines how AgenticSeek Tutorial: Local-First Autonomous Agent Operations implements the patterns covered in this chapter.
 
-### `sources/text_to_speech.py`
+### `llm_server/app.py`
 
-The `for` class in [`sources/text_to_speech.py`](https://github.com/Fosowl/agenticSeek/blob/HEAD/sources/text_to_speech.py) handles a key part of this chapter's functionality:
+The `get_updated_sentence` function in [`llm_server/app.py`](https://github.com/Fosowl/agenticSeek/blob/HEAD/llm_server/app.py) handles a key part of this chapter's functionality:
 
 ```py
-import os, sys
-import re
-import platform
-import subprocess
-from sys import modules
-from typing import List, Tuple, Type, Dict
+    return jsonify({"message": "Model set"}), 200
 
-IMPORT_FOUND = True
-try:
-    from kokoro import KPipeline
-    from IPython.display import display, Audio
-    import soundfile as sf
-except ImportError:
-    print("Speech synthesis disabled. To enable TTS, install: pip install kokoro==0.9.4 soundfile ipython")
-    print("Note: kokoro requires Python <3.12 due to num2words dependency.")
-    IMPORT_FOUND = False
+@app.route('/get_updated_sentence')
+def get_updated_sentence():
+    if not generator:
+        return jsonify({"error": "Generator not initialized"}), 405
+    print(generator.get_status())
+    return generator.get_status()
 
-if __name__ == "__main__":
-    from utility import pretty_print, animate_thinking
-else:
-    from sources.utility import pretty_print, animate_thinking
-
-class Speech():
-    """
-    Speech is a class for generating speech from text.
-    """
-    def __init__(self, enable: bool = True, language: str = "en", voice_idx: int = 6) -> None:
-        self.lang_map = {
-            "en": 'a',
-            "zh": 'z',
-            "fr": 'f',
-            "ja": 'j'
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', threaded=True, debug=True, port=args.port)
 ```
 
-This class is important because it defines how AgenticSeek Tutorial: Local-First Autonomous Agent Operations implements the patterns covered in this chapter.
+This function is important because it defines how AgenticSeek Tutorial: Local-First Autonomous Agent Operations implements the patterns covered in this chapter.
 
-### `sources/llm_provider.py`
+### `sources/agents/planner_agent.py`
 
-The `Provider` class in [`sources/llm_provider.py`](https://github.com/Fosowl/agenticSeek/blob/HEAD/sources/llm_provider.py) handles a key part of this chapter's functionality:
+The `PlannerAgent` class in [`sources/agents/planner_agent.py`](https://github.com/Fosowl/agenticSeek/blob/HEAD/sources/agents/planner_agent.py) handles a key part of this chapter's functionality:
 
 ```py
-from sources.utility import pretty_print, animate_thinking
+from sources.memory import Memory
 
-class Provider:
-    def __init__(self, provider_name, model, server_address="127.0.0.1:5000", is_local=False):
-        self.provider_name = provider_name.lower()
-        self.model = model
-        self.is_local = is_local
-        self.server_ip = server_address
-        self.server_address = server_address
-        self.available_providers = {
-            "ollama": self.ollama_fn,
-            "server": self.server_fn,
-            "openai": self.openai_fn,
-            "lm-studio": self.lm_studio_fn,
-            "huggingface": self.huggingface_fn,
-            "google": self.google_fn,
-            "deepseek": self.deepseek_fn,
-            "together": self.together_fn,
-            "dsk_deepseek": self.dsk_deepseek,
-            "openrouter": self.openrouter_fn,
-            "minimax": self.minimax_fn,
-            "test": self.test_fn
+class PlannerAgent(Agent):
+    def __init__(self, name, prompt_path, provider, verbose=False, browser=None):
+        """
+        The planner agent is a special agent that divides and conquers the task.
+        """
+        super().__init__(name, prompt_path, provider, verbose, None)
+        self.tools = {
+            "json": Tools()
         }
-        self.logger = Logger("provider.log")
-        self.api_key = None
-        self.internal_url, self.in_docker = self.get_internal_url()
-        self.unsafe_providers = ["openai", "deepseek", "dsk_deepseek", "together", "google", "openrouter", "minimax"]
-        if self.provider_name not in self.available_providers:
-            raise ValueError(f"Unknown provider: {provider_name}")
-        if self.provider_name in self.unsafe_providers and self.is_local == False:
-            pretty_print("Warning: you are using an API provider. You data will be sent to the cloud.", color="warning")
-            self.api_key = self.get_api_key(self.provider_name)
-```
-
-This class is important because it defines how AgenticSeek Tutorial: Local-First Autonomous Agent Operations implements the patterns covered in this chapter.
-
-### `sources/logger.py`
-
-The `Logger` class in [`sources/logger.py`](https://github.com/Fosowl/agenticSeek/blob/HEAD/sources/logger.py) handles a key part of this chapter's functionality:
-
-```py
-import logging
-
-class Logger:
-    def __init__(self, log_filename):
-        self.folder = '.logs'
-        self.create_folder(self.folder)
-        self.log_path = os.path.join(self.folder, log_filename)
-        self.enabled = True
-        self.logger = None
-        self.last_log_msg = ""
-        if self.enabled:
-            self.create_logging(log_filename)
-
-    def create_logging(self, log_filename):
-        self.logger = logging.getLogger(log_filename)
-        self.logger.setLevel(logging.DEBUG)
-        self.logger.handlers.clear()
-        self.logger.propagate = False
-        file_handler = logging.FileHandler(self.log_path)
-        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-        file_handler.setFormatter(formatter)
-        self.logger.addHandler(file_handler)
-
+        self.tools['json'].tag = "json"
+        self.browser = browser
+        self.agents = {
+            "coder": CoderAgent(name, "prompts/base/coder_agent.txt", provider, verbose=False),
+            "file": FileAgent(name, "prompts/base/file_agent.txt", provider, verbose=False),
+            "web": BrowserAgent(name, "prompts/base/browser_agent.txt", provider, verbose=False, browser=browser),
+            "casual": CasualAgent(name, "prompts/base/casual_agent.txt", provider, verbose=False)
+        }
+        self.role = "planification"
+        self.type = "planner_agent"
+        self.memory = Memory(self.load_prompt(prompt_path),
+                                recover_last_session=False, # session recovery in handled by the interaction class
+                                memory_compression=False,
+                                model_provider=provider.get_model_name())
+        self.logger = Logger("planner_agent.log")
     
-    def create_folder(self, path):
-        """Create log dir"""
-        try:
-            if not os.path.exists(path):
-                os.makedirs(path, exist_ok=True) 
-            return True
-        except Exception as e:
-            self.enabled = False
+    def get_task_names(self, text: str) -> List[str]:
+        """
+        Extracts task names from the given text.
+        This method processes a multi-line string, where each line may represent a task name.
+        containing '##' or starting with a digit. The valid task names are collected and returned.
+```
+
+This class is important because it defines how AgenticSeek Tutorial: Local-First Autonomous Agent Operations implements the patterns covered in this chapter.
+
+### `sources/agents/planner_agent.py`
+
+The `memory_compression` class in [`sources/agents/planner_agent.py`](https://github.com/Fosowl/agenticSeek/blob/HEAD/sources/agents/planner_agent.py) handles a key part of this chapter's functionality:
+
+```py
+        self.memory = Memory(self.load_prompt(prompt_path),
+                                recover_last_session=False, # session recovery in handled by the interaction class
+                                memory_compression=False,
+                                model_provider=provider.get_model_name())
+        self.logger = Logger("planner_agent.log")
+    
+    def get_task_names(self, text: str) -> List[str]:
+        """
+        Extracts task names from the given text.
+        This method processes a multi-line string, where each line may represent a task name.
+        containing '##' or starting with a digit. The valid task names are collected and returned.
+        Args:
+            text (str): A string containing potential task titles (eg: Task 1: I will...).
+        Returns:
+            List[str]: A list of extracted task names that meet the specified criteria.
+        """
+        tasks_names = []
+        lines = text.strip().split('\n')
+        for line in lines:
+            if line is None:
+                continue
+            line = line.strip()
+            if len(line) == 0:
+                continue
+            if '##' in line or line[0].isdigit():
+                tasks_names.append(line)
+                continue
+        self.logger.info(f"Found {len(tasks_names)} tasks names.")
+        return tasks_names
+
+    def parse_agent_tasks(self, text: str) -> List[Tuple[str, str]]:
+        """
 ```
 
 This class is important because it defines how AgenticSeek Tutorial: Local-First Autonomous Agent Operations implements the patterns covered in this chapter.
@@ -250,11 +215,11 @@ This class is important because it defines how AgenticSeek Tutorial: Local-First
 
 ```mermaid
 flowchart TD
-    A[Speech]
-    B[for]
-    C[Provider]
-    D[Logger]
-    E[start_generation]
+    A[setup]
+    B[get_updated_sentence]
+    C[PlannerAgent]
+    D[memory_compression]
+    E[Logger]
     A --> B
     B --> C
     C --> D

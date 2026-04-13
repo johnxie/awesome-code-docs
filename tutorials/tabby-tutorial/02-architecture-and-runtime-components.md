@@ -78,51 +78,22 @@ Next: [Chapter 3: Model Serving and Completion Pipeline](03-model-serving-and-co
 
 ## Source Code Walkthrough
 
-### `website/docusaurus.config.js`
+Use the following upstream sources to verify architecture and runtime component details while reading this chapter:
 
-The `tailwind` function in [`website/docusaurus.config.js`](https://github.com/TabbyML/tabby/blob/HEAD/website/docusaurus.config.js) handles a key part of this chapter's functionality:
+- [`Cargo.toml`](https://github.com/TabbyML/tabby/blob/HEAD/Cargo.toml) — the Rust workspace manifest that lists all crates composing the Tabby runtime: `tabby`, `tabby-common`, `tabby-inference`, `tabby-index`, `tabby-crawler`, and the enterprise `ee/` components.
+- [`crates/tabby-inference/src/lib.rs`](https://github.com/TabbyML/tabby/blob/HEAD/crates/tabby-inference/src/lib.rs) — the inference abstraction layer that defines the `TextGenerationStream` trait implemented by each model backend (llama.cpp, GGML, HTTP API).
 
-```js
-
-  plugins: [
-    async function tailwind(context, options) {
-      return {
-        name: "docusaurus-tailwindcss",
-        configurePostCss(postcssOptions) {
-          // Appends TailwindCSS and AutoPrefixer.
-          postcssOptions.plugins.push(require("tailwindcss"));
-          postcssOptions.plugins.push(require("autoprefixer"));
-          return postcssOptions;
-        },
-      };
-    },
-    [
-      "posthog-docusaurus",
-      {
-        apiKey: "phc_aBzNGHzlOy2C8n1BBDtH7d4qQsIw9d8T0unVlnKfdxB",
-        appUrl: "https://app.posthog.com",
-        enableInDevelopment: false,
-      },
-    ],
-    [
-      '@docusaurus/plugin-client-redirects',
-      {
-        redirects: [
-          {
-            to: '/blog/2024/02/05/create-tabby-extension-with-language-server-protocol',
-            from: '/blog/running-tabby-as-a-language-server'
-          },
-          {
-            to: '/blog/2023/09/05/deploy-tabby-to-huggingface-space',
-            from: '/blog/deploy-tabby-to-huggingface-space.md',
-```
-
-This function is important because it defines how Tabby Tutorial: Self-Hosted AI Coding Assistant Architecture and Operations implements the patterns covered in this chapter.
-
+Suggested trace strategy:
+- read `Cargo.toml` to map the crate dependency graph and identify which crates handle serving, inference, and indexing
+- trace `tabby-inference/src/lib.rs` to understand the trait abstraction that decouples the API server from specific model backends
+- review `crates/tabby-common/` for shared data types (completion request/response, configuration structs) used across crates
 
 ## How These Components Connect
 
 ```mermaid
-flowchart TD
-    A[tailwind]
+flowchart LR
+    A[HTTP API request] --> B[tabby crate: request routing]
+    B --> C[tabby-inference: TextGenerationStream trait]
+    C --> D[Backend: llama.cpp or GGML or HTTP model]
+    D --> E[Completion tokens streamed back]
 ```

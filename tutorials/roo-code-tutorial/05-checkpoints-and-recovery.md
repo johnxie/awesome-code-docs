@@ -88,98 +88,23 @@ You now have a checkpoint-driven reliability model:
 
 Next: [Chapter 6: MCP and Tool Extensions](06-mcp-and-tool-extensions.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `scripts/find-missing-translations.js`
+Use the following upstream sources to verify checkpoint and recovery implementation details while reading this chapter:
 
-The `getValueAtPath` function in [`scripts/find-missing-translations.js`](https://github.com/RooCodeInc/Roo-Code/blob/HEAD/scripts/find-missing-translations.js) handles a key part of this chapter's functionality:
+- [`src/integrations/checkpoints/`](https://github.com/RooCodeInc/Roo-Code/blob/HEAD/src/integrations/checkpoints/) — contains the checkpoint manager that captures task state snapshots using shadow git commits, enabling diff comparison and rollback between task steps.
+- [`src/core/task/index.ts`](https://github.com/RooCodeInc/Roo-Code/blob/HEAD/src/core/task/index.ts) — integrates with the checkpoint system to record state before destructive operations and expose restore/compare actions to the user.
 
-```js
-
-// Get value at a dotted path in an object
-function getValueAtPath(obj, path) {
-	const parts = path.split(".")
-	let current = obj
-
-	for (const part of parts) {
-		if (current === undefined || current === null) {
-			return undefined
-		}
-		current = current[part]
-	}
-
-	return current
-}
-
-// Shared utility to safely parse JSON files with error handling
-async function parseJsonFile(filePath) {
-	try {
-		const content = await readFile(filePath, "utf8")
-		return JSON.parse(content)
-	} catch (error) {
-		if (error.code === "ENOENT") {
-			return null // File doesn't exist
-		}
-		throw new Error(`Error parsing JSON file '${filePath}': ${error.message}`)
-	}
-}
-
-// Validate that a JSON object has a flat structure (no nested objects)
-function validateFlatStructure(obj, filePath) {
-	for (const [key, value] of Object.entries(obj)) {
-```
-
-This function is important because it defines how Roo Code Tutorial: Run an AI Dev Team in Your Editor implements the patterns covered in this chapter.
-
-### `scripts/find-missing-translations.js`
-
-The `parseJsonFile` function in [`scripts/find-missing-translations.js`](https://github.com/RooCodeInc/Roo-Code/blob/HEAD/scripts/find-missing-translations.js) handles a key part of this chapter's functionality:
-
-```js
-
-// Shared utility to safely parse JSON files with error handling
-async function parseJsonFile(filePath) {
-	try {
-		const content = await readFile(filePath, "utf8")
-		return JSON.parse(content)
-	} catch (error) {
-		if (error.code === "ENOENT") {
-			return null // File doesn't exist
-		}
-		throw new Error(`Error parsing JSON file '${filePath}': ${error.message}`)
-	}
-}
-
-// Validate that a JSON object has a flat structure (no nested objects)
-function validateFlatStructure(obj, filePath) {
-	for (const [key, value] of Object.entries(obj)) {
-		if (typeof value === "object" && value !== null) {
-			console.error(`Error: ${filePath} should be a flat JSON structure. Found nested object at key '${key}'`)
-			process.exit(1)
-		}
-	}
-}
-
-// Function to check translations for a specific area
-async function checkAreaTranslations(area) {
-	const LOCALES_DIR = LOCALES_DIRS[area]
-
-	// Get all locale directories (or filter to the specified locale)
-	const dirContents = await readdir(LOCALES_DIR)
-	const allLocales = await Promise.all(
-		dirContents.map(async (item) => {
-```
-
-This function is important because it defines how Roo Code Tutorial: Run an AI Dev Team in Your Editor implements the patterns covered in this chapter.
-
+Suggested trace strategy:
+- trace checkpoint creation calls in `src/integrations/checkpoints/` to understand how shadow commits are structured
+- review `src/core/task/index.ts` for the task lifecycle points where checkpoints are triggered
+- check `src/shared/WebviewMessage.ts` for the message types that drive checkpoint UI interactions (restore, compare)
 
 ## How These Components Connect
 
 ```mermaid
-flowchart TD
-    A[getValueAtPath]
-    B[parseJsonFile]
-    A --> B
+flowchart LR
+    A[Task step begins] --> B[Checkpoint captured in checkpoints/]
+    B --> C[Files modified]
+    C --> D[User can compare or restore via task/index.ts]
 ```

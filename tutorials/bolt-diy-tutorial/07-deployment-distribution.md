@@ -116,186 +116,38 @@ You now have a deployment framework that aligns target choice with:
 
 Next: [Chapter 8: Production Operations](08-production-operations.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `app/utils/debugLogger.ts`
+### `Dockerfile`
 
-The `LogEntry` interface in [`app/utils/debugLogger.ts`](https://github.com/stackblitz-labs/bolt.diy/blob/HEAD/app/utils/debugLogger.ts) handles a key part of this chapter's functionality:
+The [`Dockerfile`](https://github.com/stackblitz-labs/bolt.diy/blob/HEAD/Dockerfile) defines the container build for self-hosted deployment. It captures the Node.js build step, copies the compiled output, and sets the runtime entrypoint. Reviewing this file reveals the assumed environment variables (provider API keys, port settings) that must be supplied via secret manager in production container deployments.
 
-```ts
-  systemInfo: SystemInfo;
-  appInfo: AppInfo;
-  logs: LogEntry[];
-  errors: ErrorEntry[];
-  networkRequests: NetworkEntry[];
-  performance: PerformanceEntry;
-  state: StateEntry;
-  userActions: UserActionEntry[];
-  terminalLogs: TerminalEntry[];
-}
+### `package.json` (build and deploy scripts)
 
-export interface SystemInfo {
-  platform: string;
-  userAgent: string;
-  screenResolution: string;
-  viewportSize: string;
-  isMobile: boolean;
-  timezone: string;
-  language: string;
-  cookiesEnabled: boolean;
-  localStorageEnabled: boolean;
-  sessionStorageEnabled: boolean;
-}
+The `scripts` section in [`package.json`](https://github.com/stackblitz-labs/bolt.diy/blob/HEAD/package.json) defines the build targets: `build`, `start`, and the Electron-related `electron:build` script. These scripts are the canonical entry point for CI/CD pipelines — knowing which script corresponds to which deployment target is essential for wiring up automated release pipelines.
 
-export interface AppInfo {
-  version: string;
-  buildTime: string;
-  currentModel: string;
-  currentProvider: string;
-  projectType: string;
-  workbenchView: string;
-  hasActivePreview: boolean;
-```
+The `build` output goes to a `build/` directory that is then served by the production Node server or packaged into the Electron app. For web hosting targets (Vercel, Netlify), the same `build/` directory is what the hosting provider deploys.
 
-This interface is important because it defines how bolt.diy Tutorial: Build and Operate an Open Source AI App Builder implements the patterns covered in this chapter.
+### `.env.example`
 
-### `app/utils/debugLogger.ts`
-
-The `ErrorEntry` interface in [`app/utils/debugLogger.ts`](https://github.com/stackblitz-labs/bolt.diy/blob/HEAD/app/utils/debugLogger.ts) handles a key part of this chapter's functionality:
-
-```ts
-  appInfo: AppInfo;
-  logs: LogEntry[];
-  errors: ErrorEntry[];
-  networkRequests: NetworkEntry[];
-  performance: PerformanceEntry;
-  state: StateEntry;
-  userActions: UserActionEntry[];
-  terminalLogs: TerminalEntry[];
-}
-
-export interface SystemInfo {
-  platform: string;
-  userAgent: string;
-  screenResolution: string;
-  viewportSize: string;
-  isMobile: boolean;
-  timezone: string;
-  language: string;
-  cookiesEnabled: boolean;
-  localStorageEnabled: boolean;
-  sessionStorageEnabled: boolean;
-}
-
-export interface AppInfo {
-  version: string;
-  buildTime: string;
-  currentModel: string;
-  currentProvider: string;
-  projectType: string;
-  workbenchView: string;
-  hasActivePreview: boolean;
-  unsavedFiles: number;
-```
-
-This interface is important because it defines how bolt.diy Tutorial: Build and Operate an Open Source AI App Builder implements the patterns covered in this chapter.
-
-### `app/utils/debugLogger.ts`
-
-The `NetworkEntry` interface in [`app/utils/debugLogger.ts`](https://github.com/stackblitz-labs/bolt.diy/blob/HEAD/app/utils/debugLogger.ts) handles a key part of this chapter's functionality:
-
-```ts
-  logs: LogEntry[];
-  errors: ErrorEntry[];
-  networkRequests: NetworkEntry[];
-  performance: PerformanceEntry;
-  state: StateEntry;
-  userActions: UserActionEntry[];
-  terminalLogs: TerminalEntry[];
-}
-
-export interface SystemInfo {
-  platform: string;
-  userAgent: string;
-  screenResolution: string;
-  viewportSize: string;
-  isMobile: boolean;
-  timezone: string;
-  language: string;
-  cookiesEnabled: boolean;
-  localStorageEnabled: boolean;
-  sessionStorageEnabled: boolean;
-}
-
-export interface AppInfo {
-  version: string;
-  buildTime: string;
-  currentModel: string;
-  currentProvider: string;
-  projectType: string;
-  workbenchView: string;
-  hasActivePreview: boolean;
-  unsavedFiles: number;
-  workbenchState?: {
-```
-
-This interface is important because it defines how bolt.diy Tutorial: Build and Operate an Open Source AI App Builder implements the patterns covered in this chapter.
-
-### `app/utils/debugLogger.ts`
-
-The `PerformanceEntry` interface in [`app/utils/debugLogger.ts`](https://github.com/stackblitz-labs/bolt.diy/blob/HEAD/app/utils/debugLogger.ts) handles a key part of this chapter's functionality:
-
-```ts
-  errors: ErrorEntry[];
-  networkRequests: NetworkEntry[];
-  performance: PerformanceEntry;
-  state: StateEntry;
-  userActions: UserActionEntry[];
-  terminalLogs: TerminalEntry[];
-}
-
-export interface SystemInfo {
-  platform: string;
-  userAgent: string;
-  screenResolution: string;
-  viewportSize: string;
-  isMobile: boolean;
-  timezone: string;
-  language: string;
-  cookiesEnabled: boolean;
-  localStorageEnabled: boolean;
-  sessionStorageEnabled: boolean;
-}
-
-export interface AppInfo {
-  version: string;
-  buildTime: string;
-  currentModel: string;
-  currentProvider: string;
-  projectType: string;
-  workbenchView: string;
-  hasActivePreview: boolean;
-  unsavedFiles: number;
-  workbenchState?: {
-    currentView: string;
-```
-
-This interface is important because it defines how bolt.diy Tutorial: Build and Operate an Open Source AI App Builder implements the patterns covered in this chapter.
-
+The [`.env.example`](https://github.com/stackblitz-labs/bolt.diy/blob/HEAD/.env.example) file enumerates every environment variable the application supports. For deployment, this is the authoritative checklist of secrets and configuration values that must be injected — API keys per provider, optional feature flags, and runtime tuning variables. Auditing this file against your secret manager before each deployment prevents missing-config outages.
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[LogEntry]
-    B[ErrorEntry]
-    C[NetworkEntry]
-    D[PerformanceEntry]
-    E[StateEntry]
+    A[Source code and assets]
+    B[npm run build produces build/ directory]
+    C{Deployment target}
+    D[Web host deploys build/]
+    E[Docker image built from Dockerfile]
+    F[Electron package wraps build/]
+    G[Secrets injected from .env.example checklist]
     A --> B
     B --> C
     C --> D
-    D --> E
+    C --> E
+    C --> F
+    G --> D
+    G --> E
 ```

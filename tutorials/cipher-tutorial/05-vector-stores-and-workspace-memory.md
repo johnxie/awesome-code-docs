@@ -33,148 +33,168 @@ You now know how to choose and operate Cipher storage backends for single-user a
 
 Next: [Chapter 6: MCP Integration Patterns](06-mcp-integration-patterns.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `src/core/vector_storage/factory.ts`
+### `src/tui/components/suggestions.tsx`
 
-The `isQdrantConfigAvailable` function in [`src/core/vector_storage/factory.ts`](https://github.com/campfirein/cipher/blob/HEAD/src/core/vector_storage/factory.ts) handles a key part of this chapter's functionality:
+The `SuggestionsProps` interface in [`src/tui/components/suggestions.tsx`](https://github.com/campfirein/cipher/blob/HEAD/src/tui/components/suggestions.tsx) handles a key part of this chapter's functionality:
 
-```ts
- * Check if Qdrant configuration is available in environment
- */
-export function isQdrantConfigAvailable(): boolean {
-	return !!(
-		process.env.VECTOR_STORE_URL ||
-		process.env.VECTOR_STORE_HOST ||
-		process.env.VECTOR_STORE_PORT
-	);
+```tsx
+const MAX_VISIBLE_ITEMS = 7
+
+interface SuggestionsProps {
+  input: string
+  onInsert?: (value: string) => void
+  onSelect?: (value: string) => void
 }
 
-```
+export const Suggestions: React.FC<SuggestionsProps> = ({input, onInsert, onSelect}) => {
+  const {
+    theme: {colors},
+  } = useTheme()
+  const {mode, setMode} = useMode()
+  const {
+    activeIndex,
+    clearSuggestions,
+    hasMatchedCommand,
+    isCommandAttempt,
+    nextSuggestion,
+    prevSuggestion,
+    selectSuggestion,
+    suggestions,
+  } = useSlashCompletion(input)
 
-This function is important because it defines how Cipher Tutorial: Shared Memory Layer for Coding Agents implements the patterns covered in this chapter.
+  // Track if user dismissed suggestions with Escape
+  const isDismissedRef = useRef(false)
+  const prevInputRef = useRef(input)
 
-### `src/core/vector_storage/factory.ts`
-
-The `VectorStoreFactory` interface in [`src/core/vector_storage/factory.ts`](https://github.com/campfirein/cipher/blob/HEAD/src/core/vector_storage/factory.ts) handles a key part of this chapter's functionality:
-
-```ts
- * Factory result containing both the manager and vector store
- */
-export interface VectorStoreFactory {
-	/** The vector store manager instance for lifecycle control */
-	manager: VectorStoreManager;
-	/** The connected vector store ready for use */
-	store: VectorStore;
-}
-
-/**
- * Dual collection factory result containing dual manager and stores
- */
-export interface DualCollectionVectorFactory {
-	/** The dual collection manager instance for lifecycle control */
-	manager: DualCollectionVectorManager;
-	/** The knowledge vector store ready for use */
-	knowledgeStore: VectorStore;
-	/** The reflection vector store ready for use (null if disabled) */
-	reflectionStore: VectorStore | null;
-}
-
-/**
- * Creates and connects vector storage backend
- *
- * This is the primary factory function for initializing the vector storage system.
- * It creates a VectorStoreManager, connects to the configured backend, and
- * returns both the manager and the connected vector store.
- *
- * @param config - Vector storage configuration
- * @returns Promise resolving to manager and connected vector store
- * @throws {VectorStoreConnectionError} If connection fails and no fallback is available
- *
+  // Reset dismissed state when input changes
+  useEffect(() => {
+    if (input !== prevInputRef.current) {
+      isDismissedRef.current = false
 ```
 
 This interface is important because it defines how Cipher Tutorial: Shared Memory Layer for Coding Agents implements the patterns covered in this chapter.
 
-### `src/core/vector_storage/factory.ts`
+### `src/oclif/commands/query.ts`
 
-The `DualCollectionVectorFactory` interface in [`src/core/vector_storage/factory.ts`](https://github.com/campfirein/cipher/blob/HEAD/src/core/vector_storage/factory.ts) handles a key part of this chapter's functionality:
+The `Query` class in [`src/oclif/commands/query.ts`](https://github.com/campfirein/cipher/blob/HEAD/src/oclif/commands/query.ts) handles a key part of this chapter's functionality:
 
 ```ts
- * Dual collection factory result containing dual manager and stores
- */
-export interface DualCollectionVectorFactory {
-	/** The dual collection manager instance for lifecycle control */
-	manager: DualCollectionVectorManager;
-	/** The knowledge vector store ready for use */
-	knowledgeStore: VectorStore;
-	/** The reflection vector store ready for use (null if disabled) */
-	reflectionStore: VectorStore | null;
+
+/** Parsed flags type */
+type QueryFlags = {
+  format?: 'json' | 'text'
 }
 
-/**
- * Creates and connects vector storage backend
- *
- * This is the primary factory function for initializing the vector storage system.
- * It creates a VectorStoreManager, connects to the configured backend, and
- * returns both the manager and the connected vector store.
- *
- * @param config - Vector storage configuration
- * @returns Promise resolving to manager and connected vector store
- * @throws {VectorStoreConnectionError} If connection fails and no fallback is available
- *
- * @example
- * ```typescript
- * // Basic usage with Qdrant
- * const { manager, store } = await createVectorStore({
- *   type: 'qdrant',
- *   host: 'localhost',
- *   port: 6333,
- *   collectionName: 'documents',
- *   dimension: 1536
- * });
+export default class Query extends Command {
+  public static args = {
+    query: Args.string({
+      description: 'Natural language question about your codebase or project knowledge',
+      required: true,
+    }),
+  }
+  public static description = `Query and retrieve information from the context tree
+
+Good:
+- "How is user authentication implemented?"
+- "What are the API rate limits and where are they enforced?"
+Bad:
+- "auth" or "authentication" (too vague, not a question)
+- "show me code" (not specific about what information is needed)`
+  public static examples = [
+    '# Ask questions about patterns, decisions, or implementation details',
+    '<%= config.bin %> <%= command.id %> What are the coding standards?',
+    '<%= config.bin %> <%= command.id %> How is authentication implemented?',
+    '',
+    '# JSON output (for automation)',
+    '<%= config.bin %> <%= command.id %> "How does auth work?" --format json',
+  ]
+  public static flags = {
+    format: Flags.string({
+      default: 'text',
+```
+
+This class is important because it defines how Cipher Tutorial: Shared Memory Layer for Coding Agents implements the patterns covered in this chapter.
+
+### `src/tui/components/markdown.tsx`
+
+The `MarkdownProps` interface in [`src/tui/components/markdown.tsx`](https://github.com/campfirein/cipher/blob/HEAD/src/tui/components/markdown.tsx) handles a key part of this chapter's functionality:
+
+```tsx
+import {useTheme} from '../hooks/index.js'
+
+interface MarkdownProps {
+  children: string
+}
+
+interface ListContext {
+  index: number
+  ordered: boolean
+}
+
+const renderPhrasingContent = (nodes: PhrasingContent[], theme: Theme): React.ReactNode => nodes.map((node, index) => {
+  switch (node.type) {
+    case 'break': {
+      return <Text key={index}>{'\n'}</Text>
+    }
+
+    case 'emphasis': {
+      return (
+        <Text italic key={index}>
+          {renderPhrasingContent((node as Emphasis).children, theme)}
+        </Text>
+      )
+    }
+
+    case 'inlineCode': {
+      return (
+        <Text backgroundColor={theme.colors.bg2} key={index}>
+          {(node as InlineCode).value}
+        </Text>
+      )
+    }
 ```
 
 This interface is important because it defines how Cipher Tutorial: Shared Memory Layer for Coding Agents implements the patterns covered in this chapter.
 
-### `src/core/vector_storage/factory.ts`
+### `src/tui/components/markdown.tsx`
 
-The `for` interface in [`src/core/vector_storage/factory.ts`](https://github.com/campfirein/cipher/blob/HEAD/src/core/vector_storage/factory.ts) handles a key part of this chapter's functionality:
+The `ListContext` interface in [`src/tui/components/markdown.tsx`](https://github.com/campfirein/cipher/blob/HEAD/src/tui/components/markdown.tsx) handles a key part of this chapter's functionality:
 
-```ts
- * Vector Storage Factory
- *
- * Factory functions for creating and initializing the vector storage system.
- * Provides a simplified API for common vector storage setup patterns.
- *
- * @module vector_storage/factory
- */
-
-import { VectorStoreManager } from './manager.js';
-import { DualCollectionVectorManager } from './dual-collection-manager.js';
-import type { VectorStoreConfig } from './types.js';
-import { VectorStore } from './backend/vector-store.js';
-import { createLogger } from '../logger/index.js';
-import { LOG_PREFIXES } from './constants.js';
-import { env } from '../env.js';
-import { getServiceCache, createServiceKey } from '../brain/memory/service-cache.js';
-
-/**
- * Factory result containing both the manager and vector store
- */
-export interface VectorStoreFactory {
-	/** The vector store manager instance for lifecycle control */
-	manager: VectorStoreManager;
-	/** The connected vector store ready for use */
-	store: VectorStore;
+```tsx
 }
 
-/**
- * Dual collection factory result containing dual manager and stores
- */
-export interface DualCollectionVectorFactory {
-	/** The dual collection manager instance for lifecycle control */
+interface ListContext {
+  index: number
+  ordered: boolean
+}
+
+const renderPhrasingContent = (nodes: PhrasingContent[], theme: Theme): React.ReactNode => nodes.map((node, index) => {
+  switch (node.type) {
+    case 'break': {
+      return <Text key={index}>{'\n'}</Text>
+    }
+
+    case 'emphasis': {
+      return (
+        <Text italic key={index}>
+          {renderPhrasingContent((node as Emphasis).children, theme)}
+        </Text>
+      )
+    }
+
+    case 'inlineCode': {
+      return (
+        <Text backgroundColor={theme.colors.bg2} key={index}>
+          {(node as InlineCode).value}
+        </Text>
+      )
+    }
+
+    case 'link': {
+      return (
+        <Text color={theme.colors.info} key={index} underline>
 ```
 
 This interface is important because it defines how Cipher Tutorial: Shared Memory Layer for Coding Agents implements the patterns covered in this chapter.
@@ -184,11 +204,13 @@ This interface is important because it defines how Cipher Tutorial: Shared Memor
 
 ```mermaid
 flowchart TD
-    A[isQdrantConfigAvailable]
-    B[VectorStoreFactory]
-    C[DualCollectionVectorFactory]
-    D[for]
+    A[SuggestionsProps]
+    B[Query]
+    C[MarkdownProps]
+    D[ListContext]
+    E[FileContentReader]
     A --> B
     B --> C
     C --> D
+    D --> E
 ```

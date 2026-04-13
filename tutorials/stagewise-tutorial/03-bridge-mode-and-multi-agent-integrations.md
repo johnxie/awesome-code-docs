@@ -51,184 +51,24 @@ You now know how to route Stagewise browser context into external coding-agent e
 
 Next: [Chapter 4: Configuration and Plugin Loading](04-configuration-and-plugin-loading.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `scripts/release/generate-changelog.ts`
+Use the following upstream sources to verify bridge mode and multi-agent integration details while reading this chapter:
 
-The `escapeRegex` function in [`scripts/release/generate-changelog.ts`](https://github.com/stagewise-io/stagewise/blob/HEAD/scripts/release/generate-changelog.ts) handles a key part of this chapter's functionality:
+- [`packages/agent-interface/src/`](https://github.com/stagewise-io/stagewise/blob/HEAD/packages/agent-interface/src/) — defines the agent interface contract used by all bridge integrations, specifying the message format and handshake protocol for connecting external coding agents.
+- [`apps/stagewise/src/agents/`](https://github.com/stagewise-io/stagewise/blob/HEAD/apps/stagewise/src/) — contains the bridge implementations for Cursor, Copilot, and other supported agents, each wrapping the agent interface contract to route toolbar prompts into the agent's input.
 
-```ts
-  // Regex to match prerelease versions of the same base
-  const prereleasePattern = new RegExp(
-    `## ${escapeRegex(baseVersion)}-(alpha|beta)\\.\\d+[^#]*`,
-    'g',
-  );
-
-  // Remove prerelease entries from existing changelog
-  const cleanedChangelog = existing.replace(prereleasePattern, '');
-
-  // Generate consolidated release entry
-  const releaseEntry = generateChangelogMarkdown(
-    releaseVersion,
-    commits,
-    new Date(),
-    customNotes,
-  );
-
-  // Reconstruct changelog
-  const hasHeader = cleanedChangelog.startsWith('# Changelog');
-  let newContent: string;
-
-  if (hasHeader) {
-    const headerEnd = cleanedChangelog.indexOf('\n\n');
-    if (headerEnd !== -1) {
-      newContent =
-        cleanedChangelog.slice(0, headerEnd + 2) +
-        releaseEntry +
-        cleanedChangelog.slice(headerEnd + 2);
-    } else {
-      newContent = `${cleanedChangelog}\n\n${releaseEntry}`;
-    }
-  } else {
-```
-
-This function is important because it defines how Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context implements the patterns covered in this chapter.
-
-### `scripts/release/generate-changelog.ts`
-
-The `updateChangelog` function in [`scripts/release/generate-changelog.ts`](https://github.com/stagewise-io/stagewise/blob/HEAD/scripts/release/generate-changelog.ts) handles a key part of this chapter's functionality:
-
-```ts
- * Update changelog for a new release
- */
-export async function updateChangelog(
-  packageConfig: PackageConfig,
-  newVersion: string,
-  targetChannel: ReleaseChannel,
-  commits: ConventionalCommit[],
-  customNotes: string | null = null,
-): Promise<string> {
-  // For stable releases, consolidate any prerelease entries
-  if (targetChannel === 'release') {
-    return await consolidatePrereleaseEntries(
-      packageConfig,
-      newVersion,
-      commits,
-      customNotes,
-    );
-  }
-
-  // For prerelease, just prepend the new entry
-  const entry = generateChangelogMarkdown(
-    newVersion,
-    commits,
-    new Date(),
-    customNotes,
-  );
-  await prependToChangelog(packageConfig, entry);
-  return entry;
-}
-
-```
-
-This function is important because it defines how Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context implements the patterns covered in this chapter.
-
-### `scripts/release/generate-changelog.ts`
-
-The `GroupedCommits` interface in [`scripts/release/generate-changelog.ts`](https://github.com/stagewise-io/stagewise/blob/HEAD/scripts/release/generate-changelog.ts) handles a key part of this chapter's functionality:
-
-```ts
- * Group commits by type for changelog sections
- */
-interface GroupedCommits {
-  features: ConventionalCommit[];
-  fixes: ConventionalCommit[];
-  breaking: ConventionalCommit[];
-  other: ConventionalCommit[];
-}
-
-function groupCommitsByType(commits: ConventionalCommit[]): GroupedCommits {
-  return {
-    features: commits.filter((c) => c.type === 'feat'),
-    fixes: commits.filter((c) => c.type === 'fix'),
-    breaking: commits.filter((c) => c.breaking),
-    other: commits.filter(
-      (c) => !['feat', 'fix'].includes(c.type) && !c.breaking,
-    ),
-  };
-}
-
-/**
- * Generate markdown for a single commit
- */
-function formatCommit(commit: ConventionalCommit): string {
-  const breaking = commit.breaking ? '**BREAKING** ' : '';
-  return `* ${breaking}${commit.subject} (${commit.shortHash})`;
-}
-
-/**
- * Detect if version is a channel promotion (e.g., alpha→beta or prerelease→release)
- */
-function detectPromotion(version: string): {
-```
-
-This interface is important because it defines how Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context implements the patterns covered in this chapter.
-
-### `scripts/release/generate-changelog.ts`
-
-The `changelog` interface in [`scripts/release/generate-changelog.ts`](https://github.com/stagewise-io/stagewise/blob/HEAD/scripts/release/generate-changelog.ts) handles a key part of this chapter's functionality:
-
-```ts
-
-/**
- * Group commits by type for changelog sections
- */
-interface GroupedCommits {
-  features: ConventionalCommit[];
-  fixes: ConventionalCommit[];
-  breaking: ConventionalCommit[];
-  other: ConventionalCommit[];
-}
-
-function groupCommitsByType(commits: ConventionalCommit[]): GroupedCommits {
-  return {
-    features: commits.filter((c) => c.type === 'feat'),
-    fixes: commits.filter((c) => c.type === 'fix'),
-    breaking: commits.filter((c) => c.breaking),
-    other: commits.filter(
-      (c) => !['feat', 'fix'].includes(c.type) && !c.breaking,
-    ),
-  };
-}
-
-/**
- * Generate markdown for a single commit
- */
-function formatCommit(commit: ConventionalCommit): string {
-  const breaking = commit.breaking ? '**BREAKING** ' : '';
-  return `* ${breaking}${commit.subject} (${commit.shortHash})`;
-}
-
-/**
- * Detect if version is a channel promotion (e.g., alpha→beta or prerelease→release)
-```
-
-This interface is important because it defines how Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context implements the patterns covered in this chapter.
-
+Suggested trace strategy:
+- review the agent interface package to understand the `AgentMessage` type and the connection lifecycle
+- compare bridge implementations across different agents to see how Cursor vs. VS Code Copilot bridge differs
+- trace how the proxy routes a user prompt from the toolbar through the correct bridge to the target agent
 
 ## How These Components Connect
 
 ```mermaid
-flowchart TD
-    A[escapeRegex]
-    B[updateChangelog]
-    C[GroupedCommits]
-    D[changelog]
-    E[parseVersion]
-    A --> B
-    B --> C
-    C --> D
-    D --> E
+flowchart LR
+    A[Toolbar prompt] --> B[Proxy bridge router]
+    B --> C[Agent interface contract]
+    C --> D[Cursor or Copilot bridge]
+    D --> E[Agent receives context and prompt]
 ```

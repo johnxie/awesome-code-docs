@@ -466,9 +466,33 @@ task-master rotate-keys \
   --backup-keys 2
 ```
 
+## Multi-Model Integration Architecture
+
+```mermaid
+flowchart TD
+    A[Task with complexity and type metadata]
+    B[Task Master evaluates task profile]
+    C{Task class}
+    D[Simple tasks: fast cheaper model]
+    E[Complex analysis: high-reasoning model]
+    F[Code generation: code-specialized model]
+    G[Research: research-capable model]
+    H[API call to selected provider]
+    A --> B
+    B --> C
+    C --> D
+    C --> E
+    C --> F
+    C --> G
+    D --> H
+    E --> H
+    F --> H
+    G --> H
+```
+
 ## What We've Accomplished
 
-Congratulations! 🎉 You've mastered multi-model integration in Task Master:
+You've mastered multi-model integration in Task Master:
 
 1. **Model Selection Strategy** - Choosing the right model for each task type
 2. **Configuration Management** - Setting up multiple API keys and preferences

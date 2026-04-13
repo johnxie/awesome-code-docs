@@ -876,20 +876,19 @@ Under the hood, `Chapter 6: Customization and Styling` usually follows a repeata
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
-## Source Walkthrough
+## Source Code Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+### `forge.config.ts`
 
-- [Dyad README](https://github.com/dyad-sh/dyad/blob/main/README.md)
-  Why it matters: authoritative reference on `Dyad README` (github.com).
-- [Dyad Releases](https://github.com/dyad-sh/dyad/releases)
-  Why it matters: authoritative reference on `Dyad Releases` (github.com).
-- [Dyad Repository](https://github.com/dyad-sh/dyad)
-  Why it matters: authoritative reference on `Dyad Repository` (github.com).
+The `VitePlugin` and `FusesPlugin` configuration in [`forge.config.ts`](https://github.com/dyad-sh/dyad/blob/main/forge.config.ts) controls how the Electron app is packaged and which native capabilities are enabled. The `FuseV1Options` security fuses lock down the app for production distribution:
 
-Suggested trace strategy:
-- search upstream code for `dark` and `gray` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+```ts
+import { VitePlugin } from "@electron-forge/plugin-vite";
+import { FusesPlugin } from "@electron-forge/plugin-fuses";
+import { FuseV1Options, FuseVersion } from "@electron/fuses";
+```
+
+Dyad's UI customization system uses Tailwind CSS with the `components.json` shadcn/ui configuration. Theme tokens (colors, radii, fonts) are configured here and applied globally — changes propagate to all generated app UI components because Dyad scaffolds them with the same Tailwind config.
 
 ## Chapter Connections
 

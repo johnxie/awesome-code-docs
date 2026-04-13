@@ -1035,6 +1035,19 @@ Under the hood, `Chapter 6: Advanced Reasoning - Complex Decision Making and Pro
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
+## Reasoning Flow
+
+```mermaid
+flowchart LR
+    A[Complex Task] --> B[Decompose]
+    B --> C[Chain of Thought]
+    C --> D[Tool Use]
+    D --> E[Verify Step]
+    E --> F{Complete?}
+    F -->|No| C
+    F -->|Yes| G[Synthesize Answer]
+```
+
 ## Source Walkthrough
 
 Use the following upstream sources to verify implementation details while reading this chapter:

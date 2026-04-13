@@ -1193,6 +1193,20 @@ Under the hood, `Chapter 4: Advanced Chat Features & Multi-Modal Conversations` 
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
+## Advanced Chat Feature Flow
+
+```mermaid
+flowchart TD
+    A[User Message] --> B{Feature Router}
+    B --> C[Image Upload / Vision]
+    B --> D[Tool / Function Calling]
+    B --> E[Multi-Model Comparison]
+    B --> F[Voice Input]
+    C --> G[Model with Vision Support]
+    D --> H[External Tool Execution]
+    E --> I[Side-by-Side Responses]
+```
+
 ## Source Walkthrough
 
 Use the following upstream sources to verify implementation details while reading this chapter:

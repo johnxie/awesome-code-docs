@@ -15,6 +15,17 @@ Welcome to **Chapter 8: Production Deployment & Scaling**. In this part of **Mem
 
 ## Production Architecture
 
+```mermaid
+flowchart TD
+    A[mem0 API server] --> B[Auth middleware]
+    B --> C[Rate limiter]
+    C --> D[Memory service]
+    D --> E[(Vector DB cluster)]
+    D --> F[(Relational DB)]
+    G[Monitoring] --> D
+    H[Health checks] --> A
+```
+
 Recommended production setup:
 
 ```

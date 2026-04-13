@@ -12,6 +12,21 @@ Welcome to **Chapter 7: Production Deployment**. In this part of **LlamaIndex Tu
 
 > Deploy LlamaIndex applications at scale with enterprise-grade reliability and performance.
 
+## Production Deployment Architecture
+
+```mermaid
+flowchart TD
+    APP[LlamaIndex Application] --> DOCKER[Docker Container]
+    DOCKER --> ORCK[Kubernetes / ECS]
+    ORCK --> LB[Load Balancer]
+    LB --> INST1[Instance 1]
+    LB --> INST2[Instance 2]
+    INST1 --> STORE[Shared Vector Store\nPinecone / Qdrant]
+    INST2 --> STORE
+    INST1 --> CACHE[Redis Cache\nembeddings + responses]
+    INST2 --> CACHE
+```
+
 ## 🎯 Overview
 
 This chapter covers production deployment strategies for LlamaIndex applications, including containerization, orchestration, scaling, and operational best practices for running RAG systems in production environments.
@@ -1394,12 +1409,22 @@ When debugging, walk this sequence in order and confirm each stage has explicit 
 
 Use the following upstream sources to verify implementation details while reading this chapter:
 
-- [View Repo](https://github.com/run-llama/llama_index)
-  Why it matters: authoritative reference on `View Repo` (github.com).
+- [`llama_index/core/callbacks/base.py`](https://github.com/run-llama/llama_index/blob/main/llama-index-core/llama_index/core/callbacks/base.py)
+  `CallbackManager` and `CBEventType` enum. Callbacks fire on events like `RETRIEVE`, `LLM`, `EMBEDDING`, `CHUNKING`, enabling latency tracing and token counting in production. The primary hook for integrating with Langfuse, Arize, or custom observability backends.
+
+- [`llama_index/core/indices/vector_store/base.py`](https://github.com/run-llama/llama_index/blob/main/llama-index-core/llama_index/core/indices/vector_store/base.py)
+  `VectorStoreIndex.as_query_engine()` and `as_retriever()` factory methods with their full parameter sets. Production deployments call these with explicit `similarity_top_k`, `streaming=True`, and metadata filter arguments.
+
+- [`llama_index/core/llms/base.py`](https://github.com/run-llama/llama_index/blob/main/llama-index-core/llama_index/core/llms/base.py)
+  `BaseLLM` with `max_retries`, `timeout`, and `callback_manager` parameters. Production deployments set these explicitly for resilience and observability rather than relying on defaults.
+
+- [`llama_index/core/query_engine/retriever_query_engine.py`](https://github.com/run-llama/llama_index/blob/main/llama-index-core/llama_index/core/query_engine/retriever_query_engine.py)
+  `RetrieverQueryEngine.aquery()` for async production serving. Enables concurrent request handling when deployed behind FastAPI or similar async frameworks.
 
 Suggested trace strategy:
-- search upstream code for `self` and `query` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+- Instrument a production pipeline by passing `CallbackManager([LlamaDebugHandler()])` to `Settings` and reviewing event timings per query
+- Compare sync `query()` vs async `aquery()` throughput to determine when async is required for production latency targets
+- Review `VectorStoreIndex.as_query_engine(streaming=True)` to understand how streaming token responses work end-to-end for real-time UIs
 
 ## Chapter Connections
 

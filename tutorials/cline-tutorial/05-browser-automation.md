@@ -116,184 +116,41 @@ You now have a browser-grounded verification workflow that:
 
 Next: [Chapter 6: MCP and Custom Tools](06-mcp-and-custom-tools.md)
 
-## Depth Expansion Playbook
 
 ## Source Code Walkthrough
 
-### `src/config.ts`
+### `src/services/browser/BrowserSession.ts`
 
-The `ClineConfigurationError` class in [`src/config.ts`](https://github.com/cline/cline/blob/HEAD/src/config.ts) handles a key part of this chapter's functionality:
+The `BrowserSession` class in [`src/services/browser/BrowserSession.ts`](https://github.com/cline/cline/blob/HEAD/src/services/browser/BrowserSession.ts) manages the Puppeteer browser instance that Cline uses for browser automation. It handles launching a headless (or visible) Chromium instance, navigating to URLs, taking screenshots, and extracting page content.
 
-```ts
- * This error prevents Cline from starting to avoid misconfiguration in enterprise environments.
- */
-export class ClineConfigurationError extends Error {
-	constructor(message: string) {
-		super(message)
-		this.name = "ClineConfigurationError"
-	}
-}
+This is the core implementation behind Cline's `browser_action` tool. Each browser action (launch, click, type, screenshot, close) maps to a method in this class. When you ask Cline to "open the app in a browser and verify the login page looks correct," this class executes those steps.
 
-class ClineEndpoint {
-	private static _instance: ClineEndpoint | null = null
-	private static _initialized = false
-	private static _extensionFsPath: string
+### `src/core/Cline.ts` (browser_action handler)
 
-	// On-premise config loaded from file (null if not on-premise)
-	private onPremiseConfig: EndpointsFileSchema | null = null
-	private environment: Environment = Environment.production
-	// Track if config came from bundled file (enterprise distribution)
-	private isBundled: boolean = false
+The `browser_action` tool handler in [`src/core/Cline.ts`](https://github.com/cline/cline/blob/HEAD/src/core/Cline.ts) is the agent-side integration point for browser actions. It receives the structured action payload from the model, validates the action type, delegates to `BrowserSession`, and returns the screenshot and console output back to the model's context.
 
-	private constructor() {
-		// Set environment at module load. Use override if provided.
-		const _env = process?.env?.CLINE_ENVIRONMENT_OVERRIDE || process?.env?.CLINE_ENVIRONMENT
-		if (_env && Object.values(Environment).includes(_env as Environment)) {
-			this.environment = _env as Environment
-		}
-	}
+Understanding this handler shows the full loop: model proposes action → Cline executes via BrowserSession → screenshot returned as evidence → model decides next step.
 
-	/**
-	 * Initializes the ClineEndpoint singleton.
-	 * Must be called before any other methods.
-	 * Reads the endpoints.json file if it exists and validates its schema.
-```
+### `src/services/browser/UrlContentFetcher.ts`
 
-This class is important because it defines how Cline Tutorial: Agentic Coding with Human Control implements the patterns covered in this chapter.
-
-### `src/config.ts`
-
-The `ClineEndpoint` class in [`src/config.ts`](https://github.com/cline/cline/blob/HEAD/src/config.ts) handles a key part of this chapter's functionality:
-
-```ts
-}
-
-class ClineEndpoint {
-	private static _instance: ClineEndpoint | null = null
-	private static _initialized = false
-	private static _extensionFsPath: string
-
-	// On-premise config loaded from file (null if not on-premise)
-	private onPremiseConfig: EndpointsFileSchema | null = null
-	private environment: Environment = Environment.production
-	// Track if config came from bundled file (enterprise distribution)
-	private isBundled: boolean = false
-
-	private constructor() {
-		// Set environment at module load. Use override if provided.
-		const _env = process?.env?.CLINE_ENVIRONMENT_OVERRIDE || process?.env?.CLINE_ENVIRONMENT
-		if (_env && Object.values(Environment).includes(_env as Environment)) {
-			this.environment = _env as Environment
-		}
-	}
-
-	/**
-	 * Initializes the ClineEndpoint singleton.
-	 * Must be called before any other methods.
-	 * Reads the endpoints.json file if it exists and validates its schema.
-	 *
-	 * @param extensionFsPath Path to the extension installation directory (for checking bundled endpoints.json)
-	 * @throws ClineConfigurationError if the endpoints.json file exists but is invalid
-	 */
-	public static async initialize(extensionFsPath: string): Promise<void> {
-		if (ClineEndpoint._initialized) {
-			return
-```
-
-This class is important because it defines how Cline Tutorial: Agentic Coding with Human Control implements the patterns covered in this chapter.
-
-### `src/config.ts`
-
-The `for` class in [`src/config.ts`](https://github.com/cline/cline/blob/HEAD/src/config.ts) handles a key part of this chapter's functionality:
-
-```ts
-
-/**
- * Schema for the endpoints.json configuration file used in on-premise deployments.
- * All fields are required and must be valid URLs.
- */
-interface EndpointsFileSchema {
-	appBaseUrl: string
-	apiBaseUrl: string
-	mcpBaseUrl: string
-}
-
-/**
- * Error thrown when the Cline configuration file exists but is invalid.
- * This error prevents Cline from starting to avoid misconfiguration in enterprise environments.
- */
-export class ClineConfigurationError extends Error {
-	constructor(message: string) {
-		super(message)
-		this.name = "ClineConfigurationError"
-	}
-}
-
-class ClineEndpoint {
-	private static _instance: ClineEndpoint | null = null
-	private static _initialized = false
-	private static _extensionFsPath: string
-
-	// On-premise config loaded from file (null if not on-premise)
-	private onPremiseConfig: EndpointsFileSchema | null = null
-	private environment: Environment = Environment.production
-	// Track if config came from bundled file (enterprise distribution)
-	private isBundled: boolean = false
-```
-
-This class is important because it defines how Cline Tutorial: Agentic Coding with Human Control implements the patterns covered in this chapter.
-
-### `src/config.ts`
-
-The `EndpointsFileSchema` interface in [`src/config.ts`](https://github.com/cline/cline/blob/HEAD/src/config.ts) handles a key part of this chapter's functionality:
-
-```ts
- * All fields are required and must be valid URLs.
- */
-interface EndpointsFileSchema {
-	appBaseUrl: string
-	apiBaseUrl: string
-	mcpBaseUrl: string
-}
-
-/**
- * Error thrown when the Cline configuration file exists but is invalid.
- * This error prevents Cline from starting to avoid misconfiguration in enterprise environments.
- */
-export class ClineConfigurationError extends Error {
-	constructor(message: string) {
-		super(message)
-		this.name = "ClineConfigurationError"
-	}
-}
-
-class ClineEndpoint {
-	private static _instance: ClineEndpoint | null = null
-	private static _initialized = false
-	private static _extensionFsPath: string
-
-	// On-premise config loaded from file (null if not on-premise)
-	private onPremiseConfig: EndpointsFileSchema | null = null
-	private environment: Environment = Environment.production
-	// Track if config came from bundled file (enterprise distribution)
-	private isBundled: boolean = false
-
-	private constructor() {
-		// Set environment at module load. Use override if provided.
-```
-
-This interface is important because it defines how Cline Tutorial: Agentic Coding with Human Control implements the patterns covered in this chapter.
-
+The `UrlContentFetcher` in [`src/services/browser/UrlContentFetcher.ts`](https://github.com/cline/cline/blob/HEAD/src/services/browser/UrlContentFetcher.ts) handles the read-only URL fetching use case: loading a page and extracting its text content for analysis without the full interactive browser session. This is used when Cline reads documentation or checks an API response page.
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[ClineConfigurationError]
-    B[ClineEndpoint]
-    C[for]
-    D[EndpointsFileSchema]
+    A[Agent proposes browser_action tool call]
+    B[Cline.ts browser_action handler validates action]
+    C[BrowserSession executes action via Puppeteer]
+    D[Screenshot taken of resulting page state]
+    E[Screenshot and console output returned to model]
+    F[Model analyzes evidence and proposes next action]
+    G[Session closed when task complete]
     A --> B
     B --> C
     C --> D
+    D --> E
+    E --> F
+    F --> B
+    F --> G
 ```

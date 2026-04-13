@@ -24,6 +24,21 @@ By the end of this chapter, you'll understand:
 
 ## ⚡ Performance Optimization
 
+```mermaid
+flowchart TD
+    A[Large outline document] --> B[Parser reads line range]
+    B --> C{Document size}
+    C -->|small| D[Full tree parse]
+    C -->|large| E[Incremental parse affected subtree]
+    D --> F[Tree operations]
+    E --> F
+    F --> G[Apply CodeMirror transaction]
+    G --> H[Drag-and-drop on tree nodes]
+    G --> I[Fold/unfold subtree]
+    G --> J[Virtualized scroll for large outlines]
+```
+
+
 ### **Efficient Rendering for Large Documents**
 
 ```typescript
@@ -889,6 +904,16 @@ Under the hood, `Chapter 4: Advanced Features` usually follows a repeatable cont
 6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
+
+## Source Code Walkthrough
+
+### `src/features/DragAndDrop.ts`
+
+The [`src/features/DragAndDrop.ts`](https://github.com/vslinko/obsidian-outliner/blob/HEAD/src/features/DragAndDrop.ts) file implements drag-and-drop list reordering. Its `getEditorViewFromHTMLElement` helper resolves the CodeMirror `EditorView` from the DOM event target, enabling the plugin to map mouse events to specific list items for drag-based tree manipulation.
+
+### `src/features/FoldBullet.ts`
+
+The fold/unfold feature in [`src/features/`](https://github.com/vslinko/obsidian-outliner/tree/HEAD/src/features) uses CodeMirror 6 folding decorations to hide subtrees. The fold state is tracked per-node and persists across editor reloads through Obsidian's workspace state API — the mechanism for the fold persistence behavior described in this chapter.
 
 ## Source Walkthrough
 

@@ -50,132 +50,7 @@ You now have a protocol-contract baseline that reduces cross-client/server seria
 
 Next: [Chapter 4: Transport Model: stdio, Streamable HTTP, and Sessions](04-transport-model-stdio-streamable-http-and-sessions.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
-
-### `schema/2025-06-18/schema.ts`
-
-The `Prompt` interface in [`schema/2025-06-18/schema.ts`](https://github.com/modelcontextprotocol/modelcontextprotocol/blob/HEAD/schema/2025-06-18/schema.ts) handles a key part of this chapter's functionality:
-
-```ts
-}
-
-/* Prompts */
-/**
- * Sent from the client to request a list of prompts and prompt templates the server has.
- *
- * @category `prompts/list`
- */
-export interface ListPromptsRequest extends PaginatedRequest {
-  method: "prompts/list";
-}
-
-/**
- * The server's response to a prompts/list request from the client.
- *
- * @category `prompts/list`
- */
-export interface ListPromptsResult extends PaginatedResult {
-  prompts: Prompt[];
-}
-
-/**
- * Used by the client to get a prompt provided by the server.
- *
- * @category `prompts/get`
- */
-export interface GetPromptRequest extends Request {
-  method: "prompts/get";
-  params: {
-    /**
-     * The name of the prompt or prompt template.
-     */
-```
-
-This interface is important because it defines how MCP Specification Tutorial: Designing Production-Grade MCP Clients and Servers From the Source of Truth implements the patterns covered in this chapter.
-
-### `schema/2025-06-18/schema.ts`
-
-The `PromptArgument` interface in [`schema/2025-06-18/schema.ts`](https://github.com/modelcontextprotocol/modelcontextprotocol/blob/HEAD/schema/2025-06-18/schema.ts) handles a key part of this chapter's functionality:
-
-```ts
-   * A list of arguments to use for templating the prompt.
-   */
-  arguments?: PromptArgument[];
-
-  /**
-   * See [General fields: `_meta`](/specification/2025-06-18/basic/index#meta) for notes on `_meta` usage.
-   */
-  _meta?: { [key: string]: unknown };
-}
-
-/**
- * Describes an argument that a prompt can accept.
- *
- * @category `prompts/list`
- */
-export interface PromptArgument extends BaseMetadata {
-  /**
-   * A human-readable description of the argument.
-   */
-  description?: string;
-  /**
-   * Whether this argument must be provided.
-   */
-  required?: boolean;
-}
-
-/**
- * The sender or recipient of messages and data in a conversation.
- *
- * @category Common Types
- */
-export type Role = "user" | "assistant";
-```
-
-This interface is important because it defines how MCP Specification Tutorial: Designing Production-Grade MCP Clients and Servers From the Source of Truth implements the patterns covered in this chapter.
-
-### `schema/2025-06-18/schema.ts`
-
-The `PromptMessage` interface in [`schema/2025-06-18/schema.ts`](https://github.com/modelcontextprotocol/modelcontextprotocol/blob/HEAD/schema/2025-06-18/schema.ts) handles a key part of this chapter's functionality:
-
-```ts
-   */
-  description?: string;
-  messages: PromptMessage[];
-}
-
-/**
- * A prompt or prompt template that the server offers.
- *
- * @category `prompts/list`
- */
-export interface Prompt extends BaseMetadata {
-  /**
-   * An optional description of what this prompt provides
-   */
-  description?: string;
-  /**
-   * A list of arguments to use for templating the prompt.
-   */
-  arguments?: PromptArgument[];
-
-  /**
-   * See [General fields: `_meta`](/specification/2025-06-18/basic/index#meta) for notes on `_meta` usage.
-   */
-  _meta?: { [key: string]: unknown };
-}
-
-/**
- * Describes an argument that a prompt can accept.
- *
- * @category `prompts/list`
- */
-export interface PromptArgument extends BaseMetadata {
-```
-
-This interface is important because it defines how MCP Specification Tutorial: Designing Production-Grade MCP Clients and Servers From the Source of Truth implements the patterns covered in this chapter.
 
 ### `schema/2025-06-18/schema.ts`
 
@@ -218,16 +93,139 @@ export interface EmbeddedResource {
 
 This interface is important because it defines how MCP Specification Tutorial: Designing Production-Grade MCP Clients and Servers From the Source of Truth implements the patterns covered in this chapter.
 
+### `schema/2025-06-18/schema.ts`
+
+The `EmbeddedResource` interface in [`schema/2025-06-18/schema.ts`](https://github.com/modelcontextprotocol/modelcontextprotocol/blob/HEAD/schema/2025-06-18/schema.ts) handles a key part of this chapter's functionality:
+
+```ts
+ * @category Content
+ */
+export interface EmbeddedResource {
+  type: "resource";
+  resource: TextResourceContents | BlobResourceContents;
+
+  /**
+   * Optional annotations for the client.
+   */
+  annotations?: Annotations;
+
+  /**
+   * See [General fields: `_meta`](/specification/2025-06-18/basic/index#meta) for notes on `_meta` usage.
+   */
+  _meta?: { [key: string]: unknown };
+}
+/**
+ * An optional notification from the server to the client, informing it that the list of prompts it offers has changed. This may be issued by servers without any previous subscription from the client.
+ *
+ * @category `notifications/prompts/list_changed`
+ */
+export interface PromptListChangedNotification extends Notification {
+  method: "notifications/prompts/list_changed";
+}
+
+/* Tools */
+/**
+ * Sent from the client to request a list of tools the server has.
+ *
+ * @category `tools/list`
+ */
+export interface ListToolsRequest extends PaginatedRequest {
+```
+
+This interface is important because it defines how MCP Specification Tutorial: Designing Production-Grade MCP Clients and Servers From the Source of Truth implements the patterns covered in this chapter.
+
+### `schema/2025-06-18/schema.ts`
+
+The `PromptListChangedNotification` interface in [`schema/2025-06-18/schema.ts`](https://github.com/modelcontextprotocol/modelcontextprotocol/blob/HEAD/schema/2025-06-18/schema.ts) handles a key part of this chapter's functionality:
+
+```ts
+ * @category `notifications/prompts/list_changed`
+ */
+export interface PromptListChangedNotification extends Notification {
+  method: "notifications/prompts/list_changed";
+}
+
+/* Tools */
+/**
+ * Sent from the client to request a list of tools the server has.
+ *
+ * @category `tools/list`
+ */
+export interface ListToolsRequest extends PaginatedRequest {
+  method: "tools/list";
+}
+
+/**
+ * The server's response to a tools/list request from the client.
+ *
+ * @category `tools/list`
+ */
+export interface ListToolsResult extends PaginatedResult {
+  tools: Tool[];
+}
+
+/**
+ * The server's response to a tool call.
+ *
+ * @category `tools/call`
+ */
+export interface CallToolResult extends Result {
+  /**
+```
+
+This interface is important because it defines how MCP Specification Tutorial: Designing Production-Grade MCP Clients and Servers From the Source of Truth implements the patterns covered in this chapter.
+
+### `schema/2025-06-18/schema.ts`
+
+The `ListToolsRequest` interface in [`schema/2025-06-18/schema.ts`](https://github.com/modelcontextprotocol/modelcontextprotocol/blob/HEAD/schema/2025-06-18/schema.ts) handles a key part of this chapter's functionality:
+
+```ts
+ * @category `tools/list`
+ */
+export interface ListToolsRequest extends PaginatedRequest {
+  method: "tools/list";
+}
+
+/**
+ * The server's response to a tools/list request from the client.
+ *
+ * @category `tools/list`
+ */
+export interface ListToolsResult extends PaginatedResult {
+  tools: Tool[];
+}
+
+/**
+ * The server's response to a tool call.
+ *
+ * @category `tools/call`
+ */
+export interface CallToolResult extends Result {
+  /**
+   * A list of content objects that represent the unstructured result of the tool call.
+   */
+  content: ContentBlock[];
+
+  /**
+   * An optional JSON object that represents the structured result of the tool call.
+   */
+  structuredContent?: { [key: string]: unknown };
+
+  /**
+```
+
+This interface is important because it defines how MCP Specification Tutorial: Designing Production-Grade MCP Clients and Servers From the Source of Truth implements the patterns covered in this chapter.
+
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[Prompt]
-    B[PromptArgument]
-    C[PromptMessage]
-    D[ResourceLink]
-    E[EmbeddedResource]
+    A[ResourceLink]
+    B[EmbeddedResource]
+    C[PromptListChangedNotification]
+    D[ListToolsRequest]
+    E[ListToolsResult]
     A --> B
     B --> C
     C --> D

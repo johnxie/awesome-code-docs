@@ -31,14 +31,93 @@ This chapter covers the controls that separate fast automation from unsafe autom
 
 ## Tool Governance Practices
 
-1. prefer `Manual` or `Smart` for production repositories
-2. explicitly deny destructive tools where not needed
-3. keep active tool set small to reduce model confusion
-4. use `.gooseignore` to exclude sensitive or noisy paths
+1. prefer `Approve` or `SmartApprove` for production repositories
+2. explicitly restrict destructive tools where not needed (shell, file write)
+3. keep active tool set small to reduce model confusion — load only the extensions needed for the task
+4. use `.gooseignore` to exclude sensitive or noisy paths from context
+5. use `--container` for any task that executes user-provided or external code
+
+## What Smart Approval Covers
+
+`SmartApprove` (also called "Smart Approval" in the UI) applies risk-based logic:
+
+- **auto-approves** read-only operations: file reads, directory listing, search, web fetch
+- **requires approval** for modification operations: file writes, shell commands, API mutations
+- **always blocks** operations on paths in `.gooseignore`
+
+This mode provides most of the safety benefit of full approval mode with significantly less friction for investigation and analysis tasks.
+
+## Choosing a Permission Mode by Task Class
+
+| Task Class | Recommended Mode | Rationale |
+|:-----------|:-----------------|:----------|
+| exploring an unfamiliar codebase | Chat | no side effects, no accidental writes |
+| reviewing and summarizing PRs | Chat or SmartApprove | read-heavy, minimal write risk |
+| refactoring with human oversight | SmartApprove | approves modifications, skips reads |
+| automated CI task with known scope | Auto + `--max-turns` | bounded task, controlled environment |
+| running untrusted extensions | Approve + `--container` | sandbox + explicit approval at each step |
+
+## The `.gooseignore` File
+
+`.gooseignore` follows `.gitignore` syntax and tells Goose which files and directories to treat as off-limits for reads and writes:
+
+```
+# .gooseignore example
+.env
+*.pem
+secrets/
+node_modules/
+dist/
+```
+
+Place this file at the repository root. Goose will not expose files matching these patterns as context or attempt to modify them. This is particularly important when your working directory contains credentials or generated artifacts that should never appear in LLM context.
+
+## Container Isolation
+
+The `--container docker-image:tag` flag in `SessionOptions` forces all extension tool calls to execute inside a Docker container. The agent itself runs on your host, but shell commands, file writes, and other tool-backed actions are forwarded into the container:
+
+```bash
+goose session --container ubuntu:22.04 --with-builtin developer
+```
+
+Use this when:
+- running code generation tasks in a clean environment
+- testing extensions that may have side effects
+- isolating network access for security-sensitive tasks
+
+## Risk Assessment by Tool Class
+
+Not all tools carry equal risk. When thinking about which permission mode to apply, consider the tool's potential impact:
+
+| Tool Class | Examples | Risk Level | Recommended Mode |
+|:-----------|:---------|:-----------|:-----------------|
+| Read-only filesystem | `read_file`, `list_directory` | Low | Auto-approve in SmartApprove |
+| Web fetch | `web_search`, `fetch_url` | Low-Medium | Auto-approve in SmartApprove |
+| File writes | `write_file`, `create_file` | Medium | Require approval in SmartApprove |
+| Shell execution | `shell_exec`, `run_command` | High | Require approval in all modes except Auto |
+| External API mutations | `create_pr`, `deploy_service` | High | Use Approve mode |
+| Network configuration | firewall, DNS, routing | Critical | Approve + manual review before run |
 
 ## Corporate Policy Control
 
-For restricted environments, Goose can enforce extension allowlists via `GOOSE_ALLOWLIST` and a hosted YAML allowlist policy.
+For restricted environments, Goose can enforce extension allowlists via `GOOSE_ALLOWLIST` and a hosted YAML allowlist policy. The allowlist YAML specifies which extension commands and sources are approved, blocking any extension not on the list from loading — even if a user tries to add it via `goose configure`.
+
+## Practical Permission Workflow
+
+When starting a new type of task:
+
+1. Begin with `SmartApprove` and observe which approvals come up
+2. If the same low-risk approval appears repeatedly, consider explicitly allowing it via `PermissionManager`
+3. If an unexpected high-risk approval appears, stop and review before approving
+4. Document the settled permission profile and share it in team onboarding
+
+## Per-Tool Permission Overrides
+
+On top of the global mode, individual tools can be set to always-allow or always-deny via the `PermissionManager`. This lets you create configurations like:
+
+- global mode: `SmartApprove`
+- `read_file` tool: always-allow (skip approval for reads)
+- `shell_exec` tool: always-deny unless explicitly re-enabled per session
 
 ## Source References
 
@@ -47,190 +126,85 @@ For restricted environments, Goose can enforce extension allowlists via `GOOSE_A
 - [goose Extension Allowlist](https://block.github.io/goose/docs/guides/allowlist)
 - [Using .gooseignore](https://block.github.io/goose/docs/guides/using-gooseignore)
 
+## Decision Flowchart for Permission Mode
+
+```mermaid
+flowchart TD
+    A[Starting a new task] --> B{Is this a production repository?}
+    B -->|Yes| C[Use SmartApprove or Approve]
+    B -->|No| D{Is this exploratory analysis only?}
+    D -->|Yes| E[Use Chat mode]
+    D -->|No| F{Is the task fully automated in CI?}
+    F -->|Yes| G[Use Auto + --max-turns + --container]
+    F -->|No| H[Use SmartApprove as default]
+```
+
+## Quick Reference: Permission Flags
+
+```bash
+# Set mode at configure time (persisted)
+goose configure   # select permission mode in wizard
+
+# Override mode for a single session
+GOOSE_MODE=approve goose session
+
+# Sandbox with container isolation
+goose session --container ubuntu:22.04 --with-builtin developer
+
+# Hard cap on iterations
+goose run --text "..." --max-turns 20 --max-tool-repetitions 3
+```
+
 ## Summary
 
 You now have a concrete security-control model for tool execution in Goose.
 
 Next: [Chapter 5: Sessions and Context Management](05-sessions-and-context-management.md)
 
-## Depth Expansion Playbook
-
-## Source Code Walkthrough
-
-### `scripts/diagnostics-viewer.py`
-
-The `truncate_string` function in [`scripts/diagnostics-viewer.py`](https://github.com/block/goose/blob/HEAD/scripts/diagnostics-viewer.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-def truncate_string(s: str, max_len: int = 100, edge_len: int = 35) -> str:
-    """Truncate a string if it's longer than max_len."""
-    if len(s) <= max_len:
-        return s
-
-    omitted = len(s) - (2 * edge_len)
-    return f"{s[:edge_len]}[{omitted} more]{s[-edge_len:]}"
-
-
-class JsonTreeView(Tree):
-    """A tree widget for displaying collapsible JSON."""
-
-    BINDINGS = [
-        Binding("ctrl+o", "toggle_all", "Toggle All", show=True),
-    ]
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.json_data = None
-        self.show_root = False
-        self.all_expanded = False
-
-    def load_json(self, data: Any, label: str = "JSON"):
-        """Load JSON data into the tree."""
-        self.json_data = data
-        self.clear()
-        self.root.label = label
-        self._build_tree(self.root, data)
-        # Expand all nodes by default
-        self.root.expand_all()
-```
-
-This function is important because it defines how Goose Tutorial: Extensible Open-Source AI Agent for Real Engineering Work implements the patterns covered in this chapter.
-
-### `scripts/diagnostics-viewer.py`
-
-The `main` function in [`scripts/diagnostics-viewer.py`](https://github.com/block/goose/blob/HEAD/scripts/diagnostics-viewer.py) handles a key part of this chapter's functionality:
-
-```py
-        yield Static(f"[bold yellow]Session: {self.session.name}[/bold yellow]", id="session-title")
-
-        with Horizontal(id="main-content"):
-            # Left side: File browser
-            with Vertical(id="file-browser"):
-                yield Static("[bold]Files:[/bold]")
-                tree = Tree("Files", id="file-tree")
-                tree.show_root = False
-
-                # Build file tree
-                files = self.session.get_file_list()
-
-                # Group by directory
-                dirs = {}
-                for file in files:
-                    parts = file.split('/')
-                    is_jsonl = file.endswith('.jsonl')
-
-                    if len(parts) == 1:
-                        # Root file
-                        if is_jsonl:
-                            # Add two entries for JSONL files
-                            tree.root.add_leaf(f"{file} - request", data={"file": file, "part": "request"})
-                            tree.root.add_leaf(f"{file} - responses", data={"file": file, "part": "responses"})
-                        else:
-                            tree.root.add_leaf(file, data={"file": file, "part": None})
-                    else:
-                        # File in directory
-                        dir_name = parts[0]
-                        if dir_name not in dirs:
-                            dirs[dir_name] = tree.root.add(dir_name, expand=True)
-
-```
-
-This function is important because it defines how Goose Tutorial: Extensible Open-Source AI Agent for Real Engineering Work implements the patterns covered in this chapter.
-
-### `recipe-scanner/decode-training-data.py`
-
-The `decode_training_data` function in [`recipe-scanner/decode-training-data.py`](https://github.com/block/goose/blob/HEAD/recipe-scanner/decode-training-data.py) handles a key part of this chapter's functionality:
-
-```py
-from pathlib import Path
-
-def decode_training_data():
-    """
-    Decode all available training data from environment variables
-    Returns a dictionary with risk levels and their decoded recipes
-    """
-    training_data = {}
-    
-    # Check for each risk level
-    for risk_level in ["LOW", "MEDIUM", "HIGH", "EXTREME"]:
-        env_var = f"TRAINING_DATA_{risk_level}"
-        encoded_data = os.environ.get(env_var)
-        
-        if encoded_data:
-            try:
-                # Decode the base64 outer layer
-                json_data = base64.b64decode(encoded_data).decode('utf-8')
-                
-                # Parse the JSON
-                parsed_data = json.loads(json_data)
-                
-                # Decode each recipe's content
-                for recipe in parsed_data.get('recipes', []):
-                    recipe_content = base64.b64decode(recipe['content_base64']).decode('utf-8')
-                    recipe['content'] = recipe_content
-                    # Keep the base64 version for reference but don't need it for analysis
-                
-                training_data[risk_level.lower()] = parsed_data
-                print(f"✅ Decoded {len(parsed_data['recipes'])} {risk_level.lower()} risk recipes")
-                
-            except Exception as e:
-```
-
-This function is important because it defines how Goose Tutorial: Extensible Open-Source AI Agent for Real Engineering Work implements the patterns covered in this chapter.
-
-### `recipe-scanner/decode-training-data.py`
-
-The `write_training_files` function in [`recipe-scanner/decode-training-data.py`](https://github.com/block/goose/blob/HEAD/recipe-scanner/decode-training-data.py) handles a key part of this chapter's functionality:
-
-```py
-    return training_data
-
-def write_training_files(training_data, output_dir="/tmp/training"):
-    """
-    Write decoded training files to disk for Goose to analyze
-    """
-    output_path = Path(output_dir)
-    output_path.mkdir(exist_ok=True)
-    
-    # Write a summary file for Goose
-    summary = {
-        "training_summary": "Recipe security training data",
-        "risk_levels": {},
-        "total_recipes": 0
-    }
-    
-    for risk_level, data in training_data.items():
-        risk_dir = output_path / risk_level
-        risk_dir.mkdir(exist_ok=True)
-        
-        recipes_info = []
-        
-        for recipe in data.get('recipes', []):
-            # Write the recipe file
-            recipe_file = risk_dir / recipe['filename']
-            with open(recipe_file, 'w') as f:
-                f.write(recipe['content'])
-            
-            # Write the training notes
-            notes_file = risk_dir / f"{recipe['filename']}.notes.txt"
-            with open(notes_file, 'w') as f:
-                f.write(f"Risk Level: {risk_level.upper()}\n")
-```
-
-This function is important because it defines how Goose Tutorial: Extensible Open-Source AI Agent for Real Engineering Work implements the patterns covered in this chapter.
-
-
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[truncate_string]
-    B[main]
-    C[decode_training_data]
-    D[write_training_files]
-    A --> B
-    B --> C
-    C --> D
+    A[Agent wants to run tool] --> B{Permission mode}
+    B -->|auto| C[Execute without prompting]
+    B -->|approve| D[User approves each tool call]
+    B -->|deny-all| E[Block all tool execution]
+    C --> F[Tool runs in sandbox or host]
+    D -->|approved| F
+    D -->|denied| G[Agent notified, retries with different approach]
+    E --> G
 ```
+
+## Source Code Walkthrough
+
+### `crates/goose-cli/src/commands/configure.rs` — `GooseMode` and `PermissionManager`
+
+The `GooseMode` enum and `PermissionManager` type are both imported by [`crates/goose-cli/src/commands/configure.rs`](https://github.com/block/goose/blob/main/crates/goose-cli/src/commands/configure.rs):
+
+```rust
+use goose::config::{Config, ConfigError, ExperimentManager,
+    ExtensionEntry, GooseMode, PermissionManager};
+```
+
+`GooseMode` has four variants backing the four permission modes:
+
+| Variant | Behavior |
+|:--------|:---------|
+| `Auto` | Full file and shell modification without prompts |
+| `Approve` | Requires human approval before every tool action |
+| `SmartApprove` | Risk-based approvals — prompts for modifications, not reads |
+| `Chat` | Provider interaction only, no tool execution |
+
+The `PermissionManager` manages per-tool overrides on top of the global mode. This separation lets you set `SmartApprove` as the global default while explicitly allowing specific read-only tools to run without approval.
+
+### `crates/goose-cli/src/cli.rs` — runtime governance flags
+
+The `SessionOptions` group in [`crates/goose-cli/src/cli.rs`](https://github.com/block/goose/blob/main/crates/goose-cli/src/cli.rs) contains the key runtime governance flags:
+
+```
+--max-tool-repetitions   // Limit consecutive identical tool calls
+--max-turns              // Iteration ceiling (default: 1000)
+--container IMAGE        // Run extensions inside a Docker container
+```
+
+Setting `--container ubuntu:22.04` forwards all tool-backed shell commands into the container, sandboxing writes and network access from the host. This is the recommended approach when running extensions that execute arbitrary code or have broad filesystem access.

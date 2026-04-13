@@ -42,170 +42,168 @@ Next steps:
 - run one measured pilot across a single workflow category
 - establish a monthly skill review and cleanup process
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `slack-gif-creator/core/easing.py`
+### `skill-creator/scripts/init_skill.py`
 
-The `apply_squash_stretch` function in [`slack-gif-creator/core/easing.py`](https://github.com/ComposioHQ/awesome-claude-skills/blob/HEAD/slack-gif-creator/core/easing.py) handles a key part of this chapter's functionality:
+The `main` function in [`skill-creator/scripts/init_skill.py`](https://github.com/ComposioHQ/awesome-claude-skills/blob/HEAD/skill-creator/scripts/init_skill.py) handles a key part of this chapter's functionality:
+
+```py
+Delete this entire "Structuring This Skill" section when done - it's just guidance.]
+
+## [TODO: Replace with the first main section based on chosen structure]
+
+[TODO: Add content here. See examples in existing skills:
+- Code samples for technical skills
+- Decision trees for complex workflows
+- Concrete examples with realistic user requests
+- References to scripts/templates/references as needed]
+
+## Resources
+
+This skill includes example resource directories that demonstrate how to organize different types of bundled resources:
+
+### scripts/
+Executable code (Python/Bash/etc.) that can be run directly to perform specific operations.
+
+**Examples from other skills:**
+- PDF skill: `fill_fillable_fields.py`, `extract_form_field_info.py` - utilities for PDF manipulation
+- DOCX skill: `document.py`, `utilities.py` - Python modules for document processing
+
+**Appropriate for:** Python scripts, shell scripts, or any executable code that performs automation, data processing, or specific operations.
+
+**Note:** Scripts may be executed without loading into context, but can still be read by Claude for patching or environment adjustments.
+
+### references/
+Documentation and reference material intended to be loaded into context to inform Claude's process and thinking.
+
+**Examples from other skills:**
+- Product management: `communication.md`, `context_building.md` - detailed workflow guides
+- BigQuery: API reference documentation and query examples
+- Finance: Schema documentation, company policies
+```
+
+This function is important because it defines how Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows implements the patterns covered in this chapter.
+
+### `slack-gif-creator/core/frame_composer.py`
+
+The `create_blank_frame` function in [`slack-gif-creator/core/frame_composer.py`](https://github.com/ComposioHQ/awesome-claude-skills/blob/HEAD/slack-gif-creator/core/frame_composer.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def apply_squash_stretch(base_scale: tuple[float, float], intensity: float,
-                         direction: str = 'vertical') -> tuple[float, float]:
+def create_blank_frame(width: int, height: int, color: tuple[int, int, int] = (255, 255, 255)) -> Image.Image:
     """
-    Calculate squash and stretch scales for more dynamic animation.
+    Create a blank frame with solid color background.
 
     Args:
-        base_scale: (width_scale, height_scale) base scales
-        intensity: Squash/stretch intensity (0.0-1.0)
-        direction: 'vertical', 'horizontal', or 'both'
+        width: Frame width
+        height: Frame height
+        color: RGB color tuple (default: white)
 
     Returns:
-        (width_scale, height_scale) with squash/stretch applied
+        PIL Image
     """
-    width_scale, height_scale = base_scale
+    return Image.new('RGB', (width, height), color)
 
-    if direction == 'vertical':
-        # Compress vertically, expand horizontally (preserve volume)
-        height_scale *= (1 - intensity * 0.5)
-        width_scale *= (1 + intensity * 0.5)
-    elif direction == 'horizontal':
-        # Compress horizontally, expand vertically
-        width_scale *= (1 - intensity * 0.5)
-        height_scale *= (1 + intensity * 0.5)
-    elif direction == 'both':
-        # General squash (both dimensions)
-        width_scale *= (1 - intensity * 0.3)
-        height_scale *= (1 - intensity * 0.3)
 
-    return (width_scale, height_scale)
+def draw_circle(frame: Image.Image, center: tuple[int, int], radius: int,
+                fill_color: Optional[tuple[int, int, int]] = None,
+                outline_color: Optional[tuple[int, int, int]] = None,
+                outline_width: int = 1) -> Image.Image:
+    """
+    Draw a circle on a frame.
+
+    Args:
+        frame: PIL Image to draw on
+        center: (x, y) center position
+        radius: Circle radius
+        fill_color: RGB fill color (None for no fill)
+        outline_color: RGB outline color (None for no outline)
+        outline_width: Outline width in pixels
 
 ```
 
 This function is important because it defines how Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows implements the patterns covered in this chapter.
 
-### `slack-gif-creator/core/easing.py`
+### `slack-gif-creator/core/frame_composer.py`
 
-The `calculate_arc_motion` function in [`slack-gif-creator/core/easing.py`](https://github.com/ComposioHQ/awesome-claude-skills/blob/HEAD/slack-gif-creator/core/easing.py) handles a key part of this chapter's functionality:
+The `draw_circle` function in [`slack-gif-creator/core/frame_composer.py`](https://github.com/ComposioHQ/awesome-claude-skills/blob/HEAD/slack-gif-creator/core/frame_composer.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def calculate_arc_motion(start: tuple[float, float], end: tuple[float, float],
-                        height: float, t: float) -> tuple[float, float]:
+def draw_circle(frame: Image.Image, center: tuple[int, int], radius: int,
+                fill_color: Optional[tuple[int, int, int]] = None,
+                outline_color: Optional[tuple[int, int, int]] = None,
+                outline_width: int = 1) -> Image.Image:
     """
-    Calculate position along a parabolic arc (natural motion path).
+    Draw a circle on a frame.
 
     Args:
-        start: (x, y) starting position
-        end: (x, y) ending position
-        height: Arc height at midpoint (positive = upward)
-        t: Progress (0.0-1.0)
+        frame: PIL Image to draw on
+        center: (x, y) center position
+        radius: Circle radius
+        fill_color: RGB fill color (None for no fill)
+        outline_color: RGB outline color (None for no outline)
+        outline_width: Outline width in pixels
 
     Returns:
-        (x, y) position along arc
+        Modified frame
     """
-    x1, y1 = start
-    x2, y2 = end
-
-    # Linear interpolation for x
-    x = x1 + (x2 - x1) * t
-
-    # Parabolic interpolation for y
-    # y = start + progress * (end - start) + arc_offset
-    # Arc offset peaks at t=0.5
-    arc_offset = 4 * height * t * (1 - t)
-    y = y1 + (y2 - y1) * t - arc_offset
-
-    return (x, y)
+    draw = ImageDraw.Draw(frame)
+    x, y = center
+    bbox = [x - radius, y - radius, x + radius, y + radius]
+    draw.ellipse(bbox, fill=fill_color, outline=outline_color, width=outline_width)
+    return frame
 
 
-# Add new easing functions to the convenience mapping
+def draw_rectangle(frame: Image.Image, top_left: tuple[int, int], bottom_right: tuple[int, int],
+                   fill_color: Optional[tuple[int, int, int]] = None,
+                   outline_color: Optional[tuple[int, int, int]] = None,
+                   outline_width: int = 1) -> Image.Image:
+    """
 ```
 
 This function is important because it defines how Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows implements the patterns covered in this chapter.
 
-### `slack-gif-creator/core/validators.py`
+### `slack-gif-creator/core/frame_composer.py`
 
-The `check_slack_size` function in [`slack-gif-creator/core/validators.py`](https://github.com/ComposioHQ/awesome-claude-skills/blob/HEAD/slack-gif-creator/core/validators.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-def check_slack_size(gif_path: str | Path, is_emoji: bool = True) -> tuple[bool, dict]:
-    """
-    Check if GIF meets Slack size limits.
-
-    Args:
-        gif_path: Path to GIF file
-        is_emoji: True for emoji GIF (64KB limit), False for message GIF (2MB limit)
-
-    Returns:
-        Tuple of (passes: bool, info: dict with details)
-    """
-    gif_path = Path(gif_path)
-
-    if not gif_path.exists():
-        return False, {'error': f'File not found: {gif_path}'}
-
-    size_bytes = gif_path.stat().st_size
-    size_kb = size_bytes / 1024
-    size_mb = size_kb / 1024
-
-    limit_kb = 64 if is_emoji else 2048
-    limit_mb = limit_kb / 1024
-
-    passes = size_kb <= limit_kb
-
-    info = {
-        'size_bytes': size_bytes,
-        'size_kb': size_kb,
-        'size_mb': size_mb,
-        'limit_kb': limit_kb,
-```
-
-This function is important because it defines how Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows implements the patterns covered in this chapter.
-
-### `slack-gif-creator/core/validators.py`
-
-The `validate_dimensions` function in [`slack-gif-creator/core/validators.py`](https://github.com/ComposioHQ/awesome-claude-skills/blob/HEAD/slack-gif-creator/core/validators.py) handles a key part of this chapter's functionality:
+The `draw_rectangle` function in [`slack-gif-creator/core/frame_composer.py`](https://github.com/ComposioHQ/awesome-claude-skills/blob/HEAD/slack-gif-creator/core/frame_composer.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def validate_dimensions(width: int, height: int, is_emoji: bool = True) -> tuple[bool, dict]:
+def draw_rectangle(frame: Image.Image, top_left: tuple[int, int], bottom_right: tuple[int, int],
+                   fill_color: Optional[tuple[int, int, int]] = None,
+                   outline_color: Optional[tuple[int, int, int]] = None,
+                   outline_width: int = 1) -> Image.Image:
     """
-    Check if dimensions are suitable for Slack.
+    Draw a rectangle on a frame.
 
     Args:
-        width: Frame width in pixels
-        height: Frame height in pixels
-        is_emoji: True for emoji GIF, False for message GIF
+        frame: PIL Image to draw on
+        top_left: (x, y) top-left corner
+        bottom_right: (x, y) bottom-right corner
+        fill_color: RGB fill color (None for no fill)
+        outline_color: RGB outline color (None for no outline)
+        outline_width: Outline width in pixels
 
     Returns:
-        Tuple of (passes: bool, info: dict with details)
+        Modified frame
     """
-    info = {
-        'width': width,
-        'height': height,
-        'is_square': width == height,
-        'type': 'emoji' if is_emoji else 'message'
-    }
+    draw = ImageDraw.Draw(frame)
+    draw.rectangle([top_left, bottom_right], fill=fill_color, outline=outline_color, width=outline_width)
+    return frame
 
-    if is_emoji:
-        # Emoji GIFs should be 128x128
-        optimal = width == height == 128
-        acceptable = width == height and 64 <= width <= 128
 
-        info['optimal'] = optimal
-        info['acceptable'] = acceptable
+def draw_line(frame: Image.Image, start: tuple[int, int], end: tuple[int, int],
+              color: tuple[int, int, int] = (0, 0, 0), width: int = 2) -> Image.Image:
+    """
+    Draw a line on a frame.
 
-        if optimal:
-            print(f"✓ {width}x{height} - optimal for emoji")
-            passes = True
+    Args:
+        frame: PIL Image to draw on
 ```
 
 This function is important because it defines how Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows implements the patterns covered in this chapter.
@@ -215,11 +213,11 @@ This function is important because it defines how Awesome Claude Skills Tutorial
 
 ```mermaid
 flowchart TD
-    A[apply_squash_stretch]
-    B[calculate_arc_motion]
-    C[check_slack_size]
-    D[validate_dimensions]
-    E[validate_gif]
+    A[main]
+    B[create_blank_frame]
+    C[draw_circle]
+    D[draw_rectangle]
+    E[draw_line]
     A --> B
     B --> C
     C --> D

@@ -49,8 +49,6 @@ You now have Shotgun running with a first research and planning loop.
 
 Next: [Chapter 2: Router Architecture and Agent Lifecycle](02-router-architecture-and-agent-lifecycle.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `scripts/count_tokens.py`

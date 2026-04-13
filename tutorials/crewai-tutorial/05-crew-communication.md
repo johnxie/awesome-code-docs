@@ -497,6 +497,25 @@ class CommunicationAnalytics:
         return recommendations
 ```
 
+## Crew Communication Architecture
+
+```mermaid
+flowchart TD
+    A[Agent completes task]
+    B[Output stored as task result]
+    C[Next task receives output as context]
+    D[Hierarchical crew: manager agent delegates]
+    E[Manager reviews subtask results]
+    F[Manager synthesizes final response]
+    G[Sequential process: chain of outputs]
+    A --> B
+    B --> C
+    B --> D
+    D --> E
+    E --> F
+    C --> G
+```
+
 ## What We've Accomplished
 
 ✅ **Built communication architecture** for multi-agent systems

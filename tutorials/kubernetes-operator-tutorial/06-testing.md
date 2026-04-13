@@ -15,6 +15,16 @@ Welcome to **Chapter 6: Testing Operators - Unit Tests, Integration Tests, and e
 
 ## Overview
 
+```mermaid
+flowchart LR
+    A[Unit tests] --> B[Reconciler with fake client]
+    C[Integration tests] --> D[envtest local API server]
+    D --> E[Apply CR YAML]
+    E --> F[Run Reconcile]
+    F --> G[Assert owned resources]
+    G --> H[Assert CR status]
+```
+
 Testing operators is critical for reliability and maintainability. This chapter covers unit testing, integration testing, and using the envtest framework to test operators against a real Kubernetes API server.
 
 ## Unit Testing

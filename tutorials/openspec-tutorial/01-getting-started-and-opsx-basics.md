@@ -64,8 +64,6 @@ You now have a working OpenSpec environment with the core workflow entry points.
 
 Next: [Chapter 2: Artifact Graph and Change Lifecycle](02-artifact-graph-and-change-lifecycle.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `scripts/postinstall.js`

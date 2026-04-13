@@ -651,6 +651,16 @@ Under the hood, `Chapter 3: Basic Inference - Text Generation and Sampling` usua
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
+## Architecture Flow
+
+```mermaid
+flowchart LR
+    A[Input prompts list] --> B[Continuous batching scheduler]
+    B --> C[PagedAttention KV cache]
+    C --> D[Token sampling with SamplingParams]
+    D --> E[RequestOutput with completion text]
+```
+
 ## Source Walkthrough
 
 Use the following upstream sources to verify implementation details while reading this chapter:

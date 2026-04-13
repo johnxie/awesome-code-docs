@@ -922,6 +922,22 @@ With evaluation and optimization mastered, you're ready to:
 
 **Ready to build custom Haystack components? Continue to [Chapter 7: Custom Components](07-custom-components.md)!** 🚀
 
+## Evaluation Flow
+
+```mermaid
+flowchart TD
+    A[Evaluation dataset] --> B[Run pipeline on each sample]
+    B --> C[Collect predictions]
+    C --> D[Metrics computation]
+    D --> E{Metric type}
+    E -->|Retrieval| F[Recall@k, MRR, NDCG]
+    E -->|Generation| G[EM, F1, ROUGE]
+    E -->|End-to-end RAG| H[Answer correctness]
+    F --> I[Evaluation report]
+    G --> I
+    H --> I
+```
+
 ## What Problem Does This Solve?
 
 Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `self`, `results`, `query` so behavior stays predictable as complexity grows.

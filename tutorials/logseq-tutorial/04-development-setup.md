@@ -13,6 +13,19 @@ Welcome to **Logseq Development Environment Setup**. In this part of **Logseq: D
 
 ## Prerequisites & System Requirements
 
+```mermaid
+flowchart LR
+    A[Node.js 18+] --> D[yarn install]
+    B[Java 11+ JDK] --> E[shadow-cljs compile]
+    C[Clojure CLI] --> E
+    D --> F[npm dependencies]
+    E --> G[ClojureScript compiled JS]
+    G --> H[Electron app]
+    F --> H
+    H --> I[Logseq dev environment]
+```
+
+
 ### Hardware Requirements
 - **Memory**: Minimum 8GB RAM (16GB recommended for large knowledge bases)
 - **Storage**: 5GB+ available space for development environment

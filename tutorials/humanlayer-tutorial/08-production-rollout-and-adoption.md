@@ -30,165 +30,168 @@ This chapter outlines a rollout model for adopting HumanLayer workflows across t
 
 You now have a phased adoption strategy for scaling coding-agent workflows with human governance.
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `hack/rotate_icon_colors.py`
+### `claudecode-go/types.go`
 
-The `rotate_hue` function in [`hack/rotate_icon_colors.py`](https://github.com/humanlayer/humanlayer/blob/HEAD/hack/rotate_icon_colors.py) handles a key part of this chapter's functionality:
+The `MarshalJSON` function in [`claudecode-go/types.go`](https://github.com/humanlayer/humanlayer/blob/HEAD/claudecode-go/types.go) handles a key part of this chapter's functionality:
 
-```py
-    return (rgb * 255).astype('uint8')
+```go
+}
 
-def rotate_hue(image_path, output_path, hue_shift=0.3):
-    """Rotate hue of an image by specified amount (0.3 = 108 degrees)"""
-    img = Image.open(image_path).convert('RGBA')
-    rgb = np.array(img)
-    
-    # Separate alpha channel
-    alpha = rgb[:,:,3]
-    rgb_only = rgb[:,:,:3]
-    
-    # Convert to HSV, rotate hue, convert back
-    hsv = rgb_to_hsv(rgb_only)
-    hsv[:,:,0] = (hsv[:,:,0] + hue_shift) % 1.0
-    rgb_rotated = hsv_to_rgb(hsv)
-    
-    # Recombine with alpha
-    result = np.dstack([rgb_rotated, alpha])
-    
-    Image.fromarray(result, 'RGBA').save(output_path)
+// MarshalJSON implements custom marshaling to always output as string
+func (c ContentField) MarshalJSON() ([]byte, error) {
+	return json.Marshal(c.Value)
+}
 
-if __name__ == "__main__":
-    if len(sys.argv) != 3:
-        print("Usage: python rotate_icon_colors.py input.png output.png")
-        sys.exit(1)
-    
-    rotate_hue(sys.argv[1], sys.argv[2], hue_shift=0.3)
+// Content can be text or tool use
+type Content struct {
+	Type      string                 `json:"type"`
+	Text      string                 `json:"text,omitempty"`
+	Thinking  string                 `json:"thinking,omitempty"`
+	ID        string                 `json:"id,omitempty"`
+	Name      string                 `json:"name,omitempty"`
+	Input     map[string]interface{} `json:"input,omitempty"`
+	ToolUseID string                 `json:"tool_use_id,omitempty"`
+	Content   ContentField           `json:"content,omitempty"`
+}
+
+// ServerToolUse tracks server-side tool usage
+type ServerToolUse struct {
+	WebSearchRequests int `json:"web_search_requests,omitempty"`
+}
+
+// CacheCreation tracks cache creation metrics
+type CacheCreation struct {
+	Ephemeral1HInputTokens int `json:"ephemeral_1h_input_tokens,omitempty"`
+	Ephemeral5MInputTokens int `json:"ephemeral_5m_input_tokens,omitempty"`
+}
+
+// Usage tracks token usage
+type Usage struct {
 ```
 
 This function is important because it defines how HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents implements the patterns covered in this chapter.
 
-### `hack/generate_rounded_icons.py`
+### `claudecode-go/types.go`
 
-The `create_rounded_corners_mask` function in [`hack/generate_rounded_icons.py`](https://github.com/humanlayer/humanlayer/blob/HEAD/hack/generate_rounded_icons.py) handles a key part of this chapter's functionality:
+The `UnmarshalJSON` function in [`claudecode-go/types.go`](https://github.com/humanlayer/humanlayer/blob/HEAD/claudecode-go/types.go) handles a key part of this chapter's functionality:
 
-```py
+```go
+}
 
+// UnmarshalJSON implements custom unmarshaling to handle both string and array formats
+func (c *ContentField) UnmarshalJSON(data []byte) error {
+	// First try to unmarshal as string
+	var str string
+	if err := json.Unmarshal(data, &str); err == nil {
+		c.Value = str
+		return nil
+	}
 
-def create_rounded_corners_mask(size, radius):
-    """Create a mask for rounded corners"""
-    mask = Image.new("L", (size, size), 0)
-    draw = ImageDraw.Draw(mask)
+	// If that fails, try array format
+	var arr []struct {
+		Type string `json:"type"`
+		Text string `json:"text"`
+	}
+	if err := json.Unmarshal(data, &arr); err == nil {
+		// Concatenate all text elements
+		var texts []string
+		for _, item := range arr {
+			if item.Type == "text" && item.Text != "" {
+				texts = append(texts, item.Text)
+			}
+		}
+		c.Value = strings.Join(texts, "\n")
+		return nil
+	}
 
-    # Draw a rounded rectangle
-    draw.rounded_rectangle([(0, 0), (size - 1, size - 1)], radius=radius, fill=255)
+	return fmt.Errorf("content field is neither string nor array format")
+}
 
-    return mask
-
-
-def create_rounded_icon(source_path, output_path, size):
-    """Create a rounded corner icon at the specified size"""
-    # Open and resize the source image
-    img = Image.open(source_path)
-    img = img.convert("RGBA")
-    img = img.resize((size, size), Image.Resampling.LANCZOS)
-
-    # Create a rounded corners mask
-    radius = size // 5  # 20% corner radius
-    mask = create_rounded_corners_mask(size, radius)
-
-    # Create output image with transparent background
-    output = Image.new("RGBA", (size, size), (0, 0, 0, 0))
-    output.paste(img, (0, 0))
-
-    # Apply the mask to the alpha channel
-    output.putalpha(mask)
-
-    # Save the result
+// MarshalJSON implements custom marshaling to always output as string
 ```
 
 This function is important because it defines how HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents implements the patterns covered in this chapter.
 
-### `hack/generate_rounded_icons.py`
+### `claudecode-go/types.go`
 
-The `create_rounded_icon` function in [`hack/generate_rounded_icons.py`](https://github.com/humanlayer/humanlayer/blob/HEAD/hack/generate_rounded_icons.py) handles a key part of this chapter's functionality:
+The `MarshalJSON` function in [`claudecode-go/types.go`](https://github.com/humanlayer/humanlayer/blob/HEAD/claudecode-go/types.go) handles a key part of this chapter's functionality:
 
-```py
+```go
+}
 
+// MarshalJSON implements custom marshaling to always output as string
+func (c ContentField) MarshalJSON() ([]byte, error) {
+	return json.Marshal(c.Value)
+}
 
-def create_rounded_icon(source_path, output_path, size):
-    """Create a rounded corner icon at the specified size"""
-    # Open and resize the source image
-    img = Image.open(source_path)
-    img = img.convert("RGBA")
-    img = img.resize((size, size), Image.Resampling.LANCZOS)
+// Content can be text or tool use
+type Content struct {
+	Type      string                 `json:"type"`
+	Text      string                 `json:"text,omitempty"`
+	Thinking  string                 `json:"thinking,omitempty"`
+	ID        string                 `json:"id,omitempty"`
+	Name      string                 `json:"name,omitempty"`
+	Input     map[string]interface{} `json:"input,omitempty"`
+	ToolUseID string                 `json:"tool_use_id,omitempty"`
+	Content   ContentField           `json:"content,omitempty"`
+}
 
-    # Create a rounded corners mask
-    radius = size // 5  # 20% corner radius
-    mask = create_rounded_corners_mask(size, radius)
+// ServerToolUse tracks server-side tool usage
+type ServerToolUse struct {
+	WebSearchRequests int `json:"web_search_requests,omitempty"`
+}
 
-    # Create output image with transparent background
-    output = Image.new("RGBA", (size, size), (0, 0, 0, 0))
-    output.paste(img, (0, 0))
+// CacheCreation tracks cache creation metrics
+type CacheCreation struct {
+	Ephemeral1HInputTokens int `json:"ephemeral_1h_input_tokens,omitempty"`
+	Ephemeral5MInputTokens int `json:"ephemeral_5m_input_tokens,omitempty"`
+}
 
-    # Apply the mask to the alpha channel
-    output.putalpha(mask)
-
-    # Save the result
-    output.save(output_path, "PNG")
-    print(f"Created: {output_path} ({size}x{size})")
-
-
-def main():
-    print("Generating rounded corner icons...")
-
-    # Ensure icon directory exists
-    os.makedirs(ICON_DIR, exist_ok=True)
-
-    # Generate main icons
+// Usage tracks token usage
+type Usage struct {
 ```
 
 This function is important because it defines how HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents implements the patterns covered in this chapter.
 
-### `hack/generate_rounded_icons.py`
+### `claudecode-go/types.go`
 
-The `main` function in [`hack/generate_rounded_icons.py`](https://github.com/humanlayer/humanlayer/blob/HEAD/hack/generate_rounded_icons.py) handles a key part of this chapter's functionality:
+The `ToStrings` function in [`claudecode-go/types.go`](https://github.com/humanlayer/humanlayer/blob/HEAD/claudecode-go/types.go) handles a key part of this chapter's functionality:
 
-```py
+```go
+}
 
+// ToStrings converts denials to string array for backward compatibility
+func (p PermissionDenials) ToStrings() []string {
+	if p.Denials == nil {
+		return nil
+	}
+	result := make([]string, len(p.Denials))
+	for i, d := range p.Denials {
+		result[i] = d.ToolName
+	}
+	return result
+}
 
-def main():
-    print("Generating rounded corner icons...")
+// ModelUsageDetail represents usage details for a specific model
+type ModelUsageDetail struct {
+	InputTokens              int     `json:"inputTokens"`
+	OutputTokens             int     `json:"outputTokens"`
+	CacheReadInputTokens     int     `json:"cacheReadInputTokens"`
+	CacheCreationInputTokens int     `json:"cacheCreationInputTokens"`
+	WebSearchRequests        int     `json:"webSearchRequests"`
+	CostUSD                  float64 `json:"costUSD"`
+	ContextWindow            int     `json:"contextWindow,omitempty"`
+}
 
-    # Ensure icon directory exists
-    os.makedirs(ICON_DIR, exist_ok=True)
-
-    # Generate main icons
-    create_rounded_icon(SOURCE_ICON, f"{ICON_DIR}/icon.png", 512)
-    create_rounded_icon(SOURCE_ICON, f"{ICON_DIR}/32x32.png", 32)
-    create_rounded_icon(SOURCE_ICON, f"{ICON_DIR}/128x128.png", 128)
-    create_rounded_icon(SOURCE_ICON, f"{ICON_DIR}/128x128@2x.png", 256)
-
-    # Generate Windows Store icons
-    for size in [30, 44, 71, 89, 107, 142, 150, 284, 310]:
-        create_rounded_icon(SOURCE_ICON, f"{ICON_DIR}/Square{size}x{size}Logo.png", size)
-
-    create_rounded_icon(SOURCE_ICON, f"{ICON_DIR}/StoreLogo.png", 50)
-
-    # Generate iconset for macOS
-    print("\nCreating macOS iconset...")
-    iconset_dir = "/tmp/icon.iconset"
-    os.makedirs(iconset_dir, exist_ok=True)
-
-    # Standard macOS icon sizes
-    icon_sizes = [
-        (16, "icon_16x16.png"),
-        (32, "icon_16x16@2x.png"),
-        (32, "icon_32x32.png"),
-        (64, "icon_32x32@2x.png"),
-        (128, "icon_128x128.png"),
+// Result represents the final result of a Claude session
+type Result struct {
+	Type              string                      `json:"type"`
+	Subtype           string                      `json:"subtype"`
+	CostUSD           float64                     `json:"total_cost_usd"`
+	IsError           bool                        `json:"is_error"`
+	DurationMS        int                         `json:"duration_ms"`
 ```
 
 This function is important because it defines how HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents implements the patterns covered in this chapter.
@@ -198,11 +201,11 @@ This function is important because it defines how HumanLayer Tutorial: Context E
 
 ```mermaid
 flowchart TD
-    A[rotate_hue]
-    B[create_rounded_corners_mask]
-    C[create_rounded_icon]
-    D[main]
-    E[create_rounded_icon]
+    A[MarshalJSON]
+    B[UnmarshalJSON]
+    C[MarshalJSON]
+    D[ToStrings]
+    E[SetError]
     A --> B
     B --> C
     C --> D

@@ -47,50 +47,7 @@ You now have a complete runbook for operating Opcode as a governed desktop contr
 
 Compare higher-level orchestration in the [Vibe Kanban Tutorial](../vibe-kanban-tutorial/).
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
-
-### `src-tauri/src/claude_binary.rs`
-
-The `find_claude_binary` function in [`src-tauri/src/claude_binary.rs`](https://github.com/winfunc/opcode/blob/HEAD/src-tauri/src/claude_binary.rs) handles a key part of this chapter's functionality:
-
-```rs
-/// Main function to find the Claude binary
-/// Checks database first for stored path and preference, then prioritizes accordingly
-pub fn find_claude_binary(app_handle: &tauri::AppHandle) -> Result<String, String> {
-    info!("Searching for claude binary...");
-
-    // First check if we have a stored path and preference in the database
-    if let Ok(app_data_dir) = app_handle.path().app_data_dir() {
-        let db_path = app_data_dir.join("agents.db");
-        if db_path.exists() {
-            if let Ok(conn) = rusqlite::Connection::open(&db_path) {
-                // Check for stored path first
-                if let Ok(stored_path) = conn.query_row(
-                    "SELECT value FROM app_settings WHERE key = 'claude_binary_path'",
-                    [],
-                    |row| row.get::<_, String>(0),
-                ) {
-                    info!("Found stored claude path in database: {}", stored_path);
-
-                    // Check if the path still exists
-                    let path_buf = PathBuf::from(&stored_path);
-                    if path_buf.exists() && path_buf.is_file() {
-                        return Ok(stored_path);
-                    } else {
-                        warn!("Stored claude path no longer exists: {}", stored_path);
-                    }
-                }
-
-                // Check user preference
-                let preference = conn.query_row(
-                    "SELECT value FROM app_settings WHERE key = 'claude_installation_preference'",
-                    [],
-                    |row| row.get::<_, String>(0),
-```
-
-This function is important because it defines how Opcode Tutorial: GUI Command Center for Claude Code Workflows implements the patterns covered in this chapter.
 
 ### `src-tauri/src/claude_binary.rs`
 
@@ -215,16 +172,57 @@ pub fn find_claude_binary(app_handle: &tauri::AppHandle) -> Result<String, Strin
 
 This interface is important because it defines how Opcode Tutorial: GUI Command Center for Claude Code Workflows implements the patterns covered in this chapter.
 
+### `src-tauri/src/claude_binary.rs`
+
+The `InstallationType` interface in [`src-tauri/src/claude_binary.rs`](https://github.com/winfunc/opcode/blob/HEAD/src-tauri/src/claude_binary.rs) handles a key part of this chapter's functionality:
+
+```rs
+/// Type of Claude installation
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+pub enum InstallationType {
+    /// System-installed binary
+    System,
+    /// Custom path specified by user
+    Custom,
+}
+
+/// Represents a Claude installation with metadata
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ClaudeInstallation {
+    /// Full path to the Claude binary
+    pub path: String,
+    /// Version string if available
+    pub version: Option<String>,
+    /// Source of discovery (e.g., "nvm", "system", "homebrew", "which")
+    pub source: String,
+    /// Type of installation
+    pub installation_type: InstallationType,
+}
+
+/// Main function to find the Claude binary
+/// Checks database first for stored path and preference, then prioritizes accordingly
+pub fn find_claude_binary(app_handle: &tauri::AppHandle) -> Result<String, String> {
+    info!("Searching for claude binary...");
+
+    // First check if we have a stored path and preference in the database
+    if let Ok(app_data_dir) = app_handle.path().app_data_dir() {
+        let db_path = app_data_dir.join("agents.db");
+        if db_path.exists() {
+            if let Ok(conn) = rusqlite::Connection::open(&db_path) {
+```
+
+This interface is important because it defines how Opcode Tutorial: GUI Command Center for Claude Code Workflows implements the patterns covered in this chapter.
+
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[find_claude_binary]
-    B[discover_claude_installations]
-    C[create_command_with_env]
-    D[ClaudeInstallation]
-    E[InstallationType]
+    A[discover_claude_installations]
+    B[create_command_with_env]
+    C[ClaudeInstallation]
+    D[InstallationType]
+    E[UsageDashboardProps]
     A --> B
     B --> C
     C --> D

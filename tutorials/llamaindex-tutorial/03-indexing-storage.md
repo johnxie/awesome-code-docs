@@ -12,6 +12,20 @@ Welcome to **Chapter 3: Indexing & Storage**. In this part of **LlamaIndex Tutor
 
 > Master the creation of efficient indexes and storage strategies for optimal retrieval performance.
 
+## Index and Storage Architecture
+
+```mermaid
+flowchart TD
+    NODES[TextNodes] --> IDX{Index Type}
+    IDX --> VI[VectorStoreIndex\nsemantic similarity]
+    IDX --> SI[SummaryIndex\ndocument summarization]
+    IDX --> KGI[KnowledgeGraphIndex\nentity relationships]
+    VI --> SC[StorageContext]
+    SC --> VS[VectorStore\nChroma, Pinecone, Qdrant]
+    SC --> DS[DocStore\nredis, mongo, filesystem]
+    SC --> IS[IndexStore\npersist index metadata]
+```
+
 ## 🎯 Overview
 
 This chapter covers LlamaIndex's indexing and storage capabilities, showing you how to create different types of indexes, choose appropriate storage backends, and optimize for various use cases. You'll learn to build scalable, high-performance knowledge bases for your RAG applications.
@@ -978,12 +992,25 @@ When debugging, walk this sequence in order and confirm each stage has explicit 
 
 Use the following upstream sources to verify implementation details while reading this chapter:
 
-- [View Repo](https://github.com/run-llama/llama_index)
-  Why it matters: authoritative reference on `View Repo` (github.com).
+- [`llama_index/core/storage/storage_context.py`](https://github.com/run-llama/llama_index/blob/main/llama-index-core/llama_index/core/storage/storage_context.py)
+  `StorageContext` bundles `DocStore`, `IndexStore`, `VectorStore`, and `GraphStore`. This is the persistence layer for all index types. Understanding `from_defaults()` vs `from_persist_dir()` is critical for saving and loading indices.
+
+- [`llama_index/core/indices/vector_store/base.py`](https://github.com/run-llama/llama_index/blob/main/llama-index-core/llama_index/core/indices/vector_store/base.py)
+  `VectorStoreIndex` internals including `_add_nodes_to_index()` and `_build_index_from_nodes()`. Shows how embedding batch size is controlled and how metadata filters are applied at insert time.
+
+- [`llama_index/core/storage/docstore/keyval_docstore.py`](https://github.com/run-llama/llama_index/blob/main/llama-index-core/llama_index/core/storage/docstore/keyval_docstore.py)
+  Key-value document store that persists `TextNode` objects by ID. Supports SimpleDocumentStore (in-memory/JSON) and can be backed by Redis or MongoDB via integration packages.
+
+- [`llama_index/core/indices/keyword_table/base.py`](https://github.com/run-llama/llama_index/blob/main/llama-index-core/llama_index/core/indices/keyword_table/base.py)
+  `KeywordTableIndex` implementation for keyword-based retrieval. Contrast with `VectorStoreIndex` to understand when exact keyword matching is preferable to semantic similarity search.
+
+- [`llama_index/core/graph_stores/`](https://github.com/run-llama/llama_index/tree/main/llama-index-core/llama_index/core/graph_stores)
+  Graph store interface and in-memory implementation used by `KnowledgeGraphIndex`. Shows how triples (subject, predicate, object) are extracted and stored for graph-based retrieval.
 
 Suggested trace strategy:
-- search upstream code for `index` and `documents` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+- Follow `StorageContext.persist()` to understand which files (docstore.json, index_store.json, vector_store.json) are written to disk
+- Trace `VectorStoreIndex._add_nodes_to_index()` to see how embeddings are batched and inserted into the vector store backend
+- Compare `SimpleVectorStore` (in-memory) vs a Pinecone/Weaviate integration to understand the adapter interface
 
 ## Chapter Connections
 

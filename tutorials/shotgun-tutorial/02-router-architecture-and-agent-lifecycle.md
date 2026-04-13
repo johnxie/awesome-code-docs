@@ -44,8 +44,6 @@ You now understand how Shotgun sequences specialized agents across the delivery 
 
 Next: [Chapter 3: Planning vs Drafting Execution Modes](03-planning-vs-drafting-execution-modes.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `evals/models.py`

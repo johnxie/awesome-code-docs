@@ -40,184 +40,182 @@ You now understand the evolutionary arc from BabyAGI's original three-agent loop
 
 Next: [Chapter 8: Production Patterns and Research Adaptations](08-production-patterns-and-research-adaptations.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `babyagi/functionz/packs/drafts/generate_function.py`
+### `babyagi/dashboard/static/js/function_details.js`
 
-The `ExtractionInfo` class in [`babyagi/functionz/packs/drafts/generate_function.py`](https://github.com/yoheinakajima/babyagi/blob/HEAD/babyagi/functionz/packs/drafts/generate_function.py) handles a key part of this chapter's functionality:
+The `getApiRoute` function in [`babyagi/dashboard/static/js/function_details.js`](https://github.com/yoheinakajima/babyagi/blob/HEAD/babyagi/dashboard/static/js/function_details.js) handles a key part of this chapter's functionality:
 
-```py
-        selected_urls: List[str] = Field(default_factory=list)
+```js
 
-    # Updated ExtractionInfo model with 'requires_more_info'
-    class ExtractionInfo(BaseModel):
-        relevant_info: str
-        additional_urls: List[str] = Field(default_factory=list)
-        requires_more_info: bool
+// Helper function to get the API route
+function getApiRoute(routeName, ...args) {
+    if (typeof apiRoutes[routeName] === 'function') {
+        return apiRoutes[routeName](...args);
+    } else {
+        return apiRoutes[routeName];
+    }
+}
 
-    # System prompt
-    system_prompt = """
-    You are an AI designed to help developers write Python functions using the functionz framework. Every function you generate must adhere to the following rules:
+window.getApiRoute = getApiRoute;
 
-    Function Registration: All functions must be registered with the functionz framework using the @babyagi.register_function() decorator. Each function can include metadata, dependencies, imports, and key dependencies.
+let functionData;
+let codeEditor;
 
-    Basic Function Registration Example:
+// Expose necessary functions to the global scope
+window.loadFunctionDetails = loadFunctionDetails;
+window.loadFunctionLogs = loadFunctionLogs;
+window.initCodeEditor = initCodeEditor;
+window.displayFunctionDetails = displayFunctionDetails;
+window.createExecutionForm = createExecutionForm;
+window.updateFunction = updateFunction;
+window.executeFunction = executeFunction;
+window.toggleVersionHistory = toggleVersionHistory;
+window.loadFunctionVersions = loadFunctionVersions;
+window.activateVersion = activateVersion;
 
-    def function_name(param1, param2):
-        # function logic here
-        return result
-
-    Metadata and Dependencies: When writing functions, you may include optional metadata (such as descriptions) and dependencies. Dependencies can be other functions or secrets (API keys, etc.).
-
-    Import Handling: Manage imports by specifying them in the decorator as dictionaries with 'name' and 'lib' keys. Include these imports within the function body.
-
-    Secret Management: When using API keys or authentication secrets, reference the stored key with globals()['key_name'].
-
-    Error Handling: Functions should handle errors gracefully, catching exceptions if necessary.
-
-    General Guidelines: Use simple, clean, and readable code. Follow the structure and syntax of the functionz framework. Ensure proper function documentation via metadata.
-    """
-
-    # Function to check if a URL is valid
+function loadFunctionDetails() {
+    fetch(getApiRoute('getFunction'))
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
 ```
 
-This class is important because it defines how BabyAGI Tutorial: The Original Autonomous AI Task Agent Framework implements the patterns covered in this chapter.
+This function is important because it defines how BabyAGI Tutorial: The Original Autonomous AI Task Agent Framework implements the patterns covered in this chapter.
 
-### `babyagi/functionz/packs/drafts/generate_function.py`
+### `babyagi/dashboard/static/js/function_details.js`
 
-The `GeneratedFunction` class in [`babyagi/functionz/packs/drafts/generate_function.py`](https://github.com/yoheinakajima/babyagi/blob/HEAD/babyagi/functionz/packs/drafts/generate_function.py) handles a key part of this chapter's functionality:
+The `loadFunctionDetails` function in [`babyagi/dashboard/static/js/function_details.js`](https://github.com/yoheinakajima/babyagi/blob/HEAD/babyagi/dashboard/static/js/function_details.js) handles a key part of this chapter's functionality:
 
-```py
+```js
 
-    # Define Pydantic model
-    class GeneratedFunction(BaseModel):
-        name: str
-        code: str
-        metadata: Optional[Dict[str, Any]] = Field(default_factory=dict)
-        imports: Optional[List[Dict[str, str]]] = Field(default_factory=list)
-        dependencies: List[str] = Field(default_factory=list)
-        key_dependencies: List[str] = Field(default_factory=list)
-        triggers: List[str] = Field(default_factory=list)
+// Expose necessary functions to the global scope
+window.loadFunctionDetails = loadFunctionDetails;
+window.loadFunctionLogs = loadFunctionLogs;
+window.initCodeEditor = initCodeEditor;
+window.displayFunctionDetails = displayFunctionDetails;
+window.createExecutionForm = createExecutionForm;
+window.updateFunction = updateFunction;
+window.executeFunction = executeFunction;
+window.toggleVersionHistory = toggleVersionHistory;
+window.loadFunctionVersions = loadFunctionVersions;
+window.activateVersion = activateVersion;
 
-        class Config:
-            extra = "forbid"
+function loadFunctionDetails() {
+    fetch(getApiRoute('getFunction'))
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            functionData = data;
+            console.log("functionData",functionData)
+            displayFunctionDetails();
+            createExecutionForm();
+            initCodeEditor();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            document.getElementById('functionDetails').innerHTML = `<p>Error loading function details: ${error.message}</p>`;
+        });
+```
 
-    # System prompt
-    system_prompt = """
-    You are an AI designed to help developers write Python functions using the functionz framework. Every function you generate must adhere to the following rules:
+This function is important because it defines how BabyAGI Tutorial: The Original Autonomous AI Task Agent Framework implements the patterns covered in this chapter.
 
-    Function Registration: All functions must be registered with the functionz framework using the @babyagi.register_function() decorator. Each function can include metadata, dependencies, imports, and key dependencies.
+### `babyagi/dashboard/static/js/function_details.js`
 
-    Basic Function Registration Example:
+The `loadFunctionLogs` function in [`babyagi/dashboard/static/js/function_details.js`](https://github.com/yoheinakajima/babyagi/blob/HEAD/babyagi/dashboard/static/js/function_details.js) handles a key part of this chapter's functionality:
 
-    def function_name(param1, param2):
-        # function logic here
-        return result
+```js
+// Expose necessary functions to the global scope
+window.loadFunctionDetails = loadFunctionDetails;
+window.loadFunctionLogs = loadFunctionLogs;
+window.initCodeEditor = initCodeEditor;
+window.displayFunctionDetails = displayFunctionDetails;
+window.createExecutionForm = createExecutionForm;
+window.updateFunction = updateFunction;
+window.executeFunction = executeFunction;
+window.toggleVersionHistory = toggleVersionHistory;
+window.loadFunctionVersions = loadFunctionVersions;
+window.activateVersion = activateVersion;
 
-    Metadata and Dependencies: When writing functions, you may include optional metadata (such as descriptions) and dependencies. Dependencies can be other functions or secrets (API keys, etc.).
+function loadFunctionDetails() {
+    fetch(getApiRoute('getFunction'))
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            functionData = data;
+            console.log("functionData",functionData)
+            displayFunctionDetails();
+            createExecutionForm();
+            initCodeEditor();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            document.getElementById('functionDetails').innerHTML = `<p>Error loading function details: ${error.message}</p>`;
+        });
+}
+```
 
-    Import Handling: Manage imports by specifying them in the decorator as dictionaries with 'name' and 'lib' keys. Include these imports within the function body.
+This function is important because it defines how BabyAGI Tutorial: The Original Autonomous AI Task Agent Framework implements the patterns covered in this chapter.
 
-    Secret Management: When using API keys or authentication secrets, reference the stored key with globals()['key_name'].
+### `babyagi/dashboard/static/js/function_details.js`
+
+The `initCodeEditor` function in [`babyagi/dashboard/static/js/function_details.js`](https://github.com/yoheinakajima/babyagi/blob/HEAD/babyagi/dashboard/static/js/function_details.js) handles a key part of this chapter's functionality:
+
+```js
+window.loadFunctionDetails = loadFunctionDetails;
+window.loadFunctionLogs = loadFunctionLogs;
+window.initCodeEditor = initCodeEditor;
+window.displayFunctionDetails = displayFunctionDetails;
+window.createExecutionForm = createExecutionForm;
+window.updateFunction = updateFunction;
+window.executeFunction = executeFunction;
+window.toggleVersionHistory = toggleVersionHistory;
+window.loadFunctionVersions = loadFunctionVersions;
+window.activateVersion = activateVersion;
+
+function loadFunctionDetails() {
+    fetch(getApiRoute('getFunction'))
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            functionData = data;
+            console.log("functionData",functionData)
+            displayFunctionDetails();
+            createExecutionForm();
+            initCodeEditor();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            document.getElementById('functionDetails').innerHTML = `<p>Error loading function details: ${error.message}</p>`;
+        });
+}
 
 ```
 
-This class is important because it defines how BabyAGI Tutorial: The Original Autonomous AI Task Agent Framework implements the patterns covered in this chapter.
-
-### `babyagi/functionz/packs/drafts/generate_function.py`
-
-The `Config` class in [`babyagi/functionz/packs/drafts/generate_function.py`](https://github.com/yoheinakajima/babyagi/blob/HEAD/babyagi/functionz/packs/drafts/generate_function.py) handles a key part of this chapter's functionality:
-
-```py
-        triggers: List[str] = Field(default_factory=list)
-
-        class Config:
-            extra = "forbid"
-
-    # System prompt
-    system_prompt = """
-    You are an AI designed to help developers write Python functions using the functionz framework. Every function you generate must adhere to the following rules:
-
-    Function Registration: All functions must be registered with the functionz framework using the @babyagi.register_function() decorator. Each function can include metadata, dependencies, imports, and key dependencies.
-
-    Basic Function Registration Example:
-
-    def function_name(param1, param2):
-        # function logic here
-        return result
-
-    Metadata and Dependencies: When writing functions, you may include optional metadata (such as descriptions) and dependencies. Dependencies can be other functions or secrets (API keys, etc.).
-
-    Import Handling: Manage imports by specifying them in the decorator as dictionaries with 'name' and 'lib' keys. Include these imports within the function body.
-
-    Secret Management: When using API keys or authentication secrets, reference the stored key with globals()['key_name'].
-
-    Error Handling: Functions should handle errors gracefully, catching exceptions if necessary.
-
-    General Guidelines: Use simple, clean, and readable code. Follow the structure and syntax of the functionz framework. Ensure proper function documentation via metadata.
-    """
-
-    # Function to chunk text
-    def chunk_text(text: str, chunk_size: int = 100000, overlap: int = 10000) -> List[str]:
-        chunks = []
-        start = 0
-```
-
-This class is important because it defines how BabyAGI Tutorial: The Original Autonomous AI Task Agent Framework implements the patterns covered in this chapter.
-
-### `babyagi/functionz/packs/drafts/generate_function.py`
-
-The `Endpoint` class in [`babyagi/functionz/packs/drafts/generate_function.py`](https://github.com/yoheinakajima/babyagi/blob/HEAD/babyagi/functionz/packs/drafts/generate_function.py) handles a key part of this chapter's functionality:
-
-```py
-
-    # Define Pydantic models
-    class Endpoint(BaseModel):
-        method: Optional[str]
-        url: str
-        description: Optional[str] = None
-
-    class APIDetails(BaseModel):
-        api_name: str = Field(alias="name")  # Use alias to map 'name' to 'api_name'
-        purpose: str
-        endpoints: Optional[List[Union[Endpoint, str]]] = Field(default_factory=list)
-
-        @validator("endpoints", pre=True, each_item=True)
-        def convert_to_endpoint(cls, v):
-            """Convert string URLs into Endpoint objects if necessary."""
-            if isinstance(v, str):
-                return Endpoint(url=v)  # Create an Endpoint object from a URL string
-            return v
-
-    class APIResponse(BaseModel):
-        name: str
-        purpose: str
-        endpoints: List[Endpoint]
-
-    # System prompt
-    system_prompt = """
-    [Your existing system prompt here]
-    """
-
-    prompt_for_apis = f"""You are an assistant analyzing function requirements.
-
-    The user has provided the following function description: {description}.
-```
-
-This class is important because it defines how BabyAGI Tutorial: The Original Autonomous AI Task Agent Framework implements the patterns covered in this chapter.
+This function is important because it defines how BabyAGI Tutorial: The Original Autonomous AI Task Agent Framework implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[ExtractionInfo]
-    B[GeneratedFunction]
-    C[Config]
-    D[Endpoint]
-    E[APIResponse]
+    A[getApiRoute]
+    B[loadFunctionDetails]
+    C[loadFunctionLogs]
+    D[initCodeEditor]
+    E[code]
     A --> B
     B --> C
     C --> D

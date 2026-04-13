@@ -15,6 +15,17 @@ Welcome to **Chapter 5: Status and Conditions - Reporting Resource Status and Im
 
 ## Overview
 
+```mermaid
+flowchart TD
+    A[Reconcile completes] --> B[Compute status]
+    B --> C{All pods ready?}
+    C -->|yes| D[Set Available=True]
+    C -->|no| E[Set Available=False reason=Progressing]
+    D --> F[Patch CR status subresource]
+    E --> F
+    F --> G[kubectl get myapp shows status]
+```
+
 Status reporting is crucial for operator observability. This chapter covers implementing comprehensive status reporting, condition patterns, and ensuring operators provide clear feedback about managed resources.
 
 ## Status Subresource

@@ -110,9 +110,48 @@ Suggested trace strategy:
 - [Main Catalog](../../README.md#-tutorial-catalog)
 - [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
+
+### `src/py.rs`
+
+The `TiktokenBuffer` interface in [`src/py.rs`](https://github.com/openai/tiktoken/blob/HEAD/src/py.rs) handles a key part of this chapter's functionality:
+
+```rs
+        };
+
+        let buffer = TiktokenBuffer { tokens };
+        buffer.into_py_any(py)
+    }
+
+    fn _encode_bytes(&self, py: Python, bytes: &[u8]) -> Vec<Rank> {
+        py.detach(|| {
+            match std::str::from_utf8(bytes) {
+                // Straightforward case
+                Ok(text) => self.encode_ordinary(text),
+                // Oops, don't actually have UTF-8. But we need to do the regex splitting in
+                // Unicode space, so we make our best guess at where we would have splits
+                Err(e) => {
+                    let text = unsafe { std::str::from_utf8_unchecked(&bytes[..e.valid_up_to()]) };
+                    let (tokens, last_piece_token_len) =
+                        self.encode(text, &HashSet::new()).unwrap();
+                    let (mut tokens, last_piece_token_len) =
+                        self._increase_last_piece_token_len(tokens, last_piece_token_len);
+
+                    let mut unstable_bytes;
+                    if !tokens.is_empty() && last_piece_token_len > 0 {
+                        // Lop off the tokens from the last piece and run BPE on the remaining bytes
+                        // This likely matches what models see better, e.g. if you assume we're
+                        // dealing with truncated UTF-8 bytes.
+                        // Niche, but note this may not be correct if we'd have had a regex
+                        // split between the valid UTF-8 and the invalid bytes.
+                        unstable_bytes = self
+                            .decode_bytes(&tokens[tokens.len() - last_piece_token_len..])
+                            .unwrap();
+                        unstable_bytes.extend_from_slice(&bytes[e.valid_up_to()..]);
+
+```
+
+This interface is important because it defines how tiktoken Tutorial: OpenAI Token Encoding & Optimization implements the patterns covered in this chapter.
 
 ### `tiktoken/load.py`
 
@@ -237,57 +276,16 @@ def read_file_cached(blobpath: str, expected_hash: str | None = None) -> bytes:
 
 This function is important because it defines how tiktoken Tutorial: OpenAI Token Encoding & Optimization implements the patterns covered in this chapter.
 
-### `tiktoken/load.py`
-
-The `data_gym_to_mergeable_bpe_ranks` function in [`tiktoken/load.py`](https://github.com/openai/tiktoken/blob/HEAD/tiktoken/load.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-def data_gym_to_mergeable_bpe_ranks(
-    vocab_bpe_file: str,
-    encoder_json_file: str,
-    vocab_bpe_hash: str | None = None,
-    encoder_json_hash: str | None = None,
-    clobber_one_byte_tokens: bool = False,
-) -> dict[bytes, int]:
-    # NB: do not add caching to this function
-    rank_to_intbyte = [b for b in range(2**8) if chr(b).isprintable() and chr(b) != " "]
-
-    data_gym_byte_to_byte = {chr(b): b for b in rank_to_intbyte}
-    n = 0
-    for b in range(2**8):
-        if b not in rank_to_intbyte:
-            rank_to_intbyte.append(b)
-            data_gym_byte_to_byte[chr(2**8 + n)] = b
-            n += 1
-    assert len(rank_to_intbyte) == 2**8
-
-    # vocab_bpe contains the merges along with associated ranks
-    vocab_bpe_contents = read_file_cached(vocab_bpe_file, vocab_bpe_hash).decode()
-    bpe_merges = [tuple(merge_str.split()) for merge_str in vocab_bpe_contents.split("\n")[1:-1]]
-
-    def decode_data_gym(value: str) -> bytes:
-        return bytes(data_gym_byte_to_byte[b] for b in value)
-
-    # add the single byte tokens
-    # if clobber_one_byte_tokens is True, we'll replace these with ones from the encoder json
-    bpe_ranks = {bytes([b]): i for i, b in enumerate(rank_to_intbyte)}
-    del rank_to_intbyte
-```
-
-This function is important because it defines how tiktoken Tutorial: OpenAI Token Encoding & Optimization implements the patterns covered in this chapter.
-
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[read_file]
-    B[check_hash]
-    C[read_file_cached]
-    D[data_gym_to_mergeable_bpe_ranks]
-    E[dump_tiktoken_bpe]
+    A[TiktokenBuffer]
+    B[read_file]
+    C[check_hash]
+    D[read_file_cached]
+    E[data_gym_to_mergeable_bpe_ranks]
     A --> B
     B --> C
     C --> D

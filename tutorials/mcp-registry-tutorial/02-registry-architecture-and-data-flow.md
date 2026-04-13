@@ -45,170 +45,168 @@ You now have a system-level model for registry behavior.
 
 Next: [Chapter 3: server.json Schema and Package Verification](03-server-json-schema-and-package-verification.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `internal/validators/validators.go`
+### `internal/service/registry_service.go`
 
-The `validateNamedArgumentName` function in [`internal/validators/validators.go`](https://github.com/modelcontextprotocol/registry/blob/HEAD/internal/validators/validators.go) handles a key part of this chapter's functionality:
+The `ListServers` function in [`internal/service/registry_service.go`](https://github.com/modelcontextprotocol/registry/blob/HEAD/internal/service/registry_service.go) handles a key part of this chapter's functionality:
 
 ```go
-	if obj.Type == model.ArgumentTypeNamed {
-		// Validate named argument name format
-		nameResult := validateNamedArgumentName(ctx.Field("name"), obj.Name)
-		result.Merge(nameResult)
-
-		// Validate value and default don't start with the name
-		valueResult := validateArgumentValueFields(ctx, obj.Name, obj.Value, obj.Default)
-		result.Merge(valueResult)
-	}
-	return result
 }
 
-func validateNamedArgumentName(ctx *ValidationContext, name string) *ValidationResult {
-	result := &ValidationResult{Valid: true, Issues: []ValidationIssue{}}
-
-	// Check if name is required for named arguments
-	if name == "" {
-		issue := NewValidationIssueFromError(
-			ValidationIssueTypeSemantic,
-			ctx.String(),
-			ErrNamedArgumentNameRequired,
-			"named-argument-name-required",
-		)
-		result.AddIssue(issue)
-		return result
+// ListServers returns registry entries with cursor-based pagination and optional filtering
+func (s *registryServiceImpl) ListServers(ctx context.Context, filter *database.ServerFilter, cursor string, limit int) ([]*apiv0.ServerResponse, string, error) {
+	// If limit is not set or negative, use a default limit
+	if limit <= 0 {
+		limit = 30
 	}
 
-	// Check for invalid characters that suggest embedded values or descriptions
-	// Valid: "--directory", "--port", "-v", "config", "verbose"
-	// Invalid: "--directory <absolute_path_to_adfin_mcp_folder>", "--port 8080"
-	if strings.Contains(name, "<") || strings.Contains(name, ">") ||
-		strings.Contains(name, " ") || strings.Contains(name, "$") {
+	// Use the database's ListServers method with pagination and filtering
+	serverRecords, nextCursor, err := s.db.ListServers(ctx, nil, filter, cursor, limit)
+	if err != nil {
+		return nil, "", err
+	}
+
+	return serverRecords, nextCursor, nil
+}
+
+// GetServerByName retrieves the latest version of a server by its server name
+func (s *registryServiceImpl) GetServerByName(ctx context.Context, serverName string, includeDeleted bool) (*apiv0.ServerResponse, error) {
+	serverRecord, err := s.db.GetServerByName(ctx, nil, serverName, includeDeleted)
+	if err != nil {
+		return nil, err
+	}
+
+	return serverRecord, nil
+}
+
+// GetServerByNameAndVersion retrieves a specific version of a server by server name and version
+func (s *registryServiceImpl) GetServerByNameAndVersion(ctx context.Context, serverName string, version string, includeDeleted bool) (*apiv0.ServerResponse, error) {
+	serverRecord, err := s.db.GetServerByNameAndVersion(ctx, nil, serverName, version, includeDeleted)
+	if err != nil {
 ```
 
 This function is important because it defines how MCP Registry Tutorial: Publishing, Discovery, and Governance for MCP Servers implements the patterns covered in this chapter.
 
-### `internal/validators/validators.go`
+### `internal/service/registry_service.go`
 
-The `validateArgumentValueFields` function in [`internal/validators/validators.go`](https://github.com/modelcontextprotocol/registry/blob/HEAD/internal/validators/validators.go) handles a key part of this chapter's functionality:
+The `GetServerByName` function in [`internal/service/registry_service.go`](https://github.com/modelcontextprotocol/registry/blob/HEAD/internal/service/registry_service.go) handles a key part of this chapter's functionality:
 
 ```go
-
-		// Validate value and default don't start with the name
-		valueResult := validateArgumentValueFields(ctx, obj.Name, obj.Value, obj.Default)
-		result.Merge(valueResult)
-	}
-	return result
 }
 
-func validateNamedArgumentName(ctx *ValidationContext, name string) *ValidationResult {
-	result := &ValidationResult{Valid: true, Issues: []ValidationIssue{}}
-
-	// Check if name is required for named arguments
-	if name == "" {
-		issue := NewValidationIssueFromError(
-			ValidationIssueTypeSemantic,
-			ctx.String(),
-			ErrNamedArgumentNameRequired,
-			"named-argument-name-required",
-		)
-		result.AddIssue(issue)
-		return result
+// GetServerByName retrieves the latest version of a server by its server name
+func (s *registryServiceImpl) GetServerByName(ctx context.Context, serverName string, includeDeleted bool) (*apiv0.ServerResponse, error) {
+	serverRecord, err := s.db.GetServerByName(ctx, nil, serverName, includeDeleted)
+	if err != nil {
+		return nil, err
 	}
 
-	// Check for invalid characters that suggest embedded values or descriptions
-	// Valid: "--directory", "--port", "-v", "config", "verbose"
-	// Invalid: "--directory <absolute_path_to_adfin_mcp_folder>", "--port 8080"
-	if strings.Contains(name, "<") || strings.Contains(name, ">") ||
-		strings.Contains(name, " ") || strings.Contains(name, "$") {
-		issue := NewValidationIssueFromError(
-			ValidationIssueTypeSemantic,
-			ctx.String(),
-			fmt.Errorf("%w: %s", ErrInvalidNamedArgumentName, name),
+	return serverRecord, nil
+}
+
+// GetServerByNameAndVersion retrieves a specific version of a server by server name and version
+func (s *registryServiceImpl) GetServerByNameAndVersion(ctx context.Context, serverName string, version string, includeDeleted bool) (*apiv0.ServerResponse, error) {
+	serverRecord, err := s.db.GetServerByNameAndVersion(ctx, nil, serverName, version, includeDeleted)
+	if err != nil {
+		return nil, err
+	}
+
+	return serverRecord, nil
+}
+
+// GetAllVersionsByServerName retrieves all versions of a server by server name
+func (s *registryServiceImpl) GetAllVersionsByServerName(ctx context.Context, serverName string, includeDeleted bool) ([]*apiv0.ServerResponse, error) {
+	serverRecords, err := s.db.GetAllVersionsByServerName(ctx, nil, serverName, includeDeleted)
+	if err != nil {
+		return nil, err
+	}
+
+	return serverRecords, nil
+}
+
 ```
 
 This function is important because it defines how MCP Registry Tutorial: Publishing, Discovery, and Governance for MCP Servers implements the patterns covered in this chapter.
 
-### `internal/validators/validators.go`
+### `internal/service/registry_service.go`
 
-The `collectAvailableVariables` function in [`internal/validators/validators.go`](https://github.com/modelcontextprotocol/registry/blob/HEAD/internal/validators/validators.go) handles a key part of this chapter's functionality:
+The `GetServerByNameAndVersion` function in [`internal/service/registry_service.go`](https://github.com/modelcontextprotocol/registry/blob/HEAD/internal/service/registry_service.go) handles a key part of this chapter's functionality:
 
 ```go
-
-	// Validate transport with template variable support
-	availableVariables := collectAvailableVariables(obj)
-	transportResult := validatePackageTransport(ctx.Field("transport"), &obj.Transport, availableVariables)
-	result.Merge(transportResult)
-
-	return result
 }
 
-// validateVersion validates the version string.
-// NB: we decided that we would not enforce strict semver for version strings
-func validateVersion(ctx *ValidationContext, version string) *ValidationResult {
-	result := &ValidationResult{Valid: true, Issues: []ValidationIssue{}}
-
-	if version == "latest" {
-		issue := NewValidationIssueFromError(
-			ValidationIssueTypeSemantic,
-			ctx.String(),
-			ErrReservedVersionString,
-			"reserved-version-string",
-		)
-		result.AddIssue(issue)
-		return result
+// GetServerByNameAndVersion retrieves a specific version of a server by server name and version
+func (s *registryServiceImpl) GetServerByNameAndVersion(ctx context.Context, serverName string, version string, includeDeleted bool) (*apiv0.ServerResponse, error) {
+	serverRecord, err := s.db.GetServerByNameAndVersion(ctx, nil, serverName, version, includeDeleted)
+	if err != nil {
+		return nil, err
 	}
 
-	// Reject semver range-like inputs
-	if looksLikeVersionRange(version) {
-		issue := NewValidationIssueFromError(
-			ValidationIssueTypeSemantic,
-			ctx.String(),
-			fmt.Errorf("%w: %q", ErrVersionLooksLikeRange, version),
-			"version-looks-like-range",
+	return serverRecord, nil
+}
+
+// GetAllVersionsByServerName retrieves all versions of a server by server name
+func (s *registryServiceImpl) GetAllVersionsByServerName(ctx context.Context, serverName string, includeDeleted bool) ([]*apiv0.ServerResponse, error) {
+	serverRecords, err := s.db.GetAllVersionsByServerName(ctx, nil, serverName, includeDeleted)
+	if err != nil {
+		return nil, err
+	}
+
+	return serverRecords, nil
+}
+
+// CreateServer creates a new server version
+func (s *registryServiceImpl) CreateServer(ctx context.Context, req *apiv0.ServerJSON) (*apiv0.ServerResponse, error) {
+	// Wrap the entire operation in a transaction
+	return database.InTransactionT(ctx, s.db, func(ctx context.Context, tx pgx.Tx) (*apiv0.ServerResponse, error) {
+		return s.createServerInTransaction(ctx, tx, req)
+	})
+}
+
+// createServerInTransaction contains the actual CreateServer logic within a transaction
+func (s *registryServiceImpl) createServerInTransaction(ctx context.Context, tx pgx.Tx, req *apiv0.ServerJSON) (*apiv0.ServerResponse, error) {
 ```
 
 This function is important because it defines how MCP Registry Tutorial: Publishing, Discovery, and Governance for MCP Servers implements the patterns covered in this chapter.
 
-### `internal/validators/validators.go`
+### `internal/service/registry_service.go`
 
-The `collectRemoteTransportVariables` function in [`internal/validators/validators.go`](https://github.com/modelcontextprotocol/registry/blob/HEAD/internal/validators/validators.go) handles a key part of this chapter's functionality:
+The `GetAllVersionsByServerName` function in [`internal/service/registry_service.go`](https://github.com/modelcontextprotocol/registry/blob/HEAD/internal/service/registry_service.go) handles a key part of this chapter's functionality:
 
 ```go
 }
 
-// collectRemoteTransportVariables extracts available variable names from a remote transport
-func collectRemoteTransportVariables(transport *model.Transport) []string {
-	var variables []string
-
-	// Add variable names from the Variables map
-	for variableName := range transport.Variables {
-		if variableName != "" {
-			variables = append(variables, variableName)
-		}
+// GetAllVersionsByServerName retrieves all versions of a server by server name
+func (s *registryServiceImpl) GetAllVersionsByServerName(ctx context.Context, serverName string, includeDeleted bool) ([]*apiv0.ServerResponse, error) {
+	serverRecords, err := s.db.GetAllVersionsByServerName(ctx, nil, serverName, includeDeleted)
+	if err != nil {
+		return nil, err
 	}
 
-	return variables
+	return serverRecords, nil
 }
 
-// validatePackageTransport validates a package's transport with templating support
-func validatePackageTransport(ctx *ValidationContext, transport *model.Transport, availableVariables []string) *ValidationResult {
-	result := &ValidationResult{Valid: true, Issues: []ValidationIssue{}}
+// CreateServer creates a new server version
+func (s *registryServiceImpl) CreateServer(ctx context.Context, req *apiv0.ServerJSON) (*apiv0.ServerResponse, error) {
+	// Wrap the entire operation in a transaction
+	return database.InTransactionT(ctx, s.db, func(ctx context.Context, tx pgx.Tx) (*apiv0.ServerResponse, error) {
+		return s.createServerInTransaction(ctx, tx, req)
+	})
+}
 
-	// Validate transport type is supported
-	switch transport.Type {
-	case model.TransportTypeStdio:
-		// Validate that URL is empty for stdio transport
-		if transport.URL != "" {
-			issue := NewValidationIssue(
-				ValidationIssueTypeSemantic,
-				ctx.Field("url").String(),
-				fmt.Sprintf("url must be empty for %s transport type, got: %s", transport.Type, transport.URL),
-				ValidationIssueSeverityError,
-				"stdio-transport-url-not-empty",
-			)
+// createServerInTransaction contains the actual CreateServer logic within a transaction
+func (s *registryServiceImpl) createServerInTransaction(ctx context.Context, tx pgx.Tx, req *apiv0.ServerJSON) (*apiv0.ServerResponse, error) {
+	// Validate the request
+	if err := validators.ValidatePublishRequest(ctx, *req, s.cfg); err != nil {
+		return nil, err
+	}
+
+	publishTime := time.Now()
+	serverJSON := *req
+
+	// Acquire advisory lock to prevent concurrent publishes of the same server
+	if err := s.db.AcquirePublishLock(ctx, tx, serverJSON.Name); err != nil {
 ```
 
 This function is important because it defines how MCP Registry Tutorial: Publishing, Discovery, and Governance for MCP Servers implements the patterns covered in this chapter.
@@ -218,11 +216,11 @@ This function is important because it defines how MCP Registry Tutorial: Publish
 
 ```mermaid
 flowchart TD
-    A[validateNamedArgumentName]
-    B[validateArgumentValueFields]
-    C[collectAvailableVariables]
-    D[collectRemoteTransportVariables]
-    E[validatePackageTransport]
+    A[ListServers]
+    B[GetServerByName]
+    C[GetServerByNameAndVersion]
+    D[GetAllVersionsByServerName]
+    E[CreateServer]
     A --> B
     B --> C
     C --> D

@@ -56,170 +56,168 @@ You now understand how Crush organizes context and configuration across sessions
 
 Next: [Chapter 3: Providers and Model Configuration](03-providers-and-model-configuration.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `internal/lsp/client.go`
+### `internal/config/config.go`
 
-The `HandlesFile` function in [`internal/lsp/client.go`](https://github.com/charmbracelet/crush/blob/HEAD/internal/lsp/client.go) handles a key part of this chapter's functionality:
-
-```go
-}
-
-// HandlesFile checks if this LSP client handles the given file based on its
-// extension and whether it's within the working directory.
-func (c *Client) HandlesFile(path string) bool {
-	if c == nil {
-		return false
-	}
-	if !fsext.HasPrefix(path, c.cwd) {
-		slog.Debug("File outside workspace", "name", c.name, "file", path, "workDir", c.cwd)
-		return false
-	}
-	return handlesFiletype(c.name, c.fileTypes, path)
-}
-
-// OpenFile opens a file in the LSP server.
-func (c *Client) OpenFile(ctx context.Context, filepath string) error {
-	if !c.HandlesFile(filepath) {
-		return nil
-	}
-
-	uri := string(protocol.URIFromPath(filepath))
-
-	if _, exists := c.openFiles.Get(uri); exists {
-		return nil // Already open
-	}
-
-	// Skip files that do not exist or cannot be read
-	content, err := os.ReadFile(filepath)
-	if err != nil {
-		return fmt.Errorf("error reading file: %w", err)
-	}
-```
-
-This function is important because it defines how Crush Tutorial: Multi-Model Terminal Coding Agent with Strong Extensibility implements the patterns covered in this chapter.
-
-### `internal/lsp/client.go`
-
-The `OpenFile` function in [`internal/lsp/client.go`](https://github.com/charmbracelet/crush/blob/HEAD/internal/lsp/client.go) handles a key part of this chapter's functionality:
-
-```go
-
-	// Files are currently opened by the LSP
-	openFiles *csync.Map[string, *OpenFileInfo]
-
-	// Server state
-	serverState atomic.Value
-}
-
-// New creates a new LSP client using the powernap implementation.
-func New(
-	ctx context.Context,
-	name string,
-	cfg config.LSPConfig,
-	resolver config.VariableResolver,
-	cwd string,
-	debug bool,
-) (*Client, error) {
-	client := &Client{
-		name:        name,
-		fileTypes:   cfg.FileTypes,
-		diagnostics: csync.NewVersionedMap[protocol.DocumentURI, []protocol.Diagnostic](),
-		openFiles:   csync.NewMap[string, *OpenFileInfo](),
-		config:      cfg,
-		ctx:         ctx,
-		debug:       debug,
-		resolver:    resolver,
-		cwd:         cwd,
-	}
-	client.serverState.Store(StateStopped)
-
-	if err := client.createPowernapClient(); err != nil {
-		return nil, err
-```
-
-This function is important because it defines how Crush Tutorial: Multi-Model Terminal Coding Agent with Strong Extensibility implements the patterns covered in this chapter.
-
-### `internal/lsp/client.go`
-
-The `NotifyChange` function in [`internal/lsp/client.go`](https://github.com/charmbracelet/crush/blob/HEAD/internal/lsp/client.go) handles a key part of this chapter's functionality:
+The `Limits` function in [`internal/config/config.go`](https://github.com/charmbracelet/crush/blob/HEAD/internal/config/config.go) handles a key part of this chapter's functionality:
 
 ```go
 }
 
-// NotifyChange notifies the server about a file change.
-func (c *Client) NotifyChange(ctx context.Context, filepath string) error {
-	if c == nil {
-		return nil
-	}
-	uri := string(protocol.URIFromPath(filepath))
-
-	content, err := os.ReadFile(filepath)
-	if err != nil {
-		return fmt.Errorf("error reading file: %w", err)
-	}
-
-	fileInfo, isOpen := c.openFiles.Get(uri)
-	if !isOpen {
-		return fmt.Errorf("cannot notify change for unopened file: %s", filepath)
-	}
-
-	// Increment version
-	fileInfo.Version++
-
-	// Create change event
-	changes := []protocol.TextDocumentContentChangeEvent{
-		{
-			Value: protocol.TextDocumentContentChangeWholeDocument{
-				Text: string(content),
-			},
-		},
-	}
-
-	return c.client.NotifyDidChangeTextDocument(ctx, uri, int(fileInfo.Version), changes)
-```
-
-This function is important because it defines how Crush Tutorial: Multi-Model Terminal Coding Agent with Strong Extensibility implements the patterns covered in this chapter.
-
-### `internal/lsp/client.go`
-
-The `IsFileOpen` function in [`internal/lsp/client.go`](https://github.com/charmbracelet/crush/blob/HEAD/internal/lsp/client.go) handles a key part of this chapter's functionality:
-
-```go
+func (c Completions) Limits() (depth, items int) {
+	return ptrValOr(c.MaxDepth, 0), ptrValOr(c.MaxItems, 0)
 }
 
-// IsFileOpen checks if a file is currently open.
-func (c *Client) IsFileOpen(filepath string) bool {
-	uri := string(protocol.URIFromPath(filepath))
-	_, exists := c.openFiles.Get(uri)
-	return exists
+type Permissions struct {
+	AllowedTools []string `json:"allowed_tools,omitempty" jsonschema:"description=List of tools that don't require permission prompts,example=bash,example=view"`
 }
 
-// CloseAllFiles closes all currently open files.
-func (c *Client) CloseAllFiles(ctx context.Context) {
-	for uri := range c.openFiles.Seq2() {
-		if c.debug {
-			slog.Debug("Closing file", "file", uri)
+type TrailerStyle string
+
+const (
+	TrailerStyleNone         TrailerStyle = "none"
+	TrailerStyleCoAuthoredBy TrailerStyle = "co-authored-by"
+	TrailerStyleAssistedBy   TrailerStyle = "assisted-by"
+)
+
+type Attribution struct {
+	TrailerStyle  TrailerStyle `json:"trailer_style,omitempty" jsonschema:"description=Style of attribution trailer to add to commits,enum=none,enum=co-authored-by,enum=assisted-by,default=assisted-by"`
+	CoAuthoredBy  *bool        `json:"co_authored_by,omitempty" jsonschema:"description=Deprecated: use trailer_style instead"`
+	GeneratedWith bool         `json:"generated_with,omitempty" jsonschema:"description=Add Generated with Crush line to commit messages and issues and PRs,default=true"`
+}
+
+// JSONSchemaExtend marks the co_authored_by field as deprecated in the schema.
+func (Attribution) JSONSchemaExtend(schema *jsonschema.Schema) {
+	if schema.Properties != nil {
+		if prop, ok := schema.Properties.Get("co_authored_by"); ok {
+			prop.Deprecated = true
 		}
-		if err := c.client.NotifyDidCloseTextDocument(ctx, uri); err != nil {
-			slog.Warn("Error closing file", "uri", uri, "error", err)
+	}
+}
+```
+
+This function is important because it defines how Crush Tutorial: Multi-Model Terminal Coding Agent with Strong Extensibility implements the patterns covered in this chapter.
+
+### `internal/config/config.go`
+
+The `Sorted` function in [`internal/config/config.go`](https://github.com/charmbracelet/crush/blob/HEAD/internal/config/config.go) handles a key part of this chapter's functionality:
+
+```go
+}
+
+func (m MCPs) Sorted() []MCP {
+	sorted := make([]MCP, 0, len(m))
+	for k, v := range m {
+		sorted = append(sorted, MCP{
+			Name: k,
+			MCP:  v,
+		})
+	}
+	slices.SortFunc(sorted, func(a, b MCP) int {
+		return strings.Compare(a.Name, b.Name)
+	})
+	return sorted
+}
+
+type LSPs map[string]LSPConfig
+
+type LSP struct {
+	Name string    `json:"name"`
+	LSP  LSPConfig `json:"lsp"`
+}
+
+func (l LSPs) Sorted() []LSP {
+	sorted := make([]LSP, 0, len(l))
+	for k, v := range l {
+		sorted = append(sorted, LSP{
+			Name: k,
+			LSP:  v,
+		})
+	}
+	slices.SortFunc(sorted, func(a, b LSP) int {
+```
+
+This function is important because it defines how Crush Tutorial: Multi-Model Terminal Coding Agent with Strong Extensibility implements the patterns covered in this chapter.
+
+### `internal/config/config.go`
+
+The `Sorted` function in [`internal/config/config.go`](https://github.com/charmbracelet/crush/blob/HEAD/internal/config/config.go) handles a key part of this chapter's functionality:
+
+```go
+}
+
+func (m MCPs) Sorted() []MCP {
+	sorted := make([]MCP, 0, len(m))
+	for k, v := range m {
+		sorted = append(sorted, MCP{
+			Name: k,
+			MCP:  v,
+		})
+	}
+	slices.SortFunc(sorted, func(a, b MCP) int {
+		return strings.Compare(a.Name, b.Name)
+	})
+	return sorted
+}
+
+type LSPs map[string]LSPConfig
+
+type LSP struct {
+	Name string    `json:"name"`
+	LSP  LSPConfig `json:"lsp"`
+}
+
+func (l LSPs) Sorted() []LSP {
+	sorted := make([]LSP, 0, len(l))
+	for k, v := range l {
+		sorted = append(sorted, LSP{
+			Name: k,
+			LSP:  v,
+		})
+	}
+	slices.SortFunc(sorted, func(a, b LSP) int {
+```
+
+This function is important because it defines how Crush Tutorial: Multi-Model Terminal Coding Agent with Strong Extensibility implements the patterns covered in this chapter.
+
+### `internal/config/config.go`
+
+The `ResolvedEnv` function in [`internal/config/config.go`](https://github.com/charmbracelet/crush/blob/HEAD/internal/config/config.go) handles a key part of this chapter's functionality:
+
+```go
+}
+
+func (l LSPConfig) ResolvedEnv() []string {
+	return resolveEnvs(l.Env)
+}
+
+func (m MCPConfig) ResolvedEnv() []string {
+	return resolveEnvs(m.Env)
+}
+
+func (m MCPConfig) ResolvedHeaders() map[string]string {
+	resolver := NewShellVariableResolver(env.New())
+	for e, v := range m.Headers {
+		var err error
+		m.Headers[e], err = resolver.ResolveValue(v)
+		if err != nil {
+			slog.Error("Error resolving header variable", "error", err, "variable", e, "value", v)
 			continue
 		}
-		c.openFiles.Del(uri)
 	}
+	return m.Headers
 }
 
-// GetFileDiagnostics returns diagnostics for a specific file.
-func (c *Client) GetFileDiagnostics(uri protocol.DocumentURI) []protocol.Diagnostic {
-	diags, _ := c.diagnostics.Get(uri)
-	return diags
-}
+type Agent struct {
+	ID          string `json:"id,omitempty"`
+	Name        string `json:"name,omitempty"`
+	Description string `json:"description,omitempty"`
+	// This is the id of the system prompt used by the agent
+	Disabled bool `json:"disabled,omitempty"`
 
-// GetDiagnostics returns all diagnostics for all files.
-func (c *Client) GetDiagnostics() map[protocol.DocumentURI][]protocol.Diagnostic {
-	if c == nil {
+	Model SelectedModelType `json:"model" jsonschema:"required,description=The model type to use for this agent,enum=large,enum=small,default=large"`
+
 ```
 
 This function is important because it defines how Crush Tutorial: Multi-Model Terminal Coding Agent with Strong Extensibility implements the patterns covered in this chapter.
@@ -229,11 +227,11 @@ This function is important because it defines how Crush Tutorial: Multi-Model Te
 
 ```mermaid
 flowchart TD
-    A[HandlesFile]
-    B[OpenFile]
-    C[NotifyChange]
-    D[IsFileOpen]
-    E[CloseAllFiles]
+    A[Limits]
+    B[Sorted]
+    C[Sorted]
+    D[ResolvedEnv]
+    E[ResolvedEnv]
     A --> B
     B --> C
     C --> D

@@ -26,168 +26,166 @@ You now know how to keep skill metadata synchronized and discoverable.
 
 Next: [Chapter 5: Universal Mode and Multi-Agent Setups](05-universal-mode-and-multi-agent-setups.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `src/commands/install.ts`
 
-The `buildMetadataFromSource` function in [`src/commands/install.ts`](https://github.com/numman-ali/openskills/blob/HEAD/src/commands/install.ts) handles a key part of this chapter's functionality:
+The `printPostInstallHints` function in [`src/commands/install.ts`](https://github.com/numman-ali/openskills/blob/HEAD/src/commands/install.ts) handles a key part of this chapter's functionality:
 
 ```ts
-    }
-    cpSync(info.skillDir, info.targetPath, { recursive: true, dereference: true });
-    writeSkillMetadata(info.targetPath, buildMetadataFromSource(sourceInfo, info.skillDir, repoDir));
-
-    console.log(chalk.green(`✅ Installed: ${info.skillName}`));
-    installedCount++;
+    };
+    await installFromLocal(localPath, targetDir, options, sourceInfo);
+    printPostInstallHints(isProject);
+    return;
   }
 
-  console.log(chalk.green(`\n✅ Installation complete: ${installedCount} skill(s) installed`));
-}
+  // Parse git source
+  let repoUrl: string;
+  let skillSubpath: string = '';
 
-function buildMetadataFromSource(
-  sourceInfo: InstallSourceInfo,
-  skillDir: string,
-  repoDir: string
-): SkillSourceMetadata {
-  if (sourceInfo.sourceType === 'local') {
-    return buildLocalMetadata(sourceInfo, skillDir);
-  }
-  const subpath = relative(repoDir, skillDir);
-  const normalizedSubpath = subpath === '' ? '' : subpath;
-  return buildGitMetadata(sourceInfo, normalizedSubpath);
-}
-
-function buildGitMetadata(sourceInfo: InstallSourceInfo, subpath: string): SkillSourceMetadata {
-  return {
-    source: sourceInfo.source,
-    sourceType: 'git',
-    repoUrl: sourceInfo.repoUrl,
-    subpath,
-    installedAt: new Date().toISOString(),
-  };
-```
-
-This function is important because it defines how OpenSkills Tutorial: Universal Skill Loading for Coding Agents implements the patterns covered in this chapter.
-
-### `src/commands/install.ts`
-
-The `buildGitMetadata` function in [`src/commands/install.ts`](https://github.com/numman-ali/openskills/blob/HEAD/src/commands/install.ts) handles a key part of this chapter's functionality:
-
-```ts
-  }
-  cpSync(skillDir, targetPath, { recursive: true, dereference: true });
-  writeSkillMetadata(targetPath, buildGitMetadata(sourceInfo, skillSubpath));
-
-  console.log(chalk.green(`✅ Installed: ${skillName}`));
-  console.log(`   Location: ${targetPath}`);
-}
-
-/**
- * Install from repository (with interactive selection unless -y flag)
- */
-async function installFromRepo(
-  repoDir: string,
-  targetDir: string,
-  options: InstallOptions,
-  repoName: string | undefined,
-  sourceInfo: InstallSourceInfo
-): Promise<void> {
-  const rootSkillPath = join(repoDir, 'SKILL.md');
-  let skillInfos: Array<{
-    skillDir: string;
-    skillName: string;
-    description: string;
-    targetPath: string;
-    size: number;
-  }> = [];
-
-  if (existsSync(rootSkillPath)) {
-    const content = readFileSync(rootSkillPath, 'utf-8');
-    if (!hasValidFrontmatter(content)) {
-      console.error(chalk.red('Error: Invalid SKILL.md (missing YAML frontmatter)'));
+  if (isGitUrl(source)) {
+    // Full git URL (SSH, HTTPS, git://)
+    repoUrl = source;
+  } else {
+    // GitHub shorthand: owner/repo or owner/repo/skill-path
+    const parts = source.split('/');
+    if (parts.length === 2) {
+      repoUrl = `https://github.com/${source}`;
+    } else if (parts.length > 2) {
+      repoUrl = `https://github.com/${parts[0]}/${parts[1]}`;
+      skillSubpath = parts.slice(2).join('/');
+    } else {
+      console.error(chalk.red('Error: Invalid source format'));
+      console.error('Expected: owner/repo, owner/repo/skill-name, git URL, or local path');
       process.exit(1);
+    }
+  }
+
+  // Clone and install from git
+  const tempDir = join(homedir(), `.openskills-temp-${Date.now()}`);
+  mkdirSync(tempDir, { recursive: true });
+  const sourceInfo: InstallSourceInfo = {
 ```
 
 This function is important because it defines how OpenSkills Tutorial: Universal Skill Loading for Coding Agents implements the patterns covered in this chapter.
 
 ### `src/commands/install.ts`
 
-The `buildLocalMetadata` function in [`src/commands/install.ts`](https://github.com/numman-ali/openskills/blob/HEAD/src/commands/install.ts) handles a key part of this chapter's functionality:
+The `installFromLocal` function in [`src/commands/install.ts`](https://github.com/numman-ali/openskills/blob/HEAD/src/commands/install.ts) handles a key part of this chapter's functionality:
 
 ```ts
+      localRoot: localPath,
+    };
+    await installFromLocal(localPath, targetDir, options, sourceInfo);
+    printPostInstallHints(isProject);
+    return;
+  }
 
-  cpSync(skillDir, targetPath, { recursive: true, dereference: true });
-  writeSkillMetadata(targetPath, buildLocalMetadata(sourceInfo, skillDir));
+  // Parse git source
+  let repoUrl: string;
+  let skillSubpath: string = '';
 
-  console.log(chalk.green(`✅ Installed: ${skillName}`));
-  console.log(`   Location: ${targetPath}`);
+  if (isGitUrl(source)) {
+    // Full git URL (SSH, HTTPS, git://)
+    repoUrl = source;
+  } else {
+    // GitHub shorthand: owner/repo or owner/repo/skill-path
+    const parts = source.split('/');
+    if (parts.length === 2) {
+      repoUrl = `https://github.com/${source}`;
+    } else if (parts.length > 2) {
+      repoUrl = `https://github.com/${parts[0]}/${parts[1]}`;
+      skillSubpath = parts.slice(2).join('/');
+    } else {
+      console.error(chalk.red('Error: Invalid source format'));
+      console.error('Expected: owner/repo, owner/repo/skill-name, git URL, or local path');
+      process.exit(1);
+    }
+  }
+
+  // Clone and install from git
+  const tempDir = join(homedir(), `.openskills-temp-${Date.now()}`);
+  mkdirSync(tempDir, { recursive: true });
+```
+
+This function is important because it defines how OpenSkills Tutorial: Universal Skill Loading for Coding Agents implements the patterns covered in this chapter.
+
+### `src/commands/install.ts`
+
+The `installSingleLocalSkill` function in [`src/commands/install.ts`](https://github.com/numman-ali/openskills/blob/HEAD/src/commands/install.ts) handles a key part of this chapter's functionality:
+
+```ts
+    // Single skill directory
+    const isProject = targetDir.includes(process.cwd());
+    await installSingleLocalSkill(localPath, targetDir, isProject, options, sourceInfo);
+  } else {
+    // Directory containing multiple skills
+    await installFromRepo(localPath, targetDir, options, undefined, sourceInfo);
+  }
 }
 
 /**
- * Install specific skill from subpath (no interaction needed)
+ * Install a single local skill directory
  */
-async function installSpecificSkill(
-  repoDir: string,
-  skillSubpath: string,
+async function installSingleLocalSkill(
+  skillDir: string,
   targetDir: string,
   isProject: boolean,
   options: InstallOptions,
   sourceInfo: InstallSourceInfo
 ): Promise<void> {
-  const skillDir = join(repoDir, skillSubpath);
   const skillMdPath = join(skillDir, 'SKILL.md');
-
-  if (!existsSync(skillMdPath)) {
-    console.error(chalk.red(`Error: SKILL.md not found at ${skillSubpath}`));
-    process.exit(1);
-  }
-
-  // Validate
   const content = readFileSync(skillMdPath, 'utf-8');
+
   if (!hasValidFrontmatter(content)) {
     console.error(chalk.red('Error: Invalid SKILL.md (missing YAML frontmatter)'));
     process.exit(1);
-```
+  }
 
-This function is important because it defines how OpenSkills Tutorial: Universal Skill Loading for Coding Agents implements the patterns covered in this chapter.
-
-### `src/commands/install.ts`
-
-The `warnIfConflict` function in [`src/commands/install.ts`](https://github.com/numman-ali/openskills/blob/HEAD/src/commands/install.ts) handles a key part of this chapter's functionality:
-
-```ts
+  const skillName = basename(skillDir);
   const targetPath = join(targetDir, skillName);
 
   const shouldInstall = await warnIfConflict(skillName, targetPath, isProject, options.yes);
   if (!shouldInstall) {
-    console.log(chalk.yellow(`Skipped: ${skillName}`));
-    return;
+```
+
+This function is important because it defines how OpenSkills Tutorial: Universal Skill Loading for Coding Agents implements the patterns covered in this chapter.
+
+### `src/commands/install.ts`
+
+The `installSpecificSkill` function in [`src/commands/install.ts`](https://github.com/numman-ali/openskills/blob/HEAD/src/commands/install.ts) handles a key part of this chapter's functionality:
+
+```ts
+
+    if (skillSubpath) {
+      await installSpecificSkill(repoDir, skillSubpath, targetDir, isProject, options, sourceInfo);
+    } else {
+      const repoName = getRepoName(repoUrl);
+      await installFromRepo(repoDir, targetDir, options, repoName || undefined, sourceInfo);
+    }
+  } finally {
+    rmSync(tempDir, { recursive: true, force: true });
   }
 
-  mkdirSync(targetDir, { recursive: true });
-  // Security: ensure target path stays within target directory
-  if (!isPathInside(targetPath, targetDir)) {
-    console.error(chalk.red(`Security error: Installation path outside target directory`));
-    process.exit(1);
-  }
-
-  cpSync(skillDir, targetPath, { recursive: true, dereference: true });
-  writeSkillMetadata(targetPath, buildLocalMetadata(sourceInfo, skillDir));
-
-  console.log(chalk.green(`✅ Installed: ${skillName}`));
-  console.log(`   Location: ${targetPath}`);
+  printPostInstallHints(isProject);
 }
 
 /**
- * Install specific skill from subpath (no interaction needed)
+ * Print post-install hints
  */
-async function installSpecificSkill(
-  repoDir: string,
-  skillSubpath: string,
+function printPostInstallHints(isProject: boolean): void {
+  console.log(`\n${chalk.dim('Read skill:')} ${chalk.cyan('npx openskills read <skill-name>')}`);
+  if (isProject) {
+    console.log(`${chalk.dim('Sync to AGENTS.md:')} ${chalk.cyan('npx openskills sync')}`);
+  }
+}
+
+/**
+ * Install from local path (directory containing skills or single skill)
+ */
+async function installFromLocal(
+  localPath: string,
   targetDir: string,
-  isProject: boolean,
   options: InstallOptions,
   sourceInfo: InstallSourceInfo
 ```
@@ -199,11 +197,11 @@ This function is important because it defines how OpenSkills Tutorial: Universal
 
 ```mermaid
 flowchart TD
-    A[buildMetadataFromSource]
-    B[buildGitMetadata]
-    C[buildLocalMetadata]
-    D[warnIfConflict]
-    E[getDirectorySize]
+    A[printPostInstallHints]
+    B[installFromLocal]
+    C[installSingleLocalSkill]
+    D[installSpecificSkill]
+    E[installFromRepo]
     A --> B
     B --> C
     C --> D

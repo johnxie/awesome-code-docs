@@ -113,28 +113,7 @@ Suggested trace strategy:
 - [Main Catalog](../../README.md#-tutorial-catalog)
 - [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
-
-### `src/filesystem/path-utils.ts`
-
-The `expandHome` function in [`src/filesystem/path-utils.ts`](https://github.com/modelcontextprotocol/servers/blob/HEAD/src/filesystem/path-utils.ts) handles a key part of this chapter's functionality:
-
-```ts
- * @returns Expanded path
- */
-export function expandHome(filepath: string): string {
-  if (filepath.startsWith('~/') || filepath === '~') {
-    return path.join(os.homedir(), filepath.slice(1));
-  }
-  return filepath;
-}
-
-
-```
-
-This function is important because it defines how MCP Servers Tutorial: Reference Implementations and Patterns implements the patterns covered in this chapter.
 
 ### `src/everything/index.ts`
 
@@ -177,84 +156,125 @@ async function run() {
 
 This function is important because it defines how MCP Servers Tutorial: Reference Implementations and Patterns implements the patterns covered in this chapter.
 
-### `src/filesystem/roots-utils.ts`
+### `src/filesystem/index.ts`
 
-The `parseRootUri` function in [`src/filesystem/roots-utils.ts`](https://github.com/modelcontextprotocol/servers/blob/HEAD/src/filesystem/roots-utils.ts) handles a key part of this chapter's functionality:
+The `readFileAsBase64Stream` function in [`src/filesystem/index.ts`](https://github.com/modelcontextprotocol/servers/blob/HEAD/src/filesystem/index.ts) handles a key part of this chapter's functionality:
 
 ```ts
- * @returns Promise resolving to validated path or null if invalid
- */
-async function parseRootUri(rootUri: string): Promise<string | null> {
-  try {
-    const rawPath = rootUri.startsWith('file://') ? fileURLToPath(rootUri) : rootUri;
-    const expandedPath = rawPath.startsWith('~/') || rawPath === '~' 
-      ? path.join(os.homedir(), rawPath.slice(1)) 
-      : rawPath;
-    const absolutePath = path.resolve(expandedPath);
-    const resolvedPath = await fs.realpath(absolutePath);
-    return normalizePath(resolvedPath);
-  } catch {
-    return null; // Path doesn't exist or other error
-  }
+// the result to a Base64 string. This is a memory-efficient way to handle
+// binary data from a stream before the final encoding.
+async function readFileAsBase64Stream(filePath: string): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const stream = createReadStream(filePath);
+    const chunks: Buffer[] = [];
+    stream.on('data', (chunk) => {
+      chunks.push(chunk as Buffer);
+    });
+    stream.on('end', () => {
+      const finalBuffer = Buffer.concat(chunks);
+      resolve(finalBuffer.toString('base64'));
+    });
+    stream.on('error', (err) => reject(err));
+  });
 }
 
-/**
- * Formats error message for directory validation failures.
- * @param dir - Directory path that failed validation
- * @param error - Error that occurred during validation
- * @param reason - Specific reason for failure
- * @returns Formatted error message
- */
-function formatDirectoryError(dir: string, error?: unknown, reason?: string): string {
-  if (reason) {
-    return `Skipping ${reason}: ${dir}`;
-  }
-  const message = error instanceof Error ? error.message : String(error);
-  return `Skipping invalid directory: ${dir} due to error: ${message}`;
-}
+// Tool registrations
 
-/**
+// read_file (deprecated) and read_text_file
+const readTextFileHandler = async (args: z.infer<typeof ReadTextFileArgsSchema>) => {
+  const validPath = await validatePath(args.path);
+
+  if (args.head && args.tail) {
+    throw new Error("Cannot specify both head and tail parameters simultaneously");
+  }
+
+  let content: string;
+  if (args.tail) {
+    content = await tailFile(validPath, args.tail);
+  } else if (args.head) {
+    content = await headFile(validPath, args.head);
 ```
 
 This function is important because it defines how MCP Servers Tutorial: Reference Implementations and Patterns implements the patterns covered in this chapter.
 
-### `src/filesystem/roots-utils.ts`
+### `src/filesystem/index.ts`
 
-The `formatDirectoryError` function in [`src/filesystem/roots-utils.ts`](https://github.com/modelcontextprotocol/servers/blob/HEAD/src/filesystem/roots-utils.ts) handles a key part of this chapter's functionality:
+The `buildTree` function in [`src/filesystem/index.ts`](https://github.com/modelcontextprotocol/servers/blob/HEAD/src/filesystem/index.ts) handles a key part of this chapter's functionality:
 
 ```ts
- * @returns Formatted error message
- */
-function formatDirectoryError(dir: string, error?: unknown, reason?: string): string {
-  if (reason) {
-    return `Skipping ${reason}: ${dir}`;
+    const rootPath = args.path;
+
+    async function buildTree(currentPath: string, excludePatterns: string[] = []): Promise<TreeEntry[]> {
+      const validPath = await validatePath(currentPath);
+      const entries = await fs.readdir(validPath, { withFileTypes: true });
+      const result: TreeEntry[] = [];
+
+      for (const entry of entries) {
+        const relativePath = path.relative(rootPath, path.join(currentPath, entry.name));
+        const shouldExclude = excludePatterns.some(pattern => {
+          if (pattern.includes('*')) {
+            return minimatch(relativePath, pattern, { dot: true });
+          }
+          // For files: match exact name or as part of path
+          // For directories: match as directory path
+          return minimatch(relativePath, pattern, { dot: true }) ||
+            minimatch(relativePath, `**/${pattern}`, { dot: true }) ||
+            minimatch(relativePath, `**/${pattern}/**`, { dot: true });
+        });
+        if (shouldExclude)
+          continue;
+
+        const entryData: TreeEntry = {
+          name: entry.name,
+          type: entry.isDirectory() ? 'directory' : 'file'
+        };
+
+        if (entry.isDirectory()) {
+          const subPath = path.join(currentPath, entry.name);
+          entryData.children = await buildTree(subPath, excludePatterns);
+        }
+
+```
+
+This function is important because it defines how MCP Servers Tutorial: Reference Implementations and Patterns implements the patterns covered in this chapter.
+
+### `src/filesystem/index.ts`
+
+The `updateAllowedDirectoriesFromRoots` function in [`src/filesystem/index.ts`](https://github.com/modelcontextprotocol/servers/blob/HEAD/src/filesystem/index.ts) handles a key part of this chapter's functionality:
+
+```ts
+
+// Updates allowed directories based on MCP client roots
+async function updateAllowedDirectoriesFromRoots(requestedRoots: Root[]) {
+  const validatedRootDirs = await getValidRootDirectories(requestedRoots);
+  if (validatedRootDirs.length > 0) {
+    allowedDirectories = [...validatedRootDirs];
+    setAllowedDirectories(allowedDirectories); // Update the global state in lib.ts
+    console.error(`Updated allowed directories from MCP roots: ${validatedRootDirs.length} valid directories`);
+  } else {
+    console.error("No valid root directories provided by client");
   }
-  const message = error instanceof Error ? error.message : String(error);
-  return `Skipping invalid directory: ${dir} due to error: ${message}`;
 }
 
-/**
- * Resolves requested root directories from MCP root specifications.
- * 
- * Converts root URI specifications (file:// URIs or plain paths) into normalized
- * directory paths, validating that each path exists and is a directory.
- * Includes symlink resolution for security.
- * 
- * @param requestedRoots - Array of root specifications with URI and optional name
- * @returns Promise resolving to array of validated directory paths
- */
-export async function getValidRootDirectories(
-  requestedRoots: readonly Root[]
-): Promise<string[]> {
-  const validatedDirectories: string[] = [];
-  
-  for (const requestedRoot of requestedRoots) {
-    const resolvedPath = await parseRootUri(requestedRoot.uri);
-    if (!resolvedPath) {
-      console.error(formatDirectoryError(requestedRoot.uri, undefined, 'invalid path or inaccessible'));
-      continue;
+// Handles dynamic roots updates during runtime, when client sends "roots/list_changed" notification, server fetches the updated roots and replaces all allowed directories with the new roots.
+server.server.setNotificationHandler(RootsListChangedNotificationSchema, async () => {
+  try {
+    // Request the updated roots list from the client
+    const response = await server.server.listRoots();
+    if (response && 'roots' in response) {
+      await updateAllowedDirectoriesFromRoots(response.roots);
     }
-    
+  } catch (error) {
+    console.error("Failed to request roots from client:", error instanceof Error ? error.message : String(error));
+  }
+});
+
+// Handles post-initialization setup, specifically checking for and fetching MCP roots.
+server.server.oninitialized = async () => {
+  const clientCapabilities = server.server.getClientCapabilities();
+
+  if (clientCapabilities?.roots) {
+    try {
 ```
 
 This function is important because it defines how MCP Servers Tutorial: Reference Implementations and Patterns implements the patterns covered in this chapter.
@@ -264,11 +284,11 @@ This function is important because it defines how MCP Servers Tutorial: Referenc
 
 ```mermaid
 flowchart TD
-    A[expandHome]
-    B[run]
-    C[parseRootUri]
-    D[formatDirectoryError]
-    E[getValidRootDirectories]
+    A[run]
+    B[readFileAsBase64Stream]
+    C[buildTree]
+    D[updateAllowedDirectoriesFromRoots]
+    E[runServer]
     A --> B
     B --> C
     C --> D

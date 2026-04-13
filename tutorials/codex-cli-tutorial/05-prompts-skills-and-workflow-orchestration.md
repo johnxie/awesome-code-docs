@@ -38,184 +38,182 @@ You now have a framework for consistent Codex workflow orchestration.
 
 Next: [Chapter 6: Commands, Connectors, and Daily Operations](06-commands-connectors-and-daily-operations.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `scripts/check_blob_size.py`
+### `codex-cli/scripts/install_native_deps.py`
 
-The `is_binary_change` function in [`scripts/check_blob_size.py`](https://github.com/openai/codex/blob/HEAD/scripts/check_blob_size.py) handles a key part of this chapter's functionality:
+The `fetch_rg` function in [`codex-cli/scripts/install_native_deps.py`](https://github.com/openai/codex/blob/HEAD/codex-cli/scripts/install_native_deps.py) handles a key part of this chapter's functionality:
 
 ```py
+        with _gha_group("Fetch ripgrep binaries"):
+            print("Fetching ripgrep binaries...")
+            fetch_rg(vendor_dir, DEFAULT_RG_TARGETS, manifest_path=RG_MANIFEST)
+
+    print(f"Installed native dependencies into {vendor_dir}")
+    return 0
 
 
-def is_binary_change(base: str, head: str, path: str) -> bool:
-    output = run_git(
-        "diff",
-        "--numstat",
-        "--diff-filter=AM",
-        "--no-renames",
-        base,
-        head,
-        "--",
-        path,
-    ).strip()
-    if not output:
-        return False
+def fetch_rg(
+    vendor_dir: Path,
+    targets: Sequence[str] | None = None,
+    *,
+    manifest_path: Path,
+) -> list[Path]:
+    """Download ripgrep binaries described by the DotSlash manifest."""
 
-    added, deleted, _ = output.split("\t", 2)
-    return added == "-" and deleted == "-"
+    if targets is None:
+        targets = DEFAULT_RG_TARGETS
 
+    if not manifest_path.exists():
+        raise FileNotFoundError(f"DotSlash manifest not found: {manifest_path}")
 
-def blob_size(commit: str, path: str) -> int:
-    return int(run_git("cat-file", "-s", f"{commit}:{path}").strip())
+    manifest = _load_manifest(manifest_path)
+    platforms = manifest.get("platforms", {})
 
+    vendor_dir.mkdir(parents=True, exist_ok=True)
 
-def collect_changed_blobs(base: str, head: str, allowlist: set[str]) -> list[ChangedBlob]:
-    blobs: list[ChangedBlob] = []
-    for path in get_changed_paths(base, head):
-        blobs.append(
-            ChangedBlob(
-                path=path,
-                size_bytes=blob_size(head, path),
-                is_allowlisted=path in allowlist,
+    targets = list(targets)
+    if not targets:
+        return []
+
+    task_configs: list[tuple[str, str, dict]] = []
 ```
 
 This function is important because it defines how Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex implements the patterns covered in this chapter.
 
-### `scripts/check_blob_size.py`
+### `codex-cli/scripts/install_native_deps.py`
 
-The `blob_size` function in [`scripts/check_blob_size.py`](https://github.com/openai/codex/blob/HEAD/scripts/check_blob_size.py) handles a key part of this chapter's functionality:
+The `install_binary_components` function in [`codex-cli/scripts/install_native_deps.py`](https://github.com/openai/codex/blob/HEAD/codex-cli/scripts/install_native_deps.py) handles a key part of this chapter's functionality:
 
 ```py
-
-
-def blob_size(commit: str, path: str) -> int:
-    return int(run_git("cat-file", "-s", f"{commit}:{path}").strip())
-
-
-def collect_changed_blobs(base: str, head: str, allowlist: set[str]) -> list[ChangedBlob]:
-    blobs: list[ChangedBlob] = []
-    for path in get_changed_paths(base, head):
-        blobs.append(
-            ChangedBlob(
-                path=path,
-                size_bytes=blob_size(head, path),
-                is_allowlisted=path in allowlist,
-                is_binary=is_binary_change(base, head, path),
+            artifacts_dir = Path(artifacts_dir_str)
+            _download_artifacts(workflow_id, artifacts_dir)
+            install_binary_components(
+                artifacts_dir,
+                vendor_dir,
+                [BINARY_COMPONENTS[name] for name in components if name in BINARY_COMPONENTS],
             )
-        )
-    return blobs
+
+    if "rg" in components:
+        with _gha_group("Fetch ripgrep binaries"):
+            print("Fetching ripgrep binaries...")
+            fetch_rg(vendor_dir, DEFAULT_RG_TARGETS, manifest_path=RG_MANIFEST)
+
+    print(f"Installed native dependencies into {vendor_dir}")
+    return 0
 
 
-def format_kib(size_bytes: int) -> str:
-    return f"{size_bytes / 1024:.1f} KiB"
+def fetch_rg(
+    vendor_dir: Path,
+    targets: Sequence[str] | None = None,
+    *,
+    manifest_path: Path,
+) -> list[Path]:
+    """Download ripgrep binaries described by the DotSlash manifest."""
 
+    if targets is None:
+        targets = DEFAULT_RG_TARGETS
 
-def write_step_summary(
-    max_bytes: int,
-    blobs: list[ChangedBlob],
-    violations: list[ChangedBlob],
-) -> None:
-    summary_path = os.environ.get("GITHUB_STEP_SUMMARY")
-    if not summary_path:
-        return
+    if not manifest_path.exists():
+        raise FileNotFoundError(f"DotSlash manifest not found: {manifest_path}")
+
+    manifest = _load_manifest(manifest_path)
 ```
 
 This function is important because it defines how Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex implements the patterns covered in this chapter.
 
-### `scripts/check_blob_size.py`
+### `codex-cli/scripts/install_native_deps.py`
 
-The `collect_changed_blobs` function in [`scripts/check_blob_size.py`](https://github.com/openai/codex/blob/HEAD/scripts/check_blob_size.py) handles a key part of this chapter's functionality:
+The `extract_archive` function in [`codex-cli/scripts/install_native_deps.py`](https://github.com/openai/codex/blob/HEAD/codex-cli/scripts/install_native_deps.py) handles a key part of this chapter's functionality:
 
 ```py
+    dest = dest_dir / binary_name
+    dest.unlink(missing_ok=True)
+    extract_archive(archive_path, "zst", None, dest)
+    if "windows" not in target:
+        dest.chmod(0o755)
+    return dest
 
 
-def collect_changed_blobs(base: str, head: str, allowlist: set[str]) -> list[ChangedBlob]:
-    blobs: list[ChangedBlob] = []
-    for path in get_changed_paths(base, head):
-        blobs.append(
-            ChangedBlob(
-                path=path,
-                size_bytes=blob_size(head, path),
-                is_allowlisted=path in allowlist,
-                is_binary=is_binary_change(base, head, path),
-            )
-        )
-    return blobs
+def _archive_name_for_target(artifact_prefix: str, target: str) -> str:
+    if "windows" in target:
+        return f"{artifact_prefix}-{target}.exe.zst"
+    return f"{artifact_prefix}-{target}.zst"
 
 
-def format_kib(size_bytes: int) -> str:
-    return f"{size_bytes / 1024:.1f} KiB"
+def _fetch_single_rg(
+    vendor_dir: Path,
+    target: str,
+    platform_key: str,
+    platform_info: dict,
+    manifest_path: Path,
+) -> Path:
+    providers = platform_info.get("providers", [])
+    if not providers:
+        raise RuntimeError(f"No providers listed for platform '{platform_key}' in {manifest_path}.")
 
+    url = providers[0]["url"]
+    archive_format = platform_info.get("format", "zst")
+    archive_member = platform_info.get("path")
+    digest = platform_info.get("digest")
+    expected_size = platform_info.get("size")
 
-def write_step_summary(
-    max_bytes: int,
-    blobs: list[ChangedBlob],
-    violations: list[ChangedBlob],
-) -> None:
-    summary_path = os.environ.get("GITHUB_STEP_SUMMARY")
-    if not summary_path:
-        return
-
-    lines = [
-        "## Blob Size Policy",
-        "",
+    dest_dir = vendor_dir / target / "path"
 ```
 
 This function is important because it defines how Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex implements the patterns covered in this chapter.
 
-### `scripts/check_blob_size.py`
+### `tools/argument-comment-lint/wrapper_common.py`
 
-The `format_kib` function in [`scripts/check_blob_size.py`](https://github.com/openai/codex/blob/HEAD/scripts/check_blob_size.py) handles a key part of this chapter's functionality:
+The `import` class in [`tools/argument-comment-lint/wrapper_common.py`](https://github.com/openai/codex/blob/HEAD/tools/argument-comment-lint/wrapper_common.py) handles a key part of this chapter's functionality:
 
 ```py
+#!/usr/bin/env python3
 
+from __future__ import annotations
 
-def format_kib(size_bytes: int) -> str:
-    return f"{size_bytes / 1024:.1f} KiB"
+from dataclasses import dataclass
+import os
+from pathlib import Path
+import re
+import shlex
+import shutil
+import subprocess
+import sys
+import tempfile
+from typing import MutableMapping, Sequence
 
+STRICT_LINTS = [
+    "argument-comment-mismatch",
+    "uncommented-anonymous-literal-argument",
+]
+NOISE_LINT = "unknown_lints"
+TOOLCHAIN_CHANNEL = "nightly-2025-09-18"
 
-def write_step_summary(
-    max_bytes: int,
-    blobs: list[ChangedBlob],
-    violations: list[ChangedBlob],
-) -> None:
-    summary_path = os.environ.get("GITHUB_STEP_SUMMARY")
-    if not summary_path:
-        return
-
-    lines = [
-        "## Blob Size Policy",
-        "",
-        f"Default max: `{max_bytes}` bytes ({format_kib(max_bytes)})",
-        f"Changed files checked: `{len(blobs)}`",
-        f"Violations: `{len(violations)}`",
-        "",
-    ]
-
-    if blobs:
-        lines.extend(
-            [
-                "| Path | Kind | Size | Status |",
-                "| --- | --- | ---: | --- |",
-            ]
-        )
-        for blob in blobs:
+_TARGET_SELECTION_ARGS = {
+    "--all-targets",
+    "--lib",
+    "--bins",
+    "--tests",
+    "--examples",
+    "--benches",
+    "--doc",
+}
+_TARGET_SELECTION_PREFIXES = ("--bin=", "--test=", "--example=", "--bench=")
 ```
 
-This function is important because it defines how Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex implements the patterns covered in this chapter.
+This class is important because it defines how Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[is_binary_change]
-    B[blob_size]
-    C[collect_changed_blobs]
-    D[format_kib]
-    E[write_step_summary]
+    A[fetch_rg]
+    B[install_binary_components]
+    C[extract_archive]
+    D[import]
+    E[class]
     A --> B
     B --> C
     C --> D

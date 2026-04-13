@@ -11,6 +11,20 @@ Welcome to ComfyUI! If you've ever wanted complete control over AI image generat
 
 ## What Makes ComfyUI Revolutionary?
 
+## ComfyUI System Overview
+
+```mermaid
+graph TD
+    Browser["Web Browser\n(LiteGraph UI)"] --> Server["server.py\n(aiohttp WebSocket)"]
+    Server --> Exec["execution.py\n(PromptExecutor)"]
+    Exec --> Nodes["nodes.py\n(CLIPTextEncode,\nKSampler, VAEDecode...)"]
+    Nodes --> Models["comfy/sd.py\n(load_checkpoint_guess_config)"]
+    Models --> Sampler["comfy/samplers.py\n(KSAMPLER / Euler / DPM)"]
+    Sampler --> LatentImage["Latent Image\n(tensor)"]
+    LatentImage --> VAE["comfy/sd.py VAE\n(decode to pixels)"]
+    VAE --> Output["Output Image\n(PNG / JPG)"]
+```
+
 ComfyUI transforms AI image generation by:
 - **Node-Based Architecture** - Visual workflow creation with drag-and-drop simplicity
 - **Maximum Control** - Adjust every parameter and connection in your pipeline
@@ -440,16 +454,30 @@ Under the hood, `Chapter 1: Getting Started with ComfyUI` usually follows a repe
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
-## Source Walkthrough
+## Source Code Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+### `nodes.py`
 
-- [View Repo](https://github.com/comfyanonymous/ComfyUI)
-  Why it matters: authoritative reference on `View Repo` (github.com).
+The `CLIPTextEncode` node in [`nodes.py`](https://github.com/comfyanonymous/ComfyUI/blob/master/nodes.py) is the entry point for every text-to-image workflow — it encodes your prompt into conditioning tensors using the CLIP model:
 
-Suggested trace strategy:
-- search upstream code for `models` and `Image` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+```python
+class CLIPTextEncode(ComfyNodeABC):
+    @classmethod
+```
+
+`nodes.py` also imports the full ComfyUI runtime stack at startup:
+
+```python
+import comfy.diffusers_load
+import comfy.samplers
+import comfy.sample
+import comfy.sd
+import comfy.utils
+import comfy.controlnet
+from comfy.comfy_types import IO, ComfyNodeABC, InputTypeDict, FileLocator
+```
+
+Every node class follows the `ComfyNodeABC` interface with `INPUT_TYPES`, `RETURN_TYPES`, and a `__call__` (or `execute`) method. The `folder_paths` module manages model directory resolution for checkpoints, LoRAs, VAEs, and ControlNet models.
 
 ## Chapter Connections
 

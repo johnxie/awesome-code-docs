@@ -766,6 +766,19 @@ Under the hood, `Chapter 6: Multi-Agent Systems` usually follows a repeatable co
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
+## Architecture Flow
+
+```mermaid
+flowchart LR
+    A[Complex objective] --> B[Orchestrator agent]
+    B --> C[Sub-agent 1: research]
+    B --> D[Sub-agent 2: execution]
+    B --> E[Sub-agent 3: validation]
+    C --> F[Aggregated output]
+    D --> F
+    E --> F
+```
+
 ## Source Walkthrough
 
 Use the following upstream sources to verify implementation details while reading this chapter:

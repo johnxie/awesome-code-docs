@@ -12,6 +12,23 @@ Welcome to **Chapter 5: Authentication & Security**. In this part of **MCP Pytho
 
 > Implement secure authentication, authorization, and security best practices for production MCP servers.
 
+## Authentication and Authorization Flow
+
+```mermaid
+sequenceDiagram
+    participant C as MCP Client
+    participant S as MCP Server
+    participant A as Auth Provider
+
+    C->>S: Initialize with credentials
+    S->>A: Validate API key / OAuth token
+    A->>S: Token valid + scopes
+    S->>C: Capabilities (filtered by scope)
+    C->>S: Call tool X
+    S->>S: Check authorization: has scope for X?
+    S->>C: Result or 403 error
+```
+
 ## Authentication Patterns
 
 ### API Key Authentication

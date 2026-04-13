@@ -45,50 +45,7 @@ You now have a safe baseline connection to GitHub MCP.
 
 Next: [Chapter 2: Remote vs Local Architecture](02-remote-vs-local-architecture.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
-
-### `ui/vite.config.ts`
-
-The `renameOutput` function in [`ui/vite.config.ts`](https://github.com/github/github-mcp-server/blob/HEAD/ui/vite.config.ts) handles a key part of this chapter's functionality:
-
-```ts
-
-// Plugin to rename the output file and remove the nested directory structure
-function renameOutput(): Plugin {
-  return {
-    name: "rename-output",
-    enforce: "post",
-    generateBundle(_, bundle) {
-      // Find the HTML file and rename it
-      for (const fileName of Object.keys(bundle)) {
-        if (fileName.endsWith("index.html")) {
-          const chunk = bundle[fileName];
-          chunk.fileName = `${app}.html`;
-          delete bundle[fileName];
-          bundle[`${app}.html`] = chunk;
-          break;
-        }
-      }
-    },
-  };
-}
-
-export default defineConfig({
-  plugins: [react(), viteSingleFile(), renameOutput()],
-  build: {
-    outDir: resolve(__dirname, "../pkg/github/ui_dist"),
-    emptyOutDir: false,
-    rollupOptions: {
-      input: resolve(__dirname, `src/apps/${app}/index.html`),
-    },
-  },
-});
-
-```
-
-This function is important because it defines how GitHub MCP Server Tutorial: Production GitHub Operations Through MCP implements the patterns covered in this chapter.
 
 ### `pkg/github/projects.go`
 
@@ -213,16 +170,57 @@ Use this tool to list projects for a user or organization, or list project field
 
 This function is important because it defines how GitHub MCP Server Tutorial: Production GitHub Operations Through MCP implements the patterns covered in this chapter.
 
+### `pkg/github/projects.go`
+
+The `ProjectsGet` function in [`pkg/github/projects.go`](https://github.com/github/github-mcp-server/blob/HEAD/pkg/github/projects.go) handles a key part of this chapter's functionality:
+
+```go
+}
+
+// ProjectsGet returns the tool and handler for getting GitHub Projects resources.
+func ProjectsGet(t translations.TranslationHelperFunc) inventory.ServerTool {
+	tool := NewTool(
+		ToolsetMetadataProjects,
+		mcp.Tool{
+			Name: "projects_get",
+			Description: t("TOOL_PROJECTS_GET_DESCRIPTION", `Get details about specific GitHub Projects resources.
+Use this tool to get details about individual projects, project fields, and project items by their unique IDs.
+`),
+			Annotations: &mcp.ToolAnnotations{
+				Title:        t("TOOL_PROJECTS_GET_USER_TITLE", "Get details of GitHub Projects resources"),
+				ReadOnlyHint: true,
+			},
+			InputSchema: &jsonschema.Schema{
+				Type: "object",
+				Properties: map[string]*jsonschema.Schema{
+					"method": {
+						Type:        "string",
+						Description: "The method to execute",
+						Enum: []any{
+							projectsMethodGetProject,
+							projectsMethodGetProjectField,
+							projectsMethodGetProjectItem,
+							projectsMethodGetProjectStatusUpdate,
+						},
+					},
+					"owner_type": {
+						Type:        "string",
+						Description: "Owner type (user or org). If not provided, will be automatically detected.",
+						Enum:        []any{"user", "org"},
+```
+
+This function is important because it defines how GitHub MCP Server Tutorial: Production GitHub Operations Through MCP implements the patterns covered in this chapter.
+
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[renameOutput]
-    B[convertToMinimalStatusUpdate]
-    C[derefString]
-    D[ProjectsList]
-    E[ProjectsGet]
+    A[convertToMinimalStatusUpdate]
+    B[derefString]
+    C[ProjectsList]
+    D[ProjectsGet]
+    E[ProjectsWrite]
     A --> B
     B --> C
     C --> D

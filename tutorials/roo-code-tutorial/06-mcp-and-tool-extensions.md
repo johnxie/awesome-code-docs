@@ -86,98 +86,24 @@ You now have a practical extension strategy for Roo Code:
 
 Next: [Chapter 7: Profiles and Team Standards](07-profiles-and-team-standards.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `scripts/find-missing-translations.js`
+Use the following upstream sources to verify MCP and tool extension implementation details while reading this chapter:
 
-The `validateFlatStructure` function in [`scripts/find-missing-translations.js`](https://github.com/RooCodeInc/Roo-Code/blob/HEAD/scripts/find-missing-translations.js) handles a key part of this chapter's functionality:
+- [`src/shared/mcp.ts`](https://github.com/RooCodeInc/Roo-Code/blob/HEAD/src/shared/mcp.ts) — defines the MCP server configuration types and connection settings used to declare external tool servers in Roo Code's settings.
+- [`src/services/mcp/McpHub.ts`](https://github.com/RooCodeInc/Roo-Code/blob/HEAD/src/services/mcp/McpHub.ts) — manages the lifecycle of MCP server connections, tool discovery, and tool invocation routing for all registered MCP servers.
 
-```js
-
-// Validate that a JSON object has a flat structure (no nested objects)
-function validateFlatStructure(obj, filePath) {
-	for (const [key, value] of Object.entries(obj)) {
-		if (typeof value === "object" && value !== null) {
-			console.error(`Error: ${filePath} should be a flat JSON structure. Found nested object at key '${key}'`)
-			process.exit(1)
-		}
-	}
-}
-
-// Function to check translations for a specific area
-async function checkAreaTranslations(area) {
-	const LOCALES_DIR = LOCALES_DIRS[area]
-
-	// Get all locale directories (or filter to the specified locale)
-	const dirContents = await readdir(LOCALES_DIR)
-	const allLocales = await Promise.all(
-		dirContents.map(async (item) => {
-			const stats = await stat(path.join(LOCALES_DIR, item))
-			return stats.isDirectory() && item !== "en" ? item : null
-		}),
-	)
-	const filteredLocales = allLocales.filter(Boolean)
-
-	// Filter to the specified locale if provided
-	const locales = args.locale ? filteredLocales.filter((locale) => locale === args.locale) : filteredLocales
-
-	if (args.locale && locales.length === 0) {
-		console.error(`Error: Locale '${args.locale}' not found in ${LOCALES_DIR}`)
-		process.exit(1)
-	}
-```
-
-This function is important because it defines how Roo Code Tutorial: Run an AI Dev Team in Your Editor implements the patterns covered in this chapter.
-
-### `scripts/find-missing-translations.js`
-
-The `checkAreaTranslations` function in [`scripts/find-missing-translations.js`](https://github.com/RooCodeInc/Roo-Code/blob/HEAD/scripts/find-missing-translations.js) handles a key part of this chapter's functionality:
-
-```js
-
-// Function to check translations for a specific area
-async function checkAreaTranslations(area) {
-	const LOCALES_DIR = LOCALES_DIRS[area]
-
-	// Get all locale directories (or filter to the specified locale)
-	const dirContents = await readdir(LOCALES_DIR)
-	const allLocales = await Promise.all(
-		dirContents.map(async (item) => {
-			const stats = await stat(path.join(LOCALES_DIR, item))
-			return stats.isDirectory() && item !== "en" ? item : null
-		}),
-	)
-	const filteredLocales = allLocales.filter(Boolean)
-
-	// Filter to the specified locale if provided
-	const locales = args.locale ? filteredLocales.filter((locale) => locale === args.locale) : filteredLocales
-
-	if (args.locale && locales.length === 0) {
-		console.error(`Error: Locale '${args.locale}' not found in ${LOCALES_DIR}`)
-		process.exit(1)
-	}
-
-	console.log(
-		`\n${area === "core" ? "BACKEND" : "FRONTEND"} - Checking ${locales.length} non-English locale(s): ${locales.join(", ")}`,
-	)
-
-	// Get all English JSON files
-	const englishDir = path.join(LOCALES_DIR, "en")
-	const englishDirContents = await readdir(englishDir)
-	let englishFiles = englishDirContents.filter((file) => file.endsWith(".json") && !file.startsWith("."))
-
-```
-
-This function is important because it defines how Roo Code Tutorial: Run an AI Dev Team in Your Editor implements the patterns covered in this chapter.
-
+Suggested trace strategy:
+- review the `McpServerConfig` type in `src/shared/mcp.ts` to understand what connection parameters are configurable
+- trace `McpHub.ts` for connection establishment, tool listing (`listTools`), and invocation flow
+- check `src/core/tools/use_mcp_tool.ts` for how the agent constructs MCP tool calls during task execution
 
 ## How These Components Connect
 
 ```mermaid
-flowchart TD
-    A[validateFlatStructure]
-    B[checkAreaTranslations]
-    A --> B
+flowchart LR
+    A[mcp.ts config] --> B[McpHub.ts connection manager]
+    B --> C[MCP server process]
+    C --> D[use_mcp_tool.ts invocation]
+    D --> E[Tool result returned to agent]
 ```

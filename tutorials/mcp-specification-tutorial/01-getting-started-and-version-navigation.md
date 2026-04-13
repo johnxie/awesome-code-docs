@@ -47,170 +47,168 @@ You now have a revision-first process that keeps implementation decisions aligne
 
 Next: [Chapter 2: Architecture and Capability Negotiation](02-architecture-and-capability-negotiation.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `scripts/generate-schemas.ts`
+### `migrate_seps.js`
 
-The `applyJsonSchema202012Transformations` function in [`scripts/generate-schemas.ts`](https://github.com/modelcontextprotocol/modelcontextprotocol/blob/HEAD/scripts/generate-schemas.ts) handles a key part of this chapter's functionality:
+The `fetchSEPIssues` function in [`migrate_seps.js`](https://github.com/modelcontextprotocol/modelcontextprotocol/blob/HEAD/migrate_seps.js) handles a key part of this chapter's functionality:
 
-```ts
- * Apply JSON Schema 2020-12 transformations to a schema file
- */
-function applyJsonSchema202012Transformations(schemaPath: string): void {
-  let content = readFileSync(schemaPath, 'utf-8');
+```js
 
-  // Replace $schema URL
-  content = content.replace(
-    /http:\/\/json-schema\.org\/draft-07\/schema#/g,
-    'https://json-schema.org/draft/2020-12/schema'
+// Fetch all SEP issues from GitHub
+function fetchSEPIssues() {
+  console.log('Fetching SEP issues from GitHub...');
+
+  const result = execSync(
+    'gh issue list --label SEP --state all --limit 500 --json number,title,state,labels,body,createdAt,closedAt,author',
+    { encoding: 'utf-8' }
   );
 
-  // Replace "definitions": with "$defs":
-  content = content.replace(
-    /"definitions":/g,
-    '"$defs":'
-  );
-
-  // Replace #/definitions/ with #/$defs/
-  content = content.replace(
-    /#\/definitions\//g,
-    '#/$defs/'
-  );
-
-  writeFileSync(schemaPath, content, 'utf-8');
+  return JSON.parse(result);
 }
 
-/**
- * Generate JSON schema for a specific version
- */
-async function generateSchema(version: string, check: boolean = false): Promise<boolean> {
-  const schemaDir = join('schema', version);
-  const schemaTs = join(schemaDir, 'schema.ts');
+// Determine SEP status from labels
+function getStatusFromLabels(labels) {
+  const labelNames = labels.map(l => l.name.toLowerCase());
+
+  // Check for status labels in priority order
+  if (labelNames.includes('final')) return 'Final';
+  if (labelNames.includes('accepted-with-changes')) return 'Accepted';
+  if (labelNames.includes('accepted')) return 'Accepted';
+  if (labelNames.includes('in-review')) return 'In-Review';
+  if (labelNames.includes('draft')) return 'Draft';
+  if (labelNames.includes('proposal')) return 'Draft';
+
+  return null;
+}
+
+// Check if issue should be migrated (has accepted, accepted-with-changes, or final status)
+function shouldMigrate(issue) {
+  const status = getStatusFromLabels(issue.labels);
+  return status && ['Accepted', 'Final'].includes(status);
 ```
 
 This function is important because it defines how MCP Specification Tutorial: Designing Production-Grade MCP Clients and Servers From the Source of Truth implements the patterns covered in this chapter.
 
-### `scripts/generate-schemas.ts`
+### `migrate_seps.js`
 
-The `generateSchema` function in [`scripts/generate-schemas.ts`](https://github.com/modelcontextprotocol/modelcontextprotocol/blob/HEAD/scripts/generate-schemas.ts) handles a key part of this chapter's functionality:
+The `getStatusFromLabels` function in [`migrate_seps.js`](https://github.com/modelcontextprotocol/modelcontextprotocol/blob/HEAD/migrate_seps.js) handles a key part of this chapter's functionality:
 
-```ts
- * Generate JSON schema for a specific version
- */
-async function generateSchema(version: string, check: boolean = false): Promise<boolean> {
-  const schemaDir = join('schema', version);
-  const schemaTs = join(schemaDir, 'schema.ts');
-  const schemaJson = join(schemaDir, 'schema.json');
+```js
 
-  if (check) {
-    // Read existing schema
-    const existingSchema = readFileSync(schemaJson, 'utf-8');
+// Determine SEP status from labels
+function getStatusFromLabels(labels) {
+  const labelNames = labels.map(l => l.name.toLowerCase());
 
-    // Generate schema to stdout and capture it
-    try {
-      const { stdout: generated } = await execAsync(
-        `npx typescript-json-schema --defaultNumberType integer --required --skipLibCheck "${schemaTs}" "*"`
-      );
+  // Check for status labels in priority order
+  if (labelNames.includes('final')) return 'Final';
+  if (labelNames.includes('accepted-with-changes')) return 'Accepted';
+  if (labelNames.includes('accepted')) return 'Accepted';
+  if (labelNames.includes('in-review')) return 'In-Review';
+  if (labelNames.includes('draft')) return 'Draft';
+  if (labelNames.includes('proposal')) return 'Draft';
 
-      let expectedSchema = generated;
+  return null;
+}
 
-      // Apply transformations for non-legacy schemas
-      if (!LEGACY_SCHEMAS.includes(version)) {
-        expectedSchema = expectedSchema.replace(
-          /http:\/\/json-schema\.org\/draft-07\/schema#/g,
-          'https://json-schema.org/draft/2020-12/schema'
-        );
-        expectedSchema = expectedSchema.replace(/"definitions":/g, '"$defs":');
-        expectedSchema = expectedSchema.replace(/#\/definitions\//g, '#/$defs/');
-      }
+// Check if issue should be migrated (has accepted, accepted-with-changes, or final status)
+function shouldMigrate(issue) {
+  const status = getStatusFromLabels(issue.labels);
+  return status && ['Accepted', 'Final'].includes(status);
+}
 
-      // Compare
-      if (existingSchema.trim() !== expectedSchema.trim()) {
-        console.error(`  ✗ Schema ${version} is out of date!`);
+// Extract metadata from issue body
+function parseIssueBody(body, issue) {
+  if (!body) return null;
+
+  const metadata = {
+    title: issue.title.replace(/^\[?SEP-\d+\]?:?\s*/i, ''),
+    status: getStatusFromLabels(issue.labels),
+    type: 'Standards Track',
+    created: issue.createdAt ? issue.createdAt.split('T')[0] : new Date().toISOString().split('T')[0],
+    author: issue.author ? issue.author.login : 'Unknown',
 ```
 
 This function is important because it defines how MCP Specification Tutorial: Designing Production-Grade MCP Clients and Servers From the Source of Truth implements the patterns covered in this chapter.
 
-### `scripts/generate-schemas.ts`
+### `migrate_seps.js`
 
-The `main` function in [`scripts/generate-schemas.ts`](https://github.com/modelcontextprotocol/modelcontextprotocol/blob/HEAD/scripts/generate-schemas.ts) handles a key part of this chapter's functionality:
+The `shouldMigrate` function in [`migrate_seps.js`](https://github.com/modelcontextprotocol/modelcontextprotocol/blob/HEAD/migrate_seps.js) handles a key part of this chapter's functionality:
 
-```ts
-const execAsync = promisify(exec);
+```js
 
-// Legacy schema versions that should remain as JSON Schema draft-07
-const LEGACY_SCHEMAS = ['2024-11-05', '2025-03-26', '2025-06-18'];
+// Check if issue should be migrated (has accepted, accepted-with-changes, or final status)
+function shouldMigrate(issue) {
+  const status = getStatusFromLabels(issue.labels);
+  return status && ['Accepted', 'Final'].includes(status);
+}
 
-// Modern schema versions that use JSON Schema 2020-12
-const MODERN_SCHEMAS = ['2025-11-25', 'draft'];
+// Extract metadata from issue body
+function parseIssueBody(body, issue) {
+  if (!body) return null;
 
-// All schema versions to generate
-const ALL_SCHEMAS = [...LEGACY_SCHEMAS, ...MODERN_SCHEMAS];
+  const metadata = {
+    title: issue.title.replace(/^\[?SEP-\d+\]?:?\s*/i, ''),
+    status: getStatusFromLabels(issue.labels),
+    type: 'Standards Track',
+    created: issue.createdAt ? issue.createdAt.split('T')[0] : new Date().toISOString().split('T')[0],
+    author: issue.author ? issue.author.login : 'Unknown',
+    sponsor: null,
+    pr: null
+  };
 
-// Check if we're in check mode (validate existing schemas match generated ones)
-const CHECK_MODE = process.argv.includes('--check');
+  // Try to extract metadata from the body
+  const lines = body.split('\n');
 
-/**
- * Apply JSON Schema 2020-12 transformations to a schema file
- */
-function applyJsonSchema202012Transformations(schemaPath: string): void {
-  let content = readFileSync(schemaPath, 'utf-8');
+  for (const line of lines) {
+    const trimmed = line.trim();
 
-  // Replace $schema URL
-  content = content.replace(
-    /http:\/\/json-schema\.org\/draft-07\/schema#/g,
-    'https://json-schema.org/draft/2020-12/schema'
-  );
-
-  // Replace "definitions": with "$defs":
-  content = content.replace(
-    /"definitions":/g,
-    '"$defs":'
-  );
-
-```
-
-This function is important because it defines how MCP Specification Tutorial: Designing Production-Grade MCP Clients and Servers From the Source of Truth implements the patterns covered in this chapter.
-
-### `scripts/render-seps.ts`
-
-The `parseSEPMetadata` function in [`scripts/render-seps.ts`](https://github.com/modelcontextprotocol/modelcontextprotocol/blob/HEAD/scripts/render-seps.ts) handles a key part of this chapter's functionality:
-
-```ts
- * Parse SEP metadata from markdown content
- */
-function parseSEPMetadata(content: string, filename: string): SEPMetadata | null {
-  // Skip template and README files
-  if (filename === "TEMPLATE.md" || filename === "README.md") {
-    return null;
-  }
-
-  // Extract SEP number and slug from filename (e.g., "1850-pr-based-sep-workflow.md")
-  const filenameMatch = filename.match(/^(\d+)-(.+)\.md$/);
-  if (!filenameMatch) {
-    // Skip files that don't match SEP naming convention (like 0000-*.md drafts)
-    if (filename.match(/^0000-/)) {
-      return null;
+    // Extract type
+    if (trimmed.match(/\*?\*?Type\*?\*?:/i)) {
+      const match = trimmed.match(/Type\*?\*?:\s*(.+)/i);
+      if (match) metadata.type = match[1].trim();
     }
-    console.warn(`Warning: Skipping ${filename} - doesn't match SEP naming convention`);
-    return null;
-  }
+```
 
-  const [, number, slug] = filenameMatch;
+This function is important because it defines how MCP Specification Tutorial: Designing Production-Grade MCP Clients and Servers From the Source of Truth implements the patterns covered in this chapter.
 
-  // Parse title from first heading
-  const titleMatch = content.match(/^#\s+SEP-\d+:\s+(.+)$/m);
-  const title = titleMatch ? titleMatch[1].trim() : "Untitled";
+### `migrate_seps.js`
 
-  // Parse metadata fields using regex
-  const statusMatch = content.match(/^\s*-\s*\*\*Status\*\*:\s*(.+)$/m);
-  const typeMatch = content.match(/^\s*-\s*\*\*Type\*\*:\s*(.+)$/m);
-  const createdMatch = content.match(/^\s*-\s*\*\*Created\*\*:\s*(.+)$/m);
-  const acceptedMatch = content.match(/^\s*-\s*\*\*Accepted\*\*:\s*(.+)$/m);
-  const authorsMatch = content.match(/^\s*-\s*\*\*Author\(s\)\*\*:\s*(.+)$/m);
-  const sponsorMatch = content.match(/^\s*-\s*\*\*Sponsor\*\*:\s*(.+)$/m);
+The `parseIssueBody` function in [`migrate_seps.js`](https://github.com/modelcontextprotocol/modelcontextprotocol/blob/HEAD/migrate_seps.js) handles a key part of this chapter's functionality:
+
+```js
+
+// Extract metadata from issue body
+function parseIssueBody(body, issue) {
+  if (!body) return null;
+
+  const metadata = {
+    title: issue.title.replace(/^\[?SEP-\d+\]?:?\s*/i, ''),
+    status: getStatusFromLabels(issue.labels),
+    type: 'Standards Track',
+    created: issue.createdAt ? issue.createdAt.split('T')[0] : new Date().toISOString().split('T')[0],
+    author: issue.author ? issue.author.login : 'Unknown',
+    sponsor: null,
+    pr: null
+  };
+
+  // Try to extract metadata from the body
+  const lines = body.split('\n');
+
+  for (const line of lines) {
+    const trimmed = line.trim();
+
+    // Extract type
+    if (trimmed.match(/\*?\*?Type\*?\*?:/i)) {
+      const match = trimmed.match(/Type\*?\*?:\s*(.+)/i);
+      if (match) metadata.type = match[1].trim();
+    }
+
+    // Extract author(s)
+    if (trimmed.match(/\*?\*?Authors?\*?\*?:/i)) {
+      const match = trimmed.match(/Authors?\*?\*?:\s*(.+)/i);
+      if (match) metadata.author = match[1].trim();
+    }
 ```
 
 This function is important because it defines how MCP Specification Tutorial: Designing Production-Grade MCP Clients and Servers From the Source of Truth implements the patterns covered in this chapter.
@@ -220,11 +218,11 @@ This function is important because it defines how MCP Specification Tutorial: De
 
 ```mermaid
 flowchart TD
-    A[applyJsonSchema202012Transformations]
-    B[generateSchema]
-    C[main]
-    D[parseSEPMetadata]
-    E[formatAuthors]
+    A[fetchSEPIssues]
+    B[getStatusFromLabels]
+    C[shouldMigrate]
+    D[parseIssueBody]
+    E[cleanBodyContent]
     A --> B
     B --> C
     C --> D

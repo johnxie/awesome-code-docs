@@ -39,170 +39,168 @@ You now have a benchmark workflow that is both rigorous and reproducible.
 
 Next: [Chapter 7: Cookbook Extensions and Python Bindings](07-cookbook-extensions-and-python-bindings.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
-
-### `src/minisweagent/environments/singularity.py`
-
-The `SingularityEnvironment` class in [`src/minisweagent/environments/singularity.py`](https://github.com/SWE-agent/mini-swe-agent/blob/HEAD/src/minisweagent/environments/singularity.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-class SingularityEnvironmentConfig(BaseModel):
-    image: str
-    cwd: str = "/"
-    env: dict[str, str] = {}
-    """Environment variables to set in the container."""
-    forward_env: list[str] = []
-    """Environment variables to forward to the container."""
-    timeout: int = 30
-    """Timeout for executing commands in the container."""
-    executable: str = os.getenv("MSWEA_SINGULARITY_EXECUTABLE", "singularity")
-    """Path to the singularity executable."""
-    sandbox_build_retries: int = 3
-    """Number of retries for building the sandbox if an error occurs."""
-    global_args: list[str] = ["--quiet"]
-    """Global arguments passed before the subcommand (e.g., --quiet, --debug)."""
-    exec_args: list[str] = ["--contain", "--cleanenv", "--fakeroot"]
-    """Arguments passed to `singularity exec`."""
-
-
-class SingularityEnvironment:
-    def __init__(
-        self, *, config_class: type = SingularityEnvironmentConfig, logger: logging.Logger | None = None, **kwargs
-    ):
-        """Singularity environment. See `SingularityEnvironmentConfig` for kwargs."""
-        self.logger = logger or logging.getLogger("minisweagent.environment")
-        self.config = config_class(**kwargs)
-        self.sandbox_dir = self._build_sandbox()
-
-    def _build_sandbox(self) -> Path:
-        # Building the sandbox can fail (very rarely), so we retry it
-```
-
-This class is important because it defines how Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale implements the patterns covered in this chapter.
-
-### `src/minisweagent/models/openrouter_response_model.py`
-
-The `OpenRouterResponseModelConfig` class in [`src/minisweagent/models/openrouter_response_model.py`](https://github.com/SWE-agent/mini-swe-agent/blob/HEAD/src/minisweagent/models/openrouter_response_model.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-class OpenRouterResponseModelConfig(OpenRouterModelConfig):
-    pass
-
-
-class OpenRouterResponseModel(OpenRouterModel):
-    """OpenRouter model using the Responses API with native tool calling.
-
-    Note: OpenRouter's Responses API is stateless - each request must include
-    the full conversation history. previous_response_id is not supported.
-    See: https://openrouter.ai/docs/api/reference/responses/overview
-    """
-
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.config = OpenRouterResponseModelConfig(**kwargs)
-        self._api_url = "https://openrouter.ai/api/v1/responses"
-
-    def _query(self, messages: list[dict[str, str]], **kwargs):
-        headers = {
-            "Authorization": f"Bearer {self._api_key}",
-            "Content-Type": "application/json",
-        }
-        payload = {
-            "model": self.config.model_name,
-            "input": messages,
-            "tools": [BASH_TOOL_RESPONSE_API],
-            **(self.config.model_kwargs | kwargs),
-        }
-        try:
-            response = requests.post(self._api_url, headers=headers, data=json.dumps(payload), timeout=60)
-```
-
-This class is important because it defines how Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale implements the patterns covered in this chapter.
-
-### `src/minisweagent/models/openrouter_response_model.py`
-
-The `OpenRouterResponseModel` class in [`src/minisweagent/models/openrouter_response_model.py`](https://github.com/SWE-agent/mini-swe-agent/blob/HEAD/src/minisweagent/models/openrouter_response_model.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-class OpenRouterResponseModelConfig(OpenRouterModelConfig):
-    pass
-
-
-class OpenRouterResponseModel(OpenRouterModel):
-    """OpenRouter model using the Responses API with native tool calling.
-
-    Note: OpenRouter's Responses API is stateless - each request must include
-    the full conversation history. previous_response_id is not supported.
-    See: https://openrouter.ai/docs/api/reference/responses/overview
-    """
-
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.config = OpenRouterResponseModelConfig(**kwargs)
-        self._api_url = "https://openrouter.ai/api/v1/responses"
-
-    def _query(self, messages: list[dict[str, str]], **kwargs):
-        headers = {
-            "Authorization": f"Bearer {self._api_key}",
-            "Content-Type": "application/json",
-        }
-        payload = {
-            "model": self.config.model_name,
-            "input": messages,
-            "tools": [BASH_TOOL_RESPONSE_API],
-            **(self.config.model_kwargs | kwargs),
-        }
-        try:
-            response = requests.post(self._api_url, headers=headers, data=json.dumps(payload), timeout=60)
-```
-
-This class is important because it defines how Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale implements the patterns covered in this chapter.
 
 ### `src/minisweagent/models/__init__.py`
 
-The `GlobalModelStats` class in [`src/minisweagent/models/__init__.py`](https://github.com/SWE-agent/mini-swe-agent/blob/HEAD/src/minisweagent/models/__init__.py) handles a key part of this chapter's functionality:
+The `get_model_name` function in [`src/minisweagent/models/__init__.py`](https://github.com/SWE-agent/mini-swe-agent/blob/HEAD/src/minisweagent/models/__init__.py) handles a key part of this chapter's functionality:
 
 ```py
+def get_model(input_model_name: str | None = None, config: dict | None = None) -> Model:
+    """Get an initialized model object from any kind of user input or settings."""
+    resolved_model_name = get_model_name(input_model_name, config)
+    if config is None:
+        config = {}
+    config = copy.deepcopy(config)
+    config["model_name"] = resolved_model_name
+
+    model_class = get_model_class(resolved_model_name, config.pop("model_class", ""))
+
+    if (
+        any(s in resolved_model_name.lower() for s in ["anthropic", "sonnet", "opus", "claude"])
+        and "set_cache_control" not in config
+    ):
+        # Select cache control for Anthropic models by default
+        config["set_cache_control"] = "default_end"
+
+    return model_class(**config)
 
 
-class GlobalModelStats:
-    """Global model statistics tracker with optional limits."""
+def get_model_name(input_model_name: str | None = None, config: dict | None = None) -> str:
+    """Get a model name from any kind of user input or settings."""
+    if config is None:
+        config = {}
+    if input_model_name:
+        return input_model_name
+    if from_config := config.get("model_name"):
+        return from_config
+    if from_env := os.getenv("MSWEA_MODEL_NAME"):
+        return from_env
+    raise ValueError("No default model set. Please run `mini-extra config setup` to set one.")
 
-    def __init__(self):
-        self._cost = 0.0
-        self._n_calls = 0
-        self._lock = threading.Lock()
-        self.cost_limit = float(os.getenv("MSWEA_GLOBAL_COST_LIMIT", "0"))
-        self.call_limit = int(os.getenv("MSWEA_GLOBAL_CALL_LIMIT", "0"))
-        if (self.cost_limit > 0 or self.call_limit > 0) and not os.getenv("MSWEA_SILENT_STARTUP"):
-            print(f"Global cost/call limit: ${self.cost_limit:.4f} / {self.call_limit}")
+```
 
-    def add(self, cost: float) -> None:
-        """Add a model call with its cost, checking limits."""
-        with self._lock:
-            self._cost += cost
-            self._n_calls += 1
-        if 0 < self.cost_limit < self._cost or 0 < self.call_limit < self._n_calls + 1:
-            raise RuntimeError(f"Global cost/call limit exceeded: ${self._cost:.4f} / {self._n_calls}")
+This function is important because it defines how Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale implements the patterns covered in this chapter.
 
-    @property
-    def cost(self) -> float:
-        return self._cost
+### `src/minisweagent/models/__init__.py`
 
-    @property
-    def n_calls(self) -> int:
-        return self._n_calls
+The `get_model_class` function in [`src/minisweagent/models/__init__.py`](https://github.com/SWE-agent/mini-swe-agent/blob/HEAD/src/minisweagent/models/__init__.py) handles a key part of this chapter's functionality:
+
+```py
+    config["model_name"] = resolved_model_name
+
+    model_class = get_model_class(resolved_model_name, config.pop("model_class", ""))
+
+    if (
+        any(s in resolved_model_name.lower() for s in ["anthropic", "sonnet", "opus", "claude"])
+        and "set_cache_control" not in config
+    ):
+        # Select cache control for Anthropic models by default
+        config["set_cache_control"] = "default_end"
+
+    return model_class(**config)
 
 
-GLOBAL_MODEL_STATS = GlobalModelStats()
+def get_model_name(input_model_name: str | None = None, config: dict | None = None) -> str:
+    """Get a model name from any kind of user input or settings."""
+    if config is None:
+        config = {}
+    if input_model_name:
+        return input_model_name
+    if from_config := config.get("model_name"):
+        return from_config
+    if from_env := os.getenv("MSWEA_MODEL_NAME"):
+        return from_env
+    raise ValueError("No default model set. Please run `mini-extra config setup` to set one.")
+
+
+_MODEL_CLASS_MAPPING = {
+    "litellm": "minisweagent.models.litellm_model.LitellmModel",
+    "litellm_textbased": "minisweagent.models.litellm_textbased_model.LitellmTextbasedModel",
+    "litellm_response": "minisweagent.models.litellm_response_model.LitellmResponseModel",
+    "openrouter": "minisweagent.models.openrouter_model.OpenRouterModel",
+```
+
+This function is important because it defines how Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale implements the patterns covered in this chapter.
+
+### `src/minisweagent/run/mini.py`
+
+The `to` class in [`src/minisweagent/run/mini.py`](https://github.com/SWE-agent/mini-swe-agent/blob/HEAD/src/minisweagent/run/mini.py) handles a key part of this chapter's functionality:
+
+```py
+"""
+
+_CONFIG_SPEC_HELP_TEXT = """Path to config files, filenames, or key-value pairs.
+
+[bold red]IMPORTANT:[/bold red] [red]If you set this option, the default config file will not be used.[/red]
+So you need to explicitly set it e.g., with [bold green]-c mini.yaml <other options>[/bold green]
+
+Multiple configs will be recursively merged.
+
+Examples:
+
+[bold red]-c model.model_kwargs.temperature=0[/bold red] [red]You forgot to add the default config file! See above.[/red]
+
+[bold green]-c mini.yaml -c model.model_kwargs.temperature=0.5[/bold green]
+
+[bold green]-c swebench.yaml agent.mode=yolo[/bold green]
+"""
+
+console = Console(highlight=False)
+app = typer.Typer(rich_markup_mode="rich")
+
+
+# fmt: off
+@app.command(help=_HELP_TEXT)
+def main(
+    model_name: str | None = typer.Option(None, "-m", "--model", help="Model to use",),
+    model_class: str | None = typer.Option(None, "--model-class", help="Model class to use (e.g., 'litellm' or 'minisweagent.models.litellm_model.LitellmModel')", rich_help_panel="Advanced"),
+    agent_class: str | None = typer.Option(None, "--agent-class", help="Agent class to use (e.g., 'interactive' or 'minisweagent.agents.interactive.InteractiveAgent')", rich_help_panel="Advanced"),
+    environment_class: str | None = typer.Option(None, "--environment-class", help="Environment class to use (e.g., 'local' or 'minisweagent.environments.local.LocalEnvironment')", rich_help_panel="Advanced"),
+    task: str | None = typer.Option(None, "-t", "--task", help="Task/problem statement", show_default=False),
+    yolo: bool = typer.Option(False, "-y", "--yolo", help="Run without confirmation"),
+    cost_limit: float | None = typer.Option(None, "-l", "--cost-limit", help="Cost limit. Set to 0 to disable."),
+```
+
+This class is important because it defines how Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale implements the patterns covered in this chapter.
+
+### `src/minisweagent/run/mini.py`
+
+The `to` class in [`src/minisweagent/run/mini.py`](https://github.com/SWE-agent/mini-swe-agent/blob/HEAD/src/minisweagent/run/mini.py) handles a key part of this chapter's functionality:
+
+```py
+"""
+
+_CONFIG_SPEC_HELP_TEXT = """Path to config files, filenames, or key-value pairs.
+
+[bold red]IMPORTANT:[/bold red] [red]If you set this option, the default config file will not be used.[/red]
+So you need to explicitly set it e.g., with [bold green]-c mini.yaml <other options>[/bold green]
+
+Multiple configs will be recursively merged.
+
+Examples:
+
+[bold red]-c model.model_kwargs.temperature=0[/bold red] [red]You forgot to add the default config file! See above.[/red]
+
+[bold green]-c mini.yaml -c model.model_kwargs.temperature=0.5[/bold green]
+
+[bold green]-c swebench.yaml agent.mode=yolo[/bold green]
+"""
+
+console = Console(highlight=False)
+app = typer.Typer(rich_markup_mode="rich")
+
+
+# fmt: off
+@app.command(help=_HELP_TEXT)
+def main(
+    model_name: str | None = typer.Option(None, "-m", "--model", help="Model to use",),
+    model_class: str | None = typer.Option(None, "--model-class", help="Model class to use (e.g., 'litellm' or 'minisweagent.models.litellm_model.LitellmModel')", rich_help_panel="Advanced"),
+    agent_class: str | None = typer.Option(None, "--agent-class", help="Agent class to use (e.g., 'interactive' or 'minisweagent.agents.interactive.InteractiveAgent')", rich_help_panel="Advanced"),
+    environment_class: str | None = typer.Option(None, "--environment-class", help="Environment class to use (e.g., 'local' or 'minisweagent.environments.local.LocalEnvironment')", rich_help_panel="Advanced"),
+    task: str | None = typer.Option(None, "-t", "--task", help="Task/problem statement", show_default=False),
+    yolo: bool = typer.Option(False, "-y", "--yolo", help="Run without confirmation"),
+    cost_limit: float | None = typer.Option(None, "-l", "--cost-limit", help="Cost limit. Set to 0 to disable."),
 ```
 
 This class is important because it defines how Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale implements the patterns covered in this chapter.
@@ -212,11 +210,11 @@ This class is important because it defines how Mini-SWE-Agent Tutorial: Minimal 
 
 ```mermaid
 flowchart TD
-    A[SingularityEnvironment]
-    B[OpenRouterResponseModelConfig]
-    C[OpenRouterResponseModel]
-    D[GlobalModelStats]
-    E[is]
+    A[get_model_name]
+    B[get_model_class]
+    C[to]
+    D[to]
+    E[to]
     A --> B
     B --> C
     C --> D

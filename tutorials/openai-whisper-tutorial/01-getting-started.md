@@ -106,184 +106,182 @@ Suggested trace strategy:
 - [Main Catalog](../../README.md#-tutorial-catalog)
 - [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `whisper/timing.py`
+### `whisper/utils.py`
 
-The `from` class in [`whisper/timing.py`](https://github.com/openai/whisper/blob/HEAD/whisper/timing.py) handles a key part of this chapter's functionality:
+The `ResultWriter` class in [`whisper/utils.py`](https://github.com/openai/whisper/blob/HEAD/whisper/utils.py) handles a key part of this chapter's functionality:
 
 ```py
-import subprocess
-import warnings
-from dataclasses import dataclass
-from typing import TYPE_CHECKING, List
-
-import numba
-import numpy as np
-import torch
-import torch.nn.functional as F
-
-from .audio import HOP_LENGTH, SAMPLE_RATE, TOKENS_PER_SECOND
-from .tokenizer import Tokenizer
-
-if TYPE_CHECKING:
-    from .model import Whisper
 
 
-def median_filter(x: torch.Tensor, filter_width: int):
-    """Apply a median filter of width `filter_width` along the last dimension of `x`"""
-    pad_width = filter_width // 2
-    if x.shape[-1] <= pad_width:
-        # F.pad requires the padding width to be smaller than the input dimension
-        return x
+class ResultWriter:
+    extension: str
 
-    if (ndim := x.ndim) <= 2:
-        # `F.pad` does not support 1D or 2D inputs for reflect padding but supports 3D and 4D
-        x = x[None, None, :]
+    def __init__(self, output_dir: str):
+        self.output_dir = output_dir
 
-    assert (
-        filter_width > 0 and filter_width % 2 == 1
-    ), "`filter_width` should be an odd number"
+    def __call__(
+        self, result: dict, audio_path: str, options: Optional[dict] = None, **kwargs
+    ):
+        audio_basename = os.path.basename(audio_path)
+        audio_basename = os.path.splitext(audio_basename)[0]
+        output_path = os.path.join(
+            self.output_dir, audio_basename + "." + self.extension
+        )
 
+        with open(output_path, "w", encoding="utf-8") as f:
+            self.write_result(result, file=f, options=options, **kwargs)
+
+    def write_result(
+        self, result: dict, file: TextIO, options: Optional[dict] = None, **kwargs
+    ):
+        raise NotImplementedError
+
+
+class WriteTXT(ResultWriter):
+    extension: str = "txt"
+
+    def write_result(
+        self, result: dict, file: TextIO, options: Optional[dict] = None, **kwargs
+    ):
 ```
 
 This class is important because it defines how OpenAI Whisper Tutorial: Speech Recognition and Translation implements the patterns covered in this chapter.
 
-### `whisper/timing.py`
+### `whisper/utils.py`
 
-The `class` class in [`whisper/timing.py`](https://github.com/openai/whisper/blob/HEAD/whisper/timing.py) handles a key part of this chapter's functionality:
+The `WriteTXT` class in [`whisper/utils.py`](https://github.com/openai/whisper/blob/HEAD/whisper/utils.py) handles a key part of this chapter's functionality:
 
 ```py
-import subprocess
-import warnings
-from dataclasses import dataclass
-from typing import TYPE_CHECKING, List
-
-import numba
-import numpy as np
-import torch
-import torch.nn.functional as F
-
-from .audio import HOP_LENGTH, SAMPLE_RATE, TOKENS_PER_SECOND
-from .tokenizer import Tokenizer
-
-if TYPE_CHECKING:
-    from .model import Whisper
 
 
-def median_filter(x: torch.Tensor, filter_width: int):
-    """Apply a median filter of width `filter_width` along the last dimension of `x`"""
-    pad_width = filter_width // 2
-    if x.shape[-1] <= pad_width:
-        # F.pad requires the padding width to be smaller than the input dimension
-        return x
+class WriteTXT(ResultWriter):
+    extension: str = "txt"
 
-    if (ndim := x.ndim) <= 2:
-        # `F.pad` does not support 1D or 2D inputs for reflect padding but supports 3D and 4D
-        x = x[None, None, :]
+    def write_result(
+        self, result: dict, file: TextIO, options: Optional[dict] = None, **kwargs
+    ):
+        for segment in result["segments"]:
+            print(segment["text"].strip(), file=file, flush=True)
 
-    assert (
-        filter_width > 0 and filter_width % 2 == 1
-    ), "`filter_width` should be an odd number"
 
+class SubtitlesWriter(ResultWriter):
+    always_include_hours: bool
+    decimal_marker: str
+
+    def iterate_result(
+        self,
+        result: dict,
+        options: Optional[dict] = None,
+        *,
+        max_line_width: Optional[int] = None,
+        max_line_count: Optional[int] = None,
+        highlight_words: bool = False,
+        max_words_per_line: Optional[int] = None,
+    ):
+        options = options or {}
+        max_line_width = max_line_width or options.get("max_line_width")
+        max_line_count = max_line_count or options.get("max_line_count")
+        highlight_words = highlight_words or options.get("highlight_words", False)
+        max_words_per_line = max_words_per_line or options.get("max_words_per_line")
+        preserve_segments = max_line_count is None or max_line_width is None
 ```
 
 This class is important because it defines how OpenAI Whisper Tutorial: Speech Recognition and Translation implements the patterns covered in this chapter.
 
-### `whisper/timing.py`
+### `whisper/utils.py`
 
-The `median_filter` function in [`whisper/timing.py`](https://github.com/openai/whisper/blob/HEAD/whisper/timing.py) handles a key part of this chapter's functionality:
+The `SubtitlesWriter` class in [`whisper/utils.py`](https://github.com/openai/whisper/blob/HEAD/whisper/utils.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+class SubtitlesWriter(ResultWriter):
+    always_include_hours: bool
+    decimal_marker: str
+
+    def iterate_result(
+        self,
+        result: dict,
+        options: Optional[dict] = None,
+        *,
+        max_line_width: Optional[int] = None,
+        max_line_count: Optional[int] = None,
+        highlight_words: bool = False,
+        max_words_per_line: Optional[int] = None,
+    ):
+        options = options or {}
+        max_line_width = max_line_width or options.get("max_line_width")
+        max_line_count = max_line_count or options.get("max_line_count")
+        highlight_words = highlight_words or options.get("highlight_words", False)
+        max_words_per_line = max_words_per_line or options.get("max_words_per_line")
+        preserve_segments = max_line_count is None or max_line_width is None
+        max_line_width = max_line_width or 1000
+        max_words_per_line = max_words_per_line or 1000
+
+        def iterate_subtitles():
+            line_len = 0
+            line_count = 1
+            # the next subtitle to yield (a list of word timings with whitespace)
+            subtitle: List[dict] = []
+            last: float = get_start(result["segments"]) or 0.0
+            for segment in result["segments"]:
+```
+
+This class is important because it defines how OpenAI Whisper Tutorial: Speech Recognition and Translation implements the patterns covered in this chapter.
+
+### `whisper/utils.py`
+
+The `WriteVTT` class in [`whisper/utils.py`](https://github.com/openai/whisper/blob/HEAD/whisper/utils.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def median_filter(x: torch.Tensor, filter_width: int):
-    """Apply a median filter of width `filter_width` along the last dimension of `x`"""
-    pad_width = filter_width // 2
-    if x.shape[-1] <= pad_width:
-        # F.pad requires the padding width to be smaller than the input dimension
-        return x
+class WriteVTT(SubtitlesWriter):
+    extension: str = "vtt"
+    always_include_hours: bool = False
+    decimal_marker: str = "."
 
-    if (ndim := x.ndim) <= 2:
-        # `F.pad` does not support 1D or 2D inputs for reflect padding but supports 3D and 4D
-        x = x[None, None, :]
+    def write_result(
+        self, result: dict, file: TextIO, options: Optional[dict] = None, **kwargs
+    ):
+        print("WEBVTT\n", file=file)
+        for start, end, text in self.iterate_result(result, options, **kwargs):
+            print(f"{start} --> {end}\n{text}\n", file=file, flush=True)
 
-    assert (
-        filter_width > 0 and filter_width % 2 == 1
-    ), "`filter_width` should be an odd number"
 
-    result = None
-    x = F.pad(x, (filter_width // 2, filter_width // 2, 0, 0), mode="reflect")
-    if x.is_cuda:
-        try:
-            from .triton_ops import median_filter_cuda
+class WriteSRT(SubtitlesWriter):
+    extension: str = "srt"
+    always_include_hours: bool = True
+    decimal_marker: str = ","
 
-            result = median_filter_cuda(x, filter_width)
-        except (RuntimeError, subprocess.CalledProcessError):
-            warnings.warn(
-                "Failed to launch Triton kernels, likely due to missing CUDA toolkit; "
-                "falling back to a slower median kernel implementation..."
-            )
+    def write_result(
+        self, result: dict, file: TextIO, options: Optional[dict] = None, **kwargs
+    ):
+        for i, (start, end, text) in enumerate(
+            self.iterate_result(result, options, **kwargs), start=1
+        ):
+            print(f"{i}\n{start} --> {end}\n{text}\n", file=file, flush=True)
 
-    if result is None:
-        # sort() is faster than torch.median (https://github.com/pytorch/pytorch/issues/51450)
+
+class WriteTSV(ResultWriter):
+    """
+    Write a transcript to a file in TSV (tab-separated values) format containing lines like:
 ```
 
-This function is important because it defines how OpenAI Whisper Tutorial: Speech Recognition and Translation implements the patterns covered in this chapter.
-
-### `whisper/timing.py`
-
-The `backtrace` function in [`whisper/timing.py`](https://github.com/openai/whisper/blob/HEAD/whisper/timing.py) handles a key part of this chapter's functionality:
-
-```py
-
-@numba.jit(nopython=True)
-def backtrace(trace: np.ndarray):
-    i = trace.shape[0] - 1
-    j = trace.shape[1] - 1
-    trace[0, :] = 2
-    trace[:, 0] = 1
-
-    result = []
-    while i > 0 or j > 0:
-        result.append((i - 1, j - 1))
-
-        if trace[i, j] == 0:
-            i -= 1
-            j -= 1
-        elif trace[i, j] == 1:
-            i -= 1
-        elif trace[i, j] == 2:
-            j -= 1
-        else:
-            raise ValueError("Unexpected trace[i, j]")
-
-    result = np.array(result)
-    return result[::-1, :].T
-
-
-@numba.jit(nopython=True, parallel=True)
-def dtw_cpu(x: np.ndarray):
-    N, M = x.shape
-    cost = np.ones((N + 1, M + 1), dtype=np.float32) * np.inf
-    trace = -np.ones((N + 1, M + 1), dtype=np.float32)
-
-```
-
-This function is important because it defines how OpenAI Whisper Tutorial: Speech Recognition and Translation implements the patterns covered in this chapter.
+This class is important because it defines how OpenAI Whisper Tutorial: Speech Recognition and Translation implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[from]
-    B[class]
-    C[median_filter]
-    D[backtrace]
-    E[dtw_cpu]
+    A[ResultWriter]
+    B[WriteTXT]
+    C[SubtitlesWriter]
+    D[WriteVTT]
+    E[WriteSRT]
     A --> B
     B --> C
     C --> D

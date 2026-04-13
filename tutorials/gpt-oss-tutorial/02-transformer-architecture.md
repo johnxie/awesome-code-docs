@@ -584,22 +584,31 @@ Under the hood, `Chapter 2: Transformer Architecture -- Self-Attention, Multi-He
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
-## Source Walkthrough
+## Source Code Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+### `model.py` (nanoGPT)
 
-- [nanoGPT](https://github.com/karpathy/nanoGPT)
-  Why it matters: authoritative reference on `nanoGPT` (github.com).
-- [minGPT](https://github.com/karpathy/minGPT)
-  Why it matters: authoritative reference on `minGPT` (github.com).
-- [GPT-NeoX](https://github.com/EleutherAI/gpt-neox)
-  Why it matters: authoritative reference on `GPT-NeoX` (github.com).
-- [GPT-Neo](https://github.com/EleutherAI/gpt-neo)
-  Why it matters: authoritative reference on `GPT-Neo` (github.com).
-- [GPT-J](https://github.com/kingoflolz/mesh-transformer-jax)
-  Why it matters: authoritative reference on `GPT-J` (github.com).
-- [Chapter 1: Getting Started](01-getting-started.md)
-  Why it matters: authoritative reference on `Chapter 1: Getting Started` (01-getting-started.md).
+The `CausalSelfAttention` class in [`model.py`](https://github.com/karpathy/nanoGPT/blob/master/model.py) implements the core transformer self-attention with Flash Attention support:
+
+```python
+class CausalSelfAttention(nn.Module):
+
+    def __init__(self, config):
+        super().__init__()
+        assert config.n_embd % config.n_head == 0
+        # key, query, value projections for all heads, but in a batch
+        self.c_attn = nn.Linear(config.n_embd, 3 * config.n_embd, bias=config.bias)
+        # output projection
+        self.c_proj = nn.Linear(config.n_embd, config.n_embd, bias=config.bias)
+        # flash attention support check
+        self.flash = hasattr(torch.nn.functional, 'scaled_dot_product_attention')
+        if not self.flash:
+            print("WARNING: using slow attention. Flash Attention requires PyTorch >= 2.0")
+            self.register_buffer("bias", torch.tril(torch.ones(config.block_size, config.block_size))
+                                        .view(1, 1, config.block_size, config.block_size))
+```
+
+The fused QKV projection (`3 * n_embd`) and Flash Attention fallback show production-grade attention implementation. The causal mask is registered as a buffer to avoid reallocation on each forward pass.
 
 Suggested trace strategy:
 - search upstream code for `self` and `config` to map concrete implementation paths

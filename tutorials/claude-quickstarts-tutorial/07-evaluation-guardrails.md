@@ -83,98 +83,96 @@ Suggested trace strategy:
 - [Main Catalog](../../README.md#-tutorial-catalog)
 - [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `autonomous-coding/client.py`
+### `agents/agent.py`
 
-The `create_client` function in [`autonomous-coding/client.py`](https://github.com/anthropics/anthropic-quickstarts/blob/HEAD/autonomous-coding/client.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-def create_client(project_dir: Path, model: str) -> ClaudeSDKClient:
-    """
-    Create a Claude Agent SDK client with multi-layered security.
-
-    Args:
-        project_dir: Directory for the project
-        model: Claude model to use
-
-    Returns:
-        Configured ClaudeSDKClient
-
-    Security layers (defense in depth):
-    1. Sandbox - OS-level bash command isolation prevents filesystem escape
-    2. Permissions - File operations restricted to project_dir only
-    3. Security hooks - Bash commands validated against an allowlist
-       (see security.py for ALLOWED_COMMANDS)
-    """
-    api_key = os.environ.get("ANTHROPIC_API_KEY")
-    if not api_key:
-        raise ValueError(
-            "ANTHROPIC_API_KEY environment variable not set.\n"
-            "Get your API key from: https://console.anthropic.com/"
-        )
-
-    # Create comprehensive security settings
-    # Note: Using relative paths ("./**") restricts access to project directory
-    # since cwd is set to project_dir
-    security_settings = {
-        "sandbox": {"enabled": True, "autoAllowBashIfSandboxed": True},
-        "permissions": {
-```
-
-This function is important because it defines how Claude Quickstarts Tutorial: Production Integration Patterns implements the patterns covered in this chapter.
-
-### `autonomous-coding/autonomous_agent_demo.py`
-
-The `parse_args` function in [`autonomous-coding/autonomous_agent_demo.py`](https://github.com/anthropics/anthropic-quickstarts/blob/HEAD/autonomous-coding/autonomous_agent_demo.py) handles a key part of this chapter's functionality:
+The `from` class in [`agents/agent.py`](https://github.com/anthropics/anthropic-quickstarts/blob/HEAD/agents/agent.py) handles a key part of this chapter's functionality:
 
 ```py
+import asyncio
+import os
+from contextlib import AsyncExitStack
+from dataclasses import dataclass
+from typing import Any
+
+from anthropic import Anthropic
+
+from .tools.base import Tool
+from .utils.connections import setup_mcp_connections
+from .utils.history_util import MessageHistory
+from .utils.tool_util import execute_tools
 
 
-def parse_args() -> argparse.Namespace:
-    """Parse command line arguments."""
-    parser = argparse.ArgumentParser(
-        description="Autonomous Coding Agent Demo - Long-running agent harness",
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog="""
-Examples:
-  # Start fresh project
-  python autonomous_agent_demo.py --project-dir ./claude_clone
+@dataclass
+class ModelConfig:
+    """Configuration settings for Claude model parameters."""
 
-  # Use a specific model
-  python autonomous_agent_demo.py --project-dir ./claude_clone --model claude-sonnet-4-5-20250929
+    # Available models include:
+    # - claude-sonnet-4-20250514 (default)
+    # - claude-opus-4-20250514
+    # - claude-haiku-4-5-20251001
+    # - claude-3-5-sonnet-20240620
+    # - claude-3-haiku-20240307
+    model: str = "claude-sonnet-4-20250514"
+    max_tokens: int = 4096
+    temperature: float = 1.0
+    context_window_tokens: int = 180000
 
-  # Limit iterations for testing
-  python autonomous_agent_demo.py --project-dir ./claude_clone --max-iterations 5
 
-  # Continue existing project
-  python autonomous_agent_demo.py --project-dir ./claude_clone
-
-Environment Variables:
-  ANTHROPIC_API_KEY    Your Anthropic API key (required)
-        """,
-    )
-
-    parser.add_argument(
-        "--project-dir",
-        type=Path,
-        default=Path("./autonomous_demo_project"),
-        help="Directory for the project (default: generations/autonomous_demo_project). Relative paths automatically placed in generations/ directory.",
-    )
+class Agent:
+    """Claude-powered agent with tool use capabilities."""
 ```
 
-This function is important because it defines how Claude Quickstarts Tutorial: Production Integration Patterns implements the patterns covered in this chapter.
+This class is important because it defines how Claude Quickstarts Tutorial: Production Integration Patterns implements the patterns covered in this chapter.
+
+### `agents/agent.py`
+
+The `class` class in [`agents/agent.py`](https://github.com/anthropics/anthropic-quickstarts/blob/HEAD/agents/agent.py) handles a key part of this chapter's functionality:
+
+```py
+import os
+from contextlib import AsyncExitStack
+from dataclasses import dataclass
+from typing import Any
+
+from anthropic import Anthropic
+
+from .tools.base import Tool
+from .utils.connections import setup_mcp_connections
+from .utils.history_util import MessageHistory
+from .utils.tool_util import execute_tools
+
+
+@dataclass
+class ModelConfig:
+    """Configuration settings for Claude model parameters."""
+
+    # Available models include:
+    # - claude-sonnet-4-20250514 (default)
+    # - claude-opus-4-20250514
+    # - claude-haiku-4-5-20251001
+    # - claude-3-5-sonnet-20240620
+    # - claude-3-haiku-20240307
+    model: str = "claude-sonnet-4-20250514"
+    max_tokens: int = 4096
+    temperature: float = 1.0
+    context_window_tokens: int = 180000
+
+
+class Agent:
+    """Claude-powered agent with tool use capabilities."""
+
+```
+
+This class is important because it defines how Claude Quickstarts Tutorial: Production Integration Patterns implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[create_client]
-    B[parse_args]
+    A[from]
+    B[class]
     A --> B
 ```

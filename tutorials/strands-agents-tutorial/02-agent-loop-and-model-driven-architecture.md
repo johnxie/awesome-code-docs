@@ -38,184 +38,182 @@ You now have the foundation to design Strands agents with clearer tradeoff aware
 
 Next: [Chapter 3: Tools and MCP Integration](03-tools-and-mcp-integration.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `src/strands/telemetry/tracer.py`
+### `src/strands/models/llamacpp.py`
 
-The `get_tracer` function in [`src/strands/telemetry/tracer.py`](https://github.com/strands-agents/sdk-python/blob/HEAD/src/strands/telemetry/tracer.py) handles a key part of this chapter's functionality:
+The `consistency` interface in [`src/strands/models/llamacpp.py`](https://github.com/strands-agents/sdk-python/blob/HEAD/src/strands/models/llamacpp.py) handles a key part of this chapter's functionality:
 
 ```py
-        self.service_name = __name__
-        self.tracer_provider: trace_api.TracerProvider | None = None
-        self.tracer_provider = trace_api.get_tracer_provider()
-        self.tracer = self.tracer_provider.get_tracer(self.service_name)
-        ThreadingInstrumentor().instrument()
+            system_prompt: System prompt to provide context to the model.
+            tool_choice: Selection strategy for tool invocation. **Note: This parameter is accepted for
+                interface consistency but is currently ignored for this model provider.**
+            **kwargs: Additional keyword arguments for future extensibility.
 
-        # Read OTEL_SEMCONV_STABILITY_OPT_IN environment variable
-        opt_in_values = self._parse_semconv_opt_in()
-        ## To-do: should not set below attributes directly, use env var instead
-        self.use_latest_genai_conventions = "gen_ai_latest_experimental" in opt_in_values
-        self._include_tool_definitions = "gen_ai_tool_definitions" in opt_in_values
+        Yields:
+            Formatted message chunks from the model.
 
-    def _parse_semconv_opt_in(self) -> set[str]:
-        """Parse the OTEL_SEMCONV_STABILITY_OPT_IN environment variable.
-
-        Returns:
-            A set of opt-in values from the environment variable.
+        Raises:
+            ContextWindowOverflowException: When the context window is exceeded.
+            ModelThrottledException: When the llama.cpp server is overloaded.
         """
-        opt_in_env = os.getenv("OTEL_SEMCONV_STABILITY_OPT_IN", "")
-        return {value.strip() for value in opt_in_env.split(",")}
+        warn_on_tool_choice_not_supported(tool_choice)
+
+        # Track request start time for latency calculation
+        start_time = time.perf_counter()
+
+        try:
+            logger.debug("formatting request")
+            request = self._format_request(messages, tool_specs, system_prompt)
+            logger.debug("request=<%s>", request)
+
+            logger.debug("invoking model")
+            response = await self.client.post("/v1/chat/completions", json=request)
+            response.raise_for_status()
+
+            logger.debug("got response from model")
+            yield self._format_chunk({"chunk_type": "message_start"})
+            yield self._format_chunk({"chunk_type": "content_start", "data_type": "text"})
+
+            tool_calls: dict[int, list] = {}
+            usage_data = None
+```
+
+This interface is important because it defines how Strands Agents Tutorial: Model-Driven Agent Systems with Native MCP Support implements the patterns covered in this chapter.
+
+### `src/strands/models/openai_responses.py`
+
+The `_ToolCallInfo` class in [`src/strands/models/openai_responses.py`](https://github.com/strands-agents/sdk-python/blob/HEAD/src/strands/models/openai_responses.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+class _ToolCallInfo(TypedDict):
+    """Internal type for tracking tool call information during streaming."""
+
+    name: str
+    arguments: str
+    call_id: str
+    item_id: str
+
+
+class Client(Protocol):
+    """Protocol defining the OpenAI Responses API interface for the underlying provider client."""
 
     @property
-    def is_langfuse(self) -> bool:
-        """Check if Langfuse is configured as the OTLP endpoint.
+    # pragma: no cover
+    def responses(self) -> Any:
+        """Responses interface."""
+        ...
 
-        Returns:
-            True if Langfuse is the OTLP endpoint, False otherwise.
+
+class OpenAIResponsesModel(Model):
+    """OpenAI Responses API model provider implementation."""
+
+    client: Client
+    client_args: dict[str, Any]
+
+    class OpenAIResponsesConfig(TypedDict, total=False):
+        """Configuration options for OpenAI Responses API models.
+
+        Attributes:
+            model_id: Model ID (e.g., "gpt-4o").
+```
+
+This class is important because it defines how Strands Agents Tutorial: Model-Driven Agent Systems with Native MCP Support implements the patterns covered in this chapter.
+
+### `src/strands/models/openai_responses.py`
+
+The `Client` class in [`src/strands/models/openai_responses.py`](https://github.com/strands-agents/sdk-python/blob/HEAD/src/strands/models/openai_responses.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+class Client(Protocol):
+    """Protocol defining the OpenAI Responses API interface for the underlying provider client."""
+
+    @property
+    # pragma: no cover
+    def responses(self) -> Any:
+        """Responses interface."""
+        ...
+
+
+class OpenAIResponsesModel(Model):
+    """OpenAI Responses API model provider implementation."""
+
+    client: Client
+    client_args: dict[str, Any]
+
+    class OpenAIResponsesConfig(TypedDict, total=False):
+        """Configuration options for OpenAI Responses API models.
+
+        Attributes:
+            model_id: Model ID (e.g., "gpt-4o").
+                For a complete list of supported models, see https://platform.openai.com/docs/models.
+            params: Model parameters (e.g., max_output_tokens, temperature, etc.).
+                For a complete list of supported parameters, see
+                https://platform.openai.com/docs/api-reference/responses/create.
+            stateful: Whether to enable server-side conversation state management.
+                When True, the server stores conversation history and the client does not need to
+                send the full message history with each request. Defaults to False.
         """
-        return any(
-            "langfuse" in os.getenv(var, "")
-            for var in ("OTEL_EXPORTER_OTLP_ENDPOINT", "OTEL_EXPORTER_OTLP_TRACES_ENDPOINT", "LANGFUSE_BASE_URL")
+
+```
+
+This class is important because it defines how Strands Agents Tutorial: Model-Driven Agent Systems with Native MCP Support implements the patterns covered in this chapter.
+
+### `src/strands/models/openai_responses.py`
+
+The `OpenAIResponsesModel` class in [`src/strands/models/openai_responses.py`](https://github.com/strands-agents/sdk-python/blob/HEAD/src/strands/models/openai_responses.py) handles a key part of this chapter's functionality:
+
+```py
+    if _openai_version < _MIN_OPENAI_VERSION:
+        raise ImportError(
+            f"OpenAIResponsesModel requires openai>={_MIN_OPENAI_VERSION} (found {_openai_version}). "
+            "Install/upgrade with: pip install -U openai. "
+            "For older SDKs, use OpenAIModel (Chat Completions)."
         )
+except ImportError:
+    # Re-raise ImportError as-is (covers both our explicit raise above and missing openai package)
+    raise
+except Exception as e:
+    raise ImportError(
+        f"OpenAIResponsesModel requires openai>={_MIN_OPENAI_VERSION}. Install with: pip install -U openai"
+    ) from e
+
+import openai  # noqa: E402 - must import after version check
+
+from ..types.citations import WebLocationDict  # noqa: E402
+from ..types.content import ContentBlock, Messages, Role  # noqa: E402
+from ..types.exceptions import ContextWindowOverflowException, ModelThrottledException  # noqa: E402
+from ..types.streaming import StreamEvent  # noqa: E402
+from ..types.tools import ToolChoice, ToolResult, ToolSpec, ToolUse  # noqa: E402
+from ._validation import validate_config_keys  # noqa: E402
+from .model import Model  # noqa: E402
+
+logger = logging.getLogger(__name__)
+
+T = TypeVar("T", bound=BaseModel)
+
+# Maximum file size for media content in tool results (20MB)
+_MAX_MEDIA_SIZE_BYTES = 20 * 1024 * 1024
+_MAX_MEDIA_SIZE_LABEL = "20MB"
+_DEFAULT_MIME_TYPE = "application/octet-stream"
 ```
 
-This function is important because it defines how Strands Agents Tutorial: Model-Driven Agent Systems with Native MCP Support implements the patterns covered in this chapter.
-
-### `src/strands/telemetry/tracer.py`
-
-The `serialize` function in [`src/strands/telemetry/tracer.py`](https://github.com/strands-agents/sdk-python/blob/HEAD/src/strands/telemetry/tracer.py) handles a key part of this chapter's functionality:
-
-```py
-                "gen_ai.client.inference.operation.details",
-                {
-                    "gen_ai.output.messages": serialize(
-                        [
-                            {
-                                "role": message["role"],
-                                "parts": self._map_content_blocks_to_otel_parts(message["content"]),
-                                "finish_reason": str(stop_reason),
-                            }
-                        ]
-                    ),
-                },
-                to_span_attributes=self.is_langfuse,
-            )
-        else:
-            self._add_event(
-                span,
-                "gen_ai.choice",
-                event_attributes={"finish_reason": str(stop_reason), "message": serialize(message["content"])},
-            )
-
-        span.set_attributes(attributes)
-
-    def start_tool_call_span(
-        self,
-        tool: ToolUse,
-        parent_span: Span | None = None,
-        custom_trace_attributes: Mapping[str, AttributeValue] | None = None,
-        **kwargs: Any,
-    ) -> Span:
-        """Start a new span for a tool call.
-
-```
-
-This function is important because it defines how Strands Agents Tutorial: Model-Driven Agent Systems with Native MCP Support implements the patterns covered in this chapter.
-
-### `src/strands/telemetry/tracer.py`
-
-The `for` interface in [`src/strands/telemetry/tracer.py`](https://github.com/strands-agents/sdk-python/blob/HEAD/src/strands/telemetry/tracer.py) handles a key part of this chapter's functionality:
-
-```py
-        # Handle datetime objects directly
-        if isinstance(value, (datetime, date)):
-            return value.isoformat()
-
-        # Handle dictionaries
-        elif isinstance(value, dict):
-            return {k: self._process_value(v) for k, v in value.items()}
-
-        # Handle lists
-        elif isinstance(value, list):
-            return [self._process_value(item) for item in value]
-
-        # Handle all other values
-        else:
-            try:
-                # Test if the value is JSON serializable
-                json.dumps(value)
-                return value
-            except (TypeError, OverflowError, ValueError):
-                return "<replaced>"
-
-
-class Tracer:
-    """Handles OpenTelemetry tracing.
-
-    This class provides a simple interface for creating and managing traces,
-    with support for sending to OTLP endpoints.
-
-    When the OTEL_EXPORTER_OTLP_ENDPOINT environment variable is set, traces
-    are sent to the OTLP endpoint.
-
-    Both attributes are controlled by including "gen_ai_latest_experimental" or "gen_ai_tool_definitions",
-```
-
-This interface is important because it defines how Strands Agents Tutorial: Model-Driven Agent Systems with Native MCP Support implements the patterns covered in this chapter.
-
-### `src/strands/telemetry/tracer.py`
-
-The `of` interface in [`src/strands/telemetry/tracer.py`](https://github.com/strands-agents/sdk-python/blob/HEAD/src/strands/telemetry/tracer.py) handles a key part of this chapter's functionality:
-
-```py
-
-        Returns:
-            JSON string representation of the object
-        """
-        # Process the object to handle non-serializable values
-        processed_obj = self._process_value(obj)
-        # Use the parent class to encode the processed object
-        return super().encode(processed_obj)
-
-    def _process_value(self, value: Any) -> Any:
-        """Process any value, handling containers recursively.
-
-        Args:
-            value: The value to process
-
-        Returns:
-            Processed value with unserializable parts replaced
-        """
-        # Handle datetime objects directly
-        if isinstance(value, (datetime, date)):
-            return value.isoformat()
-
-        # Handle dictionaries
-        elif isinstance(value, dict):
-            return {k: self._process_value(v) for k, v in value.items()}
-
-        # Handle lists
-        elif isinstance(value, list):
-            return [self._process_value(item) for item in value]
-
-        # Handle all other values
-        else:
-```
-
-This interface is important because it defines how Strands Agents Tutorial: Model-Driven Agent Systems with Native MCP Support implements the patterns covered in this chapter.
+This class is important because it defines how Strands Agents Tutorial: Model-Driven Agent Systems with Native MCP Support implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[get_tracer]
-    B[serialize]
-    C[for]
-    D[of]
-    E[methods]
+    A[consistency]
+    B[_ToolCallInfo]
+    C[Client]
+    D[OpenAIResponsesModel]
+    E[OpenAIResponsesConfig]
     A --> B
     B --> C
     C --> D

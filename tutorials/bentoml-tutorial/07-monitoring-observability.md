@@ -621,9 +621,28 @@ class DashboardService:
             raise
 ```
 
+## Observability Architecture
+
+```mermaid
+flowchart TD
+    A[Request arrives at BentoML service]
+    B[Request and latency metrics recorded]
+    C[Structured log entry emitted]
+    D[Prometheus scrapes metrics endpoint]
+    E[Grafana dashboard visualizes metrics]
+    F[Alert fired on error rate threshold]
+    G[Traces exported to observability backend]
+    A --> B
+    A --> C
+    B --> D
+    D --> E
+    E --> F
+    A --> G
+```
+
 ## What We've Accomplished
 
-Congratulations! 🎉 You've successfully learned:
+You've successfully learned:
 
 1. **Metrics Collection** - Prometheus integration and custom metrics
 2. **Structured Logging** - JSON logging and log aggregation

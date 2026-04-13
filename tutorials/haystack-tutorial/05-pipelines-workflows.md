@@ -855,6 +855,20 @@ With advanced pipelines mastered, you're ready to:
 
 **Ready to evaluate and optimize your search systems? Continue to [Chapter 6: Evaluation & Optimization](06-evaluation-optimization.md)!** 🚀
 
+## Pipeline Execution
+
+```mermaid
+flowchart TD
+    A[Pipeline.add_component] --> B[Connect components]
+    B --> C[pipeline.connect output to input]
+    C --> D[pipeline.run inputs]
+    D --> E[Topological execution order]
+    E --> F[Each component receives inputs]
+    F --> G[Component produces outputs]
+    G --> H[Outputs passed to connected components]
+    H --> I[Final pipeline result dict]
+```
+
 ## What Problem Does This Solve?
 
 Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `self`, `query`, `pipeline` so behavior stays predictable as complexity grows.

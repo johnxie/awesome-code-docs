@@ -706,6 +706,16 @@ Under the hood, `Chapter 5: Structured Outputs` usually follows a repeatable con
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
+## Architecture Flow
+
+```mermaid
+flowchart LR
+    A[Prompt with schema] --> B[generateObject call]
+    B --> C[Model constrained by Zod schema]
+    C --> D[Validated structured object returned]
+    D --> E[Type-safe usage in application]
+```
+
 ## Source Walkthrough
 
 Use the following upstream sources to verify implementation details while reading this chapter:

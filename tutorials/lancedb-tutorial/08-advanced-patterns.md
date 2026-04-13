@@ -14,6 +14,17 @@ Welcome to **Chapter 8: Advanced Patterns**. In this part of **LanceDB Tutorial:
 
 ## Overview
 
+```mermaid
+flowchart TD
+    A[Multi-tenant app] --> B[Namespace per tenant]
+    B --> C[Separate table per tenant]
+    C --> D[Access control at table level]
+    E[RAG pipeline] --> F[Chunk documents]
+    F --> G[Embed + store in LanceDB]
+    G --> H[Retrieve on query]
+    H --> I[LLM generates answer]
+```
+
 This chapter covers advanced patterns for building sophisticated applications with LanceDB, including multi-tenant architectures, document processing pipelines, RAG systems, and real-time applications.
 
 ## Multi-Tenancy

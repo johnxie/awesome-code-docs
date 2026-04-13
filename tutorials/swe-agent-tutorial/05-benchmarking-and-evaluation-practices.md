@@ -39,170 +39,168 @@ You now have a repeatable framework for benchmarking SWE-agent systems.
 
 Next: [Chapter 6: Offensive Security Mode and Specialized Workloads](06-offensive-security-mode-and-specialized-workloads.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `sweagent/agent/reviewer.py`
 
-The `TrajFormatterConfig` class in [`sweagent/agent/reviewer.py`](https://github.com/SWE-agent/SWE-agent/blob/HEAD/sweagent/agent/reviewer.py) handles a key part of this chapter's functionality:
+The `Preselector` class in [`sweagent/agent/reviewer.py`](https://github.com/SWE-agent/SWE-agent/blob/HEAD/sweagent/agent/reviewer.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-class TrajFormatterConfig(BaseModel):
-    #: Filter the following actions from the trajectory
-    filter: list[str] = []
-    #: Filter outputs from the following actions from the trajectory
-    output_filter: list[str] = []
-    #: Format of the trajectory item
-    item_template: str = "Model: {{response}}\n\nObservation: {{observation}}"
-    only_show_last_n_output: int = 0
-
-    model_config = ConfigDict(extra="forbid")
+class PreselectorOutput(BaseModel):
+    chosen_idx: list[int]
+    response: str
+    messages: list[dict[str, Any]]
 
 
-class ReviewerConfig(BaseModel):
-    """The configuration for the reviewer"""
+class ChooserOutput(BaseModel):
+    chosen_idx: int
+    response: str
+    preselector_output: PreselectorOutput | None = None
+    messages: list[dict[str, Any]]
 
-    system_template: str
-    instance_template: str
-    #: If a submission autosubmits because of total cost or a similar exit status,
-    #: it will get this malus to its score
-    failure_score_penalty: float = 0.0
-    traj_formatter: TrajFormatterConfig
-    n_sample: int = 5
-    reduce_by_std: float = 0.0
-    score_range: tuple[float | None, float | None] = (None, None)
-    #: If set, we assume that the score is in the range [score_range[0], score_range[1]]
-    #: Reviews that are outside this range will be ignored
 
-    type: Literal["reviewer"] = "reviewer"
+# --- INTERFACES ---
 
-    model_config = ConfigDict(extra="forbid")
+
+class AbstractReviewer(ABC):
+    """The reviewer checks a single solution and tries to predict
+    if it successfully solves the issue.
+    """
+
+    @abstractmethod
+    def review(self, instance: ProblemStatement, submission: ReviewSubmission) -> ReviewerResult:
+        """Returns True if the submission is believed to be correct"""
+
+
+class AbstractRetryLoop(ABC):
+    """The review loop controls how often the agent tries to solve
+    the issue and how it selects the best solution.
+    """
 ```
 
 This class is important because it defines how SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering implements the patterns covered in this chapter.
 
 ### `sweagent/agent/reviewer.py`
 
-The `ReviewerConfig` class in [`sweagent/agent/reviewer.py`](https://github.com/SWE-agent/SWE-agent/blob/HEAD/sweagent/agent/reviewer.py) handles a key part of this chapter's functionality:
+The `Chooser` class in [`sweagent/agent/reviewer.py`](https://github.com/SWE-agent/SWE-agent/blob/HEAD/sweagent/agent/reviewer.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-class ReviewerConfig(BaseModel):
-    """The configuration for the reviewer"""
-
-    system_template: str
-    instance_template: str
-    #: If a submission autosubmits because of total cost or a similar exit status,
-    #: it will get this malus to its score
-    failure_score_penalty: float = 0.0
-    traj_formatter: TrajFormatterConfig
-    n_sample: int = 5
-    reduce_by_std: float = 0.0
-    score_range: tuple[float | None, float | None] = (None, None)
-    #: If set, we assume that the score is in the range [score_range[0], score_range[1]]
-    #: Reviews that are outside this range will be ignored
-
-    type: Literal["reviewer"] = "reviewer"
-
-    model_config = ConfigDict(extra="forbid")
-
-    def get_reviewer(self, model: AbstractModel) -> AbstractReviewer:
-        return Reviewer(self, model)
+class ChooserOutput(BaseModel):
+    chosen_idx: int
+    response: str
+    preselector_output: PreselectorOutput | None = None
+    messages: list[dict[str, Any]]
 
 
-class ChooserRetryLoopConfig(BaseModel):
-    type: Literal["chooser"] = "chooser"
-    chooser: ChooserConfig
+# --- INTERFACES ---
 
-    max_attempts: int
-    min_budget_for_new_attempt: float = 0.0
-    """Minimal $ that need to be left in order for us to start a new attempt.
+
+class AbstractReviewer(ABC):
+    """The reviewer checks a single solution and tries to predict
+    if it successfully solves the issue.
+    """
+
+    @abstractmethod
+    def review(self, instance: ProblemStatement, submission: ReviewSubmission) -> ReviewerResult:
+        """Returns True if the submission is believed to be correct"""
+
+
+class AbstractRetryLoop(ABC):
+    """The review loop controls how often the agent tries to solve
+    the issue and how it selects the best solution.
+    """
+
+    def retry(self) -> bool:
+        """Returns True if the agent should retry solving the issue"""
+        return False
+
+    def on_submit(self, submission: ReviewSubmission) -> None:
 ```
 
 This class is important because it defines how SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering implements the patterns covered in this chapter.
 
 ### `sweagent/agent/reviewer.py`
 
-The `ChooserRetryLoopConfig` class in [`sweagent/agent/reviewer.py`](https://github.com/SWE-agent/SWE-agent/blob/HEAD/sweagent/agent/reviewer.py) handles a key part of this chapter's functionality:
+The `Reviewer` class in [`sweagent/agent/reviewer.py`](https://github.com/SWE-agent/SWE-agent/blob/HEAD/sweagent/agent/reviewer.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-class ChooserRetryLoopConfig(BaseModel):
-    type: Literal["chooser"] = "chooser"
-    chooser: ChooserConfig
+class ReviewerResult(BaseModel):
+    accept: bool | float
+    outputs: list[str]
+    messages: list[dict[str, Any]]
 
-    max_attempts: int
-    min_budget_for_new_attempt: float = 0.0
-    """Minimal $ that need to be left in order for us to start a new attempt.
-    If set to 0: Always.
+
+class PreselectorOutput(BaseModel):
+    chosen_idx: list[int]
+    response: str
+    messages: list[dict[str, Any]]
+
+
+class ChooserOutput(BaseModel):
+    chosen_idx: int
+    response: str
+    preselector_output: PreselectorOutput | None = None
+    messages: list[dict[str, Any]]
+
+
+# --- INTERFACES ---
+
+
+class AbstractReviewer(ABC):
+    """The reviewer checks a single solution and tries to predict
+    if it successfully solves the issue.
     """
 
-    cost_limit: float
-    """The maximum cost to spend on all attempts. Does not include cost of choosing.
-    """
-
-    model_config = ConfigDict(extra="forbid")
-
-    def get_retry_loop(self, problem_statement: ProblemStatement) -> ChooserRetryLoop:
-        return ChooserRetryLoop(self, problem_statement)
-
-
-class ScoreRetryLoopConfig(BaseModel):
-    """The configuration for the review loop"""
-
-    type: Literal["score"] = "score"
-
-    reviewer_config: ReviewerConfig
-
-    accept_score: float
-    max_accepts: int = 1
-    max_attempts: int
+    @abstractmethod
+    def review(self, instance: ProblemStatement, submission: ReviewSubmission) -> ReviewerResult:
+        """Returns True if the submission is believed to be correct"""
 ```
 
 This class is important because it defines how SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering implements the patterns covered in this chapter.
 
 ### `sweagent/agent/reviewer.py`
 
-The `ScoreRetryLoopConfig` class in [`sweagent/agent/reviewer.py`](https://github.com/SWE-agent/SWE-agent/blob/HEAD/sweagent/agent/reviewer.py) handles a key part of this chapter's functionality:
+The `TrajectoryFormatter` class in [`sweagent/agent/reviewer.py`](https://github.com/SWE-agent/SWE-agent/blob/HEAD/sweagent/agent/reviewer.py) handles a key part of this chapter's functionality:
 
 ```py
+        self._config = config
+        self._model = model
+        self._traj_formatter = TrajectoryFormatter(config=config.traj_formatter)
+        self.logger = get_logger("reviewer", emoji="🧑‍⚖️")
 
+    def format_messages(self, instance: ProblemStatement, submission: ReviewSubmission):
+        system_message = self._config.system_template
+        self.logger.debug(f"MODEL INPUT (system)\n{system_message}")
+        ps_format_dict = {
+            "problem_statement": instance.get_problem_statement(),
+            **instance.get_extra_fields(),
+        }
+        user_message = Template(self._config.instance_template).render(
+            **ps_format_dict,
+            **submission.to_format_dict(),
+            traj=self._traj_formatter.format_trajectory(submission.trajectory),
+        )
+        self.logger.debug(f"MODEL INPUT (user)\n{user_message}")
+        return [
+            {"role": "system", "content": system_message},
+            {"role": "user", "content": user_message},
+        ]
 
-class ScoreRetryLoopConfig(BaseModel):
-    """The configuration for the review loop"""
-
-    type: Literal["score"] = "score"
-
-    reviewer_config: ReviewerConfig
-
-    accept_score: float
-    max_accepts: int = 1
-    max_attempts: int
-
-    min_budget_for_new_attempt: float = 0.0
-    """Minimal $ that need to be left in order for us to start a new attempt.
-    If set to 0: Always.
-    """
-
-    cost_limit: float
-    """The maximum cost to spend on all attempts and reviews except the last review.
-    The last review is not included in the cost limit, because we would waste the last
-    attempt if we couldn't score it.
-    """
-
-    model: ModelConfig
-
-    model_config = ConfigDict(extra="forbid")
-
-    def validate(self):
-        """Checks config. Raises `ValueError` in case of misconfiguration"""
-        ...
-
+    def interpret(self, response: str) -> bool | float:
+        last_line = response.strip().split("\n")[-1].strip()
+        # Find all numbers in the last line and take the last one
+        numbers = re.findall(r"-?\d+\.?\d*", last_line)
+        if not numbers:
+            msg = f"Could not interpret response: {last_line!r}"
+            raise ValueError(msg)
+        number = float(numbers[-1])
+        if self._config.score_range[0] is not None and number < self._config.score_range[0]:
 ```
 
 This class is important because it defines how SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering implements the patterns covered in this chapter.
@@ -212,11 +210,11 @@ This class is important because it defines how SWE-agent Tutorial: Autonomous Re
 
 ```mermaid
 flowchart TD
-    A[TrajFormatterConfig]
-    B[ReviewerConfig]
-    C[ChooserRetryLoopConfig]
-    D[ScoreRetryLoopConfig]
-    E[Preselector]
+    A[Preselector]
+    B[Chooser]
+    C[Reviewer]
+    D[TrajectoryFormatter]
+    E[ChooserRetryLoop]
     A --> B
     B --> C
     C --> D

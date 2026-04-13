@@ -14,6 +14,16 @@ Welcome to **Chapter 6: Translation & Multilingual Models**. In this part of **H
 
 ## 🎯 Overview
 
+```mermaid
+flowchart LR
+    A[Source text] --> B[MarianTokenizer]
+    B --> C[source token ids]
+    C --> D[MarianMTModel.generate]
+    D --> E[target token ids]
+    E --> F[tokenizer.decode]
+    F --> G[Translated text]
+```
+
 This chapter covers machine translation and multilingual language models using HuggingFace Transformers. You'll learn to build translation systems, work with multilingual models, and create applications that operate across multiple languages.
 
 ## 🌐 Machine Translation

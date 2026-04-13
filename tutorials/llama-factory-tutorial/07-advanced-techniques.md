@@ -9,6 +9,20 @@ nav_order: 7
 
 Welcome to the cutting edge! This chapter explores advanced techniques for pushing the boundaries of LLaMA fine-tuning, from continual learning to multi-modal models and beyond.
 
+## Advanced Techniques Overview
+
+```mermaid
+flowchart TD
+    ADV[Advanced Techniques] --> CL[Continual Learning\nIncremental fine-tuning]
+    ADV --> MULTI[Multi-GPU Training\nDeepSpeed / FSDP]
+    ADV --> RLHF[RLHF Pipeline\nReward Modeling + PPO]
+    ADV --> VLM[Vision-Language\nQwen2-VL, LLaVA support]
+    ADV --> MERGE_TECH[Model Merging\nTIES, DARE, SLERP]
+
+    MULTI --> DS[DeepSpeed ZeRO-3]
+    MULTI --> FSDP[FSDP + QLoRA]
+```
+
 ## Continual Learning and Model Updates
 
 ### Incremental Fine-tuning
@@ -660,12 +674,28 @@ When debugging, walk this sequence in order and confirm each stage has explicit 
 
 Use the following upstream sources to verify implementation details while reading this chapter:
 
-- [View Repo](https://github.com/hiyouga/LLaMA-Factory)
-  Why it matters: authoritative reference on `View Repo` (github.com).
+- [`src/llamafactory/train/dpo/trainer.py`](https://github.com/hiyouga/LLaMA-Factory/blob/main/src/llamafactory/train/dpo/trainer.py)
+  The DPO (Direct Preference Optimization) trainer used for RLHF-style alignment training. Shows how preference pairs are processed and the DPO loss is computed against a reference model.
+
+- [`src/llamafactory/train/ppo/trainer.py`](https://github.com/hiyouga/LLaMA-Factory/blob/main/src/llamafactory/train/ppo/trainer.py)
+  PPO (Proximal Policy Optimization) trainer for reinforcement learning from human feedback. Implements reward model scoring, KL-divergence penalty, and policy gradient updates.
+
+- [`src/llamafactory/train/rm/trainer.py`](https://github.com/hiyouga/LLaMA-Factory/blob/main/src/llamafactory/train/rm/trainer.py)
+  Reward model trainer used to learn human preferences from ranked response pairs. Required as the first stage of a full RLHF pipeline before PPO fine-tuning.
+
+- [`src/llamafactory/model/model_utils/visual.py`](https://github.com/hiyouga/LLaMA-Factory/blob/main/src/llamafactory/model/model_utils/visual.py)
+  Vision-language model integration utilities. Handles multi-modal input encoding, image patch embedding projection, and alignment with the language model's embedding space for VLM fine-tuning (e.g., Qwen2-VL, LLaVA).
+
+- [`examples/deepspeed/`](https://github.com/hiyouga/LLaMA-Factory/tree/main/examples/deepspeed)
+  DeepSpeed ZeRO configuration examples (ZeRO-2, ZeRO-3, offload variants) used for multi-GPU and multi-node distributed training. These YAML files are passed via `--deepspeed` to enable sharded optimizer states, gradients, and parameters.
+
+- [`src/llamafactory/hparams/finetuning_args.py`](https://github.com/hiyouga/LLaMA-Factory/blob/main/src/llamafactory/hparams/finetuning_args.py)
+  Defines `FinetuningArguments` dataclass including fields for `stage` (sft/dpo/ppo/rm/kto), `lora_rank`, `use_dora`, `pissa_init`, `rope_scaling`, and model-merging method (`merge_method`: ties, dare, slerp). This is the authoritative source for all advanced training options.
 
 Suggested trace strategy:
-- search upstream code for `self` and `model` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+- Follow `src/llamafactory/train/dpo/trainer.py` → `compute_preference_loss()` to understand how RLHF alignment differs from SFT
+- Check `src/llamafactory/hparams/finetuning_args.py` for the full list of supported `merge_method` values and VLM-specific flags
+- Review DeepSpeed ZeRO-3 config in `examples/deepspeed/ds_z3_config.json` before running multi-GPU jobs
 
 ## Chapter Connections
 

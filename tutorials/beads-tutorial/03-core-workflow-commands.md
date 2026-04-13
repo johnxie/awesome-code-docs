@@ -37,170 +37,168 @@ You now have a repeatable command workflow for day-to-day Beads operation.
 
 Next: [Chapter 4: Dependency Graph and Hierarchy Patterns](04-dependency-graph-and-hierarchy-patterns.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `cmd/bd/dolt.go`
+### `cmd/bd/main.go`
 
-The `extractSSHHost` function in [`cmd/bd/dolt.go`](https://github.com/steveyegge/beads/blob/HEAD/cmd/bd/dolt.go) handles a key part of this chapter's functionality:
+The `loadEnvironment` function in [`cmd/bd/main.go`](https://github.com/steveyegge/beads/blob/HEAD/cmd/bd/main.go) handles a key part of this chapter's functionality:
 
 ```go
-		if doltutil.IsSSHURL(r.URL) {
-			// Test SSH connectivity by parsing host from URL
-			sshHost := extractSSHHost(r.URL)
-			if sshHost != "" {
-				fmt.Printf("  %s (%s)... ", r.Name, r.URL)
-				if testSSHConnectivity(sshHost) {
-					fmt.Printf("%s\n", ui.RenderPass("✓ reachable"))
-				} else {
-					fmt.Printf("%s\n", ui.RenderWarn("✗ unreachable"))
-				}
-			}
-		} else if strings.HasPrefix(r.URL, "https://") || strings.HasPrefix(r.URL, "http://") {
-			fmt.Printf("  %s (%s)... ", r.Name, r.URL)
-			if testHTTPConnectivity(r.URL) {
-				fmt.Printf("%s\n", ui.RenderPass("✓ reachable"))
-			} else {
-				fmt.Printf("%s\n", ui.RenderWarn("✗ unreachable"))
-			}
-		} else {
-			fmt.Printf("  %s (%s)... skipped (no connectivity test for this scheme)\n", r.Name, r.URL)
-		}
+}
+
+// loadEnvironment runs the lightweight, always-needed environment setup that
+// must happen before the noDbCommands early return. This ensures commands like
+// "bd doctor --server" pick up per-project Dolt credentials from .beads/.env.
+//
+// This function intentionally does NOT do any store initialization, auto-migrate,
+// or telemetry setup — those belong in the store-init phase that runs after the
+// noDbCommands check.
+func loadEnvironment() {
+	// FindBeadsDir is lightweight (filesystem walk, no git subprocesses)
+	// and resolves BEADS_DIR, redirects, and worktree paths.
+	if beadsDir := beads.FindBeadsDir(); beadsDir != "" {
+		loadBeadsEnvFile(beadsDir)
+		// Non-fatal warning if .beads/ directory has overly permissive access.
+		config.CheckBeadsDirPermissions(beadsDir)
 	}
 }
 
-// serverDialTimeout controls the TCP dial timeout for server connection tests.
-// Tests may reduce this to avoid slow unreachable-host hangs in CI.
-var serverDialTimeout = 3 * time.Second
-
-func testServerConnection(host string, port int) bool {
-	addr := net.JoinHostPort(host, strconv.Itoa(port))
-
-	conn, err := net.DialTimeout("tcp", addr, serverDialTimeout)
+// repairSharedServerEmbeddedMismatch detects and auto-repairs the case where
+// shared-server mode is active but metadata.json still pins dolt_mode=embedded.
+// This prevents the silent fallback into embedded mode that hides server-backed
+// issue state after upgrades (GH#2949).
+func repairSharedServerEmbeddedMismatch(beadsDir string, cfg *configfile.Config) {
+	if cfg == nil {
+		return
+	}
+	if strings.ToLower(strings.TrimSpace(cfg.DoltMode)) != configfile.DoltModeEmbedded {
+		return
+	}
+	if !doltserver.IsSharedServerMode() {
+		return
 ```
 
 This function is important because it defines how Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents implements the patterns covered in this chapter.
 
-### `cmd/bd/dolt.go`
+### `cmd/bd/main.go`
 
-The `testSSHConnectivity` function in [`cmd/bd/dolt.go`](https://github.com/steveyegge/beads/blob/HEAD/cmd/bd/dolt.go) handles a key part of this chapter's functionality:
+The `repairSharedServerEmbeddedMismatch` function in [`cmd/bd/main.go`](https://github.com/steveyegge/beads/blob/HEAD/cmd/bd/main.go) handles a key part of this chapter's functionality:
 
 ```go
-			if sshHost != "" {
-				fmt.Printf("  %s (%s)... ", r.Name, r.URL)
-				if testSSHConnectivity(sshHost) {
-					fmt.Printf("%s\n", ui.RenderPass("✓ reachable"))
-				} else {
-					fmt.Printf("%s\n", ui.RenderWarn("✗ unreachable"))
-				}
-			}
-		} else if strings.HasPrefix(r.URL, "https://") || strings.HasPrefix(r.URL, "http://") {
-			fmt.Printf("  %s (%s)... ", r.Name, r.URL)
-			if testHTTPConnectivity(r.URL) {
-				fmt.Printf("%s\n", ui.RenderPass("✓ reachable"))
-			} else {
-				fmt.Printf("%s\n", ui.RenderWarn("✗ unreachable"))
-			}
-		} else {
-			fmt.Printf("  %s (%s)... skipped (no connectivity test for this scheme)\n", r.Name, r.URL)
-		}
+}
+
+// repairSharedServerEmbeddedMismatch detects and auto-repairs the case where
+// shared-server mode is active but metadata.json still pins dolt_mode=embedded.
+// This prevents the silent fallback into embedded mode that hides server-backed
+// issue state after upgrades (GH#2949).
+func repairSharedServerEmbeddedMismatch(beadsDir string, cfg *configfile.Config) {
+	if cfg == nil {
+		return
+	}
+	if strings.ToLower(strings.TrimSpace(cfg.DoltMode)) != configfile.DoltModeEmbedded {
+		return
+	}
+	if !doltserver.IsSharedServerMode() {
+		return
+	}
+	fmt.Fprintln(os.Stderr, "Notice: shared-server is enabled but metadata.json had dolt_mode=embedded.")
+	cfg.DoltMode = configfile.DoltModeServer
+	if err := cfg.Save(beadsDir); err != nil {
+		fmt.Fprintf(os.Stderr, "Warning: failed to auto-repair metadata.json: %v\n", err)
+		fmt.Fprintln(os.Stderr, "Fix manually: set dolt_mode to \"server\" in .beads/metadata.json")
+	} else {
+		fmt.Fprintln(os.Stderr, "Auto-repaired: dolt_mode updated to \"server\" in metadata.json.")
 	}
 }
 
-// serverDialTimeout controls the TCP dial timeout for server connection tests.
-// Tests may reduce this to avoid slow unreachable-host hangs in CI.
-var serverDialTimeout = 3 * time.Second
-
-func testServerConnection(host string, port int) bool {
-	addr := net.JoinHostPort(host, strconv.Itoa(port))
-
-	conn, err := net.DialTimeout("tcp", addr, serverDialTimeout)
-	if err != nil {
-		return false
-	}
+// loadServerModeFromConfig loads the storage mode (embedded vs server) from
+// metadata.json so that isEmbeddedMode() returns the correct value. Called
+// for commands that skip full DB init but still need to know the mode.
+func loadServerModeFromConfig() {
+	beadsDir := beads.FindBeadsDir()
+	if beadsDir == "" {
 ```
 
 This function is important because it defines how Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents implements the patterns covered in this chapter.
 
-### `cmd/bd/dolt.go`
+### `cmd/bd/main.go`
 
-The `httpURLToTCPAddr` function in [`cmd/bd/dolt.go`](https://github.com/steveyegge/beads/blob/HEAD/cmd/bd/dolt.go) handles a key part of this chapter's functionality:
+The `loadServerModeFromConfig` function in [`cmd/bd/main.go`](https://github.com/steveyegge/beads/blob/HEAD/cmd/bd/main.go) handles a key part of this chapter's functionality:
 
 ```go
 }
 
-// httpURLToTCPAddr extracts a TCP dial address (host:port) from an HTTP(S) URL.
-// Handles IPv6 addresses correctly (e.g., https://[::1]:8080/path).
-func httpURLToTCPAddr(url string) string {
-	host := url
-	host = strings.TrimPrefix(host, "https://")
-	host = strings.TrimPrefix(host, "http://")
-	if idx := strings.Index(host, "/"); idx >= 0 {
-		host = host[:idx]
+// loadServerModeFromConfig loads the storage mode (embedded vs server) from
+// metadata.json so that isEmbeddedMode() returns the correct value. Called
+// for commands that skip full DB init but still need to know the mode.
+func loadServerModeFromConfig() {
+	beadsDir := beads.FindBeadsDir()
+	if beadsDir == "" {
+		return
 	}
-	defaultPort := "443"
-	if strings.HasPrefix(url, "http://") {
-		defaultPort = "80"
+	cfg, err := configfile.Load(beadsDir)
+	if err != nil || cfg == nil {
+		return
 	}
-	// Use net.SplitHostPort to correctly handle IPv6 addresses (which
-	// contain colons that would otherwise be confused with host:port).
-	if h, p, err := net.SplitHostPort(host); err == nil {
-		return net.JoinHostPort(h, p)
+	repairSharedServerEmbeddedMismatch(beadsDir, cfg)
+	sm := cfg.IsDoltServerMode()
+	// GH#2946: shared-server override for stale metadata.json (no-db commands)
+	if !sm && doltserver.IsSharedServerMode() {
+		sm = true
 	}
-	// No port in host string. Strip IPv6 brackets if present so
-	// JoinHostPort can re-add them correctly.
-	h := strings.TrimPrefix(host, "[")
-	h = strings.TrimSuffix(h, "]")
-	return net.JoinHostPort(h, defaultPort)
+	serverMode = sm
+	if cmdCtx != nil {
+		cmdCtx.ServerMode = sm
+	}
 }
 
-// testHTTPConnectivity tests if an HTTP(S) URL is reachable via TCP.
-func testHTTPConnectivity(url string) bool {
-	addr := httpURLToTCPAddr(url)
-	conn, err := net.DialTimeout("tcp", addr, 5*time.Second)
-	if err != nil {
+func preserveRedirectSourceDatabase(beadsDir string) {
+	if beadsDir == "" || os.Getenv("BEADS_DOLT_SERVER_DATABASE") != "" {
+		return
+	}
+
+	rInfo := beads.ResolveRedirect(beadsDir)
 ```
 
 This function is important because it defines how Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents implements the patterns covered in this chapter.
 
-### `cmd/bd/dolt.go`
+### `cmd/bd/main.go`
 
-The `testHTTPConnectivity` function in [`cmd/bd/dolt.go`](https://github.com/steveyegge/beads/blob/HEAD/cmd/bd/dolt.go) handles a key part of this chapter's functionality:
+The `preserveRedirectSourceDatabase` function in [`cmd/bd/main.go`](https://github.com/steveyegge/beads/blob/HEAD/cmd/bd/main.go) handles a key part of this chapter's functionality:
 
 ```go
-		} else if strings.HasPrefix(r.URL, "https://") || strings.HasPrefix(r.URL, "http://") {
-			fmt.Printf("  %s (%s)... ", r.Name, r.URL)
-			if testHTTPConnectivity(r.URL) {
-				fmt.Printf("%s\n", ui.RenderPass("✓ reachable"))
-			} else {
-				fmt.Printf("%s\n", ui.RenderWarn("✗ unreachable"))
-			}
-		} else {
-			fmt.Printf("  %s (%s)... skipped (no connectivity test for this scheme)\n", r.Name, r.URL)
+}
+
+func preserveRedirectSourceDatabase(beadsDir string) {
+	if beadsDir == "" || os.Getenv("BEADS_DOLT_SERVER_DATABASE") != "" {
+		return
+	}
+
+	rInfo := beads.ResolveRedirect(beadsDir)
+	if rInfo.WasRedirected && rInfo.SourceDatabase != "" {
+		_ = os.Setenv("BEADS_DOLT_SERVER_DATABASE", rInfo.SourceDatabase)
+		if os.Getenv("BD_DEBUG_ROUTING") != "" {
+			fmt.Fprintf(os.Stderr, "[routing] Preserved source dolt_database %q across redirect\n", rInfo.SourceDatabase)
 		}
 	}
 }
 
-// serverDialTimeout controls the TCP dial timeout for server connection tests.
-// Tests may reduce this to avoid slow unreachable-host hangs in CI.
-var serverDialTimeout = 3 * time.Second
-
-func testServerConnection(host string, port int) bool {
-	addr := net.JoinHostPort(host, strconv.Itoa(port))
-
-	conn, err := net.DialTimeout("tcp", addr, serverDialTimeout)
-	if err != nil {
-		return false
+func selectedNoDBBeadsDir() string {
+	selectedDBPath := ""
+	if rootCmd.PersistentFlags().Changed("db") && dbPath != "" {
+		selectedDBPath = dbPath
+	} else if envDB := os.Getenv("BEADS_DB"); envDB != "" {
+		selectedDBPath = envDB
+	} else if envDB := os.Getenv("BD_DB"); envDB != "" {
+		selectedDBPath = envDB
+	} else {
+		selectedDBPath = dbPath
 	}
-	_ = conn.Close() // Best effort cleanup
-	return true
-}
-
-// extractSSHHost extracts the hostname from an SSH URL for connectivity testing.
-func extractSSHHost(url string) string {
-	// git+ssh://git@github.com/org/repo.git → github.com
-	// ssh://git@github.com/org/repo.git → github.com
+	if selectedDBPath != "" {
+		if selectedBeadsDir := resolveCommandBeadsDir(selectedDBPath); selectedBeadsDir != "" {
+			return selectedBeadsDir
+		}
+	}
 ```
 
 This function is important because it defines how Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents implements the patterns covered in this chapter.
@@ -210,11 +208,11 @@ This function is important because it defines how Beads Tutorial: Git-Backed Tas
 
 ```mermaid
 flowchart TD
-    A[extractSSHHost]
-    B[testSSHConnectivity]
-    C[httpURLToTCPAddr]
-    D[testHTTPConnectivity]
-    E[openDoltServerConnection]
+    A[loadEnvironment]
+    B[repairSharedServerEmbeddedMismatch]
+    C[loadServerModeFromConfig]
+    D[preserveRedirectSourceDatabase]
+    E[selectedNoDBBeadsDir]
     A --> B
     B --> C
     C --> D

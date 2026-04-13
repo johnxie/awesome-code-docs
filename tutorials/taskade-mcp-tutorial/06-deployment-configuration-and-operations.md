@@ -67,8 +67,6 @@ You now have a deployment and operations baseline that supports shared-team adop
 
 Next: [Chapter 7: Security Guardrails and Governance](07-security-guardrails-and-governance.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `packages/openapi-codegen/src/runtime.ts`

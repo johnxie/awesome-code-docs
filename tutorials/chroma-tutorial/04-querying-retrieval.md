@@ -12,6 +12,20 @@ Welcome to **Chapter 4: Querying & Retrieval**. In this part of **ChromaDB Tutor
 
 Master the art of querying in Chroma! This chapter covers advanced querying techniques, metadata filtering, and retrieval strategies for building powerful search applications.
 
+## Query Execution Flow
+
+```mermaid
+flowchart TD
+    QueryText["query_texts\n(list of strings)"] --> EF["EmbeddingFunction\n(auto-embed)"]
+    QueryEmbeddings["query_embeddings\n(pre-computed)"] --> KNN["KNN Operator\n(execution plan)"]
+    EF --> KNN
+    Where["where filter\n({'category': 'doc'})"] --> Filter["Filter Operator"]
+    WhereDoc["where_document filter\n({'$contains': 'text'})"] --> Filter
+    Filter --> KNN
+    KNN --> Limit["Limit / n_results"]
+    Limit --> Result["QueryResult\n(ids, distances, documents, metadatas)"]
+```
+
 ## Advanced Query Patterns
 
 ### Metadata Filtering
@@ -214,16 +228,18 @@ Under the hood, `Chapter 4: Querying & Retrieval` usually follows a repeatable c
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
-## Source Walkthrough
+## Source Code Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+### `chromadb/api/segment.py`
 
-- [View Repo](https://github.com/chroma-core/chroma)
-  Why it matters: authoritative reference on `View Repo` (github.com).
+The `SegmentAPI` class in [`chromadb/api/segment.py`](https://github.com/chroma-core/chroma/blob/main/chromadb/api/segment.py) implements the core query path for embedded Chroma. It uses a structured execution plan (`KNNPlan`, `GetPlan`, `CountPlan`) built from `Scan`, `Filter`, `Limit`, `KNN`, and `Projection` operators:
 
-Suggested trace strategy:
-- search upstream code for `query` and `results` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+```python
+from chromadb.execution.expression.operator import Scan, Filter, Limit, KNN, Projection
+from chromadb.execution.expression.plan import CountPlan, GetPlan, KNNPlan
+```
+
+The `tenacity`-based retry decorators on `SegmentAPI` methods handle transient Rust-layer failures gracefully. The `QuotaEnforcer` and `RateLimitEnforcer` integrate with the execution path for cloud deployments.
 
 ## Chapter Connections
 

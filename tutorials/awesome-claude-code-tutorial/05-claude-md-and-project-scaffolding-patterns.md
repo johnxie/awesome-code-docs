@@ -40,170 +40,168 @@ You now have a pattern for building maintainable `CLAUDE.md` guidance from curat
 
 Next: [Chapter 6: Automation Pipeline and README Generation](06-automation-pipeline-and-readme-generation.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `tools/readme_tree/update_readme_tree.py`
+### `scripts/maintenance/check_repo_health.py`
 
-The `find_repo_root` function in [`tools/readme_tree/update_readme_tree.py`](https://github.com/hesreallyhim/awesome-claude-code/blob/HEAD/tools/readme_tree/update_readme_tree.py) handles a key part of this chapter's functionality:
+The `check_repos_health` function in [`scripts/maintenance/check_repo_health.py`](https://github.com/hesreallyhim/awesome-claude-code/blob/HEAD/scripts/maintenance/check_repo_health.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def find_repo_root(start: Path) -> Path:
-    """Locate the repo root.
-
-    Prefer git to identify the VCS root; fall back to walking upward for pyproject.toml.
-
-    Args:
-        start: Path inside the repo.
-
-    Returns:
-        The repo root path.
+def check_repos_health(
+    csv_file, months_threshold=MONTHS_THRESHOLD, issues_threshold=OPEN_ISSUES_THRESHOLD
+):
     """
-    p = start.resolve()
-    # Prefer git root if available.
+    Check health of all active GitHub repositories in the CSV.
+    Returns a list of problematic repos.
+    """
+    problematic_repos = []
+    checked_repos = 0
+    deleted_repos = []
+
+    logger.info(f"Reading repository list from {csv_file}")
+
     try:
-        result = subprocess.run(
-            ["git", "-C", str(p), "rev-parse", "--show-toplevel"],
-            check=False,
-            capture_output=True,
-            text=True,
+        with open(csv_file, encoding="utf-8") as f:
+            reader = csv.DictReader(f)
+
+            for row in reader:
+                # Check if Active is TRUE
+                active = row.get("Active", "").strip().upper()
+                if active != "TRUE":
+                    continue
+
+                primary_link = row.get("Primary Link", "").strip()
+                if not primary_link:
+                    continue
+
+                # Extract owner and repo from GitHub URL
+                _, is_github, owner, repo = parse_github_url(primary_link)
+                if not is_github or not owner or not repo:
+```
+
+This function is important because it defines how Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation implements the patterns covered in this chapter.
+
+### `scripts/maintenance/check_repo_health.py`
+
+The `main` function in [`scripts/maintenance/check_repo_health.py`](https://github.com/hesreallyhim/awesome-claude-code/blob/HEAD/scripts/maintenance/check_repo_health.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="Check health of GitHub repositories in THE_RESOURCES_TABLE.csv"
+    )
+    parser.add_argument(
+        "--csv-file",
+        default=INPUT_FILE,
+        help=f"Path to CSV file (default: {INPUT_FILE})",
+    )
+    parser.add_argument(
+        "--months",
+        type=int,
+        default=MONTHS_THRESHOLD,
+        help=f"Months threshold for outdated repos (default: {MONTHS_THRESHOLD})",
+    )
+    parser.add_argument(
+        "--issues",
+        type=int,
+        default=OPEN_ISSUES_THRESHOLD,
+        help=f"Open issues threshold (default: {OPEN_ISSUES_THRESHOLD})",
+    )
+
+    args = parser.parse_args()
+
+    problematic_repos = check_repos_health(args.csv_file, args.months, args.issues)
+
+    if problematic_repos:
+        logger.error(f"\n{'=' * 60}")
+        logger.error("❌ HEALTH CHECK FAILED")
+        logger.error(
+```
+
+This function is important because it defines how Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation implements the patterns covered in this chapter.
+
+### `scripts/resources/parse_issue_form.py`
+
+The `parse_issue_body` function in [`scripts/resources/parse_issue_form.py`](https://github.com/hesreallyhim/awesome-claude-code/blob/HEAD/scripts/resources/parse_issue_form.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+def parse_issue_body(issue_body: str) -> dict[str, str]:
+    """
+    Parse GitHub issue form body into structured data.
+
+    GitHub issue forms are rendered as markdown with specific patterns:
+    - Headers (###) indicate field labels
+    - Values follow the headers
+    - Checkboxes are rendered as - [x] or - [ ]
+    """
+    data = {}
+
+    # Split into sections by ### headers
+    sections = re.split(r"###\s+", issue_body)
+
+    for section in sections:
+        if not section.strip():
+            continue
+
+        lines = section.strip().split("\n")
+        if not lines:
+            continue
+
+        # First line is the field label
+        label = lines[0].strip()
+
+        # Rest is the value (skip empty lines)
+        value_lines = [
+            line
+            for line in lines[1:]
+            if line.strip() and not line.strip().startswith("_No response_")
+```
+
+This function is important because it defines how Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation implements the patterns covered in this chapter.
+
+### `scripts/resources/parse_issue_form.py`
+
+The `validate_parsed_data` function in [`scripts/resources/parse_issue_form.py`](https://github.com/hesreallyhim/awesome-claude-code/blob/HEAD/scripts/resources/parse_issue_form.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+def validate_parsed_data(data: dict[str, str]) -> tuple[bool, list[str], list[str]]:
+    """
+    Validate the parsed data meets all requirements.
+    Returns (is_valid, errors, warnings)
+    """
+    errors = []
+    warnings = []
+
+    # Check required fields
+    required_fields = [
+        "display_name",
+        "category",
+        "primary_link",
+        "author_name",
+        "author_link",
+        "description",
+    ]
+
+    for field in required_fields:
+        if not data.get(field, "").strip():
+            errors.append(f"Required field '{field}' is missing or empty")
+
+    # Validate category
+    valid_categories = category_manager.get_all_categories()
+    if data.get("category") not in valid_categories:
+        errors.append(
+            f"Invalid category: {data.get('category')}. "
+            f"Must be one of: {', '.join(valid_categories)}"
         )
-        if result.returncode == 0:
-            git_root = result.stdout.strip()
-            if git_root:
-                return Path(git_root)
-    except FileNotFoundError:
-        pass
 
-    # Fallback: walk upward until pyproject.toml exists.
-    while not (p / "pyproject.toml").exists():
-        if p.parent == p:
-```
-
-This function is important because it defines how Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation implements the patterns covered in this chapter.
-
-### `tools/readme_tree/update_readme_tree.py`
-
-The `normalize_key` function in [`tools/readme_tree/update_readme_tree.py`](https://github.com/hesreallyhim/awesome-claude-code/blob/HEAD/tools/readme_tree/update_readme_tree.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-def normalize_key(path: str | Path | None) -> str:
-    """Normalize a path-like key into a repo-relative POSIX string."""
-    if path is None:
-        return ""
-    s = str(path).strip()
-    if s in {".", "./", ""}:
-        return ""
-    s = s.replace("\\", "/").strip("/")
-    return s
-
-
-def load_config(config_path: Path) -> dict:
-    """Load the YAML configuration for tree generation."""
-    data = yaml.safe_load(config_path.read_text(encoding="utf-8"))
-    if not isinstance(data, dict):
-        raise RuntimeError("Invalid config format")
-    return data
-
-
-def parse_ignore_rule(pattern: str | Path | None) -> IgnoreRule | None:
-    """Parse a raw ignore pattern into a structured rule."""
-    if pattern is None:
-        return None
-    line = str(pattern).strip()
-    if not line or line.startswith("#"):
-        return None
-
-    negated = line.startswith("!")
-    if negated:
-        line = line[1:]
-```
-
-This function is important because it defines how Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation implements the patterns covered in this chapter.
-
-### `tools/readme_tree/update_readme_tree.py`
-
-The `load_config` function in [`tools/readme_tree/update_readme_tree.py`](https://github.com/hesreallyhim/awesome-claude-code/blob/HEAD/tools/readme_tree/update_readme_tree.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-def load_config(config_path: Path) -> dict:
-    """Load the YAML configuration for tree generation."""
-    data = yaml.safe_load(config_path.read_text(encoding="utf-8"))
-    if not isinstance(data, dict):
-        raise RuntimeError("Invalid config format")
-    return data
-
-
-def parse_ignore_rule(pattern: str | Path | None) -> IgnoreRule | None:
-    """Parse a raw ignore pattern into a structured rule."""
-    if pattern is None:
-        return None
-    line = str(pattern).strip()
-    if not line or line.startswith("#"):
-        return None
-
-    negated = line.startswith("!")
-    if negated:
-        line = line[1:]
-
-    anchored = line.startswith("/")
-    if anchored:
-        line = line[1:]
-
-    dir_only = line.endswith("/")
-    if dir_only:
-        line = line[:-1]
-
-    line = line.replace("\\", "/").strip()
-    if not line:
-```
-
-This function is important because it defines how Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation implements the patterns covered in this chapter.
-
-### `tools/readme_tree/update_readme_tree.py`
-
-The `parse_ignore_rule` function in [`tools/readme_tree/update_readme_tree.py`](https://github.com/hesreallyhim/awesome-claude-code/blob/HEAD/tools/readme_tree/update_readme_tree.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-def parse_ignore_rule(pattern: str | Path | None) -> IgnoreRule | None:
-    """Parse a raw ignore pattern into a structured rule."""
-    if pattern is None:
-        return None
-    line = str(pattern).strip()
-    if not line or line.startswith("#"):
-        return None
-
-    negated = line.startswith("!")
-    if negated:
-        line = line[1:]
-
-    anchored = line.startswith("/")
-    if anchored:
-        line = line[1:]
-
-    dir_only = line.endswith("/")
-    if dir_only:
-        line = line[:-1]
-
-    line = line.replace("\\", "/").strip()
-    if not line:
-        return None
-
-    return IgnoreRule(pattern=line, negated=negated, dir_only=dir_only, anchored=anchored)
-
-
-def parse_ignore_rules(patterns: list[str | Path]) -> list[IgnoreRule]:
-    """Parse a list of ignore patterns into IgnoreRule entries."""
-    rules: list[IgnoreRule] = []
 ```
 
 This function is important because it defines how Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation implements the patterns covered in this chapter.
@@ -213,11 +211,11 @@ This function is important because it defines how Awesome Claude Code Tutorial: 
 
 ```mermaid
 flowchart TD
-    A[find_repo_root]
-    B[normalize_key]
-    C[load_config]
-    D[parse_ignore_rule]
-    E[parse_ignore_rules]
+    A[check_repos_health]
+    B[main]
+    C[parse_issue_body]
+    D[validate_parsed_data]
+    E[check_for_duplicates]
     A --> B
     B --> C
     C --> D

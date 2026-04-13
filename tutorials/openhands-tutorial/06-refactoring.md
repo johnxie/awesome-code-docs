@@ -905,6 +905,21 @@ Under the hood, `Chapter 6: Refactoring - Code Structure Improvement and Moderni
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
+## Architecture Diagram
+
+```mermaid
+flowchart TD
+    A[Refactor Target] --> B[Static Analysis]
+    B --> C[Identify Patterns]
+    C --> D{Refactor Type}
+    D -->|Extract| E[Extract Function]
+    D -->|Rename| F[Rename Symbols]
+    D -->|Restructure| G[Move / Split Files]
+    E --> H[Verify Tests Still Pass]
+    F --> H
+    G --> H
+```
+
 ## Source Walkthrough
 
 Use the following upstream sources to verify implementation details while reading this chapter:

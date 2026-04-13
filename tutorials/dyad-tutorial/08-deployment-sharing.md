@@ -834,20 +834,41 @@ Under the hood, `Chapter 8: Deployment and Sharing` usually follows a repeatable
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
-## Source Walkthrough
+## Source Code Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+### `forge.config.ts`
 
-- [Dyad README](https://github.com/dyad-sh/dyad/blob/main/README.md)
-  Why it matters: authoritative reference on `Dyad README` (github.com).
-- [Dyad Releases](https://github.com/dyad-sh/dyad/releases)
-  Why it matters: authoritative reference on `Dyad Releases` (github.com).
-- [Dyad Repository](https://github.com/dyad-sh/dyad)
-  Why it matters: authoritative reference on `Dyad Repository` (github.com).
+The `ignore` function in [`forge.config.ts`](https://github.com/dyad-sh/dyad/blob/main/forge.config.ts) controls which files are bundled into the Electron distribution package:
 
-Suggested trace strategy:
-- search upstream code for `build` and `name` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+```ts
+// Based on https://github.com/electron/forge/blob/6b2d547a7216c30fde1e1fddd1118eee5d872945/packages/plugin/vite/src/VitePlugin.ts#L124
+const ignore = (file: string) => {
+  if (!file) return false;
+  // `file` always starts with `/`
+  if (file === "/node_modules") {
+    return false;
+  }
+  if (file.startsWith("/drizzle")) {
+    return false;
+  }
+  if (file.startsWith("/scaffold")) {
+    return false;
+  }
+  if (file.startsWith("/worker") && !file.startsWith("/workers")) {
+    return false;
+  }
+  if (file.startsWith("/node_modules/better-sqlite3")) {
+    return false;
+  }
+  if (file.startsWith("/node_modules/node-pty")) {
+    return false;
+  }
+  if (file.startsWith("/.vite")) {
+    return false;
+  }
+```
+
+This function is important because it defines which native modules and bundled assets (drizzle migrations, scaffold templates, worker scripts) are included in the packaged Electron app — controlling both bundle size and runtime correctness across Windows, macOS, and Linux installers produced by `MakerSquirrel`, `MakerZIP`, `MakerDeb`, and `MakerRpm`.
 
 ## Chapter Connections
 

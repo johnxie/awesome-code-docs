@@ -37,170 +37,168 @@ You now have stable session and integration practices for controlled legacy oper
 
 Next: [Chapter 7: Migration to Crush and Modern Alternatives](07-migration-to-crush-and-modern-alternatives.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `internal/db/db.go`
+### `internal/message/content.go`
 
-The `Close` function in [`internal/db/db.go`](https://github.com/opencode-ai/opencode/blob/HEAD/internal/db/db.go) handles a key part of this chapter's functionality:
+The `ReasoningContent` function in [`internal/message/content.go`](https://github.com/opencode-ai/opencode/blob/HEAD/internal/message/content.go) handles a key part of this chapter's functionality:
 
 ```go
 }
 
-func (q *Queries) Close() error {
-	var err error
-	if q.createFileStmt != nil {
-		if cerr := q.createFileStmt.Close(); cerr != nil {
-			err = fmt.Errorf("error closing createFileStmt: %w", cerr)
-		}
-	}
-	if q.createMessageStmt != nil {
-		if cerr := q.createMessageStmt.Close(); cerr != nil {
-			err = fmt.Errorf("error closing createMessageStmt: %w", cerr)
-		}
-	}
-	if q.createSessionStmt != nil {
-		if cerr := q.createSessionStmt.Close(); cerr != nil {
-			err = fmt.Errorf("error closing createSessionStmt: %w", cerr)
-		}
-	}
-	if q.deleteFileStmt != nil {
-		if cerr := q.deleteFileStmt.Close(); cerr != nil {
-			err = fmt.Errorf("error closing deleteFileStmt: %w", cerr)
-		}
-	}
-	if q.deleteMessageStmt != nil {
-		if cerr := q.deleteMessageStmt.Close(); cerr != nil {
-			err = fmt.Errorf("error closing deleteMessageStmt: %w", cerr)
-		}
-	}
-	if q.deleteSessionStmt != nil {
-		if cerr := q.deleteSessionStmt.Close(); cerr != nil {
-			err = fmt.Errorf("error closing deleteSessionStmt: %w", cerr)
+type ReasoningContent struct {
+	Thinking string `json:"thinking"`
+}
+
+func (tc ReasoningContent) String() string {
+	return tc.Thinking
+}
+func (ReasoningContent) isPart() {}
+
+type TextContent struct {
+	Text string `json:"text"`
+}
+
+func (tc TextContent) String() string {
+	return tc.Text
+}
+
+func (TextContent) isPart() {}
+
+type ImageURLContent struct {
+	URL    string `json:"url"`
+	Detail string `json:"detail,omitempty"`
+}
+
+func (iuc ImageURLContent) String() string {
+	return iuc.URL
+}
+
+func (ImageURLContent) isPart() {}
+
 ```
 
 This function is important because it defines how OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush implements the patterns covered in this chapter.
 
-### `internal/db/db.go`
+### `internal/message/content.go`
 
-The `exec` function in [`internal/db/db.go`](https://github.com/opencode-ai/opencode/blob/HEAD/internal/db/db.go) handles a key part of this chapter's functionality:
+The `ImageURLContent` function in [`internal/message/content.go`](https://github.com/opencode-ai/opencode/blob/HEAD/internal/message/content.go) handles a key part of this chapter's functionality:
 
 ```go
+func (TextContent) isPart() {}
+
+type ImageURLContent struct {
+	URL    string `json:"url"`
+	Detail string `json:"detail,omitempty"`
 }
 
-func (q *Queries) exec(ctx context.Context, stmt *sql.Stmt, query string, args ...interface{}) (sql.Result, error) {
-	switch {
-	case stmt != nil && q.tx != nil:
-		return q.tx.StmtContext(ctx, stmt).ExecContext(ctx, args...)
-	case stmt != nil:
-		return stmt.ExecContext(ctx, args...)
-	default:
-		return q.db.ExecContext(ctx, query, args...)
+func (iuc ImageURLContent) String() string {
+	return iuc.URL
+}
+
+func (ImageURLContent) isPart() {}
+
+type BinaryContent struct {
+	Path     string
+	MIMEType string
+	Data     []byte
+}
+
+func (bc BinaryContent) String(provider models.ModelProvider) string {
+	base64Encoded := base64.StdEncoding.EncodeToString(bc.Data)
+	if provider == models.ProviderOpenAI {
+		return "data:" + bc.MIMEType + ";base64," + base64Encoded
 	}
+	return base64Encoded
 }
 
-func (q *Queries) query(ctx context.Context, stmt *sql.Stmt, query string, args ...interface{}) (*sql.Rows, error) {
-	switch {
-	case stmt != nil && q.tx != nil:
-		return q.tx.StmtContext(ctx, stmt).QueryContext(ctx, args...)
-	case stmt != nil:
-		return stmt.QueryContext(ctx, args...)
-	default:
-		return q.db.QueryContext(ctx, query, args...)
-	}
-}
+func (BinaryContent) isPart() {}
 
-func (q *Queries) queryRow(ctx context.Context, stmt *sql.Stmt, query string, args ...interface{}) *sql.Row {
-	switch {
-	case stmt != nil && q.tx != nil:
-		return q.tx.StmtContext(ctx, stmt).QueryRowContext(ctx, args...)
-	case stmt != nil:
-		return stmt.QueryRowContext(ctx, args...)
-	default:
-		return q.db.QueryRowContext(ctx, query, args...)
+type ToolCall struct {
+	ID       string `json:"id"`
+	Name     string `json:"name"`
 ```
 
 This function is important because it defines how OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush implements the patterns covered in this chapter.
 
-### `internal/db/db.go`
+### `internal/message/content.go`
 
-The `query` function in [`internal/db/db.go`](https://github.com/opencode-ai/opencode/blob/HEAD/internal/db/db.go) handles a key part of this chapter's functionality:
+The `BinaryContent` function in [`internal/message/content.go`](https://github.com/opencode-ai/opencode/blob/HEAD/internal/message/content.go) handles a key part of this chapter's functionality:
 
 ```go
-	var err error
-	if q.createFileStmt, err = db.PrepareContext(ctx, createFile); err != nil {
-		return nil, fmt.Errorf("error preparing query CreateFile: %w", err)
+func (ImageURLContent) isPart() {}
+
+type BinaryContent struct {
+	Path     string
+	MIMEType string
+	Data     []byte
+}
+
+func (bc BinaryContent) String(provider models.ModelProvider) string {
+	base64Encoded := base64.StdEncoding.EncodeToString(bc.Data)
+	if provider == models.ProviderOpenAI {
+		return "data:" + bc.MIMEType + ";base64," + base64Encoded
 	}
-	if q.createMessageStmt, err = db.PrepareContext(ctx, createMessage); err != nil {
-		return nil, fmt.Errorf("error preparing query CreateMessage: %w", err)
-	}
-	if q.createSessionStmt, err = db.PrepareContext(ctx, createSession); err != nil {
-		return nil, fmt.Errorf("error preparing query CreateSession: %w", err)
-	}
-	if q.deleteFileStmt, err = db.PrepareContext(ctx, deleteFile); err != nil {
-		return nil, fmt.Errorf("error preparing query DeleteFile: %w", err)
-	}
-	if q.deleteMessageStmt, err = db.PrepareContext(ctx, deleteMessage); err != nil {
-		return nil, fmt.Errorf("error preparing query DeleteMessage: %w", err)
-	}
-	if q.deleteSessionStmt, err = db.PrepareContext(ctx, deleteSession); err != nil {
-		return nil, fmt.Errorf("error preparing query DeleteSession: %w", err)
-	}
-	if q.deleteSessionFilesStmt, err = db.PrepareContext(ctx, deleteSessionFiles); err != nil {
-		return nil, fmt.Errorf("error preparing query DeleteSessionFiles: %w", err)
-	}
-	if q.deleteSessionMessagesStmt, err = db.PrepareContext(ctx, deleteSessionMessages); err != nil {
-		return nil, fmt.Errorf("error preparing query DeleteSessionMessages: %w", err)
-	}
-	if q.getFileStmt, err = db.PrepareContext(ctx, getFile); err != nil {
-		return nil, fmt.Errorf("error preparing query GetFile: %w", err)
-	}
-	if q.getFileByPathAndSessionStmt, err = db.PrepareContext(ctx, getFileByPathAndSession); err != nil {
-		return nil, fmt.Errorf("error preparing query GetFileByPathAndSession: %w", err)
-	}
-	if q.getMessageStmt, err = db.PrepareContext(ctx, getMessage); err != nil {
+	return base64Encoded
+}
+
+func (BinaryContent) isPart() {}
+
+type ToolCall struct {
+	ID       string `json:"id"`
+	Name     string `json:"name"`
+	Input    string `json:"input"`
+	Type     string `json:"type"`
+	Finished bool   `json:"finished"`
+}
+
+func (ToolCall) isPart() {}
+
+type ToolResult struct {
+	ToolCallID string `json:"tool_call_id"`
+	Name       string `json:"name"`
+	Content    string `json:"content"`
 ```
 
 This function is important because it defines how OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush implements the patterns covered in this chapter.
 
-### `internal/db/db.go`
+### `internal/message/content.go`
 
-The `queryRow` function in [`internal/db/db.go`](https://github.com/opencode-ai/opencode/blob/HEAD/internal/db/db.go) handles a key part of this chapter's functionality:
+The `ToolCalls` function in [`internal/message/content.go`](https://github.com/opencode-ai/opencode/blob/HEAD/internal/message/content.go) handles a key part of this chapter's functionality:
 
 ```go
 }
 
-func (q *Queries) queryRow(ctx context.Context, stmt *sql.Stmt, query string, args ...interface{}) *sql.Row {
-	switch {
-	case stmt != nil && q.tx != nil:
-		return q.tx.StmtContext(ctx, stmt).QueryRowContext(ctx, args...)
-	case stmt != nil:
-		return stmt.QueryRowContext(ctx, args...)
-	default:
-		return q.db.QueryRowContext(ctx, query, args...)
+func (m *Message) ToolCalls() []ToolCall {
+	toolCalls := make([]ToolCall, 0)
+	for _, part := range m.Parts {
+		if c, ok := part.(ToolCall); ok {
+			toolCalls = append(toolCalls, c)
+		}
 	}
+	return toolCalls
 }
 
-type Queries struct {
-	db                          DBTX
-	tx                          *sql.Tx
-	createFileStmt              *sql.Stmt
-	createMessageStmt           *sql.Stmt
-	createSessionStmt           *sql.Stmt
-	deleteFileStmt              *sql.Stmt
-	deleteMessageStmt           *sql.Stmt
-	deleteSessionStmt           *sql.Stmt
-	deleteSessionFilesStmt      *sql.Stmt
-	deleteSessionMessagesStmt   *sql.Stmt
-	getFileStmt                 *sql.Stmt
-	getFileByPathAndSessionStmt *sql.Stmt
-	getMessageStmt              *sql.Stmt
-	getSessionByIDStmt          *sql.Stmt
-	listFilesByPathStmt         *sql.Stmt
-	listFilesBySessionStmt      *sql.Stmt
-	listLatestSessionFilesStmt  *sql.Stmt
-	listMessagesBySessionStmt   *sql.Stmt
+func (m *Message) ToolResults() []ToolResult {
+	toolResults := make([]ToolResult, 0)
+	for _, part := range m.Parts {
+		if c, ok := part.(ToolResult); ok {
+			toolResults = append(toolResults, c)
+		}
+	}
+	return toolResults
+}
+
+func (m *Message) IsFinished() bool {
+	for _, part := range m.Parts {
+		if _, ok := part.(Finish); ok {
+			return true
+		}
+	}
+	return false
+}
+
+func (m *Message) FinishPart() *Finish {
 ```
 
 This function is important because it defines how OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush implements the patterns covered in this chapter.
@@ -210,11 +208,11 @@ This function is important because it defines how OpenCode AI Legacy Tutorial: A
 
 ```mermaid
 flowchart TD
-    A[Close]
-    B[exec]
-    C[query]
-    D[queryRow]
-    E[WithTx]
+    A[ReasoningContent]
+    B[ImageURLContent]
+    C[BinaryContent]
+    D[ToolCalls]
+    E[ToolResults]
     A --> B
     B --> C
     C --> D

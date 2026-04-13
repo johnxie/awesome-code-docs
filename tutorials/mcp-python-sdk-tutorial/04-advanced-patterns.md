@@ -12,6 +12,17 @@ Welcome to **Chapter 4: Advanced Patterns**. In this part of **MCP Python SDK Tu
 
 > Master structured outputs, progress tracking, context management, and advanced server patterns.
 
+## Advanced Server Patterns Overview
+
+```mermaid
+flowchart TD
+    ADV[Advanced MCP Patterns] --> SO[Structured Outputs\nPydantic response models]
+    ADV --> PT[Progress Tracking\nnotifications/progress]
+    ADV --> CTX[Context Management\nlifespan + resource sharing]
+    ADV --> RS[Resource Subscriptions\nchange notifications]
+    ADV --> LS[Long-Running Tools\nasync with progress updates]
+```
+
 ## Structured Outputs
 
 Use Pydantic models for type-safe responses:

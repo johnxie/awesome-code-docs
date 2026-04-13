@@ -447,6 +447,19 @@ Create a document processing pipeline that:
 
 *What types of documents do you want to make searchable with AI?* 📚
 
+## Document Processing Pipeline
+
+```mermaid
+flowchart TD
+    A[Raw documents] --> B[Document loaders]
+    B --> C[TextSplitter]
+    C --> D[Chunks with metadata]
+    D --> E[Embeddings model]
+    E --> F[Vector embeddings]
+    F --> G[Vector store ingest]
+    G --> H[Indexed for retrieval]
+```
+
 ## What Problem Does This Solve?
 
 Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `documents`, `langchain`, `load` so behavior stays predictable as complexity grows.

@@ -38,170 +38,168 @@ You now have a framework for balancing automation speed with human oversight.
 
 Next: [Chapter 6: Security, Auth, and Operational Constraints](06-security-auth-and-operational-constraints.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `agent/integrations/langsmith.py`
+### `agent/tools/github_review.py`
 
-The `LangSmithProvider` class in [`agent/integrations/langsmith.py`](https://github.com/langchain-ai/open-swe/blob/HEAD/agent/integrations/langsmith.py) handles a key part of this chapter's functionality:
-
-```py
-    """Create or connect to a LangSmith sandbox without automatic cleanup.
-
-    This function directly uses the LangSmithProvider to create/connect to sandboxes
-    without the context manager cleanup, allowing sandboxes to persist across
-    multiple agent invocations.
-
-    Args:
-        sandbox_id: Optional existing sandbox ID to connect to.
-                   If None, creates a new sandbox.
-
-    Returns:
-        SandboxBackendProtocol instance
-    """
-    api_key = _get_langsmith_api_key()
-    template_name, template_image = _get_sandbox_template_config()
-
-    provider = LangSmithProvider(api_key=api_key)
-    backend = provider.get_or_create(
-        sandbox_id=sandbox_id,
-        template=template_name,
-        template_image=template_image,
-    )
-    _update_thread_sandbox_metadata(backend.id)
-    return backend
-
-
-def _update_thread_sandbox_metadata(sandbox_id: str) -> None:
-    """Update thread metadata with sandbox_id."""
-    try:
-        import asyncio
-
-        from langgraph.config import get_config
-```
-
-This class is important because it defines how Open SWE Tutorial: Asynchronous Cloud Coding Agent Architecture and Migration Playbook implements the patterns covered in this chapter.
-
-### `agent/integrations/langsmith.py`
-
-The `create_langsmith_sandbox` function in [`agent/integrations/langsmith.py`](https://github.com/langchain-ai/open-swe/blob/HEAD/agent/integrations/langsmith.py) handles a key part of this chapter's functionality:
+The `dismiss_pr_review` function in [`agent/tools/github_review.py`](https://github.com/langchain-ai/open-swe/blob/HEAD/agent/tools/github_review.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def create_langsmith_sandbox(
-    sandbox_id: str | None = None,
-) -> SandboxBackendProtocol:
-    """Create or connect to a LangSmith sandbox without automatic cleanup.
-
-    This function directly uses the LangSmithProvider to create/connect to sandboxes
-    without the context manager cleanup, allowing sandboxes to persist across
-    multiple agent invocations.
+def dismiss_pr_review(
+    pull_number: int,
+    review_id: int,
+    message: str,
+) -> dict[str, Any]:
+    """Dismiss a review on a pull request.
 
     Args:
-        sandbox_id: Optional existing sandbox ID to connect to.
-                   If None, creates a new sandbox.
+        pull_number: The PR number.
+        review_id: The ID of the review to dismiss.
+        message: A message explaining why the review is being dismissed.
 
     Returns:
-        SandboxBackendProtocol instance
+        Dictionary with success status and the dismissed review data.
     """
-    api_key = _get_langsmith_api_key()
-    template_name, template_image = _get_sandbox_template_config()
+    repo_config = _get_repo_config()
+    if not repo_config:
+        return {"success": False, "error": "No repo config found"}
 
-    provider = LangSmithProvider(api_key=api_key)
-    backend = provider.get_or_create(
-        sandbox_id=sandbox_id,
-        template=template_name,
-        template_image=template_image,
-    )
-    _update_thread_sandbox_metadata(backend.id)
-    return backend
+    token = asyncio.run(_get_token())
+    if not token:
+        return {"success": False, "error": "Failed to get GitHub App installation token"}
 
+    url = f"{_repo_url(repo_config)}/pulls/{pull_number}/reviews/{review_id}/dismissals"
 
-def _update_thread_sandbox_metadata(sandbox_id: str) -> None:
+    async def _dismiss() -> dict[str, Any]:
+        async with httpx.AsyncClient() as client:
+            response = await client.put(
+                url, headers=_github_headers(token), json={"message": message}
+            )
 ```
 
 This function is important because it defines how Open SWE Tutorial: Asynchronous Cloud Coding Agent Architecture and Migration Playbook implements the patterns covered in this chapter.
 
-### `agent/utils/github.py`
+### `agent/tools/github_review.py`
 
-The `is_valid_git_repo` function in [`agent/utils/github.py`](https://github.com/langchain-ai/open-swe/blob/HEAD/agent/utils/github.py) handles a key part of this chapter's functionality:
+The `submit_pr_review` function in [`agent/tools/github_review.py`](https://github.com/langchain-ai/open-swe/blob/HEAD/agent/tools/github_review.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def is_valid_git_repo(sandbox_backend: SandboxBackendProtocol, repo_dir: str) -> bool:
-    """Check if directory is a valid git repository."""
-    git_dir = f"{repo_dir}/.git"
-    safe_git_dir = shlex.quote(git_dir)
-    result = sandbox_backend.execute(f"test -d {safe_git_dir} && echo exists")
-    return result.exit_code == 0 and "exists" in result.output
+def submit_pr_review(
+    pull_number: int,
+    review_id: int,
+    body: str | None = None,
+    event: str = "COMMENT",
+) -> dict[str, Any]:
+    """Submit a pending review on a pull request.
 
+    Use this if a review was created without an event (pending state) and needs to be submitted.
 
-def remove_directory(sandbox_backend: SandboxBackendProtocol, repo_dir: str) -> bool:
-    """Remove a directory and all its contents."""
-    safe_repo_dir = shlex.quote(repo_dir)
-    result = sandbox_backend.execute(f"rm -rf {safe_repo_dir}")
-    return result.exit_code == 0
+    Args:
+        pull_number: The PR number.
+        review_id: The ID of the pending review to submit.
+        body: Optional body text for the review submission.
+        event: The review action - one of APPROVE, REQUEST_CHANGES, or COMMENT.
 
+    Returns:
+        Dictionary with success status and the submitted review data.
+    """
+    repo_config = _get_repo_config()
+    if not repo_config:
+        return {"success": False, "error": "No repo config found"}
 
-def git_has_uncommitted_changes(sandbox_backend: SandboxBackendProtocol, repo_dir: str) -> bool:
-    """Check whether the repo has uncommitted changes."""
-    result = _run_git(sandbox_backend, repo_dir, "git status --porcelain")
-    return result.exit_code == 0 and bool(result.output.strip())
+    token = asyncio.run(_get_token())
+    if not token:
+        return {"success": False, "error": "Failed to get GitHub App installation token"}
 
-
-def git_fetch_origin(sandbox_backend: SandboxBackendProtocol, repo_dir: str) -> ExecuteResponse:
-    """Fetch latest from origin (best-effort)."""
-    return _run_git(sandbox_backend, repo_dir, "git fetch origin 2>/dev/null || true")
-
-
-def git_has_unpushed_commits(sandbox_backend: SandboxBackendProtocol, repo_dir: str) -> bool:
-    """Check whether there are commits not pushed to upstream."""
-    git_log_cmd = (
-        "git log --oneline @{upstream}..HEAD 2>/dev/null "
+    url = f"{_repo_url(repo_config)}/pulls/{pull_number}/reviews/{review_id}/events"
+    payload: dict[str, Any] = {"event": event}
+    if body is not None:
 ```
 
 This function is important because it defines how Open SWE Tutorial: Asynchronous Cloud Coding Agent Architecture and Migration Playbook implements the patterns covered in this chapter.
 
-### `agent/utils/github.py`
+### `agent/tools/github_review.py`
 
-The `remove_directory` function in [`agent/utils/github.py`](https://github.com/langchain-ai/open-swe/blob/HEAD/agent/utils/github.py) handles a key part of this chapter's functionality:
+The `list_pr_review_comments` function in [`agent/tools/github_review.py`](https://github.com/langchain-ai/open-swe/blob/HEAD/agent/tools/github_review.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def remove_directory(sandbox_backend: SandboxBackendProtocol, repo_dir: str) -> bool:
-    """Remove a directory and all its contents."""
-    safe_repo_dir = shlex.quote(repo_dir)
-    result = sandbox_backend.execute(f"rm -rf {safe_repo_dir}")
-    return result.exit_code == 0
+def list_pr_review_comments(
+    pull_number: int,
+    review_id: int | None = None,
+) -> dict[str, Any]:
+    """List comments on a pull request review.
+
+    Args:
+        pull_number: The PR number.
+        review_id: If provided, list comments for a specific review.
+            If not provided, list all review comments on the PR.
+
+    Returns:
+        Dictionary with success status and the list of review comments.
+    """
+    repo_config = _get_repo_config()
+    if not repo_config:
+        return {"success": False, "error": "No repo config found"}
+
+    token = asyncio.run(_get_token())
+    if not token:
+        return {"success": False, "error": "Failed to get GitHub App installation token"}
+
+    if review_id is not None:
+        url = f"{_repo_url(repo_config)}/pulls/{pull_number}/reviews/{review_id}/comments"
+    else:
+        url = f"{_repo_url(repo_config)}/pulls/{pull_number}/comments"
+
+    async def _fetch() -> dict[str, Any]:
+        async with httpx.AsyncClient() as client:
+            response = await client.get(url, headers=_github_headers(token))
+```
+
+This function is important because it defines how Open SWE Tutorial: Asynchronous Cloud Coding Agent Architecture and Migration Playbook implements the patterns covered in this chapter.
+
+### `agent/utils/auth.py`
+
+The `is_bot_token_only_mode` function in [`agent/utils/auth.py`](https://github.com/langchain-ai/open-swe/blob/HEAD/agent/utils/auth.py) handles a key part of this chapter's functionality:
+
+```py
 
 
-def git_has_uncommitted_changes(sandbox_backend: SandboxBackendProtocol, repo_dir: str) -> bool:
-    """Check whether the repo has uncommitted changes."""
-    result = _run_git(sandbox_backend, repo_dir, "git status --porcelain")
-    return result.exit_code == 0 and bool(result.output.strip())
+def is_bot_token_only_mode() -> bool:
+    """Check if we're in bot-token-only mode.
+
+    This is the case when LANGSMITH_API_KEY_PROD is set (deployed) but neither
+    X_SERVICE_AUTH_JWT_SECRET nor USER_ID_API_KEY_MAP is configured, meaning we
+    can't resolve per-user GitHub OAuth tokens. In this mode the GitHub App
+    installation token is used for all git operations instead.
+    """
+    return bool(LANGSMITH_API_KEY and not X_SERVICE_AUTH_JWT_SECRET and not USER_ID_API_KEY_MAP)
 
 
-def git_fetch_origin(sandbox_backend: SandboxBackendProtocol, repo_dir: str) -> ExecuteResponse:
-    """Fetch latest from origin (best-effort)."""
-    return _run_git(sandbox_backend, repo_dir, "git fetch origin 2>/dev/null || true")
+def _retry_instruction(source: str) -> str:
+    if source == "slack":
+        return "Once authenticated, mention me again in this Slack thread to retry."
+    return "Once authenticated, reply to this issue mentioning @openswe to retry."
 
 
-def git_has_unpushed_commits(sandbox_backend: SandboxBackendProtocol, repo_dir: str) -> bool:
-    """Check whether there are commits not pushed to upstream."""
-    git_log_cmd = (
-        "git log --oneline @{upstream}..HEAD 2>/dev/null "
-        "|| git log --oneline origin/HEAD..HEAD 2>/dev/null || echo ''"
-    )
-    result = _run_git(sandbox_backend, repo_dir, git_log_cmd)
-    return result.exit_code == 0 and bool(result.output.strip())
+def _source_account_label(source: str) -> str:
+    if source == "slack":
+        return "Slack"
+    return "Linear"
 
 
-def git_current_branch(sandbox_backend: SandboxBackendProtocol, repo_dir: str) -> str:
-    """Get the current git branch name."""
+def _auth_link_text(source: str, auth_url: str) -> str:
+    if source == "slack":
+        return auth_url
+    return f"[Authenticate with GitHub]({auth_url})"
+
+
+def _work_item_label(source: str) -> str:
 ```
 
 This function is important because it defines how Open SWE Tutorial: Asynchronous Cloud Coding Agent Architecture and Migration Playbook implements the patterns covered in this chapter.
@@ -211,11 +209,11 @@ This function is important because it defines how Open SWE Tutorial: Asynchronou
 
 ```mermaid
 flowchart TD
-    A[LangSmithProvider]
-    B[create_langsmith_sandbox]
-    C[is_valid_git_repo]
-    D[remove_directory]
-    E[git_has_uncommitted_changes]
+    A[dismiss_pr_review]
+    B[submit_pr_review]
+    C[list_pr_review_comments]
+    D[is_bot_token_only_mode]
+    E[get_secret_key_for_user]
     A --> B
     B --> C
     C --> D

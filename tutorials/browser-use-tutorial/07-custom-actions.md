@@ -872,6 +872,27 @@ Key takeaways from the research and analysis.
             return {"step": step, "success": False, "message": f"Step failed: {str(e)}"}
 ```
 
+## Custom Actions Architecture
+
+```mermaid
+flowchart TD
+    A[Define custom action function]
+    B[Decorate with @controller.action]
+    C[Action registered in Controller]
+    D[Controller passed to Agent]
+    E[Agent sees custom action in tool list]
+    F[LLM calls custom action by name]
+    G[Custom function executes with browser context]
+    H[Result returned to agent loop]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    E --> F
+    F --> G
+    G --> H
+```
+
 ## Summary
 
 In this chapter, we've covered:

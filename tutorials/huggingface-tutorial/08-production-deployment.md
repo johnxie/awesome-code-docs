@@ -14,6 +14,18 @@ Welcome to **Chapter 8: Production Deployment**. In this part of **HuggingFace T
 
 ## 🎯 Overview
 
+```mermaid
+flowchart LR
+    A[Fine-tuned model] --> B{Export format}
+    B -->|ONNX| C[onnxruntime inference]
+    B -->|TorchScript| D[torch.jit.trace]
+    B -->|Optimized| E[optimum library]
+    C --> F[REST API endpoint]
+    D --> F
+    E --> F
+    F --> G[Client requests]
+```
+
 This chapter covers production deployment strategies for Transformer models, including optimization techniques, scaling approaches, monitoring, and operational best practices for running AI models in production environments.
 
 ## 🚀 Model Optimization for Production

@@ -38,8 +38,6 @@ You now have a clear map of quickstart assets and intended usage.
 
 Next: [Chapter 2: Weather Server Patterns Across Languages](02-weather-server-patterns-across-languages.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `mcp-client-python/client.py`
@@ -120,84 +118,84 @@ if __name__ == "__main__":
 
 This function is important because it defines how MCP Quickstart Resources Tutorial: Cross-Language MCP Servers and Clients by Example implements the patterns covered in this chapter.
 
-### `weather-server-python/weather.py`
+### `mcp-client-go/main.go`
 
-The `make_nws_request` function in [`weather-server-python/weather.py`](https://github.com/modelcontextprotocol/quickstart-resources/blob/HEAD/weather-server-python/weather.py) handles a key part of this chapter's functionality:
+The `NewMCPClient` function in [`mcp-client-go/main.go`](https://github.com/modelcontextprotocol/quickstart-resources/blob/HEAD/mcp-client-go/main.go) handles a key part of this chapter's functionality:
 
-```py
+```go
+}
 
+func NewMCPClient() (*MCPClient, error) {
+	// Load .env file
+	if err := godotenv.Load(); err != nil {
+		return nil, fmt.Errorf("failed to load .env file: %w", err)
+	}
 
-async def make_nws_request(url: str) -> dict[str, Any] | None:
-    """Make a request to the NWS API with proper error handling."""
-    headers = {"User-Agent": USER_AGENT, "Accept": "application/geo+json"}
-    async with httpx.AsyncClient() as client:
-        try:
-            response = await client.get(url, headers=headers, timeout=30.0)
-            response.raise_for_status()
-            return response.json()
-        except Exception:
-            return None
+	apiKey := os.Getenv("ANTHROPIC_API_KEY")
+	if apiKey == "" {
+		return nil, fmt.Errorf("ANTHROPIC_API_KEY environment variable not set")
+	}
 
+	client := anthropic.NewClient(option.WithAPIKey(apiKey))
 
-def format_alert(feature: dict) -> str:
-    """Format an alert feature into a readable string."""
-    props = feature["properties"]
-    return f"""
-Event: {props.get("event", "Unknown")}
-Area: {props.get("areaDesc", "Unknown")}
-Severity: {props.get("severity", "Unknown")}
-Description: {props.get("description", "No description available")}
-Instructions: {props.get("instruction", "No specific instructions provided")}
-"""
+	return &MCPClient{
+		anthropic: &client,
+	}, nil
+}
 
+func (c *MCPClient) ConnectToServer(ctx context.Context, serverArgs []string) error {
+	if len(serverArgs) == 0 {
+		return fmt.Errorf("no server command provided")
+	}
 
-@mcp.tool()
-async def get_alerts(state: str) -> str:
-    """Get weather alerts for a US state.
+	// Create command to spawn server process
+	cmd := exec.CommandContext(ctx, serverArgs[0], serverArgs[1:]...)
 
-    Args:
-        state: Two-letter US state code (e.g. CA, NY)
+	// Create MCP client
+	client := mcp.NewClient(
+		&mcp.Implementation{
+			Name:    "mcp-client-go",
 ```
 
 This function is important because it defines how MCP Quickstart Resources Tutorial: Cross-Language MCP Servers and Clients by Example implements the patterns covered in this chapter.
 
-### `weather-server-python/weather.py`
+### `mcp-client-go/main.go`
 
-The `format_alert` function in [`weather-server-python/weather.py`](https://github.com/modelcontextprotocol/quickstart-resources/blob/HEAD/weather-server-python/weather.py) handles a key part of this chapter's functionality:
+The `ConnectToServer` function in [`mcp-client-go/main.go`](https://github.com/modelcontextprotocol/quickstart-resources/blob/HEAD/mcp-client-go/main.go) handles a key part of this chapter's functionality:
 
-```py
+```go
+}
 
+func (c *MCPClient) ConnectToServer(ctx context.Context, serverArgs []string) error {
+	if len(serverArgs) == 0 {
+		return fmt.Errorf("no server command provided")
+	}
 
-def format_alert(feature: dict) -> str:
-    """Format an alert feature into a readable string."""
-    props = feature["properties"]
-    return f"""
-Event: {props.get("event", "Unknown")}
-Area: {props.get("areaDesc", "Unknown")}
-Severity: {props.get("severity", "Unknown")}
-Description: {props.get("description", "No description available")}
-Instructions: {props.get("instruction", "No specific instructions provided")}
-"""
+	// Create command to spawn server process
+	cmd := exec.CommandContext(ctx, serverArgs[0], serverArgs[1:]...)
 
+	// Create MCP client
+	client := mcp.NewClient(
+		&mcp.Implementation{
+			Name:    "mcp-client-go",
+			Version: "0.1.0",
+		},
+		nil,
+	)
 
-@mcp.tool()
-async def get_alerts(state: str) -> str:
-    """Get weather alerts for a US state.
+	// Connect using CommandTransport
+	transport := &mcp.CommandTransport{
+		Command: cmd,
+	}
 
-    Args:
-        state: Two-letter US state code (e.g. CA, NY)
-    """
-    url = f"{NWS_API_BASE}/alerts/active/area/{state}"
-    data = await make_nws_request(url)
+	session, err := client.Connect(ctx, transport, nil)
+	if err != nil {
+		return fmt.Errorf("failed to connect to server: %w", err)
+	}
 
-    if not data or "features" not in data:
-        return "Unable to fetch alerts or no alerts found."
+	c.session = session
 
-    if not data["features"]:
-        return "No active alerts for this state."
-
-    alerts = [format_alert(feature) for feature in data["features"]]
-    return "\n---\n".join(alerts)
+	// List available tools
 ```
 
 This function is important because it defines how MCP Quickstart Resources Tutorial: Cross-Language MCP Servers and Clients by Example implements the patterns covered in this chapter.
@@ -209,9 +207,9 @@ This function is important because it defines how MCP Quickstart Resources Tutor
 flowchart TD
     A[MCPClient]
     B[main]
-    C[make_nws_request]
-    D[format_alert]
-    E[get_alerts]
+    C[NewMCPClient]
+    D[ConnectToServer]
+    E[mcpToolToAnthropicTool]
     A --> B
     B --> C
     C --> D

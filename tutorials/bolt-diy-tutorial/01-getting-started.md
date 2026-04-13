@@ -174,41 +174,7 @@ You now have a reliable bolt.diy baseline with:
 
 Next: [Chapter 2: Architecture Overview](02-architecture-overview.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
-
-### `worker-configuration.d.ts`
-
-The `Env` interface in [`worker-configuration.d.ts`](https://github.com/stackblitz-labs/bolt.diy/blob/HEAD/worker-configuration.d.ts) handles a key part of this chapter's functionality:
-
-```ts
-interface Env {
-  RUNNING_IN_DOCKER: Settings;
-  DEFAULT_NUM_CTX: Settings;
-  ANTHROPIC_API_KEY: string;
-  OPENAI_API_KEY: string;
-  GROQ_API_KEY: string;
-  HuggingFace_API_KEY: string;
-  OPEN_ROUTER_API_KEY: string;
-  OLLAMA_API_BASE_URL: string;
-  OPENAI_LIKE_API_KEY: string;
-  OPENAI_LIKE_API_BASE_URL: string;
-  OPENAI_LIKE_API_MODELS: string;
-  TOGETHER_API_KEY: string;
-  TOGETHER_API_BASE_URL: string;
-  DEEPSEEK_API_KEY: string;
-  LMSTUDIO_API_BASE_URL: string;
-  GOOGLE_GENERATIVE_AI_API_KEY: string;
-  MISTRAL_API_KEY: string;
-  XAI_API_KEY: string;
-  PERPLEXITY_API_KEY: string;
-  AWS_BEDROCK_CONFIG: string;
-}
-
-```
-
-This interface is important because it defines how bolt.diy Tutorial: Build and Operate an Open Source AI App Builder implements the patterns covered in this chapter.
 
 ### `vite.config.ts`
 
@@ -292,32 +258,89 @@ export default defineConfig({
 
 This function is important because it defines how bolt.diy Tutorial: Build and Operate an Open Source AI App Builder implements the patterns covered in this chapter.
 
-### `load-context.ts`
+### `worker-configuration.d.ts`
 
-The `AppLoadContext` interface in [`load-context.ts`](https://github.com/stackblitz-labs/bolt.diy/blob/HEAD/load-context.ts) handles a key part of this chapter's functionality:
+The `Env` interface in [`worker-configuration.d.ts`](https://github.com/stackblitz-labs/bolt.diy/blob/HEAD/worker-configuration.d.ts) handles a key part of this chapter's functionality:
 
 ```ts
-
-declare module '@remix-run/cloudflare' {
-  interface AppLoadContext {
-    cloudflare: Cloudflare;
-  }
+interface Env {
+  RUNNING_IN_DOCKER: Settings;
+  DEFAULT_NUM_CTX: Settings;
+  ANTHROPIC_API_KEY: string;
+  OPENAI_API_KEY: string;
+  GROQ_API_KEY: string;
+  HuggingFace_API_KEY: string;
+  OPEN_ROUTER_API_KEY: string;
+  OLLAMA_API_BASE_URL: string;
+  OPENAI_LIKE_API_KEY: string;
+  OPENAI_LIKE_API_BASE_URL: string;
+  OPENAI_LIKE_API_MODELS: string;
+  TOGETHER_API_KEY: string;
+  TOGETHER_API_BASE_URL: string;
+  DEEPSEEK_API_KEY: string;
+  LMSTUDIO_API_BASE_URL: string;
+  GOOGLE_GENERATIVE_AI_API_KEY: string;
+  MISTRAL_API_KEY: string;
+  XAI_API_KEY: string;
+  PERPLEXITY_API_KEY: string;
+  AWS_BEDROCK_CONFIG: string;
 }
 
 ```
 
 This interface is important because it defines how bolt.diy Tutorial: Build and Operate an Open Source AI App Builder implements the patterns covered in this chapter.
 
+### `app/root.tsx`
+
+The `setTutorialKitTheme` function in [`app/root.tsx`](https://github.com/stackblitz-labs/bolt.diy/blob/HEAD/app/root.tsx) handles a key part of this chapter's functionality:
+
+```tsx
+
+const inlineThemeCode = stripIndents`
+  setTutorialKitTheme();
+
+  function setTutorialKitTheme() {
+    let theme = localStorage.getItem('bolt_theme');
+
+    if (!theme) {
+      theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+
+    document.querySelector('html')?.setAttribute('data-theme', theme);
+  }
+`;
+
+export const Head = createHead(() => (
+  <>
+    <meta charSet="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <Meta />
+    <Links />
+    <script dangerouslySetInnerHTML={{ __html: inlineThemeCode }} />
+  </>
+));
+
+export function Layout({ children }: { children: React.ReactNode }) {
+  const theme = useStore(themeStore);
+
+  useEffect(() => {
+    document.querySelector('html')?.setAttribute('data-theme', theme);
+  }, [theme]);
+
+```
+
+This function is important because it defines how bolt.diy Tutorial: Build and Operate an Open Source AI App Builder implements the patterns covered in this chapter.
+
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[Env]
-    B[chrome129IssuePlugin]
-    C[generateAlphaPalette]
-    D[AppLoadContext]
-    E[setTutorialKitTheme]
+    A[chrome129IssuePlugin]
+    B[generateAlphaPalette]
+    C[Env]
+    D[setTutorialKitTheme]
+    E[Layout]
     A --> B
     B --> C
     C --> D

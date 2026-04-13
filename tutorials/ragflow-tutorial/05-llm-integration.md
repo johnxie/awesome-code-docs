@@ -426,6 +426,22 @@ Under the hood, `Chapter 5: LLM Integration & Configuration` usually follows a r
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
+## LLM Integration Architecture
+
+```mermaid
+flowchart LR
+    A[RAGFlow Backend] --> B{LLM Provider}
+    B --> C[OpenAI GPT-4o]
+    B --> D[Anthropic Claude]
+    B --> E[Ollama Local]
+    B --> F[Azure OpenAI]
+    C --> G[Answer Generation]
+    D --> G
+    E --> G
+    F --> G
+    G --> H[RAG Response with Citations]
+```
+
 ## Source Walkthrough
 
 Use the following upstream sources to verify implementation details while reading this chapter:

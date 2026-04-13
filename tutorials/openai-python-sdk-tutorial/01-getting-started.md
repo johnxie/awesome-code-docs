@@ -68,141 +68,139 @@ You now have a working SDK setup with both sync and async Responses API calls.
 
 Next: [Chapter 2: Chat Completions](02-chat-completions.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `examples/parsing_tools.py`
+### `scripts/detect-breaking-changes.py`
 
-The `Table` class in [`examples/parsing_tools.py`](https://github.com/openai/openai-python/blob/HEAD/examples/parsing_tools.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-class Table(str, Enum):
-    orders = "orders"
-    customers = "customers"
-    products = "products"
-
-
-class Column(str, Enum):
-    id = "id"
-    status = "status"
-    expected_delivery_date = "expected_delivery_date"
-    delivered_at = "delivered_at"
-    shipped_at = "shipped_at"
-    ordered_at = "ordered_at"
-    canceled_at = "canceled_at"
-
-
-class Operator(str, Enum):
-    eq = "="
-    gt = ">"
-    lt = "<"
-    le = "<="
-    ge = ">="
-    ne = "!="
-
-
-class OrderBy(str, Enum):
-    asc = "asc"
-    desc = "desc"
-
-
-```
-
-This class is important because it defines how OpenAI Python SDK Tutorial: Production API Patterns implements the patterns covered in this chapter.
-
-### `examples/parsing_tools.py`
-
-The `Column` class in [`examples/parsing_tools.py`](https://github.com/openai/openai-python/blob/HEAD/examples/parsing_tools.py) handles a key part of this chapter's functionality:
+The `public_members` function in [`scripts/detect-breaking-changes.py`](https://github.com/openai/openai-python/blob/HEAD/scripts/detect-breaking-changes.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-class Column(str, Enum):
-    id = "id"
-    status = "status"
-    expected_delivery_date = "expected_delivery_date"
-    delivered_at = "delivered_at"
-    shipped_at = "shipped_at"
-    ordered_at = "ordered_at"
-    canceled_at = "canceled_at"
+def public_members(obj: griffe.Object | griffe.Alias) -> dict[str, griffe.Object | griffe.Alias]:
+    if isinstance(obj, griffe.Alias):
+        # ignore imports for now, they're technically part of the public API
+        # but we don't have good preventative measures in place to prevent
+        # changing them
+        return {}
+
+    return {name: value for name, value in obj.all_members.items() if not name.startswith("_")}
 
 
-class Operator(str, Enum):
-    eq = "="
-    gt = ">"
-    lt = "<"
-    le = "<="
-    ge = ">="
-    ne = "!="
+def find_breaking_changes(
+    new_obj: griffe.Object | griffe.Alias,
+    old_obj: griffe.Object | griffe.Alias,
+    *,
+    path: list[str],
+) -> Iterator[Text | str]:
+    new_members = public_members(new_obj)
+    old_members = public_members(old_obj)
 
+    for name, old_member in old_members.items():
+        if isinstance(old_member, griffe.Alias) and len(path) > 2:
+            # ignore imports in `/types/` for now, they're technically part of the public API
+            # but we don't have good preventative measures in place to prevent changing them
+            continue
 
-class OrderBy(str, Enum):
-    asc = "asc"
-    desc = "desc"
-
-
-class DynamicValue(BaseModel):
-    column_name: str
-
-
-class Condition(BaseModel):
-    column: str
+        new_member = new_members.get(name)
+        if new_member is None:
+            cls_name = old_member.__class__.__name__
+            yield Text(f"({cls_name})", style=Style(color="rgb(119, 119, 119)"))
+            yield from [" " for _ in range(10 - len(cls_name))]
 ```
 
-This class is important because it defines how OpenAI Python SDK Tutorial: Production API Patterns implements the patterns covered in this chapter.
+This function is important because it defines how OpenAI Python SDK Tutorial: Production API Patterns implements the patterns covered in this chapter.
 
-### `examples/parsing_tools.py`
+### `scripts/detect-breaking-changes.py`
 
-The `Operator` class in [`examples/parsing_tools.py`](https://github.com/openai/openai-python/blob/HEAD/examples/parsing_tools.py) handles a key part of this chapter's functionality:
+The `find_breaking_changes` function in [`scripts/detect-breaking-changes.py`](https://github.com/openai/openai-python/blob/HEAD/scripts/detect-breaking-changes.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-class Operator(str, Enum):
-    eq = "="
-    gt = ">"
-    lt = "<"
-    le = "<="
-    ge = ">="
-    ne = "!="
+def find_breaking_changes(
+    new_obj: griffe.Object | griffe.Alias,
+    old_obj: griffe.Object | griffe.Alias,
+    *,
+    path: list[str],
+) -> Iterator[Text | str]:
+    new_members = public_members(new_obj)
+    old_members = public_members(old_obj)
+
+    for name, old_member in old_members.items():
+        if isinstance(old_member, griffe.Alias) and len(path) > 2:
+            # ignore imports in `/types/` for now, they're technically part of the public API
+            # but we don't have good preventative measures in place to prevent changing them
+            continue
+
+        new_member = new_members.get(name)
+        if new_member is None:
+            cls_name = old_member.__class__.__name__
+            yield Text(f"({cls_name})", style=Style(color="rgb(119, 119, 119)"))
+            yield from [" " for _ in range(10 - len(cls_name))]
+            yield f" {'.'.join(path)}.{name}"
+            yield "\n"
+            continue
+
+        yield from find_breaking_changes(new_member, old_member, path=[*path, name])
 
 
-class OrderBy(str, Enum):
-    asc = "asc"
-    desc = "desc"
-
-
-class DynamicValue(BaseModel):
-    column_name: str
-
-
-class Condition(BaseModel):
-    column: str
-    operator: Operator
-    value: Union[str, int, DynamicValue]
-
-
-class Query(BaseModel):
-    table_name: Table
-    columns: List[Column]
-    conditions: List[Condition]
-    order_by: OrderBy
-
+def main() -> None:
+    try:
+        against_ref = sys.argv[1]
 ```
 
-This class is important because it defines how OpenAI Python SDK Tutorial: Production API Patterns implements the patterns covered in this chapter.
+This function is important because it defines how OpenAI Python SDK Tutorial: Production API Patterns implements the patterns covered in this chapter.
+
+### `scripts/detect-breaking-changes.py`
+
+The `main` function in [`scripts/detect-breaking-changes.py`](https://github.com/openai/openai-python/blob/HEAD/scripts/detect-breaking-changes.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+def main() -> None:
+    try:
+        against_ref = sys.argv[1]
+    except IndexError as err:
+        raise RuntimeError("You must specify a base ref to run breaking change detection against") from err
+
+    package = griffe.load(
+        "openai",
+        search_paths=[Path(__file__).parent.parent.joinpath("src")],
+    )
+    old_package = griffe.load_git(
+        "openai",
+        ref=against_ref,
+        search_paths=["src"],
+    )
+    assert isinstance(package, griffe.Module)
+    assert isinstance(old_package, griffe.Module)
+
+    output = list(find_breaking_changes(package, old_package, path=["openai"]))
+    if output:
+        rich.print(Text("Breaking changes detected!", style=Style(color="rgb(165, 79, 87)")))
+        rich.print()
+
+        for text in output:
+            rich.print(text, end="")
+
+        sys.exit(1)
+
+
+main()
+```
+
+This function is important because it defines how OpenAI Python SDK Tutorial: Production API Patterns implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[Table]
-    B[Column]
-    C[Operator]
+    A[public_members]
+    B[find_breaking_changes]
+    C[main]
     A --> B
     B --> C
 ```

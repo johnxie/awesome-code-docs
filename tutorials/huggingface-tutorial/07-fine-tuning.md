@@ -14,6 +14,18 @@ Welcome to **Chapter 7: Fine-tuning Models**. In this part of **HuggingFace Tran
 
 ## 🎯 Overview
 
+```mermaid
+flowchart TD
+    A[Pre-trained checkpoint] --> B[Load with AutoModel]
+    B --> C[Add task head]
+    C --> D[Trainer / training loop]
+    D --> E[Forward pass + loss]
+    E --> F[Backprop + optimizer]
+    F --> G[Checkpoint save]
+    G --> H[Evaluation on val set]
+    H --> I[Best checkpoint]
+```
+
 This chapter covers fine-tuning techniques for adapting pre-trained Transformer models to specific tasks and domains. You'll learn to customize models for better performance on your data while avoiding common pitfalls.
 
 ## 🏗️ Fine-tuning Fundamentals

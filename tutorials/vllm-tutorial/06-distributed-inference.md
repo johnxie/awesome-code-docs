@@ -979,6 +979,16 @@ Under the hood, `Chapter 6: Distributed Inference - Scaling Across GPUs and Node
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
+## Architecture Flow
+
+```mermaid
+flowchart LR
+    A[Large model too big for single GPU] --> B[Tensor parallelism across GPUs]
+    B --> C[Pipeline parallelism across nodes]
+    C --> D[Ray cluster coordination]
+    D --> E[Distributed token generation]
+```
+
 ## Source Walkthrough
 
 Use the following upstream sources to verify implementation details while reading this chapter:

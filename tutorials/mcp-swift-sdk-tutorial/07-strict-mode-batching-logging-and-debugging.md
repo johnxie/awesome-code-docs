@@ -39,153 +39,166 @@ You now have a control model for balancing safety and performance in Swift MCP c
 
 Next: [Chapter 8: Release, Versioning, and Production Guidelines](08-release-versioning-and-production-guidelines.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `Sources/MCP/Client/Elicitation.swift`
+### `Sources/MCP/Server/Prompts.swift`
 
-The `ElicitationCompleteNotification` interface in [`Sources/MCP/Client/Elicitation.swift`](https://github.com/modelcontextprotocol/swift-sdk/blob/HEAD/Sources/MCP/Client/Elicitation.swift) handles a key part of this chapter's functionality:
+The `CodingKeys` interface in [`Sources/MCP/Server/Prompts.swift`](https://github.com/modelcontextprotocol/swift-sdk/blob/HEAD/Sources/MCP/Server/Prompts.swift) handles a key part of this chapter's functionality:
 
 ```swift
+    }
 
-/// Notification sent when a URL-based elicitation is complete
-public struct ElicitationCompleteNotification: Notification {
-    public static let name = "notifications/elicitation/complete"
+    private enum CodingKeys: String, CodingKey {
+        case name, title, description, arguments, icons, _meta
+    }
 
-    public struct Parameters: Hashable, Codable, Sendable {
-        /// The elicitation ID that was completed
-        public var elicitationId: String
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(name, forKey: .name)
+        try container.encodeIfPresent(title, forKey: .title)
+        try container.encodeIfPresent(description, forKey: .description)
+        try container.encodeIfPresent(arguments, forKey: .arguments)
+        try container.encodeIfPresent(icons, forKey: .icons)
+        try container.encodeIfPresent(_meta, forKey: ._meta)
+    }
 
-        public init(elicitationId: String) {
-            self.elicitationId = elicitationId
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        name = try container.decode(String.self, forKey: .name)
+        title = try container.decodeIfPresent(String.self, forKey: .title)
+        description = try container.decodeIfPresent(String.self, forKey: .description)
+        arguments = try container.decodeIfPresent([Argument].self, forKey: .arguments)
+        icons = try container.decodeIfPresent([Icon].self, forKey: .icons)
+        _meta = try container.decodeIfPresent(Metadata.self, forKey: ._meta)
+    }
+
+    /// An argument for a prompt
+    public struct Argument: Hashable, Codable, Sendable {
+        /// The argument name
+        public let name: String
+        /// A human-readable argument title
+        public let title: String?
+```
+
+This interface is important because it defines how MCP Swift SDK Tutorial: Building MCP Clients and Servers in Swift implements the patterns covered in this chapter.
+
+### `Sources/MCP/Base/Value.swift`
+
+The `Foundation` interface in [`Sources/MCP/Base/Value.swift`](https://github.com/modelcontextprotocol/swift-sdk/blob/HEAD/Sources/MCP/Base/Value.swift) handles a key part of this chapter's functionality:
+
+```swift
+import struct Foundation.Data
+import class Foundation.JSONDecoder
+import class Foundation.JSONEncoder
+
+/// A codable value.
+public enum Value: Hashable, Sendable {
+    case null
+    case bool(Bool)
+    case int(Int)
+    case double(Double)
+    case string(String)
+    case data(mimeType: String? = nil, Data)
+    case array([Value])
+    case object([String: Value])
+
+    /// Create a `Value` from a `Codable` value.
+    /// - Parameter value: The codable value
+    /// - Returns: A value
+    public init<T: Codable>(_ value: T) throws {
+        if let valueAsValue = value as? Value {
+            self = valueAsValue
+        } else {
+            let data = try JSONEncoder().encode(value)
+            self = try JSONDecoder().decode(Value.self, from: data)
         }
+    }
+
+    /// Returns whether the value is `null`.
+    public var isNull: Bool {
+        return self == .null
+```
+
+This interface is important because it defines how MCP Swift SDK Tutorial: Building MCP Clients and Servers in Swift implements the patterns covered in this chapter.
+
+### `Sources/MCP/Base/Value.swift`
+
+The `StringInterpolation` interface in [`Sources/MCP/Base/Value.swift`](https://github.com/modelcontextprotocol/swift-sdk/blob/HEAD/Sources/MCP/Base/Value.swift) handles a key part of this chapter's functionality:
+
+```swift
+}
+
+// MARK: - ExpressibleByStringInterpolation
+
+extension Value: ExpressibleByStringInterpolation {
+    public struct StringInterpolation: StringInterpolationProtocol {
+        var stringValue: String
+
+        public init(literalCapacity: Int, interpolationCount: Int) {
+            self.stringValue = ""
+            self.stringValue.reserveCapacity(literalCapacity + interpolationCount)
+        }
+
+        public mutating func appendLiteral(_ literal: String) {
+            self.stringValue.append(literal)
+        }
+
+        public mutating func appendInterpolation<T: CustomStringConvertible>(_ value: T) {
+            self.stringValue.append(value.description)
+        }
+    }
+
+    public init(stringInterpolation: StringInterpolation) {
+        self = .string(stringInterpolation.stringValue)
     }
 }
 
+// MARK: - Standard Library Type Extensions
+
+extension Bool {
+    /// Creates a boolean value from a `Value` instance.
+    ///
 ```
 
 This interface is important because it defines how MCP Swift SDK Tutorial: Building MCP Clients and Servers in Swift implements the patterns covered in this chapter.
 
-### `Sources/MCP/Client/Elicitation.swift`
+### `Sources/MCP/Base/Value.swift`
 
-The `Parameters` interface in [`Sources/MCP/Client/Elicitation.swift`](https://github.com/modelcontextprotocol/swift-sdk/blob/HEAD/Sources/MCP/Client/Elicitation.swift) handles a key part of this chapter's functionality:
-
-```swift
-    public static let name = "elicitation/create"
-
-    public enum Parameters: Hashable, Sendable {
-        /// Form-based elicitation parameters
-        case form(FormParameters)
-        /// URL-based elicitation parameters
-        case url(URLParameters)
-
-        /// Parameters for form-based elicitation
-        public struct FormParameters: Hashable, Codable, Sendable {
-            /// Message displayed to the user describing the request
-            public var message: String
-            /// Elicitation mode (optional for backward compatibility, defaults to form)
-            public var mode: Elicitation.Mode?
-            /// Schema describing the expected response content (required per spec)
-            public var requestedSchema: Elicitation.RequestSchema
-            /// Optional metadata
-            public var _meta: Metadata?
-
-            public init(
-                message: String,
-                mode: Elicitation.Mode? = nil,
-                requestedSchema: Elicitation.RequestSchema = .init(),
-                _meta: Metadata? = nil
-            ) {
-                self.message = message
-                self.mode = mode
-                self.requestedSchema = requestedSchema
-                self._meta = _meta
-            }
-        }
-
-```
-
-This interface is important because it defines how MCP Swift SDK Tutorial: Building MCP Clients and Servers in Swift implements the patterns covered in this chapter.
-
-### `Sources/MCP/Client/Elicitation.swift`
-
-The `Elicitation` interface in [`Sources/MCP/Client/Elicitation.swift`](https://github.com/modelcontextprotocol/swift-sdk/blob/HEAD/Sources/MCP/Client/Elicitation.swift) handles a key part of this chapter's functionality:
+The `Value` interface in [`Sources/MCP/Base/Value.swift`](https://github.com/modelcontextprotocol/swift-sdk/blob/HEAD/Sources/MCP/Base/Value.swift) handles a key part of this chapter's functionality:
 
 ```swift
-/// Servers use elicitation to collect structured input from users via the client.
-/// The schema subset mirrors the 2025-11-25 revision of the specification.
-public enum Elicitation {
-    /// Schema describing the expected response content.
-    public struct RequestSchema: Hashable, Codable, Sendable {
-        /// Supported top-level types. Currently limited to objects.
-        public enum SchemaType: String, Hashable, Codable, Sendable {
-            case object
+
+/// A codable value.
+public enum Value: Hashable, Sendable {
+    case null
+    case bool(Bool)
+    case int(Int)
+    case double(Double)
+    case string(String)
+    case data(mimeType: String? = nil, Data)
+    case array([Value])
+    case object([String: Value])
+
+    /// Create a `Value` from a `Codable` value.
+    /// - Parameter value: The codable value
+    /// - Returns: A value
+    public init<T: Codable>(_ value: T) throws {
+        if let valueAsValue = value as? Value {
+            self = valueAsValue
+        } else {
+            let data = try JSONEncoder().encode(value)
+            self = try JSONDecoder().decode(Value.self, from: data)
         }
+    }
 
-        /// Schema title presented to users.
-        public var title: String?
-        /// Schema description providing additional guidance.
-        public var description: String?
-        /// Raw JSON Schema fragments describing the requested fields.
-        public var properties: [String: Value]
-        /// List of required field keys.
-        public var required: [String]?
-        /// Top-level schema type. Defaults to `object`.
-        public var type: SchemaType
+    /// Returns whether the value is `null`.
+    public var isNull: Bool {
+        return self == .null
+    }
 
-        public init(
-            title: String? = nil,
-            description: String? = nil,
-            properties: [String: Value] = [:],
-            required: [String]? = nil,
-            type: SchemaType = .object
-        ) {
-            self.title = title
-            self.description = description
-            self.properties = properties
-            self.required = required
-```
-
-This interface is important because it defines how MCP Swift SDK Tutorial: Building MCP Clients and Servers in Swift implements the patterns covered in this chapter.
-
-### `Sources/MCP/Client/Elicitation.swift`
-
-The `SchemaType` interface in [`Sources/MCP/Client/Elicitation.swift`](https://github.com/modelcontextprotocol/swift-sdk/blob/HEAD/Sources/MCP/Client/Elicitation.swift) handles a key part of this chapter's functionality:
-
-```swift
-    public struct RequestSchema: Hashable, Codable, Sendable {
-        /// Supported top-level types. Currently limited to objects.
-        public enum SchemaType: String, Hashable, Codable, Sendable {
-            case object
-        }
-
-        /// Schema title presented to users.
-        public var title: String?
-        /// Schema description providing additional guidance.
-        public var description: String?
-        /// Raw JSON Schema fragments describing the requested fields.
-        public var properties: [String: Value]
-        /// List of required field keys.
-        public var required: [String]?
-        /// Top-level schema type. Defaults to `object`.
-        public var type: SchemaType
-
-        public init(
-            title: String? = nil,
-            description: String? = nil,
-            properties: [String: Value] = [:],
-            required: [String]? = nil,
-            type: SchemaType = .object
-        ) {
-            self.title = title
-            self.description = description
-            self.properties = properties
-            self.required = required
-            self.type = type
-        }
-
-        private enum CodingKeys: String, CodingKey {
+    /// Returns the `Bool` value if the value is a `bool`,
+    /// otherwise returns `nil`.
+    public var boolValue: Bool? {
 ```
 
 This interface is important because it defines how MCP Swift SDK Tutorial: Building MCP Clients and Servers in Swift implements the patterns covered in this chapter.
@@ -195,11 +208,11 @@ This interface is important because it defines how MCP Swift SDK Tutorial: Build
 
 ```mermaid
 flowchart TD
-    A[ElicitationCompleteNotification]
-    B[Parameters]
-    C[Elicitation]
-    D[SchemaType]
-    E[CodingKeys]
+    A[CodingKeys]
+    B[Foundation]
+    C[StringInterpolation]
+    D[Value]
+    E[UnitInterval]
     A --> B
     B --> C
     C --> D

@@ -617,6 +617,18 @@ Under the hood, `Chapter 4: Function Calling` usually follows a repeatable contr
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
+## Architecture Flow
+
+```mermaid
+flowchart LR
+    A[User message] --> B[generateText with tools defined]
+    B --> C[Model decides to call tool]
+    C --> D[Tool function executed]
+    D --> E[Tool result added to context]
+    E --> B
+    B --> F[Final text response]
+```
+
 ## Source Walkthrough
 
 Use the following upstream sources to verify implementation details while reading this chapter:

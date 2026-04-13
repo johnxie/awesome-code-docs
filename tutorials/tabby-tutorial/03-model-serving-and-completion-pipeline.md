@@ -74,51 +74,22 @@ Next: [Chapter 4: Answer Engine and Context Indexing](04-answer-engine-and-conte
 
 ## Source Code Walkthrough
 
-### `python/tabby/trainer.py`
+Use the following upstream sources to verify model serving and completion pipeline details while reading this chapter:
 
-The `ConstantLengthDataset` class in [`python/tabby/trainer.py`](https://github.com/TabbyML/tabby/blob/HEAD/python/tabby/trainer.py) handles a key part of this chapter's functionality:
+- [`crates/tabby/src/routes/completions.rs`](https://github.com/TabbyML/tabby/blob/HEAD/crates/tabby/src/routes/) — the completion API route handler that validates completion requests, applies FIM (fill-in-the-middle) template formatting, invokes the inference backend, and streams completion tokens.
+- [`crates/tabby-inference/src/lib.rs`](https://github.com/TabbyML/tabby/blob/HEAD/crates/tabby-inference/src/lib.rs) — the inference backend trait and request dispatch logic that routes completion requests to the correct model backend.
 
-```py
-
-
-class ConstantLengthDataset:
-    """
-    Iterable dataset that returns constant length chunks of tokens from stream of text files.
-        Args:
-            tokenizer (Tokenizer): The processor used for proccessing the data.
-            dataset (dataset.Dataset): Dataset with text files.
-            infinite (bool): If True the iterator is reset after dataset reaches end else stops.
-            seq_length (int): Length of token sequences to return.
-            num_of_sequences (int): Number of token sequences to keep in buffer.
-            chars_per_token (int): Number of characters per token used to estimate number of tokens in text buffer.
-    """
-
-    def __init__(
-        self,
-        tokenizer,
-        dataset,
-        infinite=False,
-        seq_length=1024,
-        num_of_sequences=1024,
-        chars_per_token=3.6,
-        content_field="content",
-    ):
-        self.tokenizer = tokenizer
-        self.concat_token_id = tokenizer.eos_token_id
-        self.dataset = dataset
-        self.seq_length = seq_length
-        self.infinite = infinite
-        self.current_size = 0
-        self.max_buffer_size = seq_length * chars_per_token * num_of_sequences
-        self.content_field = content_field
-```
-
-This class is important because it defines how Tabby Tutorial: Self-Hosted AI Coding Assistant Architecture and Operations implements the patterns covered in this chapter.
-
+Suggested trace strategy:
+- trace the completion request from the Axum handler in `completions.rs` through inference dispatch to the backend
+- review FIM template construction to understand how prefix/suffix/middle context is formatted for different model families
+- check `crates/tabby-common/src/api/` for the completion request/response schema definitions
 
 ## How These Components Connect
 
 ```mermaid
-flowchart TD
-    A[ConstantLengthDataset]
+flowchart LR
+    A[Completion request from editor] --> B[completions.rs route handler]
+    B --> C[FIM template formatting]
+    C --> D[tabby-inference backend dispatch]
+    D --> E[Token stream returned]
 ```

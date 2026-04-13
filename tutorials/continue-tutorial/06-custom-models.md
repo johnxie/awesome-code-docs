@@ -765,9 +765,29 @@ class MultiModelOrchestrator {
 }
 ```
 
+## Custom Model Configuration
+
+```mermaid
+flowchart TD
+    A[Edit config.json in ~/.continue/]
+    B[Add model entry: provider, model, apiKey]
+    C[Continue loads config on restart]
+    D{Provider type}
+    E[Cloud: Anthropic, OpenAI, Gemini API calls]
+    F[Local: Ollama or LM Studio endpoint]
+    G[Model available in chat and completion]
+    A --> B
+    B --> C
+    C --> D
+    D -- cloud --> E
+    D -- local --> F
+    E --> G
+    F --> G
+```
+
 ## What's Next?
 
-Excellent! You've learned how to customize Continue for your specific needs and preferences. The ability to configure custom models, create personalized prompts, and build custom tools makes Continue incredibly powerful for your unique development workflow.
+You've learned how to customize Continue for your specific needs and preferences. The ability to configure custom models, create personalized prompts, and build custom tools makes Continue incredibly powerful for your unique development workflow.
 
 In [Chapter 7: Team Collaboration & Sharing](07-team-collaboration.md), we'll explore how to share your Continue configurations, collaborate with team members, and create shared development environments.
 

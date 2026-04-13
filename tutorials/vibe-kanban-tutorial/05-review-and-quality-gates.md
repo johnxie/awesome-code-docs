@@ -45,170 +45,168 @@ You now have a high-throughput review model for multi-agent task output.
 
 Next: [Chapter 6: Remote Access and Self-Hosting](06-remote-access-and-self-hosting.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `npx-cli/src/desktop.ts`
+### `npx-cli/src/cli.ts`
 
-The `readSentinel` function in [`npx-cli/src/desktop.ts`](https://github.com/BloopAI/vibe-kanban/blob/HEAD/npx-cli/src/desktop.ts) handles a key part of this chapter's functionality:
-
-```ts
-}
-
-function readSentinel(dir: string): SentinelMeta | null {
-  const sentinelPath = path.join(dir, '.installed');
-  if (!fs.existsSync(sentinelPath)) return null;
-  try {
-    return JSON.parse(
-      fs.readFileSync(sentinelPath, 'utf-8')
-    ) as SentinelMeta;
-  } catch {
-    return null;
-  }
-}
-
-// Try to copy the .app to a destination directory, returning the final path on success
-function tryCopyApp(
-  srcAppPath: string,
-  destDir: string
-): string | null {
-  try {
-    const appName = path.basename(srcAppPath);
-    const destAppPath = path.join(destDir, appName);
-
-    // Ensure destination directory exists
-    fs.mkdirSync(destDir, { recursive: true });
-
-    // Remove existing app at destination if present
-    if (fs.existsSync(destAppPath)) {
-      fs.rmSync(destAppPath, { recursive: true, force: true });
-    }
-
-    // Use cp -R for macOS .app bundles (preserves symlinks and metadata)
-```
-
-This function is important because it defines how Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows implements the patterns covered in this chapter.
-
-### `npx-cli/src/desktop.ts`
-
-The `tryCopyApp` function in [`npx-cli/src/desktop.ts`](https://github.com/BloopAI/vibe-kanban/blob/HEAD/npx-cli/src/desktop.ts) handles a key part of this chapter's functionality:
+The `cleanOldVersions` function in [`npx-cli/src/cli.ts`](https://github.com/BloopAI/vibe-kanban/blob/HEAD/npx-cli/src/cli.ts) handles a key part of this chapter's functionality:
 
 ```ts
 
-// Try to copy the .app to a destination directory, returning the final path on success
-function tryCopyApp(
-  srcAppPath: string,
-  destDir: string
-): string | null {
+// Remove old version directories from the binary cache
+function cleanOldVersions(): void {
   try {
-    const appName = path.basename(srcAppPath);
-    const destAppPath = path.join(destDir, appName);
-
-    // Ensure destination directory exists
-    fs.mkdirSync(destDir, { recursive: true });
-
-    // Remove existing app at destination if present
-    if (fs.existsSync(destAppPath)) {
-      fs.rmSync(destAppPath, { recursive: true, force: true });
-    }
-
-    // Use cp -R for macOS .app bundles (preserves symlinks and metadata)
-    execSync(`cp -R "${srcAppPath}" "${destAppPath}"`, {
-      stdio: 'pipe',
+    const entries = fs.readdirSync(CACHE_DIR, {
+      withFileTypes: true,
     });
-
-    return destAppPath;
+    for (const entry of entries) {
+      if (entry.isDirectory() && entry.name !== BINARY_TAG) {
+        const oldDir = path.join(CACHE_DIR, entry.name);
+        fs.rmSync(oldDir, { recursive: true, force: true });
+      }
+    }
   } catch {
-    return null;
+    // Ignore cleanup errors — not critical
   }
 }
 
-// macOS: extract .app.tar.gz, copy to /Applications, remove quarantine, launch with `open`
-async function installAndLaunchMacOS(
-  bundleInfo: DesktopBundleInfo
+function showProgress(downloaded: number, total: number): void {
+  const percent = total ? Math.round((downloaded / total) * 100) : 0;
+  const mb = (downloaded / (1024 * 1024)).toFixed(1);
+  const totalMb = total ? (total / (1024 * 1024)).toFixed(1) : "?";
+  process.stderr.write(
+    `\r   Downloading: ${mb}MB / ${totalMb}MB (${percent}%)`,
+  );
+}
+
+function buildMcpArgs(args: string[]): string[] {
+  return args.length > 0 ? args : ["--mode", "global"];
+}
+
+async function extractAndRun(
 ```
 
 This function is important because it defines how Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows implements the patterns covered in this chapter.
 
-### `npx-cli/src/desktop.ts`
+### `npx-cli/src/cli.ts`
 
-The `installAndLaunchMacOS` function in [`npx-cli/src/desktop.ts`](https://github.com/BloopAI/vibe-kanban/blob/HEAD/npx-cli/src/desktop.ts) handles a key part of this chapter's functionality:
+The `showProgress` function in [`npx-cli/src/cli.ts`](https://github.com/BloopAI/vibe-kanban/blob/HEAD/npx-cli/src/cli.ts) handles a key part of this chapter's functionality:
 
 ```ts
+}
 
-// macOS: extract .app.tar.gz, copy to /Applications, remove quarantine, launch with `open`
-async function installAndLaunchMacOS(
-  bundleInfo: DesktopBundleInfo
-): Promise<number> {
-  const { archivePath, dir } = bundleInfo;
+function showProgress(downloaded: number, total: number): void {
+  const percent = total ? Math.round((downloaded / total) * 100) : 0;
+  const mb = (downloaded / (1024 * 1024)).toFixed(1);
+  const totalMb = total ? (total / (1024 * 1024)).toFixed(1) : "?";
+  process.stderr.write(
+    `\r   Downloading: ${mb}MB / ${totalMb}MB (${percent}%)`,
+  );
+}
 
-  const sentinel = readSentinel(dir);
-  if (sentinel?.appPath && fs.existsSync(sentinel.appPath)) {
-    return launchMacOSApp(sentinel.appPath);
-  }
+function buildMcpArgs(args: string[]): string[] {
+  return args.length > 0 ? args : ["--mode", "global"];
+}
 
-  if (!archivePath || !fs.existsSync(archivePath)) {
-    throw new Error('No archive to extract for macOS desktop app');
-  }
+async function extractAndRun(
+  baseName: string,
+  launch: (binPath: string) => void,
+): Promise<void> {
+  const binName = getBinaryName(baseName);
+  const binPath = path.join(versionCacheDir, binName);
+  const zipPath = path.join(versionCacheDir, `${baseName}.zip`);
 
-  extractTarGz(archivePath, dir);
-
-  const appName = fs.readdirSync(dir).find((f) => f.endsWith('.app'));
-  if (!appName) {
-    throw new Error(
-      `No .app bundle found in ${dir} after extraction`
-    );
-  }
-
-  const extractedAppPath = path.join(dir, appName);
-
-  // Try to install to /Applications, then ~/Applications, then fall back to cache dir
-  const userApplications = path.join(os.homedir(), 'Applications');
-  const finalAppPath =
-    tryCopyApp(extractedAppPath, '/Applications') ??
-    tryCopyApp(extractedAppPath, userApplications) ??
+  // Clean old binary if exists
+  try {
+    if (fs.existsSync(binPath)) {
+      fs.unlinkSync(binPath);
+    }
+  } catch (err: unknown) {
+    if (process.env.VIBE_KANBAN_DEBUG) {
+      const msg = err instanceof Error ? err.message : String(err);
+      console.warn(`Warning: Could not delete existing binary: ${msg}`);
 ```
 
 This function is important because it defines how Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows implements the patterns covered in this chapter.
 
-### `npx-cli/src/desktop.ts`
+### `npx-cli/src/cli.ts`
 
-The `launchMacOSApp` function in [`npx-cli/src/desktop.ts`](https://github.com/BloopAI/vibe-kanban/blob/HEAD/npx-cli/src/desktop.ts) handles a key part of this chapter's functionality:
+The `buildMcpArgs` function in [`npx-cli/src/cli.ts`](https://github.com/BloopAI/vibe-kanban/blob/HEAD/npx-cli/src/cli.ts) handles a key part of this chapter's functionality:
 
 ```ts
-  const sentinel = readSentinel(dir);
-  if (sentinel?.appPath && fs.existsSync(sentinel.appPath)) {
-    return launchMacOSApp(sentinel.appPath);
+}
+
+function buildMcpArgs(args: string[]): string[] {
+  return args.length > 0 ? args : ["--mode", "global"];
+}
+
+async function extractAndRun(
+  baseName: string,
+  launch: (binPath: string) => void,
+): Promise<void> {
+  const binName = getBinaryName(baseName);
+  const binPath = path.join(versionCacheDir, binName);
+  const zipPath = path.join(versionCacheDir, `${baseName}.zip`);
+
+  // Clean old binary if exists
+  try {
+    if (fs.existsSync(binPath)) {
+      fs.unlinkSync(binPath);
+    }
+  } catch (err: unknown) {
+    if (process.env.VIBE_KANBAN_DEBUG) {
+      const msg = err instanceof Error ? err.message : String(err);
+      console.warn(`Warning: Could not delete existing binary: ${msg}`);
+    }
   }
 
-  if (!archivePath || !fs.existsSync(archivePath)) {
-    throw new Error('No archive to extract for macOS desktop app');
-  }
-
-  extractTarGz(archivePath, dir);
-
-  const appName = fs.readdirSync(dir).find((f) => f.endsWith('.app'));
-  if (!appName) {
-    throw new Error(
-      `No .app bundle found in ${dir} after extraction`
-    );
-  }
-
-  const extractedAppPath = path.join(dir, appName);
-
-  // Try to install to /Applications, then ~/Applications, then fall back to cache dir
-  const userApplications = path.join(os.homedir(), 'Applications');
-  const finalAppPath =
-    tryCopyApp(extractedAppPath, '/Applications') ??
-    tryCopyApp(extractedAppPath, userApplications) ??
-    extractedAppPath;
-
-  // Clean up extracted copy if we successfully copied elsewhere
-  if (finalAppPath !== extractedAppPath) {
+  // Download if not cached
+  if (!fs.existsSync(zipPath)) {
+    console.error(`Downloading ${baseName}...`);
     try {
-      fs.rmSync(extractedAppPath, { recursive: true, force: true });
-    } catch {}
+      await ensureBinary(platformDir, baseName, showProgress);
+      console.error(""); // newline after progress
+```
+
+This function is important because it defines how Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows implements the patterns covered in this chapter.
+
+### `npx-cli/src/cli.ts`
+
+The `extractAndRun` function in [`npx-cli/src/cli.ts`](https://github.com/BloopAI/vibe-kanban/blob/HEAD/npx-cli/src/cli.ts) handles a key part of this chapter's functionality:
+
+```ts
+}
+
+async function extractAndRun(
+  baseName: string,
+  launch: (binPath: string) => void,
+): Promise<void> {
+  const binName = getBinaryName(baseName);
+  const binPath = path.join(versionCacheDir, binName);
+  const zipPath = path.join(versionCacheDir, `${baseName}.zip`);
+
+  // Clean old binary if exists
+  try {
+    if (fs.existsSync(binPath)) {
+      fs.unlinkSync(binPath);
+    }
+  } catch (err: unknown) {
+    if (process.env.VIBE_KANBAN_DEBUG) {
+      const msg = err instanceof Error ? err.message : String(err);
+      console.warn(`Warning: Could not delete existing binary: ${msg}`);
+    }
+  }
+
+  // Download if not cached
+  if (!fs.existsSync(zipPath)) {
+    console.error(`Downloading ${baseName}...`);
+    try {
+      await ensureBinary(platformDir, baseName, showProgress);
+      console.error(""); // newline after progress
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : String(err);
+      console.error(`\nDownload failed: ${msg}`);
+      process.exit(1);
 ```
 
 This function is important because it defines how Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows implements the patterns covered in this chapter.
@@ -218,11 +216,11 @@ This function is important because it defines how Vibe Kanban Tutorial: Multi-Ag
 
 ```mermaid
 flowchart TD
-    A[readSentinel]
-    B[tryCopyApp]
-    C[installAndLaunchMacOS]
-    D[launchMacOSApp]
-    E[installAndLaunchLinux]
+    A[cleanOldVersions]
+    B[showProgress]
+    C[buildMcpArgs]
+    D[extractAndRun]
+    E[checkForUpdates]
     A --> B
     B --> C
     C --> D

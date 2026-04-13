@@ -41,170 +41,168 @@ You now have a troubleshooting runbook for stable GitHub MCP operations.
 
 Next: [Chapter 8: Contribution and Upgrade Workflow](08-contribution-and-upgrade-workflow.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `pkg/github/dependencies.go`
+### `cmd/mcpcurl/main.go`
 
-The `GetGQLClient` function in [`pkg/github/dependencies.go`](https://github.com/github/github-mcp-server/blob/HEAD/pkg/github/dependencies.go) handles a key part of this chapter's functionality:
+The `buildArgumentsMap` function in [`cmd/mcpcurl/main.go`](https://github.com/github/github-mcp-server/blob/HEAD/cmd/mcpcurl/main.go) handles a key part of this chapter's functionality:
 
 ```go
-	GetClient(ctx context.Context) (*gogithub.Client, error)
+		Run: func(cmd *cobra.Command, _ []string) {
+			// Build a map of arguments from flags
+			arguments, err := buildArgumentsMap(cmd, tool)
+			if err != nil {
+				_, _ = fmt.Fprintf(os.Stderr, "failed to build arguments map: %v\n", err)
+				return
+			}
 
-	// GetGQLClient returns a GitHub GraphQL client
-	GetGQLClient(ctx context.Context) (*githubv4.Client, error)
+			jsonData, err := buildJSONRPCRequest("tools/call", tool.Name, arguments)
+			if err != nil {
+				_, _ = fmt.Fprintf(os.Stderr, "failed to build JSONRPC request: %v\n", err)
+				return
+			}
 
-	// GetRawClient returns a raw content client for GitHub
-	GetRawClient(ctx context.Context) (*raw.Client, error)
+			// Execute the server command
+			serverCmd, err := cmd.Flags().GetString("stdio-server-cmd")
+			if err != nil {
+				_, _ = fmt.Fprintf(os.Stderr, "failed to get stdio-server-cmd: %v\n", err)
+				return
+			}
+			response, err := executeServerCommand(serverCmd, jsonData)
+			if err != nil {
+				_, _ = fmt.Fprintf(os.Stderr, "error executing server command: %v\n", err)
+				return
+			}
+			if err := printResponse(response, prettyPrint); err != nil {
+				_, _ = fmt.Fprintf(os.Stderr, "error printing response: %v\n", err)
+				return
+			}
+		},
+	}
 
-	// GetRepoAccessCache returns the lockdown mode repo access cache
-	GetRepoAccessCache(ctx context.Context) (*lockdown.RepoAccessCache, error)
-
-	// GetT returns the translation helper function
-	GetT() translations.TranslationHelperFunc
-
-	// GetFlags returns feature flags
-	GetFlags(ctx context.Context) FeatureFlags
-
-	// GetContentWindowSize returns the content window size for log truncation
-	GetContentWindowSize() int
-
-	// IsFeatureEnabled checks if a feature flag is enabled.
-	IsFeatureEnabled(ctx context.Context, flagName string) bool
-}
-
-// BaseDeps is the standard implementation of ToolDependencies for the local server.
-// It stores pre-created clients. The remote server can create its own struct
-// implementing ToolDependencies with different client creation strategies.
-type BaseDeps struct {
-	// Pre-created clients
-	Client    *gogithub.Client
-	GQLClient *githubv4.Client
-	RawClient *raw.Client
 ```
 
 This function is important because it defines how GitHub MCP Server Tutorial: Production GitHub Operations Through MCP implements the patterns covered in this chapter.
 
-### `pkg/github/dependencies.go`
+### `cmd/mcpcurl/main.go`
 
-The `GetRawClient` function in [`pkg/github/dependencies.go`](https://github.com/github/github-mcp-server/blob/HEAD/pkg/github/dependencies.go) handles a key part of this chapter's functionality:
+The `buildJSONRPCRequest` function in [`cmd/mcpcurl/main.go`](https://github.com/github/github-mcp-server/blob/HEAD/cmd/mcpcurl/main.go) handles a key part of this chapter's functionality:
 
 ```go
-	GetGQLClient(ctx context.Context) (*githubv4.Client, error)
 
-	// GetRawClient returns a raw content client for GitHub
-	GetRawClient(ctx context.Context) (*raw.Client, error)
+			// Build the JSON-RPC request for tools/list
+			jsonRequest, err := buildJSONRPCRequest("tools/list", "", nil)
+			if err != nil {
+				return fmt.Errorf("failed to build JSON-RPC request: %w", err)
+			}
 
-	// GetRepoAccessCache returns the lockdown mode repo access cache
-	GetRepoAccessCache(ctx context.Context) (*lockdown.RepoAccessCache, error)
+			// Execute the server command and pass the JSON-RPC request
+			response, err := executeServerCommand(serverCmd, jsonRequest)
+			if err != nil {
+				return fmt.Errorf("error executing server command: %w", err)
+			}
 
-	// GetT returns the translation helper function
-	GetT() translations.TranslationHelperFunc
+			// Output the response
+			fmt.Println(response)
+			return nil
+		},
+	}
 
-	// GetFlags returns feature flags
-	GetFlags(ctx context.Context) FeatureFlags
+	// Create the tools command
+	toolsCmd = &cobra.Command{
+		Use:   "tools",
+		Short: "Access available tools",
+		Long:  "Contains all dynamically generated tool commands from the schema",
+	}
+)
 
-	// GetContentWindowSize returns the content window size for log truncation
-	GetContentWindowSize() int
+func main() {
+	rootCmd.AddCommand(schemaCmd)
 
-	// IsFeatureEnabled checks if a feature flag is enabled.
-	IsFeatureEnabled(ctx context.Context, flagName string) bool
-}
-
-// BaseDeps is the standard implementation of ToolDependencies for the local server.
-// It stores pre-created clients. The remote server can create its own struct
-// implementing ToolDependencies with different client creation strategies.
-type BaseDeps struct {
-	// Pre-created clients
-	Client    *gogithub.Client
-	GQLClient *githubv4.Client
-	RawClient *raw.Client
-
-	// Static dependencies
-	RepoAccessCache   *lockdown.RepoAccessCache
+	// Add global flag for stdio server command
+	rootCmd.PersistentFlags().String("stdio-server-cmd", "", "Shell command to invoke MCP server via stdio (required)")
 ```
 
 This function is important because it defines how GitHub MCP Server Tutorial: Production GitHub Operations Through MCP implements the patterns covered in this chapter.
 
-### `pkg/github/dependencies.go`
+### `cmd/mcpcurl/main.go`
 
-The `GetRepoAccessCache` function in [`pkg/github/dependencies.go`](https://github.com/github/github-mcp-server/blob/HEAD/pkg/github/dependencies.go) handles a key part of this chapter's functionality:
+The `executeServerCommand` function in [`cmd/mcpcurl/main.go`](https://github.com/github/github-mcp-server/blob/HEAD/cmd/mcpcurl/main.go) handles a key part of this chapter's functionality:
 
 ```go
-	GetRawClient(ctx context.Context) (*raw.Client, error)
 
-	// GetRepoAccessCache returns the lockdown mode repo access cache
-	GetRepoAccessCache(ctx context.Context) (*lockdown.RepoAccessCache, error)
+			// Execute the server command and pass the JSON-RPC request
+			response, err := executeServerCommand(serverCmd, jsonRequest)
+			if err != nil {
+				return fmt.Errorf("error executing server command: %w", err)
+			}
 
-	// GetT returns the translation helper function
-	GetT() translations.TranslationHelperFunc
+			// Output the response
+			fmt.Println(response)
+			return nil
+		},
+	}
 
-	// GetFlags returns feature flags
-	GetFlags(ctx context.Context) FeatureFlags
+	// Create the tools command
+	toolsCmd = &cobra.Command{
+		Use:   "tools",
+		Short: "Access available tools",
+		Long:  "Contains all dynamically generated tool commands from the schema",
+	}
+)
 
-	// GetContentWindowSize returns the content window size for log truncation
-	GetContentWindowSize() int
+func main() {
+	rootCmd.AddCommand(schemaCmd)
 
-	// IsFeatureEnabled checks if a feature flag is enabled.
-	IsFeatureEnabled(ctx context.Context, flagName string) bool
-}
+	// Add global flag for stdio server command
+	rootCmd.PersistentFlags().String("stdio-server-cmd", "", "Shell command to invoke MCP server via stdio (required)")
+	_ = rootCmd.MarkPersistentFlagRequired("stdio-server-cmd")
 
-// BaseDeps is the standard implementation of ToolDependencies for the local server.
-// It stores pre-created clients. The remote server can create its own struct
-// implementing ToolDependencies with different client creation strategies.
-type BaseDeps struct {
-	// Pre-created clients
-	Client    *gogithub.Client
-	GQLClient *githubv4.Client
-	RawClient *raw.Client
+	// Add global flag for pretty printing
+	rootCmd.PersistentFlags().Bool("pretty", true, "Pretty print MCP response (only for JSON or JSONL responses)")
 
-	// Static dependencies
-	RepoAccessCache   *lockdown.RepoAccessCache
-	T                 translations.TranslationHelperFunc
-	Flags             FeatureFlags
-	ContentWindowSize int
+	// Add the tools command to the root command
 ```
 
 This function is important because it defines how GitHub MCP Server Tutorial: Production GitHub Operations Through MCP implements the patterns covered in this chapter.
 
-### `pkg/github/dependencies.go`
+### `cmd/mcpcurl/main.go`
 
-The `GetT` function in [`pkg/github/dependencies.go`](https://github.com/github/github-mcp-server/blob/HEAD/pkg/github/dependencies.go) handles a key part of this chapter's functionality:
+The `printResponse` function in [`cmd/mcpcurl/main.go`](https://github.com/github/github-mcp-server/blob/HEAD/cmd/mcpcurl/main.go) handles a key part of this chapter's functionality:
 
 ```go
-	GetRepoAccessCache(ctx context.Context) (*lockdown.RepoAccessCache, error)
+				return
+			}
+			if err := printResponse(response, prettyPrint); err != nil {
+				_, _ = fmt.Fprintf(os.Stderr, "error printing response: %v\n", err)
+				return
+			}
+		},
+	}
 
-	// GetT returns the translation helper function
-	GetT() translations.TranslationHelperFunc
+	// Initialize viper for this command
+	viperInit := func() {
+		viper.Reset()
+		viper.AutomaticEnv()
+		viper.SetEnvPrefix(strings.ToUpper(tool.Name))
+		viper.SetEnvKeyReplacer(strings.NewReplacer("-", "_"))
+	}
 
-	// GetFlags returns feature flags
-	GetFlags(ctx context.Context) FeatureFlags
+	// We'll call the init function directly instead of with cobra.OnInitialize
+	// to avoid conflicts between commands
+	viperInit()
 
-	// GetContentWindowSize returns the content window size for log truncation
-	GetContentWindowSize() int
+	// Add flags based on schema properties
+	for name, prop := range tool.InputSchema.Properties {
+		isRequired := slices.Contains(tool.InputSchema.Required, name)
 
-	// IsFeatureEnabled checks if a feature flag is enabled.
-	IsFeatureEnabled(ctx context.Context, flagName string) bool
-}
+		// Enhance description to indicate if parameter is optional
+		description := prop.Description
+		if !isRequired {
+			description += " (optional)"
+		}
 
-// BaseDeps is the standard implementation of ToolDependencies for the local server.
-// It stores pre-created clients. The remote server can create its own struct
-// implementing ToolDependencies with different client creation strategies.
-type BaseDeps struct {
-	// Pre-created clients
-	Client    *gogithub.Client
-	GQLClient *githubv4.Client
-	RawClient *raw.Client
-
-	// Static dependencies
-	RepoAccessCache   *lockdown.RepoAccessCache
-	T                 translations.TranslationHelperFunc
-	Flags             FeatureFlags
-	ContentWindowSize int
-
-	// Feature flag checker for runtime checks
-	featureChecker inventory.FeatureFlagChecker
+		switch prop.Type {
 ```
 
 This function is important because it defines how GitHub MCP Server Tutorial: Production GitHub Operations Through MCP implements the patterns covered in this chapter.
@@ -214,11 +212,11 @@ This function is important because it defines how GitHub MCP Server Tutorial: Pr
 
 ```mermaid
 flowchart TD
-    A[GetGQLClient]
-    B[GetRawClient]
-    C[GetRepoAccessCache]
-    D[GetT]
-    E[GetFlags]
+    A[buildArgumentsMap]
+    B[buildJSONRPCRequest]
+    C[executeServerCommand]
+    D[printResponse]
+    E[values]
     A --> B
     B --> C
     C --> D

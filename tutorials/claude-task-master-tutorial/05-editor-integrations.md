@@ -454,9 +454,30 @@ jobs:
 }
 ```
 
+## Editor Integration Architecture
+
+```mermaid
+flowchart TD
+    A[Editor: Cursor, Windsurf, VS Code, Claude Code]
+    B[MCP server configured in editor settings]
+    C[task-master MCP server starts]
+    D[Editor AI can call task-master tools via MCP]
+    E[get_tasks returns current task list]
+    F[next_task suggests what to work on]
+    G[update_subtask records implementation notes]
+    H[set_task_status marks tasks complete]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    D --> F
+    D --> G
+    D --> H
+```
+
 ## What We've Accomplished
 
-Congratulations! 🎉 You've mastered editor integrations with Task Master:
+You've mastered editor integrations with Task Master:
 
 1. **Cursor Integration** - Seamless MCP setup and workflow integration
 2. **Windsurf Integration** - AI-powered development environment integration

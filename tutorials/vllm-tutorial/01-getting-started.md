@@ -582,6 +582,16 @@ Under the hood, `Chapter 1: Getting Started with vLLM` usually follows a repeata
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
+## Architecture Flow
+
+```mermaid
+flowchart LR
+    A[pip install vllm] --> B[LLM model loaded]
+    B --> C[SamplingParams configured]
+    C --> D[llm.generate called]
+    D --> E[Completion tokens returned]
+```
+
 ## Source Walkthrough
 
 Use the following upstream sources to verify implementation details while reading this chapter:

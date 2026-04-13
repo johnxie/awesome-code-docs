@@ -39,170 +39,159 @@ You now have a migration-first framework for managing deprecated coding-agent in
 
 Next: [Chapter 8: Contribution, Legacy Support, and Next Steps](08-contribution-legacy-support-and-next-steps.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `agent/utils/sandbox_paths.py`
+### `agent/utils/authorship.py`
 
-The `aresolve_repo_dir` function in [`agent/utils/sandbox_paths.py`](https://github.com/langchain-ai/open-swe/blob/HEAD/agent/utils/sandbox_paths.py) handles a key part of this chapter's functionality:
+The `add_user_coauthor_trailer` function in [`agent/utils/authorship.py`](https://github.com/langchain-ai/open-swe/blob/HEAD/agent/utils/authorship.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-async def aresolve_repo_dir(sandbox_backend: SandboxBackendProtocol, repo_name: str) -> str:
-    """Async wrapper around resolve_repo_dir for use in event-loop code."""
-    return await asyncio.to_thread(resolve_repo_dir, sandbox_backend, repo_name)
+def add_user_coauthor_trailer(
+    commit_message: str,
+    identity: CollaboratorIdentity | None,
+) -> str:
+    """Append a Co-authored-by trailer when a user identity is available."""
+    normalized_message = commit_message.rstrip()
+    if not identity:
+        return normalized_message
+
+    trailer = f"Co-authored-by: {identity.commit_name} <{identity.commit_email}>"
+    if trailer in normalized_message:
+        return normalized_message
+    return f"{normalized_message}\n\n{trailer}"
 
 
-def resolve_sandbox_work_dir(sandbox_backend: SandboxBackendProtocol) -> str:
-    """Resolve a writable base directory for repository operations."""
-    cached_work_dir = getattr(sandbox_backend, _WORK_DIR_CACHE_ATTR, None)
-    if isinstance(cached_work_dir, str) and cached_work_dir:
-        return cached_work_dir
+def add_pr_collaboration_note(
+    pr_body: str,
+    identity: CollaboratorIdentity | None,
+) -> str:
+    """Append a best-effort PR attribution note.
 
-    checked_candidates: list[str] = []
-    for candidate in _iter_work_dir_candidates(sandbox_backend):
-        checked_candidates.append(candidate)
-        if _is_writable_directory(sandbox_backend, candidate):
-            _cache_work_dir(sandbox_backend, candidate)
-            return candidate
+    GitHub supports commit co-authors, but not PR co-authors. This note makes
+    the collaboration explicit in the automatically-opened PR body.
+    """
 
-    msg = "Failed to resolve a writable sandbox work directory"
-    if checked_candidates:
-        msg = f"{msg}. Candidates checked: {', '.join(checked_candidates)}"
-    raise RuntimeError(msg)
+    normalized_body = pr_body.rstrip()
+    if not identity:
+        return normalized_body
 
-
-async def aresolve_sandbox_work_dir(sandbox_backend: SandboxBackendProtocol) -> str:
-    """Async wrapper around resolve_sandbox_work_dir for use in event-loop code."""
-    return await asyncio.to_thread(resolve_sandbox_work_dir, sandbox_backend)
-
-
-def _iter_work_dir_candidates(
+    note = f"_Opened collaboratively by {identity.display_name} and open-swe._"
 ```
 
 This function is important because it defines how Open SWE Tutorial: Asynchronous Cloud Coding Agent Architecture and Migration Playbook implements the patterns covered in this chapter.
 
-### `agent/utils/sandbox_paths.py`
+### `agent/utils/authorship.py`
 
-The `resolve_sandbox_work_dir` function in [`agent/utils/sandbox_paths.py`](https://github.com/langchain-ai/open-swe/blob/HEAD/agent/utils/sandbox_paths.py) handles a key part of this chapter's functionality:
+The `add_pr_collaboration_note` function in [`agent/utils/authorship.py`](https://github.com/langchain-ai/open-swe/blob/HEAD/agent/utils/authorship.py) handles a key part of this chapter's functionality:
 
 ```py
-        raise ValueError("repo_name must be a non-empty string")
-
-    work_dir = resolve_sandbox_work_dir(sandbox_backend)
-    return posixpath.join(work_dir, repo_name)
 
 
-async def aresolve_repo_dir(sandbox_backend: SandboxBackendProtocol, repo_name: str) -> str:
-    """Async wrapper around resolve_repo_dir for use in event-loop code."""
-    return await asyncio.to_thread(resolve_repo_dir, sandbox_backend, repo_name)
+def add_pr_collaboration_note(
+    pr_body: str,
+    identity: CollaboratorIdentity | None,
+) -> str:
+    """Append a best-effort PR attribution note.
 
+    GitHub supports commit co-authors, but not PR co-authors. This note makes
+    the collaboration explicit in the automatically-opened PR body.
+    """
 
-def resolve_sandbox_work_dir(sandbox_backend: SandboxBackendProtocol) -> str:
-    """Resolve a writable base directory for repository operations."""
-    cached_work_dir = getattr(sandbox_backend, _WORK_DIR_CACHE_ATTR, None)
-    if isinstance(cached_work_dir, str) and cached_work_dir:
-        return cached_work_dir
+    normalized_body = pr_body.rstrip()
+    if not identity:
+        return normalized_body
 
-    checked_candidates: list[str] = []
-    for candidate in _iter_work_dir_candidates(sandbox_backend):
-        checked_candidates.append(candidate)
-        if _is_writable_directory(sandbox_backend, candidate):
-            _cache_work_dir(sandbox_backend, candidate)
-            return candidate
+    note = f"_Opened collaboratively by {identity.display_name} and open-swe._"
+    if note in normalized_body:
+        return normalized_body
+    if not normalized_body:
+        return note
+    return f"{normalized_body}\n\n{note}"
 
-    msg = "Failed to resolve a writable sandbox work directory"
-    if checked_candidates:
-        msg = f"{msg}. Candidates checked: {', '.join(checked_candidates)}"
-    raise RuntimeError(msg)
-
-
-async def aresolve_sandbox_work_dir(sandbox_backend: SandboxBackendProtocol) -> str:
-    """Async wrapper around resolve_sandbox_work_dir for use in event-loop code."""
 ```
 
 This function is important because it defines how Open SWE Tutorial: Asynchronous Cloud Coding Agent Architecture and Migration Playbook implements the patterns covered in this chapter.
 
-### `agent/utils/sandbox_paths.py`
+### `agent/middleware/open_pr.py`
 
-The `aresolve_sandbox_work_dir` function in [`agent/utils/sandbox_paths.py`](https://github.com/langchain-ai/open-swe/blob/HEAD/agent/utils/sandbox_paths.py) handles a key part of this chapter's functionality:
+The `open_pr_if_needed` function in [`agent/middleware/open_pr.py`](https://github.com/langchain-ai/open-swe/blob/HEAD/agent/middleware/open_pr.py) handles a key part of this chapter's functionality:
 
 ```py
 
+@after_agent
+async def open_pr_if_needed(
+    state: AgentState,
+    runtime: Runtime,
+) -> dict[str, Any] | None:
+    """Middleware that commits/pushes changes after agent runs if `commit_and_open_pr` tool didn't."""
+    logger.info("After-agent middleware started")
 
-async def aresolve_sandbox_work_dir(sandbox_backend: SandboxBackendProtocol) -> str:
-    """Async wrapper around resolve_sandbox_work_dir for use in event-loop code."""
-    return await asyncio.to_thread(resolve_sandbox_work_dir, sandbox_backend)
+    try:
+        config = get_config()
+        configurable = config.get("configurable", {})
+        thread_id = configurable.get("thread_id")
+        logger.debug("Middleware running for thread %s", thread_id)
 
+        messages = state.get("messages", [])
+        pr_payload = _extract_pr_params_from_messages(messages)
 
-def _iter_work_dir_candidates(
-    sandbox_backend: SandboxBackendProtocol,
-) -> Iterable[str]:
-    seen: set[str] = set()
+        if not pr_payload:
+            logger.info("No commit_and_open_pr tool call found, skipping PR creation")
+            return None
 
-    for candidate in _iter_provider_paths(sandbox_backend, "get_work_dir"):
-        if candidate not in seen:
-            seen.add(candidate)
-            yield candidate
+        if "success" in pr_payload:
+            # Tool already handled commit/push/PR creation
+            return None
 
-    shell_work_dir = _resolve_shell_path(sandbox_backend, "pwd")
-    if shell_work_dir and shell_work_dir not in seen:
-        seen.add(shell_work_dir)
-        yield shell_work_dir
-
-    for candidate in _iter_provider_paths(
-        sandbox_backend,
-        "get_user_home_dir",
-        "get_user_root_dir",
-    ):
-        if candidate not in seen:
-            seen.add(candidate)
-            yield candidate
-
-    shell_home_dir = _resolve_shell_path(sandbox_backend, "printf '%s' \"$HOME\"")
+        pr_title = pr_payload.get("title", "feat: Open SWE PR")
+        pr_body = pr_payload.get("body", "Automated PR created by Open SWE agent.")
+        commit_message = pr_payload.get("commit_message", pr_title)
+        github_token = get_github_token()
+        user_identity = await asyncio.to_thread(
+            resolve_triggering_user_identity, config, github_token
 ```
 
 This function is important because it defines how Open SWE Tutorial: Asynchronous Cloud Coding Agent Architecture and Migration Playbook implements the patterns covered in this chapter.
 
-### `agent/middleware/ensure_no_empty_msg.py`
+### `agent/utils/linear.py`
 
-The `get_every_message_since_last_human` function in [`agent/middleware/ensure_no_empty_msg.py`](https://github.com/langchain-ai/open-swe/blob/HEAD/agent/middleware/ensure_no_empty_msg.py) handles a key part of this chapter's functionality:
+The `comment_on_linear_issue` function in [`agent/utils/linear.py`](https://github.com/langchain-ai/open-swe/blob/HEAD/agent/utils/linear.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def get_every_message_since_last_human(state: AgentState) -> list[AnyMessage]:
-    messages = state["messages"]
-    last_human_idx = -1
-    for i in range(len(messages) - 1, -1, -1):
-        if messages[i].type == "human":
-            last_human_idx = i
-            break
-    return messages[last_human_idx + 1 :]
+async def comment_on_linear_issue(
+    issue_id: str, comment_body: str, parent_id: str | None = None
+) -> bool:
+    """Add a comment to a Linear issue, optionally as a reply to a specific comment."""
+    mutation = """
+    mutation CommentCreate($issueId: String!, $body: String!, $parentId: String) {
+        commentCreate(input: { issueId: $issueId, body: $body, parentId: $parentId }) {
+            success
+            comment { id }
+        }
+    }
+    """
+    result = await _graphql_request(
+        mutation,
+        {"issueId": issue_id, "body": comment_body, "parentId": parent_id},
+    )
+    return bool(result.get("commentCreate", {}).get("success"))
 
 
-def check_if_model_already_called_commit_and_open_pr(messages: list[AnyMessage]) -> bool:
-    for msg in messages:
-        if msg.type == "tool" and msg.name == "commit_and_open_pr":
-            return True
-    return False
+async def post_linear_trace_comment(issue_id: str, run_id: str, triggering_comment_id: str) -> None:
+    """Post a trace URL comment on a Linear issue."""
+    trace_url = get_langsmith_trace_url(run_id)
+    if trace_url:
+        await comment_on_linear_issue(
+            issue_id,
+            f"On it! [View trace]({trace_url})",
+            parent_id=triggering_comment_id or None,
+        )
 
 
-def check_if_model_messaged_user(messages: list[AnyMessage]) -> bool:
-    for msg in messages:
-        if msg.type == "tool" and msg.name in [
-            "slack_thread_reply",
-            "linear_comment",
-            "github_comment",
-        ]:
-            return True
-    return False
-
-
-def check_if_confirming_completion(messages: list[AnyMessage]) -> bool:
-    for msg in messages:
 ```
 
 This function is important because it defines how Open SWE Tutorial: Asynchronous Cloud Coding Agent Architecture and Migration Playbook implements the patterns covered in this chapter.
@@ -212,11 +201,11 @@ This function is important because it defines how Open SWE Tutorial: Asynchronou
 
 ```mermaid
 flowchart TD
-    A[aresolve_repo_dir]
-    B[resolve_sandbox_work_dir]
-    C[aresolve_sandbox_work_dir]
-    D[get_every_message_since_last_human]
-    E[check_if_model_already_called_commit_and_open_pr]
+    A[add_user_coauthor_trailer]
+    B[add_pr_collaboration_note]
+    C[open_pr_if_needed]
+    D[comment_on_linear_issue]
+    E[post_linear_trace_comment]
     A --> B
     B --> C
     C --> D

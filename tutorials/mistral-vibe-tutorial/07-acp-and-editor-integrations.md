@@ -30,184 +30,178 @@ You now have a clear model for connecting Vibe to ACP-capable editor environment
 
 Next: [Chapter 8: Production Operations and Governance](08-production-operations-and-governance.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `vibe/cli/cli.py`
+### `vibe/core/middleware.py`
 
-The `get_initial_agent_name` function in [`vibe/cli/cli.py`](https://github.com/mistralai/mistral-vibe/blob/HEAD/vibe/cli/cli.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-def get_initial_agent_name(args: argparse.Namespace) -> str:
-    if args.prompt is not None and args.agent == BuiltinAgentName.DEFAULT:
-        return BuiltinAgentName.AUTO_APPROVE
-    return args.agent
-
-
-def get_prompt_from_stdin() -> str | None:
-    if sys.stdin.isatty():
-        return None
-    try:
-        if content := sys.stdin.read().strip():
-            sys.stdin = sys.__stdin__ = open("/dev/tty")
-            return content
-    except KeyboardInterrupt:
-        pass
-    except OSError:
-        return None
-
-    return None
-
-
-def load_config_or_exit() -> VibeConfig:
-    try:
-        return VibeConfig.load()
-    except MissingAPIKeyError:
-        run_onboarding()
-        return VibeConfig.load()
-    except MissingPromptFileError as e:
-        rprint(f"[yellow]Invalid system prompt id: {e}[/]")
-        sys.exit(1)
-```
-
-This function is important because it defines how Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral implements the patterns covered in this chapter.
-
-### `vibe/cli/cli.py`
-
-The `get_prompt_from_stdin` function in [`vibe/cli/cli.py`](https://github.com/mistralai/mistral-vibe/blob/HEAD/vibe/cli/cli.py) handles a key part of this chapter's functionality:
+The `MiddlewarePipeline` class in [`vibe/core/middleware.py`](https://github.com/mistralai/mistral-vibe/blob/HEAD/vibe/core/middleware.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def get_prompt_from_stdin() -> str | None:
-    if sys.stdin.isatty():
-        return None
-    try:
-        if content := sys.stdin.read().strip():
-            sys.stdin = sys.__stdin__ = open("/dev/tty")
-            return content
-    except KeyboardInterrupt:
-        pass
-    except OSError:
-        return None
+class MiddlewarePipeline:
+    def __init__(self) -> None:
+        self.middlewares: list[ConversationMiddleware] = []
 
-    return None
+    def add(self, middleware: ConversationMiddleware) -> MiddlewarePipeline:
+        self.middlewares.append(middleware)
+        return self
 
+    def clear(self) -> None:
+        self.middlewares.clear()
 
-def load_config_or_exit() -> VibeConfig:
-    try:
-        return VibeConfig.load()
-    except MissingAPIKeyError:
-        run_onboarding()
-        return VibeConfig.load()
-    except MissingPromptFileError as e:
-        rprint(f"[yellow]Invalid system prompt id: {e}[/]")
-        sys.exit(1)
-    except ValueError as e:
-        rprint(f"[yellow]{e}[/]")
-        sys.exit(1)
+    def reset(self, reset_reason: ResetReason = ResetReason.STOP) -> None:
+        for mw in self.middlewares:
+            mw.reset(reset_reason)
 
+    async def run_before_turn(self, context: ConversationContext) -> MiddlewareResult:
+        messages_to_inject = []
 
-def bootstrap_config_files() -> None:
+        for mw in self.middlewares:
+            result = await mw.before_turn(context)
+            if result.action == MiddlewareAction.INJECT_MESSAGE and result.message:
+                messages_to_inject.append(result.message)
+            elif result.action in {MiddlewareAction.STOP, MiddlewareAction.COMPACT}:
+                return result
+        if messages_to_inject:
+            combined_message = "\n\n".join(messages_to_inject)
+            return MiddlewareResult(
+                action=MiddlewareAction.INJECT_MESSAGE, message=combined_message
+            )
+
 ```
 
-This function is important because it defines how Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral implements the patterns covered in this chapter.
+This class is important because it defines how Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral implements the patterns covered in this chapter.
 
-### `vibe/cli/cli.py`
+### `vibe/core/middleware.py`
 
-The `load_config_or_exit` function in [`vibe/cli/cli.py`](https://github.com/mistralai/mistral-vibe/blob/HEAD/vibe/cli/cli.py) handles a key part of this chapter's functionality:
+The `make_plan_agent_reminder` function in [`vibe/core/middleware.py`](https://github.com/mistralai/mistral-vibe/blob/HEAD/vibe/core/middleware.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def load_config_or_exit() -> VibeConfig:
-    try:
-        return VibeConfig.load()
-    except MissingAPIKeyError:
-        run_onboarding()
-        return VibeConfig.load()
-    except MissingPromptFileError as e:
-        rprint(f"[yellow]Invalid system prompt id: {e}[/]")
-        sys.exit(1)
-    except ValueError as e:
-        rprint(f"[yellow]{e}[/]")
-        sys.exit(1)
+def make_plan_agent_reminder(plan_file_path: str) -> str:
+    return f"""<{VIBE_WARNING_TAG}>Plan mode is active. You MUST NOT make any edits (except to the plan file below), run any non-readonly tools (including changing configs or making commits), or otherwise make any changes to the system. This supersedes any other instructions you have received.
+
+## Plan File Info
+Create or edit your plan at {plan_file_path} using the write_file and search_replace tools.
+Build your plan incrementally by writing to or editing this file.
+This is the only file you are allowed to edit. Make sure to create it early and edit as soon as you internally update your plan.
+
+## Instructions
+1. Research the user's query using read-only tools (grep, read_file, etc.)
+2. If you are unsure about requirements or approach, use the ask_user_question tool to clarify before finalizing your plan
+3. Write your plan to the plan file above
+4. When your plan is complete, call the exit_plan_mode tool to request user approval and switch to implementation mode</{VIBE_WARNING_TAG}>"""
 
 
-def bootstrap_config_files() -> None:
-    mgr = get_harness_files_manager()
-    config_file = mgr.user_config_file
-    if not config_file.exists():
-        try:
-            config_file.parent.mkdir(parents=True, exist_ok=True)
-            with config_file.open("wb") as f:
-                tomli_w.dump(VibeConfig.create_default(), f)
-        except Exception as e:
-            rprint(f"[yellow]Could not create default config file: {e}[/]")
+PLAN_AGENT_EXIT = f"""<{VIBE_WARNING_TAG}>Plan mode has ended. If you have a plan ready, you can now start executing it. If not, you can now use editing tools and make changes to the system.</{VIBE_WARNING_TAG}>"""
 
-    history_file = HISTORY_FILE.path
-    if not history_file.exists():
-        try:
-            history_file.parent.mkdir(parents=True, exist_ok=True)
-            history_file.write_text("Hello Vibe!\n", "utf-8")
+CHAT_AGENT_REMINDER = f"""<{VIBE_WARNING_TAG}>Chat mode is active. The user wants to have a conversation -- ask questions, get explanations, or discuss code and architecture. You MUST NOT make any edits, run any non-readonly tools, or otherwise make any changes to the system. This supersedes any other instructions you have received. Instead, you should:
+1. Answer the user's questions directly and comprehensively
+2. Explain code, concepts, or architecture as requested
+3. Use read-only tools (grep, read_file) to look up relevant code when needed
+4. Focus on being informative and conversational -- your response IS the deliverable, not a precursor to action</{VIBE_WARNING_TAG}>"""
+
+CHAT_AGENT_EXIT = f"""<{VIBE_WARNING_TAG}>Chat mode has ended. You can now use editing tools and make changes to the system.</{VIBE_WARNING_TAG}>"""
+
+
+class ReadOnlyAgentMiddleware:
+    def __init__(
+        self,
+        profile_getter: Callable[[], AgentProfile],
 ```
 
 This function is important because it defines how Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral implements the patterns covered in this chapter.
 
-### `vibe/cli/cli.py`
+### `vibe/core/middleware.py`
 
-The `bootstrap_config_files` function in [`vibe/cli/cli.py`](https://github.com/mistralai/mistral-vibe/blob/HEAD/vibe/cli/cli.py) handles a key part of this chapter's functionality:
+The `import` interface in [`vibe/core/middleware.py`](https://github.com/mistralai/mistral-vibe/blob/HEAD/vibe/core/middleware.py) handles a key part of this chapter's functionality:
 
 ```py
+from __future__ import annotations
+
+from collections.abc import Callable
+from dataclasses import dataclass, field
+from enum import StrEnum, auto
+from typing import TYPE_CHECKING, Any, Protocol
+
+from vibe.core.agents import AgentProfile
+from vibe.core.utils import VIBE_WARNING_TAG
+
+if TYPE_CHECKING:
+    from vibe.core.config import VibeConfig
+    from vibe.core.types import AgentStats, MessageList
 
 
-def bootstrap_config_files() -> None:
-    mgr = get_harness_files_manager()
-    config_file = mgr.user_config_file
-    if not config_file.exists():
-        try:
-            config_file.parent.mkdir(parents=True, exist_ok=True)
-            with config_file.open("wb") as f:
-                tomli_w.dump(VibeConfig.create_default(), f)
-        except Exception as e:
-            rprint(f"[yellow]Could not create default config file: {e}[/]")
-
-    history_file = HISTORY_FILE.path
-    if not history_file.exists():
-        try:
-            history_file.parent.mkdir(parents=True, exist_ok=True)
-            history_file.write_text("Hello Vibe!\n", "utf-8")
-        except Exception as e:
-            rprint(f"[yellow]Could not create history file: {e}[/]")
+class MiddlewareAction(StrEnum):
+    CONTINUE = auto()
+    STOP = auto()
+    COMPACT = auto()
+    INJECT_MESSAGE = auto()
 
 
-def load_session(
-    args: argparse.Namespace, config: VibeConfig
-) -> tuple[list[LLMMessage], Path] | None:
-    if not args.continue_session and not args.resume:
-        return None
+class ResetReason(StrEnum):
+    STOP = auto()
+    COMPACT = auto()
 
-    if not config.session_logging.enabled:
-        rprint(
-            "[red]Session logging is disabled. "
-            "Enable it in config to use --continue or --resume[/]"
+
+@dataclass
+class ConversationContext:
+    messages: MessageList
 ```
 
-This function is important because it defines how Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral implements the patterns covered in this chapter.
+This interface is important because it defines how Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral implements the patterns covered in this chapter.
+
+### `vibe/cli/commands.py`
+
+The `import` class in [`vibe/cli/commands.py`](https://github.com/mistralai/mistral-vibe/blob/HEAD/vibe/cli/commands.py) handles a key part of this chapter's functionality:
+
+```py
+from __future__ import annotations
+
+from dataclasses import dataclass
+import sys
+
+ALT_KEY = "⌥" if sys.platform == "darwin" else "Alt"
+
+
+@dataclass
+class Command:
+    aliases: frozenset[str]
+    description: str
+    handler: str
+    exits: bool = False
+
+
+class CommandRegistry:
+    def __init__(self, excluded_commands: list[str] | None = None) -> None:
+        if excluded_commands is None:
+            excluded_commands = []
+        self.commands = {
+            "help": Command(
+                aliases=frozenset(["/help"]),
+                description="Show help message",
+                handler="_show_help",
+            ),
+            "config": Command(
+                aliases=frozenset(["/config"]),
+                description="Edit config settings",
+                handler="_show_config",
+```
+
+This class is important because it defines how Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[get_initial_agent_name]
-    B[get_prompt_from_stdin]
-    C[load_config_or_exit]
-    D[bootstrap_config_files]
-    E[load_session]
+    A[MiddlewarePipeline]
+    B[make_plan_agent_reminder]
+    C[import]
+    D[import]
+    E[class]
     A --> B
     B --> C
     C --> D

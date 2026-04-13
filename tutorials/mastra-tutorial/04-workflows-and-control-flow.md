@@ -44,170 +44,168 @@ You now know when and how to move from free-form agents to deterministic workflo
 
 Next: [Chapter 5: Memory, RAG, and Context](05-memory-rag-and-context.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `scripts/generate-package-docs.ts`
+### `explorations/network-validation-bridge.ts`
 
-The `parseIndexExports` function in [`scripts/generate-package-docs.ts`](https://github.com/mastra-ai/mastra/blob/HEAD/scripts/generate-package-docs.ts) handles a key part of this chapter's functionality:
-
-```ts
-}
-
-function parseIndexExports(indexPath: string): Map<string, { chunk: string; exportName: string }> {
-  const exports = new Map<string, { chunk: string; exportName: string }>();
-
-  if (!cachedExists(indexPath)) {
-    return exports;
-  }
-
-  const content = fs.readFileSync(indexPath, 'utf-8');
-
-  // Parse: export { Agent, TripWire } from '../chunk-IDD63DWQ.js';
-  const regex = /export\s*\{\s*([^}]+)\s*\}\s*from\s*['"]([^'"]+)['"]/g;
-  let match;
-
-  while ((match = regex.exec(content)) !== null) {
-    const names = match[1].split(',').map(n => n.trim().split(' as ')[0].trim());
-    const chunkPath = match[2];
-    const chunk = path.basename(chunkPath);
-
-    for (const name of names) {
-      if (name) {
-        exports.set(name, { chunk, exportName: name });
-      }
-    }
-  }
-
-  return exports;
-}
-
-function findExportLine(chunkPath: string, exportName: string): number | undefined {
-  const lines = getChunkLines(chunkPath);
-```
-
-This function is important because it defines how Mastra Tutorial: TypeScript Framework for AI Agents and Workflows implements the patterns covered in this chapter.
-
-### `scripts/generate-package-docs.ts`
-
-The `findExportLine` function in [`scripts/generate-package-docs.ts`](https://github.com/mastra-ai/mastra/blob/HEAD/scripts/generate-package-docs.ts) handles a key part of this chapter's functionality:
+The `customCheck` function in [`explorations/network-validation-bridge.ts`](https://github.com/mastra-ai/mastra/blob/HEAD/explorations/network-validation-bridge.ts) handles a key part of this chapter's functionality:
 
 ```ts
-}
-
-function findExportLine(chunkPath: string, exportName: string): number | undefined {
-  const lines = getChunkLines(chunkPath);
-  if (!lines) return undefined;
-
-  // Look for class or function definition
-  const patterns = [
-    new RegExp(`^var ${exportName} = class`),
-    new RegExp(`^function ${exportName}\\s*\\(`),
-    new RegExp(`^var ${exportName} = function`),
-    new RegExp(`^var ${exportName} = \\(`), // Arrow function
-    new RegExp(`^const ${exportName} = `),
-    new RegExp(`^let ${exportName} = `),
-  ];
-
-  for (let i = 0; i < lines.length; i++) {
-    for (const pattern of patterns) {
-      if (pattern.test(lines[i])) {
-        return i + 1; // 1-indexed
-      }
-    }
-  }
-
-  return undefined;
-}
-
-function generateSourceMap(packageRoot: string): SourceMap {
-  const distDir = path.join(packageRoot, 'dist');
-  const packageJson = getPackageJson(packageRoot);
-
-  const sourceMap: SourceMap = {
-```
-
-This function is important because it defines how Mastra Tutorial: TypeScript Framework for AI Agents and Workflows implements the patterns covered in this chapter.
-
-### `scripts/generate-package-docs.ts`
-
-The `generateSourceMap` function in [`scripts/generate-package-docs.ts`](https://github.com/mastra-ai/mastra/blob/HEAD/scripts/generate-package-docs.ts) handles a key part of this chapter's functionality:
-
-```ts
-}
-
-function generateSourceMap(packageRoot: string): SourceMap {
-  const distDir = path.join(packageRoot, 'dist');
-  const packageJson = getPackageJson(packageRoot);
-
-  const sourceMap: SourceMap = {
-    version: packageJson.version,
-    package: packageJson.name,
-    exports: {},
-    modules: {},
+ * Custom validation check from a function
+ */
+export function customCheck(
+  id: string,
+  name: string,
+  fn: () => Promise<{ success: boolean; message: string; details?: Record<string, unknown> }>,
+): ValidationCheck {
+  return {
+    id,
+    name,
+    async check() {
+      const start = Date.now();
+      const result = await fn();
+      return { ...result, duration: Date.now() - start };
+    },
   };
+}
 
-  // Default modules to analyze
-  const modules = [
-    'agent',
-    'tools',
-    'workflows',
-    'memory',
-    'stream',
-    'llm',
-    'mastra',
-    'mcp',
-    'evals',
-    'processors',
-    'storage',
-    'vector',
-    'voice',
-  ];
-
-  for (const mod of modules) {
-    const indexPath = path.join(distDir, mod, 'index.js');
+/**
+ * File exists check
+ */
+export function fileExists(path: string): ValidationCheck {
+  return {
+    id: `file-exists-${path}`,
+    name: `File Exists: ${path}`,
+    async check() {
+      const start = Date.now();
+      try {
+        const fs = await import('fs/promises');
+        await fs.access(path);
+        return {
+          success: true,
 ```
 
 This function is important because it defines how Mastra Tutorial: TypeScript Framework for AI Agents and Workflows implements the patterns covered in this chapter.
 
-### `scripts/generate-package-docs.ts`
+### `explorations/network-validation-bridge.ts`
 
-The `loadLlmsManifest` function in [`scripts/generate-package-docs.ts`](https://github.com/mastra-ai/mastra/blob/HEAD/scripts/generate-package-docs.ts) handles a key part of this chapter's functionality:
+The `fileExists` function in [`explorations/network-validation-bridge.ts`](https://github.com/mastra-ai/mastra/blob/HEAD/explorations/network-validation-bridge.ts) handles a key part of this chapter's functionality:
 
 ```ts
+ * File exists check
+ */
+export function fileExists(path: string): ValidationCheck {
+  return {
+    id: `file-exists-${path}`,
+    name: `File Exists: ${path}`,
+    async check() {
+      const start = Date.now();
+      try {
+        const fs = await import('fs/promises');
+        await fs.access(path);
+        return {
+          success: true,
+          message: `File ${path} exists`,
+          duration: Date.now() - start,
+        };
+      } catch {
+        return {
+          success: false,
+          message: `File ${path} does not exist`,
+          duration: Date.now() - start,
+        };
+      }
+    },
+  };
 }
 
-function loadLlmsManifest(): LlmsManifest {
-  const manifestPath = path.join(MONOREPO_ROOT, 'docs/build/llms-manifest.json');
-  if (!cachedExists(manifestPath)) {
-    throw new Error('docs/build/llms-manifest.json not found. Run docs build first.');
+/**
+ * File contains pattern check
+ */
+export function fileContains(path: string, pattern: string | RegExp): ValidationCheck {
+  return {
+```
+
+This function is important because it defines how Mastra Tutorial: TypeScript Framework for AI Agents and Workflows implements the patterns covered in this chapter.
+
+### `explorations/network-validation-bridge.ts`
+
+The `fileContains` function in [`explorations/network-validation-bridge.ts`](https://github.com/mastra-ai/mastra/blob/HEAD/explorations/network-validation-bridge.ts) handles a key part of this chapter's functionality:
+
+```ts
+ * File contains pattern check
+ */
+export function fileContains(path: string, pattern: string | RegExp): ValidationCheck {
+  return {
+    id: `file-contains-${path}`,
+    name: `File Contains Pattern: ${path}`,
+    async check() {
+      const start = Date.now();
+      try {
+        const fs = await import('fs/promises');
+        const content = await fs.readFile(path, 'utf-8');
+        const matches = typeof pattern === 'string' ? content.includes(pattern) : pattern.test(content);
+
+        return {
+          success: matches,
+          message: matches
+            ? `File ${path} contains expected pattern`
+            : `File ${path} does not contain expected pattern`,
+          duration: Date.now() - start,
+        };
+      } catch (error: any) {
+        return {
+          success: false,
+          message: `Could not read file ${path}: ${error.message}`,
+          duration: Date.now() - start,
+        };
+      }
+    },
+  };
+}
+
+// ============================================================================
+```
+
+This function is important because it defines how Mastra Tutorial: TypeScript Framework for AI Agents and Workflows implements the patterns covered in this chapter.
+
+### `explorations/network-validation-bridge.ts`
+
+The `runValidation` function in [`explorations/network-validation-bridge.ts`](https://github.com/mastra-ai/mastra/blob/HEAD/explorations/network-validation-bridge.ts) handles a key part of this chapter's functionality:
+
+```ts
+// ============================================================================
+
+async function runValidation(
+  config: NetworkValidationConfig,
+): Promise<{ passed: boolean; results: ValidationResult[] }> {
+  const results: ValidationResult[] = [];
+
+  if (config.parallel) {
+    // Run all checks in parallel
+    const checkResults = await Promise.all(config.checks.map(check => check.check()));
+    results.push(...checkResults);
+  } else {
+    // Run checks sequentially (can short-circuit on failure for 'all' strategy)
+    for (const check of config.checks) {
+      const result = await check.check();
+      results.push(result);
+
+      // Short-circuit for 'all' strategy if a check fails
+      if (config.strategy === 'all' && !result.success) {
+        break;
+      }
+      // Short-circuit for 'any' strategy if a check passes
+      if (config.strategy === 'any' && result.success) {
+        break;
+      }
+    }
   }
-  return JSON.parse(fs.readFileSync(manifestPath, 'utf-8'));
+
+  const passed = config.strategy === 'all' ? results.every(r => r.success) : results.some(r => r.success);
+
+  return { passed, results };
 }
-
-function generateFlatFileName(entry: ManifestEntry): string {
-  // Convert: { category: "docs", folderPath: "agents/adding-voice" }
-  // To: "docs-agents-adding-voice.md"
-
-  if (!entry.folderPath) {
-    // Root level doc: just use category
-    return `${entry.category}.md`;
-  }
-
-  const pathPart = entry.folderPath.replace(/\//g, '-');
-  return `${entry.category}-${pathPart}.md`;
-}
-
-function generateSkillMd(packageName: string, version: string, entries: ManifestEntry[]): string {
-  // Generate compliant name: lowercase, hyphens, max 64 chars
-  // "@mastra/core" -> "mastra-core"
-  const skillName = packageName.replace('@', '').replace('/', '-').toLowerCase();
-
-  // Generate description (max 1024 chars)
-  const description = `Documentation for ${packageName}. Use when working with ${packageName} APIs, configuration, or implementation.`;
-
-  // Group entries by category
 ```
 
 This function is important because it defines how Mastra Tutorial: TypeScript Framework for AI Agents and Workflows implements the patterns covered in this chapter.
@@ -217,11 +215,11 @@ This function is important because it defines how Mastra Tutorial: TypeScript Fr
 
 ```mermaid
 flowchart TD
-    A[parseIndexExports]
-    B[findExportLine]
-    C[generateSourceMap]
-    D[loadLlmsManifest]
-    E[generateFlatFileName]
+    A[customCheck]
+    B[fileExists]
+    C[fileContains]
+    D[runValidation]
+    E[createValidationTools]
     A --> B
     B --> C
     C --> D

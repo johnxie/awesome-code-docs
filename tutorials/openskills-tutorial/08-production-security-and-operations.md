@@ -24,102 +24,76 @@ This chapter defines the baseline for operating OpenSkills at team scale.
 
 You now have an operations baseline for enterprise-grade skill distribution.
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `src/utils/skill-metadata.ts`
+### `src/utils/skills.ts`
 
-The `readSkillMetadata` function in [`src/utils/skill-metadata.ts`](https://github.com/numman-ali/openskills/blob/HEAD/src/utils/skill-metadata.ts) handles a key part of this chapter's functionality:
+The `findAllSkills` function in [`src/utils/skills.ts`](https://github.com/numman-ali/openskills/blob/HEAD/src/utils/skills.ts) handles a key part of this chapter's functionality:
 
 ```ts
-}
+ * Find all installed skills across directories
+ */
+export function findAllSkills(): Skill[] {
+  const skills: Skill[] = [];
+  const seen = new Set<string>();
+  const dirs = getSearchDirs();
 
-export function readSkillMetadata(skillDir: string): SkillSourceMetadata | null {
-  const metadataPath = join(skillDir, SKILL_METADATA_FILE);
-  if (!existsSync(metadataPath)) return null;
+  for (const dir of dirs) {
+    if (!existsSync(dir)) continue;
 
-  try {
-    const raw = readFileSync(metadataPath, 'utf-8');
-    return JSON.parse(raw) as SkillSourceMetadata;
-  } catch {
-    return null;
+    const entries = readdirSync(dir, { withFileTypes: true });
+
+    for (const entry of entries) {
+      if (isDirectoryOrSymlinkToDirectory(entry, dir)) {
+        // Deduplicate: only add if we haven't seen this skill name yet
+        if (seen.has(entry.name)) continue;
+
+        const skillPath = join(dir, entry.name, 'SKILL.md');
+        if (existsSync(skillPath)) {
+          const content = readFileSync(skillPath, 'utf-8');
+          const isProjectLocal = dir.includes(process.cwd());
+
+          skills.push({
+            name: entry.name,
+            description: extractYamlField(content, 'description'),
+            location: isProjectLocal ? 'project' : 'global',
+            path: join(dir, entry.name),
+          });
+
+          seen.add(entry.name);
+        }
+      }
+```
+
+This function is important because it defines how OpenSkills Tutorial: Universal Skill Loading for Coding Agents implements the patterns covered in this chapter.
+
+### `src/utils/skills.ts`
+
+The `findSkill` function in [`src/utils/skills.ts`](https://github.com/numman-ali/openskills/blob/HEAD/src/utils/skills.ts) handles a key part of this chapter's functionality:
+
+```ts
+ * Find specific skill by name
+ */
+export function findSkill(skillName: string): SkillLocation | null {
+  const dirs = getSearchDirs();
+
+  for (const dir of dirs) {
+    const skillPath = join(dir, skillName, 'SKILL.md');
+    if (existsSync(skillPath)) {
+      return {
+        path: skillPath,
+        baseDir: join(dir, skillName),
+        source: dir,
+      };
+    }
   }
-}
 
-export function writeSkillMetadata(skillDir: string, metadata: SkillSourceMetadata): void {
-  const metadataPath = join(skillDir, SKILL_METADATA_FILE);
-  const payload = {
-    ...metadata,
-    installedAt: metadata.installedAt || new Date().toISOString(),
-  };
-  writeFileSync(metadataPath, JSON.stringify(payload, null, 2));
+  return null;
 }
 
 ```
 
 This function is important because it defines how OpenSkills Tutorial: Universal Skill Loading for Coding Agents implements the patterns covered in this chapter.
-
-### `src/utils/skill-metadata.ts`
-
-The `writeSkillMetadata` function in [`src/utils/skill-metadata.ts`](https://github.com/numman-ali/openskills/blob/HEAD/src/utils/skill-metadata.ts) handles a key part of this chapter's functionality:
-
-```ts
-}
-
-export function writeSkillMetadata(skillDir: string, metadata: SkillSourceMetadata): void {
-  const metadataPath = join(skillDir, SKILL_METADATA_FILE);
-  const payload = {
-    ...metadata,
-    installedAt: metadata.installedAt || new Date().toISOString(),
-  };
-  writeFileSync(metadataPath, JSON.stringify(payload, null, 2));
-}
-
-```
-
-This function is important because it defines how OpenSkills Tutorial: Universal Skill Loading for Coding Agents implements the patterns covered in this chapter.
-
-### `src/utils/skill-metadata.ts`
-
-The `SkillSourceMetadata` interface in [`src/utils/skill-metadata.ts`](https://github.com/numman-ali/openskills/blob/HEAD/src/utils/skill-metadata.ts) handles a key part of this chapter's functionality:
-
-```ts
-export type SkillSourceType = 'git' | 'github' | 'local';
-
-export interface SkillSourceMetadata {
-  source: string;
-  sourceType: SkillSourceType;
-  repoUrl?: string;
-  subpath?: string;
-  localPath?: string;
-  installedAt: string;
-}
-
-export function readSkillMetadata(skillDir: string): SkillSourceMetadata | null {
-  const metadataPath = join(skillDir, SKILL_METADATA_FILE);
-  if (!existsSync(metadataPath)) return null;
-
-  try {
-    const raw = readFileSync(metadataPath, 'utf-8');
-    return JSON.parse(raw) as SkillSourceMetadata;
-  } catch {
-    return null;
-  }
-}
-
-export function writeSkillMetadata(skillDir: string, metadata: SkillSourceMetadata): void {
-  const metadataPath = join(skillDir, SKILL_METADATA_FILE);
-  const payload = {
-    ...metadata,
-    installedAt: metadata.installedAt || new Date().toISOString(),
-  };
-  writeFileSync(metadataPath, JSON.stringify(payload, null, 2));
-}
-
-```
-
-This interface is important because it defines how OpenSkills Tutorial: Universal Skill Loading for Coding Agents implements the patterns covered in this chapter.
 
 ### `src/commands/read.ts`
 
@@ -162,16 +136,57 @@ export function readSkill(skillNames: string[] | string): void {
 
 This function is important because it defines how OpenSkills Tutorial: Universal Skill Loading for Coding Agents implements the patterns covered in this chapter.
 
+### `src/commands/manage.ts`
+
+The `manageSkills` function in [`src/commands/manage.ts`](https://github.com/numman-ali/openskills/blob/HEAD/src/commands/manage.ts) handles a key part of this chapter's functionality:
+
+```ts
+ * Interactively manage (remove) installed skills
+ */
+export async function manageSkills(): Promise<void> {
+  const skills = findAllSkills();
+
+  if (skills.length === 0) {
+    console.log('No skills installed.');
+    return;
+  }
+
+  try {
+    // Sort: project first
+    const sorted = skills.sort((a, b) => {
+      if (a.location !== b.location) {
+        return a.location === 'project' ? -1 : 1;
+      }
+      return a.name.localeCompare(b.name);
+    });
+
+    const choices = sorted.map((skill) => ({
+      name: `${chalk.bold(skill.name.padEnd(25))} ${skill.location === 'project' ? chalk.blue('(project)') : chalk.dim('(global)')}`,
+      value: skill.name,
+      checked: false, // Nothing checked by default
+    }));
+
+    const toRemove = await checkbox({
+      message: 'Select skills to remove',
+      choices,
+      pageSize: 15,
+    });
+
+    if (toRemove.length === 0) {
+```
+
+This function is important because it defines how OpenSkills Tutorial: Universal Skill Loading for Coding Agents implements the patterns covered in this chapter.
+
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[readSkillMetadata]
-    B[writeSkillMetadata]
-    C[SkillSourceMetadata]
-    D[readSkill]
-    E[getSkillsDir]
+    A[findAllSkills]
+    B[findSkill]
+    C[readSkill]
+    D[manageSkills]
+    E[readSkillMetadata]
     A --> B
     B --> C
     C --> D

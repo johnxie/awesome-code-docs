@@ -41,170 +41,168 @@ You now have a governance model for secure, policy-aligned GitHub MCP usage.
 
 Next: [Chapter 7: Troubleshooting, Read-Only, and Lockdown Operations](07-troubleshooting-read-only-and-lockdown-operations.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `pkg/github/labels.go`
+### `pkg/github/params.go`
 
-The `GetLabelForLabelsToolset` function in [`pkg/github/labels.go`](https://github.com/github/github-mcp-server/blob/HEAD/pkg/github/labels.go) handles a key part of this chapter's functionality:
+The `convertStringSliceToBigIntSlice` function in [`pkg/github/params.go`](https://github.com/github/github-mcp-server/blob/HEAD/pkg/github/params.go) handles a key part of this chapter's functionality:
 
 ```go
 }
 
-// GetLabelForLabelsToolset returns the same GetLabel tool but registered in the labels toolset.
-// This provides conformance with the original behavior where get_label was in both toolsets.
-func GetLabelForLabelsToolset(t translations.TranslationHelperFunc) inventory.ServerTool {
-	tool := GetLabel(t)
-	tool.Toolset = ToolsetLabels
-	return tool
+func convertStringSliceToBigIntSlice(s []string) ([]int64, error) {
+	int64Slice := make([]int64, len(s))
+	for i, str := range s {
+		val, err := convertStringToBigInt(str, 0)
+		if err != nil {
+			return nil, fmt.Errorf("failed to convert element %d (%s) to int64: %w", i, str, err)
+		}
+		int64Slice[i] = val
+	}
+	return int64Slice, nil
 }
 
-// ListLabels lists labels from a repository
-func ListLabels(t translations.TranslationHelperFunc) inventory.ServerTool {
-	return NewTool(
-		ToolsetLabels,
-		mcp.Tool{
-			Name:        "list_label",
-			Description: t("TOOL_LIST_LABEL_DESCRIPTION", "List labels from a repository"),
-			Annotations: &mcp.ToolAnnotations{
-				Title:        t("TOOL_LIST_LABEL_DESCRIPTION", "List labels from a repository."),
-				ReadOnlyHint: true,
-			},
-			InputSchema: &jsonschema.Schema{
-				Type: "object",
-				Properties: map[string]*jsonschema.Schema{
-					"owner": {
-						Type:        "string",
-						Description: "Repository owner (username or organization name) - required for all operations",
-					},
-					"repo": {
-						Type:        "string",
-						Description: "Repository name - required for all operations",
-					},
+func convertStringToBigInt(s string, def int64) (int64, error) {
+	v, err := strconv.ParseInt(s, 10, 64)
+	if err != nil {
+		return def, fmt.Errorf("failed to convert string %s to int64: %w", s, err)
+	}
+	return v, nil
+}
+
+// OptionalBigIntArrayParam is a helper function that can be used to fetch a requested parameter from the request.
+// It does the following checks:
+// 1. Checks if the parameter is present in the request, if not, it returns an empty slice
+// 2. If it is present, iterates the elements, checks each is a string, and converts them to int64 values
+func OptionalBigIntArrayParam(args map[string]any, p string) ([]int64, error) {
+	// Check if the parameter is present in the request
+	if _, ok := args[p]; !ok {
+		return []int64{}, nil
+	}
+
 ```
 
 This function is important because it defines how GitHub MCP Server Tutorial: Production GitHub Operations Through MCP implements the patterns covered in this chapter.
 
-### `pkg/github/labels.go`
+### `pkg/github/params.go`
 
-The `ListLabels` function in [`pkg/github/labels.go`](https://github.com/github/github-mcp-server/blob/HEAD/pkg/github/labels.go) handles a key part of this chapter's functionality:
+The `convertStringToBigInt` function in [`pkg/github/params.go`](https://github.com/github/github-mcp-server/blob/HEAD/pkg/github/params.go) handles a key part of this chapter's functionality:
+
+```go
+	int64Slice := make([]int64, len(s))
+	for i, str := range s {
+		val, err := convertStringToBigInt(str, 0)
+		if err != nil {
+			return nil, fmt.Errorf("failed to convert element %d (%s) to int64: %w", i, str, err)
+		}
+		int64Slice[i] = val
+	}
+	return int64Slice, nil
+}
+
+func convertStringToBigInt(s string, def int64) (int64, error) {
+	v, err := strconv.ParseInt(s, 10, 64)
+	if err != nil {
+		return def, fmt.Errorf("failed to convert string %s to int64: %w", s, err)
+	}
+	return v, nil
+}
+
+// OptionalBigIntArrayParam is a helper function that can be used to fetch a requested parameter from the request.
+// It does the following checks:
+// 1. Checks if the parameter is present in the request, if not, it returns an empty slice
+// 2. If it is present, iterates the elements, checks each is a string, and converts them to int64 values
+func OptionalBigIntArrayParam(args map[string]any, p string) ([]int64, error) {
+	// Check if the parameter is present in the request
+	if _, ok := args[p]; !ok {
+		return []int64{}, nil
+	}
+
+	switch v := args[p].(type) {
+	case nil:
+		return []int64{}, nil
+```
+
+This function is important because it defines how GitHub MCP Server Tutorial: Production GitHub Operations Through MCP implements the patterns covered in this chapter.
+
+### `pkg/github/params.go`
+
+The `OptionalBigIntArrayParam` function in [`pkg/github/params.go`](https://github.com/github/github-mcp-server/blob/HEAD/pkg/github/params.go) handles a key part of this chapter's functionality:
 
 ```go
 }
 
-// ListLabels lists labels from a repository
-func ListLabels(t translations.TranslationHelperFunc) inventory.ServerTool {
-	return NewTool(
-		ToolsetLabels,
-		mcp.Tool{
-			Name:        "list_label",
-			Description: t("TOOL_LIST_LABEL_DESCRIPTION", "List labels from a repository"),
-			Annotations: &mcp.ToolAnnotations{
-				Title:        t("TOOL_LIST_LABEL_DESCRIPTION", "List labels from a repository."),
-				ReadOnlyHint: true,
-			},
-			InputSchema: &jsonschema.Schema{
-				Type: "object",
-				Properties: map[string]*jsonschema.Schema{
-					"owner": {
-						Type:        "string",
-						Description: "Repository owner (username or organization name) - required for all operations",
-					},
-					"repo": {
-						Type:        "string",
-						Description: "Repository name - required for all operations",
-					},
-				},
-				Required: []string{"owner", "repo"},
-			},
-		},
-		[]scopes.Scope{scopes.Repo},
-		func(ctx context.Context, deps ToolDependencies, _ *mcp.CallToolRequest, args map[string]any) (*mcp.CallToolResult, any, error) {
-			owner, err := RequiredParam[string](args, "owner")
+// OptionalBigIntArrayParam is a helper function that can be used to fetch a requested parameter from the request.
+// It does the following checks:
+// 1. Checks if the parameter is present in the request, if not, it returns an empty slice
+// 2. If it is present, iterates the elements, checks each is a string, and converts them to int64 values
+func OptionalBigIntArrayParam(args map[string]any, p string) ([]int64, error) {
+	// Check if the parameter is present in the request
+	if _, ok := args[p]; !ok {
+		return []int64{}, nil
+	}
+
+	switch v := args[p].(type) {
+	case nil:
+		return []int64{}, nil
+	case []string:
+		return convertStringSliceToBigIntSlice(v)
+	case []any:
+		int64Slice := make([]int64, len(v))
+		for i, v := range v {
+			s, ok := v.(string)
+			if !ok {
+				return []int64{}, fmt.Errorf("parameter %s is not of type string, is %T", p, v)
+			}
+			val, err := convertStringToBigInt(s, 0)
 			if err != nil {
+				return []int64{}, fmt.Errorf("parameter %s: failed to convert element %d (%s) to int64: %w", p, i, s, err)
+			}
+			int64Slice[i] = val
+		}
+		return int64Slice, nil
+	default:
 ```
 
 This function is important because it defines how GitHub MCP Server Tutorial: Production GitHub Operations Through MCP implements the patterns covered in this chapter.
 
-### `pkg/github/labels.go`
+### `pkg/github/params.go`
 
-The `LabelWrite` function in [`pkg/github/labels.go`](https://github.com/github/github-mcp-server/blob/HEAD/pkg/github/labels.go) handles a key part of this chapter's functionality:
+The `WithPagination` function in [`pkg/github/params.go`](https://github.com/github/github-mcp-server/blob/HEAD/pkg/github/params.go) handles a key part of this chapter's functionality:
 
 ```go
 }
 
-// LabelWrite handles create, update, and delete operations for GitHub labels
-func LabelWrite(t translations.TranslationHelperFunc) inventory.ServerTool {
-	return NewTool(
-		ToolsetLabels,
-		mcp.Tool{
-			Name:        "label_write",
-			Description: t("TOOL_LABEL_WRITE_DESCRIPTION", "Perform write operations on repository labels. To set labels on issues, use the 'update_issue' tool."),
-			Annotations: &mcp.ToolAnnotations{
-				Title:        t("TOOL_LABEL_WRITE_TITLE", "Write operations on repository labels."),
-				ReadOnlyHint: false,
-			},
-			InputSchema: &jsonschema.Schema{
-				Type: "object",
-				Properties: map[string]*jsonschema.Schema{
-					"method": {
-						Type:        "string",
-						Description: "Operation to perform: 'create', 'update', or 'delete'",
-						Enum:        []any{"create", "update", "delete"},
-					},
-					"owner": {
-						Type:        "string",
-						Description: "Repository owner (username or organization name)",
-					},
-					"repo": {
-						Type:        "string",
-						Description: "Repository name",
-					},
-					"name": {
-						Type:        "string",
-						Description: "Label name - required for all operations",
-```
+// WithPagination adds REST API pagination parameters to a tool.
+// https://docs.github.com/en/rest/using-the-rest-api/using-pagination-in-the-rest-api
+func WithPagination(schema *jsonschema.Schema) *jsonschema.Schema {
+	schema.Properties["page"] = &jsonschema.Schema{
+		Type:        "number",
+		Description: "Page number for pagination (min 1)",
+		Minimum:     jsonschema.Ptr(1.0),
+	}
 
-This function is important because it defines how GitHub MCP Server Tutorial: Production GitHub Operations Through MCP implements the patterns covered in this chapter.
+	schema.Properties["perPage"] = &jsonschema.Schema{
+		Type:        "number",
+		Description: "Results per page for pagination (min 1, max 100)",
+		Minimum:     jsonschema.Ptr(1.0),
+		Maximum:     jsonschema.Ptr(100.0),
+	}
 
-### `pkg/github/labels.go`
+	return schema
+}
 
-The `getRepositoryID` function in [`pkg/github/labels.go`](https://github.com/github/github-mcp-server/blob/HEAD/pkg/github/labels.go) handles a key part of this chapter's functionality:
+// WithUnifiedPagination adds REST API pagination parameters to a tool.
+// GraphQL tools will use this and convert page/perPage to GraphQL cursor parameters internally.
+func WithUnifiedPagination(schema *jsonschema.Schema) *jsonschema.Schema {
+	schema.Properties["page"] = &jsonschema.Schema{
+		Type:        "number",
+		Description: "Page number for pagination (min 1)",
+		Minimum:     jsonschema.Ptr(1.0),
+	}
 
-```go
-
-				// Get repository ID
-				repoID, err := getRepositoryID(ctx, client, owner, repo)
-				if err != nil {
-					return ghErrors.NewGitHubGraphQLErrorResponse(ctx, "Failed to find repository", err), nil, nil
-				}
-
-				input := githubv4.CreateLabelInput{
-					RepositoryID: repoID,
-					Name:         githubv4.String(name),
-					Color:        githubv4.String(color),
-				}
-				if description != "" {
-					d := githubv4.String(description)
-					input.Description = &d
-				}
-
-				var mutation struct {
-					CreateLabel struct {
-						Label struct {
-							Name githubv4.String
-							ID   githubv4.ID
-						}
-					} `graphql:"createLabel(input: $input)"`
-				}
-
-				if err := client.Mutate(ctx, &mutation, input, nil); err != nil {
-					return ghErrors.NewGitHubGraphQLErrorResponse(ctx, "Failed to create label", err), nil, nil
-				}
-
-				return utils.NewToolResultText(fmt.Sprintf("label '%s' created successfully", mutation.CreateLabel.Label.Name)), nil, nil
-
+	schema.Properties["perPage"] = &jsonschema.Schema{
+		Type:        "number",
 ```
 
 This function is important because it defines how GitHub MCP Server Tutorial: Production GitHub Operations Through MCP implements the patterns covered in this chapter.
@@ -214,11 +212,11 @@ This function is important because it defines how GitHub MCP Server Tutorial: Pr
 
 ```mermaid
 flowchart TD
-    A[GetLabelForLabelsToolset]
-    B[ListLabels]
-    C[LabelWrite]
-    D[getRepositoryID]
-    E[getLabelID]
+    A[convertStringSliceToBigIntSlice]
+    B[convertStringToBigInt]
+    C[OptionalBigIntArrayParam]
+    D[WithPagination]
+    E[WithUnifiedPagination]
     A --> B
     B --> C
     C --> D

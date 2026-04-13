@@ -38,28 +38,43 @@ You now have a reproducible setup baseline for legacy OpenCode operation.
 
 Next: [Chapter 4: Model Providers and Runtime Operations](04-model-providers-and-runtime-operations.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `main.go`
+### `internal/lsp/methods.go`
 
-The `main` function in [`main.go`](https://github.com/opencode-ai/opencode/blob/HEAD/main.go) handles a key part of this chapter's functionality:
+The `Progress` function in [`internal/lsp/methods.go`](https://github.com/opencode-ai/opencode/blob/HEAD/internal/lsp/methods.go) handles a key part of this chapter's functionality:
 
 ```go
-package main
+}
 
-import (
-	"github.com/opencode-ai/opencode/cmd"
-	"github.com/opencode-ai/opencode/internal/logging"
-)
+// WorkDoneProgressCancel sends a window/workDoneProgress/cancel notification to the LSP server.
+// The window/workDoneProgress/cancel notification is sent from  the client to the server to cancel a progress initiated on the server side.
+func (c *Client) WorkDoneProgressCancel(ctx context.Context, params protocol.WorkDoneProgressCancelParams) error {
+	return c.Notify(ctx, "window/workDoneProgress/cancel", params)
+}
 
-func main() {
-	defer logging.RecoverPanic("main", func() {
-		logging.ErrorPersist("Application terminated due to unhandled panic")
-	})
+// DidCreateFiles sends a workspace/didCreateFiles notification to the LSP server.
+// The did create files notification is sent from the client to the server when files were created from within the client. Since 3.16.0
+func (c *Client) DidCreateFiles(ctx context.Context, params protocol.CreateFilesParams) error {
+	return c.Notify(ctx, "workspace/didCreateFiles", params)
+}
 
-	cmd.Execute()
+// DidRenameFiles sends a workspace/didRenameFiles notification to the LSP server.
+// The did rename files notification is sent from the client to the server when files were renamed from within the client. Since 3.16.0
+func (c *Client) DidRenameFiles(ctx context.Context, params protocol.RenameFilesParams) error {
+	return c.Notify(ctx, "workspace/didRenameFiles", params)
+}
+
+// DidDeleteFiles sends a workspace/didDeleteFiles notification to the LSP server.
+// The will delete files request is sent from the client to the server before files are actually deleted as long as the deletion is triggered from within the client. Since 3.16.0
+func (c *Client) DidDeleteFiles(ctx context.Context, params protocol.DeleteFilesParams) error {
+	return c.Notify(ctx, "workspace/didDeleteFiles", params)
+}
+
+// DidOpenNotebookDocument sends a notebookDocument/didOpen notification to the LSP server.
+// A notification sent when a notebook opens. Since 3.17.0
+func (c *Client) DidOpenNotebookDocument(ctx context.Context, params protocol.DidOpenNotebookDocumentParams) error {
+	return c.Notify(ctx, "notebookDocument/didOpen", params)
 }
 
 ```
@@ -194,7 +209,7 @@ This function is important because it defines how OpenCode AI Legacy Tutorial: A
 
 ```mermaid
 flowchart TD
-    A[main]
+    A[Progress]
     B[attemptTUIRecovery]
     C[initMCPTools]
     D[setupSubscriptions]

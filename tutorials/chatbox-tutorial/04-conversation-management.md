@@ -12,6 +12,20 @@ Welcome to **Chapter 4: Conversation Management**. In this part of **Chatbox Tut
 
 This chapter covers managing chat conversations, including history, context, and multi-conversation workflows.
 
+## Conversation Lifecycle
+
+```mermaid
+stateDiagram-v2
+    [*] --> Created: createMessage()
+    Created --> Active: user sends message
+    Active --> Waiting: AI request in-flight
+    Waiting --> Active: AI response received
+    Active --> Threaded: split into thread
+    Active --> Archived: user archives
+    Archived --> Active: restore
+    Active --> [*]: delete
+```
+
 ## 💬 Conversation Architecture
 
 ### Conversation Data Structure
@@ -637,16 +651,21 @@ Under the hood, `Chapter 4: Conversation Management` usually follows a repeatabl
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
-## Source Walkthrough
+## Source Code Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+### `src/shared/types/session.ts`
 
-- [View Repo](https://github.com/Bin-Huang/chatbox)
-  Why it matters: authoritative reference on `View Repo` (github.com).
+The `Session` and `Message` schemas in [`src/shared/types/session.ts`](https://github.com/Bin-Huang/chatbox/blob/main/src/shared/types/session.ts) define how conversations are persisted. Key fields include `contentParts` (supporting multimodal messages), `TokenCountMap` for tracking per-tokenizer usage, and `SessionThread` for branching conversations:
 
-Suggested trace strategy:
-- search upstream code for `conversation` and `messages` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+```ts
+export const TokenCacheKeySchema = z.enum(['default', 'deepseek', 'default_preview', 'deepseek_preview'])
+export type TokenCacheKey = z.infer<typeof TokenCacheKeySchema>
+
+export const TokenCountMapSchema = z.record(z.string(), z.number())
+export type TokenCountMap = z.infer<typeof TokenCountMapSchema>
+```
+
+Each `Message` stores `tokenCountMap` to enable accurate context-window management across different LLM backends. The `isChatSession` / `isPictureSession` helpers in `src/shared/types.ts` distinguish between text chat and image-generation sessions.
 
 ## Chapter Connections
 

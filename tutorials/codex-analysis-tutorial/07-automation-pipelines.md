@@ -5,6 +5,7 @@ parent: "Codex Analysis Platform"
 nav_order: 7
 ---
 
+
 # Chapter 7: Automation Pipelines
 
 Welcome to **Chapter 7: Automation Pipelines**. In this part of **Codex Analysis Platform Tutorial: Build Code Intelligence Systems**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
@@ -57,584 +58,184 @@ Next: [Chapter 8: Production Rollout](08-production-rollout.md)
 
 ## Depth Expansion Playbook
 
-<!-- depth-expansion-v2 -->
-
-This chapter is expanded to v1-style depth for production-grade learning and implementation quality.
-
-### Strategic Context
-
-- tutorial: **Codex Analysis Platform Tutorial: Build Code Intelligence Systems**
-- tutorial slug: **codex-analysis-tutorial**
-- chapter focus: **Chapter 7: Automation Pipelines**
-- system context: **Codex Analysis Platform**
-- objective: move from surface-level usage to repeatable engineering operation
-
-### Architecture Decomposition
-
-1. Define the runtime boundary for `Chapter 7: Automation Pipelines`.
-2. Separate control-plane decisions from data-plane execution.
-3. Capture input contracts, transformation points, and output contracts.
-4. Trace state transitions across request lifecycle stages.
-5. Identify extension hooks and policy interception points.
-6. Map ownership boundaries for team and automation workflows.
-7. Specify rollback and recovery paths for unsafe changes.
-8. Track observability signals for correctness, latency, and cost.
-
-### Operator Decision Matrix
-
-| Decision Area | Low-Risk Path | High-Control Path | Tradeoff |
-|:--------------|:--------------|:------------------|:---------|
-| Runtime mode | managed defaults | explicit policy config | speed vs control |
-| State handling | local ephemeral | durable persisted state | simplicity vs auditability |
-| Tool integration | direct API use | mediated adapter layer | velocity vs governance |
-| Rollout method | manual change | staged + canary rollout | effort vs safety |
-| Incident response | best effort logs | runbooks + SLO alerts | cost vs reliability |
-
-### Failure Modes and Countermeasures
-
-| Failure Mode | Early Signal | Root Cause Pattern | Countermeasure |
-|:-------------|:-------------|:-------------------|:---------------|
-| stale context | inconsistent outputs | missing refresh window | enforce context TTL and refresh hooks |
-| policy drift | unexpected execution | ad hoc overrides | centralize policy profiles |
-| auth mismatch | 401/403 bursts | credential sprawl | rotation schedule + scope minimization |
-| schema breakage | parser/validation errors | unmanaged upstream changes | contract tests per release |
-| retry storms | queue congestion | no backoff controls | jittered backoff + circuit breakers |
-| silent regressions | quality drop without alerts | weak baseline metrics | eval harness with thresholds |
-
-### Implementation Runbook
-
-1. Establish a reproducible baseline environment.
-2. Capture chapter-specific success criteria before changes.
-3. Implement minimal viable path with explicit interfaces.
-4. Add observability before expanding feature scope.
-5. Run deterministic tests for happy-path behavior.
-6. Inject failure scenarios for negative-path validation.
-7. Compare output quality against baseline snapshots.
-8. Promote through staged environments with rollback gates.
-9. Record operational lessons in release notes.
-
-### Quality Gate Checklist
-
-- [ ] chapter-level assumptions are explicit and testable
-- [ ] API/tool boundaries are documented with input/output examples
-- [ ] failure handling includes retry, timeout, and fallback policy
-- [ ] security controls include auth scopes and secret rotation plans
-- [ ] observability includes logs, metrics, traces, and alert thresholds
-- [ ] deployment guidance includes canary and rollback paths
-- [ ] docs include links to upstream sources and related tracks
-- [ ] post-release verification confirms expected behavior under load
-
-### Source Alignment
-
-- [TypeScript Compiler API](https://github.com/microsoft/TypeScript/wiki/Using-the-Compiler-API)
-- [Babel Parser](https://babeljs.io/docs/babel-parser)
-- [Tree-sitter](https://tree-sitter.github.io/tree-sitter/)
-- [Language Server Protocol](https://microsoft.github.io/language-server-protocol/)
-
-### Cross-Tutorial Connection Map
-
-- [Aider Tutorial](../aider-tutorial/)
-- [Cline Tutorial](../cline-tutorial/)
-- [Roo Code Tutorial](../roo-code-tutorial/)
-- [LangGraph Tutorial](../langgraph-tutorial/)
-- [Chapter 1: Building the Analysis Engine](01-analysis-engine.md)
-
-### Advanced Practice Exercises
-
-1. Build a minimal end-to-end implementation for `Chapter 7: Automation Pipelines`.
-2. Add instrumentation and measure baseline latency and error rate.
-3. Introduce one controlled failure and confirm graceful recovery.
-4. Add policy constraints and verify they are enforced consistently.
-5. Run a staged rollout and document rollback decision criteria.
-
-### Review Questions
-
-1. Which execution boundary matters most for this chapter and why?
-2. What signal detects regressions earliest in your environment?
-3. What tradeoff did you make between delivery speed and governance?
-4. How would you recover from the highest-impact failure mode?
-5. What must be automated before scaling to team-wide adoption?
-
-### Scenario Playbook 1: Chapter 7: Automation Pipelines
-
-- tutorial context: **Codex Analysis Platform Tutorial: Build Code Intelligence Systems**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 2: Chapter 7: Automation Pipelines
-
-- tutorial context: **Codex Analysis Platform Tutorial: Build Code Intelligence Systems**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 3: Chapter 7: Automation Pipelines
-
-- tutorial context: **Codex Analysis Platform Tutorial: Build Code Intelligence Systems**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 4: Chapter 7: Automation Pipelines
-
-- tutorial context: **Codex Analysis Platform Tutorial: Build Code Intelligence Systems**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 5: Chapter 7: Automation Pipelines
-
-- tutorial context: **Codex Analysis Platform Tutorial: Build Code Intelligence Systems**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 6: Chapter 7: Automation Pipelines
-
-- tutorial context: **Codex Analysis Platform Tutorial: Build Code Intelligence Systems**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 7: Chapter 7: Automation Pipelines
-
-- tutorial context: **Codex Analysis Platform Tutorial: Build Code Intelligence Systems**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 8: Chapter 7: Automation Pipelines
-
-- tutorial context: **Codex Analysis Platform Tutorial: Build Code Intelligence Systems**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 9: Chapter 7: Automation Pipelines
-
-- tutorial context: **Codex Analysis Platform Tutorial: Build Code Intelligence Systems**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 10: Chapter 7: Automation Pipelines
-
-- tutorial context: **Codex Analysis Platform Tutorial: Build Code Intelligence Systems**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 11: Chapter 7: Automation Pipelines
-
-- tutorial context: **Codex Analysis Platform Tutorial: Build Code Intelligence Systems**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 12: Chapter 7: Automation Pipelines
-
-- tutorial context: **Codex Analysis Platform Tutorial: Build Code Intelligence Systems**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 13: Chapter 7: Automation Pipelines
-
-- tutorial context: **Codex Analysis Platform Tutorial: Build Code Intelligence Systems**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 14: Chapter 7: Automation Pipelines
-
-- tutorial context: **Codex Analysis Platform Tutorial: Build Code Intelligence Systems**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 15: Chapter 7: Automation Pipelines
-
-- tutorial context: **Codex Analysis Platform Tutorial: Build Code Intelligence Systems**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 16: Chapter 7: Automation Pipelines
-
-- tutorial context: **Codex Analysis Platform Tutorial: Build Code Intelligence Systems**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 17: Chapter 7: Automation Pipelines
-
-- tutorial context: **Codex Analysis Platform Tutorial: Build Code Intelligence Systems**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 18: Chapter 7: Automation Pipelines
-
-- tutorial context: **Codex Analysis Platform Tutorial: Build Code Intelligence Systems**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 19: Chapter 7: Automation Pipelines
-
-- tutorial context: **Codex Analysis Platform Tutorial: Build Code Intelligence Systems**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 20: Chapter 7: Automation Pipelines
-
-- tutorial context: **Codex Analysis Platform Tutorial: Build Code Intelligence Systems**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 21: Chapter 7: Automation Pipelines
-
-- tutorial context: **Codex Analysis Platform Tutorial: Build Code Intelligence Systems**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 22: Chapter 7: Automation Pipelines
-
-- tutorial context: **Codex Analysis Platform Tutorial: Build Code Intelligence Systems**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 23: Chapter 7: Automation Pipelines
-
-- tutorial context: **Codex Analysis Platform Tutorial: Build Code Intelligence Systems**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 24: Chapter 7: Automation Pipelines
-
-- tutorial context: **Codex Analysis Platform Tutorial: Build Code Intelligence Systems**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 25: Chapter 7: Automation Pipelines
-
-- tutorial context: **Codex Analysis Platform Tutorial: Build Code Intelligence Systems**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 26: Chapter 7: Automation Pipelines
-
-- tutorial context: **Codex Analysis Platform Tutorial: Build Code Intelligence Systems**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 27: Chapter 7: Automation Pipelines
-
-- tutorial context: **Codex Analysis Platform Tutorial: Build Code Intelligence Systems**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 28: Chapter 7: Automation Pipelines
-
-- tutorial context: **Codex Analysis Platform Tutorial: Build Code Intelligence Systems**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 29: Chapter 7: Automation Pipelines
-
-- tutorial context: **Codex Analysis Platform Tutorial: Build Code Intelligence Systems**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 30: Chapter 7: Automation Pipelines
-
-- tutorial context: **Codex Analysis Platform Tutorial: Build Code Intelligence Systems**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 31: Chapter 7: Automation Pipelines
-
-- tutorial context: **Codex Analysis Platform Tutorial: Build Code Intelligence Systems**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 32: Chapter 7: Automation Pipelines
-
-- tutorial context: **Codex Analysis Platform Tutorial: Build Code Intelligence Systems**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 33: Chapter 7: Automation Pipelines
-
-- tutorial context: **Codex Analysis Platform Tutorial: Build Code Intelligence Systems**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 34: Chapter 7: Automation Pipelines
-
-- tutorial context: **Codex Analysis Platform Tutorial: Build Code Intelligence Systems**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 35: Chapter 7: Automation Pipelines
-
-- tutorial context: **Codex Analysis Platform Tutorial: Build Code Intelligence Systems**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 36: Chapter 7: Automation Pipelines
-
-- tutorial context: **Codex Analysis Platform Tutorial: Build Code Intelligence Systems**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-## What Problem Does This Solve?
-
-Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `scoped`, `analysis`, `annotate` so behavior stays predictable as complexity grows.
-
-In practical terms, this chapter helps you avoid three common failures:
-
-- coupling core logic too tightly to one implementation path
-- missing the handoff boundaries between setup, execution, and validation
-- shipping changes without clear rollback or observability strategy
-
-After working through this chapter, you should be able to reason about `Chapter 7: Automation Pipelines` as an operating subsystem inside **Codex Analysis Platform Tutorial: Build Code Intelligence Systems**, with explicit contracts for inputs, state transitions, and outputs.
-
-Use the implementation notes around `changed`, `files`, `enforce` as your checklist when adapting these patterns to your own repository.
-
-## How it Works Under the Hood
-
-Under the hood, `Chapter 7: Automation Pipelines` usually follows a repeatable control path:
-
-1. **Context bootstrap**: initialize runtime config and prerequisites for `scoped`.
-2. **Input normalization**: shape incoming data so `analysis` receives stable contracts.
-3. **Core execution**: run the main logic branch and propagate intermediate state through `annotate`.
-4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
-5. **Output composition**: return canonical result payloads for downstream consumers.
-6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
-
-When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
-
-## Source Walkthrough
-
-Use the following upstream sources to verify implementation details while reading this chapter:
-
-- [TypeScript Compiler API](https://github.com/microsoft/TypeScript/wiki/Using-the-Compiler-API)
-  Why it matters: authoritative reference on `TypeScript Compiler API` (github.com).
-- [Babel Parser](https://babeljs.io/docs/babel-parser)
-  Why it matters: authoritative reference on `Babel Parser` (babeljs.io).
-- [Tree-sitter](https://tree-sitter.github.io/tree-sitter/)
-  Why it matters: authoritative reference on `Tree-sitter` (tree-sitter.github.io).
-- [Language Server Protocol](https://microsoft.github.io/language-server-protocol/)
-  Why it matters: authoritative reference on `Language Server Protocol` (microsoft.github.io).
-
-Suggested trace strategy:
-- search upstream code for `scoped` and `analysis` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
-
-## Chapter Connections
-
-- [Tutorial Index](README.md)
-- [Previous Chapter: Chapter 6: Visualization](06-visualization.md)
-- [Next Chapter: Chapter 8: Production Rollout](08-production-rollout.md)
-- [Main Catalog](../../README.md#-tutorial-catalog)
-- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
+## Source Code Walkthrough
+
+### `src/compiler/watchUtilities.ts`
+
+The `WatchFactory` interface in [`src/compiler/watchUtilities.ts`](https://github.com/microsoft/TypeScript/blob/HEAD/src/compiler/watchUtilities.ts) handles a key part of this chapter's functionality:
+
+```ts
+
+/** @internal */
+export interface WatchFactoryHost {
+    watchFile(path: string, callback: FileWatcherCallback, pollingInterval?: number, options?: WatchOptions): FileWatcher;
+    watchDirectory(path: string, callback: DirectoryWatcherCallback, recursive?: boolean, options?: WatchOptions): FileWatcher;
+    getCurrentDirectory?(): string;
+    useCaseSensitiveFileNames: boolean | (() => boolean);
+}
+
+/** @internal */
+export interface WatchFactory<X, Y = undefined> {
+    watchFile: (file: string, callback: FileWatcherCallback, pollingInterval: PollingInterval, options: WatchOptions | undefined, detailInfo1: X, detailInfo2?: Y) => FileWatcher;
+    watchDirectory: (directory: string, callback: DirectoryWatcherCallback, flags: WatchDirectoryFlags, options: WatchOptions | undefined, detailInfo1: X, detailInfo2?: Y) => FileWatcher;
+}
+
+/** @internal */
+export type GetDetailWatchInfo<X, Y> = (detailInfo1: X, detailInfo2: Y | undefined) => string;
+/** @internal */
+export function getWatchFactory<X, Y = undefined>(host: WatchFactoryHost, watchLogLevel: WatchLogLevel, log: (s: string) => void, getDetailWatchInfo?: GetDetailWatchInfo<X, Y>): WatchFactory<X, Y> {
+    setSysLog(watchLogLevel === WatchLogLevel.Verbose ? log : noop);
+    const plainInvokeFactory: WatchFactory<X, Y> = {
+        watchFile: (file, callback, pollingInterval, options) => host.watchFile(file, callback, pollingInterval, options),
+        watchDirectory: (directory, callback, flags, options) => host.watchDirectory(directory, callback, (flags & WatchDirectoryFlags.Recursive) !== 0, options),
+    };
+    const triggerInvokingFactory: WatchFactory<X, Y> | undefined = watchLogLevel !== WatchLogLevel.None ?
+        {
+            watchFile: createTriggerLoggingAddWatch("watchFile"),
+            watchDirectory: createTriggerLoggingAddWatch("watchDirectory"),
+        } :
+        undefined;
+    const factory = watchLogLevel === WatchLogLevel.Verbose ?
+        {
+```
+
+This interface is important because it defines how Codex Analysis Platform Tutorial: Build Code Intelligence Systems implements the patterns covered in this chapter.
+
+### `src/compiler/watchUtilities.ts`
+
+The `ProgramUpdateLevel` interface in [`src/compiler/watchUtilities.ts`](https://github.com/microsoft/TypeScript/blob/HEAD/src/compiler/watchUtilities.ts) handles a key part of this chapter's functionality:
+
+```ts
+}
+
+export enum ProgramUpdateLevel {
+    /** Program is updated with same root file names and options */
+    Update,
+    /** Loads program after updating root file names from the disk */
+    RootNamesAndUpdate,
+    /**
+     * Loads program completely, including:
+     *  - re-reading contents of config file from disk
+     *  - calculating root file names for the program
+     *  - Updating the program
+     */
+
+    Full,
+}
+
+/** @internal */
+export interface SharedExtendedConfigFileWatcher<T> extends FileWatcher {
+    watcher: FileWatcher;
+    projects: Set<T>;
+}
+
+/**
+ * Updates the map of shared extended config file watches with a new set of extended config files from a base config file of the project
+ *
+ * @internal
+ */
+export function updateSharedExtendedConfigFileWatcher<T>(
+    projectPath: T,
+    options: CompilerOptions | undefined,
+    extendedConfigFilesMap: Map<Path, SharedExtendedConfigFileWatcher<T>>,
+```
+
+This interface is important because it defines how Codex Analysis Platform Tutorial: Build Code Intelligence Systems implements the patterns covered in this chapter.
+
+### `src/compiler/watchUtilities.ts`
+
+The `WatchLogLevel` interface in [`src/compiler/watchUtilities.ts`](https://github.com/microsoft/TypeScript/blob/HEAD/src/compiler/watchUtilities.ts) handles a key part of this chapter's functionality:
+
+```ts
+
+/** @internal */
+export enum WatchLogLevel {
+    None,
+    TriggerOnly,
+    Verbose,
+}
+
+/** @internal */
+export interface WatchFactoryHost {
+    watchFile(path: string, callback: FileWatcherCallback, pollingInterval?: number, options?: WatchOptions): FileWatcher;
+    watchDirectory(path: string, callback: DirectoryWatcherCallback, recursive?: boolean, options?: WatchOptions): FileWatcher;
+    getCurrentDirectory?(): string;
+    useCaseSensitiveFileNames: boolean | (() => boolean);
+}
+
+/** @internal */
+export interface WatchFactory<X, Y = undefined> {
+    watchFile: (file: string, callback: FileWatcherCallback, pollingInterval: PollingInterval, options: WatchOptions | undefined, detailInfo1: X, detailInfo2?: Y) => FileWatcher;
+    watchDirectory: (directory: string, callback: DirectoryWatcherCallback, flags: WatchDirectoryFlags, options: WatchOptions | undefined, detailInfo1: X, detailInfo2?: Y) => FileWatcher;
+}
+
+/** @internal */
+export type GetDetailWatchInfo<X, Y> = (detailInfo1: X, detailInfo2: Y | undefined) => string;
+/** @internal */
+export function getWatchFactory<X, Y = undefined>(host: WatchFactoryHost, watchLogLevel: WatchLogLevel, log: (s: string) => void, getDetailWatchInfo?: GetDetailWatchInfo<X, Y>): WatchFactory<X, Y> {
+    setSysLog(watchLogLevel === WatchLogLevel.Verbose ? log : noop);
+    const plainInvokeFactory: WatchFactory<X, Y> = {
+        watchFile: (file, callback, pollingInterval, options) => host.watchFile(file, callback, pollingInterval, options),
+        watchDirectory: (directory, callback, flags, options) => host.watchDirectory(directory, callback, (flags & WatchDirectoryFlags.Recursive) !== 0, options),
+    };
+    const triggerInvokingFactory: WatchFactory<X, Y> | undefined = watchLogLevel !== WatchLogLevel.None ?
+```
+
+This interface is important because it defines how Codex Analysis Platform Tutorial: Build Code Intelligence Systems implements the patterns covered in this chapter.
+
+### `src/services/breakpoints.ts`
+
+The `spanInSourceFileAtLocation` function in [`src/services/breakpoints.ts`](https://github.com/microsoft/TypeScript/blob/HEAD/src/services/breakpoints.ts) handles a key part of this chapter's functionality:
+
+```ts
+ * @internal
+ */
+export function spanInSourceFileAtLocation(sourceFile: SourceFile, position: number): TextSpan | undefined {
+    // Cannot set breakpoint in dts file
+    if (sourceFile.isDeclarationFile) {
+        return undefined;
+    }
+
+    let tokenAtLocation = getTokenAtPosition(sourceFile, position);
+    const lineOfPosition = sourceFile.getLineAndCharacterOfPosition(position).line;
+    if (sourceFile.getLineAndCharacterOfPosition(tokenAtLocation.getStart(sourceFile)).line > lineOfPosition) {
+        // Get previous token if the token is returned starts on new line
+        // eg: let x =10; |--- cursor is here
+        //     let y = 10;
+        // token at position will return let keyword on second line as the token but we would like to use
+        // token on same line if trailing trivia (comments or white spaces on same line) part of the last token on that line
+        const preceding = findPrecedingToken(tokenAtLocation.pos, sourceFile);
+
+        // It's a blank line
+        if (!preceding || sourceFile.getLineAndCharacterOfPosition(preceding.getEnd()).line !== lineOfPosition) {
+            return undefined;
+        }
+        tokenAtLocation = preceding;
+    }
+
+    // Cannot set breakpoint in ambient declarations
+    if (tokenAtLocation.flags & NodeFlags.Ambient) {
+        return undefined;
+    }
+
+    // Get the span in the node based on its syntax
+    return spanInNode(tokenAtLocation);
+```
+
+This function is important because it defines how Codex Analysis Platform Tutorial: Build Code Intelligence Systems implements the patterns covered in this chapter.
+
+
+## How These Components Connect
+
+```mermaid
+flowchart TD
+    A[WatchFactory]
+    B[ProgramUpdateLevel]
+    C[WatchLogLevel]
+    D[spanInSourceFileAtLocation]
+    E[textSpan]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+```

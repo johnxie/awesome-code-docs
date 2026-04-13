@@ -12,6 +12,24 @@ Welcome to **Chapter 4: Query Engines & Retrieval**. In this part of **LlamaInde
 
 > Build sophisticated query engines and retrieval systems for advanced RAG applications.
 
+## Query Engine Architecture
+
+```mermaid
+flowchart LR
+    Q[User Query] --> RET[Retriever\nVectorIndexRetriever]
+    RET --> NODES[Retrieved TextNodes]
+    NODES --> RERANK[Re-ranker\noptional]
+    RERANK --> SYNTH[ResponseSynthesizer]
+    SYNTH --> LLM[LLM]
+    LLM --> ANS[Answer + Source Nodes]
+
+    subgraph QueryEngines
+        QE1[VectorStoreIndex.as_query_engine]
+        QE2[SubQuestionQueryEngine]
+        QE3[RouterQueryEngine]
+    end
+```
+
 ## 🎯 Overview
 
 This chapter covers LlamaIndex's query engines and retrieval mechanisms, showing you how to build complex query pipelines, implement different retrieval strategies, and create intelligent systems that can answer complex questions using your indexed data.
@@ -812,12 +830,25 @@ When debugging, walk this sequence in order and confirm each stage has explicit 
 
 Use the following upstream sources to verify implementation details while reading this chapter:
 
-- [View Repo](https://github.com/run-llama/llama_index)
-  Why it matters: authoritative reference on `View Repo` (github.com).
+- [`llama_index/core/query_engine/retriever_query_engine.py`](https://github.com/run-llama/llama_index/blob/main/llama-index-core/llama_index/core/query_engine/retriever_query_engine.py)
+  `RetrieverQueryEngine` - the default query engine wiring retriever → node postprocessors → response synthesizer. The `query()` method shows the full retrieve-then-synthesize pipeline.
+
+- [`llama_index/core/retrievers/vector_store.py`](https://github.com/run-llama/llama_index/blob/main/llama-index-core/llama_index/core/retrievers/vector_store.py)
+  `VectorIndexRetriever` that embeds the query and performs cosine similarity search against stored node embeddings. Key parameters: `similarity_top_k` and `vector_store_query_mode` (default, sparse, hybrid).
+
+- [`llama_index/core/response_synthesizers/`](https://github.com/run-llama/llama_index/tree/main/llama-index-core/llama_index/core/response_synthesizers)
+  Response synthesis strategies: `compact`, `refine`, `tree_summarize`, `simple_summarize`, `no_text`. Each uses a different pattern for combining retrieved nodes into a final LLM prompt. `Refine` iteratively updates the answer across chunks; `tree_summarize` builds a summary tree.
+
+- [`llama_index/core/postprocessor/`](https://github.com/run-llama/llama_index/tree/main/llama-index-core/llama_index/core/postprocessor)
+  Node postprocessors including `SimilarityPostprocessor` (score threshold filtering), `KeywordNodePostprocessor` (keyword inclusion/exclusion), and `LLMRerank` (rerank with LLM relevance scoring). Applied between retrieval and synthesis.
+
+- [`llama_index/core/chat_engine/condense_plus_context.py`](https://github.com/run-llama/llama_index/blob/main/llama-index-core/llama_index/core/chat_engine/condense_plus_context.py)
+  `CondensePlusContextChatEngine` for multi-turn conversations. Shows how chat history is condensed into a standalone query before retrieval, enabling coherent multi-turn RAG conversations.
 
 Suggested trace strategy:
-- search upstream code for `query` and `self` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+- Trace `RetrieverQueryEngine.query()` → `retrieve()` → `synthesize()` to map the full query lifecycle
+- Compare `refine` vs `tree_summarize` synthesizers in `response_synthesizers/` to understand token budget tradeoffs for long contexts
+- Check `LLMRerank` postprocessor to see how a cross-encoder reranking call is inserted after initial vector retrieval
 
 ## Chapter Connections
 

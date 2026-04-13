@@ -50,8 +50,6 @@ You now have a clear architecture map for plugin capability selection.
 
 Next: [Chapter 4: Multi-Provider Conversion and Config Sync](04-multi-provider-conversion-and-config-sync.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `src/converters/claude-to-codex.ts`

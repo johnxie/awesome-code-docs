@@ -13,6 +13,24 @@ Welcome to **Chapter 1: Getting Started with n8n AI**. In this part of **n8n AI 
 
 > Install n8n, create your first workflow, and add AI capabilities to your automations.
 
+## n8n Workflow Architecture
+
+```mermaid
+flowchart LR
+    T[Trigger Node\nWebhook / Schedule / Manual] --> PROC[Processing Nodes\nSet, Code, Function]
+    PROC --> AI[AI Nodes\nOpenAI / Anthropic / Ollama]
+    AI --> LOGIC[Logic Nodes\nIF / Switch / Merge]
+    LOGIC --> OUT[Output Nodes\nSlack / Email / Database / HTTP]
+
+    subgraph n8n Canvas
+        T
+        PROC
+        AI
+        LOGIC
+        OUT
+    end
+```
+
 ## Overview
 
 n8n is a powerful workflow automation platform that integrates AI capabilities. This chapter covers installation, basic setup, and your first AI-powered workflow.
@@ -485,16 +503,13 @@ When debugging, walk this sequence in order and confirm each stage has explicit 
 
 ## Source Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+Key source files in [`n8n-io/n8n`](https://github.com/n8n-io/n8n):
 
-- [View Repo](https://github.com/n8n-io/n8n)
-  Why it matters: authoritative reference on `View Repo` (github.com).
-- [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
-  Why it matters: authoritative reference on `Awesome Code Docs` (github.com).
+- [`packages/nodes-base/`](https://github.com/n8n-io/n8n/tree/master/packages/nodes-base) -- all built-in node implementations; each node is a TypeScript class with `execute()` method
+- [`packages/@n8n/nodes-langchain/`](https://github.com/n8n-io/n8n/tree/master/packages/%40n8n/nodes-langchain) -- AI/LangChain nodes: OpenAI, Anthropic, Ollama, Agent, Vector Store nodes
+- [`packages/core/src/WorkflowExecute.ts`](https://github.com/n8n-io/n8n/blob/master/packages/core/src/WorkflowExecute.ts) -- workflow execution engine; `runNodeInThisProcess()` dispatches node execution
 
-Suggested trace strategy:
-- search upstream code for `json` and `nodes` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+Suggested trace: find `WorkflowExecute.processRunExecutionData()` to understand how data flows from one node to the next through the `INodeExecutionData` array.
 
 ## Chapter Connections
 

@@ -545,22 +545,32 @@ Under the hood, `Chapter 1: Getting Started with Fabric` usually follows a repea
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
-## Source Walkthrough
+## Source Code Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+### `internal/core/chatter.go`
 
-- [GitHub Repository](https://github.com/danielmiessler/Fabric)
-  Why it matters: authoritative reference on `GitHub Repository` (github.com).
-- [Pattern Library](https://github.com/danielmiessler/fabric/tree/main/data/patterns)
-  Why it matters: authoritative reference on `Pattern Library` (github.com).
-- [Community Patterns](https://github.com/danielmiessler/Fabric#community-patterns)
-  Why it matters: authoritative reference on `Community Patterns` (github.com).
-- [AI Codebase Knowledge Builder](https://github.com/johnxie/awesome-code-docs)
-  Why it matters: authoritative reference on `AI Codebase Knowledge Builder` (github.com).
+The `Chatter` struct in [`internal/core/chatter.go`](https://github.com/danielmiessler/fabric/blob/main/internal/core/chatter.go) is the central execution engine that loads a pattern, calls the AI vendor, and returns the response:
 
-Suggested trace strategy:
-- search upstream code for `fabric` and `patterns` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+```go
+type Chatter struct {
+    db *fsdb.Db
+
+    Stream bool
+    DryRun bool
+
+    model              string
+    modelContextLength int
+    vendor             ai.Vendor
+}
+
+// joinPromptSections trims each part, drops empty ones, and joins the rest with newline separators.
+func joinPromptSections(parts ...string) string {
+    sections := make([]string, 0, len(parts))
+    for _, part := range parts {
+        trimmed := strings.TrimSpace(part)
+```
+
+The `Chatter` reads the pattern's `system.md` file from the `fsdb` (filesystem database), combines it with user input via `joinPromptSections`, and sends the composed prompt to the configured AI vendor. The `DryRun` flag lets you preview the composed prompt without making an API call.
 
 ## Chapter Connections
 

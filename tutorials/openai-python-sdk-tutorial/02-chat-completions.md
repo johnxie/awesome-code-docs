@@ -64,15 +64,118 @@ You can now support legacy/interoperable message workflows while planning Respon
 
 Next: [Chapter 3: Embeddings and Search](03-embeddings-search.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
+
+### `examples/azure_ad.py`
+
+The `sync_main` function in [`examples/azure_ad.py`](https://github.com/openai/openai-python/blob/HEAD/examples/azure_ad.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+def sync_main() -> None:
+    from azure.identity import DefaultAzureCredential, get_bearer_token_provider
+
+    token_provider: AzureADTokenProvider = get_bearer_token_provider(DefaultAzureCredential(), scopes)
+
+    client = AzureOpenAI(
+        api_version=api_version,
+        azure_endpoint=endpoint,
+        azure_ad_token_provider=token_provider,
+    )
+
+    completion = client.chat.completions.create(
+        model=deployment_name,
+        messages=[
+            {
+                "role": "user",
+                "content": "How do I output all files in a directory using Python?",
+            }
+        ],
+    )
+
+    print(completion.to_json())
+
+
+async def async_main() -> None:
+    from azure.identity.aio import DefaultAzureCredential, get_bearer_token_provider
+
+    token_provider: AsyncAzureADTokenProvider = get_bearer_token_provider(DefaultAzureCredential(), scopes)
+
+    client = AsyncAzureOpenAI(
+```
+
+This function is important because it defines how OpenAI Python SDK Tutorial: Production API Patterns implements the patterns covered in this chapter.
+
+### `examples/azure_ad.py`
+
+The `async_main` function in [`examples/azure_ad.py`](https://github.com/openai/openai-python/blob/HEAD/examples/azure_ad.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+async def async_main() -> None:
+    from azure.identity.aio import DefaultAzureCredential, get_bearer_token_provider
+
+    token_provider: AsyncAzureADTokenProvider = get_bearer_token_provider(DefaultAzureCredential(), scopes)
+
+    client = AsyncAzureOpenAI(
+        api_version=api_version,
+        azure_endpoint=endpoint,
+        azure_ad_token_provider=token_provider,
+    )
+
+    completion = await client.chat.completions.create(
+        model=deployment_name,
+        messages=[
+            {
+                "role": "user",
+                "content": "How do I output all files in a directory using Python?",
+            }
+        ],
+    )
+
+    print(completion.to_json())
+
+
+sync_main()
+
+asyncio.run(async_main())
+
+```
+
+This function is important because it defines how OpenAI Python SDK Tutorial: Production API Patterns implements the patterns covered in this chapter.
 
 ### `examples/parsing_tools.py`
 
-The `OrderBy` class in [`examples/parsing_tools.py`](https://github.com/openai/openai-python/blob/HEAD/examples/parsing_tools.py) handles a key part of this chapter's functionality:
+The `Table` class in [`examples/parsing_tools.py`](https://github.com/openai/openai-python/blob/HEAD/examples/parsing_tools.py) handles a key part of this chapter's functionality:
 
 ```py
+
+
+class Table(str, Enum):
+    orders = "orders"
+    customers = "customers"
+    products = "products"
+
+
+class Column(str, Enum):
+    id = "id"
+    status = "status"
+    expected_delivery_date = "expected_delivery_date"
+    delivered_at = "delivered_at"
+    shipped_at = "shipped_at"
+    ordered_at = "ordered_at"
+    canceled_at = "canceled_at"
+
+
+class Operator(str, Enum):
+    eq = "="
+    gt = ">"
+    lt = "<"
+    le = "<="
+    ge = ">="
+    ne = "!="
 
 
 class OrderBy(str, Enum):
@@ -80,113 +183,6 @@ class OrderBy(str, Enum):
     desc = "desc"
 
 
-class DynamicValue(BaseModel):
-    column_name: str
-
-
-class Condition(BaseModel):
-    column: str
-    operator: Operator
-    value: Union[str, int, DynamicValue]
-
-
-class Query(BaseModel):
-    table_name: Table
-    columns: List[Column]
-    conditions: List[Condition]
-    order_by: OrderBy
-
-
-client = OpenAI()
-
-completion = client.chat.completions.parse(
-    model="gpt-4o-2024-08-06",
-    messages=[
-        {
-            "role": "system",
-            "content": "You are a helpful assistant. The current date is August 6, 2024. You help users query for the data they are looking for by calling the query function.",
-```
-
-This class is important because it defines how OpenAI Python SDK Tutorial: Production API Patterns implements the patterns covered in this chapter.
-
-### `examples/parsing_tools.py`
-
-The `DynamicValue` class in [`examples/parsing_tools.py`](https://github.com/openai/openai-python/blob/HEAD/examples/parsing_tools.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-class DynamicValue(BaseModel):
-    column_name: str
-
-
-class Condition(BaseModel):
-    column: str
-    operator: Operator
-    value: Union[str, int, DynamicValue]
-
-
-class Query(BaseModel):
-    table_name: Table
-    columns: List[Column]
-    conditions: List[Condition]
-    order_by: OrderBy
-
-
-client = OpenAI()
-
-completion = client.chat.completions.parse(
-    model="gpt-4o-2024-08-06",
-    messages=[
-        {
-            "role": "system",
-            "content": "You are a helpful assistant. The current date is August 6, 2024. You help users query for the data they are looking for by calling the query function.",
-        },
-        {
-            "role": "user",
-            "content": "look up all my orders in november of last year that were fulfilled but not delivered on time",
-        },
-```
-
-This class is important because it defines how OpenAI Python SDK Tutorial: Production API Patterns implements the patterns covered in this chapter.
-
-### `examples/parsing_tools.py`
-
-The `Condition` class in [`examples/parsing_tools.py`](https://github.com/openai/openai-python/blob/HEAD/examples/parsing_tools.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-class Condition(BaseModel):
-    column: str
-    operator: Operator
-    value: Union[str, int, DynamicValue]
-
-
-class Query(BaseModel):
-    table_name: Table
-    columns: List[Column]
-    conditions: List[Condition]
-    order_by: OrderBy
-
-
-client = OpenAI()
-
-completion = client.chat.completions.parse(
-    model="gpt-4o-2024-08-06",
-    messages=[
-        {
-            "role": "system",
-            "content": "You are a helpful assistant. The current date is August 6, 2024. You help users query for the data they are looking for by calling the query function.",
-        },
-        {
-            "role": "user",
-            "content": "look up all my orders in november of last year that were fulfilled but not delivered on time",
-        },
-    ],
-    tools=[
-        openai.pydantic_function_tool(Query),
-    ],
 ```
 
 This class is important because it defines how OpenAI Python SDK Tutorial: Production API Patterns implements the patterns covered in this chapter.
@@ -196,9 +192,9 @@ This class is important because it defines how OpenAI Python SDK Tutorial: Produ
 
 ```mermaid
 flowchart TD
-    A[OrderBy]
-    B[DynamicValue]
-    C[Condition]
+    A[sync_main]
+    B[async_main]
+    C[Table]
     A --> B
     B --> C
 ```

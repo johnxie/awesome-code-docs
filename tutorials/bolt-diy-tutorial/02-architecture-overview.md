@@ -137,50 +137,7 @@ You now have a working architecture map of bolt.diy:
 
 Next: [Chapter 3: Providers and Model Routing](03-providers-and-routing.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
-
-### `app/root.tsx`
-
-The `Layout` function in [`app/root.tsx`](https://github.com/stackblitz-labs/bolt.diy/blob/HEAD/app/root.tsx) handles a key part of this chapter's functionality:
-
-```tsx
-));
-
-export function Layout({ children }: { children: React.ReactNode }) {
-  const theme = useStore(themeStore);
-
-  useEffect(() => {
-    document.querySelector('html')?.setAttribute('data-theme', theme);
-  }, [theme]);
-
-  return (
-    <>
-      <ClientOnly>{() => <DndProvider backend={HTML5Backend}>{children}</DndProvider>}</ClientOnly>
-      <ToastContainer
-        closeButton={({ closeToast }) => {
-          return (
-            <button className="Toastify__close-button" onClick={closeToast}>
-              <div className="i-ph:x text-lg" />
-            </button>
-          );
-        }}
-        icon={({ type }) => {
-          switch (type) {
-            case 'success': {
-              return <div className="i-ph:check-bold text-bolt-elements-icon-success text-2xl" />;
-            }
-            case 'error': {
-              return <div className="i-ph:warning-circle-bold text-bolt-elements-icon-error text-2xl" />;
-            }
-          }
-
-          return undefined;
-        }}
-```
-
-This function is important because it defines how bolt.diy Tutorial: Build and Operate an Open Source AI App Builder implements the patterns covered in this chapter.
 
 ### `app/root.tsx`
 
@@ -222,6 +179,22 @@ export default function App() {
 ```
 
 This function is important because it defines how bolt.diy Tutorial: Build and Operate an Open Source AI App Builder implements the patterns covered in this chapter.
+
+### `load-context.ts`
+
+The `AppLoadContext` interface in [`load-context.ts`](https://github.com/stackblitz-labs/bolt.diy/blob/HEAD/load-context.ts) handles a key part of this chapter's functionality:
+
+```ts
+
+declare module '@remix-run/cloudflare' {
+  interface AppLoadContext {
+    cloudflare: Cloudflare;
+  }
+}
+
+```
+
+This interface is important because it defines how bolt.diy Tutorial: Build and Operate an Open Source AI App Builder implements the patterns covered in this chapter.
 
 ### `app/entry.server.tsx`
 
@@ -310,11 +283,11 @@ This function is important because it defines how bolt.diy Tutorial: Build and O
 
 ```mermaid
 flowchart TD
-    A[Layout]
-    B[App]
+    A[App]
+    B[AppLoadContext]
     C[handleRequest]
     D[read]
-    E[action]
+    E[getEncoding]
     A --> B
     B --> C
     C --> D

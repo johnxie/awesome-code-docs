@@ -57,170 +57,168 @@ You now have the building blocks for durable, reusable Crush workflows.
 
 Next: [Chapter 7: Logs, Debugging, and Operations](07-logs-debugging-and-operations.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `internal/message/content.go`
+### `internal/workspace/client_workspace.go`
 
-The `AddImageURL` function in [`internal/message/content.go`](https://github.com/charmbracelet/crush/blob/HEAD/internal/message/content.go) handles a key part of this chapter's functionality:
+The `SetProviderAPIKey` function in [`internal/workspace/client_workspace.go`](https://github.com/charmbracelet/crush/blob/HEAD/internal/workspace/client_workspace.go) handles a key part of this chapter's functionality:
 
 ```go
 }
 
-func (m *Message) AddImageURL(url, detail string) {
-	m.Parts = append(m.Parts, ImageURLContent{URL: url, Detail: detail})
-}
-
-func (m *Message) AddBinary(mimeType string, data []byte) {
-	m.Parts = append(m.Parts, BinaryContent{MIMEType: mimeType, Data: data})
-}
-
-func PromptWithTextAttachments(prompt string, attachments []Attachment) string {
-	var sb strings.Builder
-	sb.WriteString(prompt)
-	addedAttachments := false
-	for _, content := range attachments {
-		if !content.IsText() {
-			continue
-		}
-		if !addedAttachments {
-			sb.WriteString("\n<system_info>The files below have been attached by the user, consider them in your response</system_info>\n")
-			addedAttachments = true
-		}
-		if content.FilePath != "" {
-			fmt.Fprintf(&sb, "<file path='%s'>\n", content.FilePath)
-		} else {
-			sb.WriteString("<file>\n")
-		}
-		sb.WriteString("\n")
-		sb.Write(content.Content)
-		sb.WriteString("\n</file>\n")
+func (w *ClientWorkspace) SetProviderAPIKey(scope config.Scope, providerID string, apiKey any) error {
+	err := w.client.SetProviderAPIKey(context.Background(), w.workspaceID(), scope, providerID, apiKey)
+	if err == nil {
+		w.refreshWorkspace()
 	}
-	return sb.String()
+	return err
+}
+
+func (w *ClientWorkspace) SetConfigField(scope config.Scope, key string, value any) error {
+	err := w.client.SetConfigField(context.Background(), w.workspaceID(), scope, key, value)
+	if err == nil {
+		w.refreshWorkspace()
+	}
+	return err
+}
+
+func (w *ClientWorkspace) RemoveConfigField(scope config.Scope, key string) error {
+	err := w.client.RemoveConfigField(context.Background(), w.workspaceID(), scope, key)
+	if err == nil {
+		w.refreshWorkspace()
+	}
+	return err
+}
+
+func (w *ClientWorkspace) ImportCopilot() (*oauth.Token, bool) {
+	token, ok, err := w.client.ImportCopilot(context.Background(), w.workspaceID())
+	if err != nil {
+		return nil, false
+	}
+	if ok {
 ```
 
 This function is important because it defines how Crush Tutorial: Multi-Model Terminal Coding Agent with Strong Extensibility implements the patterns covered in this chapter.
 
-### `internal/message/content.go`
+### `internal/workspace/client_workspace.go`
 
-The `AddBinary` function in [`internal/message/content.go`](https://github.com/charmbracelet/crush/blob/HEAD/internal/message/content.go) handles a key part of this chapter's functionality:
+The `SetConfigField` function in [`internal/workspace/client_workspace.go`](https://github.com/charmbracelet/crush/blob/HEAD/internal/workspace/client_workspace.go) handles a key part of this chapter's functionality:
 
 ```go
 }
 
-func (m *Message) AddBinary(mimeType string, data []byte) {
-	m.Parts = append(m.Parts, BinaryContent{MIMEType: mimeType, Data: data})
-}
-
-func PromptWithTextAttachments(prompt string, attachments []Attachment) string {
-	var sb strings.Builder
-	sb.WriteString(prompt)
-	addedAttachments := false
-	for _, content := range attachments {
-		if !content.IsText() {
-			continue
-		}
-		if !addedAttachments {
-			sb.WriteString("\n<system_info>The files below have been attached by the user, consider them in your response</system_info>\n")
-			addedAttachments = true
-		}
-		if content.FilePath != "" {
-			fmt.Fprintf(&sb, "<file path='%s'>\n", content.FilePath)
-		} else {
-			sb.WriteString("<file>\n")
-		}
-		sb.WriteString("\n")
-		sb.Write(content.Content)
-		sb.WriteString("\n</file>\n")
+func (w *ClientWorkspace) SetConfigField(scope config.Scope, key string, value any) error {
+	err := w.client.SetConfigField(context.Background(), w.workspaceID(), scope, key, value)
+	if err == nil {
+		w.refreshWorkspace()
 	}
-	return sb.String()
+	return err
 }
 
-func (m *Message) ToAIMessage() []fantasy.Message {
-	var messages []fantasy.Message
+func (w *ClientWorkspace) RemoveConfigField(scope config.Scope, key string) error {
+	err := w.client.RemoveConfigField(context.Background(), w.workspaceID(), scope, key)
+	if err == nil {
+		w.refreshWorkspace()
+	}
+	return err
+}
+
+func (w *ClientWorkspace) ImportCopilot() (*oauth.Token, bool) {
+	token, ok, err := w.client.ImportCopilot(context.Background(), w.workspaceID())
+	if err != nil {
+		return nil, false
+	}
+	if ok {
+		w.refreshWorkspace()
+	}
+	return token, ok
+}
+
+func (w *ClientWorkspace) RefreshOAuthToken(ctx context.Context, scope config.Scope, providerID string) error {
+	err := w.client.RefreshOAuthToken(ctx, w.workspaceID(), scope, providerID)
+	if err == nil {
 ```
 
 This function is important because it defines how Crush Tutorial: Multi-Model Terminal Coding Agent with Strong Extensibility implements the patterns covered in this chapter.
 
-### `internal/message/content.go`
+### `internal/workspace/client_workspace.go`
 
-The `PromptWithTextAttachments` function in [`internal/message/content.go`](https://github.com/charmbracelet/crush/blob/HEAD/internal/message/content.go) handles a key part of this chapter's functionality:
+The `RemoveConfigField` function in [`internal/workspace/client_workspace.go`](https://github.com/charmbracelet/crush/blob/HEAD/internal/workspace/client_workspace.go) handles a key part of this chapter's functionality:
 
 ```go
 }
 
-func PromptWithTextAttachments(prompt string, attachments []Attachment) string {
-	var sb strings.Builder
-	sb.WriteString(prompt)
-	addedAttachments := false
-	for _, content := range attachments {
-		if !content.IsText() {
-			continue
-		}
-		if !addedAttachments {
-			sb.WriteString("\n<system_info>The files below have been attached by the user, consider them in your response</system_info>\n")
-			addedAttachments = true
-		}
-		if content.FilePath != "" {
-			fmt.Fprintf(&sb, "<file path='%s'>\n", content.FilePath)
-		} else {
-			sb.WriteString("<file>\n")
-		}
-		sb.WriteString("\n")
-		sb.Write(content.Content)
-		sb.WriteString("\n</file>\n")
+func (w *ClientWorkspace) RemoveConfigField(scope config.Scope, key string) error {
+	err := w.client.RemoveConfigField(context.Background(), w.workspaceID(), scope, key)
+	if err == nil {
+		w.refreshWorkspace()
 	}
-	return sb.String()
+	return err
 }
 
-func (m *Message) ToAIMessage() []fantasy.Message {
-	var messages []fantasy.Message
-	switch m.Role {
-	case User:
-		var parts []fantasy.MessagePart
-		text := strings.TrimSpace(m.Content().Text)
+func (w *ClientWorkspace) ImportCopilot() (*oauth.Token, bool) {
+	token, ok, err := w.client.ImportCopilot(context.Background(), w.workspaceID())
+	if err != nil {
+		return nil, false
+	}
+	if ok {
+		w.refreshWorkspace()
+	}
+	return token, ok
+}
+
+func (w *ClientWorkspace) RefreshOAuthToken(ctx context.Context, scope config.Scope, providerID string) error {
+	err := w.client.RefreshOAuthToken(ctx, w.workspaceID(), scope, providerID)
+	if err == nil {
+		w.refreshWorkspace()
+	}
+	return err
+}
+
+// -- Project lifecycle --
+
+func (w *ClientWorkspace) ProjectNeedsInitialization() (bool, error) {
 ```
 
 This function is important because it defines how Crush Tutorial: Multi-Model Terminal Coding Agent with Strong Extensibility implements the patterns covered in this chapter.
 
-### `internal/message/content.go`
+### `internal/workspace/client_workspace.go`
 
-The `ToAIMessage` function in [`internal/message/content.go`](https://github.com/charmbracelet/crush/blob/HEAD/internal/message/content.go) handles a key part of this chapter's functionality:
+The `ImportCopilot` function in [`internal/workspace/client_workspace.go`](https://github.com/charmbracelet/crush/blob/HEAD/internal/workspace/client_workspace.go) handles a key part of this chapter's functionality:
 
 ```go
 }
 
-func (m *Message) ToAIMessage() []fantasy.Message {
-	var messages []fantasy.Message
-	switch m.Role {
-	case User:
-		var parts []fantasy.MessagePart
-		text := strings.TrimSpace(m.Content().Text)
-		var textAttachments []Attachment
-		for _, content := range m.BinaryContent() {
-			if !strings.HasPrefix(content.MIMEType, "text/") {
-				continue
-			}
-			textAttachments = append(textAttachments, Attachment{
-				FilePath: content.Path,
-				MimeType: content.MIMEType,
-				Content:  content.Data,
-			})
-		}
-		text = PromptWithTextAttachments(text, textAttachments)
-		if text != "" {
-			parts = append(parts, fantasy.TextPart{Text: text})
-		}
-		for _, content := range m.BinaryContent() {
-			// skip text attachements
-			if strings.HasPrefix(content.MIMEType, "text/") {
-				continue
-			}
-			parts = append(parts, fantasy.FilePart{
-				Filename:  content.Path,
-				Data:      content.Data,
-				MediaType: content.MIMEType,
+func (w *ClientWorkspace) ImportCopilot() (*oauth.Token, bool) {
+	token, ok, err := w.client.ImportCopilot(context.Background(), w.workspaceID())
+	if err != nil {
+		return nil, false
+	}
+	if ok {
+		w.refreshWorkspace()
+	}
+	return token, ok
+}
+
+func (w *ClientWorkspace) RefreshOAuthToken(ctx context.Context, scope config.Scope, providerID string) error {
+	err := w.client.RefreshOAuthToken(ctx, w.workspaceID(), scope, providerID)
+	if err == nil {
+		w.refreshWorkspace()
+	}
+	return err
+}
+
+// -- Project lifecycle --
+
+func (w *ClientWorkspace) ProjectNeedsInitialization() (bool, error) {
+	return w.client.ProjectNeedsInitialization(context.Background(), w.workspaceID())
+}
+
+func (w *ClientWorkspace) MarkProjectInitialized() error {
+	return w.client.MarkProjectInitialized(context.Background(), w.workspaceID())
+}
+
+func (w *ClientWorkspace) InitializePrompt() (string, error) {
 ```
 
 This function is important because it defines how Crush Tutorial: Multi-Model Terminal Coding Agent with Strong Extensibility implements the patterns covered in this chapter.
@@ -230,11 +228,11 @@ This function is important because it defines how Crush Tutorial: Multi-Model Te
 
 ```mermaid
 flowchart TD
-    A[AddImageURL]
-    B[AddBinary]
-    C[PromptWithTextAttachments]
-    D[ToAIMessage]
-    E[NewManager]
+    A[SetProviderAPIKey]
+    B[SetConfigField]
+    C[RemoveConfigField]
+    D[ImportCopilot]
+    E[RefreshOAuthToken]
     A --> B
     B --> C
     C --> D

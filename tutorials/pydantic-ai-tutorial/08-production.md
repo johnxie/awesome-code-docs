@@ -1579,6 +1579,18 @@ Under the hood, `Chapter 8: Production Deployment & Scaling Pydantic AI Systems`
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
+## Production Deployment
+
+```mermaid
+flowchart LR
+    A[FastAPI App] --> B[PydanticAI Agent]
+    B --> C[LLM Provider]
+    B --> D[Logfire / Telemetry]
+    D --> E[Traces / Metrics]
+    A --> F[Structured API Response]
+    F --> G[Client]
+```
+
 ## Source Walkthrough
 
 Use the following upstream sources to verify implementation details while reading this chapter:

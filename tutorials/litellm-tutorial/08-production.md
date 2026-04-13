@@ -13,6 +13,22 @@ Welcome to **Chapter 8: Production Deployment**. In this part of **LiteLLM Tutor
 
 > Deploy LiteLLM applications to production with monitoring, scaling, security, and operational best practices.
 
+## Production Deployment Model
+
+```mermaid
+flowchart TD
+    LB[Load Balancer] --> P1[LiteLLM Proxy Instance 1]
+    LB --> P2[LiteLLM Proxy Instance 2]
+    P1 --> DB[(Postgres: keys + spend)]
+    P2 --> DB
+    P1 --> REDIS[(Redis: rate limit cache)]
+    P2 --> REDIS
+    P1 --> PROV[LLM Providers]
+    P2 --> PROV
+    P1 --> OBS[Observability\nPrometheus / Langfuse]
+    P2 --> OBS
+```
+
 ## Overview
 
 Production deployment of LiteLLM requires careful consideration of performance, reliability, security, and cost management. This chapter covers comprehensive production patterns for both direct LiteLLM usage and proxy deployments.

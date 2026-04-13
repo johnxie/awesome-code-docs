@@ -47,6 +47,54 @@ Inside the session, start with a scoped prompt such as:
 
 - "Summarize this repo structure and propose a 3-step refactor plan."
 
+## Platform-Specific Installation Notes
+
+### macOS
+
+Both Homebrew and the install script work. Homebrew is preferred if you manage other CLI tools through it — updates come via `brew upgrade block-goose-cli`. The install script places the binary in `~/.local/bin`; ensure this is on your `PATH`.
+
+### Linux
+
+Use the install script. After running it, verify the install with:
+
+```bash
+goose --version
+goose info
+```
+
+`goose info` prints the config file path, log directory, and current version — useful for confirming the binary and config are where Goose expects them.
+
+### Windows
+
+Use the desktop installer from the GitHub releases page. The CLI is available but the desktop app provides a more stable setup flow on Windows. WSL2 is a supported path for CLI-only usage.
+
+## Desktop vs CLI Tradeoffs
+
+| Factor | Desktop App | CLI |
+|:-------|:------------|:----|
+| first-time setup | guided UI with provider wizard | `goose configure` interactive prompts |
+| session visibility | visual conversation pane | terminal output with streaming |
+| extension management | toggle UI per extension | `goose configure` or `--with-builtin` flag |
+| scripting / CI | not suitable | `goose run` with headless flags |
+| context usage display | token meter in sidebar | printed before each prompt |
+
+Most developers use the CLI for scripted tasks and the desktop app for exploratory sessions. Both share the same `~/.config/goose/config.yaml` configuration file.
+
+## What `goose info` Shows
+
+After setup, running `goose info` outputs your runtime baseline:
+
+```
+version:       v1.28.0
+config file:   ~/.config/goose/config.yaml
+log dir:       ~/.config/goose/logs/
+sessions dir:  ~/.config/goose/sessions/
+provider:      anthropic
+model:         claude-sonnet-4-5
+```
+
+This is the first command to run when diagnosing unexpected behavior.
+
 ## Early Failure Triage
 
 | Symptom | Likely Cause | First Fix |
@@ -54,6 +102,8 @@ Inside the session, start with a scoped prompt such as:
 | no model response | provider not configured correctly | rerun `goose configure` and re-authenticate |
 | tool calls fail unexpectedly | permission mode mismatch | switch mode or adjust per-tool permissions |
 | noisy or irrelevant context | wrong working directory | restart session from repo root |
+| `command not found: goose` | binary not on PATH | check `~/.local/bin` is in PATH |
+| auth errors with Anthropic | API key expired or incorrect | regenerate key at console.anthropic.com |
 
 ## Source References
 
@@ -61,189 +111,93 @@ Inside the session, start with a scoped prompt such as:
 - [Install goose](https://block.github.io/goose/docs/getting-started/installation)
 - [Configure LLM Provider](https://block.github.io/goose/docs/getting-started/providers)
 
+## Updating Goose
+
+Keep your installation current to get bug fixes and new provider support:
+
+```bash
+# Upgrade to latest stable release
+goose update --channel stable
+
+# Check what version you have
+goose info
+```
+
+For Homebrew installations, use `brew upgrade block-goose-cli` instead. The install-script path and Homebrew path are independent; do not mix them on the same machine.
+
+## Custom Distros
+
+If your organization wants to ship a pre-configured Goose with specific providers, extensions, and branding, the `CUSTOM_DISTROS.md` file at the repo root documents the distro build process. This is relevant for platform teams that want to standardize Goose across a large engineering org without requiring each developer to run `goose configure` from scratch.
+
 ## Summary
 
 You now have Goose installed, configured, and running in a real project context.
 
 Next: [Chapter 2: Architecture and Agent Loop](02-architecture-and-agent-loop.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `scripts/diagnostics-viewer.py`
+### `crates/goose-cli/src/cli.rs` — CLI entry point and command structure
 
-The `JsonTreeView` class in [`scripts/diagnostics-viewer.py`](https://github.com/block/goose/blob/HEAD/scripts/diagnostics-viewer.py) handles a key part of this chapter's functionality:
+The top-level `Cli` struct in [`crates/goose-cli/src/cli.rs`](https://github.com/block/goose/blob/main/crates/goose-cli/src/cli.rs) defines the complete command surface you interact with during setup and every session:
 
-```py
-
-
-class JsonTreeView(Tree):
-    """A tree widget for displaying collapsible JSON."""
-
-    BINDINGS = [
-        Binding("ctrl+o", "toggle_all", "Toggle All", show=True),
-    ]
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.json_data = None
-        self.show_root = False
-        self.all_expanded = False
-
-    def load_json(self, data: Any, label: str = "JSON"):
-        """Load JSON data into the tree."""
-        self.json_data = data
-        self.clear()
-        self.root.label = label
-        self._build_tree(self.root, data)
-        # Expand all nodes by default
-        self.root.expand_all()
-
-    def action_toggle_all(self):
-        """Toggle expansion of all nodes."""
-        self.all_expanded = not self.all_expanded
-        if self.all_expanded:
-            self.root.expand_all()
-        else:
-            self.root.collapse_all()
-            self.root.expand()  # Keep root expanded
+```rust
+#[derive(Parser)]
+#[command(name = "goose", author, version, display_name = "", about, long_about = None)]
+pub struct Cli {
+    #[command(subcommand)]
+    command: Option<Command>,
+}
 ```
 
-This class is important because it defines how Goose Tutorial: Extensible Open-Source AI Agent for Real Engineering Work implements the patterns covered in this chapter.
+Key argument groups surfaced by this file include:
 
-### `scripts/diagnostics-viewer.py`
+- **`Identifier`** — selects a session by `--name (-n)`, `--session-id`, or legacy `--path`
+- **`SessionOptions`** — controls `--debug`, `--max-tool-repetitions`, `--max-turns` (default 1000), and `--container`
+- **`InputOptions`** — accepts `--instructions (-i)` (file path or stdin), `--text (-t)`, `--recipe`, `--system`, and `--params`
+- **`ExtensionOptions`** — adds extensions via `--with-extension`, `--with-builtin`, or disables defaults with `--no-profile`
 
-The `of` class in [`scripts/diagnostics-viewer.py`](https://github.com/block/goose/blob/HEAD/scripts/diagnostics-viewer.py) handles a key part of this chapter's functionality:
+This is the interface boundary you see when running `goose --help` or `goose session --help`.
 
-```py
+### `crates/goose-cli/src/commands/configure.rs` — interactive provider setup
 
-    def action_toggle_all(self):
-        """Toggle expansion of all nodes."""
-        self.all_expanded = not self.all_expanded
-        if self.all_expanded:
-            self.root.expand_all()
-        else:
-            self.root.collapse_all()
-            self.root.expand()  # Keep root expanded
+The `configure_provider_dialog()` function in [`crates/goose-cli/src/commands/configure.rs`](https://github.com/block/goose/blob/main/crates/goose-cli/src/commands/configure.rs) runs when you execute `goose configure`:
 
-    def on_tree_node_selected(self, event: Tree.NodeSelected):
-        """Handle node selection - show modal for truncated strings."""
-        node = event.node
+```rust
+pub async fn configure_provider_dialog() -> anyhow::Result<bool> {
+    let config = Config::global();
+    let mut available_providers = providers().await;
+    available_providers.sort_by(|a, b| a.0.display_name.cmp(&b.0.display_name));
 
-        # Check if this is a truncated string node
-        if node.data and isinstance(node.data, dict) and node.data.get("truncated"):
-            key = node.data["key"]
-            value = node.data["value"]
+    let provider_items: Vec<(&String, &str, &str)> = available_providers
+        .iter()
+        .map(|(p, _)| (&p.name, p.display_name.as_str(), p.description.as_str()))
+        .collect();
 
-            # Show the full string in a modal
-            title = f"Full String Value for '{key}'"
-            self.app.push_screen(TextViewerModal(title, value))
+    let current_provider: Option<String> = config.get_goose_provider().ok();
+    let default_provider = current_provider.unwrap_or_default();
 
-            # Prevent default tree expansion behavior
-            event.stop()
+    let provider_name = cliclack::select("Which model provider should we use?")
+        .initial_value(&default_provider)
+        .items(&provider_items)
+        .filter_mode()
+        .interact()?;
 
-    def _build_tree(self, node, data, max_depth=10, current_depth=0):
-        """Recursively build the tree from JSON data."""
-        if current_depth > max_depth:
-            node.add_leaf("[dim]...[/dim]")
-            return
-
+    // ... iterate config_keys, collect credentials, test provider
+    Ok(true)
+}
 ```
 
-This class is important because it defines how Goose Tutorial: Extensible Open-Source AI Agent for Real Engineering Work implements the patterns covered in this chapter.
-
-### `scripts/diagnostics-viewer.py`
-
-The `of` class in [`scripts/diagnostics-viewer.py`](https://github.com/block/goose/blob/HEAD/scripts/diagnostics-viewer.py) handles a key part of this chapter's functionality:
-
-```py
-
-    def action_toggle_all(self):
-        """Toggle expansion of all nodes."""
-        self.all_expanded = not self.all_expanded
-        if self.all_expanded:
-            self.root.expand_all()
-        else:
-            self.root.collapse_all()
-            self.root.expand()  # Keep root expanded
-
-    def on_tree_node_selected(self, event: Tree.NodeSelected):
-        """Handle node selection - show modal for truncated strings."""
-        node = event.node
-
-        # Check if this is a truncated string node
-        if node.data and isinstance(node.data, dict) and node.data.get("truncated"):
-            key = node.data["key"]
-            value = node.data["value"]
-
-            # Show the full string in a modal
-            title = f"Full String Value for '{key}'"
-            self.app.push_screen(TextViewerModal(title, value))
-
-            # Prevent default tree expansion behavior
-            event.stop()
-
-    def _build_tree(self, node, data, max_depth=10, current_depth=0):
-        """Recursively build the tree from JSON data."""
-        if current_depth > max_depth:
-            node.add_leaf("[dim]...[/dim]")
-            return
-
-```
-
-This class is important because it defines how Goose Tutorial: Extensible Open-Source AI Agent for Real Engineering Work implements the patterns covered in this chapter.
-
-### `scripts/diagnostics-viewer.py`
-
-The `TextViewerModal` class in [`scripts/diagnostics-viewer.py`](https://github.com/block/goose/blob/HEAD/scripts/diagnostics-viewer.py) handles a key part of this chapter's functionality:
-
-```py
-            # Show the full string in a modal
-            title = f"Full String Value for '{key}'"
-            self.app.push_screen(TextViewerModal(title, value))
-
-            # Prevent default tree expansion behavior
-            event.stop()
-
-    def _build_tree(self, node, data, max_depth=10, current_depth=0):
-        """Recursively build the tree from JSON data."""
-        if current_depth > max_depth:
-            node.add_leaf("[dim]...[/dim]")
-            return
-
-        if isinstance(data, dict):
-            for key, value in data.items():
-                if isinstance(value, (dict, list)) and value:
-                    # Expand first level by default
-                    child = node.add(f"[cyan]{key}[/cyan]: {{...}}" if isinstance(value, dict) else f"[cyan]{key}[/cyan]: [...]", expand=(current_depth == 0))
-                    child.data = {"key": key, "value": value, "type": type(value).__name__, "expandable": False}
-                    self._build_tree(child, value, max_depth, current_depth + 1)
-                elif isinstance(value, str):
-                    truncated = truncate_string(value)
-                    if truncated != value:
-                        # Make truncated strings expandable
-                        child = node.add(f"[cyan]{key}[/cyan]: [green]\"{truncated}\"[/green]", expand=False)
-                        child.data = {"key": key, "value": value, "type": "str", "truncated": True, "expandable": True}
-                        child.allow_expand = False  # Don't show expand icon initially
-                    else:
-                        node.add_leaf(f"[cyan]{key}[/cyan]: [green]\"{value}\"[/green]")
-                elif isinstance(value, bool):
-                    # Check bool before int/float since bool is a subclass of int
-                    node.add_leaf(f"[cyan]{key}[/cyan]: [magenta]{str(value).lower()}[/magenta]")
-```
-
-This class is important because it defines how Goose Tutorial: Extensible Open-Source AI Agent for Real Engineering Work implements the patterns covered in this chapter.
-
+The function reads `ProviderMetadata` for each registered provider, prompts for required `ConfigKey` credentials via secure input, and validates the connection before writing to `Config::global()`. This is the first thing you run after installing Goose.
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[JsonTreeView]
-    B[of]
-    C[of]
-    D[TextViewerModal]
+    A["goose CLI binary\n(crates/goose-cli/src/main.rs)"]
+    B["Cli struct + subcommands\n(src/cli.rs)"]
+    C["configure subcommand\n(src/commands/configure.rs)"]
+    D["Config::global() singleton\n(providers, model, extensions)"]
     A --> B
     B --> C
     C --> D

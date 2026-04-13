@@ -1,98 +1,106 @@
 ---
 layout: default
-title: "Anthropic Skills Tutorial"
+title: "Anthropic Quickstarts Tutorial"
 nav_order: 91
 has_children: true
 format_version: v2
+source_repo: https://github.com/anthropics/anthropic-quickstarts
+categories:
+  - ai-agents
+  - computer-use
+  - tool-use
+  - multi-turn-conversations
+related_tutorials:
+  - ../anthropic-code-tutorial/
+  - ../mcp-python-sdk-tutorial/
+  - ../claude-code-tutorial/
 ---
 
-# Anthropic Skills Tutorial: Reusable AI Agent Capabilities
+# Anthropic Quickstarts Tutorial
 
-> Build and operate production-quality skills for Claude Code, Claude.ai, and the Claude API.
+> A deep-dive into every project in the official `anthropics/anthropic-quickstarts` repository — computer use, autonomous coding, customer support, financial analysis, and the agents reference implementation.
 
-[![Stars](https://img.shields.io/github/stars/anthropics/skills?style=social)](https://github.com/anthropics/skills)
+[![GitHub](https://img.shields.io/badge/Source-anthropics%2Fanthropic--quickstarts-blue)](https://github.com/anthropics/anthropic-quickstarts)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Spec](https://img.shields.io/badge/Spec-agentskills.io-blue)](https://agentskills.io/specification)
 
-## Why This Track Matters
+## What This Tutorial Covers
 
-Anthropic Skills let you package reusable, reliable behaviors for Claude agents once and deploy them across every integration point — Claude Code, Claude.ai, and the API — without re-engineering each time.
+The `anthropics/anthropic-quickstarts` repository is the canonical starting point for building production-quality Claude-powered applications. It is **not** a skills/plugin system — it is a collection of five standalone quickstart projects that demonstrate the full range of Claude's capabilities:
 
-This track focuses on:
-- designing skills with clear invocation boundaries and deterministic outputs
-- packaging repeatable workflows using scripts, references, and asset files
-- publishing versioned skills for team or public reuse
-- operating a skills catalog with ownership and lifecycle controls
+| Project | What It Demonstrates |
+|:--------|:---------------------|
+| `computer-use-demo/` | Claude controlling a real desktop via screenshot + xdotool actions |
+| `agents/` | A minimal reference agent loop with tool use and MCP integration |
+| `autonomous-coding/` | Two-agent pattern: initializer + coding agent across many sessions |
+| `customer-support-agent/` | Next.js chat app with Claude + Amazon Bedrock RAG knowledge base |
+| `financial-data-analyst/` | Next.js app with file upload, Claude analysis, and Recharts visualizations |
+| `browser-use-demo/` | DOM-aware browser automation via Playwright instead of pixel coordinates |
 
-## What are Anthropic Skills?
+## Why This Repository Matters
 
-Anthropic Skills are packaged instructions and supporting files that Claude can load for specific jobs. A skill can be lightweight (one `SKILL.md`) or operationally rich (scripts, templates, and domain references).
+Before these quickstarts existed, the standard approach was to cobble together ad-hoc integrations from API documentation snippets. The quickstarts provide:
 
-The official `anthropics/skills` repository demonstrates real patterns used for:
+- **Working Docker environments** so you can run computer use in minutes, not days
+- **Reference sampling loops** demonstrating multi-turn conversation management, prompt caching, and image window management
+- **Concrete tool implementations** showing exactly how `bash`, `computer`, and `str_replace_based_edit_tool` are structured
+- **Production patterns** like retry logic, provider abstraction (Anthropic / Bedrock / Vertex), and structured output validation
 
-- document generation workflows (DOCX, PDF, XLSX, PPTX)
-- development and automation tasks
-- enterprise process standardization
-- reusable task-specific behavior across teams
+## Architecture Overview
 
-## Core Concepts
+```mermaid
+graph TD
+    subgraph quickstarts["anthropic-quickstarts"]
+        CU["computer-use-demo<br/>Python + Docker + Streamlit"]
+        AG["agents/<br/>Python reference impl &lt;300 lines"]
+        AC["autonomous-coding/<br/>Claude Code CLI + Python"]
+        CS["customer-support-agent/<br/>Next.js + Bedrock RAG"]
+        FA["financial-data-analyst/<br/>Next.js + Recharts"]
+        BD["browser-use-demo/<br/>Python + Playwright + Docker"]
+    end
 
-| Concept | Why It Matters |
-|:--------|:---------------|
-| `SKILL.md` | Defines how and when the skill should be used |
-| Frontmatter | Enables discovery, routing, and compatibility metadata |
-| Body instructions | The behavioral contract Claude follows while the skill is active |
-| `scripts/` | Deterministic external logic for tasks that should not be left to free-form generation |
-| `references/` | Source material Claude can load on demand for better answers |
-| `assets/` | Non-text files required by the workflow |
+    API["Anthropic API<br/>(claude-opus-4 / sonnet-4 / haiku-4)"]
+    MCP["MCP Servers<br/>(optional)"]
+
+    CU --> API
+    AG --> API
+    AG --> MCP
+    AC --> API
+    CS --> API
+    FA --> API
+    BD --> API
+```
 
 ## Chapter Guide
 
-| Chapter | Topic | What You Will Learn |
-|:--------|:------|:--------------------|
-| [1. Getting Started](01-getting-started.md) | Setup | Skill anatomy, minimal valid skill, local iteration loop |
-| [2. Skill Categories](02-skill-categories.md) | Taxonomy | How to choose category boundaries and avoid "mega-skills" |
-| [3. Advanced Skill Design](03-advanced-skill-design.md) | Architecture | Multi-file composition with scripts, references, and assets |
-| [4. Integration Platforms](04-integration-platforms.md) | Runtime | Claude Code, Claude.ai, and Claude API integration patterns |
-| [5. Production Skills](05-production-skills.md) | Reliability | Deterministic outputs, guardrails, and validation pipelines |
-| [6. Best Practices](06-best-practices.md) | Quality | Testing strategy, change management, and security hygiene |
-| [7. Publishing and Sharing](07-publishing-sharing.md) | Distribution | Versioning, release channels, governance, and ownership |
-| [8. Real-World Examples](08-real-world-examples.md) | Case Studies | End-to-end patterns you can adapt for real teams |
-
-## Current Ecosystem Notes (February 11, 2026)
-
-- The public reference implementation remains in `anthropics/skills`.
-- The repository points to the evolving Agent Skills format specification at `agentskills.io/specification`.
-- Claude Code supports plugin marketplace workflows for skill installation from published skill repositories.
-
-## What You Will Build
-
-By the end of this tutorial, you will be able to:
-
-- design skills with clear invocation boundaries
-- package repeatable outputs with strict templates
-- integrate script-backed workflows safely
-- publish versioned skills for internal or public reuse
-- run regression checks to prevent prompt drift
-- operate a skills catalog with ownership and lifecycle controls
+| Chapter | Topic | Core Question Answered |
+|:--------|:------|:-----------------------|
+| [1. Getting Started](01-getting-started.md) | Setup & mental model | What does each quickstart actually do and how do I run it? |
+| [2. Quickstart Architecture](02-skill-categories.md) | Project anatomy | How are the five projects structured and what patterns do they share? |
+| [3. Computer Use Deep-Dive](03-advanced-skill-design.md) | Computer use agent | How does Claude control a desktop: tools, loop, coordinate scaling? |
+| [4. Tool Use Patterns](04-integration-platforms.md) | Tool design | How are BashTool, ComputerTool, EditTool, and custom tools built? |
+| [5. Multi-Turn Conversation Patterns](05-production-skills.md) | Sampling loop | How does the agentic loop work, and how do you manage context? |
+| [6. MCP Integration](06-best-practices.md) | MCP | How does the agents quickstart connect to MCP servers? |
+| [7. Production Hardening](07-publishing-sharing.md) | Reliability | Prompt caching, image truncation, provider abstraction, security |
+| [8. End-to-End Walkthroughs](08-real-world-examples.md) | Case studies | Full traces of the customer support and financial analyst quickstarts |
 
 ## Prerequisites
 
-- Basic markdown and YAML familiarity
-- Working knowledge of Claude Code or Claude API workflows
-- Git/GitHub basics for version control and sharing
+- Python 3.11+ and Node.js 18+ for local development
+- Docker Desktop for computer-use and browser-use demos
+- An `ANTHROPIC_API_KEY` from [console.anthropic.com](https://console.anthropic.com)
+- Basic familiarity with async Python or TypeScript/React
 
 ## Related Tutorials
 
 **Prerequisites:**
-- [Anthropic API Tutorial](../anthropic-code-tutorial/) - Claude API fundamentals
+- [Anthropic API Tutorial](../anthropic-code-tutorial/) — Claude API fundamentals, message format, and streaming
 
 **Complementary:**
-- [MCP Python SDK Tutorial](../mcp-python-sdk-tutorial/) - Tool integration patterns
-- [Claude Code Tutorial](../claude-code-tutorial/) - CLI-driven agent workflows
+- [MCP Python SDK Tutorial](../mcp-python-sdk-tutorial/) — Build custom MCP servers the agents quickstart can connect to
+- [Claude Code Tutorial](../claude-code-tutorial/) — The CLI used by the autonomous-coding quickstart
 
 **Next Steps:**
-- [MCP Servers Tutorial](../mcp-servers-tutorial/) - Reference server patterns for richer tool ecosystems
+- [MCP Servers Tutorial](../mcp-servers-tutorial/) — Reference server patterns for extending any of these quickstarts
 
 ---
 
@@ -100,51 +108,11 @@ Ready to begin? Start with [Chapter 1: Getting Started](01-getting-started.md).
 
 ---
 
-*Built with references from the official [anthropics/skills repository](https://github.com/anthropics/skills), linked support articles, and the Agent Skills specification.*
+*Built from the official [anthropics/anthropic-quickstarts](https://github.com/anthropics/anthropic-quickstarts) repository. All code examples are taken directly from that source.*
 
-## Navigation & Backlinks
+## Navigation
 
-- [Start Here: Chapter 1: Getting Started](01-getting-started.md)
+- [Chapter 1: Getting Started](01-getting-started.md)
 - [Back to Main Catalog](../../README.md#-tutorial-catalog)
 - [Browse A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
 - [Search by Intent](../../discoverability/query-hub.md)
-- [Explore Category Hubs](../../README.md#category-hubs)
-
-## Full Chapter Map
-
-1. [Chapter 1: Getting Started](01-getting-started.md)
-2. [Chapter 2: Skill Categories](02-skill-categories.md)
-3. [Chapter 3: Advanced Skill Design](03-advanced-skill-design.md)
-4. [Chapter 4: Integration Platforms](04-integration-platforms.md)
-5. [Chapter 5: Production Skills](05-production-skills.md)
-6. [Chapter 6: Best Practices](06-best-practices.md)
-7. [Chapter 7: Publishing and Sharing](07-publishing-sharing.md)
-8. [Chapter 8: Real-World Examples](08-real-world-examples.md)
-
-## Current Snapshot (auto-updated)
-
-- repository: [`anthropics/skills`](https://github.com/anthropics/skills)
-- stars: about **106k**
-
-## What You Will Learn
-
-- how to design and structure a SKILL.md file with frontmatter and behavioral contracts
-- how to compose multi-file skills with scripts, references, and asset directories
-- how to integrate skills across Claude Code, Claude.ai, and the Claude API
-- how to version, publish, and maintain skills catalogs for team-wide reuse
-
-## Source References
-
-- [anthropics/skills repository](https://github.com/anthropics/skills)
-
-## Mental Model
-
-```mermaid
-flowchart TD
-    A[Foundations] --> B[Core Abstractions]
-    B --> C[Interaction Patterns]
-    C --> D[Advanced Operations]
-    D --> E[Production Usage]
-```
-
-*Generated by [AI Codebase Knowledge Builder](https://github.com/The-Pocket/Tutorial-Codebase-Knowledge)*

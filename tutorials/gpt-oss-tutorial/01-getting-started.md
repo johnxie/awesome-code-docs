@@ -484,26 +484,35 @@ Under the hood, `Chapter 1: Getting Started -- Understanding the Open-Source GPT
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
-## Source Walkthrough
+## Source Code Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+### `model.py` (nanoGPT)
 
-- [nanoGPT](https://github.com/karpathy/nanoGPT)
-  Why it matters: authoritative reference on `nanoGPT` (github.com).
-- [minGPT](https://github.com/karpathy/minGPT)
-  Why it matters: authoritative reference on `minGPT` (github.com).
-- [GPT-NeoX](https://github.com/EleutherAI/gpt-neox)
-  Why it matters: authoritative reference on `GPT-NeoX` (github.com).
-- [GPT-Neo](https://github.com/EleutherAI/gpt-neo)
-  Why it matters: authoritative reference on `GPT-Neo` (github.com).
-- [GPT-J](https://github.com/kingoflolz/mesh-transformer-jax)
-  Why it matters: authoritative reference on `GPT-J` (github.com).
-- [Chapter 1: Getting Started](01-getting-started.md)
-  Why it matters: authoritative reference on `Chapter 1: Getting Started` (01-getting-started.md).
+The `GPTConfig` dataclass in [`model.py`](https://github.com/karpathy/nanoGPT/blob/master/model.py) defines the complete configuration surface for a GPT model — block size, vocab size, layer count, heads, and embedding dimensions:
 
-Suggested trace strategy:
-- search upstream code for `config` and `self` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+```python
+"""
+Full definition of a GPT Language Model, all of it in this single file.
+"""
+
+import math
+import inspect
+from dataclasses import dataclass
+
+import torch
+import torch.nn as nn
+from torch.nn import functional as F
+
+class LayerNorm(nn.Module):
+    """ LayerNorm but with an optional bias. PyTorch doesn't support simply bias=False """
+
+    def __init__(self, ndim, bias):
+        super().__init__()
+        self.weight = nn.Parameter(torch.ones(ndim))
+        self.bias = nn.Parameter(torch.zeros(ndim)) if bias else None
+```
+
+nanoGPT's entire model definition fits in a single 300-line file — making it the best starting point for understanding how GPT-2 class architectures work. The `LayerNorm` wrapper adds optional bias support that PyTorch's built-in `F.layer_norm` lacks.
 
 ## Chapter Connections
 

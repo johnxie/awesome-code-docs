@@ -25,50 +25,7 @@ You now have a durability model for running long-horizon coding workflows.
 
 Next: [Chapter 7: Engine Integrations and Compatibility](07-engine-integrations-and-compatibility.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
-
-### `src/workflows/preflight.ts`
-
-The `checkSpecificationRequired` function in [`src/workflows/preflight.ts`](https://github.com/moazbuilds/CodeMachine-CLI/blob/HEAD/src/workflows/preflight.ts) handles a key part of this chapter's functionality:
-
-```ts
- * - Env: CODEMACHINE_SPEC_PATH
- */
-export async function checkSpecificationRequired(options: { cwd?: string } = {}): Promise<void> {
-  const cwd = options.cwd ? path.resolve(options.cwd) : process.cwd();
-  const cmRoot = path.join(cwd, '.codemachine');
-  const specificationPath = process.env.CODEMACHINE_SPEC_PATH
-    || path.resolve(cwd, '.codemachine', 'inputs', 'specifications.md');
-
-  // Ensure workspace structure exists
-  await ensureWorkspaceStructure({ cwd });
-
-  // Ensure imported agents are registered before loading template
-  // This allows resolveStep() to find agents from imported packages
-  ensureImportedAgentsRegistered();
-
-  // Load template to check specification requirement
-  const templatePath = await getTemplatePathFromTracking(cmRoot);
-  const { template } = await loadTemplateWithPath(cwd, templatePath);
-
-  // Validate specification only if template requires it
-  if (template.specification === true) {
-    await validateSpecification(specificationPath);
-  }
-}
-
-/**
- * Main pre-flight check - verifies workflow can start
- * Throws ValidationError if workflow cannot start due to missing specification
- * Returns onboarding needs if user configuration is required
- */
-export async function checkWorkflowCanStart(options: { cwd?: string } = {}): Promise<OnboardingNeeds> {
-  const cwd = options.cwd ? path.resolve(options.cwd) : process.cwd();
-```
-
-This function is important because it defines how CodeMachine CLI Tutorial: Orchestrating Long-Running Coding Agent Workflows implements the patterns covered in this chapter.
 
 ### `src/workflows/preflight.ts`
 
@@ -165,15 +122,56 @@ export async function checkOnboardingRequired(options: { cwd?: string } = {}): P
 
 This interface is important because it defines how CodeMachine CLI Tutorial: Orchestrating Long-Running Coding Agent Workflows implements the patterns covered in this chapter.
 
+### `src/workflows/run.ts`
+
+The `runWorkflow` function in [`src/workflows/run.ts`](https://github.com/moazbuilds/CodeMachine-CLI/blob/HEAD/src/workflows/run.ts) handles a key part of this chapter's functionality:
+
+```ts
+ * Note: Pre-flight checks (specification validation) should be done via preflight.ts before calling this
+ */
+export async function runWorkflow(options: RunWorkflowOptions = {}): Promise<void> {
+  const cwd = options.cwd ? path.resolve(options.cwd) : process.cwd();
+
+  // Ensure workspace structure exists (creates .codemachine folder tree)
+  await ensureWorkspaceStructure({ cwd });
+
+  // Auto-register agents from all installed imports
+  // This ensures imported agents/modules are available before template loading
+  clearImportedAgents();
+  const importedPackages = getAllInstalledImports();
+  for (const imp of importedPackages) {
+    registerImportedAgents(imp.resolvedPaths.config);
+  }
+  debug('[Workflow] Registered agents from %d imported packages', importedPackages.length);
+
+  // Load template
+  const cmRoot = path.join(cwd, '.codemachine');
+  const templatePath = options.templatePath || (await getTemplatePathFromTracking(cmRoot));
+  const { template } = await loadTemplateWithPath(cwd, templatePath);
+
+  // Ensure template.json exists with correct activeTemplate before any setter functions are called
+  // This prevents setControllerView/setSelectedTrack/etc from creating file with empty activeTemplate
+  const templateFileName = path.basename(templatePath);
+  await setActiveTemplate(cmRoot, templateFileName, template.autonomousMode);
+
+  // Clear screen for TUI
+  if (process.stdout.isTTY) {
+    process.stdout.write('\x1b[2J\x1b[H');
+  }
+
+```
+
+This function is important because it defines how CodeMachine CLI Tutorial: Orchestrating Long-Running Coding Agent Workflows implements the patterns covered in this chapter.
+
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[checkSpecificationRequired]
-    B[checkWorkflowCanStart]
-    C[needsOnboarding]
-    D[OnboardingNeeds]
+    A[checkWorkflowCanStart]
+    B[needsOnboarding]
+    C[OnboardingNeeds]
+    D[runWorkflow]
     A --> B
     B --> C
     C --> D

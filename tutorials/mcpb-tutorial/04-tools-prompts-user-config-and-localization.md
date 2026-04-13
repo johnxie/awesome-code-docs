@@ -39,8 +39,6 @@ You now have a configuration and localization strategy for robust bundle UX.
 
 Next: [Chapter 5: CLI Workflows: Init, Validate, and Pack](05-cli-workflows-init-validate-and-pack.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `src/cli/init.ts`

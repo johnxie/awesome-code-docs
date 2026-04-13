@@ -51,12 +51,12 @@ class CostOptimizedDSPy:
         self.model_configs = model_configs
         self.models = {}
 
-        # Initialize models
+        # Initialize models (DSPy 2.x uses dspy.LM with provider/model strings)
         for name, config in model_configs.items():
             if name.startswith("gpt"):
-                self.models[name] = dspy.OpenAI(model=config["model"])
+                self.models[name] = dspy.LM(f"openai/{config['model']}")
             elif name.startswith("claude"):
-                self.models[name] = dspy.Claude(model=config["model"])
+                self.models[name] = dspy.LM(f"anthropic/{config['model']}")
 
     def select_model(self, task_complexity, budget_constraint=None):
         """Select optimal model based on requirements"""
@@ -116,7 +116,7 @@ class ModelRouter:
             try:
                 # Configure DSPy with current model
                 model = self.get_model(model_name)
-                dspy.settings.configure(lm=model)
+                dspy.configure(lm=model)
 
                 # Execute program
                 result = await program_func(*args, **kwargs)
@@ -681,12 +681,12 @@ class GracefulDegradationSystem:
         # Modify execution based on degradation level
         if current_level == "minimal":
             # Use simplest possible execution
-            dspy.settings.configure(lm=cost_optimizer.get_model("gpt-3.5-turbo"))
+            dspy.configure(lm=cost_optimizer.get_model("gpt-3.5-turbo"))
             kwargs["max_tokens"] = 50  # Limit response length
 
         elif current_level == "degraded":
             # Use medium-quality execution
-            dspy.settings.configure(lm=cost_optimizer.get_model("claude-3-haiku"))
+            dspy.configure(lm=cost_optimizer.get_model("claude-3-haiku"))
             kwargs["max_tokens"] = 100
 
         # Execute with current configuration
@@ -896,6 +896,21 @@ In practical terms, this chapter helps you avoid three common failures:
 After working through this chapter, you should be able to reason about `Chapter 8: Production Deployment - Scaling DSPy Systems` as an operating subsystem inside **DSPy Tutorial: Programming Language Models**, with explicit contracts for inputs, state transitions, and outputs.
 
 Use the implementation notes around `model`, `kwargs`, `cache` as your checklist when adapting these patterns to your own repository.
+
+## Production Deployment
+
+```mermaid
+flowchart TD
+    A[Optimized DSPy program] --> B[Save with program.save]
+    B --> C[Load in production: program.load]
+    C --> D[Configure production LM]
+    D --> E[dspy.configure with caching]
+    E --> F[Serve requests]
+    F --> G[Monitor: latency, cost, accuracy]
+    G --> H{Drift detected?}
+    H -->|Yes| I[Re-optimize with new data]
+    H -->|No| F
+```
 
 ## How it Works Under the Hood
 

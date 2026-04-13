@@ -42,170 +42,127 @@ You now understand the planning model that keeps long-running tasks stable.
 
 Next: [Chapter 3: Installation Paths Across IDEs and Agents](03-installation-paths-across-ides-and-agents.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `scripts/sync-ide-folders.py`
+### `scripts/session-catchup.py`
 
-The `sync_file` function in [`scripts/sync-ide-folders.py`](https://github.com/OthmanAdi/planning-with-files/blob/HEAD/scripts/sync-ide-folders.py) handles a key part of this chapter's functionality:
+The `get_sessions_sorted` function in [`scripts/session-catchup.py`](https://github.com/OthmanAdi/planning-with-files/blob/HEAD/scripts/session-catchup.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def sync_file(src, dst, *, dry_run=False):
-    """Copy src to dst. Returns (action, detail) tuple.
+def get_sessions_sorted(project_dir: Path) -> List[Path]:
+    """Get all session files sorted by modification time (newest first)."""
+    sessions = list(project_dir.glob('*.jsonl'))
+    main_sessions = [s for s in sessions if not s.name.startswith('agent-')]
+    return sorted(main_sessions, key=lambda p: p.stat().st_mtime, reverse=True)
 
-    Actions: "updated", "created", "skipped" (already identical), "missing_src"
+
+def get_sessions_sorted_opencode(storage_dir: Path) -> List[Path]:
     """
-    if not src.exists():
-        return "missing_src", f"Canonical file not found: {src}"
+    Get all OpenCode session files sorted by modification time.
+    OpenCode stores sessions at: storage/session/{projectHash}/{sessionID}.json
+    """
+    session_dir = storage_dir / 'session'
+    if not session_dir.exists():
+        return []
 
-    src_hash = file_hash(src)
-    dst_hash = file_hash(dst)
+    sessions = []
+    for project_hash_dir in session_dir.iterdir():
+        if project_hash_dir.is_dir():
+            for session_file in project_hash_dir.glob('*.json'):
+                sessions.append(session_file)
 
-    if src_hash == dst_hash:
-        return "skipped", "Already up to date"
-
-    action = "created" if dst_hash is None else "updated"
-
-    if not dry_run:
-        dst.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(src, dst)
-
-    return action, f"{'Would ' if dry_run else ''}{action}: {dst}"
+    return sorted(sessions, key=lambda p: p.stat().st_mtime, reverse=True)
 
 
-# ─── Main ──────────────────────────────────────────────────────────
-
-def parse_args(argv=None):
-    """Parse CLI arguments for sync behavior."""
-    parser = argparse.ArgumentParser(
-        description=(
-            "Sync shared planning-with-files assets from canonical source "
-```
-
-This function is important because it defines how Planning with Files Tutorial: Persistent Markdown Workflow Memory for AI Coding Agents implements the patterns covered in this chapter.
-
-### `scripts/sync-ide-folders.py`
-
-The `parse_args` function in [`scripts/sync-ide-folders.py`](https://github.com/OthmanAdi/planning-with-files/blob/HEAD/scripts/sync-ide-folders.py) handles a key part of this chapter's functionality:
-
-```py
-# ─── Main ──────────────────────────────────────────────────────────
-
-def parse_args(argv=None):
-    """Parse CLI arguments for sync behavior."""
-    parser = argparse.ArgumentParser(
-        description=(
-            "Sync shared planning-with-files assets from canonical source "
-            "to IDE-specific folders."
-        )
-    )
-    parser.add_argument(
-        "--dry-run",
-        action="store_true",
-        help="Preview changes without writing files.",
-    )
-    parser.add_argument(
-        "--verify",
-        action="store_true",
-        help="Check for drift only; exit with code 1 if drift is found.",
-    )
-    return parser.parse_args(argv)
-
-
-def main(argv=None):
-    args = parse_args(argv)
-    dry_run = args.dry_run
-    verify = args.verify
-
-    # Must run from repo root
-    if not CANONICAL.exists():
-        print(f"Error: Canonical source not found at {CANONICAL}/")
-        print("Run this script from the repo root.")
-```
-
-This function is important because it defines how Planning with Files Tutorial: Persistent Markdown Workflow Memory for AI Coding Agents implements the patterns covered in this chapter.
-
-### `scripts/sync-ide-folders.py`
-
-The `main` function in [`scripts/sync-ide-folders.py`](https://github.com/OthmanAdi/planning-with-files/blob/HEAD/scripts/sync-ide-folders.py) handles a key part of this chapter's functionality:
-
-```py
-    ),
-
-    # Kiro: maintained under .kiro/ (skill + wrappers); not synced from canonical scripts/.
-    ".kiro": {},
-}
-
-
-# ─── Utility functions ─────────────────────────────────────────────
-
-def file_hash(path):
-    """Return SHA-256 hash of a file, or None if it doesn't exist."""
+def get_session_first_timestamp(session_file: Path) -> Optional[str]:
+    """Get the timestamp of the first message in a session."""
     try:
-        return hashlib.sha256(Path(path).read_bytes()).hexdigest()
-    except FileNotFoundError:
-        return None
-
-
-def sync_file(src, dst, *, dry_run=False):
-    """Copy src to dst. Returns (action, detail) tuple.
-
-    Actions: "updated", "created", "skipped" (already identical), "missing_src"
-    """
-    if not src.exists():
-        return "missing_src", f"Canonical file not found: {src}"
-
-    src_hash = file_hash(src)
-    dst_hash = file_hash(dst)
-
-    if src_hash == dst_hash:
-        return "skipped", "Already up to date"
-
-    action = "created" if dst_hash is None else "updated"
+        with open(session_file, 'r') as f:
+            for line in f:
 ```
 
 This function is important because it defines how Planning with Files Tutorial: Persistent Markdown Workflow Memory for AI Coding Agents implements the patterns covered in this chapter.
 
-### `.opencode/skills/planning-with-files/scripts/session-catchup.py`
+### `scripts/session-catchup.py`
 
-The `get_project_dir` function in [`.opencode/skills/planning-with-files/scripts/session-catchup.py`](https://github.com/OthmanAdi/planning-with-files/blob/HEAD/.opencode/skills/planning-with-files/scripts/session-catchup.py) handles a key part of this chapter's functionality:
+The `get_sessions_sorted_opencode` function in [`scripts/session-catchup.py`](https://github.com/OthmanAdi/planning-with-files/blob/HEAD/scripts/session-catchup.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def get_project_dir(project_path: str) -> Path:
-    """Convert project path to OpenCode's storage path format."""
-    # Normalize to an absolute path to ensure a stable representation
-    # .as_posix() handles '\' -> '/' conversion on Windows automatically
-    resolved_str = Path(project_path).resolve().as_posix()
-    
-    # Sanitize path: replace separators with '-', remove ':' (Windows drives)
-    sanitized = resolved_str.replace('/', '-').replace(':', '')
+def get_sessions_sorted_opencode(storage_dir: Path) -> List[Path]:
+    """
+    Get all OpenCode session files sorted by modification time.
+    OpenCode stores sessions at: storage/session/{projectHash}/{sessionID}.json
+    """
+    session_dir = storage_dir / 'session'
+    if not session_dir.exists():
+        return []
 
-    # Apply legacy naming convention: leading '-' and '_' -> '-'
-    if not sanitized.startswith('-'):
-        sanitized = '-' + sanitized
-    sanitized_name = sanitized.replace('_', '-')
+    sessions = []
+    for project_hash_dir in session_dir.iterdir():
+        if project_hash_dir.is_dir():
+            for session_file in project_hash_dir.glob('*.json'):
+                sessions.append(session_file)
 
-    # 1. Check Legacy Location first (~/.opencode/sessions/...)
-    legacy_dir = Path.home() / '.opencode' / 'sessions' / sanitized_name
-    if legacy_dir.is_dir():
-        return legacy_dir
+    return sorted(sessions, key=lambda p: p.stat().st_mtime, reverse=True)
 
-    # 2. Standard Layout
-    data_root_env = os.getenv('OPENCODE_DATA_DIR')
-    if data_root_env:
-        data_root = Path(data_root_env)
-    else:
-        # Respect XDG_DATA_HOME if set, otherwise use default
-        xdg_root = os.getenv('XDG_DATA_HOME')
-        if xdg_root:
-            data_root = Path(xdg_root) / 'opencode' / 'storage'
-        else:
-            data_root = Path.home() / '.local' / 'share' / 'opencode' / 'storage'
+
+def get_session_first_timestamp(session_file: Path) -> Optional[str]:
+    """Get the timestamp of the first message in a session."""
+    try:
+        with open(session_file, 'r') as f:
+            for line in f:
+                try:
+                    data = json.loads(line)
+                    ts = data.get('timestamp')
+                    if ts:
+                        return ts
+                except:
+                    continue
+```
+
+This function is important because it defines how Planning with Files Tutorial: Persistent Markdown Workflow Memory for AI Coding Agents implements the patterns covered in this chapter.
+
+### `scripts/session-catchup.py`
+
+The `get_session_first_timestamp` function in [`scripts/session-catchup.py`](https://github.com/OthmanAdi/planning-with-files/blob/HEAD/scripts/session-catchup.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+def get_session_first_timestamp(session_file: Path) -> Optional[str]:
+    """Get the timestamp of the first message in a session."""
+    try:
+        with open(session_file, 'r') as f:
+            for line in f:
+                try:
+                    data = json.loads(line)
+                    ts = data.get('timestamp')
+                    if ts:
+                        return ts
+                except:
+                    continue
+    except:
+        pass
+    return None
+
+
+def scan_for_planning_update(session_file: Path) -> Tuple[int, Optional[str]]:
+    """
+    Quickly scan a session file for planning file updates.
+    Returns (line_number, filename) of last update, or (-1, None) if none found.
+    """
+    last_update_line = -1
+    last_update_file = None
+
+    try:
+        with open(session_file, 'r') as f:
+            for line_num, line in enumerate(f):
+                if '"Write"' not in line and '"Edit"' not in line:
+                    continue
 ```
 
 This function is important because it defines how Planning with Files Tutorial: Persistent Markdown Workflow Memory for AI Coding Agents implements the patterns covered in this chapter.
@@ -215,13 +172,9 @@ This function is important because it defines how Planning with Files Tutorial: 
 
 ```mermaid
 flowchart TD
-    A[sync_file]
-    B[parse_args]
-    C[main]
-    D[get_project_dir]
-    E[get_sessions_sorted]
+    A[get_sessions_sorted]
+    B[get_sessions_sorted_opencode]
+    C[get_session_first_timestamp]
     A --> B
     B --> C
-    C --> D
-    D --> E
 ```

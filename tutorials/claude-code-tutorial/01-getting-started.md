@@ -6,6 +6,7 @@ has_children: false
 parent: Claude Code Tutorial
 ---
 
+
 # Chapter 1: Getting Started with Claude Code
 
 Welcome to **Chapter 1: Getting Started with Claude Code**. In this part of **Claude Code Tutorial: Agentic Coding from Your Terminal**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
@@ -552,148 +553,42 @@ Now that you can run Claude Code, let's explore the **basic commands** and opera
 
 ## Depth Expansion Playbook
 
-<!-- depth-expansion-v2 -->
 
-This chapter is expanded to v1-style depth for production-grade learning and implementation quality.
+## Source Code Walkthrough
 
-### Strategic Context
+### `examples/hooks/bash_command_validator_example.py`
 
-- tutorial: **Claude Code Tutorial: Agentic Coding from Your Terminal**
-- tutorial slug: **claude-code-tutorial**
-- chapter focus: **Chapter 1: Getting Started with Claude Code**
-- system context: **Claude Code Tutorial**
-- objective: move from surface-level usage to repeatable engineering operation
+The hooks example in [`examples/hooks/bash_command_validator_example.py`](https://github.com/anthropics/claude-code/blob/HEAD/examples/hooks/bash_command_validator_example.py) shows how to write a PreToolUse hook that validates Bash commands before Claude executes them. This is directly relevant to the approval and safety model described in this chapter.
 
-### Architecture Decomposition
+The script reads a JSON payload from stdin (containing `tool_name` and `tool_input`), validates the proposed command, and exits with code 0 (allow), 1 (show stderr to user but allow), or 2 (block and show reason to Claude). This exit-code contract is the core mechanism behind Claude Code's hook system.
 
-1. Define the runtime boundary for `Chapter 1: Getting Started with Claude Code`.
-2. Separate control-plane decisions from data-plane execution.
-3. Capture input contracts, transformation points, and output contracts.
-4. Trace state transitions across request lifecycle stages.
-5. Identify extension hooks and policy interception points.
-6. Map ownership boundaries for team and automation workflows.
-7. Specify rollback and recovery paths for unsafe changes.
-8. Track observability signals for correctness, latency, and cost.
+Understanding this example is the fastest path to grasping how Claude Code's human-in-the-loop safety layer actually works at the process level.
 
-### Operator Decision Matrix
+### `examples/hooks/` directory
 
-| Decision Area | Low-Risk Path | High-Control Path | Tradeoff |
-|:--------------|:--------------|:------------------|:---------|
-| Runtime mode | managed defaults | explicit policy config | speed vs control |
-| State handling | local ephemeral | durable persisted state | simplicity vs auditability |
-| Tool integration | direct API use | mediated adapter layer | velocity vs governance |
-| Rollout method | manual change | staged + canary rollout | effort vs safety |
-| Incident response | best effort logs | runbooks + SLO alerts | cost vs reliability |
+The [`examples/hooks/`](https://github.com/anthropics/claude-code/blob/HEAD/examples/hooks/) directory contains reference implementations for all four hook types (`PreToolUse`, `PostToolUse`, `Notification`, `Stop`). Reading through these examples alongside the main README gives a complete picture of the hooks API before you configure your first `~/.claude/settings.json`.
 
-### Failure Modes and Countermeasures
+### `README.md`
 
-| Failure Mode | Early Signal | Root Cause Pattern | Countermeasure |
-|:-------------|:-------------|:-------------------|:---------------|
-| stale context | inconsistent outputs | missing refresh window | enforce context TTL and refresh hooks |
-| policy drift | unexpected execution | ad hoc overrides | centralize policy profiles |
-| auth mismatch | 401/403 bursts | credential sprawl | rotation schedule + scope minimization |
-| schema breakage | parser/validation errors | unmanaged upstream changes | contract tests per release |
-| retry storms | queue congestion | no backoff controls | jittered backoff + circuit breakers |
-| silent regressions | quality drop without alerts | weak baseline metrics | eval harness with thresholds |
+The [`README.md`](https://github.com/anthropics/claude-code/blob/HEAD/README.md) is the primary reference for installation requirements, authentication methods, and first-run commands. The getting-started chapter maps directly to the Quick Start section of this file.
 
-### Implementation Runbook
+## How These Components Connect
 
-1. Establish a reproducible baseline environment.
-2. Capture chapter-specific success criteria before changes.
-3. Implement minimal viable path with explicit interfaces.
-4. Add observability before expanding feature scope.
-5. Run deterministic tests for happy-path behavior.
-6. Inject failure scenarios for negative-path validation.
-7. Compare output quality against baseline snapshots.
-8. Promote through staged environments with rollback gates.
-9. Record operational lessons in release notes.
-
-### Quality Gate Checklist
-
-- [ ] chapter-level assumptions are explicit and testable
-- [ ] API/tool boundaries are documented with input/output examples
-- [ ] failure handling includes retry, timeout, and fallback policy
-- [ ] security controls include auth scopes and secret rotation plans
-- [ ] observability includes logs, metrics, traces, and alert thresholds
-- [ ] deployment guidance includes canary and rollback paths
-- [ ] docs include links to upstream sources and related tracks
-- [ ] post-release verification confirms expected behavior under load
-
-### Source Alignment
-
-- [Claude Code Repository](https://github.com/anthropics/claude-code)
-- [Claude Code Releases](https://github.com/anthropics/claude-code/releases)
-- [Claude Code Docs](https://docs.anthropic.com/en/docs/claude-code)
-
-### Cross-Tutorial Connection Map
-
-- [Anthropic API Tutorial](../anthropic-code-tutorial/)
-- [Cline Tutorial](../cline-tutorial/)
-- [Roo Code Tutorial](../roo-code-tutorial/)
-- [Aider Tutorial](../aider-tutorial/)
-- [Chapter 1: Getting Started](01-getting-started.md)
-
-### Advanced Practice Exercises
-
-1. Build a minimal end-to-end implementation for `Chapter 1: Getting Started with Claude Code`.
-2. Add instrumentation and measure baseline latency and error rate.
-3. Introduce one controlled failure and confirm graceful recovery.
-4. Add policy constraints and verify they are enforced consistently.
-5. Run a staged rollout and document rollback decision criteria.
-
-### Review Questions
-
-1. Which execution boundary matters most for this chapter and why?
-2. What signal detects regressions earliest in your environment?
-3. What tradeoff did you make between delivery speed and governance?
-4. How would you recover from the highest-impact failure mode?
-5. What must be automated before scaling to team-wide adoption?
-
-## What Problem Does This Solve?
-
-Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `claude`, `Claude`, `your` so behavior stays predictable as complexity grows.
-
-In practical terms, this chapter helps you avoid three common failures:
-
-- coupling core logic too tightly to one implementation path
-- missing the handoff boundaries between setup, execution, and validation
-- shipping changes without clear rollback or observability strategy
-
-After working through this chapter, you should be able to reason about `Chapter 1: Getting Started with Claude Code` as an operating subsystem inside **Claude Code Tutorial: Agentic Coding from Your Terminal**, with explicit contracts for inputs, state transitions, and outputs.
-
-Use the implementation notes around `will`, `code`, `project` as your checklist when adapting these patterns to your own repository.
-
-## How it Works Under the Hood
-
-Under the hood, `Chapter 1: Getting Started with Claude Code` usually follows a repeatable control path:
-
-1. **Context bootstrap**: initialize runtime config and prerequisites for `claude`.
-2. **Input normalization**: shape incoming data so `Claude` receives stable contracts.
-3. **Core execution**: run the main logic branch and propagate intermediate state through `your`.
-4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
-5. **Output composition**: return canonical result payloads for downstream consumers.
-6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
-
-When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
-
-## Source Walkthrough
-
-Use the following upstream sources to verify implementation details while reading this chapter:
-
-- [Claude Code Repository](https://github.com/anthropics/claude-code)
-  Why it matters: authoritative reference on `Claude Code Repository` (github.com).
-- [Claude Code Releases](https://github.com/anthropics/claude-code/releases)
-  Why it matters: authoritative reference on `Claude Code Releases` (github.com).
-- [Claude Code Docs](https://docs.anthropic.com/en/docs/claude-code)
-  Why it matters: authoritative reference on `Claude Code Docs` (docs.anthropic.com).
-
-Suggested trace strategy:
-- search upstream code for `claude` and `Claude` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
-
-## Chapter Connections
-
-- [Tutorial Index](README.md)
-- [Next Chapter: Chapter 2: Basic Commands - Essential Claude Code Operations](02-basic-commands.md)
-- [Main Catalog](../../README.md#-tutorial-catalog)
-- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
+```mermaid
+flowchart TD
+    A[Install claude via npm]
+    B[Authenticate with Anthropic API key or Claude Pro]
+    C[Run claude in project directory]
+    D[Claude reads CLAUDE.md and project context]
+    E[User submits task prompt]
+    F[PreToolUse hooks validate proposed actions]
+    G[Approved actions execute]
+    H[Results shown in terminal]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    E --> F
+    F --> G
+    G --> H
+```

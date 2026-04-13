@@ -40,93 +40,7 @@ You now have a schema-first primitive strategy for Ruby MCP servers.
 
 Next: [Chapter 4: Notifications, Logging, and Observability](04-notifications-logging-and-observability.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
-
-### `dev.yml`
-
-The `dev` module in [`dev.yml`](https://github.com/modelcontextprotocol/ruby-sdk/blob/HEAD/dev.yml) handles a key part of this chapter's functionality:
-
-```yml
-name: mcp-ruby
-
-type: ruby
-
-up:
-  - ruby
-  - bundler
-
-commands:
-  console:
-    desc: Open console with the gem loaded
-    run: bin/console
-  build:
-    desc: Build the gem using rake build
-    run: bin/rake build
-  test:
-    desc: Run tests
-    syntax:
-      argument: file
-      optional: args...
-    run:  |
-      if [[ $# -eq 0 ]]; then
-        bin/rake test
-      else
-        bin/rake -I test "$@"
-      fi
-  style:
-    desc: Run rubocop
-    aliases: [rubocop, lint]
-    run: bin/rake rubocop
-
-```
-
-This module is important because it defines how MCP Ruby SDK Tutorial: Building MCP Servers and Clients in Ruby implements the patterns covered in this chapter.
-
-### `examples/streamable_http_server.rb`
-
-The `streamable_http_server` module in [`examples/streamable_http_server.rb`](https://github.com/modelcontextprotocol/ruby-sdk/blob/HEAD/examples/streamable_http_server.rb) handles a key part of this chapter's functionality:
-
-```rb
-# frozen_string_literal: true
-
-$LOAD_PATH.unshift(File.expand_path("../lib", __dir__))
-require "mcp"
-require "rack/cors"
-require "rackup"
-require "json"
-require "logger"
-
-# Create a logger for SSE-specific logging
-sse_logger = Logger.new($stdout)
-sse_logger.formatter = proc do |severity, datetime, _progname, msg|
-  "[SSE] #{severity} #{datetime.strftime("%H:%M:%S.%L")} - #{msg}\n"
-end
-
-# Tool that returns a response that will be sent via SSE if a stream is active
-class NotificationTool < MCP::Tool
-  tool_name "notification_tool"
-  description "Returns a notification message that will be sent via SSE if stream is active"
-  input_schema(
-    properties: {
-      message: { type: "string", description: "Message to send via SSE" },
-      delay: { type: "number", description: "Delay in seconds before returning (optional)" },
-    },
-    required: ["message"],
-  )
-
-  class << self
-    attr_accessor :logger
-
-    def call(message:, delay: 0)
-      sleep(delay) if delay > 0
-
-      logger&.info("Returning notification message: #{message}")
-
-```
-
-This module is important because it defines how MCP Ruby SDK Tutorial: Building MCP Servers and Clients in Ruby implements the patterns covered in this chapter.
 
 ### `.rubocop.yml`
 
@@ -156,14 +70,102 @@ Minitest/LiteralAsActualArgument:
 
 This module is important because it defines how MCP Ruby SDK Tutorial: Building MCP Servers and Clients in Ruby implements the patterns covered in this chapter.
 
+### `conformance/server.rb`
+
+The `server` module in [`conformance/server.rb`](https://github.com/modelcontextprotocol/ruby-sdk/blob/HEAD/conformance/server.rb) handles a key part of this chapter's functionality:
+
+```rb
+# frozen_string_literal: true
+
+require "rackup"
+require "json"
+require "uri"
+require_relative "../lib/mcp"
+
+module Conformance
+  # 1x1 red PNG pixel (matches TypeScript SDK and Python SDK)
+  BASE64_1X1_PNG = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8DwHwAFBQIAX8jx0gAAAABJRU5ErkJggg=="
+
+  # Minimal WAV file (matches TypeScript SDK and Python SDK)
+  BASE64_MINIMAL_WAV = "UklGRiYAAABXQVZFZm10IBAAAAABAAEAQB8AAAB9AAACABAAZGF0YQIAAAA="
+
+  module Tools
+    class TestSimpleText < MCP::Tool
+      tool_name "test_simple_text"
+      description "A tool that returns simple text content"
+
+      class << self
+        def call(**_args)
+          MCP::Tool::Response.new([MCP::Content::Text.new("This is a simple text response for testing.").to_h])
+        end
+      end
+    end
+
+    class TestImageContent < MCP::Tool
+      tool_name "test_image_content"
+      description "A tool that returns image content"
+
+      class << self
+        def call(**_args)
+          MCP::Tool::Response.new([MCP::Content::Image.new(BASE64_1X1_PNG, "image/png").to_h])
+        end
+      end
+```
+
+This module is important because it defines how MCP Ruby SDK Tutorial: Building MCP Servers and Clients in Ruby implements the patterns covered in this chapter.
+
+### `lib/json_rpc_handler.rb`
+
+The `json_rpc_handler` module in [`lib/json_rpc_handler.rb`](https://github.com/modelcontextprotocol/ruby-sdk/blob/HEAD/lib/json_rpc_handler.rb) handles a key part of this chapter's functionality:
+
+```rb
+# frozen_string_literal: true
+
+require "json"
+
+module JsonRpcHandler
+  class Version
+    V1_0 = "1.0"
+    V2_0 = "2.0"
+  end
+
+  class ErrorCode
+    INVALID_REQUEST = -32600
+    METHOD_NOT_FOUND = -32601
+    INVALID_PARAMS = -32602
+    INTERNAL_ERROR = -32603
+    PARSE_ERROR = -32700
+  end
+
+  DEFAULT_ALLOWED_ID_CHARACTERS = /\A[a-zA-Z0-9_-]+\z/
+
+  extend self
+
+  def handle(request, id_validation_pattern: DEFAULT_ALLOWED_ID_CHARACTERS, &method_finder)
+    if request.is_a?(Array)
+      return error_response(id: :unknown_id, id_validation_pattern: id_validation_pattern, error: {
+        code: ErrorCode::INVALID_REQUEST,
+        message: "Invalid Request",
+        data: "Request is an empty array",
+      }) if request.empty?
+
+      # Handle batch requests
+      responses = request.map { |req| process_request(req, id_validation_pattern: id_validation_pattern, &method_finder) }.compact
+
+      # A single item is hoisted out of the array
+      return responses.first if responses.one?
+```
+
+This module is important because it defines how MCP Ruby SDK Tutorial: Building MCP Servers and Clients in Ruby implements the patterns covered in this chapter.
+
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[dev]
-    B[streamable_http_server]
-    C[.rubocop]
+    A[.rubocop]
+    B[server]
+    C[json_rpc_handler]
     A --> B
     B --> C
 ```

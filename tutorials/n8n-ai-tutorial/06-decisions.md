@@ -13,6 +13,18 @@ Welcome to **Chapter 6: AI-Powered Decision Making and Routing**. In this part o
 
 > Build intelligent workflows that make decisions, route data, and adapt based on AI analysis.
 
+## AI Decision Flow Pattern
+
+```mermaid
+flowchart TD
+    INPUT[Input Data] --> AI[AI Classification Node]
+    AI --> SWITCH[Switch Node\nroute by AI output]
+    SWITCH -->|urgent| SLACK[Notify Slack]
+    SWITCH -->|support| TICKET[Create Helpdesk Ticket]
+    SWITCH -->|spam| ARCHIVE[Archive + Ignore]
+    SWITCH -->|unknown| HUMAN[Escalate to Human]
+```
+
 ## Conditional Logic with AI
 
 ### AI-Powered Routing
@@ -374,16 +386,13 @@ When debugging, walk this sequence in order and confirm each stage has explicit 
 
 ## Source Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+Key source files in [`n8n-io/n8n`](https://github.com/n8n-io/n8n):
 
-- [View Repo](https://github.com/n8n-io/n8n)
-  Why it matters: authoritative reference on `View Repo` (github.com).
-- [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
-  Why it matters: authoritative reference on `Awesome Code Docs` (github.com).
+- [`packages/nodes-base/nodes/If/If.node.ts`](https://github.com/n8n-io/n8n/blob/master/packages/nodes-base/nodes/If/If.node.ts) -- IF node: evaluates conditions against input data and routes to true/false outputs
+- [`packages/nodes-base/nodes/Switch/Switch.node.ts`](https://github.com/n8n-io/n8n/blob/master/packages/nodes-base/nodes/Switch/Switch.node.ts) -- Switch node: multi-branch routing based on expressions or rule sets
+- [`packages/@n8n/nodes-langchain/nodes/output_parser/OutputParserStructured/`](https://github.com/n8n-io/n8n/tree/master/packages/%40n8n/nodes-langchain/nodes/output_parser/OutputParserStructured) -- structured JSON output parser; enables type-safe AI classification output for use in IF/Switch nodes
 
-Suggested trace strategy:
-- search upstream code for `json` and `nodes` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+Suggested trace: see how `If.node.ts` evaluates its condition rules against `INodeExecutionData` items and splits them into separate output branches.
 
 ## Chapter Connections
 

@@ -581,11 +581,24 @@ Under the hood, `Chapter 2: Text Patterns & Regular Expressions` usually follows
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
+## Regex Constraint Flow
+
+```mermaid
+flowchart LR
+    A[Pattern String] --> B[Compile Regex]
+    B --> C[Build FSM]
+    C --> D[Mask Allowed Tokens per State]
+    D --> E[LLM Sampling]
+    E --> F[Next State Transition]
+    F --> D
+    F --> G[End State: Output]
+```
+
 ## Source Walkthrough
 
 Use the following upstream sources to verify implementation details while reading this chapter:
 
-- [View Repo](https://github.com/outlines-dev/outlines)
+- [View Repo](https://github.com/dottxt-ai/outlines)
   Why it matters: authoritative reference on `View Repo` (github.com).
 
 Suggested trace strategy:

@@ -38,170 +38,168 @@ You now have a safer deployment baseline for mini-swe-agent tasks.
 
 Next: [Chapter 6: Benchmarking and SWE-bench Practices](06-benchmarking-and-swe-bench-practices.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `src/minisweagent/models/requesty_model.py`
+### `src/minisweagent/models/openrouter_response_model.py`
 
-The `RequestyRateLimitError` class in [`src/minisweagent/models/requesty_model.py`](https://github.com/SWE-agent/mini-swe-agent/blob/HEAD/src/minisweagent/models/requesty_model.py) handles a key part of this chapter's functionality:
+The `OpenRouterResponseModelConfig` class in [`src/minisweagent/models/openrouter_response_model.py`](https://github.com/SWE-agent/mini-swe-agent/blob/HEAD/src/minisweagent/models/openrouter_response_model.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-class RequestyRateLimitError(Exception):
-    """Custom exception for Requesty rate limit errors."""
-
+class OpenRouterResponseModelConfig(OpenRouterModelConfig):
     pass
 
 
-class RequestyModel:
-    abort_exceptions: list[type[Exception]] = [RequestyAuthenticationError, KeyboardInterrupt]
+class OpenRouterResponseModel(OpenRouterModel):
+    """OpenRouter model using the Responses API with native tool calling.
+
+    Note: OpenRouter's Responses API is stateless - each request must include
+    the full conversation history. previous_response_id is not supported.
+    See: https://openrouter.ai/docs/api/reference/responses/overview
+    """
 
     def __init__(self, **kwargs):
-        self.config = RequestyModelConfig(**kwargs)
-        self._api_url = "https://router.requesty.ai/v1/chat/completions"
-        self._api_key = os.getenv("REQUESTY_API_KEY", "")
+        super().__init__(**kwargs)
+        self.config = OpenRouterResponseModelConfig(**kwargs)
+        self._api_url = "https://openrouter.ai/api/v1/responses"
 
     def _query(self, messages: list[dict[str, str]], **kwargs):
         headers = {
             "Authorization": f"Bearer {self._api_key}",
             "Content-Type": "application/json",
-            "HTTP-Referer": "https://github.com/SWE-agent/mini-swe-agent",
-            "X-Title": "mini-swe-agent",
         }
-
         payload = {
             "model": self.config.model_name,
-            "messages": messages,
-            "tools": [BASH_TOOL],
+            "input": messages,
+            "tools": [BASH_TOOL_RESPONSE_API],
             **(self.config.model_kwargs | kwargs),
         }
-
         try:
+            response = requests.post(self._api_url, headers=headers, data=json.dumps(payload), timeout=60)
 ```
 
 This class is important because it defines how Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale implements the patterns covered in this chapter.
 
-### `src/minisweagent/models/requesty_model.py`
+### `src/minisweagent/models/openrouter_response_model.py`
 
-The `RequestyModel` class in [`src/minisweagent/models/requesty_model.py`](https://github.com/SWE-agent/mini-swe-agent/blob/HEAD/src/minisweagent/models/requesty_model.py) handles a key part of this chapter's functionality:
+The `OpenRouterResponseModel` class in [`src/minisweagent/models/openrouter_response_model.py`](https://github.com/SWE-agent/mini-swe-agent/blob/HEAD/src/minisweagent/models/openrouter_response_model.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-class RequestyModelConfig(BaseModel):
-    model_name: str
-    model_kwargs: dict[str, Any] = {}
-    set_cache_control: Literal["default_end"] | None = None
-    """Set explicit cache control markers, for example for Anthropic models"""
-    format_error_template: str = "{{ error }}"
-    """Template used when the LM's output is not in the expected format."""
-    observation_template: str = (
-        "{% if output.exception_info %}<exception>{{output.exception_info}}</exception>\n{% endif %}"
-        "<returncode>{{output.returncode}}</returncode>\n<output>\n{{output.output}}</output>"
-    )
-    """Template used to render the observation after executing an action."""
-    multimodal_regex: str = ""
-    """Regex to extract multimodal content. Empty string disables multimodal processing."""
-
-
-class RequestyAPIError(Exception):
-    """Custom exception for Requesty API errors."""
-
+class OpenRouterResponseModelConfig(OpenRouterModelConfig):
     pass
 
 
-class RequestyAuthenticationError(Exception):
-    """Custom exception for Requesty authentication errors."""
+class OpenRouterResponseModel(OpenRouterModel):
+    """OpenRouter model using the Responses API with native tool calling.
 
+    Note: OpenRouter's Responses API is stateless - each request must include
+    the full conversation history. previous_response_id is not supported.
+    See: https://openrouter.ai/docs/api/reference/responses/overview
+    """
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.config = OpenRouterResponseModelConfig(**kwargs)
+        self._api_url = "https://openrouter.ai/api/v1/responses"
+
+    def _query(self, messages: list[dict[str, str]], **kwargs):
+        headers = {
+            "Authorization": f"Bearer {self._api_key}",
+            "Content-Type": "application/json",
+        }
+        payload = {
+            "model": self.config.model_name,
+            "input": messages,
+            "tools": [BASH_TOOL_RESPONSE_API],
+            **(self.config.model_kwargs | kwargs),
+        }
+        try:
+            response = requests.post(self._api_url, headers=headers, data=json.dumps(payload), timeout=60)
+```
+
+This class is important because it defines how Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale implements the patterns covered in this chapter.
+
+### `src/minisweagent/models/litellm_response_model.py`
+
+The `LitellmResponseModelConfig` class in [`src/minisweagent/models/litellm_response_model.py`](https://github.com/SWE-agent/mini-swe-agent/blob/HEAD/src/minisweagent/models/litellm_response_model.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+class LitellmResponseModelConfig(LitellmModelConfig):
     pass
 
 
-class RequestyRateLimitError(Exception):
-    """Custom exception for Requesty rate limit errors."""
+class LitellmResponseModel(LitellmModel):
+    def __init__(self, *, config_class: Callable = LitellmResponseModelConfig, **kwargs):
+        super().__init__(config_class=config_class, **kwargs)
+
+    def _prepare_messages_for_api(self, messages: list[dict]) -> list[dict]:
+        """Flatten response objects into their output items for stateless API calls."""
+        result = []
+        for msg in messages:
+            if msg.get("object") == "response":
+                for item in msg.get("output", []):
+                    result.append({k: v for k, v in item.items() if k != "extra"})
+            else:
+                result.append({k: v for k, v in msg.items() if k != "extra"})
+        return result
+
+    def _query(self, messages: list[dict[str, str]], **kwargs):
+        try:
+            return litellm.responses(
+                model=self.config.model_name,
+                input=messages,
+                tools=[BASH_TOOL_RESPONSE_API],
+                **(self.config.model_kwargs | kwargs),
+            )
+        except litellm.exceptions.AuthenticationError as e:
+            e.message += " You can permanently set your API key with `mini-extra config set KEY VALUE`."
+            raise e
 ```
 
 This class is important because it defines how Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale implements the patterns covered in this chapter.
 
-### `src/minisweagent/models/requesty_model.py`
+### `src/minisweagent/models/litellm_response_model.py`
 
-The `_DictToObj` class in [`src/minisweagent/models/requesty_model.py`](https://github.com/SWE-agent/mini-swe-agent/blob/HEAD/src/minisweagent/models/requesty_model.py) handles a key part of this chapter's functionality:
-
-```py
-        """Parse tool calls from the response. Raises FormatError if unknown tool."""
-        tool_calls = response["choices"][0]["message"].get("tool_calls") or []
-        tool_calls = [_DictToObj(tc) for tc in tool_calls]
-        return parse_toolcall_actions(tool_calls, format_error_template=self.config.format_error_template)
-
-    def format_message(self, **kwargs) -> dict:
-        return expand_multimodal_content(kwargs, pattern=self.config.multimodal_regex)
-
-    def format_observation_messages(
-        self, message: dict, outputs: list[dict], template_vars: dict | None = None
-    ) -> list[dict]:
-        """Format execution outputs into tool result messages."""
-        actions = message.get("extra", {}).get("actions", [])
-        return format_toolcall_observation_messages(
-            actions=actions,
-            outputs=outputs,
-            observation_template=self.config.observation_template,
-            template_vars=template_vars,
-            multimodal_regex=self.config.multimodal_regex,
-        )
-
-    def get_template_vars(self, **kwargs) -> dict[str, Any]:
-        return self.config.model_dump()
-
-    def serialize(self) -> dict:
-        return {
-            "info": {
-                "config": {
-                    "model": self.config.model_dump(mode="json"),
-                    "model_type": f"{self.__class__.__module__}.{self.__class__.__name__}",
-                },
-            }
-```
-
-This class is important because it defines how Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale implements the patterns covered in this chapter.
-
-### `src/minisweagent/agents/default.py`
-
-The `AgentConfig` class in [`src/minisweagent/agents/default.py`](https://github.com/SWE-agent/mini-swe-agent/blob/HEAD/src/minisweagent/agents/default.py) handles a key part of this chapter's functionality:
+The `LitellmResponseModel` class in [`src/minisweagent/models/litellm_response_model.py`](https://github.com/SWE-agent/mini-swe-agent/blob/HEAD/src/minisweagent/models/litellm_response_model.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-class AgentConfig(BaseModel):
-    """Check the config files in minisweagent/config for example settings."""
-
-    system_template: str
-    """Template for the system message (the first message)."""
-    instance_template: str
-    """Template for the first user message specifying the task (the second message overall)."""
-    step_limit: int = 0
-    """Maximum number of steps the agent can take."""
-    cost_limit: float = 3.0
-    """Stop agent after exceeding (!) this cost."""
-    output_path: Path | None = None
-    """Save the trajectory to this path."""
+class LitellmResponseModelConfig(LitellmModelConfig):
+    pass
 
 
-class DefaultAgent:
-    def __init__(self, model: Model, env: Environment, *, config_class: type = AgentConfig, **kwargs):
-        """See the `AgentConfig` class for permitted keyword arguments."""
-        self.config = config_class(**kwargs)
-        self.messages: list[dict] = []
-        self.model = model
-        self.env = env
-        self.extra_template_vars = {}
-        self.logger = logging.getLogger("agent")
-        self.cost = 0.0
-        self.n_calls = 0
+class LitellmResponseModel(LitellmModel):
+    def __init__(self, *, config_class: Callable = LitellmResponseModelConfig, **kwargs):
+        super().__init__(config_class=config_class, **kwargs)
 
-    def get_template_vars(self, **kwargs) -> dict:
-        return recursive_merge(
-            self.config.model_dump(),
+    def _prepare_messages_for_api(self, messages: list[dict]) -> list[dict]:
+        """Flatten response objects into their output items for stateless API calls."""
+        result = []
+        for msg in messages:
+            if msg.get("object") == "response":
+                for item in msg.get("output", []):
+                    result.append({k: v for k, v in item.items() if k != "extra"})
+            else:
+                result.append({k: v for k, v in msg.items() if k != "extra"})
+        return result
+
+    def _query(self, messages: list[dict[str, str]], **kwargs):
+        try:
+            return litellm.responses(
+                model=self.config.model_name,
+                input=messages,
+                tools=[BASH_TOOL_RESPONSE_API],
+                **(self.config.model_kwargs | kwargs),
+            )
+        except litellm.exceptions.AuthenticationError as e:
+            e.message += " You can permanently set your API key with `mini-extra config set KEY VALUE`."
+            raise e
 ```
 
 This class is important because it defines how Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale implements the patterns covered in this chapter.
@@ -211,11 +209,11 @@ This class is important because it defines how Mini-SWE-Agent Tutorial: Minimal 
 
 ```mermaid
 flowchart TD
-    A[RequestyRateLimitError]
-    B[RequestyModel]
-    C[_DictToObj]
-    D[AgentConfig]
-    E[DefaultAgent]
+    A[OpenRouterResponseModelConfig]
+    B[OpenRouterResponseModel]
+    C[LitellmResponseModelConfig]
+    D[LitellmResponseModel]
+    E[GlobalModelStats]
     A --> B
     B --> C
     C --> D

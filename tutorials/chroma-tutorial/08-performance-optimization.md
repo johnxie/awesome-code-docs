@@ -12,6 +12,18 @@ Welcome to **Chapter 8: Performance Optimization**. In this part of **ChromaDB T
 
 Master Chroma performance tuning! This final chapter covers advanced optimization techniques, benchmarking, and performance best practices for maximum efficiency.
 
+## Performance Tuning Knobs
+
+```mermaid
+graph TD
+    BatchSize["Batch Size\n(add / query)"] --> Throughput["Higher Throughput\n(amortize Python overhead)"]
+    HNSW_M["HNSW ef_construction\n+ M parameter"] --> Recall["Index Quality\nvs Build Time"]
+    EFSearch["HNSW ef\n(query-time)"] --> Latency["Search Latency\nvs Recall"]
+    EmbCache["Embedding Cache\n(lru_cache)"] --> EmbTime["Embedding Time\n(skip re-embed)"]
+    ReadLevel["ReadLevel\n(eventual / sync)"] --> Consistency["Consistency\nvs Throughput"]
+    Workers["async_io + workers"] --> Parallel["Parallel Queries"]
+```
+
 ## Performance Profiling
 
 ### Query Performance Analysis
@@ -504,16 +516,29 @@ Under the hood, `Chapter 8: Performance Optimization` usually follows a repeatab
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
-## Source Walkthrough
+## Source Code Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+### `chromadb/api/types.py`
 
-- [View Repo](https://github.com/chroma-core/chroma)
-  Why it matters: authoritative reference on `View Repo` (github.com).
+The `ReadLevel` enum and `validate_batch` function in [`chromadb/api/types.py`](https://github.com/chroma-core/chroma/blob/main/chromadb/api/types.py) are the primary performance-relevant API surface. `validate_batch` enforces that IDs, embeddings, documents, and metadatas are equal-length lists — catching size mismatches before expensive operations:
 
-Suggested trace strategy:
-- search upstream code for `self` and `collection` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+```python
+from chromadb.api.types import (
+    ReadLevel,
+    GetResult,
+    QueryResult,
+    SearchResult,
+    validate_metadata,
+    validate_update_metadata,
+    validate_where,
+    validate_where_document,
+    validate_batch,
+    IncludeMetadataDocuments,
+    IncludeMetadataDocumentsDistances,
+)
+```
+
+Using `include=["embeddings"]` in queries returns raw vectors and should be avoided in production unless needed, as it adds significant serialization cost. The `lru_cache` decorator in `chromadb/api/types.py` caches embedding function introspection for performance.
 
 ## Chapter Connections
 

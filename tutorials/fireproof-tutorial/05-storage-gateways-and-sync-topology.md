@@ -39,157 +39,182 @@ You now have a storage and sync topology model for different deployment targets.
 
 Next: [Chapter 6: Files, Attachments, and Rich Data Flows](06-files-attachments-and-rich-data-flows.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `smoke/get-fp-version.js`
+### `core/runtime/utils.ts`
 
-The `getVersion` function in [`smoke/get-fp-version.js`](https://github.com/fireproof-storage/fireproof/blob/HEAD/smoke/get-fp-version.js) handles a key part of this chapter's functionality:
+The `coerceIntoUint8` function in [`core/runtime/utils.ts`](https://github.com/fireproof-storage/fireproof/blob/HEAD/core/runtime/utils.ts) handles a key part of this chapter's functionality:
 
-```js
-import * as process from "node:process";
+```ts
+  id: () => "fp-txtOps",
+  encode: (input: string) => txtEncoder.encode(input),
+  decode: (input: ToUInt8) => txtDecoder.decode(coerceIntoUint8(input).Ok()),
 
-function getVersion(version = "refs/tags/v0.0.0-smoke") {
-  if (process.env.GITHUB_REF && process.env.GITHUB_REF.startsWith("refs/tags/v")) {
-    version = process.env.GITHUB_REF;
-  }
-  return version.split("/").slice(-1)[0].replace(/^v/, "");
-}
-
-async function main() {
-  const gitHead = (await $`git rev-parse --short HEAD`).stdout.trim();
-  const dateTick = (await $`date +%s`).stdout.trim();
-  // eslint-disable-next-line no-console, no-undef
-  console.log(getVersion(`refs/tags/v0.0.0-smoke-${gitHead}-${dateTick}`));
-}
-
-main().catch((e) => {
-  // eslint-disable-next-line no-console, no-undef
-  console.error(e);
-  process.exit(1);
-});
-
+  base64: {
+    encode: (input: ToUInt8 | string) => {
+      if (typeof input === "string") {
+        const data = txtEncoder.encode(input);
+        return btoa(String.fromCharCode(...data));
+      }
+      let charStr = "";
+      for (const i of coerceIntoUint8(input).Ok()) {
+        charStr += String.fromCharCode(i);
+      }
+      return btoa(charStr);
+    },
+    decodeUint8: (input: string) => {
+      const data = atob(input.replace(/\s+/g, ""));
+      return new Uint8Array(data.split("").map((c) => c.charCodeAt(0)));
+    },
+    decode: (input: string) => {
+      const data = atob(input.replace(/\s+/g, ""));
+      const uint8 = new Uint8Array(data.split("").map((c) => c.charCodeAt(0)));
+      return txtDecoder.decode(uint8);
+    },
+  },
+  base58: {
+    encode: (input: ToUInt8 | string) => {
+      if (typeof input === "string") {
+        const data = txtEncoder.encode(input);
+        return base58btc.encode(data);
+      }
 ```
 
 This function is important because it defines how Fireproof Tutorial: Local-First Document Database for AI-Native Apps implements the patterns covered in this chapter.
 
-### `smoke/get-fp-version.js`
+### `core/runtime/utils.ts`
 
-The `main` function in [`smoke/get-fp-version.js`](https://github.com/fireproof-storage/fireproof/blob/HEAD/smoke/get-fp-version.js) handles a key part of this chapter's functionality:
+The `coercePromiseIntoUint8` function in [`core/runtime/utils.ts`](https://github.com/fireproof-storage/fireproof/blob/HEAD/core/runtime/utils.ts) handles a key part of this chapter's functionality:
 
-```js
+```ts
 }
 
-async function main() {
-  const gitHead = (await $`git rev-parse --short HEAD`).stdout.trim();
-  const dateTick = (await $`date +%s`).stdout.trim();
-  // eslint-disable-next-line no-console, no-undef
-  console.log(getVersion(`refs/tags/v0.0.0-smoke-${gitHead}-${dateTick}`));
+export async function coercePromiseIntoUint8(raw: PromiseToUInt8): Promise<Result<Uint8Array>> {
+  if (raw instanceof Uint8Array) {
+    return Result.Ok(raw);
+  }
+  if (Result.Is(raw)) {
+    return raw;
+  }
+  if (typeof raw.then === "function") {
+    try {
+      return coercePromiseIntoUint8(await raw);
+    } catch (e) {
+      return Result.Err(e as Error);
+    }
+  }
+  return Result.Err("Not a Uint8Array");
 }
 
-main().catch((e) => {
-  // eslint-disable-next-line no-console, no-undef
-  console.error(e);
-  process.exit(1);
-});
-
+export function makeName(fnString: string) {
+  const regex = /\(([^,()]+,\s*[^,()]+|\[[^\]]+\],\s*[^,()]+)\)/g;
+  let found: RegExpExecArray | null = null;
+  const matches = Array.from(fnString.matchAll(regex), (match) => match[1].trim());
+  if (matches.length === 0) {
+    found = /=>\s*{?\s*([^{}]+)\s*}?/.exec(fnString);
+    if (found && found[1].includes("return")) {
+      found = null;
+    }
+  }
+  if (!found) {
+    return fnString;
+  } else {
 ```
 
 This function is important because it defines how Fireproof Tutorial: Local-First Document Database for AI-Native Apps implements the patterns covered in this chapter.
 
-### `core/blockstore/loader.ts`
+### `core/runtime/utils.ts`
 
-The `CommitAction` class in [`core/blockstore/loader.ts`](https://github.com/fireproof-storage/fireproof/blob/HEAD/core/blockstore/loader.ts) handles a key part of this chapter's functionality:
+The `makeName` function in [`core/runtime/utils.ts`](https://github.com/fireproof-storage/fireproof/blob/HEAD/core/runtime/utils.ts) handles a key part of this chapter's functionality:
 
 ```ts
-// }
+}
 
-class CommitAction implements CommitParams {
-  readonly carLog: CarLog;
-  readonly encoder: AsyncBlockEncoder<24, Uint8Array>;
-  readonly threshold: number;
-  readonly attached: AttachedStores;
-  readonly opts: CommitOpts;
-  readonly commitQueue: CommitQueueIf<CarGroup>;
-  readonly logger: Logger;
-
-  constructor(
-    logger: Logger,
-    carLog: CarLog,
-    commitQueue: CommitQueueIf<CarGroup>,
-    encoder: AsyncBlockEncoder<24, Uint8Array>,
-    attached: AttachedStores,
-    threshold: number,
-    opts: CommitOpts,
-  ) {
-    this.logger = logger;
-    this.carLog = carLog;
-    this.commitQueue = commitQueue;
-    this.attached = attached;
-    // this.carLog = carLog;
-    this.encoder = encoder;
-    this.threshold = threshold;
-    this.opts = opts;
+export function makeName(fnString: string) {
+  const regex = /\(([^,()]+,\s*[^,()]+|\[[^\]]+\],\s*[^,()]+)\)/g;
+  let found: RegExpExecArray | null = null;
+  const matches = Array.from(fnString.matchAll(regex), (match) => match[1].trim());
+  if (matches.length === 0) {
+    found = /=>\s*{?\s*([^{}]+)\s*}?/.exec(fnString);
+    if (found && found[1].includes("return")) {
+      found = null;
+    }
   }
+  if (!found) {
+    return fnString;
+  } else {
+    // it's a consise arrow function, match everything after the arrow
+    return found[1];
+  }
+}
 
-  async writeCar(block: AnyBlock): Promise<void> {
-    await this.attached.local().active.car.save(block);
+export function storeType2DataMetaWal(store: StoreType) {
+  switch (store) {
+    case "car":
+    case "file":
+      return "data";
+    case "meta":
+    case "wal":
+      return store;
+    default:
+      throw new Error(`unknown store ${store}`);
+  }
+}
 ```
 
-This class is important because it defines how Fireproof Tutorial: Local-First Document Database for AI-Native Apps implements the patterns covered in this chapter.
+This function is important because it defines how Fireproof Tutorial: Local-First Document Database for AI-Native Apps implements the patterns covered in this chapter.
 
-### `core/blockstore/loader.ts`
+### `core/runtime/utils.ts`
 
-The `Loader` class in [`core/blockstore/loader.ts`](https://github.com/fireproof-storage/fireproof/blob/HEAD/core/blockstore/loader.ts) handles a key part of this chapter's functionality:
+The `storeType2DataMetaWal` function in [`core/runtime/utils.ts`](https://github.com/fireproof-storage/fireproof/blob/HEAD/core/runtime/utils.ts) handles a key part of this chapter's functionality:
 
 ```ts
-// await params.metaStore.save(newDbMeta);
+}
 
-export class Loader implements Loadable {
-  // readonly name: string;
-  readonly blockstoreParent?: BlockFetcher;
-  readonly ebOpts: BlockstoreRuntime;
-  readonly logger: Logger;
-  readonly commitQueue: CommitQueueIf<CarGroup>;
-  isCompacting = false;
-  readonly cidCache: KeyedResolvOnce<FPBlock>;
-  private readonly maxConcurrentCarReader: ReturnType<typeof pLimit>;
-  private readonly maxConcurrentWrite = pLimit(1);
-  readonly seenCompacted: LRUSet<string>;
-  // readonly processedCars: Set<string> = new Set<string>();
-  readonly sthis: SuperThis;
-  readonly taskManager: TaskManager;
+export function storeType2DataMetaWal(store: StoreType) {
+  switch (store) {
+    case "car":
+    case "file":
+      return "data";
+    case "meta":
+    case "wal":
+      return store;
+    default:
+      throw new Error(`unknown store ${store}`);
+  }
+}
 
-  readonly carLog: CarLog = new CarLog();
-  // key?: string;
-  // keyId?: string;
-  // remoteMetaStore?: MetaStore;
-  // remoteCarStore?: DataStore;
-  // remoteFileStore?: DataStore;
-
-  readonly attachedStores: AttachedStores;
-
-  async tryToLoadStaleCars(store: ActiveStore) {
-    const staleLoadcars: Promise<FPBlock<CarBlockItem>>[] = [];
-    for (const { value: rvalue } of this.cidCache.values()) {
-      if (rvalue.isErr()) {
-        this.logger.Error().Err(rvalue).Msg("error loading car");
-        return;
+export function ensureURIDefaults(
+  sthis: SuperThis,
+  names: { name: string; localURI?: URI },
+  curi: CoerceURI | undefined,
+  uri: URI,
+  store: StoreType,
+  ctx?: Partial<{
+    readonly idx: boolean;
+    readonly file: boolean;
+  }>,
+): URI {
+  ctx = ctx || {};
+  const ret = (curi ? URI.from(curi) : uri).build().setParam(PARAM.STORE, store).defParam(PARAM.NAME, names.name);
+  if (names.localURI) {
+    const rParams = names.localURI.getParamsResult({
+      [PARAM.NAME]: param.OPTIONAL,
+      [PARAM.STORE_KEY]: param.OPTIONAL,
 ```
 
-This class is important because it defines how Fireproof Tutorial: Local-First Document Database for AI-Native Apps implements the patterns covered in this chapter.
+This function is important because it defines how Fireproof Tutorial: Local-First Document Database for AI-Native Apps implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[getVersion]
-    B[main]
-    C[CommitAction]
-    D[Loader]
-    E[carLogIncludesGroup]
+    A[coerceIntoUint8]
+    B[coercePromiseIntoUint8]
+    C[makeName]
+    D[storeType2DataMetaWal]
+    E[ensureURIDefaults]
     A --> B
     B --> C
     C --> D

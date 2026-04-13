@@ -43,170 +43,168 @@ You now have a host-portable integration strategy for GitHub MCP.
 
 Next: [Chapter 6: Security, Governance, and Enterprise Controls](06-security-governance-and-enterprise-controls.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `pkg/github/params.go`
+### `pkg/github/discussions.go`
 
-The `toInt` function in [`pkg/github/params.go`](https://github.com/github/github-mcp-server/blob/HEAD/pkg/github/params.go) handles a key part of this chapter's functionality:
+The `var` interface in [`pkg/github/discussions.go`](https://github.com/github/github-mcp-server/blob/HEAD/pkg/github/discussions.go) handles a key part of this chapter's functionality:
+
+```go
+			}
+
+			var categoryID *githubv4.ID
+			if category != "" {
+				id := githubv4.ID(category)
+				categoryID = &id
+			}
+
+			vars := map[string]any{
+				"owner": githubv4.String(owner),
+				"repo":  githubv4.String(repo),
+				"first": githubv4.Int(*paginationParams.First),
+			}
+			if paginationParams.After != nil {
+				vars["after"] = githubv4.String(*paginationParams.After)
+			} else {
+				vars["after"] = (*githubv4.String)(nil)
+			}
+
+			// this is an extra check in case the tool description is misinterpreted, because
+			// we shouldn't use ordering unless both a 'field' and 'direction' are provided
+			useOrdering := orderBy != "" && direction != ""
+			if useOrdering {
+				vars["orderByField"] = githubv4.DiscussionOrderField(orderBy)
+				vars["orderByDirection"] = githubv4.OrderDirection(direction)
+			}
+
+			if categoryID != nil {
+				vars["categoryId"] = *categoryID
+			}
+
+			discussionQuery := getQueryType(useOrdering, categoryID)
+```
+
+This interface is important because it defines how GitHub MCP Server Tutorial: Production GitHub Operations Through MCP implements the patterns covered in this chapter.
+
+### `pkg/github/minimal_types.go`
+
+The `convertToMinimalPullRequestReview` function in [`pkg/github/minimal_types.go`](https://github.com/github/github-mcp-server/blob/HEAD/pkg/github/minimal_types.go) handles a key part of this chapter's functionality:
+
+```go
+// Helper functions
+
+func convertToMinimalPullRequestReview(review *github.PullRequestReview) MinimalPullRequestReview {
+	m := MinimalPullRequestReview{
+		ID:                review.GetID(),
+		State:             review.GetState(),
+		Body:              review.GetBody(),
+		HTMLURL:           review.GetHTMLURL(),
+		User:              convertToMinimalUser(review.GetUser()),
+		CommitID:          review.GetCommitID(),
+		AuthorAssociation: review.GetAuthorAssociation(),
+	}
+
+	if review.SubmittedAt != nil {
+		m.SubmittedAt = review.SubmittedAt.Format(time.RFC3339)
+	}
+
+	return m
+}
+
+func convertToMinimalIssue(issue *github.Issue) MinimalIssue {
+	m := MinimalIssue{
+		Number:            issue.GetNumber(),
+		Title:             issue.GetTitle(),
+		Body:              issue.GetBody(),
+		State:             issue.GetState(),
+		StateReason:       issue.GetStateReason(),
+		Draft:             issue.GetDraft(),
+		Locked:            issue.GetLocked(),
+		HTMLURL:           issue.GetHTMLURL(),
+		User:              convertToMinimalUser(issue.GetUser()),
+		AuthorAssociation: issue.GetAuthorAssociation(),
+```
+
+This function is important because it defines how GitHub MCP Server Tutorial: Production GitHub Operations Through MCP implements the patterns covered in this chapter.
+
+### `pkg/github/minimal_types.go`
+
+The `convertToMinimalIssue` function in [`pkg/github/minimal_types.go`](https://github.com/github/github-mcp-server/blob/HEAD/pkg/github/minimal_types.go) handles a key part of this chapter's functionality:
 
 ```go
 }
 
-// toInt converts a value to int, handling both float64 and string representations.
-// Some MCP clients send numeric values as strings. It rejects NaN, ±Inf,
-// fractional values, and values outside the int range.
-func toInt(val any) (int, error) {
-	var f float64
-	switch v := val.(type) {
-	case float64:
-		f = v
-	case string:
-		var err error
-		f, err = strconv.ParseFloat(v, 64)
-		if err != nil {
-			return 0, fmt.Errorf("invalid numeric value: %s", v)
+func convertToMinimalIssue(issue *github.Issue) MinimalIssue {
+	m := MinimalIssue{
+		Number:            issue.GetNumber(),
+		Title:             issue.GetTitle(),
+		Body:              issue.GetBody(),
+		State:             issue.GetState(),
+		StateReason:       issue.GetStateReason(),
+		Draft:             issue.GetDraft(),
+		Locked:            issue.GetLocked(),
+		HTMLURL:           issue.GetHTMLURL(),
+		User:              convertToMinimalUser(issue.GetUser()),
+		AuthorAssociation: issue.GetAuthorAssociation(),
+		Comments:          issue.GetComments(),
+	}
+
+	if issue.CreatedAt != nil {
+		m.CreatedAt = issue.CreatedAt.Format(time.RFC3339)
+	}
+	if issue.UpdatedAt != nil {
+		m.UpdatedAt = issue.UpdatedAt.Format(time.RFC3339)
+	}
+	if issue.ClosedAt != nil {
+		m.ClosedAt = issue.ClosedAt.Format(time.RFC3339)
+	}
+
+	for _, label := range issue.Labels {
+		if label != nil {
+			m.Labels = append(m.Labels, label.GetName())
 		}
-	default:
-		return 0, fmt.Errorf("expected number, got %T", val)
 	}
-	if math.IsNaN(f) || math.IsInf(f, 0) {
-		return 0, fmt.Errorf("non-finite numeric value")
-	}
-	if f != math.Trunc(f) {
-		return 0, fmt.Errorf("non-integer numeric value: %v", f)
-	}
-	if f > math.MaxInt || f < math.MinInt {
-		return 0, fmt.Errorf("numeric value out of int range: %v", f)
-	}
-	return int(f), nil
-}
-
-// toInt64 converts a value to int64, handling both float64 and string representations.
 ```
 
 This function is important because it defines how GitHub MCP Server Tutorial: Production GitHub Operations Through MCP implements the patterns covered in this chapter.
 
-### `pkg/github/params.go`
+### `pkg/github/minimal_types.go`
 
-The `toInt64` function in [`pkg/github/params.go`](https://github.com/github/github-mcp-server/blob/HEAD/pkg/github/params.go) handles a key part of this chapter's functionality:
-
-```go
-}
-
-// toInt64 converts a value to int64, handling both float64 and string representations.
-// Some MCP clients send numeric values as strings. It rejects NaN, ±Inf,
-// fractional values, and values that lose precision in the float64→int64 conversion.
-func toInt64(val any) (int64, error) {
-	var f float64
-	switch v := val.(type) {
-	case float64:
-		f = v
-	case string:
-		var err error
-		f, err = strconv.ParseFloat(v, 64)
-		if err != nil {
-			return 0, fmt.Errorf("invalid numeric value: %s", v)
-		}
-	default:
-		return 0, fmt.Errorf("expected number, got %T", val)
-	}
-	if math.IsNaN(f) || math.IsInf(f, 0) {
-		return 0, fmt.Errorf("non-finite numeric value")
-	}
-	if f != math.Trunc(f) {
-		return 0, fmt.Errorf("non-integer numeric value: %v", f)
-	}
-	result := int64(f)
-	// Check round-trip to detect precision loss for large int64 values
-	if float64(result) != f {
-		return 0, fmt.Errorf("numeric value %v is too large to fit in int64", f)
-	}
-	return result, nil
-}
-```
-
-This function is important because it defines how GitHub MCP Server Tutorial: Production GitHub Operations Through MCP implements the patterns covered in this chapter.
-
-### `pkg/github/params.go`
-
-The `RequiredInt` function in [`pkg/github/params.go`](https://github.com/github/github-mcp-server/blob/HEAD/pkg/github/params.go) handles a key part of this chapter's functionality:
+The `fragmentToMinimalIssue` function in [`pkg/github/minimal_types.go`](https://github.com/github/github-mcp-server/blob/HEAD/pkg/github/minimal_types.go) handles a key part of this chapter's functionality:
 
 ```go
 }
 
-// RequiredInt is a helper function that can be used to fetch a requested parameter from the request.
-// It does the following checks:
-// 1. Checks if the parameter is present in the request.
-// 2. Checks if the parameter is of the expected type (float64 or numeric string).
-// 3. Checks if the parameter is not empty, i.e: non-zero value
-func RequiredInt(args map[string]any, p string) (int, error) {
-	v, ok := args[p]
-	if !ok {
-		return 0, fmt.Errorf("missing required parameter: %s", p)
+func fragmentToMinimalIssue(fragment IssueFragment) MinimalIssue {
+	m := MinimalIssue{
+		Number:    int(fragment.Number),
+		Title:     sanitize.Sanitize(string(fragment.Title)),
+		Body:      sanitize.Sanitize(string(fragment.Body)),
+		State:     string(fragment.State),
+		Comments:  int(fragment.Comments.TotalCount),
+		CreatedAt: fragment.CreatedAt.Format(time.RFC3339),
+		UpdatedAt: fragment.UpdatedAt.Format(time.RFC3339),
+		User: &MinimalUser{
+			Login: string(fragment.Author.Login),
+		},
 	}
 
-	result, err := toInt(v)
-	if err != nil {
-		return 0, fmt.Errorf("parameter %s is not a valid number: %w", p, err)
+	for _, label := range fragment.Labels.Nodes {
+		m.Labels = append(m.Labels, string(label.Name))
 	}
 
-	if result == 0 {
-		return 0, fmt.Errorf("missing required parameter: %s", p)
-	}
-
-	return result, nil
+	return m
 }
 
-// RequiredBigInt is a helper function that can be used to fetch a requested parameter from the request.
-// It does the following checks:
-// 1. Checks if the parameter is present in the request.
-// 2. Checks if the parameter is of the expected type (float64 or numeric string).
-// 3. Checks if the parameter is not empty, i.e: non-zero value.
-// 4. Validates that the float64 value can be safely converted to int64 without truncation.
-func RequiredBigInt(args map[string]any, p string) (int64, error) {
-```
-
-This function is important because it defines how GitHub MCP Server Tutorial: Production GitHub Operations Through MCP implements the patterns covered in this chapter.
-
-### `pkg/github/params.go`
-
-The `RequiredBigInt` function in [`pkg/github/params.go`](https://github.com/github/github-mcp-server/blob/HEAD/pkg/github/params.go) handles a key part of this chapter's functionality:
-
-```go
-}
-
-// RequiredBigInt is a helper function that can be used to fetch a requested parameter from the request.
-// It does the following checks:
-// 1. Checks if the parameter is present in the request.
-// 2. Checks if the parameter is of the expected type (float64 or numeric string).
-// 3. Checks if the parameter is not empty, i.e: non-zero value.
-// 4. Validates that the float64 value can be safely converted to int64 without truncation.
-func RequiredBigInt(args map[string]any, p string) (int64, error) {
-	val, ok := args[p]
-	if !ok {
-		return 0, fmt.Errorf("missing required parameter: %s", p)
+func convertToMinimalIssuesResponse(fragment IssueQueryFragment) MinimalIssuesResponse {
+	minimalIssues := make([]MinimalIssue, 0, len(fragment.Nodes))
+	for _, issue := range fragment.Nodes {
+		minimalIssues = append(minimalIssues, fragmentToMinimalIssue(issue))
 	}
 
-	result, err := toInt64(val)
-	if err != nil {
-		return 0, fmt.Errorf("parameter %s is not a valid number: %w", p, err)
-	}
-
-	if result == 0 {
-		return 0, fmt.Errorf("missing required parameter: %s", p)
-	}
-
-	return result, nil
-}
-
-// OptionalParam is a helper function that can be used to fetch a requested parameter from the request.
-// It does the following checks:
-// 1. Checks if the parameter is present in the request, if not, it returns its zero-value
-// 2. If it is present, it checks if the parameter is of the expected type and returns it
-func OptionalParam[T any](args map[string]any, p string) (T, error) {
-	var zero T
+	return MinimalIssuesResponse{
+		Issues:     minimalIssues,
+		TotalCount: fragment.TotalCount,
 ```
 
 This function is important because it defines how GitHub MCP Server Tutorial: Production GitHub Operations Through MCP implements the patterns covered in this chapter.
@@ -216,11 +214,11 @@ This function is important because it defines how GitHub MCP Server Tutorial: Pr
 
 ```mermaid
 flowchart TD
-    A[toInt]
-    B[toInt64]
-    C[RequiredInt]
-    D[RequiredBigInt]
-    E[OptionalIntParam]
+    A[var]
+    B[convertToMinimalPullRequestReview]
+    C[convertToMinimalIssue]
+    D[fragmentToMinimalIssue]
+    E[convertToMinimalIssuesResponse]
     A --> B
     B --> C
     C --> D

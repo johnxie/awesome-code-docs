@@ -860,11 +860,23 @@ Under the hood, `Chapter 6: Advanced Features & Performance Optimization` usuall
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
+## Advanced Sampling Architecture
+
+```mermaid
+flowchart LR
+    A[Outlines Generator] --> B[Temperature / Top-p Config]
+    B --> C[Beam Search or Greedy]
+    C --> D[Constraint Intersection]
+    D --> E[Batched Requests]
+    E --> F[Cached FSM States]
+    F --> G[Outputs]
+```
+
 ## Source Walkthrough
 
 Use the following upstream sources to verify implementation details while reading this chapter:
 
-- [View Repo](https://github.com/outlines-dev/outlines)
+- [View Repo](https://github.com/dottxt-ai/outlines)
   Why it matters: authoritative reference on `View Repo` (github.com).
 
 Suggested trace strategy:

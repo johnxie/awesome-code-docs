@@ -614,16 +614,29 @@ Under the hood, `Chapter 5: Memory & RAG` usually follows a repeatable control p
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
-## Source Walkthrough
+## Source Code Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+### `packages/elizaos/src/manifest.ts`
 
-- [ElizaOS](https://github.com/elizaOS/eliza)
-  Why it matters: authoritative reference on `ElizaOS` (github.com).
+The `getExamplesByLanguage` and `getAvailableLanguages` helpers in [`packages/elizaos/src/manifest.ts`](https://github.com/elizaOS/eliza/blob/develop/packages/elizaos/src/manifest.ts) show how elizaOS separates agent knowledge by language/runtime context:
 
-Suggested trace strategy:
-- search upstream code for `text` and `chunks` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+```ts
+export function getExamplesByLanguage(
+  language: string,
+): ExamplesManifest["examples"] {
+  const manifest = loadManifest();
+  return manifest.examples.filter((example) =>
+    example.languages.some((lang) => lang.language === language),
+  );
+}
+
+export function getAvailableLanguages(): string[] {
+  const manifest = loadManifest();
+  return manifest.languages;
+}
+```
+
+In the agent runtime, memory storage uses a vector database (PGLite by default, PostgreSQL in production) where each memory record contains the embedding, source text, and metadata. The `elizaos` agent retrieves context-relevant memories before generating a response, forming the RAG loop.
 
 ## Chapter Connections
 

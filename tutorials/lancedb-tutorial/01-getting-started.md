@@ -14,6 +14,16 @@ Welcome to **Chapter 1: Getting Started with LanceDB**. In this part of **LanceD
 
 ## Overview
 
+```mermaid
+flowchart LR
+    A[lancedb.connect path] --> B[LanceDB database]
+    B --> C[db.create_table name data]
+    C --> D[Lance format files]
+    D --> E[table.search vector]
+    E --> F[ANN index]
+    F --> G[Ranked results]
+```
+
 This chapter guides you through installing LanceDB, understanding its architecture, creating databases and tables, and performing your first vector similarity searches.
 
 ## Installation

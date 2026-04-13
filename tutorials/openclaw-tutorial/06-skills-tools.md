@@ -611,6 +611,145 @@ class DeviceNodeSkill implements SkillDefinition {
 }
 ```
 
+## Plugin SDK (`packages/plugin-sdk` + `packages/plugin-package-contract`)
+
+Beyond the built-in skills described above, OpenClaw has a full **plugin system** where third parties can publish capabilities as ordinary npm packages. The Plugin SDK provides the runtime scaffolding; the plugin-package-contract defines the interface every plugin must satisfy.
+
+### What Problem It Solves
+
+Built-in skills are compiled into the OpenClaw binary — adding a new integration requires a pull request to the main repo. Plugins solve this by letting anyone publish an `npm` package that follows a standard contract. Users install plugins with a single command; no recompilation required.
+
+### How the Two Packages Fit Together
+
+```mermaid
+graph LR
+    subgraph Contract["packages/plugin-package-contract"]
+        ENTRY[plugin-entry.ts<br/>PluginEntry interface]
+        PAUTH[provider-auth.ts<br/>AuthContract]
+        PTOOLS[provider-tools.ts<br/>ToolsContract]
+        PWEB[provider-web-search.ts<br/>WebSearchContract]
+        PMODEL[provider-model-types.ts<br/>ModelContract]
+    end
+
+    subgraph SDK["packages/plugin-sdk"]
+        RUNTIME[plugin-runtime.ts<br/>PluginRuntime]
+        CONF[config-runtime.ts<br/>ConfigRuntime]
+        SEC[security-runtime.ts<br/>SecurityRuntime]
+        DOC[runtime-doctor.ts<br/>HealthChecker]
+        TEST[testing.ts<br/>TestHarness]
+    end
+
+    subgraph Plugin["Your Plugin (npm package)"]
+        IMPL[index.ts implements PluginEntry]
+    end
+
+    IMPL -->|satisfies| ENTRY
+    SDK --> RUNTIME
+    RUNTIME -->|loads & validates| IMPL
+    Contract --> SDK
+```
+
+### Key Source Files
+
+| Package | File | Role |
+|---------|------|------|
+| `plugin-package-contract` | `src/index.ts` | Exports all interface types a plugin must implement |
+| `plugin-sdk` | `src/plugin-entry.ts` | Plugin entry-point loader and validator |
+| `plugin-sdk` | `src/plugin-runtime.ts` | Lifecycle management (load, configure, unload) |
+| `plugin-sdk` | `src/config-runtime.ts` | Plugin configuration schema validation |
+| `plugin-sdk` | `src/security-runtime.ts` | Sandboxing and permission enforcement |
+| `plugin-sdk` | `src/runtime-doctor.ts` | Health checks and plugin diagnostics |
+| `plugin-sdk` | `src/testing.ts` | Test harness for plugin unit tests |
+| `plugin-sdk` | `src/provider-auth.ts` | OAuth / token provider contract helpers |
+| `plugin-sdk` | `src/provider-http.ts` | Authenticated HTTP client for plugin use |
+
+### Writing a Plugin
+
+A minimal plugin package follows this structure:
+
+```typescript
+// my-openclaw-plugin/src/index.ts
+import type { PluginEntry, ToolsContract } from "@openclaw/plugin-package-contract";
+
+const tools: ToolsContract = {
+  definitions: [
+    {
+      name: "jira_create_issue",
+      description: "Create a Jira issue",
+      parameters: {
+        type: "object",
+        properties: {
+          project: { type: "string" },
+          summary: { type: "string" },
+          description: { type: "string" },
+        },
+        required: ["project", "summary"],
+      },
+      handler: async (params, context) => {
+        // Implementation using context.config for credentials
+        const resp = await context.http.post(
+          `${context.config.base_url}/rest/api/3/issue`,
+          { fields: { project: { key: params.project }, summary: params.summary } }
+        );
+        return { id: resp.id, url: `${context.config.base_url}/browse/${resp.key}` };
+      },
+    },
+  ],
+};
+
+const plugin: PluginEntry = {
+  name: "jira",
+  version: "1.0.0",
+  tools,
+  configSchema: {
+    type: "object",
+    properties: {
+      base_url: { type: "string" },
+      api_token: { type: "string" },
+    },
+    required: ["base_url", "api_token"],
+  },
+};
+
+export default plugin;
+```
+
+The `openclaw.plugin.json` manifest at the package root declares the entry point and required permissions — see `extensions/acpx/openclaw.plugin.json` for a real-world reference.
+
+### Installing and Managing Plugins
+
+```bash
+# Install from npm
+openclaw plugin install @myorg/openclaw-jira-plugin
+
+# Install from local path (development)
+openclaw plugin install ./my-openclaw-plugin
+
+# List installed plugins
+openclaw plugin list
+
+# Configure a plugin
+openclaw plugin config jira --set base_url=https://myorg.atlassian.net --set api_token=$TOKEN
+
+# Run health check
+openclaw plugin doctor jira
+
+# Uninstall
+openclaw plugin remove jira
+```
+
+### When to Build a Plugin vs. a Custom Skill
+
+| Situation | Recommendation |
+|-----------|---------------|
+| Internal tool, not shared | Custom skill in `skills/` directory |
+| Integration to distribute on npm | Plugin via `plugin-sdk` |
+| Need OAuth provider support | Plugin (use `provider-auth.ts`) |
+| Need to add a new AI model provider | Plugin (implement `ModelContract`) |
+| Need to add a custom web search | Plugin (implement `WebSearchContract`) |
+
+---
+
 ## Summary
 
 | Concept | Key Takeaway |

@@ -87,170 +87,168 @@ You now have a runtime model for sandbox previews and a practical baseline for s
 
 Next: [Chapter 5: Data Layer and Persistence](05-data-layer-and-persistence.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `debug-tools/ai_request_analyzer_v2.py`
+### `scripts/undeploy.ts`
 
-The `class` class in [`debug-tools/ai_request_analyzer_v2.py`](https://github.com/cloudflare/vibesdk/blob/HEAD/debug-tools/ai_request_analyzer_v2.py) handles a key part of this chapter's functionality:
+The `WranglerConfig` interface in [`scripts/undeploy.ts`](https://github.com/cloudflare/vibesdk/blob/HEAD/scripts/undeploy.ts) handles a key part of this chapter's functionality:
+
+```ts
+
+// Types for configuration
+interface WranglerConfig {
+  name: string;
+  dispatch_namespaces?: Array<{
+    binding: string;
+    namespace: string;
+    experimental_remote?: boolean;
+  }>;
+  r2_buckets?: Array<{
+    binding: string;
+    bucket_name: string;
+    experimental_remote?: boolean;
+  }>;
+  containers?: Array<{
+    class_name: string;
+    image: string;
+    max_instances: number;
+  }>;
+  d1_databases?: Array<{
+    binding: string;
+    database_name: string;
+    database_id: string;
+    migrations_dir?: string;
+    experimental_remote?: boolean;
+  }>;
+  kv_namespaces?: Array<{
+    binding: string;
+    id: string;
+    experimental_remote?: boolean;
+  }>;
+}
+```
+
+This interface is important because it defines how VibeSDK Tutorial: Build a Vibe-Coding Platform on Cloudflare implements the patterns covered in this chapter.
+
+### `debug-tools/state_analyzer.py`
+
+The `from` class in [`debug-tools/state_analyzer.py`](https://github.com/cloudflare/vibesdk/blob/HEAD/debug-tools/state_analyzer.py) handles a key part of this chapter's functionality:
 
 ```py
+State Analyzer for SimpleGeneratorAgent setState debugging
+
+This script parses error messages from setState failures and analyzes:
+1. Size of each state property when serialized
+2. Differences between old and new states
+3. Main contributors to state growth
+4. Detailed breakdown for debugging SQL storage issues
+
+Usage: python state_analyzer.py <error_file_path>
+"""
+
+import json
 import sys
 import re
-from dataclasses import dataclass, field
-from typing import Dict, List, Any, Optional, Tuple, Union, TypedDict, Protocol
-from pathlib import Path
-import argparse
-from collections import defaultdict, Counter
-import math
-from enum import Enum
-from abc import ABC, abstractmethod
+import os
+from typing import Dict, Any, List, Tuple, Union
+from dataclasses import dataclass
+from collections import defaultdict
+import difflib
 
 
-class ContentType(Enum):
-    """Enumeration for content types."""
-    SOURCE_CODE = "source_code"
-    JSON_DATA = "json_data" 
-    MARKDOWN_STRUCTURED = "markdown_structured"
-    LARGE_TEXT = "large_text"
-    METADATA = "metadata"
-    PROSE = "prose"
-
-
-class ComponentName(Enum):
-    """Enumeration for component names."""
-    ROLE_SECTION = "role_section"
-    GOAL_SECTION = "goal_section"
-    CONTEXT_SECTION = "context_section"
-    CLIENT_REQUEST = "client_request"
-    BLUEPRINT = "blueprint"
-    DEPENDENCIES = "dependencies"
-    UI_GUIDELINES = "ui_guidelines"
-    STRATEGY = "strategy"
+@dataclass
+class PropertyAnalysis:
+    """Analysis results for a single property"""
+    name: str
+    old_size: int
+    new_size: int
+    old_serialized_length: int
+    new_serialized_length: int
+    growth_bytes: int
+    growth_chars: int
+    has_changed: bool
 ```
 
 This class is important because it defines how VibeSDK Tutorial: Build a Vibe-Coding Platform on Cloudflare implements the patterns covered in this chapter.
 
-### `debug-tools/ai_request_analyzer_v2.py`
+### `debug-tools/state_analyzer.py`
 
-The `class` class in [`debug-tools/ai_request_analyzer_v2.py`](https://github.com/cloudflare/vibesdk/blob/HEAD/debug-tools/ai_request_analyzer_v2.py) handles a key part of this chapter's functionality:
+The `class` class in [`debug-tools/state_analyzer.py`](https://github.com/cloudflare/vibesdk/blob/HEAD/debug-tools/state_analyzer.py) handles a key part of this chapter's functionality:
 
 ```py
-import sys
-import re
-from dataclasses import dataclass, field
-from typing import Dict, List, Any, Optional, Tuple, Union, TypedDict, Protocol
-from pathlib import Path
-import argparse
-from collections import defaultdict, Counter
-import math
-from enum import Enum
-from abc import ABC, abstractmethod
+import os
+from typing import Dict, Any, List, Tuple, Union
+from dataclasses import dataclass
+from collections import defaultdict
+import difflib
 
 
-class ContentType(Enum):
-    """Enumeration for content types."""
-    SOURCE_CODE = "source_code"
-    JSON_DATA = "json_data" 
-    MARKDOWN_STRUCTURED = "markdown_structured"
-    LARGE_TEXT = "large_text"
-    METADATA = "metadata"
-    PROSE = "prose"
+@dataclass
+class PropertyAnalysis:
+    """Analysis results for a single property"""
+    name: str
+    old_size: int
+    new_size: int
+    old_serialized_length: int
+    new_serialized_length: int
+    growth_bytes: int
+    growth_chars: int
+    has_changed: bool
+    old_type: str
+    new_type: str
 
 
-class ComponentName(Enum):
-    """Enumeration for component names."""
-    ROLE_SECTION = "role_section"
-    GOAL_SECTION = "goal_section"
-    CONTEXT_SECTION = "context_section"
-    CLIENT_REQUEST = "client_request"
-    BLUEPRINT = "blueprint"
-    DEPENDENCIES = "dependencies"
-    UI_GUIDELINES = "ui_guidelines"
-    STRATEGY = "strategy"
+@dataclass
+class StateAnalysis:
+    """Complete analysis of state comparison"""
+    total_old_size: int
+    total_new_size: int
+    total_old_serialized_length: int
+    total_new_serialized_length: int
+    total_growth_bytes: int
+    total_growth_chars: int
+    property_analyses: List[PropertyAnalysis]
 ```
 
 This class is important because it defines how VibeSDK Tutorial: Build a Vibe-Coding Platform on Cloudflare implements the patterns covered in this chapter.
 
-### `debug-tools/ai_request_analyzer_v2.py`
+### `debug-tools/state_analyzer.py`
 
-The `class` class in [`debug-tools/ai_request_analyzer_v2.py`](https://github.com/cloudflare/vibesdk/blob/HEAD/debug-tools/ai_request_analyzer_v2.py) handles a key part of this chapter's functionality:
-
-```py
-import sys
-import re
-from dataclasses import dataclass, field
-from typing import Dict, List, Any, Optional, Tuple, Union, TypedDict, Protocol
-from pathlib import Path
-import argparse
-from collections import defaultdict, Counter
-import math
-from enum import Enum
-from abc import ABC, abstractmethod
-
-
-class ContentType(Enum):
-    """Enumeration for content types."""
-    SOURCE_CODE = "source_code"
-    JSON_DATA = "json_data" 
-    MARKDOWN_STRUCTURED = "markdown_structured"
-    LARGE_TEXT = "large_text"
-    METADATA = "metadata"
-    PROSE = "prose"
-
-
-class ComponentName(Enum):
-    """Enumeration for component names."""
-    ROLE_SECTION = "role_section"
-    GOAL_SECTION = "goal_section"
-    CONTEXT_SECTION = "context_section"
-    CLIENT_REQUEST = "client_request"
-    BLUEPRINT = "blueprint"
-    DEPENDENCIES = "dependencies"
-    UI_GUIDELINES = "ui_guidelines"
-    STRATEGY = "strategy"
-```
-
-This class is important because it defines how VibeSDK Tutorial: Build a Vibe-Coding Platform on Cloudflare implements the patterns covered in this chapter.
-
-### `debug-tools/ai_request_analyzer_v2.py`
-
-The `BaseAnalyzer` class in [`debug-tools/ai_request_analyzer_v2.py`](https://github.com/cloudflare/vibesdk/blob/HEAD/debug-tools/ai_request_analyzer_v2.py) handles a key part of this chapter's functionality:
+The `class` class in [`debug-tools/state_analyzer.py`](https://github.com/cloudflare/vibesdk/blob/HEAD/debug-tools/state_analyzer.py) handles a key part of this chapter's functionality:
 
 ```py
+import os
+from typing import Dict, Any, List, Tuple, Union
+from dataclasses import dataclass
+from collections import defaultdict
+import difflib
 
 
-class BaseAnalyzer(ABC):
-    """Abstract base class for analyzers to ensure consistent interface."""
-    
-    @abstractmethod
-    def analyze(self, content: str) -> Any:
-        """Analyze content and return results."""
-        pass
+@dataclass
+class PropertyAnalysis:
+    """Analysis results for a single property"""
+    name: str
+    old_size: int
+    new_size: int
+    old_serialized_length: int
+    new_serialized_length: int
+    growth_bytes: int
+    growth_chars: int
+    has_changed: bool
+    old_type: str
+    new_type: str
 
 
-class SCOFParser(BaseAnalyzer):
-    """Type-safe SCOF format parser."""
-    
-    SCOF_FILE_PATTERN = re.compile(
-        r'# Creating new file: ([^\n]+)\n'
-        r'# File Purpose: ([^\n]*(?:\n# [^\n]*)*)\n*'
-        r'cat > [^\n]+ << \'EOF\'\n'
-        r'(.*?)\n'
-        r'EOF',
-        re.DOTALL | re.MULTILINE
-    )
-    
-    SCOF_DIFF_PATTERN = re.compile(
-        r'# Applying diff to file: ([^\n]+)\n'
-        r'# File Purpose: ([^\n]*(?:\n# [^\n]*)*)\n*'
-        r'cat << \'EOF\' \| patch [^\n]+\n'
-        r'(.*?)\n'
-        r'EOF',
-        re.DOTALL | re.MULTILINE
-    )
-    
+@dataclass
+class StateAnalysis:
+    """Complete analysis of state comparison"""
+    total_old_size: int
+    total_new_size: int
+    total_old_serialized_length: int
+    total_new_serialized_length: int
+    total_growth_bytes: int
+    total_growth_chars: int
+    property_analyses: List[PropertyAnalysis]
 ```
 
 This class is important because it defines how VibeSDK Tutorial: Build a Vibe-Coding Platform on Cloudflare implements the patterns covered in this chapter.
@@ -260,11 +258,11 @@ This class is important because it defines how VibeSDK Tutorial: Build a Vibe-Co
 
 ```mermaid
 flowchart TD
-    A[class]
-    B[class]
+    A[WranglerConfig]
+    B[from]
     C[class]
-    D[BaseAnalyzer]
-    E[for]
+    D[class]
+    E[StateAnalyzer]
     A --> B
     B --> C
     C --> D

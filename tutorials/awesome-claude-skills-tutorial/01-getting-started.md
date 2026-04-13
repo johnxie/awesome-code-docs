@@ -38,170 +38,168 @@ You now have a simple onboarding loop for skill discovery and initial validation
 
 Next: [Chapter 2: Catalog Taxonomy and Navigation](02-catalog-taxonomy-and-navigation.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `slack-gif-creator/core/visual_effects.py`
+### `slack-gif-creator/templates/explode.py`
 
-The `Particle` class in [`slack-gif-creator/core/visual_effects.py`](https://github.com/ComposioHQ/awesome-claude-skills/blob/HEAD/slack-gif-creator/core/visual_effects.py) handles a key part of this chapter's functionality:
-
-```py
-#!/usr/bin/env python3
-"""
-Visual Effects - Particles, motion blur, impacts, and other effects for GIFs.
-
-This module provides high-impact visual effects that make animations feel
-professional and dynamic while keeping file sizes reasonable.
-"""
-
-from PIL import Image, ImageDraw, ImageFilter
-import numpy as np
-import math
-import random
-from typing import Optional
-
-
-class Particle:
-    """A single particle in a particle system."""
-
-    def __init__(self, x: float, y: float, vx: float, vy: float,
-                 lifetime: float, color: tuple[int, int, int],
-                 size: int = 3, shape: str = 'circle'):
-        """
-        Initialize a particle.
-
-        Args:
-            x, y: Starting position
-            vx, vy: Velocity
-            lifetime: How long particle lives (in frames)
-            color: RGB color
-            size: Particle size in pixels
-            shape: 'circle', 'square', or 'star'
-        """
-```
-
-This class is important because it defines how Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows implements the patterns covered in this chapter.
-
-### `slack-gif-creator/core/visual_effects.py`
-
-The `ParticleSystem` class in [`slack-gif-creator/core/visual_effects.py`](https://github.com/ComposioHQ/awesome-claude-skills/blob/HEAD/slack-gif-creator/core/visual_effects.py) handles a key part of this chapter's functionality:
+The `create_explode_animation` function in [`slack-gif-creator/templates/explode.py`](https://github.com/ComposioHQ/awesome-claude-skills/blob/HEAD/slack-gif-creator/templates/explode.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-class ParticleSystem:
-    """Manages a collection of particles."""
-
-    def __init__(self):
-        """Initialize particle system."""
-        self.particles: list[Particle] = []
-
-    def emit(self, x: int, y: int, count: int = 10,
-             spread: float = 2.0, speed: float = 5.0,
-             color: tuple[int, int, int] = (255, 200, 0),
-             lifetime: float = 20.0, size: int = 3, shape: str = 'circle'):
-        """
-        Emit a burst of particles.
-
-        Args:
-            x, y: Emission position
-            count: Number of particles to emit
-            spread: Angle spread (radians)
-            speed: Initial speed
-            color: Particle color
-            lifetime: Particle lifetime in frames
-            size: Particle size
-            shape: Particle shape
-        """
-        for _ in range(count):
-            # Random angle and speed
-            angle = random.uniform(0, 2 * math.pi)
-            vel_mag = random.uniform(speed * 0.5, speed * 1.5)
-            vx = math.cos(angle) * vel_mag
-            vy = math.sin(angle) * vel_mag
-```
-
-This class is important because it defines how Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows implements the patterns covered in this chapter.
-
-### `slack-gif-creator/core/visual_effects.py`
-
-The `add_motion_blur` function in [`slack-gif-creator/core/visual_effects.py`](https://github.com/ComposioHQ/awesome-claude-skills/blob/HEAD/slack-gif-creator/core/visual_effects.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-def add_motion_blur(frame: Image.Image, prev_frame: Optional[Image.Image],
-                    blur_amount: float = 0.5) -> Image.Image:
+def create_explode_animation(
+    object_type: str = 'emoji',
+    object_data: dict | None = None,
+    num_frames: int = 30,
+    explode_type: str = 'burst',  # 'burst', 'shatter', 'dissolve', 'implode'
+    num_pieces: int = 20,
+    explosion_speed: float = 5.0,
+    center_pos: tuple[int, int] = (240, 240),
+    frame_width: int = 480,
+    frame_height: int = 480,
+    bg_color: tuple[int, int, int] = (255, 255, 255)
+) -> list[Image.Image]:
     """
-    Add motion blur by blending with previous frame.
+    Create explosion animation.
 
     Args:
-        frame: Current frame
-        prev_frame: Previous frame (None for first frame)
-        blur_amount: Amount of blur (0.0-1.0)
+        object_type: 'emoji', 'circle', 'text'
+        object_data: Object configuration
+        num_frames: Number of frames
+        explode_type: Type of explosion
+        num_pieces: Number of pieces/particles
+        explosion_speed: Speed of explosion
+        center_pos: Center position
+        frame_width: Frame width
+        frame_height: Frame height
+        bg_color: Background color
 
     Returns:
-        Frame with motion blur applied
+        List of frames
     """
-    if prev_frame is None:
-        return frame
-
-    # Blend current frame with previous frame
-    frame_array = np.array(frame, dtype=np.float32)
-    prev_array = np.array(prev_frame, dtype=np.float32)
-
-    blended = frame_array * (1 - blur_amount) + prev_array * blur_amount
-    blended = np.clip(blended, 0, 255).astype(np.uint8)
-
-    return Image.fromarray(blended)
-
-
-def create_impact_flash(frame: Image.Image, position: tuple[int, int],
-                        radius: int = 100, intensity: float = 0.7) -> Image.Image:
-    """
-    Create a bright flash effect at impact point.
 ```
 
 This function is important because it defines how Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows implements the patterns covered in this chapter.
 
-### `slack-gif-creator/core/visual_effects.py`
+### `slack-gif-creator/templates/explode.py`
 
-The `create_impact_flash` function in [`slack-gif-creator/core/visual_effects.py`](https://github.com/ComposioHQ/awesome-claude-skills/blob/HEAD/slack-gif-creator/core/visual_effects.py) handles a key part of this chapter's functionality:
+The `create_particle_burst` function in [`slack-gif-creator/templates/explode.py`](https://github.com/ComposioHQ/awesome-claude-skills/blob/HEAD/slack-gif-creator/templates/explode.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def create_impact_flash(frame: Image.Image, position: tuple[int, int],
-                        radius: int = 100, intensity: float = 0.7) -> Image.Image:
+def create_particle_burst(
+    num_frames: int = 25,
+    particle_count: int = 30,
+    center_pos: tuple[int, int] = (240, 240),
+    colors: list[tuple[int, int, int]] | None = None,
+    frame_width: int = 480,
+    frame_height: int = 480,
+    bg_color: tuple[int, int, int] = (255, 255, 255)
+) -> list[Image.Image]:
     """
-    Create a bright flash effect at impact point.
+    Create simple particle burst effect.
+
+    Args:
+        num_frames: Number of frames
+        particle_count: Number of particles
+        center_pos: Burst center
+        colors: Particle colors (None for random)
+        frame_width: Frame width
+        frame_height: Frame height
+        bg_color: Background color
+
+    Returns:
+        List of frames
+    """
+    particles = ParticleSystem()
+
+    # Emit particles
+    if colors is None:
+        from core.color_palettes import get_palette
+        palette = get_palette('vibrant')
+```
+
+This function is important because it defines how Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows implements the patterns covered in this chapter.
+
+### `slack-gif-creator/core/typography.py`
+
+The `get_font` function in [`slack-gif-creator/core/typography.py`](https://github.com/ComposioHQ/awesome-claude-skills/blob/HEAD/slack-gif-creator/core/typography.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+def get_font(size: int, bold: bool = False) -> ImageFont.FreeTypeFont:
+    """
+    Get a font with fallback support.
+
+    Args:
+        size: Font size in pixels
+        bold: Use bold variant if available
+
+    Returns:
+        ImageFont object
+    """
+    # Try multiple font paths for cross-platform support
+    font_paths = [
+        # macOS fonts
+        "/System/Library/Fonts/Helvetica.ttc",
+        "/System/Library/Fonts/SF-Pro.ttf",
+        "/Library/Fonts/Arial Bold.ttf" if bold else "/Library/Fonts/Arial.ttf",
+        # Linux fonts
+        "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf" if bold else "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
+        # Windows fonts
+        "C:\\Windows\\Fonts\\arialbd.ttf" if bold else "C:\\Windows\\Fonts\\arial.ttf",
+    ]
+
+    for font_path in font_paths:
+        try:
+            return ImageFont.truetype(font_path, size)
+        except:
+            continue
+
+    # Ultimate fallback
+```
+
+This function is important because it defines how Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows implements the patterns covered in this chapter.
+
+### `slack-gif-creator/core/typography.py`
+
+The `draw_text_with_outline` function in [`slack-gif-creator/core/typography.py`](https://github.com/ComposioHQ/awesome-claude-skills/blob/HEAD/slack-gif-creator/core/typography.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+def draw_text_with_outline(
+    frame: Image.Image,
+    text: str,
+    position: tuple[int, int],
+    font_size: int = 40,
+    text_color: tuple[int, int, int] = (255, 255, 255),
+    outline_color: tuple[int, int, int] = (0, 0, 0),
+    outline_width: int = 3,
+    centered: bool = False,
+    bold: bool = True
+) -> Image.Image:
+    """
+    Draw text with outline for maximum readability.
+
+    This is THE most important function for professional-looking text in GIFs.
+    The outline ensures text is readable on any background.
 
     Args:
         frame: PIL Image to draw on
-        position: Center of flash
-        radius: Flash radius
-        intensity: Flash intensity (0.0-1.0)
+        text: Text to draw
+        position: (x, y) position
+        font_size: Font size in pixels
+        text_color: RGB color for text fill
+        outline_color: RGB color for outline
+        outline_width: Width of outline in pixels (2-4 recommended)
+        centered: If True, center text at position
+        bold: Use bold font variant
 
     Returns:
         Modified frame
-    """
-    # Create overlay
-    overlay = Image.new('RGBA', frame.size, (0, 0, 0, 0))
-    draw = ImageDraw.Draw(overlay)
-
-    x, y = position
-
-    # Draw concentric circles with decreasing opacity
-    num_circles = 5
-    for i in range(num_circles):
-        alpha = int(255 * intensity * (1 - i / num_circles))
-        r = radius * (1 - i / num_circles)
-        color = (255, 255, 240, alpha)  # Warm white
-
-        bbox = [x - r, y - r, x + r, y + r]
-        draw.ellipse(bbox, fill=color)
-
 ```
 
 This function is important because it defines how Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows implements the patterns covered in this chapter.
@@ -211,11 +209,11 @@ This function is important because it defines how Awesome Claude Skills Tutorial
 
 ```mermaid
 flowchart TD
-    A[Particle]
-    B[ParticleSystem]
-    C[add_motion_blur]
-    D[create_impact_flash]
-    E[create_shockwave_rings]
+    A[create_explode_animation]
+    B[create_particle_burst]
+    C[get_font]
+    D[draw_text_with_outline]
+    E[draw_text_with_shadow]
     A --> B
     B --> C
     C --> D

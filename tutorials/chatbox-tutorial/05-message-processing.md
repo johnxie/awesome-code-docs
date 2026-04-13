@@ -12,6 +12,20 @@ Welcome to **Chapter 5: Message Processing Pipeline**. In this part of **Chatbox
 
 This chapter covers the message processing pipeline, including text processing, formatting, and content enhancement.
 
+## Message Processing Pipeline
+
+```mermaid
+flowchart LR
+    Raw["Raw User Input"] --> Validate["Input Validation\n(length, type)"]
+    Validate --> Tokenize["Token Count\n(per-model tokenizer)"]
+    Tokenize --> Build["Build contentParts\n(text / image / file)"]
+    Build --> Context["Context Window\nTrimming"]
+    Context --> Send["AI Provider API"]
+    Send --> Stream["Streaming Response"]
+    Stream --> Render["Markdown Render\n+ Syntax Highlight"]
+    Render --> Store["Persist to Storage\n(tokenCountMap updated)"]
+```
+
 ## 🔄 Message Processing Architecture
 
 ### Processing Pipeline
@@ -618,16 +632,26 @@ Under the hood, `Chapter 5: Message Processing Pipeline` usually follows a repea
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
-## Source Walkthrough
+## Source Code Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+### `src/shared/types/session.ts`
 
-- [View Repo](https://github.com/Bin-Huang/chatbox)
-  Why it matters: authoritative reference on `View Repo` (github.com).
+The `SearchResultItemSchema` in [`src/shared/types/session.ts`](https://github.com/Bin-Huang/chatbox/blob/main/src/shared/types/session.ts) defines the structured output for web-search tool results injected into messages:
 
-Suggested trace strategy:
-- search upstream code for `text` and `message` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+```ts
+export const SearchResultItemSchema = z.object({
+  title: z.string(),
+  link: z.string(),
+  snippet: z.string(),
+  rawContent: z.string().nullable().optional(),
+})
+
+export const SearchResultSchema = z.object({
+  items: z.array(SearchResultItemSchema),
+})
+```
+
+Message `contentParts` use Zod schemas throughout, which means invalid AI responses are caught at parse time before reaching the UI renderer. The `TokenCountMapSchema` (`z.record(z.string(), z.number())`) stores per-tokenizer counts alongside each message for accurate context-window management.
 
 ## Chapter Connections
 

@@ -43,170 +43,168 @@ You now have a reproducible installation strategy.
 
 Next: [Chapter 4: Agents, Skills, and Command Orchestration](04-agents-skills-and-command-orchestration.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `scripts/claw.js`
 
-The `handleSessions` function in [`scripts/claw.js`](https://github.com/affaan-m/everything-claude-code/blob/HEAD/scripts/claw.js) handles a key part of this chapter's functionality:
+The `loadECCContext` function in [`scripts/claw.js`](https://github.com/affaan-m/everything-claude-code/blob/HEAD/scripts/claw.js) handles a key part of this chapter's functionality:
 
 ```js
 }
 
-function handleSessions(dir) {
-  const sessions = listSessions(dir);
-  if (sessions.length === 0) {
-    console.log('(no sessions)');
-    return;
+function loadECCContext(skillList) {
+  const requested = normalizeSkillList(skillList !== undefined ? skillList : process.env.CLAW_SKILLS || '');
+  if (requested.length === 0) return '';
+
+  const chunks = [];
+  for (const name of requested) {
+    const skillPath = path.join(process.cwd(), 'skills', name, 'SKILL.md');
+    try {
+      chunks.push(fs.readFileSync(skillPath, 'utf8'));
+    } catch {
+      // Skip missing skills silently to keep REPL usable.
+    }
   }
 
-  console.log('Sessions:');
-  for (const s of sessions) {
-    console.log(`  - ${s}`);
-  }
+  return chunks.join('\n\n');
 }
 
-function handleHelp() {
-  console.log('NanoClaw REPL Commands:');
-  console.log('  /help                          Show this help');
-  console.log('  /clear                         Clear current session history');
-  console.log('  /history                       Print full conversation history');
-  console.log('  /sessions                      List saved sessions');
-  console.log('  /model [name]                  Show/set model');
-  console.log('  /load <skill-name>             Load a skill into active context');
-  console.log('  /branch <session-name>         Branch current session into a new session');
-  console.log('  /search <query>                Search query across sessions');
-  console.log('  /compact                       Keep recent turns, compact older context');
-  console.log('  /export <md|json|txt> [path]   Export current session');
-  console.log('  /metrics                       Show session metrics');
-  console.log('  exit                           Quit the REPL');
+function buildPrompt(systemPrompt, history, userMessage) {
+  const parts = [];
+  if (systemPrompt) parts.push(`=== SYSTEM CONTEXT ===\n${systemPrompt}\n`);
+  if (history) parts.push(`=== CONVERSATION HISTORY ===\n${history}\n`);
+  parts.push(`=== USER MESSAGE ===\n${userMessage}`);
+  return parts.join('\n');
 }
 
-function main() {
+function askClaude(systemPrompt, history, userMessage, model) {
+  const fullPrompt = buildPrompt(systemPrompt, history, userMessage);
+  const args = [];
+  if (model) {
+    args.push('--model', model);
 ```
 
 This function is important because it defines how Everything Claude Code Tutorial: Production Configuration Patterns for Claude Code implements the patterns covered in this chapter.
 
 ### `scripts/claw.js`
 
-The `handleHelp` function in [`scripts/claw.js`](https://github.com/affaan-m/everything-claude-code/blob/HEAD/scripts/claw.js) handles a key part of this chapter's functionality:
+The `buildPrompt` function in [`scripts/claw.js`](https://github.com/affaan-m/everything-claude-code/blob/HEAD/scripts/claw.js) handles a key part of this chapter's functionality:
 
 ```js
 }
 
-function handleHelp() {
-  console.log('NanoClaw REPL Commands:');
-  console.log('  /help                          Show this help');
-  console.log('  /clear                         Clear current session history');
-  console.log('  /history                       Print full conversation history');
-  console.log('  /sessions                      List saved sessions');
-  console.log('  /model [name]                  Show/set model');
-  console.log('  /load <skill-name>             Load a skill into active context');
-  console.log('  /branch <session-name>         Branch current session into a new session');
-  console.log('  /search <query>                Search query across sessions');
-  console.log('  /compact                       Keep recent turns, compact older context');
-  console.log('  /export <md|json|txt> [path]   Export current session');
-  console.log('  /metrics                       Show session metrics');
-  console.log('  exit                           Quit the REPL');
+function buildPrompt(systemPrompt, history, userMessage) {
+  const parts = [];
+  if (systemPrompt) parts.push(`=== SYSTEM CONTEXT ===\n${systemPrompt}\n`);
+  if (history) parts.push(`=== CONVERSATION HISTORY ===\n${history}\n`);
+  parts.push(`=== USER MESSAGE ===\n${userMessage}`);
+  return parts.join('\n');
 }
 
-function main() {
-  const initialSessionName = process.env.CLAW_SESSION || 'default';
-  if (!isValidSessionName(initialSessionName)) {
-    console.error(`Error: Invalid session name "${initialSessionName}". Use alphanumeric characters and hyphens only.`);
-    process.exit(1);
+function askClaude(systemPrompt, history, userMessage, model) {
+  const fullPrompt = buildPrompt(systemPrompt, history, userMessage);
+  const args = [];
+  if (model) {
+    args.push('--model', model);
+  }
+  args.push('-p', fullPrompt);
+
+  const result = spawnSync('claude', args, {
+    encoding: 'utf8',
+    stdio: ['pipe', 'pipe', 'pipe'],
+    env: { ...process.env, CLAUDECODE: '' },
+    timeout: 300000,
+  });
+
+  if (result.error) {
+    return `[Error: ${result.error.message}]`;
   }
 
-  fs.mkdirSync(getClawDir(), { recursive: true });
-
-  const state = {
-    sessionName: initialSessionName,
-    sessionPath: getSessionPath(initialSessionName),
-    model: DEFAULT_MODEL,
-    skills: normalizeSkillList(process.env.CLAW_SKILLS || ''),
+  if (result.status !== 0 && result.stderr) {
+    return `[Error: claude exited with code ${result.status}: ${result.stderr.trim()}]`;
+  }
 ```
 
 This function is important because it defines how Everything Claude Code Tutorial: Production Configuration Patterns for Claude Code implements the patterns covered in this chapter.
 
 ### `scripts/claw.js`
 
-The `main` function in [`scripts/claw.js`](https://github.com/affaan-m/everything-claude-code/blob/HEAD/scripts/claw.js) handles a key part of this chapter's functionality:
+The `askClaude` function in [`scripts/claw.js`](https://github.com/affaan-m/everything-claude-code/blob/HEAD/scripts/claw.js) handles a key part of this chapter's functionality:
 
 ```js
 }
 
-function main() {
-  const initialSessionName = process.env.CLAW_SESSION || 'default';
-  if (!isValidSessionName(initialSessionName)) {
-    console.error(`Error: Invalid session name "${initialSessionName}". Use alphanumeric characters and hyphens only.`);
-    process.exit(1);
+function askClaude(systemPrompt, history, userMessage, model) {
+  const fullPrompt = buildPrompt(systemPrompt, history, userMessage);
+  const args = [];
+  if (model) {
+    args.push('--model', model);
+  }
+  args.push('-p', fullPrompt);
+
+  const result = spawnSync('claude', args, {
+    encoding: 'utf8',
+    stdio: ['pipe', 'pipe', 'pipe'],
+    env: { ...process.env, CLAUDECODE: '' },
+    timeout: 300000,
+  });
+
+  if (result.error) {
+    return `[Error: ${result.error.message}]`;
   }
 
-  fs.mkdirSync(getClawDir(), { recursive: true });
-
-  const state = {
-    sessionName: initialSessionName,
-    sessionPath: getSessionPath(initialSessionName),
-    model: DEFAULT_MODEL,
-    skills: normalizeSkillList(process.env.CLAW_SKILLS || ''),
-  };
-
-  let eccContext = loadECCContext(state.skills);
-
-  const loadedCount = state.skills.filter(skillExists).length;
-
-  console.log(`NanoClaw v2 — Session: ${state.sessionName}`);
-  console.log(`Model: ${state.model}`);
-  if (loadedCount > 0) {
-    console.log(`Loaded ${loadedCount} skill(s) as context.`);
+  if (result.status !== 0 && result.stderr) {
+    return `[Error: claude exited with code ${result.status}: ${result.stderr.trim()}]`;
   }
-  console.log('Type /help for commands, exit to quit.\n');
 
-  const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+  return (result.stdout || '').trim();
+}
 
-  const prompt = () => {
+function parseTurns(history) {
+  const turns = [];
+  const regex = /### \[([^\]]+)\] ([^\n]+)\n([\s\S]*?)\n---\n/g;
+  let match;
 ```
 
 This function is important because it defines how Everything Claude Code Tutorial: Production Configuration Patterns for Claude Code implements the patterns covered in this chapter.
 
-### `scripts/harness-audit.js`
+### `scripts/claw.js`
 
-The `normalizeScope` function in [`scripts/harness-audit.js`](https://github.com/affaan-m/everything-claude-code/blob/HEAD/scripts/harness-audit.js) handles a key part of this chapter's functionality:
+The `parseTurns` function in [`scripts/claw.js`](https://github.com/affaan-m/everything-claude-code/blob/HEAD/scripts/claw.js) handles a key part of this chapter's functionality:
 
 ```js
-];
-
-function normalizeScope(scope) {
-  const value = (scope || 'repo').toLowerCase();
-  if (!['repo', 'hooks', 'skills', 'commands', 'agents'].includes(value)) {
-    throw new Error(`Invalid scope: ${scope}`);
-  }
-  return value;
 }
 
-function parseArgs(argv) {
-  const args = argv.slice(2);
-  const parsed = {
-    scope: 'repo',
-    format: 'text',
-    help: false,
+function parseTurns(history) {
+  const turns = [];
+  const regex = /### \[([^\]]+)\] ([^\n]+)\n([\s\S]*?)\n---\n/g;
+  let match;
+  while ((match = regex.exec(history)) !== null) {
+    turns.push({ timestamp: match[1], role: match[2], content: match[3] });
+  }
+  return turns;
+}
+
+function estimateTokenCount(text) {
+  return Math.ceil((text || '').length / 4);
+}
+
+function getSessionMetrics(filePath) {
+  const history = loadHistory(filePath);
+  const turns = parseTurns(history);
+  const charCount = history.length;
+  const tokenEstimate = estimateTokenCount(history);
+  const userTurns = turns.filter(t => t.role === 'User').length;
+  const assistantTurns = turns.filter(t => t.role === 'Assistant').length;
+
+  return {
+    turns: turns.length,
+    userTurns,
+    assistantTurns,
+    charCount,
+    tokenEstimate,
   };
-
-  for (let index = 0; index < args.length; index += 1) {
-    const arg = args[index];
-
-    if (arg === '--help' || arg === '-h') {
-      parsed.help = true;
-      continue;
-    }
-
-    if (arg === '--format') {
-      parsed.format = (args[index + 1] || '').toLowerCase();
-      index += 1;
-      continue;
-    }
-
+}
 ```
 
 This function is important because it defines how Everything Claude Code Tutorial: Production Configuration Patterns for Claude Code implements the patterns covered in this chapter.
@@ -216,11 +214,11 @@ This function is important because it defines how Everything Claude Code Tutoria
 
 ```mermaid
 flowchart TD
-    A[handleSessions]
-    B[handleHelp]
-    C[main]
-    D[normalizeScope]
-    E[parseArgs]
+    A[loadECCContext]
+    B[buildPrompt]
+    C[askClaude]
+    D[parseTurns]
+    E[estimateTokenCount]
     A --> B
     B --> C
     C --> D

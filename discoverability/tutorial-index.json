@@ -1,6 +1,6 @@
 {
   "project": "awesome-code-docs",
-  "tutorial_count": 201,
+  "tutorial_count": 203,
   "tutorials": [
     {
       "cluster": "ai-coding-agents",
@@ -337,26 +337,32 @@
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/anthropic-skills-tutorial/README.md",
       "index_path": "tutorials/anthropic-skills-tutorial/README.md",
       "intent_signals": [
-        "production-operations",
         "agentic-coding"
       ],
       "keywords": [
         "anthropic",
         "skills",
-        "reusable",
-        "agent",
-        "capabilities",
-        "operate",
-        "quality",
-        "claude",
-        "code",
-        "api"
+        "quickstarts",
+        "every",
+        "official",
+        "anthropics",
+        "repository",
+        "computer",
+        "autonomous",
+        "coding",
+        "customer",
+        "support",
+        "financial",
+        "analysis",
+        "agents",
+        "reference",
+        "implementation"
       ],
       "path": "tutorials/anthropic-skills-tutorial",
       "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/anthropic-skills-tutorial",
       "slug": "anthropic-skills-tutorial",
-      "summary": "Build and operate production-quality skills for Claude Code, Claude.ai, and the Claude API.",
-      "title": "Anthropic Skills Tutorial: Reusable AI Agent Capabilities"
+      "summary": "A deep-dive into every project in the official anthropics/anthropic-quickstarts repository \u2014 computer use, autonomous coding, customer support, financial analysis, and the agents reference implementation.",
+      "title": "Anthropic Quickstarts Tutorial"
     },
     {
       "cluster": "ai-coding-agents",
@@ -424,30 +430,37 @@
       "title": "Appsmith Tutorial: Low-Code Internal Tools"
     },
     {
-      "cluster": "data-and-storage",
+      "cluster": "general-software",
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/athens-research-tutorial/README.md",
       "index_path": "tutorials/athens-research-tutorial/README.md",
       "intent_signals": [
+        "production-operations",
         "architecture-deep-dive"
       ],
       "keywords": [
         "athens",
         "research",
-        "open",
-        "source",
-        "roam",
-        "like",
-        "knowledge",
-        "management",
-        "built",
+        "status",
+        "repository",
+        "was",
+        "archived",
+        "august",
+        "longer",
+        "actively",
+        "maintained",
+        "covers",
+        "final",
+        "release",
+        "historical",
+        "reference",
         "clojurescript",
-        "graph",
-        "databases"
+        "datascript",
+        "architectural"
       ],
       "path": "tutorials/athens-research-tutorial",
       "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/athens-research-tutorial",
       "slug": "athens-research-tutorial",
-      "summary": "Athens Research \u2014 An open-source, Roam-like knowledge management system built with ClojureScript and graph databases.",
+      "summary": "Project Status: The Athens Research repository was archived in August 2022 and is no longer actively maintained. This tutorial covers the final v2.0.0 release as a historical reference for ClojureScript/Datascript architectural patterns. Do not use Athens as the basis for new production projects.",
       "title": "Athens Research: Deep Dive Tutorial"
     },
     {
@@ -460,29 +473,29 @@
       ],
       "keywords": [
         "autoagent",
+        "formerly",
+        "metachain",
         "zero",
         "code",
+        "autonomous",
         "agent",
-        "creation",
-        "automated",
-        "workflow",
-        "orchestration",
+        "framework",
         "hkuds",
-        "create",
-        "orchestrate",
-        "llm",
+        "lets",
+        "describe",
         "agents",
-        "natural",
-        "language",
-        "workflows",
-        "support",
-        "cli"
+        "plain",
+        "english",
+        "have",
+        "them",
+        "generated",
+        "tested"
       ],
       "path": "tutorials/autoagent-tutorial",
       "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/autoagent-tutorial",
       "slug": "autoagent-tutorial",
-      "summary": "Learn how to use HKUDS/AutoAgent to create and orchestrate LLM agents through natural-language workflows, with support for CLI operations, tool creation, and benchmark-oriented evaluation.",
-      "title": "AutoAgent Tutorial: Zero-Code Agent Creation and Automated Workflow Orchestration"
+      "summary": "AutoAgent (formerly MetaChain) is a zero-code autonomous agent framework from HKUDS that lets you describe agents in plain English and have them generated, tested, and deployed automatically. With 9,116 GitHub stars and an academic paper (arxiv:2502.05957), it represents a significant step toward democratizing multi-agent system development.",
+      "title": "AutoAgent Tutorial"
     },
     {
       "cluster": "ai-coding-agents",
@@ -505,6 +518,30 @@
       "slug": "autogen-tutorial",
       "summary": "A deep technical walkthrough of Microsoft AutoGen covering Building Multi-Agent AI Systems.",
       "title": "Microsoft AutoGen Tutorial: Building Multi-Agent AI Systems"
+    },
+    {
+      "cluster": "ai-coding-agents",
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/autoresearch-tutorial/README.md",
+      "index_path": "tutorials/autoresearch-tutorial/README.md",
+      "intent_signals": [
+        "agentic-coding"
+      ],
+      "keywords": [
+        "autoresearch",
+        "overnight",
+        "research",
+        "agent",
+        "runs",
+        "gpu",
+        "experiments",
+        "while",
+        "sleep"
+      ],
+      "path": "tutorials/autoresearch-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/autoresearch-tutorial",
+      "slug": "autoresearch-tutorial",
+      "summary": "The overnight ML research agent that runs ~100 GPU experiments while you sleep.",
+      "title": "autoresearch Tutorial"
     },
     {
       "cluster": "ai-coding-agents",
@@ -1762,31 +1799,37 @@
       "title": "Daytona Tutorial: Secure Sandbox Infrastructure for AI-Generated Code"
     },
     {
-      "cluster": "general-software",
+      "cluster": "ai-coding-agents",
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/deer-flow-tutorial/README.md",
       "index_path": "tutorials/deer-flow-tutorial/README.md",
       "intent_signals": [
-        "general-learning"
+        "agentic-coding"
       ],
       "keywords": [
         "deer",
         "flow",
-        "distributed",
-        "workflow",
-        "orchestration",
-        "orchestrate",
-        "complex",
-        "workflows",
-        "powerful",
-        "task",
-        "coordination",
-        "execution"
+        "deerflow",
+        "open",
+        "source",
+        "super",
+        "agent",
+        "harness",
+        "langgraph",
+        "powered",
+        "multi",
+        "runtime",
+        "bytedance",
+        "orchestrates",
+        "lead",
+        "specialized",
+        "sub",
+        "agents"
       ],
       "path": "tutorials/deer-flow-tutorial",
       "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/deer-flow-tutorial",
       "slug": "deer-flow-tutorial",
-      "summary": "Orchestrate complex distributed workflows with Deer Flow's powerful task coordination and execution platform.",
-      "title": "Deer Flow Tutorial: Distributed Workflow Orchestration Platform"
+      "summary": "DeerFlow is a LangGraph-powered multi-agent runtime by ByteDance that orchestrates a lead agent, specialized sub-agents, persistent memory, sandboxed code execution, and a modular skills system to tackle complex, long-horizon research and automation tasks.",
+      "title": "DeerFlow Tutorial: Open-Source Super Agent Harness"
     },
     {
       "cluster": "ai-coding-agents",
@@ -2468,6 +2511,39 @@
       "slug": "haystack-tutorial",
       "summary": "Haystack \u2014 An open-source framework for building production-ready LLM applications, RAG pipelines, and intelligent search systems.",
       "title": "Haystack: Deep Dive Tutorial"
+    },
+    {
+      "cluster": "ai-coding-agents",
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/hermes-agent-tutorial/README.md",
+      "index_path": "tutorials/hermes-agent-tutorial/README.md",
+      "intent_signals": [
+        "agentic-coding"
+      ],
+      "keywords": [
+        "hermes",
+        "agent",
+        "nousresearch",
+        "self",
+        "hosted",
+        "personal",
+        "persistent",
+        "memory",
+        "autonomous",
+        "skill",
+        "creation",
+        "gateway",
+        "closed",
+        "reinforcement",
+        "learning",
+        "loop",
+        "turns",
+        "every"
+      ],
+      "path": "tutorials/hermes-agent-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/hermes-agent-tutorial",
+      "slug": "hermes-agent-tutorial",
+      "summary": "NousResearch's self-hosted personal AI agent with persistent memory, autonomous skill creation, 20+ platform gateway, and a closed reinforcement-learning loop that turns every conversation into fine-tuning data.",
+      "title": "Hermes Agent Tutorial"
     },
     {
       "cluster": "ai-app-frameworks",

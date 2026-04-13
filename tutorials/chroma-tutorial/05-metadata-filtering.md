@@ -12,6 +12,19 @@ Welcome to **Chapter 5: Metadata & Filtering**. In this part of **ChromaDB Tutor
 
 Master metadata management and advanced filtering in Chroma! This chapter covers sophisticated metadata strategies and complex filtering patterns for building powerful, precise search applications.
 
+## Metadata Filter Operators
+
+```mermaid
+graph TD
+    Where["where dict"] --> Logical["Logical Ops\n($and / $or)"]
+    Where --> Compare["Comparison Ops\n($eq / $ne / $gt / $lt / $in / $nin)"]
+    WhereDoc["where_document dict"] --> DocOps["Document Ops\n($contains / $not_contains)"]
+    Logical --> Compare
+    Compare --> Segment["Segment Filter\n(applied before KNN)"]
+    DocOps --> Segment
+    Segment --> Result["Filtered candidates\npassed to HNSW"]
+```
+
 ## Advanced Metadata Strategies
 
 ### Hierarchical Metadata Design
@@ -224,16 +237,27 @@ Under the hood, `Chapter 5: Metadata & Filtering` usually follows a repeatable c
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
-## Source Walkthrough
+## Source Code Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+### `chromadb/base_types.py`
 
-- [View Repo](https://github.com/chroma-core/chroma)
-  Why it matters: authoritative reference on `View Repo` (github.com).
+The `Where`, `WhereDocument`, `LogicalOperator`, and `WhereOperator` types in [`chromadb/base_types.py`](https://github.com/chroma-core/chroma/blob/main/chromadb/base_types.py) define the complete filter grammar. Logical operators (`$and`, `$or`) compose comparison expressions (`$eq`, `$ne`, `$gt`, `$gte`, `$lt`, `$lte`, `$in`, `$nin`):
 
-Suggested trace strategy:
-- search upstream code for `tags` and `metadata` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+```python
+from chromadb.base_types import (
+    Metadata,
+    UpdateMetadata,
+    LiteralValue,
+    LogicalOperator,
+    WhereOperator,
+    OperatorExpression,
+    Where,
+    WhereDocumentOperator,
+    WhereDocument,
+)
+```
+
+Validation of these filter trees happens in `chromadb/api/types.py` via `validate_where` and `validate_where_document` before the query reaches the segment layer.
 
 ## Chapter Connections
 

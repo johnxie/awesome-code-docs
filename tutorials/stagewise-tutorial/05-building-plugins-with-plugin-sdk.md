@@ -57,186 +57,23 @@ You now know how to create and iterate on custom Stagewise plugins.
 
 Next: [Chapter 6: Custom Agent Integrations with Agent Interface](06-custom-agent-integrations-with-agent-interface.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `scripts/release/git-utils.ts`
+Use the following upstream sources to verify plugin SDK implementation details while reading this chapter:
 
-The `getFirstPrereleaseTagForCycle` function in [`scripts/release/git-utils.ts`](https://github.com/stagewise-io/stagewise/blob/HEAD/scripts/release/git-utils.ts) handles a key part of this chapter's functionality:
+- [`packages/stagewise-plugin-sdk/src/index.ts`](https://github.com/stagewise-io/stagewise/blob/HEAD/packages/stagewise-plugin-sdk/src/) — the main export of the plugin SDK, exposing the `definePlugin` factory, hook types, and context utilities that plugin authors use to extend toolbar behavior.
+- [`packages/stagewise-plugin-sdk/src/types.ts`](https://github.com/stagewise-io/stagewise/blob/HEAD/packages/stagewise-plugin-sdk/src/) — defines the `PluginDefinition` interface and the full lifecycle hook contract including `onContextCapture`, `onPromptSend`, and `onAgentResponse`.
 
-```ts
- * (i.e., the first alpha/beta tag with the same base version)
- */
-export async function getFirstPrereleaseTagForCycle(
-  prefix: string,
-  baseVersion: string,
-): Promise<string | null> {
-  try {
-    const { stdout } = await exec(
-      `git tag --list "${prefix}${baseVersion}-*" --sort=version:refname | head -n 1`,
-    );
-    const tag = stdout.trim();
-    return tag || null;
-  } catch {
-    return null;
-  }
-}
-
-/**
- * Get all commits since a given tag (or all commits if no tag)
- */
-export async function getCommitsSince(
-  sinceTag: string | null,
-  scope: string,
-): Promise<ConventionalCommit[]> {
-  const range = sinceTag ? `${sinceTag}..HEAD` : '';
-
-  try {
-    // Get commits with full details
-    // Format: hash|subject|body using null byte as commit separator
-    // (null bytes can't appear in commit messages)
-    const { stdout } = await exec(
-      `git log ${range} --format="%H|%s|%b%x00" --no-merges`,
-```
-
-This function is important because it defines how Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context implements the patterns covered in this chapter.
-
-### `scripts/release/git-utils.ts`
-
-The `getCommitsSince` function in [`scripts/release/git-utils.ts`](https://github.com/stagewise-io/stagewise/blob/HEAD/scripts/release/git-utils.ts) handles a key part of this chapter's functionality:
-
-```ts
- * Get all commits since a given tag (or all commits if no tag)
- */
-export async function getCommitsSince(
-  sinceTag: string | null,
-  scope: string,
-): Promise<ConventionalCommit[]> {
-  const range = sinceTag ? `${sinceTag}..HEAD` : '';
-
-  try {
-    // Get commits with full details
-    // Format: hash|subject|body using null byte as commit separator
-    // (null bytes can't appear in commit messages)
-    const { stdout } = await exec(
-      `git log ${range} --format="%H|%s|%b%x00" --no-merges`,
-    );
-
-    if (!stdout.trim()) {
-      return [];
-    }
-
-    const commits: ConventionalCommit[] = [];
-
-    // Split by null byte delimiter (end of each commit)
-    const rawCommits = stdout.split('\0').filter((c) => c.trim());
-
-    for (const rawCommit of rawCommits) {
-      const parts = rawCommit.trim().split('|');
-      if (parts.length < 2) continue;
-
-      const hash = parts[0];
-      const subject = parts[1];
-      const body = parts.slice(2).join('|').trim() || null;
-```
-
-This function is important because it defines how Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context implements the patterns covered in this chapter.
-
-### `scripts/release/git-utils.ts`
-
-The `getRecommendedBump` function in [`scripts/release/git-utils.ts`](https://github.com/stagewise-io/stagewise/blob/HEAD/scripts/release/git-utils.ts) handles a key part of this chapter's functionality:
-
-```ts
- * Get the recommended version bump based on commits
- */
-export function getRecommendedBump(
-  commits: ConventionalCommit[],
-): 'major' | 'minor' | 'patch' | null {
-  if (commits.length === 0) {
-    return null;
-  }
-
-  // Check for breaking changes first
-  if (commits.some((c) => c.breaking)) {
-    return 'major';
-  }
-
-  // Check for features
-  if (commits.some((c) => c.type === 'feat')) {
-    return 'minor';
-  }
-
-  // Check for fixes or other changes
-  if (commits.some((c) => ['fix', 'perf', 'refactor'].includes(c.type))) {
-    return 'patch';
-  }
-
-  // For other types (docs, style, test, chore), return patch as fallback
-  return 'patch';
-}
-
-/**
- * Check if there are any uncommitted changes
- */
-export async function hasUncommittedChanges(): Promise<boolean> {
-```
-
-This function is important because it defines how Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context implements the patterns covered in this chapter.
-
-### `scripts/release/git-utils.ts`
-
-The `hasUncommittedChanges` function in [`scripts/release/git-utils.ts`](https://github.com/stagewise-io/stagewise/blob/HEAD/scripts/release/git-utils.ts) handles a key part of this chapter's functionality:
-
-```ts
- * Check if there are any uncommitted changes
- */
-export async function hasUncommittedChanges(): Promise<boolean> {
-  try {
-    const { stdout } = await exec('git status --porcelain');
-    return stdout.trim().length > 0;
-  } catch {
-    return true;
-  }
-}
-
-/**
- * Get the current branch name
- */
-export async function getCurrentBranch(): Promise<string> {
-  const { stdout } = await exec('git rev-parse --abbrev-ref HEAD');
-  return stdout.trim();
-}
-
-/**
- * Create a git tag
- */
-export async function createTag(
-  tagName: string,
-  message: string,
-): Promise<void> {
-  await exec(`git tag -a "${tagName}" -m "${message}"`);
-}
-
-/**
- * Push a tag to remote
- */
-```
-
-This function is important because it defines how Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context implements the patterns covered in this chapter.
-
+Suggested trace strategy:
+- read `definePlugin` to understand the required and optional fields a plugin must export
+- review the hook type definitions to understand what context data is available at each lifecycle stage
+- look at example plugins in `examples/` if present to see how common patterns are implemented
 
 ## How These Components Connect
 
 ```mermaid
-flowchart TD
-    A[getFirstPrereleaseTagForCycle]
-    B[getCommitsSince]
-    C[getRecommendedBump]
-    D[hasUncommittedChanges]
-    E[getCurrentBranch]
-    A --> B
-    B --> C
-    C --> D
-    D --> E
+flowchart LR
+    A[Plugin author uses definePlugin] --> B[Plugin exports lifecycle hooks]
+    B --> C[Plugin SDK loader registers hooks]
+    C --> D[Hooks called during toolbar and agent lifecycle]
 ```

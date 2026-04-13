@@ -560,6 +560,26 @@ if __name__ == "__main__":
     asyncio.run(tab_lifecycle_management())
 ```
 
+## Multi-Tab Workflow
+
+```mermaid
+flowchart TD
+    A[Agent starts with initial tab]
+    B[open_tab action creates new tab]
+    C[switch_tab action focuses target tab]
+    D[Operations performed in active tab]
+    E[Data from Tab A used in Tab B]
+    F[close_tab when tab no longer needed]
+    G[Final results aggregated across tabs]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    E --> C
+    D --> F
+    F --> G
+```
+
 ## Summary
 
 In this chapter, we've covered:

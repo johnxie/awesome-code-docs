@@ -36,104 +36,54 @@ You now understand how to model and render rich media payloads in Fireproof docu
 
 Next: [Chapter 7: Runtime Coverage: Browser, Node, Deno, and Edge](07-runtime-coverage-browser-node-deno-and-edge.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `core/runtime/utils.ts`
 
-The `pathOpsImpl` class in [`core/runtime/utils.ts`](https://github.com/fireproof-storage/fireproof/blob/HEAD/core/runtime/utils.ts) handles a key part of this chapter's functionality:
+The `mimeBlockParser` function in [`core/runtime/utils.ts`](https://github.com/fireproof-storage/fireproof/blob/HEAD/core/runtime/utils.ts) handles a key part of this chapter's functionality:
 
 ```ts
-//   presetEnv: presetEnv(),
-// });
-class pathOpsImpl implements PathOps {
-  join(...paths: string[]): string {
-    return paths.map((i) => i.replace(/\/+$/, "")).join("/");
-  }
-  dirname(path: string) {
-    return path.split("/").slice(0, -1).join("/");
-  }
-  basename(path: string): string {
-    return path.split("/").pop() || "";
-  }
-  // homedir() {
-  //     throw new Error("SysContainer:homedir is not available in seeded state");
-  //   }
 }
-const pathOps = new pathOpsImpl();
-const txtOps = ((txtEncoder, txtDecoder) => ({
-  id: () => "fp-txtOps",
-  encode: (input: string) => txtEncoder.encode(input),
-  decode: (input: ToUInt8) => txtDecoder.decode(coerceIntoUint8(input).Ok()),
 
-  base64: {
-    encode: (input: ToUInt8 | string) => {
-      if (typeof input === "string") {
-        const data = txtEncoder.encode(input);
-        return btoa(String.fromCharCode(...data));
-      }
-      let charStr = "";
-      for (const i of coerceIntoUint8(input).Ok()) {
-        charStr += String.fromCharCode(i);
-      }
+export function mimeBlockParser(mime: string): MimeBlock[] {
+  const blocks: MimeBlock[] = [];
+  const lines = mime.split("\n");
+
+  let i = 0;
+  let lastProcessedIndex = -1; // Track the last line we've added to a block
+
+  while (i < lines.length) {
+    const line = lines[i];
+
+    // Check if this line starts a PEM-style block
+    // Minimum 3 dashes, allow optional whitespace before/after dashes and case-insensitive BEGIN/END
+    const beginMatch = line.match(/^(-{3,})\s*(BEGIN)\s+(.+?)\s*(-{3,})$/i);
+
+    if (beginMatch) {
+      // Found a BEGIN marker
+      const leadingDashes = beginMatch[1].length;
+      const trailingDashes = beginMatch[4].length;
+      const blockType = beginMatch[3];
+
+      // Create a regex pattern for the matching END marker (case-insensitive)
+      // Escape special regex characters in blockType
+      const escapedBlockType = blockType.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      // END marker must have the same number of leading and trailing dashes as BEGIN
+      const endPattern = new RegExp(`^-{${leadingDashes}}\\s*(END)\\s+${escapedBlockType}\\s*-{${trailingDashes}}$`, "i");
+
+      // Collect preBegin content (everything between lastProcessedIndex and current BEGIN)
+      const preBegin: string[] = [];
+      for (let j = lastProcessedIndex + 1; j < i; j++) {
+        preBegin.push(lines[j]);
 ```
 
-This class is important because it defines how Fireproof Tutorial: Local-First Document Database for AI-Native Apps implements the patterns covered in this chapter.
+This function is important because it defines how Fireproof Tutorial: Local-First Document Database for AI-Native Apps implements the patterns covered in this chapter.
 
 ### `core/runtime/utils.ts`
 
-The `Hasher` class in [`core/runtime/utils.ts`](https://github.com/fireproof-storage/fireproof/blob/HEAD/core/runtime/utils.ts) handles a key part of this chapter's functionality:
+The `superThisOpts` interface in [`core/runtime/utils.ts`](https://github.com/fireproof-storage/fireproof/blob/HEAD/core/runtime/utils.ts) handles a key part of this chapter's functionality:
 
 ```ts
-}
-
-type HasherInput = Uint8Array | string | number | boolean;
-
-class Hasher {
-  private readonly hasher: XXH64;
-  private readonly ende: typeof txtOps;
-  constructor(ende?: typeof txtOps) {
-    this.hasher = XXH.h64();
-    this.ende = ende || txtOps;
-  }
-  update(x: HasherInput): Hasher {
-    switch (true) {
-      case x instanceof Uint8Array:
-        this.hasher.update(x);
-        break;
-      case typeof x === "string":
-        this.hasher.update(this.ende.encode(x));
-        break;
-      case typeof x === "number":
-        this.hasher.update(this.ende.encode(x.toString()));
-        break;
-      case typeof x === "boolean":
-        this.hasher.update(this.ende.encode(x ? "true" : "false"));
-        break;
-      default:
-        throw new Error(`unsupported type ${typeof x}`);
-    }
-    return this;
-  }
-  digest(x?: HasherInput): string {
-    if (!(x === undefined || x === null)) {
-```
-
-This class is important because it defines how Fireproof Tutorial: Local-First Document Database for AI-Native Apps implements the patterns covered in this chapter.
-
-### `core/runtime/utils.ts`
-
-The `globalLogger` function in [`core/runtime/utils.ts`](https://github.com/fireproof-storage/fireproof/blob/HEAD/core/runtime/utils.ts) handles a key part of this chapter's functionality:
-
-```ts
-//export { Result };
-
-const _globalLogger = new ResolveOnce();
-function globalLogger(): Logger {
-  return _globalLogger.once(() => new LoggerImpl());
-}
-
 const registerFP_DEBUG = new ResolveOnce();
 
 interface superThisOpts {
@@ -159,61 +109,109 @@ class SuperThisImpl implements SuperThis {
     this.crypto = opts.crypto;
     this.pathOps = opts.pathOps;
     this.txt = opts.txt;
+    this.ctx = opts.ctx;
+    // console.log("superThis", this);
+  }
+
+  nextId(bytes = 6): { str: string; bin: Uint8Array } {
+    const bin = this.crypto.randomBytes(bytes);
+    return {
 ```
 
-This function is important because it defines how Fireproof Tutorial: Local-First Document Database for AI-Native Apps implements the patterns covered in this chapter.
+This interface is important because it defines how Fireproof Tutorial: Local-First Document Database for AI-Native Apps implements the patterns covered in this chapter.
 
 ### `core/runtime/utils.ts`
 
-The `presetEnv` function in [`core/runtime/utils.ts`](https://github.com/fireproof-storage/fireproof/blob/HEAD/core/runtime/utils.ts) handles a key part of this chapter's functionality:
+The `Store` interface in [`core/runtime/utils.ts`](https://github.com/fireproof-storage/fireproof/blob/HEAD/core/runtime/utils.ts) handles a key part of this chapter's functionality:
+
+```ts
+  PARAM,
+  PathOps,
+  StoreType,
+  SuperThis,
+  SuperThisOpts,
+  TextEndeCoder,
+  PromiseToUInt8,
+  ToUInt8,
+  HasLogger,
+} from "@fireproof/core-types-base";
+import { base58btc } from "multiformats/bases/base58";
+import { sha256 } from "multiformats/hashes/sha2";
+import { CID } from "multiformats/cid";
+import * as json from "multiformats/codecs/json";
+import { XXH, XXH64 } from "@adviser/ts-xxhash";
+import { z } from "zod/v4";
+
+//export type { Logger };
+//export { Result };
+
+const _globalLogger = new ResolveOnce();
+function globalLogger(): Logger {
+  return _globalLogger.once(() => new LoggerImpl());
+}
+
+const registerFP_DEBUG = new ResolveOnce();
+
+interface superThisOpts {
+  readonly logger: Logger;
+  readonly env: Env;
+  readonly pathOps: PathOps;
+  readonly crypto: CryptoRuntime;
+```
+
+This interface is important because it defines how Fireproof Tutorial: Local-First Document Database for AI-Native Apps implements the patterns covered in this chapter.
+
+### `core/runtime/utils.ts`
+
+The `MimeBlock` interface in [`core/runtime/utils.ts`](https://github.com/fireproof-storage/fireproof/blob/HEAD/core/runtime/utils.ts) handles a key part of this chapter's functionality:
 
 ```ts
 
-// const pathOps =
-function presetEnv(ipreset?: Map<string, string> | Record<string, string>): Map<string, string> {
-  let preset: Record<string, string> = {};
-  if (ipreset instanceof Map) {
-    preset = Object.fromEntries<string>(ipreset.entries());
-  } else if (typeof ipreset === "object" && ipreset !== null) {
-    preset = ipreset;
-  }
-  const penv = new Map([
-    // ["FP_DEBUG", "xxx"],
-    // ["FP_ENV", "development"],
-    ...Array.from(
-      Object.entries({
-        ...setPresetEnv({}),
-        ...preset,
-      }),
-    ), // .map(([k, v]) => [k, v as string])
-  ]);
-  // console.log(">>>>>>", penv)
-  return penv;
+*/
+export interface MimeBlock {
+  readonly preBegin?: string;
+  readonly begin?: string;
+  readonly end?: string;
+  readonly postEnd?: string;
+  readonly content: string;
 }
-// const envImpl = envFactory({
-//   symbol: "FP_ENV",
-//   presetEnv: presetEnv(),
-// });
-class pathOpsImpl implements PathOps {
-  join(...paths: string[]): string {
-    return paths.map((i) => i.replace(/\/+$/, "")).join("/");
-  }
-  dirname(path: string) {
-    return path.split("/").slice(0, -1).join("/");
+
+export function mimeBlockParser(mime: string): MimeBlock[] {
+  const blocks: MimeBlock[] = [];
+  const lines = mime.split("\n");
+
+  let i = 0;
+  let lastProcessedIndex = -1; // Track the last line we've added to a block
+
+  while (i < lines.length) {
+    const line = lines[i];
+
+    // Check if this line starts a PEM-style block
+    // Minimum 3 dashes, allow optional whitespace before/after dashes and case-insensitive BEGIN/END
+    const beginMatch = line.match(/^(-{3,})\s*(BEGIN)\s+(.+?)\s*(-{3,})$/i);
+
+    if (beginMatch) {
+      // Found a BEGIN marker
+      const leadingDashes = beginMatch[1].length;
+      const trailingDashes = beginMatch[4].length;
+      const blockType = beginMatch[3];
+
+      // Create a regex pattern for the matching END marker (case-insensitive)
+      // Escape special regex characters in blockType
 ```
 
-This function is important because it defines how Fireproof Tutorial: Local-First Document Database for AI-Native Apps implements the patterns covered in this chapter.
+This interface is important because it defines how Fireproof Tutorial: Local-First Document Database for AI-Native Apps implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[pathOpsImpl]
-    B[Hasher]
-    C[globalLogger]
-    D[presetEnv]
-    E[onSuperThis]
+    A[mimeBlockParser]
+    B[superThisOpts]
+    C[Store]
+    D[MimeBlock]
+    E[BaseStoreImpl]
     A --> B
     B --> C
     C --> D

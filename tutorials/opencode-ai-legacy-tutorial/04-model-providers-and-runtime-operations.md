@@ -37,170 +37,168 @@ You now have a stable runtime configuration model for legacy operations.
 
 Next: [Chapter 5: Interactive and Non-Interactive Workflows](05-interactive-and-non-interactive-workflows.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `internal/diff/diff.go`
+### `internal/lsp/client.go`
 
-The `WithTotalWidth` function in [`internal/diff/diff.go`](https://github.com/opencode-ai/opencode/blob/HEAD/internal/diff/diff.go) handles a key part of this chapter's functionality:
+The `openKeyConfigFiles` function in [`internal/lsp/client.go`](https://github.com/opencode-ai/opencode/blob/HEAD/internal/lsp/client.go) handles a key part of this chapter's functionality:
 
 ```go
-}
-
-// WithTotalWidth sets the total width for side-by-side view
-func WithTotalWidth(width int) SideBySideOption {
-	return func(s *SideBySideConfig) {
-		if width > 0 {
-			s.TotalWidth = width
+			logging.Debug("TypeScript-like server detected, opening key configuration files")
 		}
+		c.openKeyConfigFiles(ctx)
 	}
-}
 
-// -------------------------------------------------------------------------
-// Diff Parsing
-// -------------------------------------------------------------------------
-
-// ParseUnifiedDiff parses a unified diff format string into structured data
-func ParseUnifiedDiff(diff string) (DiffResult, error) {
-	var result DiffResult
-	var currentHunk *Hunk
-
-	hunkHeaderRe := regexp.MustCompile(`^@@ -(\d+),?(\d*) \+(\d+),?(\d*) @@`)
-	lines := strings.Split(diff, "\n")
-
-	var oldLine, newLine int
-	inFileHeader := true
-
-	for _, line := range lines {
-		// Parse file headers
-		if inFileHeader {
-			if strings.HasPrefix(line, "--- a/") {
-				result.OldFile = strings.TrimPrefix(line, "--- a/")
-				continue
-```
-
-This function is important because it defines how OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush implements the patterns covered in this chapter.
-
-### `internal/diff/diff.go`
-
-The `ParseUnifiedDiff` function in [`internal/diff/diff.go`](https://github.com/opencode-ai/opencode/blob/HEAD/internal/diff/diff.go) handles a key part of this chapter's functionality:
-
-```go
-// -------------------------------------------------------------------------
-
-// ParseUnifiedDiff parses a unified diff format string into structured data
-func ParseUnifiedDiff(diff string) (DiffResult, error) {
-	var result DiffResult
-	var currentHunk *Hunk
-
-	hunkHeaderRe := regexp.MustCompile(`^@@ -(\d+),?(\d*) \+(\d+),?(\d*) @@`)
-	lines := strings.Split(diff, "\n")
-
-	var oldLine, newLine int
-	inFileHeader := true
-
-	for _, line := range lines {
-		// Parse file headers
-		if inFileHeader {
-			if strings.HasPrefix(line, "--- a/") {
-				result.OldFile = strings.TrimPrefix(line, "--- a/")
-				continue
-			}
-			if strings.HasPrefix(line, "+++ b/") {
-				result.NewFile = strings.TrimPrefix(line, "+++ b/")
-				inFileHeader = false
-				continue
-			}
-		}
-
-		// Parse hunk headers
-		if matches := hunkHeaderRe.FindStringSubmatch(line); matches != nil {
-			if currentHunk != nil {
-				result.Hunks = append(result.Hunks, *currentHunk)
-			}
-```
-
-This function is important because it defines how OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush implements the patterns covered in this chapter.
-
-### `internal/diff/diff.go`
-
-The `HighlightIntralineChanges` function in [`internal/diff/diff.go`](https://github.com/opencode-ai/opencode/blob/HEAD/internal/diff/diff.go) handles a key part of this chapter's functionality:
-
-```go
-}
-
-// HighlightIntralineChanges updates lines in a hunk to show character-level differences
-func HighlightIntralineChanges(h *Hunk) {
-	var updated []DiffLine
-	dmp := diffmatchpatch.New()
-
-	for i := 0; i < len(h.Lines); i++ {
-		// Look for removed line followed by added line
-		if i+1 < len(h.Lines) &&
-			h.Lines[i].Kind == LineRemoved &&
-			h.Lines[i+1].Kind == LineAdded {
-
-			oldLine := h.Lines[i]
-			newLine := h.Lines[i+1]
-
-			// Find character-level differences
-			patches := dmp.DiffMain(oldLine.Content, newLine.Content, false)
-			patches = dmp.DiffCleanupSemantic(patches)
-			patches = dmp.DiffCleanupMerge(patches)
-			patches = dmp.DiffCleanupEfficiency(patches)
-
-			segments := make([]Segment, 0)
-
-			removeStart := 0
-			addStart := 0
-			for _, patch := range patches {
-				switch patch.Type {
-				case diffmatchpatch.DiffDelete:
-					segments = append(segments, Segment{
-						Start: removeStart,
-						End:   removeStart + len(patch.Text),
-```
-
-This function is important because it defines how OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush implements the patterns covered in this chapter.
-
-### `internal/diff/diff.go`
-
-The `pairLines` function in [`internal/diff/diff.go`](https://github.com/opencode-ai/opencode/blob/HEAD/internal/diff/diff.go) handles a key part of this chapter's functionality:
-
-```go
-}
-
-// pairLines converts a flat list of diff lines to pairs for side-by-side display
-func pairLines(lines []DiffLine) []linePair {
-	var pairs []linePair
-	i := 0
-
-	for i < len(lines) {
-		switch lines[i].Kind {
-		case LineRemoved:
-			// Check if the next line is an addition, if so pair them
-			if i+1 < len(lines) && lines[i+1].Kind == LineAdded {
-				pairs = append(pairs, linePair{left: &lines[i], right: &lines[i+1]})
-				i += 2
+	for {
+		select {
+		case <-ctx.Done():
+			c.SetServerState(StateError)
+			return fmt.Errorf("timeout waiting for LSP server to be ready")
+		case <-ticker.C:
+			// Try a ping method appropriate for this server type
+			err := c.pingServerByType(ctx, serverType)
+			if err == nil {
+				// Server responded successfully
+				c.SetServerState(StateReady)
+				if cnf.DebugLSP {
+					logging.Debug("LSP server is ready")
+				}
+				return nil
 			} else {
-				pairs = append(pairs, linePair{left: &lines[i], right: nil})
-				i++
+				logging.Debug("LSP server not ready yet", "error", err, "serverType", serverType)
 			}
-		case LineAdded:
-			pairs = append(pairs, linePair{left: nil, right: &lines[i]})
-			i++
-		case LineContext:
-			pairs = append(pairs, linePair{left: &lines[i], right: &lines[i]})
-			i++
+
+			if cnf.DebugLSP {
+				logging.Debug("LSP server not ready yet", "error", err, "serverType", serverType)
+			}
+		}
+	}
+}
+
+// ServerType represents the type of LSP server
+```
+
+This function is important because it defines how OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush implements the patterns covered in this chapter.
+
+### `internal/lsp/client.go`
+
+The `pingServerByType` function in [`internal/lsp/client.go`](https://github.com/opencode-ai/opencode/blob/HEAD/internal/lsp/client.go) handles a key part of this chapter's functionality:
+
+```go
+		case <-ticker.C:
+			// Try a ping method appropriate for this server type
+			err := c.pingServerByType(ctx, serverType)
+			if err == nil {
+				// Server responded successfully
+				c.SetServerState(StateReady)
+				if cnf.DebugLSP {
+					logging.Debug("LSP server is ready")
+				}
+				return nil
+			} else {
+				logging.Debug("LSP server not ready yet", "error", err, "serverType", serverType)
+			}
+
+			if cnf.DebugLSP {
+				logging.Debug("LSP server not ready yet", "error", err, "serverType", serverType)
+			}
+		}
+	}
+}
+
+// ServerType represents the type of LSP server
+type ServerType int
+
+const (
+	ServerTypeUnknown ServerType = iota
+	ServerTypeGo
+	ServerTypeTypeScript
+	ServerTypeRust
+	ServerTypePython
+	ServerTypeGeneric
+)
+```
+
+This function is important because it defines how OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush implements the patterns covered in this chapter.
+
+### `internal/lsp/client.go`
+
+The `pingTypeScriptServer` function in [`internal/lsp/client.go`](https://github.com/opencode-ai/opencode/blob/HEAD/internal/lsp/client.go) handles a key part of this chapter's functionality:
+
+```go
+	case ServerTypeTypeScript:
+		// For TypeScript, try a document symbol request on an open file
+		return c.pingTypeScriptServer(ctx)
+	case ServerTypeGo:
+		// For Go, workspace/symbol works well
+		return c.pingWithWorkspaceSymbol(ctx)
+	case ServerTypeRust:
+		// For Rust, workspace/symbol works well
+		return c.pingWithWorkspaceSymbol(ctx)
+	default:
+		// Default ping method
+		return c.pingWithWorkspaceSymbol(ctx)
+	}
+}
+
+// pingTypeScriptServer tries to ping a TypeScript server with appropriate methods
+func (c *Client) pingTypeScriptServer(ctx context.Context) error {
+	// First try workspace/symbol which works for many servers
+	if err := c.pingWithWorkspaceSymbol(ctx); err == nil {
+		return nil
+	}
+
+	// If that fails, try to find an open file and request document symbols
+	c.openFilesMu.RLock()
+	defer c.openFilesMu.RUnlock()
+
+	// If we have any open files, try to get document symbols for one
+	for uri := range c.openFiles {
+		filePath := strings.TrimPrefix(uri, "file://")
+		if strings.HasSuffix(filePath, ".ts") || strings.HasSuffix(filePath, ".js") ||
+			strings.HasSuffix(filePath, ".tsx") || strings.HasSuffix(filePath, ".jsx") {
+			var symbols []protocol.DocumentSymbol
+```
+
+This function is important because it defines how OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush implements the patterns covered in this chapter.
+
+### `internal/lsp/client.go`
+
+The `openTypeScriptFiles` function in [`internal/lsp/client.go`](https://github.com/opencode-ai/opencode/blob/HEAD/internal/lsp/client.go) handles a key part of this chapter's functionality:
+
+```go
+
+		// Also find and open a few TypeScript files to help the server initialize
+		c.openTypeScriptFiles(ctx, workDir)
+	case ServerTypeGo:
+		filesToOpen = []string{
+			filepath.Join(workDir, "go.mod"),
+			filepath.Join(workDir, "go.sum"),
+		}
+	case ServerTypeRust:
+		filesToOpen = []string{
+			filepath.Join(workDir, "Cargo.toml"),
+			filepath.Join(workDir, "Cargo.lock"),
 		}
 	}
 
-	return pairs
+	// Try to open each file, ignoring errors if they don't exist
+	for _, file := range filesToOpen {
+		if _, err := os.Stat(file); err == nil {
+			// File exists, try to open it
+			if err := c.OpenFile(ctx, file); err != nil {
+				logging.Debug("Failed to open key config file", "file", file, "error", err)
+			} else {
+				logging.Debug("Opened key config file for initialization", "file", file)
+			}
+		}
+	}
 }
 
-// -------------------------------------------------------------------------
-// Syntax Highlighting
+// pingServerByType sends a ping request appropriate for the server type
+func (c *Client) pingServerByType(ctx context.Context, serverType ServerType) error {
+	switch serverType {
+	case ServerTypeTypeScript:
 ```
 
 This function is important because it defines how OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush implements the patterns covered in this chapter.
@@ -210,11 +208,11 @@ This function is important because it defines how OpenCode AI Legacy Tutorial: A
 
 ```mermaid
 flowchart TD
-    A[WithTotalWidth]
-    B[ParseUnifiedDiff]
-    C[HighlightIntralineChanges]
-    D[pairLines]
-    E[SyntaxHighlight]
+    A[openKeyConfigFiles]
+    B[pingServerByType]
+    C[pingTypeScriptServer]
+    D[openTypeScriptFiles]
+    E[shouldSkipDir]
     A --> B
     B --> C
     C --> D

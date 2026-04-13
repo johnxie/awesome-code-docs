@@ -472,6 +472,14 @@ async def inspect_team():
 
 Multi-agent orchestration in MetaGPT is managed through the Team and Environment abstractions. Teams are composed by hiring roles, and the environment manages round-based execution, message routing, and convergence detection. Advanced patterns include parallel execution with aggregation, dynamic team formation, and hierarchical task decomposition. Budget and round controls ensure predictable resource usage.
 
+## Source Code Walkthrough
+
+Key source files in [`geekan/MetaGPT`](https://github.com/geekan/MetaGPT):
+
+- [`metagpt/team.py`](https://github.com/geekan/MetaGPT/blob/main/metagpt/team.py) -- `Team.hire()` registers roles; `Team.run(n_round)` drives the execution loop with budget/round guards
+- [`metagpt/environment/base_env.py`](https://github.com/geekan/MetaGPT/blob/main/metagpt/environment/base_env.py) -- `run_one_round()` iterates all roles; tracks `is_idle` state for convergence
+- [`metagpt/roles/role.py`](https://github.com/geekan/MetaGPT/blob/main/metagpt/roles/role.py) -- `is_idle` property: `True` when no pending messages match the role's watch set
+
 **Next:** [Chapter 8: Production Deployment](08-production-deployment.md) -- deploy MetaGPT systems at scale.
 
 ---

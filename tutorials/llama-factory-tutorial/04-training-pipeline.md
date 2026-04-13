@@ -9,6 +9,22 @@ nav_order: 4
 
 Welcome to the training phase! This chapter covers the complete training pipeline for LLaMA Factory, from data loading to model training, monitoring, and optimization. We'll explore distributed training, hyperparameter tuning, and best practices for successful fine-tuning.
 
+## Training Pipeline Flow
+
+```mermaid
+flowchart TD
+    A[llamafactory-cli train config.yaml] --> B[Load Base Model]
+    B --> C[Load + Tokenize Dataset]
+    C --> D[Apply Fine-Tuning Method\nLoRA / QLoRA / Full]
+    D --> E[Training Loop]
+    E --> F{Checkpoint?}
+    F -->|Every save_steps| G[Save Checkpoint]
+    F -->|Continue| E
+    E --> H[Training Complete]
+    H --> I[Export / Merge Adapter]
+    I --> J[Evaluate with llama-eval]
+```
+
 ## Setting Up the Training Environment
 
 ### Hardware Requirements and Optimization
@@ -723,14 +739,13 @@ When debugging, walk this sequence in order and confirm each stage has explicit 
 
 ## Source Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+Key source files in [`hiyouga/LLaMA-Factory`](https://github.com/hiyouga/LLaMA-Factory):
 
-- [View Repo](https://github.com/hiyouga/LLaMA-Factory)
-  Why it matters: authoritative reference on `View Repo` (github.com).
+- [`src/llamafactory/train/sft/trainer.py`](https://github.com/hiyouga/LLaMA-Factory/blob/main/src/llamafactory/train/sft/trainer.py) -- `CustomSeq2SeqTrainer`: extends HuggingFace `Seq2SeqTrainer` with custom loss computation and metrics
+- [`src/llamafactory/train/sft/workflow.py`](https://github.com/hiyouga/LLaMA-Factory/blob/main/src/llamafactory/train/sft/workflow.py) -- `run_sft()`: orchestrates data loading, model init, trainer creation, and training call
+- [`src/llamafactory/train/callbacks.py`](https://github.com/hiyouga/LLaMA-Factory/blob/main/src/llamafactory/train/callbacks.py) -- custom training callbacks for logging, checkpoint saving, and progress tracking
 
-Suggested trace strategy:
-- search upstream code for `self` and `loss` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+Suggested trace: `run_sft()` → `CustomSeq2SeqTrainer.train()` → `compute_loss()` to see the complete SFT training loop from workflow entry to loss calculation.
 
 ## Chapter Connections
 

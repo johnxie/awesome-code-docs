@@ -32,170 +32,168 @@ You now understand the high-level memory model that powers Cipher across agent i
 
 Next: [Chapter 4: Configuration, Providers, and Embeddings](04-configuration-providers-and-embeddings.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `src/core/vector_storage/factory.ts`
+### `src/tui/components/init.tsx`
 
-The `createDualCollectionVectorStoreFromEnv` function in [`src/core/vector_storage/factory.ts`](https://github.com/campfirein/cipher/blob/HEAD/src/core/vector_storage/factory.ts) handles a key part of this chapter's functionality:
+The `ProcessedMessage` interface in [`src/tui/components/init.tsx`](https://github.com/campfirein/cipher/blob/HEAD/src/tui/components/init.tsx) handles a key part of this chapter's functionality:
 
-```ts
- * process.env.REFLECTION_VECTOR_STORE_COLLECTION = 'reflection_memory';
- *
- * const { manager, knowledgeStore, reflectionStore } = await createDualCollectionVectorStoreFromEnv();
- * ```
+```tsx
+ * Includes action state for spinner display
  */
-export async function createDualCollectionVectorStoreFromEnv(
-	agentConfig?: any
-): Promise<DualCollectionVectorFactory> {
-	const logger = createLogger({ level: env.CIPHER_LOG_LEVEL });
-
-	// Get base configuration from environment variables
-	const config = getVectorStoreConfigFromEnv(agentConfig);
-	// console.log('createDualCollectionVectorStoreFromEnv config', config)
-	// Use ServiceCache to prevent duplicate dual collection vector store creation
-	const serviceCache = getServiceCache();
-	const cacheKey = createServiceKey('dualCollectionVectorStore', {
-		type: config.type,
-		collection: config.collectionName,
-		reflectionCollection: env.REFLECTION_VECTOR_STORE_COLLECTION || '',
-		// Include dimension for proper cache key differentiation
-		dimension: config.dimension,
-	});
-
-	return await serviceCache.getOrCreate(cacheKey, async () => {
-		logger.debug('Creating new dual collection vector store instance');
-		return await createDualCollectionVectorStoreInternal(config, logger);
-	});
-}
-
-async function createDualCollectionVectorStoreInternal(
-	config: VectorStoreConfig,
-	logger: any
-```
-
-This function is important because it defines how Cipher Tutorial: Shared Memory Layer for Coding Agents implements the patterns covered in this chapter.
-
-### `src/core/vector_storage/factory.ts`
-
-The `createDualCollectionVectorStoreInternal` function in [`src/core/vector_storage/factory.ts`](https://github.com/campfirein/cipher/blob/HEAD/src/core/vector_storage/factory.ts) handles a key part of this chapter's functionality:
-
-```ts
-	return await serviceCache.getOrCreate(cacheKey, async () => {
-		logger.debug('Creating new dual collection vector store instance');
-		return await createDualCollectionVectorStoreInternal(config, logger);
-	});
-}
-
-async function createDualCollectionVectorStoreInternal(
-	config: VectorStoreConfig,
-	logger: any
-): Promise<DualCollectionVectorFactory> {
-	// If reflection collection is not set or is empty/whitespace, treat as disabled
-	const reflectionCollection = (env.REFLECTION_VECTOR_STORE_COLLECTION || '').trim();
-	if (!reflectionCollection) {
-		logger.info(
-			`${LOG_PREFIXES.FACTORY} Reflection collection not set, creating single collection manager only`,
-			{
-				type: config.type,
-				knowledgeCollection: config.collectionName,
-			}
-		);
-		const manager = new DualCollectionVectorManager(config);
-
-		try {
-			await manager.connect();
-			const knowledgeStore = manager.getStore('knowledge');
-			if (!knowledgeStore) {
-				throw new Error('Failed to get knowledge store from dual collection manager');
-			}
-			return {
-				manager,
-				knowledgeStore,
-				reflectionStore: null,
-```
-
-This function is important because it defines how Cipher Tutorial: Shared Memory Layer for Coding Agents implements the patterns covered in this chapter.
-
-### `src/core/vector_storage/factory.ts`
-
-The `getVectorStoreConfigFromEnv` function in [`src/core/vector_storage/factory.ts`](https://github.com/campfirein/cipher/blob/HEAD/src/core/vector_storage/factory.ts) handles a key part of this chapter's functionality:
-
-```ts
-
-	// Get configuration from environment variables
-	const config = getVectorStoreConfigFromEnv(agentConfig);
-	// console.log('config', config);
-	logger.info(`${LOG_PREFIXES.FACTORY} Creating vector storage from environment`, {
-		type: config.type,
-		collection: config.collectionName,
-		dimension: config.dimension,
-	});
-
-	return createVectorStore(config);
+export interface ProcessedMessage extends StreamingMessage {
+  /** For action_start: whether the action is still running (no matching action_stop) */
+  isActionRunning?: boolean
+  /** For action_start: the completion message from action_stop */
+  stopMessage?: string
 }
 
 /**
- * Creates dual collection vector storage from environment variables
+ * Count the total number of lines in streaming messages (simple newline count)
  *
- * Creates a dual collection manager that handles both knowledge and reflection
- * memory collections. Reflection collection is only created if REFLECTION_VECTOR_STORE_COLLECTION
- * is set and the model supports reasoning.
+ * @param messages - Array of streaming messages
+ * @returns Total number of lines across all messages
+ */
+function countOutputLines(messages: StreamingMessage[]): number {
+  let total = 0
+  for (const msg of messages) {
+    total += msg.content.split('\n').length
+  }
+
+  return total
+}
+
+/**
+ * Get messages from the end that fit within maxLines, truncating from the beginning
  *
- * @param agentConfig - Optional agent configuration to override dimension from embedding config
- * @returns Promise resolving to dual collection manager and stores
- *
- * @example
- * ```typescript
- * // Set environment variables for reasoning model with dual collections
- * process.env.VECTOR_STORE_TYPE = 'in-memory';
- * process.env.VECTOR_STORE_COLLECTION = 'knowledge';
- * process.env.REFLECTION_VECTOR_STORE_COLLECTION = 'reflection_memory';
- *
- * const { manager, knowledgeStore, reflectionStore } = await createDualCollectionVectorStoreFromEnv();
- * ```
+ * @param messages - Array of streaming messages
+ * @param maxLines - Maximum number of lines to display
+ * @returns Object containing display messages, skipped lines count, and total lines
+ */
+function getMessagesFromEnd(
 ```
 
-This function is important because it defines how Cipher Tutorial: Shared Memory Layer for Coding Agents implements the patterns covered in this chapter.
+This interface is important because it defines how Cipher Tutorial: Shared Memory Layer for Coding Agents implements the patterns covered in this chapter.
 
-### `src/core/vector_storage/factory.ts`
+### `src/tui/components/init.tsx`
 
-The `getWorkspaceVectorStoreConfigFromEnv` function in [`src/core/vector_storage/factory.ts`](https://github.com/campfirein/cipher/blob/HEAD/src/core/vector_storage/factory.ts) handles a key part of this chapter's functionality:
+The `InitProps` interface in [`src/tui/components/init.tsx`](https://github.com/campfirein/cipher/blob/HEAD/src/tui/components/init.tsx) handles a key part of this chapter's functionality:
+
+```tsx
+const INLINE_SEARCH_OVERHEAD = 3
+
+export interface InitProps {
+  /** Whether the component should be interactive (for EnterPrompt activation) */
+  active?: boolean
+
+  /** Auto-start init without waiting for Enter key in idle state */
+  autoStart?: boolean
+
+  /** Custom idle state message (optional) */
+  idleMessage?: string
+
+  /** Maximum lines available for streaming output */
+  maxOutputLines: number
+
+  /** Optional callback when init completes successfully */
+  onInitComplete?: () => void
+
+  /** Show idle state message? (default: true for InitView, false for OnboardingFlow) */
+  showIdleMessage?: boolean
+}
+
+export const Init: React.FC<InitProps> = ({
+  active = true,
+  autoStart = false,
+  idleMessage = 'Your project needs initializing.',
+  maxOutputLines,
+  onInitComplete,
+  showIdleMessage = true,
+}) => {
+  const {
+    theme: {colors},
+```
+
+This interface is important because it defines how Cipher Tutorial: Shared Memory Layer for Coding Agents implements the patterns covered in this chapter.
+
+### `src/oclif/commands/debug.ts`
+
+The `Debug` class in [`src/oclif/commands/debug.ts`](https://github.com/campfirein/cipher/blob/HEAD/src/oclif/commands/debug.ts) handles a key part of this chapter's functionality:
 
 ```ts
- * @example
- * ```typescript
- * const config = getWorkspaceVectorStoreConfigFromEnv();
- * console.log('Workspace vector store configuration:', config);
- *
- * // Then use the config to create workspace store
- * const { manager, store } = await createVectorStore(config);
- * ```
+}
+
+export default class Debug extends Command {
+  public static description = 'Live monitor for daemon internal state (development only)'
+  public static examples = [
+    '<%= config.bin %> <%= command.id %>',
+    '<%= config.bin %> <%= command.id %> --format json',
+    '<%= config.bin %> <%= command.id %> --once',
+  ]
+  public static flags = {
+    force: Flags.boolean({
+      default: false,
+      description: 'Kill existing daemon and start fresh',
+    }),
+    format: Flags.string({
+      char: 'f',
+      default: 'tree',
+      description: 'Output format',
+      options: ['tree', 'json'],
+    }),
+    once: Flags.boolean({
+      default: false,
+      description: 'Print once and exit (no live monitoring)',
+    }),
+  }
+  public static hidden = !isDevelopment()
+
+  protected clearScreen(): void {
+    if (process.stdout.isTTY) {
+      process.stdout.write('\u001B[2J\u001B[H')
+    }
+  }
+```
+
+This class is important because it defines how Cipher Tutorial: Shared Memory Layer for Coding Agents implements the patterns covered in this chapter.
+
+### `src/oclif/lib/task-client.ts`
+
+The `formatToolDisplay` function in [`src/oclif/lib/task-client.ts`](https://github.com/campfirein/cipher/blob/HEAD/src/oclif/lib/task-client.ts) handles a key part of this chapter's functionality:
+
+```ts
+
+/**
+ * Format tool call for CLI display (simplified version of TUI formatToolDisplay).
  */
-export function getWorkspaceVectorStoreConfigFromEnv(agentConfig?: any): VectorStoreConfig {
-	const logger = createLogger({ level: env.CIPHER_LOG_LEVEL });
+export function formatToolDisplay(toolName: string, args: Record<string, unknown>): string {
+  switch (toolName.toLowerCase()) {
+    case 'bash': {
+      const cmd = args.command ? String(args.command) : ''
+      return `Bash ${cmd.length > 60 ? `$ ${cmd.slice(0, 57)}...` : `$ ${cmd}`}`
+    }
 
-	// Get workspace-specific configuration with fallbacks to default vector store config
-	const storeType = env.WORKSPACE_VECTOR_STORE_TYPE || env.VECTOR_STORE_TYPE;
-	const collectionName = env.WORKSPACE_VECTOR_STORE_COLLECTION || 'workspace_memory';
-	let dimension =
-		env.WORKSPACE_VECTOR_STORE_DIMENSION !== undefined &&
-		!Number.isNaN(env.WORKSPACE_VECTOR_STORE_DIMENSION)
-			? env.WORKSPACE_VECTOR_STORE_DIMENSION
-			: env.VECTOR_STORE_DIMENSION !== undefined && !Number.isNaN(env.VECTOR_STORE_DIMENSION)
-				? env.VECTOR_STORE_DIMENSION
-				: 1536;
-	const maxVectors =
-		env.WORKSPACE_VECTOR_STORE_MAX_VECTORS !== undefined &&
-		!Number.isNaN(env.WORKSPACE_VECTOR_STORE_MAX_VECTORS)
-			? env.WORKSPACE_VECTOR_STORE_MAX_VECTORS
-			: env.VECTOR_STORE_MAX_VECTORS !== undefined && !Number.isNaN(env.VECTOR_STORE_MAX_VECTORS)
-				? env.VECTOR_STORE_MAX_VECTORS
-				: 10000;
+    case 'code_exec': {
+      return 'CodeExec'
+    }
 
-	// Override dimension from agent config if embedding configuration is present
-	if (
+    case 'edit': {
+      const filePath = args.file_path ?? args.filePath
+      return filePath ? `Edit ${filePath}` : 'Edit'
+    }
+
+    case 'glob': {
+      const {path, pattern} = args
+      return pattern ? `Glob "${pattern}"${path ? ` in ${path}` : ''}` : 'Glob'
+    }
+
+    case 'grep': {
+      const {path, pattern} = args
+      return pattern ? `Grep "${pattern}"${path ? ` in ${path}` : ''}` : 'Grep'
+    }
+
+    case 'read': {
+      const filePath = args.file_path ?? args.filePath
 ```
 
 This function is important because it defines how Cipher Tutorial: Shared Memory Layer for Coding Agents implements the patterns covered in this chapter.
@@ -205,11 +203,13 @@ This function is important because it defines how Cipher Tutorial: Shared Memory
 
 ```mermaid
 flowchart TD
-    A[createDualCollectionVectorStoreFromEnv]
-    B[createDualCollectionVectorStoreInternal]
-    C[getVectorStoreConfigFromEnv]
-    D[getWorkspaceVectorStoreConfigFromEnv]
+    A[ProcessedMessage]
+    B[InitProps]
+    C[Debug]
+    D[formatToolDisplay]
+    E[waitForTaskCompletion]
     A --> B
     B --> C
     C --> D
+    D --> E
 ```

@@ -87,100 +87,95 @@ You now have a persistence model that supports reliable operations without overl
 
 Next: [Chapter 6: API, SDK, and Integrations](06-api-sdk-and-integrations.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `debug-tools/ai_request_analyzer_v2.py`
 
-The `PhaseImplementationAnalyzer` class in [`debug-tools/ai_request_analyzer_v2.py`](https://github.com/cloudflare/vibesdk/blob/HEAD/debug-tools/ai_request_analyzer_v2.py) handles a key part of this chapter's functionality:
+The `Dependency` class in [`debug-tools/ai_request_analyzer_v2.py`](https://github.com/cloudflare/vibesdk/blob/HEAD/debug-tools/ai_request_analyzer_v2.py) handles a key part of this chapter's functionality:
 
 ```py
 
+@dataclass(frozen=True)
+class Dependency:
+    """Type-safe representation of a package dependency."""
+    name: str
+    version: str
+    category: str  # 'runtime', 'dev', 'peer'
+    
+    def __post_init__(self):
+        """Validate dependency data."""
+        if not self.name or not self.version:
+            raise ValueError("Dependency name and version are required")
+    
+    @property
+    def is_dev_dependency(self) -> bool:
+        """Check if this is a dev dependency."""
+        dev_indicators = ['@types/', 'eslint', 'typescript', 'vite', '@vitejs/', 'autoprefixer', 'postcss', 'globals']
+        return any(indicator in self.name for indicator in dev_indicators)
+    
+    @property
+    def size_estimate(self) -> int:
+        """Estimate package size contribution in chars."""
+        return len(f'"{self.name}":"{self.version}",')
 
-class PhaseImplementationAnalyzer:
-    """Main type-safe analyzer for Phase Implementation requests."""
-    
-    def __init__(self):
-        self.scof_parser = SCOFParser()
-        self.dependency_parser = DependencyParser()
-        self.template_parser = TemplateParser()
-        
-        self.prompt_patterns = self._get_prompt_patterns()
-    
-    def _get_prompt_patterns(self) -> Dict[ComponentName, Tuple[str, str]]:
-        """Get prompt component patterns."""
-        return {
-            ComponentName.ROLE_SECTION: ('<ROLE>', '</ROLE>'),
-            ComponentName.GOAL_SECTION: ('<GOAL>', '</GOAL>'),
-            ComponentName.CONTEXT_SECTION: ('<CONTEXT>', '</CONTEXT>'),
-            ComponentName.CLIENT_REQUEST: ('<CLIENT REQUEST>', '</CLIENT REQUEST>'),
-            ComponentName.BLUEPRINT: ('<BLUEPRINT>', '</BLUEPRINT>'),
-            # Use more specific pattern for DEPENDENCIES to avoid matching references
-            ComponentName.DEPENDENCIES: ('<DEPENDENCIES>\n**Available Dependencies:**', '</DEPENDENCIES>'),
-            ComponentName.STRATEGY: ('<PHASES GENERATION STRATEGY>', '</PHASES GENERATION STRATEGY>'),
-            ComponentName.PROJECT_CONTEXT: ('<PROJECT CONTEXT>', '</PROJECT CONTEXT>'),
-            ComponentName.COMPLETED_PHASES: ('<COMPLETED PHASES>', '</COMPLETED PHASES>'),
-            ComponentName.CODEBASE: ('<CODEBASE>', '</CODEBASE>'),
-            ComponentName.CURRENT_PHASE: ('<CURRENT_PHASE>', '</CURRENT_PHASE>'),
-            ComponentName.INSTRUCTIONS: ('<INSTRUCTIONS & CODE QUALITY STANDARDS>', '</INSTRUCTIONS & CODE QUALITY STANDARDS>'),
-        }
-    
-    def analyze_request(self, json_path: str) -> RequestAnalysis:
-        """Analyze AI request with full type safety."""
+
+@dataclass(frozen=True)
+class PromptComponent:
+    """Type-safe representation of a prompt component."""
+    name: ComponentName
+    content: str
+    start_marker: str
+    end_marker: str
 ```
 
 This class is important because it defines how VibeSDK Tutorial: Build a Vibe-Coding Platform on Cloudflare implements the patterns covered in this chapter.
 
 ### `debug-tools/ai_request_analyzer_v2.py`
 
-The `main` function in [`debug-tools/ai_request_analyzer_v2.py`](https://github.com/cloudflare/vibesdk/blob/HEAD/debug-tools/ai_request_analyzer_v2.py) handles a key part of this chapter's functionality:
+The `PromptComponent` class in [`debug-tools/ai_request_analyzer_v2.py`](https://github.com/cloudflare/vibesdk/blob/HEAD/debug-tools/ai_request_analyzer_v2.py) handles a key part of this chapter's functionality:
 
 ```py
 
+@dataclass(frozen=True)
+class PromptComponent:
+    """Type-safe representation of a prompt component."""
+    name: ComponentName
+    content: str
+    start_marker: str
+    end_marker: str
+    size_chars: int
+    content_type: ContentType
+    
+    def __post_init__(self):
+        """Validate component data."""
+        if self.size_chars != len(self.content):
+            raise ValueError("Size mismatch in PromptComponent")
+    
+    @property
+    def size_tokens_approx(self) -> int:
+        """Approximate token count."""
+        return math.ceil(self.size_chars / 4)
+    
+    @property
+    def percentage_of_request(self) -> float:
+        """Percentage of total request (set externally)."""
+        return 0.0  # Will be calculated by analyzer
 
-def main():
-    """Main CLI entry point with proper error handling."""
-    parser = argparse.ArgumentParser(
-        description="Type-safe AI Gateway request analyzer for PhaseImplementation",
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog="""
-Examples:
-  python ai_request_analyzer_v2.py sample-request.json --detailed
-  python ai_request_analyzer_v2.py sample-request.json --export analysis.json
-        """
-    )
-    
-    parser.add_argument('request_file', help='Path to the JSON request file')
-    parser.add_argument('--detailed', '-d', action='store_true', 
-                       help='Print detailed analysis')
-    parser.add_argument('--export', '-e', help='Export analysis to JSON file')
-    
-    args = parser.parse_args()
-    
-    # Validate input
-    if not Path(args.request_file).exists():
-        print(f"❌ Error: Request file not found: {args.request_file}")
-        sys.exit(1)
-    
-    try:
-        # Run analysis
-        analyzer = PhaseImplementationAnalyzer()
-        analysis = analyzer.analyze_request(args.request_file)
-        
-        # Print results
+
+@dataclass
+class MessageAnalysis:
+    """Type-safe analysis of a single message."""
+    role: str
+    content: str
 ```
 
-This function is important because it defines how VibeSDK Tutorial: Build a Vibe-Coding Platform on Cloudflare implements the patterns covered in this chapter.
+This class is important because it defines how VibeSDK Tutorial: Build a Vibe-Coding Platform on Cloudflare implements the patterns covered in this chapter.
 
 ### `debug-tools/ai_request_analyzer_v2.py`
 
-The `import` interface in [`debug-tools/ai_request_analyzer_v2.py`](https://github.com/cloudflare/vibesdk/blob/HEAD/debug-tools/ai_request_analyzer_v2.py) handles a key part of this chapter's functionality:
+The `class` class in [`debug-tools/ai_request_analyzer_v2.py`](https://github.com/cloudflare/vibesdk/blob/HEAD/debug-tools/ai_request_analyzer_v2.py) handles a key part of this chapter's functionality:
 
 ```py
-"""
-
-import json
 import sys
 import re
 from dataclasses import dataclass, field
@@ -210,47 +205,50 @@ class ComponentName(Enum):
     CONTEXT_SECTION = "context_section"
     CLIENT_REQUEST = "client_request"
     BLUEPRINT = "blueprint"
+    DEPENDENCIES = "dependencies"
+    UI_GUIDELINES = "ui_guidelines"
+    STRATEGY = "strategy"
 ```
 
-This interface is important because it defines how VibeSDK Tutorial: Build a Vibe-Coding Platform on Cloudflare implements the patterns covered in this chapter.
+This class is important because it defines how VibeSDK Tutorial: Build a Vibe-Coding Platform on Cloudflare implements the patterns covered in this chapter.
 
-### `container/storage.ts`
+### `debug-tools/ai_request_analyzer_v2.py`
 
-The `StorageManager` class in [`container/storage.ts`](https://github.com/cloudflare/vibesdk/blob/HEAD/container/storage.ts) handles a key part of this chapter's functionality:
+The `class` class in [`debug-tools/ai_request_analyzer_v2.py`](https://github.com/cloudflare/vibesdk/blob/HEAD/debug-tools/ai_request_analyzer_v2.py) handles a key part of this chapter's functionality:
 
-```ts
- * Unified storage manager with shared database connections and optimized operations
- */
-export class StorageManager {
-  private errorDb: Database;
-  private logDb: Database;
-  private errorStorage: ErrorStorage;
-  private logStorage: LogStorage;
-  private options: {
-    error: Required<ErrorStoreOptions>;
-    log: Required<LogStoreOptions>;
-  };
+```py
+import sys
+import re
+from dataclasses import dataclass, field
+from typing import Dict, List, Any, Optional, Tuple, Union, TypedDict, Protocol
+from pathlib import Path
+import argparse
+from collections import defaultdict, Counter
+import math
+from enum import Enum
+from abc import ABC, abstractmethod
 
-  constructor(
-    errorDbPath: string = getErrorDbPath(),
-    logDbPath: string = getLogDbPath(),
-    options: { error?: ErrorStoreOptions; log?: LogStoreOptions } = {}
-  ) {
-    this.options = {
-      error: { ...DEFAULT_STORAGE_OPTIONS, ...options.error } as Required<ErrorStoreOptions>,
-      log: { ...DEFAULT_LOG_STORE_OPTIONS, ...options.log } as Required<LogStoreOptions>
-    };
 
-    this.ensureDataDirectory(errorDbPath);
-    if (errorDbPath !== logDbPath) {
-      this.ensureDataDirectory(logDbPath);
-    }
+class ContentType(Enum):
+    """Enumeration for content types."""
+    SOURCE_CODE = "source_code"
+    JSON_DATA = "json_data" 
+    MARKDOWN_STRUCTURED = "markdown_structured"
+    LARGE_TEXT = "large_text"
+    METADATA = "metadata"
+    PROSE = "prose"
 
-    this.errorDb = this.initializeDatabase(errorDbPath);
-    this.logDb = errorDbPath === logDbPath ? this.errorDb : this.initializeDatabase(logDbPath);
 
-    this.errorStorage = new ErrorStorage(this.errorDb, this.options.error);
-    this.logStorage = new LogStorage(this.logDb, this.options.log);
+class ComponentName(Enum):
+    """Enumeration for component names."""
+    ROLE_SECTION = "role_section"
+    GOAL_SECTION = "goal_section"
+    CONTEXT_SECTION = "context_section"
+    CLIENT_REQUEST = "client_request"
+    BLUEPRINT = "blueprint"
+    DEPENDENCIES = "dependencies"
+    UI_GUIDELINES = "ui_guidelines"
+    STRATEGY = "strategy"
 ```
 
 This class is important because it defines how VibeSDK Tutorial: Build a Vibe-Coding Platform on Cloudflare implements the patterns covered in this chapter.
@@ -260,11 +258,11 @@ This class is important because it defines how VibeSDK Tutorial: Build a Vibe-Co
 
 ```mermaid
 flowchart TD
-    A[PhaseImplementationAnalyzer]
-    B[main]
-    C[import]
-    D[StorageManager]
-    E[ErrorStorage]
+    A[Dependency]
+    B[PromptComponent]
+    C[class]
+    D[class]
+    E[class]
     A --> B
     B --> C
     C --> D

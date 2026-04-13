@@ -780,6 +780,21 @@ Now that you understand advanced chains, let's explore production deployment con
 
 *What kind of advanced chain will you build first?* 🔗
 
+## Advanced Chain Patterns
+
+```mermaid
+flowchart TD
+    A[Input] --> B[LCEL chain using | operator]
+    B --> C[PromptTemplate]
+    C --> D[ChatModel]
+    D --> E[OutputParser]
+    E --> F[Output]
+    B --> G[Parallel branch]
+    G --> H[RunnableParallel]
+    H --> I[Multiple sub-chains]
+    I --> J[Merged result]
+```
+
 ## What Problem Does This Solve?
 
 Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `self`, `chain`, `result` so behavior stays predictable as complexity grows.

@@ -6,6 +6,7 @@ has_children: false
 parent: Browser Use Tutorial
 ---
 
+
 # Chapter 1: Getting Started with Browser Use
 
 Welcome to **Chapter 1: Getting Started with Browser Use**. In this part of **Browser Use Tutorial: AI-Powered Web Automation Agents**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
@@ -511,151 +512,182 @@ Now that you can run basic browser agents, let's explore **browser control basic
 
 ## Depth Expansion Playbook
 
-<!-- depth-expansion-v2 -->
+## Source Code Walkthrough
 
-This chapter is expanded to v1-style depth for production-grade learning and implementation quality.
+### `browser_use/config.py`
 
-### Strategic Context
+The `OldConfig` class in [`browser_use/config.py`](https://github.com/browser-use/browser-use/blob/HEAD/browser_use/config.py) handles a key part of this chapter's functionality:
 
-- tutorial: **Browser Use Tutorial: AI-Powered Web Automation Agents**
-- tutorial slug: **browser-use-tutorial**
-- chapter focus: **Chapter 1: Getting Started with Browser Use**
-- system context: **Browser Use Tutorial**
-- objective: move from surface-level usage to repeatable engineering operation
+```py
 
-### Architecture Decomposition
 
-1. Define the runtime boundary for `Chapter 1: Getting Started with Browser Use`.
-2. Separate control-plane decisions from data-plane execution.
-3. Capture input contracts, transformation points, and output contracts.
-4. Trace state transitions across request lifecycle stages.
-5. Identify extension hooks and policy interception points.
-6. Map ownership boundaries for team and automation workflows.
-7. Specify rollback and recovery paths for unsafe changes.
-8. Track observability signals for correctness, latency, and cost.
+class OldConfig:
+	"""Original lazy-loading configuration class for environment variables."""
 
-### Operator Decision Matrix
+	# Cache for directory creation tracking
+	_dirs_created = False
 
-| Decision Area | Low-Risk Path | High-Control Path | Tradeoff |
-|:--------------|:--------------|:------------------|:---------|
-| Runtime mode | managed defaults | explicit policy config | speed vs control |
-| State handling | local ephemeral | durable persisted state | simplicity vs auditability |
-| Tool integration | direct API use | mediated adapter layer | velocity vs governance |
-| Rollout method | manual change | staged + canary rollout | effort vs safety |
-| Incident response | best effort logs | runbooks + SLO alerts | cost vs reliability |
+	@property
+	def BROWSER_USE_LOGGING_LEVEL(self) -> str:
+		return os.getenv('BROWSER_USE_LOGGING_LEVEL', 'info').lower()
 
-### Failure Modes and Countermeasures
+	@property
+	def ANONYMIZED_TELEMETRY(self) -> bool:
+		return os.getenv('ANONYMIZED_TELEMETRY', 'true').lower()[:1] in 'ty1'
 
-| Failure Mode | Early Signal | Root Cause Pattern | Countermeasure |
-|:-------------|:-------------|:-------------------|:---------------|
-| stale context | inconsistent outputs | missing refresh window | enforce context TTL and refresh hooks |
-| policy drift | unexpected execution | ad hoc overrides | centralize policy profiles |
-| auth mismatch | 401/403 bursts | credential sprawl | rotation schedule + scope minimization |
-| schema breakage | parser/validation errors | unmanaged upstream changes | contract tests per release |
-| retry storms | queue congestion | no backoff controls | jittered backoff + circuit breakers |
-| silent regressions | quality drop without alerts | weak baseline metrics | eval harness with thresholds |
+	@property
+	def BROWSER_USE_CLOUD_SYNC(self) -> bool:
+		return os.getenv('BROWSER_USE_CLOUD_SYNC', str(self.ANONYMIZED_TELEMETRY)).lower()[:1] in 'ty1'
 
-### Implementation Runbook
+	@property
+	def BROWSER_USE_CLOUD_API_URL(self) -> str:
+		url = os.getenv('BROWSER_USE_CLOUD_API_URL', 'https://api.browser-use.com')
+		assert '://' in url, 'BROWSER_USE_CLOUD_API_URL must be a valid URL'
+		return url
 
-1. Establish a reproducible baseline environment.
-2. Capture chapter-specific success criteria before changes.
-3. Implement minimal viable path with explicit interfaces.
-4. Add observability before expanding feature scope.
-5. Run deterministic tests for happy-path behavior.
-6. Inject failure scenarios for negative-path validation.
-7. Compare output quality against baseline snapshots.
-8. Promote through staged environments with rollback gates.
-9. Record operational lessons in release notes.
+	@property
+	def BROWSER_USE_CLOUD_UI_URL(self) -> str:
+		url = os.getenv('BROWSER_USE_CLOUD_UI_URL', '')
+		# Allow empty string as default, only validate if set
+		if url and '://' not in url:
+			raise AssertionError('BROWSER_USE_CLOUD_UI_URL must be a valid URL if set')
+```
 
-### Quality Gate Checklist
+This class is important because it defines how Browser Use Tutorial: AI-Powered Web Automation Agents implements the patterns covered in this chapter.
 
-- [ ] chapter-level assumptions are explicit and testable
-- [ ] API/tool boundaries are documented with input/output examples
-- [ ] failure handling includes retry, timeout, and fallback policy
-- [ ] security controls include auth scopes and secret rotation plans
-- [ ] observability includes logs, metrics, traces, and alert thresholds
-- [ ] deployment guidance includes canary and rollback paths
-- [ ] docs include links to upstream sources and related tracks
-- [ ] post-release verification confirms expected behavior under load
+### `browser_use/config.py`
 
-### Source Alignment
+The `for` class in [`browser_use/config.py`](https://github.com/browser-use/browser-use/blob/HEAD/browser_use/config.py) handles a key part of this chapter's functionality:
 
-- [Browser Use Repository](https://github.com/browser-use/browser-use)
-- [Browser Use Releases](https://github.com/browser-use/browser-use/releases)
-- [Browser Use Docs](https://docs.browser-use.com/)
-- [Browser Use Cloud](https://cloud.browser-use.com/)
+```py
+"""Configuration system for browser-use with automatic migration support."""
 
-### Cross-Tutorial Connection Map
+import json
+import logging
+import os
+from datetime import datetime
+from functools import cache
+from pathlib import Path
+from typing import Any
+from uuid import uuid4
 
-- [OpenHands Tutorial](../openhands-tutorial/)
-- [Cline Tutorial](../cline-tutorial/)
-- [Roo Code Tutorial](../roo-code-tutorial/)
-- [Claude Code Tutorial](../claude-code-tutorial/)
-- [Chapter 1: Getting Started](01-getting-started.md)
+import psutil
+from pydantic import BaseModel, ConfigDict, Field
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
-### Advanced Practice Exercises
+logger = logging.getLogger(__name__)
 
-1. Build a minimal end-to-end implementation for `Chapter 1: Getting Started with Browser Use`.
-2. Add instrumentation and measure baseline latency and error rate.
-3. Introduce one controlled failure and confirm graceful recovery.
-4. Add policy constraints and verify they are enforced consistently.
-5. Run a staged rollout and document rollback decision criteria.
 
-### Review Questions
+@cache
+def is_running_in_docker() -> bool:
+	"""Detect if we are running in a docker container, for the purpose of optimizing chrome launch flags (dev shm usage, gpu settings, etc.)"""
+	try:
+		if Path('/.dockerenv').exists() or 'docker' in Path('/proc/1/cgroup').read_text().lower():
+			return True
+	except Exception:
+		pass
 
-1. Which execution boundary matters most for this chapter and why?
-2. What signal detects regressions earliest in your environment?
-3. What tradeoff did you make between delivery speed and governance?
-4. How would you recover from the highest-impact failure mode?
-5. What must be automated before scaling to team-wide adoption?
+	try:
+		# if init proc (PID 1) looks like uvicorn/python/uv/etc. then we're in Docker
+		# if init proc (PID 1) looks like bash/systemd/init/etc. then we're probably NOT in Docker
+```
 
-## What Problem Does This Solve?
+This class is important because it defines how Browser Use Tutorial: AI-Powered Web Automation Agents implements the patterns covered in this chapter.
 
-Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `result`, `agent`, `print` so behavior stays predictable as complexity grows.
+### `browser_use/config.py`
 
-In practical terms, this chapter helps you avoid three common failures:
+The `FlatEnvConfig` class in [`browser_use/config.py`](https://github.com/browser-use/browser-use/blob/HEAD/browser_use/config.py) handles a key part of this chapter's functionality:
 
-- coupling core logic too tightly to one implementation path
-- missing the handoff boundaries between setup, execution, and validation
-- shipping changes without clear rollback or observability strategy
+```py
 
-After working through this chapter, you should be able to reason about `Chapter 1: Getting Started with Browser Use` as an operating subsystem inside **Browser Use Tutorial: AI-Powered Web Automation Agents**, with explicit contracts for inputs, state transitions, and outputs.
 
-Use the implementation notes around `Agent`, `browser`, `ChatOpenAI` as your checklist when adapting these patterns to your own repository.
+class FlatEnvConfig(BaseSettings):
+	"""All environment variables in a flat namespace."""
 
-## How it Works Under the Hood
+	model_config = SettingsConfigDict(env_file='.env', env_file_encoding='utf-8', case_sensitive=True, extra='allow')
 
-Under the hood, `Chapter 1: Getting Started with Browser Use` usually follows a repeatable control path:
+	# Logging and telemetry
+	BROWSER_USE_LOGGING_LEVEL: str = Field(default='info')
+	CDP_LOGGING_LEVEL: str = Field(default='WARNING')
+	BROWSER_USE_DEBUG_LOG_FILE: str | None = Field(default=None)
+	BROWSER_USE_INFO_LOG_FILE: str | None = Field(default=None)
+	ANONYMIZED_TELEMETRY: bool = Field(default=True)
+	BROWSER_USE_CLOUD_SYNC: bool | None = Field(default=None)
+	BROWSER_USE_CLOUD_API_URL: str = Field(default='https://api.browser-use.com')
+	BROWSER_USE_CLOUD_UI_URL: str = Field(default='')
+	BROWSER_USE_MODEL_PRICING_URL: str = Field(default='')
 
-1. **Context bootstrap**: initialize runtime config and prerequisites for `result`.
-2. **Input normalization**: shape incoming data so `agent` receives stable contracts.
-3. **Core execution**: run the main logic branch and propagate intermediate state through `print`.
-4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
-5. **Output composition**: return canonical result payloads for downstream consumers.
-6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
+	# Path configuration
+	XDG_CACHE_HOME: str = Field(default='~/.cache')
+	XDG_CONFIG_HOME: str = Field(default='~/.config')
+	BROWSER_USE_CONFIG_DIR: str | None = Field(default=None)
 
-When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
+	# LLM API keys
+	OPENAI_API_KEY: str = Field(default='')
+	ANTHROPIC_API_KEY: str = Field(default='')
+	GOOGLE_API_KEY: str = Field(default='')
+	DEEPSEEK_API_KEY: str = Field(default='')
+	GROK_API_KEY: str = Field(default='')
+	NOVITA_API_KEY: str = Field(default='')
+	AZURE_OPENAI_ENDPOINT: str = Field(default='')
+	AZURE_OPENAI_KEY: str = Field(default='')
+```
 
-## Source Walkthrough
+This class is important because it defines how Browser Use Tutorial: AI-Powered Web Automation Agents implements the patterns covered in this chapter.
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+### `browser_use/config.py`
 
-- [Browser Use Repository](https://github.com/browser-use/browser-use)
-  Why it matters: authoritative reference on `Browser Use Repository` (github.com).
-- [Browser Use Releases](https://github.com/browser-use/browser-use/releases)
-  Why it matters: authoritative reference on `Browser Use Releases` (github.com).
-- [Browser Use Docs](https://docs.browser-use.com/)
-  Why it matters: authoritative reference on `Browser Use Docs` (docs.browser-use.com).
-- [Browser Use Cloud](https://cloud.browser-use.com/)
-  Why it matters: authoritative reference on `Browser Use Cloud` (cloud.browser-use.com).
+The `DBStyleEntry` class in [`browser_use/config.py`](https://github.com/browser-use/browser-use/blob/HEAD/browser_use/config.py) handles a key part of this chapter's functionality:
 
-Suggested trace strategy:
-- search upstream code for `result` and `agent` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+```py
 
-## Chapter Connections
 
-- [Tutorial Index](README.md)
-- [Next Chapter: Chapter 2: Browser Control Basics](02-browser-control.md)
-- [Main Catalog](../../README.md#-tutorial-catalog)
-- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
+class DBStyleEntry(BaseModel):
+	"""Database-style entry with UUID and metadata."""
+
+	id: str = Field(default_factory=lambda: str(uuid4()))
+	default: bool = Field(default=False)
+	created_at: str = Field(default_factory=lambda: datetime.utcnow().isoformat())
+
+
+class BrowserProfileEntry(DBStyleEntry):
+	"""Browser profile configuration entry - accepts any BrowserProfile fields."""
+
+	model_config = ConfigDict(extra='allow')
+
+	# Common browser profile fields for reference
+	headless: bool | None = None
+	user_data_dir: str | None = None
+	allowed_domains: list[str] | None = None
+	downloads_path: str | None = None
+
+
+class LLMEntry(DBStyleEntry):
+	"""LLM configuration entry."""
+
+	api_key: str | None = None
+	model: str | None = None
+	temperature: float | None = None
+	max_tokens: int | None = None
+
+
+class AgentEntry(DBStyleEntry):
+```
+
+This class is important because it defines how Browser Use Tutorial: AI-Powered Web Automation Agents implements the patterns covered in this chapter.
+
+
+## How These Components Connect
+
+```mermaid
+flowchart TD
+    A[OldConfig]
+    B[for]
+    C[FlatEnvConfig]
+    D[DBStyleEntry]
+    E[BrowserProfileEntry]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+```

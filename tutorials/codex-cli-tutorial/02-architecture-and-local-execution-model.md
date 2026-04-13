@@ -39,170 +39,168 @@ You now have a clear mental model for Codex local execution behavior.
 
 Next: [Chapter 3: Authentication and Model Configuration](03-authentication-and-model-configuration.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `scripts/stage_npm_packages.py`
+### `scripts/check_blob_size.py`
 
-The `install_native_components` function in [`scripts/stage_npm_packages.py`](https://github.com/openai/codex/blob/HEAD/scripts/stage_npm_packages.py) handles a key part of this chapter's functionality:
+The `blob_size` function in [`scripts/check_blob_size.py`](https://github.com/openai/codex/blob/HEAD/scripts/check_blob_size.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def install_native_components(
-    workflow_url: str,
-    components: set[str],
-    vendor_root: Path,
+def blob_size(commit: str, path: str) -> int:
+    return int(run_git("cat-file", "-s", f"{commit}:{path}").strip())
+
+
+def collect_changed_blobs(base: str, head: str, allowlist: set[str]) -> list[ChangedBlob]:
+    blobs: list[ChangedBlob] = []
+    for path in get_changed_paths(base, head):
+        blobs.append(
+            ChangedBlob(
+                path=path,
+                size_bytes=blob_size(head, path),
+                is_allowlisted=path in allowlist,
+                is_binary=is_binary_change(base, head, path),
+            )
+        )
+    return blobs
+
+
+def format_kib(size_bytes: int) -> str:
+    return f"{size_bytes / 1024:.1f} KiB"
+
+
+def write_step_summary(
+    max_bytes: int,
+    blobs: list[ChangedBlob],
+    violations: list[ChangedBlob],
 ) -> None:
-    if not components:
+    summary_path = os.environ.get("GITHUB_STEP_SUMMARY")
+    if not summary_path:
+        return
+```
+
+This function is important because it defines how Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex implements the patterns covered in this chapter.
+
+### `scripts/check_blob_size.py`
+
+The `collect_changed_blobs` function in [`scripts/check_blob_size.py`](https://github.com/openai/codex/blob/HEAD/scripts/check_blob_size.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+def collect_changed_blobs(base: str, head: str, allowlist: set[str]) -> list[ChangedBlob]:
+    blobs: list[ChangedBlob] = []
+    for path in get_changed_paths(base, head):
+        blobs.append(
+            ChangedBlob(
+                path=path,
+                size_bytes=blob_size(head, path),
+                is_allowlisted=path in allowlist,
+                is_binary=is_binary_change(base, head, path),
+            )
+        )
+    return blobs
+
+
+def format_kib(size_bytes: int) -> str:
+    return f"{size_bytes / 1024:.1f} KiB"
+
+
+def write_step_summary(
+    max_bytes: int,
+    blobs: list[ChangedBlob],
+    violations: list[ChangedBlob],
+) -> None:
+    summary_path = os.environ.get("GITHUB_STEP_SUMMARY")
+    if not summary_path:
         return
 
-    cmd = [str(INSTALL_NATIVE_DEPS), "--workflow-url", workflow_url]
-    for component in sorted(components):
-        cmd.extend(["--component", component])
-    cmd.append(str(vendor_root))
-    run_command(cmd)
-
-
-def run_command(cmd: list[str]) -> None:
-    print("+", " ".join(cmd))
-    subprocess.run(cmd, cwd=REPO_ROOT, check=True)
-
-
-def tarball_name_for_package(package: str, version: str) -> str:
-    if package in CODEX_PLATFORM_PACKAGES:
-        platform = package.removeprefix("codex-")
-        return f"codex-npm-{platform}-{version}.tgz"
-    return f"{package}-npm-{version}.tgz"
-
-
-def main() -> int:
-    args = parse_args()
-
+    lines = [
+        "## Blob Size Policy",
+        "",
 ```
 
 This function is important because it defines how Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex implements the patterns covered in this chapter.
 
-### `scripts/stage_npm_packages.py`
+### `scripts/check_blob_size.py`
 
-The `run_command` function in [`scripts/stage_npm_packages.py`](https://github.com/openai/codex/blob/HEAD/scripts/stage_npm_packages.py) handles a key part of this chapter's functionality:
+The `format_kib` function in [`scripts/check_blob_size.py`](https://github.com/openai/codex/blob/HEAD/scripts/check_blob_size.py) handles a key part of this chapter's functionality:
 
 ```py
-        cmd.extend(["--component", component])
-    cmd.append(str(vendor_root))
-    run_command(cmd)
 
 
-def run_command(cmd: list[str]) -> None:
-    print("+", " ".join(cmd))
-    subprocess.run(cmd, cwd=REPO_ROOT, check=True)
+def format_kib(size_bytes: int) -> str:
+    return f"{size_bytes / 1024:.1f} KiB"
 
 
-def tarball_name_for_package(package: str, version: str) -> str:
-    if package in CODEX_PLATFORM_PACKAGES:
-        platform = package.removeprefix("codex-")
-        return f"codex-npm-{platform}-{version}.tgz"
-    return f"{package}-npm-{version}.tgz"
+def write_step_summary(
+    max_bytes: int,
+    blobs: list[ChangedBlob],
+    violations: list[ChangedBlob],
+) -> None:
+    summary_path = os.environ.get("GITHUB_STEP_SUMMARY")
+    if not summary_path:
+        return
 
+    lines = [
+        "## Blob Size Policy",
+        "",
+        f"Default max: `{max_bytes}` bytes ({format_kib(max_bytes)})",
+        f"Changed files checked: `{len(blobs)}`",
+        f"Violations: `{len(violations)}`",
+        "",
+    ]
 
-def main() -> int:
-    args = parse_args()
-
-    output_dir = args.output_dir or (REPO_ROOT / "dist" / "npm")
-    output_dir.mkdir(parents=True, exist_ok=True)
-
-    runner_temp = Path(os.environ.get("RUNNER_TEMP", tempfile.gettempdir()))
-
-    packages = expand_packages(list(args.packages))
-    native_components = collect_native_components(packages)
-
-    vendor_temp_root: Path | None = None
-    vendor_src: Path | None = None
-    resolved_head_sha: str | None = None
-
+    if blobs:
+        lines.extend(
+            [
+                "| Path | Kind | Size | Status |",
+                "| --- | --- | ---: | --- |",
+            ]
+        )
+        for blob in blobs:
 ```
 
 This function is important because it defines how Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex implements the patterns covered in this chapter.
 
-### `scripts/stage_npm_packages.py`
+### `scripts/check_blob_size.py`
 
-The `tarball_name_for_package` function in [`scripts/stage_npm_packages.py`](https://github.com/openai/codex/blob/HEAD/scripts/stage_npm_packages.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-def tarball_name_for_package(package: str, version: str) -> str:
-    if package in CODEX_PLATFORM_PACKAGES:
-        platform = package.removeprefix("codex-")
-        return f"codex-npm-{platform}-{version}.tgz"
-    return f"{package}-npm-{version}.tgz"
-
-
-def main() -> int:
-    args = parse_args()
-
-    output_dir = args.output_dir or (REPO_ROOT / "dist" / "npm")
-    output_dir.mkdir(parents=True, exist_ok=True)
-
-    runner_temp = Path(os.environ.get("RUNNER_TEMP", tempfile.gettempdir()))
-
-    packages = expand_packages(list(args.packages))
-    native_components = collect_native_components(packages)
-
-    vendor_temp_root: Path | None = None
-    vendor_src: Path | None = None
-    resolved_head_sha: str | None = None
-
-    final_messages = []
-
-    try:
-        if native_components:
-            workflow_url, resolved_head_sha = resolve_workflow_url(
-                args.release_version, args.workflow_url
-            )
-            vendor_temp_root = Path(tempfile.mkdtemp(prefix="npm-native-", dir=runner_temp))
-```
-
-This function is important because it defines how Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex implements the patterns covered in this chapter.
-
-### `scripts/stage_npm_packages.py`
-
-The `main` function in [`scripts/stage_npm_packages.py`](https://github.com/openai/codex/blob/HEAD/scripts/stage_npm_packages.py) handles a key part of this chapter's functionality:
+The `write_step_summary` function in [`scripts/check_blob_size.py`](https://github.com/openai/codex/blob/HEAD/scripts/check_blob_size.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def main() -> int:
-    args = parse_args()
+def write_step_summary(
+    max_bytes: int,
+    blobs: list[ChangedBlob],
+    violations: list[ChangedBlob],
+) -> None:
+    summary_path = os.environ.get("GITHUB_STEP_SUMMARY")
+    if not summary_path:
+        return
 
-    output_dir = args.output_dir or (REPO_ROOT / "dist" / "npm")
-    output_dir.mkdir(parents=True, exist_ok=True)
+    lines = [
+        "## Blob Size Policy",
+        "",
+        f"Default max: `{max_bytes}` bytes ({format_kib(max_bytes)})",
+        f"Changed files checked: `{len(blobs)}`",
+        f"Violations: `{len(violations)}`",
+        "",
+    ]
 
-    runner_temp = Path(os.environ.get("RUNNER_TEMP", tempfile.gettempdir()))
-
-    packages = expand_packages(list(args.packages))
-    native_components = collect_native_components(packages)
-
-    vendor_temp_root: Path | None = None
-    vendor_src: Path | None = None
-    resolved_head_sha: str | None = None
-
-    final_messages = []
-
-    try:
-        if native_components:
-            workflow_url, resolved_head_sha = resolve_workflow_url(
-                args.release_version, args.workflow_url
-            )
-            vendor_temp_root = Path(tempfile.mkdtemp(prefix="npm-native-", dir=runner_temp))
-            install_native_components(workflow_url, native_components, vendor_temp_root)
-            vendor_src = vendor_temp_root / "vendor"
-
-        if resolved_head_sha:
-            print(f"should `git checkout {resolved_head_sha}`")
-
-        for package in packages:
+    if blobs:
+        lines.extend(
+            [
+                "| Path | Kind | Size | Status |",
+                "| --- | --- | ---: | --- |",
+            ]
+        )
+        for blob in blobs:
+            status = "allowlisted" if blob.is_allowlisted else "ok"
+            if blob in violations:
+                status = "blocked"
+            kind = "binary" if blob.is_binary else "non-binary"
 ```
 
 This function is important because it defines how Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex implements the patterns covered in this chapter.
@@ -212,10 +210,10 @@ This function is important because it defines how Codex CLI Tutorial: Local Term
 
 ```mermaid
 flowchart TD
-    A[install_native_components]
-    B[run_command]
-    C[tarball_name_for_package]
-    D[main]
+    A[blob_size]
+    B[collect_changed_blobs]
+    C[format_kib]
+    D[write_step_summary]
     E[main]
     A --> B
     B --> C

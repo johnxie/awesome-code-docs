@@ -102,98 +102,23 @@ You now have a context/indexing model for large repos:
 
 Next: [Chapter 5: Checkpoints and Recovery](05-checkpoints-and-recovery.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `webview-ui/vite.config.ts`
+Use the following upstream sources to verify context and indexing implementation details while reading this chapter:
 
-The `getGitSha` function in [`webview-ui/vite.config.ts`](https://github.com/RooCodeInc/Roo-Code/blob/HEAD/webview-ui/vite.config.ts) handles a key part of this chapter's functionality:
+- [`src/services/glob/list-files.ts`](https://github.com/RooCodeInc/Roo-Code/blob/HEAD/src/services/glob/list-files.ts) — implements repository file listing and glob filtering used to build the file tree that Roo Code sends to the model as workspace context.
+- [`src/core/context-management/`](https://github.com/RooCodeInc/Roo-Code/blob/HEAD/src/core/context-management/) — contains context window management utilities that truncate, slice, and prioritize messages to stay within model token limits.
 
-```ts
-import { sourcemapPlugin } from "./src/vite-plugins/sourcemapPlugin"
-
-function getGitSha() {
-	let gitSha: string | undefined = undefined
-
-	try {
-		gitSha = execSync("git rev-parse HEAD").toString().trim()
-	} catch (_error) {
-		// Do nothing.
-	}
-
-	return gitSha
-}
-
-const wasmPlugin = (): Plugin => ({
-	name: "wasm",
-	async load(id) {
-		if (id.endsWith(".wasm")) {
-			const wasmBinary = await import(id)
-
-			return `
-           			const wasmModule = new WebAssembly.Module(${wasmBinary.default});
-           			export default wasmModule;
-         		`
-		}
-	},
-})
-
-const persistPortPlugin = (): Plugin => ({
-	name: "write-port-to-file",
-	configureServer(viteDevServer) {
-		viteDevServer?.httpServer?.once("listening", () => {
-```
-
-This function is important because it defines how Roo Code Tutorial: Run an AI Dev Team in Your Editor implements the patterns covered in this chapter.
-
-### `scripts/find-missing-translations.js`
-
-The `findKeys` function in [`scripts/find-missing-translations.js`](https://github.com/RooCodeInc/Roo-Code/blob/HEAD/scripts/find-missing-translations.js) handles a key part of this chapter's functionality:
-
-```js
-
-// Recursively find all keys in an object
-function findKeys(obj, parentKey = "") {
-	let keys = []
-
-	for (const [key, value] of Object.entries(obj)) {
-		const currentKey = parentKey ? `${parentKey}.${key}` : key
-
-		if (typeof value === "object" && value !== null) {
-			// If value is an object, recurse
-			keys = [...keys, ...findKeys(value, currentKey)]
-		} else {
-			// If value is a primitive, add the key
-			keys.push(currentKey)
-		}
-	}
-
-	return keys
-}
-
-// Get value at a dotted path in an object
-function getValueAtPath(obj, path) {
-	const parts = path.split(".")
-	let current = obj
-
-	for (const part of parts) {
-		if (current === undefined || current === null) {
-			return undefined
-		}
-		current = current[part]
-	}
-
-```
-
-This function is important because it defines how Roo Code Tutorial: Run an AI Dev Team in Your Editor implements the patterns covered in this chapter.
-
+Suggested trace strategy:
+- trace how `list-files.ts` builds file manifests that feed into context window construction
+- review context-management utilities to understand truncation strategies when context grows large
+- look at `src/shared/context-window-utils.ts` for token-limit calculations applied before each request
 
 ## How These Components Connect
 
 ```mermaid
-flowchart TD
-    A[getGitSha]
-    B[findKeys]
-    A --> B
+flowchart LR
+    A[Workspace files] --> B[list-files.ts glob scan]
+    B --> C[Context window manager]
+    C --> D[Truncated context sent to model]
 ```

@@ -36,184 +36,182 @@ You now have a deterministic strategy for managing gptme configuration across en
 
 Next: [Chapter 5: Context, Lessons, and Conversation Management](05-context-lessons-and-conversation-management.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `scripts/demo_capture.py`
+### `scripts/github_bot.py`
 
-The `generate_summary` function in [`scripts/demo_capture.py`](https://github.com/gptme/gptme/blob/HEAD/scripts/demo_capture.py) handles a key part of this chapter's functionality:
+The `get_context` function in [`scripts/github_bot.py`](https://github.com/gptme/gptme/blob/HEAD/scripts/github_bot.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def generate_summary(output_dir: Path, results: dict[str, list[Path | None]]) -> Path:
-    """Generate a summary JSON of captured assets."""
-    assets: dict[str, list[dict[str, str | int]]] = {}
+def get_context(
+    repository: str, issue_number: int, is_pr: bool, token: str
+) -> dict[str, str]:
+    """Get context from the issue or PR with size limits to prevent token overflow."""
+    context = {}
+    ctx_dir = tempfile.mkdtemp()
 
-    for mode, files in results.items():
-        assets[mode] = []
-        for f in files:
-            if f and f.exists():
-                assets[mode].append(
-                    {
-                        "name": f.name,
-                        "path": str(f),
-                        "size_bytes": f.stat().st_size,
-                    }
-                )
+    if is_pr:
+        # Get PR details
+        result = run_command(
+            ["gh", "pr", "view", str(issue_number), "--repo", repository],
+            capture=True,
+        )
+        context["pr"] = truncate_content(result.stdout, MAX_CONTEXT_CHARS, "PR details")
 
-    summary: dict[str, object] = {
-        "generated_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-        "assets": assets,
-    }
+        # Get PR comments
+        result = run_command(
+            ["gh", "pr", "view", str(issue_number), "--repo", repository, "-c"],
+            capture=True,
+        )
+        context["comments"] = truncate_content(
+            result.stdout, MAX_COMMENT_CHARS, "comments"
+        )
 
-    summary_path = output_dir / "summary.json"
-    with open(summary_path, "w") as fh:
-        json.dump(summary, fh, indent=2)
-
-    print(f"\nSummary written to: {summary_path}")
-    return summary_path
-
-
-def main():
+        # Get PR diff (often the largest, limit more aggressively)
+        result = run_command(
+            ["gh", "pr", "diff", str(issue_number), "--repo", repository],
+            capture=True,
+        )
+        context["diff"] = truncate_content(result.stdout, MAX_DIFF_CHARS, "diff")
 ```
 
 This function is important because it defines how gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work implements the patterns covered in this chapter.
 
-### `scripts/demo_capture.py`
+### `scripts/github_bot.py`
 
-The `main` function in [`scripts/demo_capture.py`](https://github.com/gptme/gptme/blob/HEAD/scripts/demo_capture.py) handles a key part of this chapter's functionality:
+The `determine_action_type` function in [`scripts/github_bot.py`](https://github.com/gptme/gptme/blob/HEAD/scripts/github_bot.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def main():
-    parser = argparse.ArgumentParser(
-        description="Capture gptme demos: terminal recordings, WebUI screenshots, and screen recordings."
+def determine_action_type(command: str, model: str) -> str:
+    """Determine if the command requires changes or just a response."""
+    result = run_command(
+        [
+            "gptme",
+            "--non-interactive",
+            "--model",
+            model,
+            f"Determine if this command requires changes to be made or just a response. "
+            f"Respond with ONLY 'make_changes' or 'respond'. Command: {command}",
+        ],
+        capture=True,
     )
-    parser.add_argument("--all", action="store_true", help="Run all capture modes")
-    parser.add_argument(
-        "--terminal", action="store_true", help="Record terminal demos with asciinema"
-    )
-    parser.add_argument(
-        "--screenshots", action="store_true", help="Capture WebUI screenshots"
-    )
-    parser.add_argument(
-        "--recording", action="store_true", help="Record WebUI interaction video"
-    )
-    parser.add_argument(
-        "--output-dir",
-        type=Path,
-        default=DEFAULT_OUTPUT_DIR,
-        help=f"Output directory (default: {DEFAULT_OUTPUT_DIR})",
-    )
-    parser.add_argument(
-        "--server-url", default="http://localhost:5701", help="WebUI server URL"
-    )
-    parser.add_argument(
-        "--list-demos", action="store_true", help="List available terminal demos"
-    )
-    parser.add_argument(
+
+    output = result.stdout.lower()
+    if "make_changes" in output:
+        return "make_changes"
+    return "respond"
+
+
+def run_gptme(
+    command: str,
+    context_dir: str,
+    workspace: str,
+    model: str,
+    timeout: int = 120,
+) -> bool:
+    """Run gptme with the given command and context."""
+    # Build the context file list
+    context_files = list(Path(context_dir).glob("gh-*.md"))
+```
+
+This function is important because it defines how gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work implements the patterns covered in this chapter.
+
+### `scripts/github_bot.py`
+
+The `run_gptme` function in [`scripts/github_bot.py`](https://github.com/gptme/gptme/blob/HEAD/scripts/github_bot.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+def run_gptme(
+    command: str,
+    context_dir: str,
+    workspace: str,
+    model: str,
+    timeout: int = 120,
+) -> bool:
+    """Run gptme with the given command and context."""
+    # Build the context file list
+    context_files = list(Path(context_dir).glob("gh-*.md"))
+    context_args = [str(f) for f in context_files]
+
+    cmd = [
+        "gptme",
+        "--non-interactive",
         "--model",
-        default=None,
-        help="Model to use for gptme (e.g. openrouter/anthropic/claude-sonnet-4-6)",
+        model,
+        command,
+        "<system>",
+        "The project has been cloned to the current directory.",
+        "Here is the context:",
+        *context_args,
+        "</system>",
+        "-",
+        "Write the response to 'response.md', it will be posted as a comment.",
+    ]
+
+    try:
+        result = subprocess.run(
+            cmd,
 ```
 
 This function is important because it defines how gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work implements the patterns covered in this chapter.
 
-### `gptme/message.py`
+### `scripts/github_bot.py`
 
-The `UsageData` class in [`gptme/message.py`](https://github.com/gptme/gptme/blob/HEAD/gptme/message.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-class UsageData(TypedDict, total=False):
-    """Token usage data from LLM API responses.
-
-    Nested under ``usage`` in :class:`MessageMetadata` to mirror the structure
-    returned by LLM provider APIs (Anthropic, OpenAI, etc.).
-    """
-
-    input_tokens: int
-    output_tokens: int
-    cache_read_tokens: int
-    cache_creation_tokens: int
-
-
-class MessageMetadata(TypedDict, total=False):
-    """
-    Metadata stored with each message.
-
-    All fields are optional for compact storage - only non-None values are serialized.
-
-    Token/cost fields are populated for assistant messages when telemetry is enabled.
-
-    Token counts are nested under ``usage`` to match LLM API response structure::
-
-        {
-            "model": "claude-sonnet",
-            "cost": 0.005,
-            "usage": {
-                "input_tokens": 100,
-                "output_tokens": 50,
-                "cache_read_tokens": 80,
-```
-
-This class is important because it defines how gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work implements the patterns covered in this chapter.
-
-### `gptme/message.py`
-
-The `MessageMetadata` class in [`gptme/message.py`](https://github.com/gptme/gptme/blob/HEAD/gptme/message.py) handles a key part of this chapter's functionality:
+The `post_response` function in [`scripts/github_bot.py`](https://github.com/gptme/gptme/blob/HEAD/scripts/github_bot.py) handles a key part of this chapter's functionality:
 
 ```py
-    """Token usage data from LLM API responses.
-
-    Nested under ``usage`` in :class:`MessageMetadata` to mirror the structure
-    returned by LLM provider APIs (Anthropic, OpenAI, etc.).
-    """
-
-    input_tokens: int
-    output_tokens: int
-    cache_read_tokens: int
-    cache_creation_tokens: int
 
 
-class MessageMetadata(TypedDict, total=False):
-    """
-    Metadata stored with each message.
+def post_response(
+    repository: str, issue_number: int, workspace: str, dry_run: bool = False
+) -> None:
+    """Post the response.md as a comment."""
+    response_file = Path(workspace) / "response.md"
+    if not response_file.exists():
+        print("No response.md generated")
+        return
 
-    All fields are optional for compact storage - only non-None values are serialized.
+    if dry_run:
+        print(f"[DRY RUN] Would post response:\n{response_file.read_text()}")
+        return
 
-    Token/cost fields are populated for assistant messages when telemetry is enabled.
+    run_command(
+        [
+            "gh",
+            "issue",
+            "comment",
+            str(issue_number),
+            "--repo",
+            repository,
+            "--body-file",
+            str(response_file),
+        ]
+    )
 
-    Token counts are nested under ``usage`` to match LLM API response structure::
 
-        {
-            "model": "claude-sonnet",
-            "cost": 0.005,
-            "usage": {
-                "input_tokens": 100,
-                "output_tokens": 50,
-                "cache_read_tokens": 80,
-                "cache_creation_tokens": 10,
-            }
-        }
+def commit_and_push(
+    repository: str,
+    issue_number: int,
 ```
 
-This class is important because it defines how gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work implements the patterns covered in this chapter.
+This function is important because it defines how gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[generate_summary]
-    B[main]
-    C[UsageData]
-    D[MessageMetadata]
-    E[Message]
+    A[get_context]
+    B[determine_action_type]
+    C[run_gptme]
+    D[post_response]
+    E[commit_and_push]
     A --> B
     B --> C
     C --> D

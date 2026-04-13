@@ -39,9 +39,48 @@ You now have a practical operations and contribution framework for long-term C# 
 
 Next: Continue with [MCP Use Tutorial](../mcp-use-tutorial/)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
+
+### `src/ModelContextProtocol.AspNetCore/StreamableHttpSession.cs`
+
+The `UnreferenceDisposable` class in [`src/ModelContextProtocol.AspNetCore/StreamableHttpSession.cs`](https://github.com/modelcontextprotocol/csharp-sdk/blob/HEAD/src/ModelContextProtocol.AspNetCore/StreamableHttpSession.cs) handles a key part of this chapter's functionality:
+
+```cs
+        }
+
+        return new UnreferenceDisposable(this);
+    }
+
+    /// <summary>
+    /// Ensures the session is registered with the session manager without acquiring a reference.
+    /// No-ops if the session is already started.
+    /// </summary>
+    public async ValueTask EnsureStartedAsync(CancellationToken cancellationToken)
+    {
+        bool needsStart;
+        lock (_stateLock)
+        {
+            needsStart = _state == SessionState.Uninitialized;
+            if (needsStart)
+            {
+                _state = SessionState.Started;
+            }
+        }
+
+        if (needsStart)
+        {
+            await sessionManager.StartNewSessionAsync(this, cancellationToken);
+
+            // Session is registered with 0 references (idle), so reflect that in the idle count.
+            sessionManager.IncrementIdleSessionCount();
+        }
+    }
+
+    public bool TryStartGetRequest() => Interlocked.Exchange(ref _getRequestStarted, 1) == 0;
+    public bool HasSameUserId(ClaimsPrincipal user) => userId == StreamableHttpHandler.GetUserIdClaim(user);
+```
+
+This class is important because it defines how MCP C# SDK Tutorial: Production MCP in .NET with Hosting, ASP.NET Core, and Task Workflows implements the patterns covered in this chapter.
 
 ### `src/ModelContextProtocol.AspNetCore/StreamableHttpSession.cs`
 
@@ -84,125 +123,84 @@ The `SessionState` interface in [`src/ModelContextProtocol.AspNetCore/Streamable
 
 This interface is important because it defines how MCP C# SDK Tutorial: Production MCP in .NET with Hosting, ASP.NET Core, and Task Workflows implements the patterns covered in this chapter.
 
-### `src/ModelContextProtocol.Core/McpSession.cs`
+### `src/Common/Experimentals.cs`
 
-The `for` class in [`src/ModelContextProtocol.Core/McpSession.cs`](https://github.com/modelcontextprotocol/csharp-sdk/blob/HEAD/src/ModelContextProtocol.Core/McpSession.cs) handles a key part of this chapter's functionality:
+The `Experimentals` class in [`src/Common/Experimentals.cs`](https://github.com/modelcontextprotocol/csharp-sdk/blob/HEAD/src/Common/Experimentals.cs) handles a key part of this chapter's functionality:
 
 ```cs
-///   <item>Sending JSON-RPC requests and receiving responses.</item>
-///   <item>Sending notifications to the connected session.</item>
-///   <item>Registering handlers for receiving notifications.</item>
-/// </list>
-/// </para>
-/// <para>
-/// <see cref="McpSession"/> serves as the base class for both <see cref="McpClient"/> and
-/// <see cref="McpServer"/>, providing the common functionality needed for MCP protocol
-/// communication. Most applications will use these more specific interfaces rather than working with
-/// <see cref="McpSession"/> directly.
-/// </para>
-/// <para>
-/// All MCP sessions should be properly disposed after use as they implement <see cref="IAsyncDisposable"/>.
 /// </para>
 /// </remarks>
-public abstract partial class McpSession : IAsyncDisposable
+internal static class Experimentals
 {
-    /// <summary>Gets an identifier associated with the current MCP session.</summary>
-    /// <remarks>
-    /// Typically populated in transports supporting multiple sessions, such as Streamable HTTP or SSE.
-    /// Can return <see langword="null"/> if the session hasn't initialized or if the transport doesn't
-    /// support multiple sessions (as is the case with STDIO).
-    /// </remarks>
-    public abstract string? SessionId { get; }
+    /// <summary>
+    /// Diagnostic ID for the experimental MCP Tasks feature.
+    /// </summary>
+    public const string Tasks_DiagnosticId = "MCPEXP001";
 
     /// <summary>
-    /// Gets the negotiated protocol version for the current MCP session.
+    /// Message for the experimental MCP Tasks feature.
+    /// </summary>
+    public const string Tasks_Message = "The Tasks feature is experimental per the MCP specification and is subject to change.";
+
+    /// <summary>
+    /// URL for the experimental MCP Tasks feature.
+    /// </summary>
+    public const string Tasks_Url = "https://github.com/modelcontextprotocol/csharp-sdk/blob/main/docs/list-of-diagnostics.md#mcpexp001";
+
+    /// <summary>
+    /// Diagnostic ID for the experimental MCP Extensions feature.
     /// </summary>
     /// <remarks>
-    /// Returns the protocol version negotiated during session initialization,
-    /// or <see langword="null"/> if initialization hasn't yet occurred.
+    /// This uses the same diagnostic ID as <see cref="Tasks_DiagnosticId"/> because both
+    /// Tasks and Extensions are covered by the same MCPEXP001 diagnostic for experimental
+    /// MCP features. Having separate constants improves code clarity while maintaining a
+    /// single diagnostic suppression point.
     /// </remarks>
+    public const string Extensions_DiagnosticId = "MCPEXP001";
+
+    /// <summary>
+    /// Message for the experimental MCP Extensions feature.
 ```
 
 This class is important because it defines how MCP C# SDK Tutorial: Production MCP in .NET with Hosting, ASP.NET Core, and Task Workflows implements the patterns covered in this chapter.
 
-### `src/ModelContextProtocol.Core/McpSession.cs`
+### `src/ModelContextProtocol.AspNetCore/SseHandler.cs`
 
-The `McpSession` class in [`src/ModelContextProtocol.Core/McpSession.cs`](https://github.com/modelcontextprotocol/csharp-sdk/blob/HEAD/src/ModelContextProtocol.Core/McpSession.cs) handles a key part of this chapter's functionality:
+The `SseHandler` class in [`src/ModelContextProtocol.AspNetCore/SseHandler.cs`](https://github.com/modelcontextprotocol/csharp-sdk/blob/HEAD/src/ModelContextProtocol.AspNetCore/SseHandler.cs) handles a key part of this chapter's functionality:
 
 ```cs
-/// </para>
-/// <para>
-/// <see cref="McpSession"/> serves as the base class for both <see cref="McpClient"/> and
-/// <see cref="McpServer"/>, providing the common functionality needed for MCP protocol
-/// communication. Most applications will use these more specific interfaces rather than working with
-/// <see cref="McpSession"/> directly.
-/// </para>
-/// <para>
-/// All MCP sessions should be properly disposed after use as they implement <see cref="IAsyncDisposable"/>.
-/// </para>
-/// </remarks>
-public abstract partial class McpSession : IAsyncDisposable
+namespace ModelContextProtocol.AspNetCore;
+
+internal sealed class SseHandler(
+    IOptions<McpServerOptions> mcpServerOptionsSnapshot,
+    IOptionsFactory<McpServerOptions> mcpServerOptionsFactory,
+    IOptions<HttpServerTransportOptions> httpMcpServerOptions,
+    IHostApplicationLifetime hostApplicationLifetime,
+    ILoggerFactory loggerFactory)
 {
-    /// <summary>Gets an identifier associated with the current MCP session.</summary>
-    /// <remarks>
-    /// Typically populated in transports supporting multiple sessions, such as Streamable HTTP or SSE.
-    /// Can return <see langword="null"/> if the session hasn't initialized or if the transport doesn't
-    /// support multiple sessions (as is the case with STDIO).
-    /// </remarks>
-    public abstract string? SessionId { get; }
+    private readonly ConcurrentDictionary<string, SseSession> _sessions = new(StringComparer.Ordinal);
 
-    /// <summary>
-    /// Gets the negotiated protocol version for the current MCP session.
-    /// </summary>
-    /// <remarks>
-    /// Returns the protocol version negotiated during session initialization,
-    /// or <see langword="null"/> if initialization hasn't yet occurred.
-    /// </remarks>
-    public abstract string? NegotiatedProtocolVersion { get; }
+    public async Task HandleSseRequestAsync(HttpContext context)
+    {
+        var sessionId = StreamableHttpHandler.MakeNewSessionId();
 
-    /// <summary>
-    /// Sends a JSON-RPC request to the connected session and waits for a response.
-```
+        // If the server is shutting down, we need to cancel all SSE connections immediately without waiting for HostOptions.ShutdownTimeout
+        // which defaults to 30 seconds.
+        using var sseCts = CancellationTokenSource.CreateLinkedTokenSource(context.RequestAborted, hostApplicationLifetime.ApplicationStopping);
+        var cancellationToken = sseCts.Token;
 
-This class is important because it defines how MCP C# SDK Tutorial: Production MCP in .NET with Hosting, ASP.NET Core, and Task Workflows implements the patterns covered in this chapter.
+        StreamableHttpHandler.InitializeSseResponse(context);
 
-### `src/ModelContextProtocol.Core/McpSession.cs`
+        var requestPath = (context.Request.PathBase + context.Request.Path).ToString();
+        var endpointPattern = requestPath[..(requestPath.LastIndexOf('/') + 1)];
+        await using var transport = new SseResponseStreamTransport(context.Response.Body, $"{endpointPattern}message?sessionId={sessionId}", sessionId);
 
-The `that` class in [`src/ModelContextProtocol.Core/McpSession.cs`](https://github.com/modelcontextprotocol/csharp-sdk/blob/HEAD/src/ModelContextProtocol.Core/McpSession.cs) handles a key part of this chapter's functionality:
+        var userIdClaim = StreamableHttpHandler.GetUserIdClaim(context.User);
+        var sseSession = new SseSession(transport, userIdClaim);
 
-```cs
-    /// <remarks>
-    /// This method provides low-level access to send raw JSON-RPC requests. For most use cases,
-    /// consider using the strongly-typed methods that provide a more convenient API.
-    /// </remarks>
-    public abstract Task<JsonRpcResponse> SendRequestAsync(JsonRpcRequest request, CancellationToken cancellationToken = default);
-
-    /// <summary>
-    /// Sends a JSON-RPC message to the connected session.
-    /// </summary>
-    /// <param name="message">
-    /// The JSON-RPC message to send. This can be any type that implements JsonRpcMessage, such as
-    /// JsonRpcRequest, JsonRpcResponse, JsonRpcNotification, or JsonRpcError.
-    /// </param>
-    /// <param name="cancellationToken">The <see cref="CancellationToken"/> to monitor for cancellation requests. The default is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A task that represents the asynchronous send operation.</returns>
-    /// <exception cref="InvalidOperationException">The transport is not connected.</exception>
-    /// <exception cref="ArgumentNullException"><paramref name="message"/> is <see langword="null"/>.</exception>
-    /// <remarks>
-    /// <para>
-    /// This method provides low-level access to send any JSON-RPC message. For specific message types,
-    /// consider using the higher-level methods such as <see cref="SendRequestAsync"/> or methods
-    /// on this class that provide a simpler API.
-    /// </para>
-    /// <para>
-    /// The method serializes the message and transmits it using the underlying transport mechanism.
-    /// </para>
-    /// </remarks>
-    public abstract Task SendMessageAsync(JsonRpcMessage message, CancellationToken cancellationToken = default);
-
-    /// <summary>Registers a handler to be invoked when a notification for the specified method is received.</summary>
-    /// <param name="method">The notification method.</param>
-    /// <param name="handler">The handler to be invoked.</param>
+        if (!_sessions.TryAdd(sessionId, sseSession))
+        {
+            throw new UnreachableException($"Unreachable given good entropy! Session with ID '{sessionId}' has already been created.");
 ```
 
 This class is important because it defines how MCP C# SDK Tutorial: Production MCP in .NET with Hosting, ASP.NET Core, and Task Workflows implements the patterns covered in this chapter.
@@ -212,10 +210,10 @@ This class is important because it defines how MCP C# SDK Tutorial: Production M
 
 ```mermaid
 flowchart TD
-    A[SessionState]
-    B[for]
-    C[McpSession]
-    D[that]
+    A[UnreferenceDisposable]
+    B[SessionState]
+    C[Experimentals]
+    D[SseHandler]
     A --> B
     B --> C
     C --> D

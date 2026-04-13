@@ -920,6 +920,17 @@ Under the hood, `Chapter 5: Performance Optimization - Maximizing Throughput and
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
+## Architecture Flow
+
+```mermaid
+flowchart LR
+    A[Incoming requests] --> B[Continuous batching]
+    B --> C[PagedAttention memory management]
+    C --> D[Quantized model weights]
+    D --> E[Optimized CUDA kernels]
+    E --> F[Maximum GPU utilization]
+```
+
 ## Source Walkthrough
 
 Use the following upstream sources to verify implementation details while reading this chapter:

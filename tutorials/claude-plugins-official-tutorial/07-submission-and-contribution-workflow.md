@@ -44,170 +44,168 @@ You now have a practical path for plugin contribution and review readiness.
 
 Next: [Chapter 8: Governance and Enterprise Plugin Portfolio Management](08-governance-and-enterprise-plugin-portfolio-management.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `external_plugins/telegram/server.ts`
+### `external_plugins/imessage/server.ts`
 
-The `safeName` function in [`external_plugins/telegram/server.ts`](https://github.com/anthropics/claude-plugins-official/blob/HEAD/external_plugins/telegram/server.ts) handles a key part of this chapter's functionality:
+The `messageText` function in [`external_plugins/imessage/server.ts`](https://github.com/anthropics/claude-plugins-official/blob/HEAD/external_plugins/imessage/server.ts) handles a key part of this chapter's functionality:
 
 ```ts
-bot.on('message:document', async ctx => {
-  const doc = ctx.message.document
-  const name = safeName(doc.file_name)
-  const text = ctx.message.caption ?? `(document: ${name ?? 'file'})`
-  await handleInbound(ctx, text, undefined, {
-    kind: 'document',
-    file_id: doc.file_id,
-    size: doc.file_size,
-    mime: doc.mime_type,
-    name,
-  })
-})
+}
 
-bot.on('message:voice', async ctx => {
-  const voice = ctx.message.voice
-  const text = ctx.message.caption ?? '(voice message)'
-  await handleInbound(ctx, text, undefined, {
-    kind: 'voice',
-    file_id: voice.file_id,
-    size: voice.file_size,
-    mime: voice.mime_type,
-  })
-})
+function messageText(r: Row): string {
+  return r.text ?? parseAttributedBody(r.attributedBody) ?? ''
+}
 
-bot.on('message:audio', async ctx => {
-  const audio = ctx.message.audio
-  const name = safeName(audio.file_name)
-  const text = ctx.message.caption ?? `(audio: ${safeName(audio.title) ?? name ?? 'audio'})`
-  await handleInbound(ctx, text, undefined, {
-    kind: 'audio',
-    file_id: audio.file_id,
-    size: audio.file_size,
+// Build a human-readable header for one conversation. Labels DM vs group and
+// lists participants so the assistant can tell threads apart at a glance.
+function conversationHeader(guid: string): string {
+  const info = qChatInfo.get(guid)
+  const participants = qChatParticipants.all(guid).map(p => p.id)
+  const who = participants.length > 0 ? participants.join(', ') : guid
+  if (info?.style === 43) {
+    const name = info.display_name ? `"${info.display_name}" ` : ''
+    return `=== Group ${name}(${who}) ===`
+  }
+  return `=== DM with ${who} ===`
+}
+
+// Render one chat's messages as a conversation block: header, then one line
+// per message with a local-time stamp. A date line is inserted whenever the
+// calendar day rolls over so long histories stay readable without repeating
+// the full date on every row.
+function renderConversation(guid: string, rows: Row[]): string {
+  const lines: string[] = [conversationHeader(guid)]
+  let lastDay = ''
+  for (const r of rows) {
+    const d = appleDate(r.date)
+    const day = d.toDateString()
+    if (day !== lastDay) {
+      lines.push(`-- ${day} --`)
+      lastDay = day
 ```
 
 This function is important because it defines how Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory implements the patterns covered in this chapter.
 
-### `external_plugins/telegram/server.ts`
+### `external_plugins/imessage/server.ts`
 
-The `handleInbound` function in [`external_plugins/telegram/server.ts`](https://github.com/anthropics/claude-plugins-official/blob/HEAD/external_plugins/telegram/server.ts) handles a key part of this chapter's functionality:
+The `conversationHeader` function in [`external_plugins/imessage/server.ts`](https://github.com/anthropics/claude-plugins-official/blob/HEAD/external_plugins/imessage/server.ts) handles a key part of this chapter's functionality:
 
 ```ts
+// Build a human-readable header for one conversation. Labels DM vs group and
+// lists participants so the assistant can tell threads apart at a glance.
+function conversationHeader(guid: string): string {
+  const info = qChatInfo.get(guid)
+  const participants = qChatParticipants.all(guid).map(p => p.id)
+  const who = participants.length > 0 ? participants.join(', ') : guid
+  if (info?.style === 43) {
+    const name = info.display_name ? `"${info.display_name}" ` : ''
+    return `=== Group ${name}(${who}) ===`
+  }
+  return `=== DM with ${who} ===`
+}
 
-bot.on('message:text', async ctx => {
-  await handleInbound(ctx, ctx.message.text, undefined)
-})
-
-bot.on('message:photo', async ctx => {
-  const caption = ctx.message.caption ?? '(photo)'
-  // Defer download until after the gate approves — any user can send photos,
-  // and we don't want to burn API quota or fill the inbox for dropped messages.
-  await handleInbound(ctx, caption, async () => {
-    // Largest size is last in the array.
-    const photos = ctx.message.photo
-    const best = photos[photos.length - 1]
-    try {
-      const file = await ctx.api.getFile(best.file_id)
-      if (!file.file_path) return undefined
-      const url = `https://api.telegram.org/file/bot${TOKEN}/${file.file_path}`
-      const res = await fetch(url)
-      const buf = Buffer.from(await res.arrayBuffer())
-      const ext = file.file_path.split('.').pop() ?? 'jpg'
-      const path = join(INBOX_DIR, `${Date.now()}-${best.file_unique_id}.${ext}`)
-      mkdirSync(INBOX_DIR, { recursive: true })
-      writeFileSync(path, buf)
-      return path
-    } catch (err) {
-      process.stderr.write(`telegram channel: photo download failed: ${err}\n`)
-      return undefined
+// Render one chat's messages as a conversation block: header, then one line
+// per message with a local-time stamp. A date line is inserted whenever the
+// calendar day rolls over so long histories stay readable without repeating
+// the full date on every row.
+function renderConversation(guid: string, rows: Row[]): string {
+  const lines: string[] = [conversationHeader(guid)]
+  let lastDay = ''
+  for (const r of rows) {
+    const d = appleDate(r.date)
+    const day = d.toDateString()
+    if (day !== lastDay) {
+      lines.push(`-- ${day} --`)
+      lastDay = day
     }
-  })
-})
-
-bot.on('message:document', async ctx => {
+    const hhmm = d.toTimeString().slice(0, 5)
+    const who = r.is_from_me ? 'me' : (r.handle_id ?? 'unknown')
+    const atts = r.cache_has_attachments ? ' [attachment]' : ''
+    // Tool results are newline-joined; a multi-line message would forge
+    // adjacent rows. chat_messages is allowlist-scoped, but a configured group
 ```
 
 This function is important because it defines how Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory implements the patterns covered in this chapter.
 
-### `plugins/hookify/core/rule_engine.py`
+### `external_plugins/imessage/server.ts`
 
-The `RuleEngine` class in [`plugins/hookify/core/rule_engine.py`](https://github.com/anthropics/claude-plugins-official/blob/HEAD/plugins/hookify/core/rule_engine.py) handles a key part of this chapter's functionality:
+The `renderConversation` function in [`external_plugins/imessage/server.ts`](https://github.com/anthropics/claude-plugins-official/blob/HEAD/external_plugins/imessage/server.ts) handles a key part of this chapter's functionality:
 
-```py
+```ts
+// calendar day rolls over so long histories stay readable without repeating
+// the full date on every row.
+function renderConversation(guid: string, rows: Row[]): string {
+  const lines: string[] = [conversationHeader(guid)]
+  let lastDay = ''
+  for (const r of rows) {
+    const d = appleDate(r.date)
+    const day = d.toDateString()
+    if (day !== lastDay) {
+      lines.push(`-- ${day} --`)
+      lastDay = day
+    }
+    const hhmm = d.toTimeString().slice(0, 5)
+    const who = r.is_from_me ? 'me' : (r.handle_id ?? 'unknown')
+    const atts = r.cache_has_attachments ? ' [attachment]' : ''
+    // Tool results are newline-joined; a multi-line message would forge
+    // adjacent rows. chat_messages is allowlist-scoped, but a configured group
+    // can still have untrusted members.
+    const text = messageText(r).replace(/[\r\n]+/g, ' ⏎ ')
+    lines.push(`[${hhmm}] ${who}: ${text}${atts}`)
+  }
+  return lines.join('\n')
+}
 
+// --- mcp ---------------------------------------------------------------------
 
-class RuleEngine:
-    """Evaluates rules against hook input data."""
-
-    def __init__(self):
-        """Initialize rule engine."""
-        # No need for instance cache anymore - using global lru_cache
-        pass
-
-    def evaluate_rules(self, rules: List[Rule], input_data: Dict[str, Any]) -> Dict[str, Any]:
-        """Evaluate all rules and return combined results.
-
-        Checks all rules and accumulates matches. Blocking rules take priority
-        over warning rules. All matching rule messages are combined.
-
-        Args:
-            rules: List of Rule objects to evaluate
-            input_data: Hook input JSON (tool_name, tool_input, etc.)
-
-        Returns:
-            Response dict with systemMessage, hookSpecificOutput, etc.
-            Empty dict {} if no rules match.
-        """
-        hook_event = input_data.get('hook_event_name', '')
-        blocking_rules = []
-        warning_rules = []
-
-        for rule in rules:
-            if self._rule_matches(rule, input_data):
-                if rule.action == 'block':
-                    blocking_rules.append(rule)
+const mcp = new Server(
+  { name: 'imessage', version: '1.0.0' },
+  {
+    capabilities: {
+      tools: {},
+      experimental: {
 ```
 
-This class is important because it defines how Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory implements the patterns covered in this chapter.
+This function is important because it defines how Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory implements the patterns covered in this chapter.
 
-### `plugins/hookify/core/rule_engine.py`
+### `external_plugins/imessage/server.ts`
 
-The `compile_regex` function in [`plugins/hookify/core/rule_engine.py`](https://github.com/anthropics/claude-plugins-official/blob/HEAD/plugins/hookify/core/rule_engine.py) handles a key part of this chapter's functionality:
+The `shutdown` function in [`external_plugins/imessage/server.ts`](https://github.com/anthropics/claude-plugins-official/blob/HEAD/external_plugins/imessage/server.ts) handles a key part of this chapter's functionality:
 
-```py
-# Cache compiled regexes (max 128 patterns)
-@lru_cache(maxsize=128)
-def compile_regex(pattern: str) -> re.Pattern:
-    """Compile regex pattern with caching.
+```ts
+// chat.db handle open.
+let shuttingDown = false
+function shutdown(): void {
+  if (shuttingDown) return
+  shuttingDown = true
+  process.stderr.write('imessage channel: shutting down\n')
+  try { db.close() } catch {}
+  process.exit(0)
+}
+process.stdin.on('end', shutdown)
+process.stdin.on('close', shutdown)
+process.on('SIGTERM', shutdown)
+process.on('SIGINT', shutdown)
 
-    Args:
-        pattern: Regex pattern string
+// --- inbound poll ------------------------------------------------------------
 
-    Returns:
-        Compiled regex pattern
-    """
-    return re.compile(pattern, re.IGNORECASE)
+// Start at current MAX(ROWID) — only deliver what arrives after boot.
+let watermark = qWatermark.get()?.max ?? 0
+process.stderr.write(`imessage channel: watching chat.db (watermark=${watermark})\n`)
 
-
-class RuleEngine:
-    """Evaluates rules against hook input data."""
-
-    def __init__(self):
-        """Initialize rule engine."""
-        # No need for instance cache anymore - using global lru_cache
-        pass
-
-    def evaluate_rules(self, rules: List[Rule], input_data: Dict[str, Any]) -> Dict[str, Any]:
-        """Evaluate all rules and return combined results.
-
-        Checks all rules and accumulates matches. Blocking rules take priority
-        over warning rules. All matching rule messages are combined.
-
-        Args:
-            rules: List of Rule objects to evaluate
-            input_data: Hook input JSON (tool_name, tool_input, etc.)
-
+function poll(): void {
+  let rows: Row[]
+  try {
+    rows = qPoll.all(watermark)
+  } catch (err) {
+    process.stderr.write(`imessage channel: poll query failed: ${err}\n`)
+    return
+  }
+  for (const r of rows) {
+    watermark = r.rowid
+    handleInbound(r)
+  }
 ```
 
 This function is important because it defines how Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory implements the patterns covered in this chapter.
@@ -217,11 +215,11 @@ This function is important because it defines how Claude Plugins Official Tutori
 
 ```mermaid
 flowchart TD
-    A[safeName]
-    B[handleInbound]
-    C[RuleEngine]
-    D[compile_regex]
-    E[class]
+    A[messageText]
+    B[conversationHeader]
+    C[renderConversation]
+    D[shutdown]
+    E[poll]
     A --> B
     B --> C
     C --> D

@@ -22,7 +22,7 @@ Welcome to **Chapter 1: Getting Started with Outlines**. In this part of **Outli
 pip install outlines
 
 # For development with latest features
-pip install git+https://github.com/outlines-dev/outlines.git
+pip install git+https://github.com/dottxt-ai/outlines.git
 
 # Optional: Install with specific backends
 pip install outlines[transformers]  # For Hugging Face models
@@ -459,11 +459,26 @@ Under the hood, `Chapter 1: Getting Started with Outlines` usually follows a rep
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
+## Architecture Overview
+
+```mermaid
+flowchart TD
+    A[LLM Model] --> B[Outlines Processor]
+    B --> C{Constraint Type}
+    C -->|regex| D[Token Mask: Regex]
+    C -->|json_schema| E[Token Mask: JSON]
+    C -->|grammar| F[Token Mask: CFG]
+    D --> G[Constrained Sampling]
+    E --> G
+    F --> G
+    G --> H[Guaranteed Structured Output]
+```
+
 ## Source Walkthrough
 
 Use the following upstream sources to verify implementation details while reading this chapter:
 
-- [View Repo](https://github.com/outlines-dev/outlines)
+- [View Repo](https://github.com/dottxt-ai/outlines)
   Why it matters: authoritative reference on `View Repo` (github.com).
 
 Suggested trace strategy:

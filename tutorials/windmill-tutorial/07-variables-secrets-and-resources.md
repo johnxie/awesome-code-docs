@@ -429,6 +429,17 @@ export async function main(
 }
 ```
 
+## Source Code Walkthrough
+
+### Variables and secrets — `backend/windmill-api/src/variables.rs`
+
+[`backend/windmill-api/src/variables.rs`](https://github.com/windmill-labs/windmill/blob/main/backend/windmill-api/src/variables.rs) implements the Variables API: creation, encryption for secrets (AES-256-GCM via the `magic_crypt` crate), workspace scoping, and the permission model that prevents unauthorized reads. This is where secret encryption happens.
+
+### Resource types — `backend/windmill-api/src/resources.rs`
+
+[`backend/windmill-api/src/resources.rs`](https://github.com/windmill-labs/windmill/blob/main/backend/windmill-api/src/resources.rs) implements typed resources: JSON Schema validation for resource values, OAuth token refresh logic for OAuth resource types, and the `r/` path prefix that scripts use to reference resources in their type signatures.
+
+
 ## What You Learned
 
 In this chapter you:

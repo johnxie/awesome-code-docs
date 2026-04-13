@@ -133,132 +133,130 @@ Related tracks:
 - [Roo Code Tutorial](../roo-code-tutorial/)
 - [OpenHands Tutorial](../openhands-tutorial/)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `app/utils/debugLogger.ts`
+### `app/routes/api.chat.ts`
 
-The `UserActionEntry` interface in [`app/utils/debugLogger.ts`](https://github.com/stackblitz-labs/bolt.diy/blob/HEAD/app/utils/debugLogger.ts) handles a key part of this chapter's functionality:
-
-```ts
-  performance: PerformanceEntry;
-  state: StateEntry;
-  userActions: UserActionEntry[];
-  terminalLogs: TerminalEntry[];
-}
-
-export interface SystemInfo {
-  platform: string;
-  userAgent: string;
-  screenResolution: string;
-  viewportSize: string;
-  isMobile: boolean;
-  timezone: string;
-  language: string;
-  cookiesEnabled: boolean;
-  localStorageEnabled: boolean;
-  sessionStorageEnabled: boolean;
-}
-
-export interface AppInfo {
-  version: string;
-  buildTime: string;
-  currentModel: string;
-  currentProvider: string;
-  projectType: string;
-  workbenchView: string;
-  hasActivePreview: boolean;
-  unsavedFiles: number;
-  workbenchState?: {
-    currentView: string;
-    showWorkbench: boolean;
-    showTerminal: boolean;
-```
-
-This interface is important because it defines how bolt.diy Tutorial: Build and Operate an Open Source AI App Builder implements the patterns covered in this chapter.
-
-### `app/utils/debugLogger.ts`
-
-The `TerminalEntry` interface in [`app/utils/debugLogger.ts`](https://github.com/stackblitz-labs/bolt.diy/blob/HEAD/app/utils/debugLogger.ts) handles a key part of this chapter's functionality:
+The `action` function in [`app/routes/api.chat.ts`](https://github.com/stackblitz-labs/bolt.diy/blob/HEAD/app/routes/api.chat.ts) handles a key part of this chapter's functionality:
 
 ```ts
-  state: StateEntry;
-  userActions: UserActionEntry[];
-  terminalLogs: TerminalEntry[];
+import { StreamRecoveryManager } from '~/lib/.server/llm/stream-recovery';
+
+export async function action(args: ActionFunctionArgs) {
+  return chatAction(args);
 }
 
-export interface SystemInfo {
-  platform: string;
-  userAgent: string;
-  screenResolution: string;
-  viewportSize: string;
-  isMobile: boolean;
-  timezone: string;
-  language: string;
-  cookiesEnabled: boolean;
-  localStorageEnabled: boolean;
-  sessionStorageEnabled: boolean;
-}
+const logger = createScopedLogger('api.chat');
 
-export interface AppInfo {
-  version: string;
-  buildTime: string;
-  currentModel: string;
-  currentProvider: string;
-  projectType: string;
-  workbenchView: string;
-  hasActivePreview: boolean;
-  unsavedFiles: number;
-  workbenchState?: {
-    currentView: string;
-    showWorkbench: boolean;
-    showTerminal: boolean;
-    artifactsCount: number;
-```
+function parseCookies(cookieHeader: string): Record<string, string> {
+  const cookies: Record<string, string> = {};
 
-This interface is important because it defines how bolt.diy Tutorial: Build and Operate an Open Source AI App Builder implements the patterns covered in this chapter.
+  const items = cookieHeader.split(';').map((cookie) => cookie.trim());
 
-### `app/utils/debugLogger.ts`
+  items.forEach((item) => {
+    const [name, ...rest] = item.split('=');
 
-The `const` interface in [`app/utils/debugLogger.ts`](https://github.com/stackblitz-labs/bolt.diy/blob/HEAD/app/utils/debugLogger.ts) handles a key part of this chapter's functionality:
-
-```ts
-import { isMac, isWindows, isLinux } from './os';
-import { isMobile } from './mobile';
-import { PROVIDER_LIST, DEFAULT_MODEL } from './constants';
-import { logger } from './logger';
-
-// Lazy import to avoid circular dependencies
-let logStore: any = null;
-const getLogStore = () => {
-  if (!logStore && typeof window !== 'undefined') {
-    try {
-      // Import and set the logStore on first access
-      import('~/lib/stores/logs')
-        .then(({ logStore: store }) => {
-          logStore = store;
-        })
-        .catch(() => {
-          // Ignore import errors
-        });
-    } catch {
-      // Ignore errors
+    if (name && rest) {
+      const decodedName = decodeURIComponent(name.trim());
+      const decodedValue = decodeURIComponent(rest.join('=').trim());
+      cookies[decodedName] = decodedValue;
     }
-  }
+  });
 
-  return logStore;
-};
+  return cookies;
+}
 
-// Configuration interface for debug logger
-export interface DebugLoggerConfig {
-  enabled: boolean;
-  maxEntries: number;
-  captureConsole: boolean;
-  captureNetwork: boolean;
+async function chatAction({ context, request }: ActionFunctionArgs) {
+  const streamRecovery = new StreamRecoveryManager({
+    timeout: 45000,
+    maxRetries: 2,
+    onTimeout: () => {
+      logger.warn('Stream timeout - attempting recovery');
 ```
 
-This interface is important because it defines how bolt.diy Tutorial: Build and Operate an Open Source AI App Builder implements the patterns covered in this chapter.
+This function is important because it defines how bolt.diy Tutorial: Build and Operate an Open Source AI App Builder implements the patterns covered in this chapter.
+
+### `app/routes/api.chat.ts`
+
+The `parseCookies` function in [`app/routes/api.chat.ts`](https://github.com/stackblitz-labs/bolt.diy/blob/HEAD/app/routes/api.chat.ts) handles a key part of this chapter's functionality:
+
+```ts
+const logger = createScopedLogger('api.chat');
+
+function parseCookies(cookieHeader: string): Record<string, string> {
+  const cookies: Record<string, string> = {};
+
+  const items = cookieHeader.split(';').map((cookie) => cookie.trim());
+
+  items.forEach((item) => {
+    const [name, ...rest] = item.split('=');
+
+    if (name && rest) {
+      const decodedName = decodeURIComponent(name.trim());
+      const decodedValue = decodeURIComponent(rest.join('=').trim());
+      cookies[decodedName] = decodedValue;
+    }
+  });
+
+  return cookies;
+}
+
+async function chatAction({ context, request }: ActionFunctionArgs) {
+  const streamRecovery = new StreamRecoveryManager({
+    timeout: 45000,
+    maxRetries: 2,
+    onTimeout: () => {
+      logger.warn('Stream timeout - attempting recovery');
+    },
+  });
+
+  const { messages, files, promptId, contextOptimization, supabase, chatMode, designScheme, maxLLMSteps } =
+    await request.json<{
+      messages: Messages;
+```
+
+This function is important because it defines how bolt.diy Tutorial: Build and Operate an Open Source AI App Builder implements the patterns covered in this chapter.
+
+### `app/routes/api.chat.ts`
+
+The `chatAction` function in [`app/routes/api.chat.ts`](https://github.com/stackblitz-labs/bolt.diy/blob/HEAD/app/routes/api.chat.ts) handles a key part of this chapter's functionality:
+
+```ts
+
+export async function action(args: ActionFunctionArgs) {
+  return chatAction(args);
+}
+
+const logger = createScopedLogger('api.chat');
+
+function parseCookies(cookieHeader: string): Record<string, string> {
+  const cookies: Record<string, string> = {};
+
+  const items = cookieHeader.split(';').map((cookie) => cookie.trim());
+
+  items.forEach((item) => {
+    const [name, ...rest] = item.split('=');
+
+    if (name && rest) {
+      const decodedName = decodeURIComponent(name.trim());
+      const decodedValue = decodeURIComponent(rest.join('=').trim());
+      cookies[decodedName] = decodedValue;
+    }
+  });
+
+  return cookies;
+}
+
+async function chatAction({ context, request }: ActionFunctionArgs) {
+  const streamRecovery = new StreamRecoveryManager({
+    timeout: 45000,
+    maxRetries: 2,
+    onTimeout: () => {
+      logger.warn('Stream timeout - attempting recovery');
+    },
+```
+
+This function is important because it defines how bolt.diy Tutorial: Build and Operate an Open Source AI App Builder implements the patterns covered in this chapter.
 
 ### `app/routes/api.vercel-deploy.ts`
 
@@ -306,9 +304,9 @@ This function is important because it defines how bolt.diy Tutorial: Build and O
 
 ```mermaid
 flowchart TD
-    A[UserActionEntry]
-    B[TerminalEntry]
-    C[const]
+    A[action]
+    B[parseCookies]
+    C[chatAction]
     D[loader]
     E[action]
     A --> B

@@ -13,6 +13,18 @@ Welcome to **Chapter 4: Server Mode**. In this part of **llama.cpp Tutorial: Loc
 
 > Run llama.cpp as an OpenAI-compatible HTTP server for API access and integration with applications.
 
+## Server Architecture
+
+```mermaid
+flowchart LR
+    C[Client: OpenAI SDK / curl] -->|POST /v1/chat/completions| S[llama-server :8080]
+    S --> Q[Request Queue]
+    Q --> I[llama.cpp Inference Engine]
+    I --> M[GGUF Model in RAM/VRAM]
+    I -->|token stream or full response| S
+    S -->|JSON / SSE stream| C
+```
+
 ## Overview
 
 llama.cpp includes a built-in HTTP server that provides an OpenAI-compatible API. This allows you to use any OpenAI client or library with your local models.
@@ -637,16 +649,13 @@ When debugging, walk this sequence in order and confirm each stage has explicit 
 
 ## Source Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+Key source files in [`ggerganov/llama.cpp`](https://github.com/ggerganov/llama.cpp):
 
-- [View Repo](https://github.com/ggerganov/llama.cpp)
-  Why it matters: authoritative reference on `View Repo` (github.com).
-- [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
-  Why it matters: authoritative reference on `Awesome Code Docs` (github.com).
+- [`examples/server/server.cpp`](https://github.com/ggerganov/llama.cpp/blob/master/examples/server/server.cpp) -- HTTP server implementation; OpenAI-compatible route handlers for `/v1/chat/completions`, `/v1/completions`, `/v1/embeddings`
+- [`examples/server/utils.hpp`](https://github.com/ggerganov/llama.cpp/blob/master/examples/server/utils.hpp) -- JSON serialization helpers for request/response objects
+- [`examples/server/public/index.html`](https://github.com/ggerganov/llama.cpp/blob/master/examples/server/public/index.html) -- built-in web UI served at `http://localhost:8080`
 
-Suggested trace strategy:
-- search upstream code for `llama` and `server` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+Suggested trace: find the `/v1/chat/completions` handler in `server.cpp` to see how messages are tokenized, queued, and streamed back as SSE.
 
 ## Chapter Connections
 

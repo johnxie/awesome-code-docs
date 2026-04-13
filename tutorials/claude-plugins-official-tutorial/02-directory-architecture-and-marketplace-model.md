@@ -45,42 +45,85 @@ You now understand the curation and architecture layers of the directory.
 
 Next: [Chapter 3: Plugin Manifest and Structural Contracts](03-plugin-manifest-and-structural-contracts.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `external_plugins/fakechat/server.ts`
+### `external_plugins/discord/server.ts`
 
-The `scroll` function in [`external_plugins/fakechat/server.ts`](https://github.com/anthropics/claude-plugins-official/blob/HEAD/external_plugins/fakechat/server.ts) handles a key part of this chapter's functionality:
+The `gate` function in [`external_plugins/discord/server.ts`](https://github.com/anthropics/claude-plugins-official/blob/HEAD/external_plugins/discord/server.ts) handles a key part of this chapter's functionality:
 
 ```ts
-  const who = m.from === 'user' ? 'you' : 'bot'
-  const el = line(who, m.text, m.replyTo, m.file)
-  log.appendChild(el); scroll()
-  msgs[m.id] = { body: el.querySelector('.body') }
 }
 
-function line(who, text, replyTo, file) {
-  const div = document.createElement('div')
-  const t = new Date().toTimeString().slice(0, 8)
-  const reply = replyTo && msgs[replyTo] ? ' ↳ ' + (msgs[replyTo].body.textContent || '(file)').slice(0, 40) : ''
-  div.innerHTML = '[' + t + '] <b>' + who + '</b>' + reply + ': <span class=body></span>'
-  const body = div.querySelector('.body')
-  body.textContent = text || ''
-  if (file) {
-    const indent = 11 + who.length + 2  // '[HH:MM:SS] ' + who + ': '
-    if (text) body.appendChild(document.createTextNode('\\n' + ' '.repeat(indent)))
-    const a = document.createElement('a')
-    a.href = file.url; a.download = file.name; a.textContent = '[' + file.name + ']'
-    body.appendChild(a)
+async function gate(msg: Message): Promise<GateResult> {
+  const access = loadAccess()
+  const pruned = pruneExpired(access)
+  if (pruned) saveAccess(access)
+
+  if (access.dmPolicy === 'disabled') return { action: 'drop' }
+
+  const senderId = msg.author.id
+  const isDM = msg.channel.type === ChannelType.DM
+
+  if (isDM) {
+    if (access.allowFrom.includes(senderId)) return { action: 'deliver', access }
+    if (access.dmPolicy === 'allowlist') return { action: 'drop' }
+
+    // pairing mode — check for existing non-expired code for this sender
+    for (const [code, p] of Object.entries(access.pending)) {
+      if (p.senderId === senderId) {
+        // Reply twice max (initial + one reminder), then go silent.
+        if ((p.replies ?? 1) >= 2) return { action: 'drop' }
+        p.replies = (p.replies ?? 1) + 1
+        saveAccess(access)
+        return { action: 'pair', code, isResend: true }
+      }
+    }
+    // Cap pending at 3. Extra attempts are silently dropped.
+    if (Object.keys(access.pending).length >= 3) return { action: 'drop' }
+
+    const code = randomBytes(3).toString('hex') // 6 hex chars
+    const now = Date.now()
+    access.pending[code] = {
+```
+
+This function is important because it defines how Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory implements the patterns covered in this chapter.
+
+### `external_plugins/discord/server.ts`
+
+The `isMentioned` function in [`external_plugins/discord/server.ts`](https://github.com/anthropics/claude-plugins-official/blob/HEAD/external_plugins/discord/server.ts) handles a key part of this chapter's functionality:
+
+```ts
+    return { action: 'drop' }
   }
-  return div
+  if (requireMention && !(await isMentioned(msg, access.mentionPatterns))) {
+    return { action: 'drop' }
+  }
+  return { action: 'deliver', access }
 }
 
-function scroll() { window.scrollTo(0, document.body.scrollHeight) }
-input.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); form.requestSubmit() } })
-</script>
-`
+async function isMentioned(msg: Message, extraPatterns?: string[]): Promise<boolean> {
+  if (client.user && msg.mentions.has(client.user)) return true
+
+  // Reply to one of our messages counts as an implicit mention.
+  const refId = msg.reference?.messageId
+  if (refId) {
+    if (recentSentIds.has(refId)) return true
+    // Fallback: fetch the referenced message and check authorship.
+    // Can fail if the message was deleted or we lack history perms.
+    try {
+      const ref = await msg.fetchReference()
+      if (ref.author.id === client.user?.id) return true
+    } catch {}
+  }
+
+  const text = msg.content
+  for (const pat of extraPatterns ?? []) {
+    try {
+      if (new RegExp(pat, 'i').test(text)) return true
+    } catch {}
+  }
+  return false
+}
 
 ```
 
@@ -88,9 +131,58 @@ This function is important because it defines how Claude Plugins Official Tutori
 
 ### `external_plugins/discord/server.ts`
 
-The `defaultAccess` function in [`external_plugins/discord/server.ts`](https://github.com/anthropics/claude-plugins-official/blob/HEAD/external_plugins/discord/server.ts) handles a key part of this chapter's functionality:
+The `checkApprovals` function in [`external_plugins/discord/server.ts`](https://github.com/anthropics/claude-plugins-official/blob/HEAD/external_plugins/discord/server.ts) handles a key part of this chapter's functionality:
 
 ```ts
+// the DM channel ID. (The skill writes it.)
+
+function checkApprovals(): void {
+  let files: string[]
+  try {
+    files = readdirSync(APPROVED_DIR)
+  } catch {
+    return
+  }
+  if (files.length === 0) return
+
+  for (const senderId of files) {
+    const file = join(APPROVED_DIR, senderId)
+    let dmChannelId: string
+    try {
+      dmChannelId = readFileSync(file, 'utf8').trim()
+    } catch {
+      rmSync(file, { force: true })
+      continue
+    }
+    if (!dmChannelId) {
+      // No channel ID — can't send. Drop the marker.
+      rmSync(file, { force: true })
+      continue
+    }
+
+    void (async () => {
+      try {
+        const ch = await fetchTextChannel(dmChannelId)
+        if ('send' in ch) {
+          await ch.send("Paired! Say hi to Claude.")
+        }
+```
+
+This function is important because it defines how Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory implements the patterns covered in this chapter.
+
+### `external_plugins/discord/server.ts`
+
+The `chunk` function in [`external_plugins/discord/server.ts`](https://github.com/anthropics/claude-plugins-official/blob/HEAD/external_plugins/discord/server.ts) handles a key part of this chapter's functionality:
+
+```ts
+  /** Emoji to react with on receipt. Empty string disables. Unicode char or custom emoji ID. */
+  ackReaction?: string
+  /** Which chunks get Discord's reply reference when reply_to is passed. Default: 'first'. 'off' = never thread. */
+  replyToMode?: 'off' | 'first' | 'all'
+  /** Max chars per outbound message before splitting. Default: 2000 (Discord's hard cap). */
+  textChunkLimit?: number
+  /** Split on paragraph boundaries instead of hard char count. */
+  chunkMode?: 'length' | 'newline'
 }
 
 function defaultAccess(): Access {
@@ -115,96 +207,6 @@ function assertSendable(f: string): void {
     real = realpathSync(f)
     stateReal = realpathSync(STATE_DIR)
   } catch { return } // statSync will fail properly; or STATE_DIR absent → nothing to leak
-  const inbox = join(stateReal, 'inbox')
-  if (real.startsWith(stateReal + sep) && !real.startsWith(inbox + sep)) {
-    throw new Error(`refusing to send channel state: ${f}`)
-  }
-}
-
-function readAccessFile(): Access {
-  try {
-```
-
-This function is important because it defines how Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory implements the patterns covered in this chapter.
-
-### `external_plugins/discord/server.ts`
-
-The `assertSendable` function in [`external_plugins/discord/server.ts`](https://github.com/anthropics/claude-plugins-official/blob/HEAD/external_plugins/discord/server.ts) handles a key part of this chapter's functionality:
-
-```ts
-// exfil channel for arbitrary paths — but the server's own state is the one
-// thing Claude has no reason to ever send.
-function assertSendable(f: string): void {
-  let real, stateReal: string
-  try {
-    real = realpathSync(f)
-    stateReal = realpathSync(STATE_DIR)
-  } catch { return } // statSync will fail properly; or STATE_DIR absent → nothing to leak
-  const inbox = join(stateReal, 'inbox')
-  if (real.startsWith(stateReal + sep) && !real.startsWith(inbox + sep)) {
-    throw new Error(`refusing to send channel state: ${f}`)
-  }
-}
-
-function readAccessFile(): Access {
-  try {
-    const raw = readFileSync(ACCESS_FILE, 'utf8')
-    const parsed = JSON.parse(raw) as Partial<Access>
-    return {
-      dmPolicy: parsed.dmPolicy ?? 'pairing',
-      allowFrom: parsed.allowFrom ?? [],
-      groups: parsed.groups ?? {},
-      pending: parsed.pending ?? {},
-      mentionPatterns: parsed.mentionPatterns,
-      ackReaction: parsed.ackReaction,
-      replyToMode: parsed.replyToMode,
-      textChunkLimit: parsed.textChunkLimit,
-      chunkMode: parsed.chunkMode,
-    }
-  } catch (err) {
-    if ((err as NodeJS.ErrnoException).code === 'ENOENT') return defaultAccess()
-    try { renameSync(ACCESS_FILE, `${ACCESS_FILE}.corrupt-${Date.now()}`) } catch {}
-```
-
-This function is important because it defines how Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory implements the patterns covered in this chapter.
-
-### `external_plugins/discord/server.ts`
-
-The `readAccessFile` function in [`external_plugins/discord/server.ts`](https://github.com/anthropics/claude-plugins-official/blob/HEAD/external_plugins/discord/server.ts) handles a key part of this chapter's functionality:
-
-```ts
-}
-
-function readAccessFile(): Access {
-  try {
-    const raw = readFileSync(ACCESS_FILE, 'utf8')
-    const parsed = JSON.parse(raw) as Partial<Access>
-    return {
-      dmPolicy: parsed.dmPolicy ?? 'pairing',
-      allowFrom: parsed.allowFrom ?? [],
-      groups: parsed.groups ?? {},
-      pending: parsed.pending ?? {},
-      mentionPatterns: parsed.mentionPatterns,
-      ackReaction: parsed.ackReaction,
-      replyToMode: parsed.replyToMode,
-      textChunkLimit: parsed.textChunkLimit,
-      chunkMode: parsed.chunkMode,
-    }
-  } catch (err) {
-    if ((err as NodeJS.ErrnoException).code === 'ENOENT') return defaultAccess()
-    try { renameSync(ACCESS_FILE, `${ACCESS_FILE}.corrupt-${Date.now()}`) } catch {}
-    process.stderr.write(`discord: access.json is corrupt, moved aside. Starting fresh.\n`)
-    return defaultAccess()
-  }
-}
-
-// In static mode, access is snapshotted at boot and never re-read or written.
-// Pairing requires runtime mutation, so it's downgraded to allowlist with a
-// startup warning — handing out codes that never get approved would be worse.
-const BOOT_ACCESS: Access | null = STATIC
-  ? (() => {
-      const a = readAccessFile()
-      if (a.dmPolicy === 'pairing') {
 ```
 
 This function is important because it defines how Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory implements the patterns covered in this chapter.
@@ -214,11 +216,11 @@ This function is important because it defines how Claude Plugins Official Tutori
 
 ```mermaid
 flowchart TD
-    A[scroll]
-    B[defaultAccess]
-    C[assertSendable]
-    D[readAccessFile]
-    E[loadAccess]
+    A[gate]
+    B[isMentioned]
+    C[checkApprovals]
+    D[chunk]
+    E[fetchTextChannel]
     A --> B
     B --> C
     C --> D

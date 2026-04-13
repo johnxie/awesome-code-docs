@@ -1080,6 +1080,27 @@ export function MultiLevelApproval() {
 }
 ```
 
+## Human-in-the-Loop Flow
+
+```mermaid
+flowchart TD
+    A[Agent proposes action requiring approval]
+    B[Workflow interrupted at approval node]
+    C[useCopilotAction renderAndWait invoked]
+    D[Approval UI rendered in chat]
+    E{User decision}
+    F[Approval signal sent to backend]
+    G[Workflow resumes from interrupted state]
+    H[Action cancelled]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    E -- approve --> F
+    F --> G
+    E -- reject --> H
+```
+
 ## Summary
 
 In this chapter, we've covered:

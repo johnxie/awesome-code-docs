@@ -38,91 +38,7 @@ You now have a working mini-swe-agent baseline.
 
 Next: [Chapter 2: Core Architecture and Minimal Design](02-core-architecture-and-minimal-design.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
-
-### `src/minisweagent/agents/interactive.py`
-
-The `InteractiveAgentConfig` class in [`src/minisweagent/agents/interactive.py`](https://github.com/SWE-agent/mini-swe-agent/blob/HEAD/src/minisweagent/agents/interactive.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-class InteractiveAgentConfig(AgentConfig):
-    mode: Literal["human", "confirm", "yolo"] = "confirm"
-    """Whether to confirm actions."""
-    whitelist_actions: list[str] = []
-    """Never confirm actions that match these regular expressions."""
-    confirm_exit: bool = True
-    """If the agent wants to finish, do we ask for confirmation from user?"""
-
-
-class InteractiveAgent(DefaultAgent):
-    _MODE_COMMANDS_MAPPING = {"/u": "human", "/c": "confirm", "/y": "yolo"}
-
-    def __init__(self, *args, config_class=InteractiveAgentConfig, **kwargs):
-        super().__init__(*args, config_class=config_class, **kwargs)
-        self.cost_last_confirmed = 0.0
-
-    def _interrupt(self, content: str, *, itype: str = "UserInterruption") -> NoReturn:
-        raise UserInterruption({"role": "user", "content": content, "extra": {"interrupt_type": itype}})
-
-    def add_messages(self, *messages: dict) -> list[dict]:
-        # Extend supermethod to print messages
-        for msg in messages:
-            role, content = msg.get("role") or msg.get("type", "unknown"), get_content_string(msg)
-            if role == "assistant":
-                console.print(
-                    f"\n[red][bold]mini-swe-agent[/bold] (step [bold]{self.n_calls}[/bold], [bold]${self.cost:.2f}[/bold]):[/red]\n",
-                    end="",
-                    highlight=False,
-                )
-            else:
-```
-
-This class is important because it defines how Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale implements the patterns covered in this chapter.
-
-### `src/minisweagent/agents/interactive.py`
-
-The `InteractiveAgent` class in [`src/minisweagent/agents/interactive.py`](https://github.com/SWE-agent/mini-swe-agent/blob/HEAD/src/minisweagent/agents/interactive.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-class InteractiveAgentConfig(AgentConfig):
-    mode: Literal["human", "confirm", "yolo"] = "confirm"
-    """Whether to confirm actions."""
-    whitelist_actions: list[str] = []
-    """Never confirm actions that match these regular expressions."""
-    confirm_exit: bool = True
-    """If the agent wants to finish, do we ask for confirmation from user?"""
-
-
-class InteractiveAgent(DefaultAgent):
-    _MODE_COMMANDS_MAPPING = {"/u": "human", "/c": "confirm", "/y": "yolo"}
-
-    def __init__(self, *args, config_class=InteractiveAgentConfig, **kwargs):
-        super().__init__(*args, config_class=config_class, **kwargs)
-        self.cost_last_confirmed = 0.0
-
-    def _interrupt(self, content: str, *, itype: str = "UserInterruption") -> NoReturn:
-        raise UserInterruption({"role": "user", "content": content, "extra": {"interrupt_type": itype}})
-
-    def add_messages(self, *messages: dict) -> list[dict]:
-        # Extend supermethod to print messages
-        for msg in messages:
-            role, content = msg.get("role") or msg.get("type", "unknown"), get_content_string(msg)
-            if role == "assistant":
-                console.print(
-                    f"\n[red][bold]mini-swe-agent[/bold] (step [bold]{self.n_calls}[/bold], [bold]${self.cost:.2f}[/bold]):[/red]\n",
-                    end="",
-                    highlight=False,
-                )
-            else:
-```
-
-This class is important because it defines how Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale implements the patterns covered in this chapter.
 
 ### `src/minisweagent/__init__.py`
 
@@ -206,16 +122,89 @@ __all__ = [
 
 This class is important because it defines how Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale implements the patterns covered in this chapter.
 
+### `src/minisweagent/__init__.py`
+
+The `Agent` class in [`src/minisweagent/__init__.py`](https://github.com/SWE-agent/mini-swe-agent/blob/HEAD/src/minisweagent/__init__.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+class Agent(Protocol):
+    """Protocol for agents."""
+
+    config: Any
+
+    def run(self, task: str, **kwargs) -> dict: ...
+
+    def save(self, path: Path | None, *extra_dicts) -> dict: ...
+
+
+__all__ = [
+    "Agent",
+    "Model",
+    "Environment",
+    "package_dir",
+    "__version__",
+    "global_config_file",
+    "global_config_dir",
+    "logger",
+]
+
+```
+
+This class is important because it defines how Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale implements the patterns covered in this chapter.
+
+### `src/minisweagent/models/portkey_model.py`
+
+The `PortkeyModelConfig` class in [`src/minisweagent/models/portkey_model.py`](https://github.com/SWE-agent/mini-swe-agent/blob/HEAD/src/minisweagent/models/portkey_model.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+class PortkeyModelConfig(BaseModel):
+    model_name: str
+    model_kwargs: dict[str, Any] = {}
+    provider: str = ""
+    """The LLM provider to use (e.g., 'openai', 'anthropic', 'google').
+    If not specified, will be auto-detected from model_name.
+    Required by Portkey when not using a virtual key.
+    """
+    litellm_model_registry: Path | str | None = os.getenv("LITELLM_MODEL_REGISTRY_PATH")
+    """We currently use litellm to calculate costs. Here you can register additional models to litellm's model registry.
+    Note that this might change if we get better support for Portkey and change how we calculate costs.
+    """
+    litellm_model_name_override: str = ""
+    """We currently use litellm to calculate costs. Here you can override the model name to use for litellm in case it
+    doesn't match the Portkey model name.
+    Note that this might change if we get better support for Portkey and change how we calculate costs.
+    """
+    set_cache_control: Literal["default_end"] | None = None
+    """Set explicit cache control markers, for example for Anthropic models"""
+    cost_tracking: Literal["default", "ignore_errors"] = os.getenv("MSWEA_COST_TRACKING", "default")
+    """Cost tracking mode for this model. Can be "default" or "ignore_errors" (ignore errors/missing cost info)"""
+    format_error_template: str = "{{ error }}"
+    """Template used when the LM's output is not in the expected format."""
+    observation_template: str = (
+        "{% if output.exception_info %}<exception>{{output.exception_info}}</exception>\n{% endif %}"
+        "<returncode>{{output.returncode}}</returncode>\n<output>\n{{output.output}}</output>"
+    )
+    """Template used to render the observation after executing an action."""
+    multimodal_regex: str = ""
+    """Regex to extract multimodal content. Empty string disables multimodal processing."""
+```
+
+This class is important because it defines how Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale implements the patterns covered in this chapter.
+
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[InteractiveAgentConfig]
-    B[InteractiveAgent]
-    C[Model]
-    D[Environment]
-    E[Agent]
+    A[Model]
+    B[Environment]
+    C[Agent]
+    D[PortkeyModelConfig]
+    E[PortkeyModel]
     A --> B
     B --> C
     C --> D

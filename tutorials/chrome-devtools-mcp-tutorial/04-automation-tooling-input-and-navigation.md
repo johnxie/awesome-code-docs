@@ -37,184 +37,182 @@ You now have a repeatable automation pattern for browser interactions.
 
 Next: [Chapter 5: Performance and Debugging Workflows](05-performance-and-debugging-workflows.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `src/browser.ts`
+### `scripts/generate-docs.ts`
 
-The `targetFilter` function in [`src/browser.ts`](https://github.com/ChromeDevTools/chrome-devtools-mcp/blob/HEAD/src/browser.ts) handles a key part of this chapter's functionality:
+The `order` interface in [`scripts/generate-docs.ts`](https://github.com/ChromeDevTools/chrome-devtools-mcp/blob/HEAD/scripts/generate-docs.ts) handles a key part of this chapter's functionality:
 
 ```ts
-  }
+  });
 
-  return function targetFilter(target: Target): boolean {
-    if (target.url() === 'chrome://newtab/') {
-      return true;
+  // Sort categories using the enum order
+  const categoryOrder = Object.values(ToolCategory);
+  const sortedCategories = Object.keys(categories).sort((a, b) => {
+    const aIndex = categoryOrder.indexOf(a);
+    const bIndex = categoryOrder.indexOf(b);
+    // Put known categories first, unknown categories last
+    if (aIndex === -1 && bIndex === -1) {
+      return a.localeCompare(b);
     }
-    // Could be the only page opened in the browser.
-    if (target.url().startsWith('chrome://inspect')) {
-      return true;
+    if (aIndex === -1) {
+      return 1;
     }
-    for (const prefix of ignoredPrefixes) {
-      if (target.url().startsWith(prefix)) {
-        return false;
-      }
+    if (bIndex === -1) {
+      return -1;
     }
-    return true;
-  };
+    return aIndex - bIndex;
+  });
+  return {toolsWithAnnotations, categories, sortedCategories};
 }
 
-export async function ensureBrowserConnected(options: {
-  browserURL?: string;
-  wsEndpoint?: string;
-  wsHeaders?: Record<string, string>;
-  devtools: boolean;
-  channel?: Channel;
-  userDataDir?: string;
-  enableExtensions?: boolean;
-}) {
-  const {channel, enableExtensions} = options;
-  if (browser?.connected) {
-    return browser;
-  }
+async function generateToolDocumentation(): Promise<void> {
+  try {
+    console.log('Generating tool documentation from definitions...');
+
+    {
+      const {toolsWithAnnotations, categories, sortedCategories} =
+        getToolsAndCategories(createTools({slim: false} as ParsedArguments));
+      await generateReference(
+        'Chrome DevTools MCP Tool Reference',
+        OUTPUT_PATH,
 ```
 
-This function is important because it defines how Chrome DevTools MCP Tutorial: Browser Automation and Debugging for Coding Agents implements the patterns covered in this chapter.
+This interface is important because it defines how Chrome DevTools MCP Tutorial: Browser Automation and Debugging for Coding Agents implements the patterns covered in this chapter.
 
-### `src/browser.ts`
+### `src/McpContext.ts`
 
-The `ensureBrowserConnected` function in [`src/browser.ts`](https://github.com/ChromeDevTools/chrome-devtools-mcp/blob/HEAD/src/browser.ts) handles a key part of this chapter's functionality:
+The `McpContext` class in [`src/McpContext.ts`](https://github.com/ChromeDevTools/chrome-devtools-mcp/blob/HEAD/src/McpContext.ts) handles a key part of this chapter's functionality:
 
 ```ts
+import {getNetworkMultiplierFromString} from './WaitForHelper.js';
+
+interface McpContextOptions {
+  // Whether the DevTools windows are exposed as pages for debugging of DevTools.
+  experimentalDevToolsDebugging: boolean;
+  // Whether all page-like targets are exposed as pages.
+  experimentalIncludeAllPages?: boolean;
+  // Whether CrUX data should be fetched.
+  performanceCrux: boolean;
 }
 
-export async function ensureBrowserConnected(options: {
-  browserURL?: string;
-  wsEndpoint?: string;
-  wsHeaders?: Record<string, string>;
-  devtools: boolean;
-  channel?: Channel;
-  userDataDir?: string;
-  enableExtensions?: boolean;
-}) {
-  const {channel, enableExtensions} = options;
-  if (browser?.connected) {
-    return browser;
-  }
+const DEFAULT_TIMEOUT = 5_000;
+const NAVIGATION_TIMEOUT = 10_000;
 
-  const connectOptions: Parameters<typeof puppeteer.connect>[0] = {
-    targetFilter: makeTargetFilter(enableExtensions),
-    defaultViewport: null,
-    handleDevToolsAsPage: true,
-  };
+export class McpContext implements Context {
+  browser: Browser;
+  logger: Debugger;
 
-  let autoConnect = false;
-  if (options.wsEndpoint) {
-    connectOptions.browserWSEndpoint = options.wsEndpoint;
-    if (options.wsHeaders) {
-      connectOptions.headers = options.wsHeaders;
-    }
-  } else if (options.browserURL) {
-    connectOptions.browserURL = options.browserURL;
-  } else if (channel || options.userDataDir) {
-    const userDataDir = options.userDataDir;
+  // Maps LLM-provided isolatedContext name → Puppeteer BrowserContext.
+  #isolatedContexts = new Map<string, BrowserContext>();
+  // Auto-generated name counter for when no name is provided.
+  #nextIsolatedContextId = 1;
+
+  #pages: Page[] = [];
+  #extensionServiceWorkers: ExtensionServiceWorker[] = [];
+
+  #mcpPages = new Map<Page, McpPage>();
+  #selectedPage?: McpPage;
+  #networkCollector: NetworkCollector;
+  #consoleCollector: ConsoleCollector;
+  #devtoolsUniverseManager: UniverseManager;
+  #extensionRegistry = new ExtensionRegistry();
 ```
 
-This function is important because it defines how Chrome DevTools MCP Tutorial: Browser Automation and Debugging for Coding Agents implements the patterns covered in this chapter.
+This class is important because it defines how Chrome DevTools MCP Tutorial: Browser Automation and Debugging for Coding Agents implements the patterns covered in this chapter.
 
-### `src/browser.ts`
+### `src/McpContext.ts`
 
-The `detectDisplay` function in [`src/browser.ts`](https://github.com/ChromeDevTools/chrome-devtools-mcp/blob/HEAD/src/browser.ts) handles a key part of this chapter's functionality:
+The `to` class in [`src/McpContext.ts`](https://github.com/ChromeDevTools/chrome-devtools-mcp/blob/HEAD/src/McpContext.ts) handles a key part of this chapter's functionality:
 
 ```ts
-}
+import path from 'node:path';
 
-export function detectDisplay(): void {
-  // Only detect display on Linux/UNIX.
-  if (os.platform() === 'win32' || os.platform() === 'darwin') {
-    return;
-  }
-  if (!process.env['DISPLAY']) {
-    try {
-      const result = execSync(
-        `ps -u $(id -u) -o pid= | xargs -I{} cat /proc/{}/environ 2>/dev/null | tr '\\0' '\\n' | grep -m1 '^DISPLAY=' | cut -d= -f2`,
-      );
-      const display = result.toString('utf8').trim();
-      process.env['DISPLAY'] = display;
-    } catch {
-      // no-op
-    }
-  }
-}
-
-export async function launch(options: McpLaunchOptions): Promise<Browser> {
-  const {channel, executablePath, headless, isolated} = options;
-  const profileDirName =
-    channel && channel !== 'stable'
-      ? `chrome-profile-${channel}`
-      : 'chrome-profile';
-
-  let userDataDir = options.userDataDir;
-  if (!isolated && !userDataDir) {
-    userDataDir = path.join(
-      os.homedir(),
-      '.cache',
+import type {TargetUniverse} from './DevtoolsUtils.js';
+import {UniverseManager} from './DevtoolsUtils.js';
+import {McpPage} from './McpPage.js';
+import {
+  NetworkCollector,
+  ConsoleCollector,
+  type ListenerMap,
+  type UncaughtError,
+} from './PageCollector.js';
+import type {DevTools} from './third_party/index.js';
+import type {
+  Browser,
+  BrowserContext,
+  ConsoleMessage,
+  Debugger,
+  HTTPRequest,
+  Page,
+  ScreenRecorder,
+  SerializedAXNode,
+  Viewport,
+  Target,
+} from './third_party/index.js';
+import {Locator} from './third_party/index.js';
+import {PredefinedNetworkConditions} from './third_party/index.js';
+import {listPages} from './tools/pages.js';
+import {CLOSE_PAGE_ERROR} from './tools/ToolDefinition.js';
+import type {Context, DevToolsData} from './tools/ToolDefinition.js';
+import type {TraceResult} from './trace-processing/parse.js';
+import type {
+  EmulationSettings,
 ```
 
-This function is important because it defines how Chrome DevTools MCP Tutorial: Browser Automation and Debugging for Coding Agents implements the patterns covered in this chapter.
+This class is important because it defines how Chrome DevTools MCP Tutorial: Browser Automation and Debugging for Coding Agents implements the patterns covered in this chapter.
 
-### `src/browser.ts`
+### `src/McpContext.ts`
 
-The `launch` function in [`src/browser.ts`](https://github.com/ChromeDevTools/chrome-devtools-mcp/blob/HEAD/src/browser.ts) handles a key part of this chapter's functionality:
+The `instances` class in [`src/McpContext.ts`](https://github.com/ChromeDevTools/chrome-devtools-mcp/blob/HEAD/src/McpContext.ts) handles a key part of this chapter's functionality:
 
 ```ts
-}
+    logger: Debugger,
+    opts: McpContextOptions,
+    /* Let tests use unbundled Locator class to avoid overly strict checks within puppeteer that fail when mixing bundled and unbundled class instances */
+    locatorClass: typeof Locator = Locator,
+  ) {
+    const context = new McpContext(browser, logger, opts, locatorClass);
+    await context.#init();
+    return context;
+  }
 
-export async function launch(options: McpLaunchOptions): Promise<Browser> {
-  const {channel, executablePath, headless, isolated} = options;
-  const profileDirName =
-    channel && channel !== 'stable'
-      ? `chrome-profile-${channel}`
-      : 'chrome-profile';
-
-  let userDataDir = options.userDataDir;
-  if (!isolated && !userDataDir) {
-    userDataDir = path.join(
-      os.homedir(),
-      '.cache',
-      options.viaCli ? 'chrome-devtools-mcp-cli' : 'chrome-devtools-mcp',
-      profileDirName,
-    );
-    await fs.promises.mkdir(userDataDir, {
-      recursive: true,
+  resolveCdpRequestId(page: McpPage, cdpRequestId: string): number | undefined {
+    if (!cdpRequestId) {
+      this.logger('no network request');
+      return;
+    }
+    const request = this.#networkCollector.find(page.pptrPage, request => {
+      // @ts-expect-error id is internal.
+      return request.id === cdpRequestId;
     });
+    if (!request) {
+      this.logger('no network request for ' + cdpRequestId);
+      return;
+    }
+    return this.#networkCollector.getIdForResource(request);
   }
 
-  const args: LaunchOptions['args'] = [
-    ...(options.chromeArgs ?? []),
-    '--hide-crash-restore-bubble',
-  ];
-  const ignoreDefaultArgs: LaunchOptions['ignoreDefaultArgs'] =
-    options.ignoreDefaultChromeArgs ?? false;
-
-  if (headless) {
-    args.push('--screen-info={3840x2160}');
-  }
+  resolveCdpElementId(
+    page: McpPage,
+    cdpBackendNodeId: number,
+  ): string | undefined {
+    if (!cdpBackendNodeId) {
+      this.logger('no cdpBackendNodeId');
 ```
 
-This function is important because it defines how Chrome DevTools MCP Tutorial: Browser Automation and Debugging for Coding Agents implements the patterns covered in this chapter.
+This class is important because it defines how Chrome DevTools MCP Tutorial: Browser Automation and Debugging for Coding Agents implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[targetFilter]
-    B[ensureBrowserConnected]
-    C[detectDisplay]
-    D[launch]
-    E[ensureBrowserLaunched]
+    A[order]
+    B[McpContext]
+    C[to]
+    D[instances]
+    E[McpContextOptions]
     A --> B
     B --> C
     C --> D

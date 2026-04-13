@@ -14,6 +14,16 @@ Welcome to **Chapter 6: Building Memory-Enabled Applications**. In this part of 
 
 ## 🎯 Overview
 
+```mermaid
+flowchart TD
+    A[User query] --> B[search memories]
+    B --> C[Top-K memories]
+    C --> D[Build prompt with context]
+    D --> E[LLM response]
+    E --> F[add new memories from turn]
+    F --> G[Updated user model]
+```
+
 This chapter demonstrates practical applications of Mem0 across different domains, showing how to build memory-enabled AI systems for customer support, content creation, learning platforms, and more. You'll learn to integrate memory capabilities into complete applications.
 
 ## 💬 Customer Support Chatbot

@@ -782,6 +782,27 @@ export function MultiAgentCollaboration() {
 }
 ```
 
+## CoAgents Architecture
+
+```mermaid
+flowchart TD
+    A[User sends message to CopilotKit]
+    B[Request forwarded to LangGraph agent backend]
+    C[Agent graph starts execution]
+    D[Agent node processes and calls tools]
+    E[Intermediate state streamed to frontend]
+    F[useCoAgent hook exposes state to React]
+    G[UI updates in real time with agent progress]
+    H[Final result returned]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    E --> F
+    F --> G
+    D --> H
+```
+
 ## Summary
 
 In this chapter, we've covered:

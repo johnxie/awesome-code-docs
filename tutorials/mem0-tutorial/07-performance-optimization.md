@@ -14,6 +14,17 @@ Welcome to **Chapter 7: Performance Optimization**. In this part of **Mem0 Tutor
 
 ## 🎯 Overview
 
+```mermaid
+flowchart LR
+    A[Memory write] --> B[Async queue]
+    B --> C[Batch embed]
+    C --> D[Bulk upsert vector DB]
+    E[Memory read] --> F[Cache layer]
+    F -->|hit| G[Return cached]
+    F -->|miss| H[Vector search]
+    H --> F
+```
+
 This chapter covers performance optimization techniques for Mem0 memory systems, including indexing strategies, caching mechanisms, batch processing, and scaling approaches to handle enterprise-level workloads efficiently.
 
 ## 🚀 Memory Indexing Strategies

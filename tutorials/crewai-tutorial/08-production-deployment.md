@@ -538,6 +538,27 @@ class ProductionConfig:
         return errors
 ```
 
+## Production Architecture
+
+```mermaid
+flowchart TD
+    A[Production crew deployment]
+    B[Environment variables and secrets configured]
+    C[Crew instantiated with production LLM settings]
+    D[Task submitted via API or queue]
+    E[Crew executes with monitoring]
+    F[Telemetry and logs emitted]
+    G[Result returned to caller]
+    H[Alerts triggered on failure]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    E --> F
+    E --> G
+    F --> H
+```
+
 ## What We've Accomplished
 
 ✅ **Built production-ready crew infrastructure** with monitoring and scaling

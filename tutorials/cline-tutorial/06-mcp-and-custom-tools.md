@@ -100,169 +100,168 @@ You now have a pragmatic model for extending Cline:
 
 Next: [Chapter 7: Context and Cost Control](07-context-and-cost-control.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `scripts/interactive-playwright.ts`
+### `src/extension.ts`
 
-The `main` function in [`scripts/interactive-playwright.ts`](https://github.com/cline/cline/blob/HEAD/scripts/interactive-playwright.ts) handles a key part of this chapter's functionality:
-
-```ts
-import { E2ETestHelper } from "../src/test/e2e/utils/helpers"
-
-async function main() {
-	await ClineApiServerMock.startGlobalServer()
-
-	const userDataDir = mkdtempSync(path.join(os.tmpdir(), "vsce-interactive"))
-	const executablePath = await downloadAndUnzipVSCode("stable", undefined, new SilentReporter())
-
-	// launch VSCode
-	const app = await _electron.launch({
-		executablePath,
-		env: {
-			...process.env,
-			TEMP_PROFILE: "true",
-			E2E_TEST: "true",
-			CLINE_ENVIRONMENT: "local",
-			GRPC_RECORDER_ENABLED: "true",
-			GRPC_RECORDER_TESTS_FILTERS_ENABLED: "true",
-		},
-		args: [
-			"--no-sandbox",
-			"--disable-updates",
-			"--disable-workspace-trust",
-			"--disable-extensions",
-			"--skip-welcome",
-			"--skip-release-notes",
-			`--user-data-dir=${userDataDir}`,
-			`--install-extension=${path.join(E2ETestHelper.CODEBASE_ROOT_DIR, "dist", "e2e.vsix")}`,
-			`--extensionDevelopmentPath=${E2ETestHelper.CODEBASE_ROOT_DIR}`,
-			path.join(E2ETestHelper.E2E_TESTS_DIR, "fixtures", "workspace"),
-		],
-	})
-```
-
-This function is important because it defines how Cline Tutorial: Agentic Coding with Human Control implements the patterns covered in this chapter.
-
-### `scripts/interactive-playwright.ts`
-
-The `teardown` function in [`scripts/interactive-playwright.ts`](https://github.com/cline/cline/blob/HEAD/scripts/interactive-playwright.ts) handles a key part of this chapter's functionality:
+The `implements` class in [`src/extension.ts`](https://github.com/cline/cline/blob/HEAD/src/extension.ts) handles a key part of this chapter's functionality:
 
 ```ts
-	console.log("Press Ctrl+C to close when done.")
-
-	async function teardown() {
-		console.log("Cleaning up resources...")
-		try {
-			await app?.close()
-			await ClineApiServerMock.stopGlobalServer?.()
-			await E2ETestHelper.rmForRetries(userDataDir, { recursive: true })
-		} catch (e) {
-			console.log(`We could teardown interactive playwright properly, error:${e}`)
+	https://code.visualstudio.com/api/extension-guides/virtual-documents
+	*/
+	const diffContentProvider = new (class implements vscode.TextDocumentContentProvider {
+		provideTextDocumentContent(uri: vscode.Uri): string {
+			return Buffer.from(uri.query, "base64").toString("utf-8")
 		}
-		console.log("Finished cleaning up resources...")
+	})()
+	context.subscriptions.push(vscode.workspace.registerTextDocumentContentProvider(DIFF_VIEW_URI_SCHEME, diffContentProvider))
+
+	const handleUri = async (uri: vscode.Uri) => {
+		const url = decodeURIComponent(uri.toString())
+		const isTaskUri = getUriPath(url) === TASK_URI_PATH
+
+		if (isTaskUri) {
+			await openClineSidebarForTaskUri()
+		}
+
+		let success = await SharedUriHandler.handleUri(url)
+
+		// Task deeplinks can race with first-time sidebar initialization.
+		if (!success && isTaskUri) {
+			await openClineSidebarForTaskUri()
+			success = await SharedUriHandler.handleUri(url)
+		}
+
+		if (!success) {
+			Logger.warn("Extension URI handler: Failed to process URI:", uri.toString())
+		}
 	}
+	context.subscriptions.push(vscode.window.registerUriHandler({ handleUri }))
 
-	process.on("SIGINT", async () => {
-		await teardown()
-		process.exit(0)
-	})
-
-	process.on("SIGTERM", async () => {
-		await teardown()
-		process.exit(0)
-	})
-
-	const win = await app.firstWindow()
-	win.on("close", async () => {
-		console.log("VS Code window closed.")
-		await teardown()
-		process.exit(0)
-	})
-	process.stdin.resume()
-}
-```
-
-This function is important because it defines how Cline Tutorial: Agentic Coding with Human Control implements the patterns covered in this chapter.
-
-### `src/common.ts`
-
-The `to` class in [`src/common.ts`](https://github.com/cline/cline/blob/HEAD/src/common.ts) handles a key part of this chapter's functionality:
-
-```ts
-import { WebviewProvider } from "./core/webview"
-import "./utils/path" // necessary to have access to String.prototype.toPosix
-
-import { HostProvider } from "@/hosts/host-provider"
-import { Logger } from "@/shared/services/Logger"
-import type { StorageContext } from "@/shared/storage/storage-context"
-import { FileContextTracker } from "./core/context/context-tracking/FileContextTracker"
-import { clearOnboardingModelsCache } from "./core/controller/models/getClineOnboardingModels"
-import { HookDiscoveryCache } from "./core/hooks/HookDiscoveryCache"
-import { HookProcessRegistry } from "./core/hooks/HookProcessRegistry"
-import { StateManager } from "./core/storage/StateManager"
-import { AgentConfigLoader } from "./core/task/tools/subagent/AgentConfigLoader"
-import { ExtensionRegistryInfo } from "./registry"
-import { ErrorService } from "./services/error"
-import { featureFlagsService } from "./services/feature-flags"
-import { getDistinctId } from "./services/logging/distinctId"
-import { telemetryService } from "./services/telemetry"
-import { PostHogClientProvider } from "./services/telemetry/providers/posthog/PostHogClientProvider"
-import { ClineTempManager } from "./services/temp"
-import { cleanupTestMode } from "./services/test/TestMode"
-import { ShowMessageType } from "./shared/proto/host/window"
-import { syncWorker } from "./shared/services/worker/sync"
-import { getBlobStoreSettingsFromEnv } from "./shared/services/worker/worker"
-import { getLatestAnnouncementId } from "./utils/announcements"
-import { arePathsEqual } from "./utils/path"
-
-/**
- * Performs intialization for Cline that is common to all platforms.
- *
- * @param context
- * @returns The webview provider
+	// Register size testing commands in development mode
 ```
 
 This class is important because it defines how Cline Tutorial: Agentic Coding with Human Control implements the patterns covered in this chapter.
 
-### `src/common.ts`
+### `src/extension.ts`
 
-The `initialize` function in [`src/common.ts`](https://github.com/cline/cline/blob/HEAD/src/common.ts) handles a key part of this chapter's functionality:
+The `implements` class in [`src/extension.ts`](https://github.com/cline/cline/blob/HEAD/src/extension.ts) handles a key part of this chapter's functionality:
 
 ```ts
- * @throws ClineConfigurationError if endpoints.json exists but is invalid
- */
-export async function initialize(storageContext: StorageContext): Promise<WebviewProvider> {
-	// Configure the shared Logging class to use HostProvider's output channels and debug logger
-	Logger.subscribe((msg: string) => HostProvider.get().logToChannel(msg)) // File system logging
-	Logger.subscribe((msg: string) => HostProvider.env.debugLog({ value: msg })) // Host debug logging
+	https://code.visualstudio.com/api/extension-guides/virtual-documents
+	*/
+	const diffContentProvider = new (class implements vscode.TextDocumentContentProvider {
+		provideTextDocumentContent(uri: vscode.Uri): string {
+			return Buffer.from(uri.query, "base64").toString("utf-8")
+		}
+	})()
+	context.subscriptions.push(vscode.workspace.registerTextDocumentContentProvider(DIFF_VIEW_URI_SCHEME, diffContentProvider))
 
-	// Initialize ClineEndpoint configuration (reads bundled and ~/.cline/endpoints.json if present)
-	// This must be done before any other code that calls ClineEnv.config()
-	// Throws ClineConfigurationError if config file exists but is invalid
-	const { ClineEndpoint } = await import("./config")
-	await ClineEndpoint.initialize(HostProvider.get().extensionFsPath)
+	const handleUri = async (uri: vscode.Uri) => {
+		const url = decodeURIComponent(uri.toString())
+		const isTaskUri = getUriPath(url) === TASK_URI_PATH
 
-	try {
-		await StateManager.initialize(storageContext)
-	} catch (error) {
-		Logger.error("[Cline] CRITICAL: Failed to initialize StateManager:", error)
-		HostProvider.window.showMessage({
-			type: ShowMessageType.ERROR,
-			message: "Failed to initialize storage. Please check logs for details or try restarting the client.",
-		})
+		if (isTaskUri) {
+			await openClineSidebarForTaskUri()
+		}
+
+		let success = await SharedUriHandler.handleUri(url)
+
+		// Task deeplinks can race with first-time sidebar initialization.
+		if (!success && isTaskUri) {
+			await openClineSidebarForTaskUri()
+			success = await SharedUriHandler.handleUri(url)
+		}
+
+		if (!success) {
+			Logger.warn("Extension URI handler: Failed to process URI:", uri.toString())
+		}
+	}
+	context.subscriptions.push(vscode.window.registerUriHandler({ handleUri }))
+
+	// Register size testing commands in development mode
+```
+
+This class is important because it defines how Cline Tutorial: Agentic Coding with Human Control implements the patterns covered in this chapter.
+
+### `src/extension.ts`
+
+The `activate` function in [`src/extension.ts`](https://github.com/cline/cline/blob/HEAD/src/extension.ts) handles a key part of this chapter's functionality:
+
+```ts
+import { fileExistsAtPath } from "./utils/fs"
+
+// This method is called when the VS Code extension is activated.
+// NOTE: This is VS Code specific - services that should be registered
+// for all-platform should be registered in common.ts.
+export async function activate(context: vscode.ExtensionContext) {
+	const activationStartTime = performance.now()
+
+	// 1. Set up HostProvider for VSCode
+	// IMPORTANT: This must be done before any service can be registered
+	setupHostProvider(context)
+
+	// 2. Clean up legacy data patterns within VSCode's native storage.
+	// Moves workspace→global keys, task history→file, custom instructions→rules, etc.
+	// Must run BEFORE the file export so we copy clean state.
+	await cleanupLegacyVSCodeStorage(context)
+
+	// 3. One-time export of VSCode's native storage to shared file-backed stores.
+	// After this, all platforms (VSCode, CLI, JetBrains) read from ~/.cline/data/.
+	const workspacePath = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath
+	const storageContext = createStorageContext({ workspacePath })
+	await exportVSCodeStorageToSharedFiles(context, storageContext)
+
+	// 4. Register services and perform common initialization
+	// IMPORTANT: Must be done after host provider is setup and migrations are complete
+	const webview = (await initialize(storageContext)) as VscodeWebviewProvider
+
+	// 5. Register services and commands specific to VS Code
+	// Initialize test mode and add disposables to context
+	const testModeWatchers = await initializeTestMode(webview)
+	context.subscriptions.push(...testModeWatchers)
+
+```
+
+This function is important because it defines how Cline Tutorial: Agentic Coding with Human Control implements the patterns covered in this chapter.
+
+### `src/extension.ts`
+
+The `getNotebookCommandContext` function in [`src/extension.ts`](https://github.com/cline/cline/blob/HEAD/src/extension.ts) handles a key part of this chapter's functionality:
+
+```ts
+
+	// Helper to get notebook context for Jupyter commands
+	async function getNotebookCommandContext(range?: vscode.Range, diagnostics?: vscode.Diagnostic[]) {
+		const activeNotebook = vscode.window.activeNotebookEditor
+		if (!activeNotebook) {
+			HostProvider.window.showMessage({
+				type: ShowMessageType.ERROR,
+				message: "No active Jupyter notebook found. Please open a .ipynb file first.",
+			})
+			return null
+		}
+
+		const ctx = await getContextForCommand(range, diagnostics)
+		if (!ctx) {
+			return null
+		}
+
+		const filePath = ctx.commandContext.filePath || ""
+		let cellJson: string | null = null
+		if (activeNotebook.notebook.cellCount > 0) {
+			const cellIndex = activeNotebook.notebook.cellAt(activeNotebook.selection.start).index
+			cellJson = await findMatchingNotebookCell(filePath, cellIndex)
+		}
+
+		return { ...ctx, cellJson }
 	}
 
-	// =============== External services ===============
-	await ErrorService.initialize()
-	// Initialize PostHog client provider (skip in self-hosted mode)
-	if (!ClineEndpoint.isSelfHosted()) {
-		PostHogClientProvider.getInstance()
-	}
-
-	// =============== Webview services ===============
-	const webview = HostProvider.get().createWebviewProvider()
+	context.subscriptions.push(
+		vscode.commands.registerCommand(
+			commands.JupyterGenerateCell,
+			async (range?: vscode.Range, diagnostics?: vscode.Diagnostic[]) => {
+				const userPrompt = await showJupyterPromptInput(
 ```
 
 This function is important because it defines how Cline Tutorial: Agentic Coding with Human Control implements the patterns covered in this chapter.
@@ -272,10 +271,10 @@ This function is important because it defines how Cline Tutorial: Agentic Coding
 
 ```mermaid
 flowchart TD
-    A[main]
-    B[teardown]
-    C[to]
-    D[initialize]
+    A[implements]
+    B[implements]
+    C[activate]
+    D[getNotebookCommandContext]
     A --> B
     B --> C
     C --> D

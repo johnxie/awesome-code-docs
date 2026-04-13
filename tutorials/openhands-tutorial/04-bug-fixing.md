@@ -850,6 +850,20 @@ Under the hood, `Chapter 4: Bug Fixing - Autonomous Debugging and Resolution` us
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
+## Architecture Diagram
+
+```mermaid
+flowchart TD
+    A[Bug Report / Failing Test] --> B[Reproduce Step]
+    B --> C[Root Cause Analysis]
+    C --> D[Generate Fix]
+    D --> E[Apply Patch]
+    E --> F[Validate Fix]
+    F --> G{Fixed?}
+    G -->|No| C
+    G -->|Yes| H[Summary]
+```
+
 ## Source Walkthrough
 
 Use the following upstream sources to verify implementation details while reading this chapter:

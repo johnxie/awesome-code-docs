@@ -39,8 +39,6 @@ You now know how to use checkpointing as a first-class safety primitive in Opcod
 
 Next: [Chapter 7: Development Workflow and Build from Source](07-development-workflow-and-build-from-source.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `src-tauri/src/web_server.rs`
@@ -84,128 +82,128 @@ async fn serve_frontend() -> Html<&'static str> {
 
 This interface is important because it defines how Opcode Tutorial: GUI Command Center for Claude Code Workflows implements the patterns covered in this chapter.
 
-### `src/components/AgentRunOutputViewer.tsx`
+### `src/components/UsageDashboard.tsx`
 
-The `AgentRunOutputViewer` function in [`src/components/AgentRunOutputViewer.tsx`](https://github.com/winfunc/opcode/blob/HEAD/src/components/AgentRunOutputViewer.tsx) handles a key part of this chapter's functionality:
-
-```tsx
-import { useTabState } from '@/hooks/useTabState';
-
-interface AgentRunOutputViewerProps {
-  /**
-   * The agent run ID to display
-   */
-  agentRunId: string;
-  /**
-   * Tab ID for this agent run
-   */
-  tabId: string;
-  /**
-   * Optional className for styling
-   */
-  className?: string;
-}
-
-/**
- * AgentRunOutputViewer - Modal component for viewing agent execution output
- * 
- * @example
- * <AgentRunOutputViewer
- *   run={agentRun}
- *   onClose={() => setSelectedRun(null)}
- * />
- */
-export function AgentRunOutputViewer({ 
-  agentRunId, 
-  tabId,
-  className 
-}: AgentRunOutputViewerProps) {
-  const { updateTabTitle, updateTabStatus } = useTabState();
-```
-
-This function is important because it defines how Opcode Tutorial: GUI Command Center for Claude Code Workflows implements the patterns covered in this chapter.
-
-### `src/components/AgentRunOutputViewer.tsx`
-
-The `AgentRunOutputViewerProps` interface in [`src/components/AgentRunOutputViewer.tsx`](https://github.com/winfunc/opcode/blob/HEAD/src/components/AgentRunOutputViewer.tsx) handles a key part of this chapter's functionality:
+The `UsageDashboardProps` interface in [`src/components/UsageDashboard.tsx`](https://github.com/winfunc/opcode/blob/HEAD/src/components/UsageDashboard.tsx) handles a key part of this chapter's functionality:
 
 ```tsx
-import { useTabState } from '@/hooks/useTabState';
+} from "lucide-react";
 
-interface AgentRunOutputViewerProps {
+interface UsageDashboardProps {
   /**
-   * The agent run ID to display
+   * Callback when back button is clicked
    */
-  agentRunId: string;
-  /**
-   * Tab ID for this agent run
-   */
-  tabId: string;
-  /**
-   * Optional className for styling
-   */
-  className?: string;
+  onBack: () => void;
 }
 
+// Cache for storing fetched data
+const dataCache = new Map<string, { data: any; timestamp: number }>();
+const CACHE_DURATION = 10 * 60 * 1000; // 10 minutes cache - increased for better performance
+
 /**
- * AgentRunOutputViewer - Modal component for viewing agent execution output
- * 
- * @example
- * <AgentRunOutputViewer
- *   run={agentRun}
- *   onClose={() => setSelectedRun(null)}
- * />
+ * Optimized UsageDashboard component with caching and progressive loading
  */
-export function AgentRunOutputViewer({ 
-  agentRunId, 
-  tabId,
-  className 
-}: AgentRunOutputViewerProps) {
-  const { updateTabTitle, updateTabStatus } = useTabState();
+export const UsageDashboard: React.FC<UsageDashboardProps> = ({ }) => {
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [stats, setStats] = useState<UsageStats | null>(null);
+  const [sessionStats, setSessionStats] = useState<ProjectUsage[] | null>(null);
+  const [selectedDateRange, setSelectedDateRange] = useState<"all" | "7d" | "30d">("7d");
+  const [activeTab, setActiveTab] = useState("overview");
+  const [hasLoadedTabs, setHasLoadedTabs] = useState<Set<string>>(new Set(["overview"]));
+  
+  // Pagination states
+  const [projectsPage, setProjectsPage] = useState(1);
+  const [sessionsPage, setSessionsPage] = useState(1);
+  const ITEMS_PER_PAGE = 10;
+
+  // Memoized formatters to prevent recreation on each render
+  const formatCurrency = useMemo(() => (amount: number): string => {
 ```
 
 This interface is important because it defines how Opcode Tutorial: GUI Command Center for Claude Code Workflows implements the patterns covered in this chapter.
 
-### `src/components/SessionOutputViewer.tsx`
+### `src/components/SlashCommandsManager.tsx`
 
-The `SessionOutputViewer` function in [`src/components/SessionOutputViewer.tsx`](https://github.com/winfunc/opcode/blob/HEAD/src/components/SessionOutputViewer.tsx) handles a key part of this chapter's functionality:
+The `SlashCommandsManagerProps` interface in [`src/components/SlashCommandsManager.tsx`](https://github.com/winfunc/opcode/blob/HEAD/src/components/SlashCommandsManager.tsx) handles a key part of this chapter's functionality:
 
 ```tsx
-import { ErrorBoundary } from './ErrorBoundary';
+import { useTrackEvent } from "@/hooks";
 
-interface SessionOutputViewerProps {
-  session: AgentRun;
-  onClose: () => void;
+interface SlashCommandsManagerProps {
+  projectPath?: string;
   className?: string;
+  scopeFilter?: 'project' | 'user' | 'all';
 }
 
-// Use the same message interface as AgentExecution for consistency
-export interface ClaudeStreamMessage {
-  type: "system" | "assistant" | "user" | "result";
-  subtype?: string;
-  message?: {
-    content?: any[];
-    usage?: {
-      input_tokens: number;
-      output_tokens: number;
-    };
-  };
-  usage?: {
-    input_tokens: number;
-    output_tokens: number;
-  };
-  [key: string]: any;
+interface CommandForm {
+  name: string;
+  namespace: string;
+  content: string;
+  description: string;
+  allowedTools: string[];
+  scope: 'project' | 'user';
 }
 
-export function SessionOutputViewer({ session, onClose, className }: SessionOutputViewerProps) {
-  const [messages, setMessages] = useState<ClaudeStreamMessage[]>([]);
-  const [rawJsonlOutput, setRawJsonlOutput] = useState<string[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [isFullscreen, setIsFullscreen] = useState(false);
-  const [refreshing, setRefreshing] = useState(false);
+const EXAMPLE_COMMANDS = [
+  {
+    name: "review",
+    description: "Review code for best practices",
+    content: "Review the following code for best practices, potential issues, and improvements:\n\n@$ARGUMENTS",
+    allowedTools: ["Read", "Grep"]
+  },
+  {
+    name: "explain",
+    description: "Explain how something works",
+    content: "Explain how $ARGUMENTS works in detail, including its purpose, implementation, and usage examples.",
+    allowedTools: ["Read", "Grep", "WebSearch"]
+  },
+  {
+    name: "fix-issue",
 ```
 
-This function is important because it defines how Opcode Tutorial: GUI Command Center for Claude Code Workflows implements the patterns covered in this chapter.
+This interface is important because it defines how Opcode Tutorial: GUI Command Center for Claude Code Workflows implements the patterns covered in this chapter.
+
+### `src/components/SlashCommandsManager.tsx`
+
+The `CommandForm` interface in [`src/components/SlashCommandsManager.tsx`](https://github.com/winfunc/opcode/blob/HEAD/src/components/SlashCommandsManager.tsx) handles a key part of this chapter's functionality:
+
+```tsx
+}
+
+interface CommandForm {
+  name: string;
+  namespace: string;
+  content: string;
+  description: string;
+  allowedTools: string[];
+  scope: 'project' | 'user';
+}
+
+const EXAMPLE_COMMANDS = [
+  {
+    name: "review",
+    description: "Review code for best practices",
+    content: "Review the following code for best practices, potential issues, and improvements:\n\n@$ARGUMENTS",
+    allowedTools: ["Read", "Grep"]
+  },
+  {
+    name: "explain",
+    description: "Explain how something works",
+    content: "Explain how $ARGUMENTS works in detail, including its purpose, implementation, and usage examples.",
+    allowedTools: ["Read", "Grep", "WebSearch"]
+  },
+  {
+    name: "fix-issue",
+    description: "Fix a specific issue",
+    content: "Fix issue #$ARGUMENTS following our coding standards and best practices.",
+    allowedTools: ["Read", "Edit", "MultiEdit", "Write"]
+  },
+  {
+    name: "test",
+```
+
+This interface is important because it defines how Opcode Tutorial: GUI Command Center for Claude Code Workflows implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
@@ -213,10 +211,10 @@ This function is important because it defines how Opcode Tutorial: GUI Command C
 ```mermaid
 flowchart TD
     A[ApiResponse]
-    B[AgentRunOutputViewer]
-    C[AgentRunOutputViewerProps]
-    D[SessionOutputViewer]
-    E[SessionOutputViewerProps]
+    B[UsageDashboardProps]
+    C[SlashCommandsManagerProps]
+    D[CommandForm]
+    E[for]
     A --> B
     B --> C
     C --> D

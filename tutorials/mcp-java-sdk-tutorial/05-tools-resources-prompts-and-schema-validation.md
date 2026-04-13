@@ -39,132 +39,7 @@ You now have a quality model for Java MCP primitives that improves interoperabil
 
 Next: [Chapter 6: Security, Authorization, and Runtime Controls](06-security-authorization-and-runtime-controls.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
-
-### `mcp-core/src/main/java/io/modelcontextprotocol/client/McpClientFeatures.java`
-
-The `McpClientFeatures` class in [`mcp-core/src/main/java/io/modelcontextprotocol/client/McpClientFeatures.java`](https://github.com/modelcontextprotocol/java-sdk/blob/HEAD/mcp-core/src/main/java/io/modelcontextprotocol/client/McpClientFeatures.java) handles a key part of this chapter's functionality:
-
-```java
- * @see McpSchema.ClientCapabilities
- */
-class McpClientFeatures {
-
-	/**
-	 * Asynchronous client features specification providing the capabilities and request
-	 * and notification handlers.
-	 *
-	 * @param clientInfo the client implementation information.
-	 * @param clientCapabilities the client capabilities.
-	 * @param roots the roots.
-	 * @param toolsChangeConsumers the tools change consumers.
-	 * @param resourcesChangeConsumers the resources change consumers.
-	 * @param promptsChangeConsumers the prompts change consumers.
-	 * @param loggingConsumers the logging consumers.
-	 * @param progressConsumers the progress consumers.
-	 * @param samplingHandler the sampling handler.
-	 * @param elicitationHandler the elicitation handler.
-	 * @param enableCallToolSchemaCaching whether to enable call tool schema caching.
-	 */
-	record Async(McpSchema.Implementation clientInfo, McpSchema.ClientCapabilities clientCapabilities,
-			Map<String, McpSchema.Root> roots, List<Function<List<McpSchema.Tool>, Mono<Void>>> toolsChangeConsumers,
-			List<Function<List<McpSchema.Resource>, Mono<Void>>> resourcesChangeConsumers,
-			List<Function<List<McpSchema.ResourceContents>, Mono<Void>>> resourcesUpdateConsumers,
-			List<Function<List<McpSchema.Prompt>, Mono<Void>>> promptsChangeConsumers,
-			List<Function<McpSchema.LoggingMessageNotification, Mono<Void>>> loggingConsumers,
-			List<Function<McpSchema.ProgressNotification, Mono<Void>>> progressConsumers,
-			Function<McpSchema.CreateMessageRequest, Mono<McpSchema.CreateMessageResult>> samplingHandler,
-			Function<McpSchema.ElicitRequest, Mono<McpSchema.ElicitResult>> elicitationHandler,
-			boolean enableCallToolSchemaCaching) {
-
-		/**
-```
-
-This class is important because it defines how MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring implements the patterns covered in this chapter.
-
-### `mcp-core/src/main/java/io/modelcontextprotocol/client/LifecycleInitializer.java`
-
-The `LifecycleInitializer` class in [`mcp-core/src/main/java/io/modelcontextprotocol/client/LifecycleInitializer.java`](https://github.com/modelcontextprotocol/java-sdk/blob/HEAD/mcp-core/src/main/java/io/modelcontextprotocol/client/LifecycleInitializer.java) handles a key part of this chapter's functionality:
-
-```java
- * </ul>
- */
-class LifecycleInitializer {
-
-	private static final Logger logger = LoggerFactory.getLogger(LifecycleInitializer.class);
-
-	/**
-	 * The MCP session supplier that manages bidirectional JSON-RPC communication between
-	 * clients and servers.
-	 */
-	private final Function<ContextView, McpClientSession> sessionSupplier;
-
-	private final McpSchema.ClientCapabilities clientCapabilities;
-
-	private final McpSchema.Implementation clientInfo;
-
-	private List<String> protocolVersions;
-
-	private final AtomicReference<DefaultInitialization> initializationRef = new AtomicReference<>();
-
-	/**
-	 * The max timeout to await for the client-server connection to be initialized.
-	 */
-	private final Duration initializationTimeout;
-
-	/**
-	 * Post-initialization hook to perform additional operations after every successful
-	 * initialization.
-	 */
-	private final Function<Initialization, Mono<Void>> postInitializationHook;
-
-	public LifecycleInitializer(McpSchema.ClientCapabilities clientCapabilities, McpSchema.Implementation clientInfo,
-```
-
-This class is important because it defines how MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring implements the patterns covered in this chapter.
-
-### `mcp-core/src/main/java/io/modelcontextprotocol/client/LifecycleInitializer.java`
-
-The `DefaultInitialization` class in [`mcp-core/src/main/java/io/modelcontextprotocol/client/LifecycleInitializer.java`](https://github.com/modelcontextprotocol/java-sdk/blob/HEAD/mcp-core/src/main/java/io/modelcontextprotocol/client/LifecycleInitializer.java) handles a key part of this chapter's functionality:
-
-```java
-	private List<String> protocolVersions;
-
-	private final AtomicReference<DefaultInitialization> initializationRef = new AtomicReference<>();
-
-	/**
-	 * The max timeout to await for the client-server connection to be initialized.
-	 */
-	private final Duration initializationTimeout;
-
-	/**
-	 * Post-initialization hook to perform additional operations after every successful
-	 * initialization.
-	 */
-	private final Function<Initialization, Mono<Void>> postInitializationHook;
-
-	public LifecycleInitializer(McpSchema.ClientCapabilities clientCapabilities, McpSchema.Implementation clientInfo,
-			List<String> protocolVersions, Duration initializationTimeout,
-			Function<ContextView, McpClientSession> sessionSupplier,
-			Function<Initialization, Mono<Void>> postInitializationHook) {
-
-		Assert.notNull(sessionSupplier, "Session supplier must not be null");
-		Assert.notNull(clientCapabilities, "Client capabilities must not be null");
-		Assert.notNull(clientInfo, "Client info must not be null");
-		Assert.notEmpty(protocolVersions, "Protocol versions must not be empty");
-		Assert.notNull(initializationTimeout, "Initialization timeout must not be null");
-		Assert.notNull(postInitializationHook, "Post-initialization hook must not be null");
-
-		this.sessionSupplier = sessionSupplier;
-		this.clientCapabilities = clientCapabilities;
-		this.clientInfo = clientInfo;
-		this.protocolVersions = Collections.unmodifiableList(new ArrayList<>(protocolVersions));
-		this.initializationTimeout = initializationTimeout;
-```
-
-This class is important because it defines how MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring implements the patterns covered in this chapter.
 
 ### `mcp-core/src/main/java/io/modelcontextprotocol/client/LifecycleInitializer.java`
 
@@ -207,16 +82,139 @@ The `Initialization` interface in [`mcp-core/src/main/java/io/modelcontextprotoc
 
 This interface is important because it defines how MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring implements the patterns covered in this chapter.
 
+### `mcp-core/src/main/java/io/modelcontextprotocol/client/McpClientFeatures.java`
+
+The `provides` class in [`mcp-core/src/main/java/io/modelcontextprotocol/client/McpClientFeatures.java`](https://github.com/modelcontextprotocol/java-sdk/blob/HEAD/mcp-core/src/main/java/io/modelcontextprotocol/client/McpClientFeatures.java) handles a key part of this chapter's functionality:
+
+```java
+/**
+ * Representation of features and capabilities for Model Context Protocol (MCP) clients.
+ * This class provides two record types for managing client features:
+ * <ul>
+ * <li>{@link Async} for non-blocking operations with Project Reactor's Mono responses
+ * <li>{@link Sync} for blocking operations with direct responses
+ * </ul>
+ *
+ * <p>
+ * Each feature specification includes:
+ * <ul>
+ * <li>Client implementation information and capabilities
+ * <li>Root URI mappings for resource access
+ * <li>Change notification handlers for tools, resources, and prompts
+ * <li>Logging message consumers
+ * <li>Message sampling handlers for request processing
+ * </ul>
+ *
+ * <p>
+ * The class supports conversion between synchronous and asynchronous specifications
+ * through the {@link Async#fromSync} method, which ensures proper handling of blocking
+ * operations in non-blocking contexts by scheduling them on a bounded elastic scheduler.
+ *
+ * @author Dariusz Jędrzejczyk
+ * @see McpClient
+ * @see McpSchema.Implementation
+ * @see McpSchema.ClientCapabilities
+ */
+class McpClientFeatures {
+
+	/**
+	 * Asynchronous client features specification providing the capabilities and request
+```
+
+This class is important because it defines how MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring implements the patterns covered in this chapter.
+
+### `mcp-core/src/main/java/io/modelcontextprotocol/client/McpClientFeatures.java`
+
+The `supports` class in [`mcp-core/src/main/java/io/modelcontextprotocol/client/McpClientFeatures.java`](https://github.com/modelcontextprotocol/java-sdk/blob/HEAD/mcp-core/src/main/java/io/modelcontextprotocol/client/McpClientFeatures.java) handles a key part of this chapter's functionality:
+
+```java
+ *
+ * <p>
+ * The class supports conversion between synchronous and asynchronous specifications
+ * through the {@link Async#fromSync} method, which ensures proper handling of blocking
+ * operations in non-blocking contexts by scheduling them on a bounded elastic scheduler.
+ *
+ * @author Dariusz Jędrzejczyk
+ * @see McpClient
+ * @see McpSchema.Implementation
+ * @see McpSchema.ClientCapabilities
+ */
+class McpClientFeatures {
+
+	/**
+	 * Asynchronous client features specification providing the capabilities and request
+	 * and notification handlers.
+	 *
+	 * @param clientInfo the client implementation information.
+	 * @param clientCapabilities the client capabilities.
+	 * @param roots the roots.
+	 * @param toolsChangeConsumers the tools change consumers.
+	 * @param resourcesChangeConsumers the resources change consumers.
+	 * @param promptsChangeConsumers the prompts change consumers.
+	 * @param loggingConsumers the logging consumers.
+	 * @param progressConsumers the progress consumers.
+	 * @param samplingHandler the sampling handler.
+	 * @param elicitationHandler the elicitation handler.
+	 * @param enableCallToolSchemaCaching whether to enable call tool schema caching.
+	 */
+	record Async(McpSchema.Implementation clientInfo, McpSchema.ClientCapabilities clientCapabilities,
+			Map<String, McpSchema.Root> roots, List<Function<List<McpSchema.Tool>, Mono<Void>>> toolsChangeConsumers,
+			List<Function<List<McpSchema.Resource>, Mono<Void>>> resourcesChangeConsumers,
+```
+
+This class is important because it defines how MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring implements the patterns covered in this chapter.
+
+### `mcp-core/src/main/java/io/modelcontextprotocol/client/McpClientFeatures.java`
+
+The `McpClientFeatures` class in [`mcp-core/src/main/java/io/modelcontextprotocol/client/McpClientFeatures.java`](https://github.com/modelcontextprotocol/java-sdk/blob/HEAD/mcp-core/src/main/java/io/modelcontextprotocol/client/McpClientFeatures.java) handles a key part of this chapter's functionality:
+
+```java
+ * @see McpSchema.ClientCapabilities
+ */
+class McpClientFeatures {
+
+	/**
+	 * Asynchronous client features specification providing the capabilities and request
+	 * and notification handlers.
+	 *
+	 * @param clientInfo the client implementation information.
+	 * @param clientCapabilities the client capabilities.
+	 * @param roots the roots.
+	 * @param toolsChangeConsumers the tools change consumers.
+	 * @param resourcesChangeConsumers the resources change consumers.
+	 * @param promptsChangeConsumers the prompts change consumers.
+	 * @param loggingConsumers the logging consumers.
+	 * @param progressConsumers the progress consumers.
+	 * @param samplingHandler the sampling handler.
+	 * @param elicitationHandler the elicitation handler.
+	 * @param enableCallToolSchemaCaching whether to enable call tool schema caching.
+	 */
+	record Async(McpSchema.Implementation clientInfo, McpSchema.ClientCapabilities clientCapabilities,
+			Map<String, McpSchema.Root> roots, List<Function<List<McpSchema.Tool>, Mono<Void>>> toolsChangeConsumers,
+			List<Function<List<McpSchema.Resource>, Mono<Void>>> resourcesChangeConsumers,
+			List<Function<List<McpSchema.ResourceContents>, Mono<Void>>> resourcesUpdateConsumers,
+			List<Function<List<McpSchema.Prompt>, Mono<Void>>> promptsChangeConsumers,
+			List<Function<McpSchema.LoggingMessageNotification, Mono<Void>>> loggingConsumers,
+			List<Function<McpSchema.ProgressNotification, Mono<Void>>> progressConsumers,
+			Function<McpSchema.CreateMessageRequest, Mono<McpSchema.CreateMessageResult>> samplingHandler,
+			Function<McpSchema.ElicitRequest, Mono<McpSchema.ElicitResult>> elicitationHandler,
+			boolean enableCallToolSchemaCaching) {
+
+		/**
+```
+
+This class is important because it defines how MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring implements the patterns covered in this chapter.
+
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[McpClientFeatures]
-    B[LifecycleInitializer]
-    C[DefaultInitialization]
-    D[Initialization]
-    E[McpAsyncServerExchange]
+    A[Initialization]
+    B[provides]
+    C[supports]
+    D[McpClientFeatures]
+    E[provides]
     A --> B
     B --> C
     C --> D

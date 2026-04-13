@@ -38,184 +38,182 @@ You now have a safer model for running Codex with external integrations.
 
 Next: [Chapter 5: Prompts, Skills, and Workflow Orchestration](05-prompts-skills-and-workflow-orchestration.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `scripts/check_blob_size.py`
+### `scripts/stage_npm_packages.py`
 
-The `from` class in [`scripts/check_blob_size.py`](https://github.com/openai/codex/blob/HEAD/scripts/check_blob_size.py) handles a key part of this chapter's functionality:
+The `run_command` function in [`scripts/stage_npm_packages.py`](https://github.com/openai/codex/blob/HEAD/scripts/stage_npm_packages.py) handles a key part of this chapter's functionality:
 
 ```py
-#!/usr/bin/env python3
+        cmd.extend(["--component", component])
+    cmd.append(str(vendor_root))
+    run_command(cmd)
 
-from __future__ import annotations
+
+def run_command(cmd: list[str]) -> None:
+    print("+", " ".join(cmd))
+    subprocess.run(cmd, cwd=REPO_ROOT, check=True)
+
+
+def tarball_name_for_package(package: str, version: str) -> str:
+    if package in CODEX_PLATFORM_PACKAGES:
+        platform = package.removeprefix("codex-")
+        return f"codex-npm-{platform}-{version}.tgz"
+    return f"{package}-npm-{version}.tgz"
+
+
+def main() -> int:
+    args = parse_args()
+
+    output_dir = args.output_dir or (REPO_ROOT / "dist" / "npm")
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    runner_temp = Path(os.environ.get("RUNNER_TEMP", tempfile.gettempdir()))
+
+    packages = expand_packages(list(args.packages))
+    native_components = collect_native_components(packages)
+
+    vendor_temp_root: Path | None = None
+    vendor_src: Path | None = None
+    resolved_head_sha: str | None = None
+
+```
+
+This function is important because it defines how Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex implements the patterns covered in this chapter.
+
+### `scripts/stage_npm_packages.py`
+
+The `tarball_name_for_package` function in [`scripts/stage_npm_packages.py`](https://github.com/openai/codex/blob/HEAD/scripts/stage_npm_packages.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+def tarball_name_for_package(package: str, version: str) -> str:
+    if package in CODEX_PLATFORM_PACKAGES:
+        platform = package.removeprefix("codex-")
+        return f"codex-npm-{platform}-{version}.tgz"
+    return f"{package}-npm-{version}.tgz"
+
+
+def main() -> int:
+    args = parse_args()
+
+    output_dir = args.output_dir or (REPO_ROOT / "dist" / "npm")
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    runner_temp = Path(os.environ.get("RUNNER_TEMP", tempfile.gettempdir()))
+
+    packages = expand_packages(list(args.packages))
+    native_components = collect_native_components(packages)
+
+    vendor_temp_root: Path | None = None
+    vendor_src: Path | None = None
+    resolved_head_sha: str | None = None
+
+    final_messages = []
+
+    try:
+        if native_components:
+            workflow_url, resolved_head_sha = resolve_workflow_url(
+                args.release_version, args.workflow_url
+            )
+            vendor_temp_root = Path(tempfile.mkdtemp(prefix="npm-native-", dir=runner_temp))
+```
+
+This function is important because it defines how Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex implements the patterns covered in this chapter.
+
+### `scripts/stage_npm_packages.py`
+
+The `main` function in [`scripts/stage_npm_packages.py`](https://github.com/openai/codex/blob/HEAD/scripts/stage_npm_packages.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+def main() -> int:
+    args = parse_args()
+
+    output_dir = args.output_dir or (REPO_ROOT / "dist" / "npm")
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    runner_temp = Path(os.environ.get("RUNNER_TEMP", tempfile.gettempdir()))
+
+    packages = expand_packages(list(args.packages))
+    native_components = collect_native_components(packages)
+
+    vendor_temp_root: Path | None = None
+    vendor_src: Path | None = None
+    resolved_head_sha: str | None = None
+
+    final_messages = []
+
+    try:
+        if native_components:
+            workflow_url, resolved_head_sha = resolve_workflow_url(
+                args.release_version, args.workflow_url
+            )
+            vendor_temp_root = Path(tempfile.mkdtemp(prefix="npm-native-", dir=runner_temp))
+            install_native_components(workflow_url, native_components, vendor_temp_root)
+            vendor_src = vendor_temp_root / "vendor"
+
+        if resolved_head_sha:
+            print(f"should `git checkout {resolved_head_sha}`")
+
+        for package in packages:
+```
+
+This function is important because it defines how Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex implements the patterns covered in this chapter.
+
+### `codex-cli/scripts/install_native_deps.py`
+
+The `from` class in [`codex-cli/scripts/install_native_deps.py`](https://github.com/openai/codex/blob/HEAD/codex-cli/scripts/install_native_deps.py) handles a key part of this chapter's functionality:
+
+```py
 
 import argparse
+from contextlib import contextmanager
+import json
 import os
+import shutil
 import subprocess
-import sys
+import tarfile
+import tempfile
+import zipfile
 from dataclasses import dataclass
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
+import sys
+from typing import Iterable, Sequence
+from urllib.parse import urlparse
+from urllib.request import urlopen
 
-
-DEFAULT_MAX_BYTES = 500 * 1024
-
-
-@dataclass(frozen=True)
-class ChangedBlob:
-    path: str
-    size_bytes: int
-    is_allowlisted: bool
-    is_binary: bool
-
-
-def run_git(*args: str) -> str:
-    result = subprocess.run(
-        ["git", *args],
-        check=True,
-        capture_output=True,
-        text=True,
-    )
-    return result.stdout
+SCRIPT_DIR = Path(__file__).resolve().parent
+CODEX_CLI_ROOT = SCRIPT_DIR.parent
+DEFAULT_WORKFLOW_URL = "https://github.com/openai/codex/actions/runs/17952349351"  # rust-v0.40.0
+VENDOR_DIR_NAME = "vendor"
+RG_MANIFEST = CODEX_CLI_ROOT / "bin" / "rg"
+BINARY_TARGETS = (
+    "x86_64-unknown-linux-musl",
+    "aarch64-unknown-linux-musl",
+    "x86_64-apple-darwin",
+    "aarch64-apple-darwin",
+    "x86_64-pc-windows-msvc",
+    "aarch64-pc-windows-msvc",
+)
 
 ```
 
 This class is important because it defines how Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex implements the patterns covered in this chapter.
-
-### `scripts/check_blob_size.py`
-
-The `ChangedBlob` class in [`scripts/check_blob_size.py`](https://github.com/openai/codex/blob/HEAD/scripts/check_blob_size.py) handles a key part of this chapter's functionality:
-
-```py
-
-@dataclass(frozen=True)
-class ChangedBlob:
-    path: str
-    size_bytes: int
-    is_allowlisted: bool
-    is_binary: bool
-
-
-def run_git(*args: str) -> str:
-    result = subprocess.run(
-        ["git", *args],
-        check=True,
-        capture_output=True,
-        text=True,
-    )
-    return result.stdout
-
-
-def load_allowlist(path: Path) -> set[str]:
-    allowlist: set[str] = set()
-    for raw_line in path.read_text(encoding="utf-8").splitlines():
-        line = raw_line.split("#", 1)[0].strip()
-        if line:
-            allowlist.add(line)
-    return allowlist
-
-
-def get_changed_paths(base: str, head: str) -> list[str]:
-    output = run_git(
-        "diff",
-        "--name-only",
-```
-
-This class is important because it defines how Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex implements the patterns covered in this chapter.
-
-### `scripts/check_blob_size.py`
-
-The `run_git` function in [`scripts/check_blob_size.py`](https://github.com/openai/codex/blob/HEAD/scripts/check_blob_size.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-def run_git(*args: str) -> str:
-    result = subprocess.run(
-        ["git", *args],
-        check=True,
-        capture_output=True,
-        text=True,
-    )
-    return result.stdout
-
-
-def load_allowlist(path: Path) -> set[str]:
-    allowlist: set[str] = set()
-    for raw_line in path.read_text(encoding="utf-8").splitlines():
-        line = raw_line.split("#", 1)[0].strip()
-        if line:
-            allowlist.add(line)
-    return allowlist
-
-
-def get_changed_paths(base: str, head: str) -> list[str]:
-    output = run_git(
-        "diff",
-        "--name-only",
-        "--diff-filter=AM",
-        "--no-renames",
-        "-z",
-        base,
-        head,
-    )
-    return [path for path in output.split("\0") if path]
-```
-
-This function is important because it defines how Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex implements the patterns covered in this chapter.
-
-### `scripts/check_blob_size.py`
-
-The `load_allowlist` function in [`scripts/check_blob_size.py`](https://github.com/openai/codex/blob/HEAD/scripts/check_blob_size.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-def load_allowlist(path: Path) -> set[str]:
-    allowlist: set[str] = set()
-    for raw_line in path.read_text(encoding="utf-8").splitlines():
-        line = raw_line.split("#", 1)[0].strip()
-        if line:
-            allowlist.add(line)
-    return allowlist
-
-
-def get_changed_paths(base: str, head: str) -> list[str]:
-    output = run_git(
-        "diff",
-        "--name-only",
-        "--diff-filter=AM",
-        "--no-renames",
-        "-z",
-        base,
-        head,
-    )
-    return [path for path in output.split("\0") if path]
-
-
-def is_binary_change(base: str, head: str, path: str) -> bool:
-    output = run_git(
-        "diff",
-        "--numstat",
-        "--diff-filter=AM",
-        "--no-renames",
-        base,
-        head,
-```
-
-This function is important because it defines how Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[from]
-    B[ChangedBlob]
-    C[run_git]
-    D[load_allowlist]
-    E[get_changed_paths]
+    A[run_command]
+    B[tarball_name_for_package]
+    C[main]
+    D[from]
+    E[BinaryComponent]
     A --> B
     B --> C
     C --> D

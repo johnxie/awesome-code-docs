@@ -45,9 +45,89 @@ You now have a full contributor baseline for building and validating Opcode.
 
 Next: [Chapter 8: Production Operations and Security](08-production-operations-and-security.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
+
+### `src/components/SessionOutputViewer.tsx`
+
+The `SessionOutputViewer` function in [`src/components/SessionOutputViewer.tsx`](https://github.com/winfunc/opcode/blob/HEAD/src/components/SessionOutputViewer.tsx) handles a key part of this chapter's functionality:
+
+```tsx
+import { ErrorBoundary } from './ErrorBoundary';
+
+interface SessionOutputViewerProps {
+  session: AgentRun;
+  onClose: () => void;
+  className?: string;
+}
+
+// Use the same message interface as AgentExecution for consistency
+export interface ClaudeStreamMessage {
+  type: "system" | "assistant" | "user" | "result";
+  subtype?: string;
+  message?: {
+    content?: any[];
+    usage?: {
+      input_tokens: number;
+      output_tokens: number;
+    };
+  };
+  usage?: {
+    input_tokens: number;
+    output_tokens: number;
+  };
+  [key: string]: any;
+}
+
+export function SessionOutputViewer({ session, onClose, className }: SessionOutputViewerProps) {
+  const [messages, setMessages] = useState<ClaudeStreamMessage[]>([]);
+  const [rawJsonlOutput, setRawJsonlOutput] = useState<string[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
+```
+
+This function is important because it defines how Opcode Tutorial: GUI Command Center for Claude Code Workflows implements the patterns covered in this chapter.
+
+### `src/components/SessionOutputViewer.tsx`
+
+The `SessionOutputViewerProps` interface in [`src/components/SessionOutputViewer.tsx`](https://github.com/winfunc/opcode/blob/HEAD/src/components/SessionOutputViewer.tsx) handles a key part of this chapter's functionality:
+
+```tsx
+import { ErrorBoundary } from './ErrorBoundary';
+
+interface SessionOutputViewerProps {
+  session: AgentRun;
+  onClose: () => void;
+  className?: string;
+}
+
+// Use the same message interface as AgentExecution for consistency
+export interface ClaudeStreamMessage {
+  type: "system" | "assistant" | "user" | "result";
+  subtype?: string;
+  message?: {
+    content?: any[];
+    usage?: {
+      input_tokens: number;
+      output_tokens: number;
+    };
+  };
+  usage?: {
+    input_tokens: number;
+    output_tokens: number;
+  };
+  [key: string]: any;
+}
+
+export function SessionOutputViewer({ session, onClose, className }: SessionOutputViewerProps) {
+  const [messages, setMessages] = useState<ClaudeStreamMessage[]>([]);
+  const [rawJsonlOutput, setRawJsonlOutput] = useState<string[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
+```
+
+This interface is important because it defines how Opcode Tutorial: GUI Command Center for Claude Code Workflows implements the patterns covered in this chapter.
 
 ### `src/components/SessionOutputViewer.tsx`
 
@@ -131,98 +211,16 @@ export function SessionOutputViewer({ session, onClose, className }: SessionOutp
 
 This interface is important because it defines how Opcode Tutorial: GUI Command Center for Claude Code Workflows implements the patterns covered in this chapter.
 
-### `src/components/SlashCommandsManager.tsx`
-
-The `SlashCommandsManagerProps` interface in [`src/components/SlashCommandsManager.tsx`](https://github.com/winfunc/opcode/blob/HEAD/src/components/SlashCommandsManager.tsx) handles a key part of this chapter's functionality:
-
-```tsx
-import { useTrackEvent } from "@/hooks";
-
-interface SlashCommandsManagerProps {
-  projectPath?: string;
-  className?: string;
-  scopeFilter?: 'project' | 'user' | 'all';
-}
-
-interface CommandForm {
-  name: string;
-  namespace: string;
-  content: string;
-  description: string;
-  allowedTools: string[];
-  scope: 'project' | 'user';
-}
-
-const EXAMPLE_COMMANDS = [
-  {
-    name: "review",
-    description: "Review code for best practices",
-    content: "Review the following code for best practices, potential issues, and improvements:\n\n@$ARGUMENTS",
-    allowedTools: ["Read", "Grep"]
-  },
-  {
-    name: "explain",
-    description: "Explain how something works",
-    content: "Explain how $ARGUMENTS works in detail, including its purpose, implementation, and usage examples.",
-    allowedTools: ["Read", "Grep", "WebSearch"]
-  },
-  {
-    name: "fix-issue",
-```
-
-This interface is important because it defines how Opcode Tutorial: GUI Command Center for Claude Code Workflows implements the patterns covered in this chapter.
-
-### `src/components/SlashCommandsManager.tsx`
-
-The `CommandForm` interface in [`src/components/SlashCommandsManager.tsx`](https://github.com/winfunc/opcode/blob/HEAD/src/components/SlashCommandsManager.tsx) handles a key part of this chapter's functionality:
-
-```tsx
-}
-
-interface CommandForm {
-  name: string;
-  namespace: string;
-  content: string;
-  description: string;
-  allowedTools: string[];
-  scope: 'project' | 'user';
-}
-
-const EXAMPLE_COMMANDS = [
-  {
-    name: "review",
-    description: "Review code for best practices",
-    content: "Review the following code for best practices, potential issues, and improvements:\n\n@$ARGUMENTS",
-    allowedTools: ["Read", "Grep"]
-  },
-  {
-    name: "explain",
-    description: "Explain how something works",
-    content: "Explain how $ARGUMENTS works in detail, including its purpose, implementation, and usage examples.",
-    allowedTools: ["Read", "Grep", "WebSearch"]
-  },
-  {
-    name: "fix-issue",
-    description: "Fix a specific issue",
-    content: "Fix issue #$ARGUMENTS following our coding standards and best practices.",
-    allowedTools: ["Read", "Edit", "MultiEdit", "Write"]
-  },
-  {
-    name: "test",
-```
-
-This interface is important because it defines how Opcode Tutorial: GUI Command Center for Claude Code Workflows implements the patterns covered in this chapter.
-
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[as]
-    B[ClaudeStreamMessage]
-    C[SlashCommandsManagerProps]
-    D[CommandForm]
-    E[for]
+    A[SessionOutputViewer]
+    B[SessionOutputViewerProps]
+    C[as]
+    D[ClaudeStreamMessage]
+    E[find_claude_binary]
     A --> B
     B --> C
     C --> D

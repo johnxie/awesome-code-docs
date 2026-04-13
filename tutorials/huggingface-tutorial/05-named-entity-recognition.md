@@ -14,6 +14,16 @@ Welcome to **Chapter 5: Named Entity Recognition**. In this part of **HuggingFac
 
 ## 🎯 Overview
 
+```mermaid
+flowchart LR
+    A[Text] --> B[tokenizer word-piece]
+    B --> C[subword tokens]
+    C --> D[AutoModelForTokenClassification]
+    D --> E[per-token logits]
+    E --> F[BIO label decode]
+    F --> G[Named entities list]
+```
+
 This chapter covers Named Entity Recognition (NER) using HuggingFace Transformers. You'll learn to identify and classify named entities like persons, organizations, locations, dates, and more from text, and build applications that extract structured information from unstructured data.
 
 ## 🏷️ Understanding Named Entities

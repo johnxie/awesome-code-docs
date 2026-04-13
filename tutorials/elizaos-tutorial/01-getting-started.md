@@ -360,16 +360,29 @@ Under the hood, `Chapter 1: Getting Started with ElizaOS` usually follows a repe
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
-## Source Walkthrough
+## Source Code Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+### `packages/elizaos/src/commands/create.ts`
 
-- [ElizaOS](https://github.com/elizaOS/eliza)
-  Why it matters: authoritative reference on `ElizaOS` (github.com).
+The `create` command in [`packages/elizaos/src/commands/create.ts`](https://github.com/elizaOS/eliza/blob/develop/packages/elizaos/src/commands/create.ts) scaffolds new agent projects. It uses `@clack/prompts` for an interactive TUI that asks for project name, language (TypeScript, Python, Rust), and template category:
 
-Suggested trace strategy:
-- search upstream code for `elizaos` and `plugin` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+```ts
+const LANGUAGE_NAMES: Record<string, string> = {
+  typescript: "TypeScript",
+  python: "Python",
+  rust: "Rust",
+  "rust-wasm": "Rust (WASM)",
+};
+
+const CATEGORY_ICONS: Record<string, string> = {
+  plugin: "🔧",
+  chat: "💬",
+  a2a: "🤝",
+  mcp: "🔌",
+};
+```
+
+The scaffolded project structure includes an `AGENTS.md` character file, plugin configuration, and a platform connector entry point. Running `elizaos dev` starts the agent with hot-reload.
 
 ## Chapter Connections
 

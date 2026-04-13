@@ -712,9 +712,28 @@ def validate_documentation_quality(code_file):
 - Include practical examples and use cases
 - Provide navigation and cross-references
 
+## Documentation Generation Flow
+
+```mermaid
+flowchart TD
+    A[Developer selects function or class]
+    B[Invoke /doc slash command or Cmd+I]
+    C[Continue analyzes code structure and signature]
+    D[LLM generates docstring or comment block]
+    E[Documentation inserted above selection]
+    F[Developer reviews and edits as needed]
+    G[README generation: /doc for whole file]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    E --> F
+    F --> G
+```
+
 ## What's Next?
 
-Excellent work on mastering Continue's documentation capabilities! You've learned how to generate comprehensive documentation that explains not just what code does, but why and how it works.
+You've mastered Continue's documentation capabilities! You've learned how to generate comprehensive documentation that explains not just what code does, but why and how it works.
 
 In [Chapter 5: Debugging & Testing](05-debugging-testing.md), we'll explore how Continue can help you identify bugs, write better tests, and ensure code reliability through intelligent debugging and testing assistance.
 

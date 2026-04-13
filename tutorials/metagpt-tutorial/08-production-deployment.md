@@ -593,6 +593,14 @@ Production deployment principles:
 
 Running MetaGPT in production requires attention to cost management, error recovery, observability, and security. The key patterns are: multi-model configuration for cost optimization, checkpoint-based resumption for reliability, structured logging for observability, and API wrapping for system integration. With these patterns in place, MetaGPT can serve as a reliable component in enterprise software delivery pipelines.
 
+## Source Code Walkthrough
+
+Key source files in [`geekan/MetaGPT`](https://github.com/geekan/MetaGPT):
+
+- [`metagpt/config2.py`](https://github.com/geekan/MetaGPT/blob/main/metagpt/config2.py) -- `Config.max_budget` field and `CostManager` integration for spend tracking
+- [`metagpt/utils/cost_manager.py`](https://github.com/geekan/MetaGPT/blob/main/metagpt/utils/cost_manager.py) -- tracks token consumption per run; raises `BudgetExceededException` when limit hit
+- [`metagpt/actions/action.py`](https://github.com/geekan/MetaGPT/blob/main/metagpt/actions/action.py) -- retry logic via `tenacity`; wraps `_aask()` calls with exponential backoff
+
 ---
 
 [Previous: Chapter 7: Multi-Agent Orchestration](07-multi-agent-orchestration.md) | [Back to Tutorial Index](README.md)

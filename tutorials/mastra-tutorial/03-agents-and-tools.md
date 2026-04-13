@@ -40,184 +40,180 @@ You now have a practical framework for building strong, bounded agents in Mastra
 
 Next: [Chapter 4: Workflows and Control Flow](04-workflows-and-control-flow.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `explorations/network-validation-bridge.ts`
+### `scripts/ignore-example.js`
 
-The `NetworkValidationConfig` interface in [`explorations/network-validation-bridge.ts`](https://github.com/mastra-ai/mastra/blob/HEAD/explorations/network-validation-bridge.ts) handles a key part of this chapter's functionality:
+The `spawn` function in [`scripts/ignore-example.js`](https://github.com/mastra-ai/mastra/blob/HEAD/scripts/ignore-example.js) handles a key part of this chapter's functionality:
 
-```ts
+```js
+import { spawn as nodeSpawn } from 'child_process';
+import { readFileSync } from 'fs';
+import { dirname, join } from 'path';
+import { fileURLToPath } from 'url';
+
+const dir = process.argv[2];
+if (!dir) {
+  console.error('Usage: node scripts/ignore-example.js <directory>');
+  process.exit(1);
 }
 
-export interface NetworkValidationConfig {
-  /**
-   * Array of validation checks to run
-   */
-  checks: ValidationCheck[];
-
-  /**
-   * How to combine check results:
-   * - 'all': All checks must pass
-   * - 'any': At least one check must pass
-   * - 'weighted': Use weights (future)
-   */
-  strategy: 'all' | 'any';
-
-  /**
-   * How validation interacts with LLM completion assessment:
-   * - 'verify': LLM says complete AND validation passes
-   * - 'override': Only validation matters, ignore LLM
-   * - 'llm-fallback': Try validation first, use LLM if no checks configured
-   */
-  mode: 'verify' | 'override' | 'llm-fallback';
-
-  /**
-   * Maximum time for all validation checks (ms)
-   */
-  timeout?: number;
-
-  /**
-   * Run validation in parallel or sequentially
-   */
-```
-
-This interface is important because it defines how Mastra Tutorial: TypeScript Framework for AI Agents and Workflows implements the patterns covered in this chapter.
-
-### `explorations/network-validation-bridge.ts`
-
-The `ValidatedNetworkOptions` interface in [`explorations/network-validation-bridge.ts`](https://github.com/mastra-ai/mastra/blob/HEAD/explorations/network-validation-bridge.ts) handles a key part of this chapter's functionality:
-
-```ts
-}
-
-export interface ValidatedNetworkOptions {
-  /**
-   * Maximum iterations before stopping
-   */
-  maxIterations: number;
-
-  /**
-   * Validation configuration
-   */
-  validation?: NetworkValidationConfig;
-
-  /**
-   * Called after each iteration with validation results
-   */
-  onIteration?: (result: IterationStatus) => void | Promise<void>;
-
-  /**
-   * Thread ID for memory
-   */
-  threadId?: string;
-
-  /**
-   * Resource ID for memory
-   */
-  resourceId?: string;
-}
-
-export interface IterationStatus {
-  iteration: number;
-  llmSaysComplete: boolean;
-```
-
-This interface is important because it defines how Mastra Tutorial: TypeScript Framework for AI Agents and Workflows implements the patterns covered in this chapter.
-
-### `explorations/network-validation-bridge.ts`
-
-The `IterationStatus` interface in [`explorations/network-validation-bridge.ts`](https://github.com/mastra-ai/mastra/blob/HEAD/explorations/network-validation-bridge.ts) handles a key part of this chapter's functionality:
-
-```ts
-   * Called after each iteration with validation results
-   */
-  onIteration?: (result: IterationStatus) => void | Promise<void>;
-
-  /**
-   * Thread ID for memory
-   */
-  threadId?: string;
-
-  /**
-   * Resource ID for memory
-   */
-  resourceId?: string;
-}
-
-export interface IterationStatus {
-  iteration: number;
-  llmSaysComplete: boolean;
-  validationPassed: boolean | null;
-  validationResults: ValidationResult[];
-  isComplete: boolean;
-  primitive: {
-    type: 'agent' | 'workflow' | 'tool' | 'none';
-    id: string;
-  };
-  duration: number;
-}
-
-// ============================================================================
-// Validation Check Factories
-// ============================================================================
-
-```
-
-This interface is important because it defines how Mastra Tutorial: TypeScript Framework for AI Agents and Workflows implements the patterns covered in this chapter.
-
-### `scripts/generate-package-docs.ts`
-
-The `or` class in [`scripts/generate-package-docs.ts`](https://github.com/mastra-ai/mastra/blob/HEAD/scripts/generate-package-docs.ts) handles a key part of this chapter's functionality:
-
-```ts
-#!/usr/bin/env npx tsx
 /**
- * Generates embedded documentation for Mastra packages.
+ * Promisified version of Node.js spawn function
  *
- * Uses docs/build/llms-manifest.json as the data source and copies llms.txt files to a flat structure in each package's dist/docs/references/ directory.
- *
- * Usage:
- * Add "build:docs": "pnpx tsx ../../scripts/generate-package-docs.ts", to your package.json scripts.
- * (Adjust the file path as needed based on your package location)
+ * @param {string} command - The command to run
+ * @param {string[]} args - List of string arguments
+ * @param {import('child_process').SpawnOptions} options - Spawn options
+ * @returns {Promise<void>} Promise that resolves with the exit code when the process completes
  */
+function spawn(command, args = [], options = {}) {
+  return new Promise((resolve, reject) => {
+    const childProcess = nodeSpawn(command, args, {
+      // stdio: 'inherit',
+      ...options,
+    });
 
-import fs from 'node:fs';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+    childProcess.on('error', error => {
+      reject(error);
+    });
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const MONOREPO_ROOT = path.join(__dirname, '..');
-
-interface ExportInfo {
-  types: string;
-  implementation: string;
-  line?: number;
-}
-
-interface ModuleInfo {
-  index: string;
-  chunks: string[];
-}
-
-interface SourceMap {
-  version: string;
 ```
 
-This class is important because it defines how Mastra Tutorial: TypeScript Framework for AI Agents and Workflows implements the patterns covered in this chapter.
+This function is important because it defines how Mastra Tutorial: TypeScript Framework for AI Agents and Workflows implements the patterns covered in this chapter.
+
+### `scripts/ignore-example.js`
+
+The `findLinkedDependencies` function in [`scripts/ignore-example.js`](https://github.com/mastra-ai/mastra/blob/HEAD/scripts/ignore-example.js) handles a key part of this chapter's functionality:
+
+```js
+ * @returns {Object} An object containing all linked dependencies
+ */
+function findLinkedDependencies(dir, protocol = 'link:') {
+  try {
+    // Read package.json from current working directory
+    const packageJson = JSON.parse(readFileSync(`${dir}/package.json`, 'utf8'));
+
+    // Initialize an object to store linked dependencies
+    const linkedDependencies = {};
+
+    // Check regular dependencies
+    if (packageJson.dependencies) {
+      for (const [name, version] of Object.entries(packageJson.dependencies)) {
+        if (typeof version === 'string' && version.startsWith(protocol)) {
+          linkedDependencies[name] = version;
+        }
+      }
+    }
+
+    // Check dev dependencies
+    if (packageJson.devDependencies) {
+      for (const [name, version] of Object.entries(packageJson.devDependencies)) {
+        if (typeof version === 'string' && version.startsWith(protocol)) {
+          linkedDependencies[name] = version;
+        }
+      }
+    }
+
+    // Check peer dependencies
+    if (packageJson.peerDependencies) {
+      for (const [name, version] of Object.entries(packageJson.peerDependencies)) {
+        if (typeof version === 'string' && version.startsWith(protocol)) {
+```
+
+This function is important because it defines how Mastra Tutorial: TypeScript Framework for AI Agents and Workflows implements the patterns covered in this chapter.
+
+### `explorations/network-validation-bridge.ts`
+
+The `testsPass` function in [`explorations/network-validation-bridge.ts`](https://github.com/mastra-ai/mastra/blob/HEAD/explorations/network-validation-bridge.ts) handles a key part of this chapter's functionality:
+
+```ts
+ * Check if tests pass
+ */
+export function testsPass(command = 'npm test', options?: { timeout?: number; cwd?: string }): ValidationCheck {
+  return {
+    id: 'tests-pass',
+    name: 'Tests Pass',
+    async check() {
+      const start = Date.now();
+      try {
+        const { stdout, stderr } = await execAsync(command, {
+          timeout: options?.timeout ?? 300000,
+          cwd: options?.cwd,
+        });
+        return {
+          success: true,
+          message: 'All tests passed',
+          details: { stdout: stdout.slice(-1000), stderr: stderr.slice(-500) },
+          duration: Date.now() - start,
+        };
+      } catch (error: any) {
+        return {
+          success: false,
+          message: `Tests failed: ${error.message}`,
+          details: {
+            stdout: error.stdout?.slice(-1000),
+            stderr: error.stderr?.slice(-1000),
+            exitCode: error.code,
+          },
+          duration: Date.now() - start,
+        };
+      }
+    },
+```
+
+This function is important because it defines how Mastra Tutorial: TypeScript Framework for AI Agents and Workflows implements the patterns covered in this chapter.
+
+### `explorations/network-validation-bridge.ts`
+
+The `buildSucceeds` function in [`explorations/network-validation-bridge.ts`](https://github.com/mastra-ai/mastra/blob/HEAD/explorations/network-validation-bridge.ts) handles a key part of this chapter's functionality:
+
+```ts
+ * Check if build succeeds
+ */
+export function buildSucceeds(
+  command = 'npm run build',
+  options?: { timeout?: number; cwd?: string },
+): ValidationCheck {
+  return {
+    id: 'build-succeeds',
+    name: 'Build Succeeds',
+    async check() {
+      const start = Date.now();
+      try {
+        const { stdout, stderr } = await execAsync(command, {
+          timeout: options?.timeout ?? 600000,
+          cwd: options?.cwd,
+        });
+        return {
+          success: true,
+          message: 'Build completed successfully',
+          details: { stdout: stdout.slice(-500), stderr: stderr.slice(-500) },
+          duration: Date.now() - start,
+        };
+      } catch (error: any) {
+        return {
+          success: false,
+          message: `Build failed: ${error.message}`,
+          details: {
+            stdout: error.stdout?.slice(-1000),
+            stderr: error.stderr?.slice(-1000),
+          },
+          duration: Date.now() - start,
+        };
+```
+
+This function is important because it defines how Mastra Tutorial: TypeScript Framework for AI Agents and Workflows implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[NetworkValidationConfig]
-    B[ValidatedNetworkOptions]
-    C[IterationStatus]
-    D[or]
-    E[cachedExists]
+    A[spawn]
+    B[findLinkedDependencies]
+    C[testsPass]
+    D[buildSucceeds]
+    E[lintPasses]
     A --> B
     B --> C
     C --> D

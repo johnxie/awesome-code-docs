@@ -43,170 +43,168 @@ You now understand the operational boundaries of remote and local modes.
 
 Next: [Chapter 3: Authentication and Token Strategy](03-authentication-and-token-strategy.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `pkg/github/notifications.go`
+### `cmd/github-mcp-server/generate_docs.go`
 
-The `ListNotifications` function in [`pkg/github/notifications.go`](https://github.com/github/github-mcp-server/blob/HEAD/pkg/github/notifications.go) handles a key part of this chapter's functionality:
+The `generateAllDocs` function in [`cmd/github-mcp-server/generate_docs.go`](https://github.com/github/github-mcp-server/blob/HEAD/cmd/github-mcp-server/generate_docs.go) handles a key part of this chapter's functionality:
 
 ```go
-)
+	Long:  `Generate the automated sections of README.md and docs/remote-server.md with current tool and toolset information.`,
+	RunE: func(_ *cobra.Command, _ []string) error {
+		return generateAllDocs()
+	},
+}
 
-// ListNotifications creates a tool to list notifications for the current user.
-func ListNotifications(t translations.TranslationHelperFunc) inventory.ServerTool {
-	return NewTool(
-		ToolsetMetadataNotifications,
-		mcp.Tool{
-			Name:        "list_notifications",
-			Description: t("TOOL_LIST_NOTIFICATIONS_DESCRIPTION", "Lists all GitHub notifications for the authenticated user, including unread notifications, mentions, review requests, assignments, and updates on issues or pull requests. Use this tool whenever the user asks what to work on next, requests a summary of their GitHub activity, wants to see pending reviews, or needs to check for new updates or tasks. This tool is the primary way to discover actionable items, reminders, and outstanding work on GitHub. Always call this tool when asked what to work on next, what is pending, or what needs attention in GitHub."),
-			Annotations: &mcp.ToolAnnotations{
-				Title:        t("TOOL_LIST_NOTIFICATIONS_USER_TITLE", "List notifications"),
-				ReadOnlyHint: true,
-			},
-			InputSchema: WithPagination(&jsonschema.Schema{
-				Type: "object",
-				Properties: map[string]*jsonschema.Schema{
-					"filter": {
-						Type:        "string",
-						Description: "Filter notifications to, use default unless specified. Read notifications are ones that have already been acknowledged by the user. Participating notifications are those that the user is directly involved in, such as issues or pull requests they have commented on or created.",
-						Enum:        []any{FilterDefault, FilterIncludeRead, FilterOnlyParticipating},
-					},
-					"since": {
-						Type:        "string",
-						Description: "Only show notifications updated after the given time (ISO 8601 format)",
-					},
-					"before": {
-						Type:        "string",
-						Description: "Only show notifications updated before the given time (ISO 8601 format)",
-					},
-					"owner": {
-						Type:        "string",
-						Description: "Optional repository owner. If provided with repo, only notifications for this repository are listed.",
+func init() {
+	rootCmd.AddCommand(generateDocsCmd)
+}
+
+func generateAllDocs() error {
+	for _, doc := range []struct {
+		path string
+		fn   func(string) error
+	}{
+		// File to edit, function to generate its docs
+		{"README.md", generateReadmeDocs},
+		{"docs/remote-server.md", generateRemoteServerDocs},
+		{"docs/tool-renaming.md", generateDeprecatedAliasesDocs},
+	} {
+		if err := doc.fn(doc.path); err != nil {
+			return fmt.Errorf("failed to generate docs for %s: %w", doc.path, err)
+		}
+		fmt.Printf("Successfully updated %s with automated documentation\n", doc.path)
+	}
+	return nil
+}
+
+func generateReadmeDocs(readmePath string) error {
+	// Create translation helper
+	t, _ := translations.TranslationHelper()
+
 ```
 
 This function is important because it defines how GitHub MCP Server Tutorial: Production GitHub Operations Through MCP implements the patterns covered in this chapter.
 
-### `pkg/github/notifications.go`
+### `cmd/github-mcp-server/generate_docs.go`
 
-The `DismissNotification` function in [`pkg/github/notifications.go`](https://github.com/github/github-mcp-server/blob/HEAD/pkg/github/notifications.go) handles a key part of this chapter's functionality:
+The `generateReadmeDocs` function in [`cmd/github-mcp-server/generate_docs.go`](https://github.com/github/github-mcp-server/blob/HEAD/cmd/github-mcp-server/generate_docs.go) handles a key part of this chapter's functionality:
 
 ```go
+	}{
+		// File to edit, function to generate its docs
+		{"README.md", generateReadmeDocs},
+		{"docs/remote-server.md", generateRemoteServerDocs},
+		{"docs/tool-renaming.md", generateDeprecatedAliasesDocs},
+	} {
+		if err := doc.fn(doc.path); err != nil {
+			return fmt.Errorf("failed to generate docs for %s: %w", doc.path, err)
+		}
+		fmt.Printf("Successfully updated %s with automated documentation\n", doc.path)
+	}
+	return nil
 }
 
-// DismissNotification creates a tool to mark a notification as read/done.
-func DismissNotification(t translations.TranslationHelperFunc) inventory.ServerTool {
-	return NewTool(
-		ToolsetMetadataNotifications,
-		mcp.Tool{
-			Name:        "dismiss_notification",
-			Description: t("TOOL_DISMISS_NOTIFICATION_DESCRIPTION", "Dismiss a notification by marking it as read or done"),
-			Annotations: &mcp.ToolAnnotations{
-				Title:        t("TOOL_DISMISS_NOTIFICATION_USER_TITLE", "Dismiss notification"),
-				ReadOnlyHint: false,
-			},
-			InputSchema: &jsonschema.Schema{
-				Type: "object",
-				Properties: map[string]*jsonschema.Schema{
-					"threadID": {
-						Type:        "string",
-						Description: "The ID of the notification thread",
-					},
-					"state": {
-						Type:        "string",
-						Description: "The new state of the notification (read/done)",
-						Enum:        []any{"read", "done"},
-					},
-				},
-				Required: []string{"threadID", "state"},
-			},
-		},
-		[]scopes.Scope{scopes.Notifications},
-		func(ctx context.Context, deps ToolDependencies, _ *mcp.CallToolRequest, args map[string]any) (*mcp.CallToolResult, any, error) {
-			client, err := deps.GetClient(ctx)
+func generateReadmeDocs(readmePath string) error {
+	// Create translation helper
+	t, _ := translations.TranslationHelper()
+
+	// (not available to regular users) while including tools with FeatureFlagDisable.
+	// Build() can only fail if WithTools specifies invalid tools - not used here
+	r, _ := github.NewInventory(t).WithToolsets([]string{"all"}).Build()
+
+	// Generate toolsets documentation
+	toolsetsDoc := generateToolsetsDoc(r)
+
+	// Generate tools documentation
+	toolsDoc := generateToolsDoc(r)
+
+	// Read the current README.md
+	// #nosec G304 - readmePath is controlled by command line flag, not user input
+	content, err := os.ReadFile(readmePath)
+	if err != nil {
 ```
 
 This function is important because it defines how GitHub MCP Server Tutorial: Production GitHub Operations Through MCP implements the patterns covered in this chapter.
 
-### `pkg/github/notifications.go`
+### `cmd/github-mcp-server/generate_docs.go`
 
-The `MarkAllNotificationsRead` function in [`pkg/github/notifications.go`](https://github.com/github/github-mcp-server/blob/HEAD/pkg/github/notifications.go) handles a key part of this chapter's functionality:
+The `generateRemoteServerDocs` function in [`cmd/github-mcp-server/generate_docs.go`](https://github.com/github/github-mcp-server/blob/HEAD/cmd/github-mcp-server/generate_docs.go) handles a key part of this chapter's functionality:
 
 ```go
+		// File to edit, function to generate its docs
+		{"README.md", generateReadmeDocs},
+		{"docs/remote-server.md", generateRemoteServerDocs},
+		{"docs/tool-renaming.md", generateDeprecatedAliasesDocs},
+	} {
+		if err := doc.fn(doc.path); err != nil {
+			return fmt.Errorf("failed to generate docs for %s: %w", doc.path, err)
+		}
+		fmt.Printf("Successfully updated %s with automated documentation\n", doc.path)
+	}
+	return nil
 }
 
-// MarkAllNotificationsRead creates a tool to mark all notifications as read.
-func MarkAllNotificationsRead(t translations.TranslationHelperFunc) inventory.ServerTool {
-	return NewTool(
-		ToolsetMetadataNotifications,
-		mcp.Tool{
-			Name:        "mark_all_notifications_read",
-			Description: t("TOOL_MARK_ALL_NOTIFICATIONS_READ_DESCRIPTION", "Mark all notifications as read"),
-			Annotations: &mcp.ToolAnnotations{
-				Title:        t("TOOL_MARK_ALL_NOTIFICATIONS_READ_USER_TITLE", "Mark all notifications as read"),
-				ReadOnlyHint: false,
-			},
-			InputSchema: &jsonschema.Schema{
-				Type: "object",
-				Properties: map[string]*jsonschema.Schema{
-					"lastReadAt": {
-						Type:        "string",
-						Description: "Describes the last point that notifications were checked (optional). Default: Now",
-					},
-					"owner": {
-						Type:        "string",
-						Description: "Optional repository owner. If provided with repo, only notifications for this repository are marked as read.",
-					},
-					"repo": {
-						Type:        "string",
-						Description: "Optional repository name. If provided with owner, only notifications for this repository are marked as read.",
-					},
-				},
-			},
-		},
-		[]scopes.Scope{scopes.Notifications},
+func generateReadmeDocs(readmePath string) error {
+	// Create translation helper
+	t, _ := translations.TranslationHelper()
+
+	// (not available to regular users) while including tools with FeatureFlagDisable.
+	// Build() can only fail if WithTools specifies invalid tools - not used here
+	r, _ := github.NewInventory(t).WithToolsets([]string{"all"}).Build()
+
+	// Generate toolsets documentation
+	toolsetsDoc := generateToolsetsDoc(r)
+
+	// Generate tools documentation
+	toolsDoc := generateToolsDoc(r)
+
+	// Read the current README.md
+	// #nosec G304 - readmePath is controlled by command line flag, not user input
+	content, err := os.ReadFile(readmePath)
+	if err != nil {
+		return fmt.Errorf("failed to read README.md: %w", err)
 ```
 
 This function is important because it defines how GitHub MCP Server Tutorial: Production GitHub Operations Through MCP implements the patterns covered in this chapter.
 
-### `pkg/github/notifications.go`
+### `cmd/github-mcp-server/generate_docs.go`
 
-The `GetNotificationDetails` function in [`pkg/github/notifications.go`](https://github.com/github/github-mcp-server/blob/HEAD/pkg/github/notifications.go) handles a key part of this chapter's functionality:
+The `octiconImg` function in [`cmd/github-mcp-server/generate_docs.go`](https://github.com/github/github-mcp-server/blob/HEAD/cmd/github-mcp-server/generate_docs.go) handles a key part of this chapter's functionality:
 
 ```go
 }
 
-// GetNotificationDetails creates a tool to get details for a specific notification.
-func GetNotificationDetails(t translations.TranslationHelperFunc) inventory.ServerTool {
-	return NewTool(
-		ToolsetMetadataNotifications,
-		mcp.Tool{
-			Name:        "get_notification_details",
-			Description: t("TOOL_GET_NOTIFICATION_DETAILS_DESCRIPTION", "Get detailed information for a specific GitHub notification, always call this tool when the user asks for details about a specific notification, if you don't know the ID list notifications first."),
-			Annotations: &mcp.ToolAnnotations{
-				Title:        t("TOOL_GET_NOTIFICATION_DETAILS_USER_TITLE", "Get notification details"),
-				ReadOnlyHint: true,
-			},
-			InputSchema: &jsonschema.Schema{
-				Type: "object",
-				Properties: map[string]*jsonschema.Schema{
-					"notificationID": {
-						Type:        "string",
-						Description: "The ID of the notification",
-					},
-				},
-				Required: []string{"notificationID"},
-			},
-		},
-		[]scopes.Scope{scopes.Notifications},
-		func(ctx context.Context, deps ToolDependencies, _ *mcp.CallToolRequest, args map[string]any) (*mcp.CallToolResult, any, error) {
-			client, err := deps.GetClient(ctx)
-			if err != nil {
-				return utils.NewToolResultErrorFromErr("failed to get GitHub client", err), nil, nil
-			}
+// octiconImg returns an img tag for an Octicon that works with GitHub's light/dark theme.
+// Uses picture element with prefers-color-scheme for automatic theme switching.
+// References icons from the repo's pkg/octicons/icons directory.
+// Optional pathPrefix for files in subdirectories (e.g., "../" for docs/).
+func octiconImg(name string, pathPrefix ...string) string {
+	if name == "" {
+		return ""
+	}
+	prefix := ""
+	if len(pathPrefix) > 0 {
+		prefix = pathPrefix[0]
+	}
+	// Use picture element with media queries for light/dark mode support
+	// GitHub renders these correctly in markdown
+	lightIcon := fmt.Sprintf("%spkg/octicons/icons/%s-light.png", prefix, name)
+	darkIcon := fmt.Sprintf("%spkg/octicons/icons/%s-dark.png", prefix, name)
+	return fmt.Sprintf(`<picture><source media="(prefers-color-scheme: dark)" srcset="%s"><source media="(prefers-color-scheme: light)" srcset="%s"><img src="%s" width="20" height="20" alt="%s"></picture>`, darkIcon, lightIcon, lightIcon, name)
+}
 
-			notificationID, err := RequiredParam[string](args, "notificationID")
+func generateToolsetsDoc(i *inventory.Inventory) string {
+	var buf strings.Builder
+
+	// Add table header and separator (with icon column)
+	buf.WriteString("|     | Toolset                 | Description                                                   |\n")
+	buf.WriteString("| --- | ----------------------- | ------------------------------------------------------------- |\n")
+
+	// Add the context toolset row with custom description (strongly recommended)
+	// Get context toolset for its icon
+	contextIcon := octiconImg("person")
+	fmt.Fprintf(&buf, "| %s | `context`               | **Strongly recommended**: Tools that provide context about the current user and GitHub context you are operating in |\n", contextIcon)
 ```
 
 This function is important because it defines how GitHub MCP Server Tutorial: Production GitHub Operations Through MCP implements the patterns covered in this chapter.
@@ -216,11 +214,11 @@ This function is important because it defines how GitHub MCP Server Tutorial: Pr
 
 ```mermaid
 flowchart TD
-    A[ListNotifications]
-    B[DismissNotification]
-    C[MarkAllNotificationsRead]
-    D[GetNotificationDetails]
-    E[ManageNotificationSubscription]
+    A[generateAllDocs]
+    B[generateReadmeDocs]
+    C[generateRemoteServerDocs]
+    D[octiconImg]
+    E[generateToolsetsDoc]
     A --> B
     B --> C
     C --> D

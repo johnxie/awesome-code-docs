@@ -399,6 +399,17 @@ Global CSS can be added in the app settings for consistent styling across all co
 
 Published apps are accessible at: `http://localhost:8000/apps/get/f/apps/user_dashboard`
 
+## Source Code Walkthrough
+
+### App frontend — `frontend/src/lib/components/apps/`
+
+The App Builder UI components live in [`frontend/src/lib/components/apps/`](https://github.com/windmill-labs/windmill/tree/main/frontend/src/lib/components/apps). This directory contains the drag-and-drop canvas, individual component renderers (Button, Table, Chart, etc.), and the component configuration panels. The Svelte components show exactly how apps are serialized and rendered.
+
+### App runtime — `backend/windmill-api/src/apps.rs`
+
+[`backend/windmill-api/src/apps.rs`](https://github.com/windmill-labs/windmill/blob/main/backend/windmill-api/src/apps.rs) handles app publication, versioning, and the policy system that controls what script paths an app can call. This governs the permissions model for published internal tools.
+
+
 ## What You Learned
 
 In this chapter you:

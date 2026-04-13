@@ -14,6 +14,16 @@ Welcome to **Chapter 6: Performance**. In this part of **LanceDB Tutorial: Serve
 
 ## Overview
 
+```mermaid
+flowchart TD
+    A[Table with N vectors] --> B[create_index IVF_PQ]
+    B --> C[nlist partitions]
+    C --> D[nprobes at query time]
+    D --> E[Recall vs latency tradeoff]
+    F[Compact files] --> G[Reduced fragment count]
+    H[Pre-filter] --> I[Smaller search space]
+```
+
 Performance optimization is crucial for production deployments. This chapter covers indexing strategies, query optimization, memory management, and benchmarking techniques for LanceDB.
 
 ## Index Optimization

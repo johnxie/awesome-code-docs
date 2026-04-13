@@ -1123,6 +1123,22 @@ After working through this chapter, you should be able to reason about `Chapter 
 
 Use the implementation notes around `workflowId`, `production`, `metadata` as your checklist when adapting these patterns to your own repository.
 
+## Production Deployment Architecture
+
+```mermaid
+flowchart TD
+    A[Flowise Docker image] --> B[docker-compose or K8s]
+    B --> C{Storage backend}
+    C -->|SQLite| D[Single node deployment]
+    C -->|PostgreSQL| E[HA multi-node deployment]
+    D --> F[Flowise server :3000]
+    E --> F
+    F --> G[Nginx / load balancer]
+    G --> H[API clients / UI users]
+    F --> I[Vector store connections]
+    F --> J[LLM provider APIs]
+```
+
 ## How it Works Under the Hood
 
 Under the hood, `Chapter 5: Production Deployment` usually follows a repeatable control path:

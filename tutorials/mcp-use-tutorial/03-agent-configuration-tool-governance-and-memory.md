@@ -39,21 +39,54 @@ You now have agent-level guardrails for safer, more predictable tool execution.
 
 Next: [Chapter 4: TypeScript Server Framework and UI Widgets](04-typescript-server-framework-and-ui-widgets.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
+
+### `libraries/python/mcp_use/logging.py`
+
+The `provides` class in [`libraries/python/mcp_use/logging.py`](https://github.com/mcp-use/mcp-use/blob/HEAD/libraries/python/mcp_use/logging.py) handles a key part of this chapter's functionality:
+
+```py
+Logger module for mcp_use.
+
+This module provides a centralized logging configuration for the mcp_use library,
+with customizable log levels and formatters.
+"""
+
+import logging
+import os
+import sys
+
+from langchain_core.globals import set_debug as langchain_set_debug
+
+# Global debug flag - can be set programmatically or from environment
+MCP_USE_DEBUG = 1
+
+
+class Logger:
+    """Centralized logger for mcp_use.
+
+    This class provides logging functionality with configurable levels,
+    formatters, and handlers.
+    """
+
+    # Default log format
+    DEFAULT_FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+
+    # Module-specific loggers
+    _loggers = {}
+
+    @classmethod
+    def get_logger(cls, name: str = "mcp_use") -> logging.Logger:
+        """Get a logger instance for the specified name.
+```
+
+This class is important because it defines how MCP Use Tutorial: Full-Stack MCP Development Across Agents, Clients, Servers, and Inspector implements the patterns covered in this chapter.
 
 ### `libraries/python/examples/example_middleware.py`
 
-The `main` function in [`libraries/python/examples/example_middleware.py`](https://github.com/mcp-use/mcp-use/blob/HEAD/libraries/python/examples/example_middleware.py) handles a key part of this chapter's functionality:
+The `TimingMiddleware` class in [`libraries/python/examples/example_middleware.py`](https://github.com/mcp-use/mcp-use/blob/HEAD/libraries/python/examples/example_middleware.py) handles a key part of this chapter's functionality:
 
 ```py
-
-
-async def main():
-    """Run the example with default logging and optional custom middleware."""
-    # Load environment variables
-    load_dotenv()
 
     # Create custom middleware
     class TimingMiddleware(Middleware):
@@ -80,57 +113,22 @@ async def main():
             try:
                 print("[MutationMiddleware] context.params=", context.params)
                 args = getattr(context.params, "arguments", None)
+                if args is None:
+                    args = {}
+
+                # Inject a URL argument (example) and a trace id
+                args["url"] = "https://github.com"
+                meta = args.setdefault("meta", {})
 ```
 
-This function is important because it defines how MCP Use Tutorial: Full-Stack MCP Development Across Agents, Clients, Servers, and Inspector implements the patterns covered in this chapter.
-
-### `libraries/python/examples/openai_integration_example.py`
-
-The `main` function in [`libraries/python/examples/openai_integration_example.py`](https://github.com/mcp-use/mcp-use/blob/HEAD/libraries/python/examples/openai_integration_example.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-async def main():
-    config = {
-        "mcpServers": {
-            "airbnb": {"command": "npx", "args": ["-y", "@openbnb/mcp-server-airbnb", "--ignore-robots-txt"]},
-        }
-    }
-
-    try:
-        client = MCPClient(config=config)
-
-        # Creates the adapter for OpenAI's format
-        adapter = OpenAIMCPAdapter()
-
-        # Convert tools from active connectors to the OpenAI's format
-        # this will populates the list of tools, resources and prompts
-        await adapter.create_all(client)
-
-        # If you don't want to create all tools, you can call single functions
-        # await adapter.create_tools(client)
-        # await adapter.create_resources(client)
-        # await adapter.create_prompts(client)
-
-        # If you decided to create all tools (list concatenation)
-        openai_tools = adapter.tools + adapter.resources + adapter.prompts
-
-        # Use tools with OpenAI's SDK (not agent in this case)
-        openai = OpenAI()
-        messages = [{"role": "user", "content": "Please tell me the cheapest hotel for two people in Trapani."}]
-        response = openai.chat.completions.create(model="gpt-4o", messages=messages, tools=openai_tools)
-
-```
-
-This function is important because it defines how MCP Use Tutorial: Full-Stack MCP Development Across Agents, Clients, Servers, and Inspector implements the patterns covered in this chapter.
+This class is important because it defines how MCP Use Tutorial: Full-Stack MCP Development Across Agents, Clients, Servers, and Inspector implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[main]
-    B[main]
+    A[provides]
+    B[TimingMiddleware]
     A --> B
 ```

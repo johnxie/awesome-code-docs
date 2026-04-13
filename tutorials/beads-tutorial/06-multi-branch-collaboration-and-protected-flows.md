@@ -37,9 +37,48 @@ You now have safer collaboration patterns for branch-heavy Beads workflows.
 
 Next: [Chapter 7: Troubleshooting and Operations](07-troubleshooting-and-operations.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
+
+### `internal/doltserver/doltserver.go`
+
+The `SharedDoltDir` function in [`internal/doltserver/doltserver.go`](https://github.com/steveyegge/beads/blob/HEAD/internal/doltserver/doltserver.go) handles a key part of this chapter's functionality:
+
+```go
+}
+
+// SharedDoltDir returns the dolt data directory for the shared server.
+// Returns ~/.beads/shared-server/dolt/ (created on first use).
+func SharedDoltDir() (string, error) {
+	serverDir, err := SharedServerDir()
+	if err != nil {
+		return "", err
+	}
+	dir := filepath.Join(serverDir, "dolt")
+	if err := os.MkdirAll(dir, config.BeadsDirPerm); err != nil {
+		return "", fmt.Errorf("cannot create shared dolt directory %s: %w", dir, err)
+	}
+	return dir, nil
+}
+
+// resolveServerDir returns the canonical server directory for dolt state files.
+// In shared server mode, returns ~/.beads/shared-server/ instead of the
+// project's .beads/ directory.
+func resolveServerDir(beadsDir string) string {
+	if IsSharedServerMode() {
+		dir, err := SharedServerDir()
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "Warning: shared server directory unavailable, using per-project mode: %v\n", err)
+			return beadsDir
+		}
+		return dir
+	}
+	return beadsDir
+}
+
+// ResolveServerDir is the exported version of resolveServerDir.
+```
+
+This function is important because it defines how Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents implements the patterns covered in this chapter.
 
 ### `internal/doltserver/doltserver.go`
 
@@ -164,57 +203,16 @@ func ResolveDoltDir(beadsDir string) string {
 
 This function is important because it defines how Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents implements the patterns covered in this chapter.
 
-### `internal/doltserver/doltserver.go`
-
-The `pidPath` function in [`internal/doltserver/doltserver.go`](https://github.com/steveyegge/beads/blob/HEAD/internal/doltserver/doltserver.go) handles a key part of this chapter's functionality:
-
-```go
-
-// file paths within .beads/
-func pidPath(beadsDir string) string  { return filepath.Join(beadsDir, "dolt-server.pid") }
-func logPath(beadsDir string) string  { return filepath.Join(beadsDir, "dolt-server.log") }
-func lockPath(beadsDir string) string { return filepath.Join(beadsDir, "dolt-server.lock") }
-func portPath(beadsDir string) string { return filepath.Join(beadsDir, "dolt-server.port") }
-
-// MaxDoltServers is the hard ceiling on concurrent dolt sql-server processes.
-// Allows up to 3 (e.g., multiple projects).
-func maxDoltServers() int {
-	return 3
-}
-
-// allocateEphemeralPort asks the OS for a free TCP port on host.
-// It binds to port 0, reads the assigned port, and closes the listener.
-// The caller should pass the returned port to dolt sql-server promptly
-// to minimize the TOCTOU window.
-func allocateEphemeralPort(host string) (int, error) {
-	ln, err := net.Listen("tcp", net.JoinHostPort(host, "0"))
-	if err != nil {
-		return 0, fmt.Errorf("allocating ephemeral port: %w", err)
-	}
-	port := ln.Addr().(*net.TCPAddr).Port
-	_ = ln.Close()
-	return port, nil
-}
-
-// isPortAvailable checks if a TCP port is available for binding.
-func isPortAvailable(host string, port int) bool {
-	addr := net.JoinHostPort(host, strconv.Itoa(port))
-	ln, err := net.Listen("tcp", addr)
-	if err != nil {
-```
-
-This function is important because it defines how Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents implements the patterns covered in this chapter.
-
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[resolveServerDir]
-    B[ResolveServerDir]
-    C[ResolveDoltDir]
-    D[pidPath]
-    E[logPath]
+    A[SharedDoltDir]
+    B[resolveServerDir]
+    C[ResolveServerDir]
+    D[ResolveDoltDir]
+    E[pidPath]
     A --> B
     B --> C
     C --> D

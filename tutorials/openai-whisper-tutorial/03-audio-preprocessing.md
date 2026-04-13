@@ -97,186 +97,36 @@ Suggested trace strategy:
 - [Main Catalog](../../README.md#-tutorial-catalog)
 - [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `whisper/model.py`
+### `whisper/audio.py`
 
-The `TextDecoder` class in [`whisper/model.py`](https://github.com/openai/whisper/blob/HEAD/whisper/model.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-class TextDecoder(nn.Module):
-    def __init__(
-        self, n_vocab: int, n_ctx: int, n_state: int, n_head: int, n_layer: int
-    ):
-        super().__init__()
-
-        self.token_embedding = nn.Embedding(n_vocab, n_state)
-        self.positional_embedding = nn.Parameter(torch.empty(n_ctx, n_state))
-
-        self.blocks: Iterable[ResidualAttentionBlock] = nn.ModuleList(
-            [
-                ResidualAttentionBlock(n_state, n_head, cross_attention=True)
-                for _ in range(n_layer)
-            ]
-        )
-        self.ln = LayerNorm(n_state)
-
-        mask = torch.empty(n_ctx, n_ctx).fill_(-np.inf).triu_(1)
-        self.register_buffer("mask", mask, persistent=False)
-
-    def forward(self, x: Tensor, xa: Tensor, kv_cache: Optional[dict] = None):
-        """
-        x : torch.LongTensor, shape = (batch_size, <= n_ctx)
-            the text tokens
-        xa : torch.Tensor, shape = (batch_size, n_audio_ctx, n_audio_state)
-            the encoded audio features to be attended on
-        """
-        offset = next(iter(kv_cache.values())).shape[1] if kv_cache else 0
-        x = (
-            self.token_embedding(x)
-```
-
-This class is important because it defines how OpenAI Whisper Tutorial: Speech Recognition and Translation implements the patterns covered in this chapter.
-
-### `whisper/model.py`
-
-The `Whisper` class in [`whisper/model.py`](https://github.com/openai/whisper/blob/HEAD/whisper/model.py) handles a key part of this chapter's functionality:
+The `log_mel_spectrogram` function in [`whisper/audio.py`](https://github.com/openai/whisper/blob/HEAD/whisper/audio.py) is the core preprocessing step covered in this chapter:
 
 ```py
-
-
-class Whisper(nn.Module):
-    def __init__(self, dims: ModelDimensions):
-        super().__init__()
-        self.dims = dims
-        self.encoder = AudioEncoder(
-            self.dims.n_mels,
-            self.dims.n_audio_ctx,
-            self.dims.n_audio_state,
-            self.dims.n_audio_head,
-            self.dims.n_audio_layer,
-        )
-        self.decoder = TextDecoder(
-            self.dims.n_vocab,
-            self.dims.n_text_ctx,
-            self.dims.n_text_state,
-            self.dims.n_text_head,
-            self.dims.n_text_layer,
-        )
-        # use the last half among the decoder layers for time alignment by default;
-        # to use a specific set of heads, see `set_alignment_heads()` below.
-        all_heads = torch.zeros(
-            self.dims.n_text_layer, self.dims.n_text_head, dtype=torch.bool
-        )
-        all_heads[self.dims.n_text_layer // 2 :] = True
-        self.register_buffer("alignment_heads", all_heads.to_sparse(), persistent=False)
-
-    def set_alignment_heads(self, dump: bytes):
-        array = np.frombuffer(
-            gzip.decompress(base64.b85decode(dump)), dtype=bool
-        ).copy()
+def log_mel_spectrogram(
+    audio: Union[str, np.ndarray, torch.Tensor],
+    n_mels: int = N_MELS,
+    padding: int = 0,
+    device: Optional[Union[str, torch.device]] = None,
+):
+    """
+    Compute the log-Mel spectrogram of an audio array.
+    The input audio is expected to be a float array of shape (samples,) in 16kHz sample rate.
+    """
 ```
 
-This class is important because it defines how OpenAI Whisper Tutorial: Speech Recognition and Translation implements the patterns covered in this chapter.
-
-### `whisper/model.py`
-
-The `sinusoids` function in [`whisper/model.py`](https://github.com/openai/whisper/blob/HEAD/whisper/model.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-def sinusoids(length, channels, max_timescale=10000):
-    """Returns sinusoids for positional embedding"""
-    assert channels % 2 == 0
-    log_timescale_increment = np.log(max_timescale) / (channels // 2 - 1)
-    inv_timescales = torch.exp(-log_timescale_increment * torch.arange(channels // 2))
-    scaled_time = torch.arange(length)[:, np.newaxis] * inv_timescales[np.newaxis, :]
-    return torch.cat([torch.sin(scaled_time), torch.cos(scaled_time)], dim=1)
-
-
-@contextmanager
-def disable_sdpa():
-    prev_state = MultiHeadAttention.use_sdpa
-    try:
-        MultiHeadAttention.use_sdpa = False
-        yield
-    finally:
-        MultiHeadAttention.use_sdpa = prev_state
-
-
-class MultiHeadAttention(nn.Module):
-    use_sdpa = True
-
-    def __init__(self, n_state: int, n_head: int):
-        super().__init__()
-        self.n_head = n_head
-        self.query = Linear(n_state, n_state)
-        self.key = Linear(n_state, n_state, bias=False)
-        self.value = Linear(n_state, n_state)
-        self.out = Linear(n_state, n_state)
-
-```
-
-This function is important because it defines how OpenAI Whisper Tutorial: Speech Recognition and Translation implements the patterns covered in this chapter.
-
-### `whisper/model.py`
-
-The `disable_sdpa` function in [`whisper/model.py`](https://github.com/openai/whisper/blob/HEAD/whisper/model.py) handles a key part of this chapter's functionality:
-
-```py
-
-@contextmanager
-def disable_sdpa():
-    prev_state = MultiHeadAttention.use_sdpa
-    try:
-        MultiHeadAttention.use_sdpa = False
-        yield
-    finally:
-        MultiHeadAttention.use_sdpa = prev_state
-
-
-class MultiHeadAttention(nn.Module):
-    use_sdpa = True
-
-    def __init__(self, n_state: int, n_head: int):
-        super().__init__()
-        self.n_head = n_head
-        self.query = Linear(n_state, n_state)
-        self.key = Linear(n_state, n_state, bias=False)
-        self.value = Linear(n_state, n_state)
-        self.out = Linear(n_state, n_state)
-
-    def forward(
-        self,
-        x: Tensor,
-        xa: Optional[Tensor] = None,
-        mask: Optional[Tensor] = None,
-        kv_cache: Optional[dict] = None,
-    ):
-        q = self.query(x)
-
-        if kv_cache is None or xa is None or self.key not in kv_cache:
-```
-
-This function is important because it defines how OpenAI Whisper Tutorial: Speech Recognition and Translation implements the patterns covered in this chapter.
-
+This function converts raw audio waveforms into the 80-channel log-Mel spectrogram that Whisper's encoder processes. It applies the FFT window, mel filterbank, and log compression that are central to audio preprocessing quality.
 
 ## How These Components Connect
 
 ```mermaid
-flowchart TD
-    A[TextDecoder]
-    B[Whisper]
-    C[sinusoids]
-    D[disable_sdpa]
-    E[ResultWriter]
-    A --> B
-    B --> C
-    C --> D
-    D --> E
+flowchart LR
+    A[Raw Audio File] --> B[load_audio : ffmpeg]
+    B --> C[16kHz Mono PCM]
+    C --> D[Pad to 30s Window]
+    D --> E[STFT]
+    E --> F[Mel Filterbank 80 bins]
+    F --> G[Log Compression]
+    G --> H[Audio Encoder Input]
 ```

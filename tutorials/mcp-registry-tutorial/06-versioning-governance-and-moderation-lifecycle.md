@@ -45,170 +45,168 @@ You now have lifecycle rules for safer metadata governance.
 
 Next: [Chapter 7: Admin Operations, Deployment, and Observability](07-admin-operations-deployment-and-observability.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `tools/validate-examples/main.go`
+### `internal/validators/utils.go`
 
-The `main` function in [`tools/validate-examples/main.go`](https://github.com/modelcontextprotocol/registry/blob/HEAD/tools/validate-examples/main.go) handles a key part of this chapter's functionality:
+The `replaceTemplateVariables` function in [`internal/validators/utils.go`](https://github.com/modelcontextprotocol/registry/blob/HEAD/internal/validators/utils.go) handles a key part of this chapter's functionality:
 
 ```go
-// validate-examples validates JSON examples in documentation files
-// against both schema.json and Go validators.
-package main
-
-import (
-	"bytes"
-	"encoding/json"
-	"fmt"
-	"log"
-	"os"
-	"path/filepath"
-	"regexp"
-	"strings"
-
-	"github.com/modelcontextprotocol/registry/internal/validators"
-	apiv0 "github.com/modelcontextprotocol/registry/pkg/api/v0"
-	jsonschema "github.com/santhosh-tekuri/jsonschema/v5"
-)
-
-type validationTarget struct {
-	path          string
-	requireSchema bool
-	expectedCount *int
 }
 
-func main() {
-	log.SetFlags(0) // Remove timestamp from logs
-
-	if err := runValidation(); err != nil {
-		log.Fatalf("Error: %v", err)
+// replaceTemplateVariables replaces template variables with placeholder values for URL validation
+func replaceTemplateVariables(rawURL string) string {
+	// Replace common template variables with valid placeholder values for parsing
+	templateReplacements := map[string]string{
+		"{host}":     "example.com",
+		"{port}":     "8080",
+		"{path}":     "api",
+		"{protocol}": "http",
+		"{scheme}":   "http",
 	}
+
+	result := rawURL
+	for placeholder, replacement := range templateReplacements {
+		result = strings.ReplaceAll(result, placeholder, replacement)
+	}
+
+	// Handle any remaining {variable} patterns with context-appropriate placeholders
+	// If the variable is in a port position (after a colon in the host), use a numeric placeholder
+	// Pattern: :/{variable} or :{variable}/ or :{variable} at end
+	portRe := regexp.MustCompile(`:(\{[^}]+\})(/|$)`)
+	result = portRe.ReplaceAllString(result, ":8080$2")
+
+	// Replace any other remaining {variable} patterns with generic placeholder
+	re := regexp.MustCompile(`\{[^}]+\}`)
+	result = re.ReplaceAllString(result, "placeholder")
+
+	return result
 }
+
+// IsValidURL checks if a URL is in valid format (basic structure validation)
 ```
 
 This function is important because it defines how MCP Registry Tutorial: Publishing, Discovery, and Governance for MCP Servers implements the patterns covered in this chapter.
 
-### `tools/validate-examples/main.go`
+### `internal/validators/utils.go`
 
-The `runValidation` function in [`tools/validate-examples/main.go`](https://github.com/modelcontextprotocol/registry/blob/HEAD/tools/validate-examples/main.go) handles a key part of this chapter's functionality:
-
-```go
-	log.SetFlags(0) // Remove timestamp from logs
-
-	if err := runValidation(); err != nil {
-		log.Fatalf("Error: %v", err)
-	}
-}
-
-func runValidation() error {
-	// Define what we validate and how
-	expectedServerJSONCount := 15
-	targets := []validationTarget{
-		{
-			path:          filepath.Join("docs", "reference", "server-json", "generic-server-json.md"),
-			requireSchema: false,
-			expectedCount: &expectedServerJSONCount,
-		},
-		{
-			path:          filepath.Join("docs", "modelcontextprotocol-io", "package-types.mdx"),
-			requireSchema: true,
-			expectedCount: nil, // No count validation for guide
-		},
-		{
-			path:          filepath.Join("docs", "modelcontextprotocol-io", "quickstart.mdx"),
-			requireSchema: true,
-			expectedCount: nil, // No count validation for guide
-		},
-		{
-			path:          filepath.Join("docs", "modelcontextprotocol-io", "remote-servers.mdx"),
-			requireSchema: true,
-			expectedCount: nil, // No count validation for guide
-		},
-	}
-```
-
-This function is important because it defines how MCP Registry Tutorial: Publishing, Discovery, and Governance for MCP Servers implements the patterns covered in this chapter.
-
-### `tools/validate-examples/main.go`
-
-The `validateFile` function in [`tools/validate-examples/main.go`](https://github.com/modelcontextprotocol/registry/blob/HEAD/tools/validate-examples/main.go) handles a key part of this chapter's functionality:
+The `IsValidURL` function in [`internal/validators/utils.go`](https://github.com/modelcontextprotocol/registry/blob/HEAD/internal/validators/utils.go) handles a key part of this chapter's functionality:
 
 ```go
-
-	for _, target := range targets {
-		if err := validateFile(target, baseSchema); err != nil {
-			return err
-		}
-		log.Println()
-	}
-
-	log.Println("All validations passed!")
-	return nil
 }
 
-func validateFile(target validationTarget, baseSchema *jsonschema.Schema) error {
-	examples, err := extractExamples(target.path, target.requireSchema)
+// IsValidURL checks if a URL is in valid format (basic structure validation)
+func IsValidURL(rawURL string) bool {
+	// Replace template variables with placeholders for parsing
+	testURL := replaceTemplateVariables(rawURL)
+
+	// Parse the URL
+	u, err := url.Parse(testURL)
 	if err != nil {
-		return fmt.Errorf("failed to extract examples from %s: %w", target.path, err)
-	}
-
-	log.Printf("Validating %s: found %d examples\n", target.path, len(examples))
-
-	if target.expectedCount != nil && len(examples) != *target.expectedCount {
-		return fmt.Errorf("expected %d examples in %s but found %d - if this is intentional, update expectedCount in tools/validate-examples/main.go",
-			*target.expectedCount, target.path, len(examples))
-	}
-
-	if len(examples) == 0 {
-		log.Println("  No examples to validate")
-		return nil
-	}
-
-	log.Println()
-
-```
-
-This function is important because it defines how MCP Registry Tutorial: Publishing, Discovery, and Governance for MCP Servers implements the patterns covered in this chapter.
-
-### `tools/validate-examples/main.go`
-
-The `validateExample` function in [`tools/validate-examples/main.go`](https://github.com/modelcontextprotocol/registry/blob/HEAD/tools/validate-examples/main.go) handles a key part of this chapter's functionality:
-
-```go
-		log.Printf("  Example %d (line %d):", i+1, example.line)
-
-		if validateExample(example, baseSchema) {
-			validatedCount++
-		}
-
-		log.Println()
-	}
-
-	if validatedCount != len(examples) {
-		return fmt.Errorf("validation failed for %s: expected %d examples to pass but only %d did",
-			target.path, len(examples), validatedCount)
-	}
-
-	return nil
-}
-
-func validateExample(ex example, baseSchema *jsonschema.Schema) bool {
-	var data any
-	if err := json.Unmarshal([]byte(ex.content), &data); err != nil {
-		log.Printf("    ❌ Invalid JSON: %v", err)
 		return false
 	}
 
-	// Extract server portion if this is a PublishRequest format
-	serverData := data
-	publishRequestValid := true
-	if dataMap, ok := data.(map[string]any); ok {
-		if server, exists := dataMap["server"]; exists {
-			// This is a PublishRequest format - validate only expected properties exist
-			for key := range dataMap {
-				if key != "server" && key != "x-publisher" {
+	// Check if scheme is present (http or https)
+	if u.Scheme != "http" && u.Scheme != "https" {
+		return false
+	}
+
+	if u.Host == "" {
+		return false
+	}
+	return true
+}
+
+// IsValidSubfolderPath checks if a subfolder path is valid
+func IsValidSubfolderPath(path string) bool {
+	// Empty path is valid (subfolder is optional)
+	if path == "" {
+		return true
+	}
+
+	// Must not start with / (must be relative)
+```
+
+This function is important because it defines how MCP Registry Tutorial: Publishing, Discovery, and Governance for MCP Servers implements the patterns covered in this chapter.
+
+### `internal/validators/utils.go`
+
+The `IsValidSubfolderPath` function in [`internal/validators/utils.go`](https://github.com/modelcontextprotocol/registry/blob/HEAD/internal/validators/utils.go) handles a key part of this chapter's functionality:
+
+```go
+}
+
+// IsValidSubfolderPath checks if a subfolder path is valid
+func IsValidSubfolderPath(path string) bool {
+	// Empty path is valid (subfolder is optional)
+	if path == "" {
+		return true
+	}
+
+	// Must not start with / (must be relative)
+	if strings.HasPrefix(path, "/") {
+		return false
+	}
+
+	// Must not end with / (clean path format)
+	if strings.HasSuffix(path, "/") {
+		return false
+	}
+
+	// Check for valid path characters (alphanumeric, dash, underscore, dot, forward slash)
+	validPathRegex := regexp.MustCompile(`^[a-zA-Z0-9\-_./]+$`)
+	if !validPathRegex.MatchString(path) {
+		return false
+	}
+
+	// Check that path segments are valid
+	segments := strings.Split(path, "/")
+	for _, segment := range segments {
+		// Disallow empty segments ("//"), current dir ("."), and parent dir ("..")
+		if segment == "" || segment == "." || segment == ".." {
+			return false
+		}
+```
+
+This function is important because it defines how MCP Registry Tutorial: Publishing, Discovery, and Governance for MCP Servers implements the patterns covered in this chapter.
+
+### `internal/validators/utils.go`
+
+The `IsValidRemoteURL` function in [`internal/validators/utils.go`](https://github.com/modelcontextprotocol/registry/blob/HEAD/internal/validators/utils.go) handles a key part of this chapter's functionality:
+
+```go
+}
+
+// IsValidRemoteURL checks if a URL is valid for remotes (stricter than packages - no localhost allowed)
+func IsValidRemoteURL(rawURL string) bool {
+	// First check basic URL structure
+	if !IsValidURL(rawURL) {
+		return false
+	}
+
+	// Replace template variables with placeholders before parsing for localhost check
+	testURL := replaceTemplateVariables(rawURL)
+
+	// Parse the URL to check for localhost restriction
+	u, err := url.Parse(testURL)
+	if err != nil {
+		return false
+	}
+
+	// Reject localhost URLs for remotes (security/production concerns)
+	hostname := u.Hostname()
+	if hostname == "localhost" || hostname == "127.0.0.1" || strings.HasSuffix(hostname, ".localhost") {
+		return false
+	}
+
+	if u.Scheme != "https" {
+		return false
+	}
+
+	return true
+}
+
+// IsValidTemplatedURL validates a URL with template variables against available variables
 ```
 
 This function is important because it defines how MCP Registry Tutorial: Publishing, Discovery, and Governance for MCP Servers implements the patterns covered in this chapter.
@@ -218,11 +216,11 @@ This function is important because it defines how MCP Registry Tutorial: Publish
 
 ```mermaid
 flowchart TD
-    A[main]
-    B[runValidation]
-    C[validateFile]
-    D[validateExample]
-    E[validateAgainstSchema]
+    A[replaceTemplateVariables]
+    B[IsValidURL]
+    C[IsValidSubfolderPath]
+    D[IsValidRemoteURL]
+    E[IsValidTemplatedURL]
     A --> B
     B --> C
     C --> D

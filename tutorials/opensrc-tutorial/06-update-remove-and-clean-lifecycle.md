@@ -41,170 +41,168 @@ You now have operational control over source import lifecycle and cache hygiene.
 
 Next: [Chapter 7: Reliability, Rate Limits, and Version Fallbacks](07-reliability-rate-limits-and-version-fallbacks.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `src/lib/version.ts`
+### `src/commands/list.ts`
 
-The `getVersionFromNodeModules` function in [`src/lib/version.ts`](https://github.com/vercel-labs/opensrc/blob/HEAD/src/lib/version.ts) handles a key part of this chapter's functionality:
+The `listCommand` function in [`src/commands/list.ts`](https://github.com/vercel-labs/opensrc/blob/HEAD/src/commands/list.ts) handles a key part of this chapter's functionality:
 
 ```ts
- * Try to get installed version from node_modules
+ * List all fetched package sources
  */
-async function getVersionFromNodeModules(
-  packageName: string,
-  cwd: string,
-): Promise<string | null> {
-  const packageJsonPath = join(
-    cwd,
-    "node_modules",
-    packageName,
-    "package.json",
-  );
+export async function listCommand(options: ListOptions = {}): Promise<void> {
+  const cwd = options.cwd || process.cwd();
+  const sources = await listSources(cwd);
 
-  if (!existsSync(packageJsonPath)) {
-    return null;
+  const totalCount = sources.packages.length + sources.repos.length;
+
+  if (totalCount === 0) {
+    console.log("No sources fetched yet.");
+    console.log(
+      "\nUse `opensrc <package>` to fetch source code for a package.",
+    );
+    console.log("Use `opensrc <owner>/<repo>` to fetch a GitHub repository.");
+    console.log("\nSupported registries:");
+    console.log("  • npm:      opensrc zod, opensrc npm:react");
+    console.log("  • PyPI:     opensrc pypi:requests");
+    console.log("  • crates:   opensrc crates:serde");
+    return;
   }
 
-  try {
-    const content = await readFile(packageJsonPath, "utf-8");
-    const pkg = JSON.parse(content) as { version?: string };
-    return pkg.version || null;
-  } catch {
-    return null;
+  if (options.json) {
+    console.log(JSON.stringify(sources, null, 2));
+    return;
   }
+
+  // Group packages by registry for display
+  const packagesByRegistry: Record<Registry, typeof sources.packages> = {
+    npm: [],
+    pypi: [],
+    crates: [],
+  };
+```
+
+This function is important because it defines how OpenSrc Tutorial: Deep Source Context for Coding Agents implements the patterns covered in this chapter.
+
+### `src/commands/list.ts`
+
+The `ListOptions` interface in [`src/commands/list.ts`](https://github.com/vercel-labs/opensrc/blob/HEAD/src/commands/list.ts) handles a key part of this chapter's functionality:
+
+```ts
+import type { Registry } from "../types.js";
+
+export interface ListOptions {
+  cwd?: string;
+  json?: boolean;
 }
 
+const REGISTRY_LABELS: Record<Registry, string> = {
+  npm: "npm",
+  pypi: "PyPI",
+  crates: "crates.io",
+};
+
 /**
- * Try to get installed version from package-lock.json
+ * List all fetched package sources
  */
-async function getVersionFromPackageLock(
-  packageName: string,
-  cwd: string,
-```
+export async function listCommand(options: ListOptions = {}): Promise<void> {
+  const cwd = options.cwd || process.cwd();
+  const sources = await listSources(cwd);
 
-This function is important because it defines how OpenSrc Tutorial: Deep Source Context for Coding Agents implements the patterns covered in this chapter.
+  const totalCount = sources.packages.length + sources.repos.length;
 
-### `src/lib/version.ts`
-
-The `getVersionFromPackageLock` function in [`src/lib/version.ts`](https://github.com/vercel-labs/opensrc/blob/HEAD/src/lib/version.ts) handles a key part of this chapter's functionality:
-
-```ts
- * Try to get installed version from package-lock.json
- */
-async function getVersionFromPackageLock(
-  packageName: string,
-  cwd: string,
-): Promise<string | null> {
-  const lockPath = join(cwd, "package-lock.json");
-
-  if (!existsSync(lockPath)) {
-    return null;
-  }
-
-  try {
-    const content = await readFile(lockPath, "utf-8");
-    const lock = JSON.parse(content) as PackageLockJson;
-
-    // npm v7+ format uses "packages"
-    if (lock.packages) {
-      const key = `node_modules/${packageName}`;
-      if (lock.packages[key]?.version) {
-        return lock.packages[key].version;
-      }
-    }
-
-    // npm v6 and earlier format uses "dependencies"
-    if (lock.dependencies?.[packageName]?.version) {
-      return lock.dependencies[packageName].version;
-    }
-
-    return null;
-  } catch {
-    return null;
-```
-
-This function is important because it defines how OpenSrc Tutorial: Deep Source Context for Coding Agents implements the patterns covered in this chapter.
-
-### `src/lib/version.ts`
-
-The `getVersionFromPnpmLock` function in [`src/lib/version.ts`](https://github.com/vercel-labs/opensrc/blob/HEAD/src/lib/version.ts) handles a key part of this chapter's functionality:
-
-```ts
- * This is a simplified parser - pnpm lockfiles are complex
- */
-async function getVersionFromPnpmLock(
-  packageName: string,
-  cwd: string,
-): Promise<string | null> {
-  const lockPath = join(cwd, "pnpm-lock.yaml");
-
-  if (!existsSync(lockPath)) {
-    return null;
-  }
-
-  try {
-    const content = await readFile(lockPath, "utf-8");
-
-    // Look for the package in the lockfile
-    // pnpm format: 'packageName@version(peer-deps):' or 'packageName@version:'
-    // We need to stop at '(' or ')' (peer deps), ':' (end of key), or quotes
-    // The ')' case handles matching inside another package's peer deps like ai@6.0.6(zod@4.3.4)
-    const escapedName = packageName.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-    const regex = new RegExp(`['"]?${escapedName}@([^(':"\\s)]+)`, "g");
-    const matches = [...content.matchAll(regex)];
-
-    if (matches.length > 0) {
-      // Return the first match's version
-      return matches[0][1];
-    }
-
-    return null;
-  } catch {
-    return null;
-  }
-```
-
-This function is important because it defines how OpenSrc Tutorial: Deep Source Context for Coding Agents implements the patterns covered in this chapter.
-
-### `src/lib/version.ts`
-
-The `getVersionFromYarnLock` function in [`src/lib/version.ts`](https://github.com/vercel-labs/opensrc/blob/HEAD/src/lib/version.ts) handles a key part of this chapter's functionality:
-
-```ts
- * Try to get version from yarn.lock
- */
-async function getVersionFromYarnLock(
-  packageName: string,
-  cwd: string,
-): Promise<string | null> {
-  const lockPath = join(cwd, "yarn.lock");
-
-  if (!existsSync(lockPath)) {
-    return null;
-  }
-
-  try {
-    const content = await readFile(lockPath, "utf-8");
-
-    // Yarn lockfile format:
-    // "packageName@^version":
-    //   version "actual-version"
-    const escapedName = packageName.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-    const regex = new RegExp(
-      `"?${escapedName}@[^":\\n]+[":]?\\s*\\n\\s*version\\s+["']?([^"'\\n]+)`,
-      "g",
+  if (totalCount === 0) {
+    console.log("No sources fetched yet.");
+    console.log(
+      "\nUse `opensrc <package>` to fetch source code for a package.",
     );
-    const matches = [...content.matchAll(regex)];
+    console.log("Use `opensrc <owner>/<repo>` to fetch a GitHub repository.");
+    console.log("\nSupported registries:");
+    console.log("  • npm:      opensrc zod, opensrc npm:react");
+    console.log("  • PyPI:     opensrc pypi:requests");
+    console.log("  • crates:   opensrc crates:serde");
+```
 
-    if (matches.length > 0) {
-      return matches[0][1];
+This interface is important because it defines how OpenSrc Tutorial: Deep Source Context for Coding Agents implements the patterns covered in this chapter.
+
+### `src/lib/agents.ts`
+
+The `getSectionContent` function in [`src/lib/agents.ts`](https://github.com/vercel-labs/opensrc/blob/HEAD/src/lib/agents.ts) handles a key part of this chapter's functionality:
+
+```ts
+ * Get the section content (without leading newline for comparison)
+ */
+function getSectionContent(): string {
+  return `${SECTION_MARKER}
+
+${SECTION_START}
+
+Source code for dependencies is available in \`opensrc/\` for deeper understanding of implementation details.
+
+See \`opensrc/sources.json\` for the list of available packages and their versions.
+
+Use this source code when you need to understand how a package works internally, not just its types/interface.
+
+### Fetching Additional Source Code
+
+To fetch source code for a package or repository you need to understand, run:
+
+\`\`\`bash
+npx opensrc <package>           # npm package (e.g., npx opensrc zod)
+npx opensrc pypi:<package>      # Python package (e.g., npx opensrc pypi:requests)
+npx opensrc crates:<package>    # Rust crate (e.g., npx opensrc crates:serde)
+npx opensrc <owner>/<repo>      # GitHub repo (e.g., npx opensrc vercel/ai)
+\`\`\`
+
+${SECTION_END_MARKER}`;
+}
+
+export interface PackageEntry {
+  name: string;
+  version: string;
+  registry: Registry;
+  path: string;
+```
+
+This function is important because it defines how OpenSrc Tutorial: Deep Source Context for Coding Agents implements the patterns covered in this chapter.
+
+### `src/lib/agents.ts`
+
+The `updatePackageIndex` function in [`src/lib/agents.ts`](https://github.com/vercel-labs/opensrc/blob/HEAD/src/lib/agents.ts) handles a key part of this chapter's functionality:
+
+```ts
+ * Update the sources.json file in opensrc/
+ */
+export async function updatePackageIndex(
+  sources: {
+    packages: PackageEntry[];
+    repos: RepoEntry[];
+  },
+  cwd: string = process.cwd(),
+): Promise<void> {
+  const opensrcDir = join(cwd, OPENSRC_DIR);
+  const sourcesPath = join(opensrcDir, SOURCES_FILE);
+
+  if (sources.packages.length === 0 && sources.repos.length === 0) {
+    // Remove index file if no sources
+    if (existsSync(sourcesPath)) {
+      const { rm } = await import("fs/promises");
+      await rm(sourcesPath, { force: true });
     }
+    return;
+  }
 
-    return null;
-  } catch {
-    return null;
+  const index: SourcesIndex = {
+    updatedAt: new Date().toISOString(),
+  };
+
+  if (sources.packages.length > 0) {
+    index.packages = sources.packages.map((p) => ({
+      name: p.name,
+      version: p.version,
+      registry: p.registry,
+      path: p.path,
+      fetchedAt: p.fetchedAt,
 ```
 
 This function is important because it defines how OpenSrc Tutorial: Deep Source Context for Coding Agents implements the patterns covered in this chapter.
@@ -214,11 +212,11 @@ This function is important because it defines how OpenSrc Tutorial: Deep Source 
 
 ```mermaid
 flowchart TD
-    A[getVersionFromNodeModules]
-    B[getVersionFromPackageLock]
-    C[getVersionFromPnpmLock]
-    D[getVersionFromYarnLock]
-    E[getVersionFromPackageJson]
+    A[listCommand]
+    B[ListOptions]
+    C[getSectionContent]
+    D[updatePackageIndex]
+    E[hasOpensrcSection]
     A --> B
     B --> C
     C --> D

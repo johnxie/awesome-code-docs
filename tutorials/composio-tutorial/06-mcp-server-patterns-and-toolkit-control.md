@@ -46,170 +46,168 @@ You now have a decision framework for MCP architecture choices in Composio deplo
 
 Next: [Chapter 7: Triggers, Webhooks, and Event Automation](07-triggers-webhooks-and-event-automation.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `python/scripts/generate-docs.py`
+### `docs/components/custom-schema-ui.tsx`
 
-The `docs` class in [`python/scripts/generate-docs.py`](https://github.com/ComposioHQ/composio/blob/HEAD/python/scripts/generate-docs.py) handles a key part of this chapter's functionality:
+The `ExpandableContent` function in [`docs/components/custom-schema-ui.tsx`](https://github.com/ComposioHQ/composio/blob/HEAD/docs/components/custom-schema-ui.tsx) handles a key part of this chapter's functionality:
 
-```py
+```tsx
+            <span className="text-sm font-medium">{item.name}</span>
+            {isExpandable(refs[item.$type], refs) && (
+              <ExpandableContent $type={item.$type} parentPath={parentPath} />
+            )}
+          </div>
+        ))}
+      </div>
+    );
+  }
 
-Generates MDX documentation from Python source code using griffe.
-Output is written to the docs content directory.
+  return null;
+}
 
-Run: cd python && uv run --with griffe python scripts/generate-docs.py
-"""
+function SchemaProperty({
+  name,
+  $type,
+  required,
+  parentPath = '',
+  isRoot = false,
+}: {
+  name: string;
+  $type: string;
+  required: boolean;
+  parentPath?: string;
+  isRoot?: boolean;
+}) {
+  const { refs } = useData();
+  const isResponse = useIsResponse();
+  const schema = refs[$type];
+  const fullPath = parentPath ? `${parentPath}.${name}` : name;
 
-from __future__ import annotations
-
-import json
-import re
-import shutil
-from pathlib import Path
-from typing import Any
-
-try:
-    import griffe
-except ImportError:
-    print("Error: griffe not installed. Run: pip install griffe")
-    raise SystemExit(1)
-
-# Paths
-SCRIPT_DIR = Path(__file__).parent
-PACKAGE_DIR = SCRIPT_DIR.parent
-OUTPUT_DIR = (
-    PACKAGE_DIR.parent / "docs" / "content" / "reference" / "sdk-reference" / "python"
-)
-
-# GitHub base URL for source links
-GITHUB_BASE = "https://github.com/composiohq/composio/blob/next/python"
-
-# Decorators to document
-```
-
-This class is important because it defines how Composio Tutorial: Production Tool and Authentication Infrastructure for AI Agents implements the patterns covered in this chapter.
-
-### `python/scripts/generate-docs.py`
-
-The `to_kebab_case` function in [`python/scripts/generate-docs.py`](https://github.com/ComposioHQ/composio/blob/HEAD/python/scripts/generate-docs.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-def to_kebab_case(name: str) -> str:
-    """Convert PascalCase to kebab-case."""
-    s1 = re.sub("(.)([A-Z][a-z]+)", r"\1-\2", name)
-    return re.sub("([a-z0-9])([A-Z])", r"\1-\2", s1).lower()
-
-
-def escape_yaml_string(s: str) -> str:
-    """Escape a string for YAML frontmatter."""
-    if any(c in s for c in [":", '"', "'", "\n", "#", "{", "}"]):
-        return f'"{s.replace(chr(34), chr(92) + chr(34))}"'
-    return s
-
-
-def get_source_link(obj: griffe.Object) -> str | None:
-    """Get GitHub source link for an object."""
-    if not hasattr(obj, "filepath") or not obj.filepath:
-        return None
-    try:
-        raw_filepath = obj.filepath
-        # Handle case where filepath might be a list (griffe edge case)
-        if isinstance(raw_filepath, list):
-            resolved_path: Path | None = raw_filepath[0] if raw_filepath else None
-        else:
-            resolved_path = raw_filepath
-        if not resolved_path:
-            return None
-        rel_path = resolved_path.relative_to(PACKAGE_DIR)
-    except ValueError:
-        return None
-    line = obj.lineno if hasattr(obj, "lineno") and obj.lineno else 1
+  const hasChildren = isExpandable(schema, refs);
 ```
 
 This function is important because it defines how Composio Tutorial: Production Tool and Authentication Infrastructure for AI Agents implements the patterns covered in this chapter.
 
-### `python/scripts/generate-docs.py`
+### `docs/components/custom-schema-ui.tsx`
 
-The `escape_yaml_string` function in [`python/scripts/generate-docs.py`](https://github.com/ComposioHQ/composio/blob/HEAD/python/scripts/generate-docs.py) handles a key part of this chapter's functionality:
+The `isExpandable` function in [`docs/components/custom-schema-ui.tsx`](https://github.com/ComposioHQ/composio/blob/HEAD/docs/components/custom-schema-ui.tsx) handles a key part of this chapter's functionality:
 
-```py
+```tsx
+}: SchemaUIProps) {
+  const schema = generated.refs[generated.$root];
+  const isProperty = as === 'property' || !isExpandable(schema, generated.refs);
 
+  return (
+    <DataContext value={generated}>
+      <ResponseContext value={isResponse}>
+        {isProperty ? (
+          <SchemaProperty
+            name={name}
+            $type={generated.$root}
+            required={required}
+            isRoot
+          />
+        ) : (
+          <SchemaContent $type={generated.$root} />
+        )}
+      </ResponseContext>
+    </DataContext>
+  );
+}
 
-def escape_yaml_string(s: str) -> str:
-    """Escape a string for YAML frontmatter."""
-    if any(c in s for c in [":", '"', "'", "\n", "#", "{", "}"]):
-        return f'"{s.replace(chr(34), chr(92) + chr(34))}"'
-    return s
+function SchemaContent({
+  $type,
+  parentPath = '',
+}: {
+  $type: string;
+  parentPath?: string;
+}) {
+  const { refs } = useData();
+  const schema = refs[$type];
 
-
-def get_source_link(obj: griffe.Object) -> str | None:
-    """Get GitHub source link for an object."""
-    if not hasattr(obj, "filepath") or not obj.filepath:
-        return None
-    try:
-        raw_filepath = obj.filepath
-        # Handle case where filepath might be a list (griffe edge case)
-        if isinstance(raw_filepath, list):
-            resolved_path: Path | None = raw_filepath[0] if raw_filepath else None
-        else:
-            resolved_path = raw_filepath
-        if not resolved_path:
-            return None
-        rel_path = resolved_path.relative_to(PACKAGE_DIR)
-    except ValueError:
-        return None
-    line = obj.lineno if hasattr(obj, "lineno") and obj.lineno else 1
-    return f"{GITHUB_BASE}/{rel_path}#L{line}"
-
-
-def format_type(annotation: Any) -> str:
-    """Format a type annotation to readable string."""
-    if annotation is None:
 ```
 
 This function is important because it defines how Composio Tutorial: Production Tool and Authentication Infrastructure for AI Agents implements the patterns covered in this chapter.
 
-### `python/scripts/generate-docs.py`
+### `docs/components/custom-schema-ui.tsx`
 
-The `get_source_link` function in [`python/scripts/generate-docs.py`](https://github.com/ComposioHQ/composio/blob/HEAD/python/scripts/generate-docs.py) handles a key part of this chapter's functionality:
+The `getTypeDisplay` function in [`docs/components/custom-schema-ui.tsx`](https://github.com/ComposioHQ/composio/blob/HEAD/docs/components/custom-schema-ui.tsx) handles a key part of this chapter's functionality:
 
-```py
+```tsx
 
+  const hasChildren = isExpandable(schema, refs);
+  const typeDisplay = getTypeDisplay(schema);
 
-def get_source_link(obj: griffe.Object) -> str | None:
-    """Get GitHub source link for an object."""
-    if not hasattr(obj, "filepath") or not obj.filepath:
-        return None
-    try:
-        raw_filepath = obj.filepath
-        # Handle case where filepath might be a list (griffe edge case)
-        if isinstance(raw_filepath, list):
-            resolved_path: Path | None = raw_filepath[0] if raw_filepath else None
-        else:
-            resolved_path = raw_filepath
-        if not resolved_path:
-            return None
-        rel_path = resolved_path.relative_to(PACKAGE_DIR)
-    except ValueError:
-        return None
-    line = obj.lineno if hasattr(obj, "lineno") and obj.lineno else 1
-    return f"{GITHUB_BASE}/{rel_path}#L{line}"
+  return (
+    <div className={cn('py-4', !isRoot && 'first:pt-0')}>
+      {/* Property header */}
+      <div className="flex flex-wrap items-center gap-2">
+        <span className="font-medium font-mono text-fd-foreground">
+          {name}
+        </span>
+        <span className="text-sm font-mono text-fd-muted-foreground">
+          {typeDisplay}
+        </span>
+        {required && !isResponse && (
+          <span className="text-xs text-red-400 font-medium">Required</span>
+        )}
+        {schema.deprecated && (
+          <span className="text-xs bg-yellow-500/10 text-yellow-600 dark:text-yellow-400 px-1.5 py-0.5 rounded">
+            Deprecated
+          </span>
+        )}
+      </div>
 
+      {/* Description */}
+      {schema.description && (
+        <div className="mt-2 text-sm text-fd-muted-foreground prose-no-margin">
+          {schema.description}
+        </div>
+      )}
 
-def format_type(annotation: Any) -> str:
-    """Format a type annotation to readable string."""
-    if annotation is None:
-        return "Any"
+      {/* Info tags */}
+```
 
-    type_str = str(annotation)
-    # Clean up common prefixes
-    type_str = type_str.replace("typing.", "").replace("typing_extensions.", "")
-    type_str = type_str.replace("composio.client.types.", "")
-    type_str = re.sub(r"\bt\.", "", type_str)
+This function is important because it defines how Composio Tutorial: Production Tool and Authentication Infrastructure for AI Agents implements the patterns covered in this chapter.
+
+### `docs/components/custom-schema-ui.tsx`
+
+The `getChildCount` function in [`docs/components/custom-schema-ui.tsx`](https://github.com/ComposioHQ/composio/blob/HEAD/docs/components/custom-schema-ui.tsx) handles a key part of this chapter's functionality:
+
+```tsx
+  const schema = refs[$type];
+
+  const childCount = getChildCount(schema);
+  const label = schema.type === 'array' ? 'item properties' : 'child attributes';
+
+  return (
+    <Collapsible open={isOpen} onOpenChange={setIsOpen} className="mt-3">
+      <CollapsibleTrigger className="group flex items-center gap-1 px-2 py-1 text-xs text-fd-muted-foreground hover:text-fd-foreground font-medium rounded border border-fd-border hover:bg-fd-accent/30 transition-colors">
+        {isOpen ? (
+          <>
+            <X className="h-3 w-3" />
+            Hide {label}
+          </>
+        ) : (
+          <>
+            <Plus className="h-3 w-3" />
+            Show {childCount > 0 ? `${childCount} ` : ''}{label}
+          </>
+        )}
+      </CollapsibleTrigger>
+      <CollapsibleContent>
+        <div className="mt-2 pl-3 border-l border-fd-border">
+          <SchemaContent $type={$type} parentPath={parentPath} />
+        </div>
+      </CollapsibleContent>
+    </Collapsible>
+  );
+}
+
+function isExpandable(
+  schema: SchemaData,
+  refs?: Record<string, SchemaData>,
 ```
 
 This function is important because it defines how Composio Tutorial: Production Tool and Authentication Infrastructure for AI Agents implements the patterns covered in this chapter.
@@ -219,11 +217,11 @@ This function is important because it defines how Composio Tutorial: Production 
 
 ```mermaid
 flowchart TD
-    A[docs]
-    B[to_kebab_case]
-    C[escape_yaml_string]
-    D[get_source_link]
-    E[format_type]
+    A[ExpandableContent]
+    B[isExpandable]
+    C[getTypeDisplay]
+    D[getChildCount]
+    E[SchemaUIProps]
     A --> B
     B --> C
     C --> D

@@ -252,6 +252,17 @@ wmill push
 
 The CLI enables git-based workflows: write scripts locally, version them in Git, and deploy via CI/CD.
 
+## Source Code Walkthrough
+
+### Windmill TypeScript worker — `backend/windmill-worker/src/worker.rs`
+
+Windmill's worker runtime is written in Rust. The [`backend/windmill-worker/src/worker.rs`](https://github.com/windmill-labs/windmill/blob/main/backend/windmill-worker/src/worker.rs) file shows how jobs are dequeued, dispatched to the correct language runtime (Deno for TypeScript, Python subprocess, etc.), and how results are returned. This is what runs every time you execute a script.
+
+### Auto-generated webhook — `backend/windmill-api/src/jobs.rs`
+
+Script webhook endpoints are generated automatically. [`backend/windmill-api/src/jobs.rs`](https://github.com/windmill-labs/windmill/blob/main/backend/windmill-api/src/jobs.rs) implements the `/api/w/{workspace}/jobs/run/p/{path}` route that the auto-generated webhook calls — showing exactly how script path maps to a REST endpoint.
+
+
 ## What Just Happened
 
 In this chapter you:

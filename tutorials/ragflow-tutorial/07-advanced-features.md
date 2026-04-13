@@ -767,6 +767,19 @@ Under the hood, `Chapter 7: Advanced Features` usually follows a repeatable cont
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
+## Advanced Feature Architecture
+
+```mermaid
+flowchart TD
+    A[RAGFlow Core] --> B[Knowledge Graph]
+    A --> C[Multi-modal Processing]
+    A --> D[Agent Workflows]
+    B --> E[Entity Linking]
+    B --> F[Relationship Queries]
+    C --> G[Image Understanding]
+    D --> H[Tool Use in RAG]
+```
+
 ## Source Walkthrough
 
 Use the following upstream sources to verify implementation details while reading this chapter:

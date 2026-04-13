@@ -39,170 +39,163 @@ You now have a safer rollout model for app-connected skill automation.
 
 Next: [Chapter 6: Contribution Workflow and Repository Governance](06-contribution-workflow-and-repository-governance.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `slack-gif-creator/core/color_palettes.py`
+### `slack-gif-creator/core/validators.py`
 
-The `get_complementary_color` function in [`slack-gif-creator/core/color_palettes.py`](https://github.com/ComposioHQ/awesome-claude-skills/blob/HEAD/slack-gif-creator/core/color_palettes.py) handles a key part of this chapter's functionality:
+The `validate_dimensions` function in [`slack-gif-creator/core/validators.py`](https://github.com/ComposioHQ/awesome-claude-skills/blob/HEAD/slack-gif-creator/core/validators.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def get_complementary_color(color: tuple[int, int, int]) -> tuple[int, int, int]:
+def validate_dimensions(width: int, height: int, is_emoji: bool = True) -> tuple[bool, dict]:
     """
-    Get the complementary (opposite) color on the color wheel.
+    Check if dimensions are suitable for Slack.
 
     Args:
-        color: RGB color tuple
+        width: Frame width in pixels
+        height: Frame height in pixels
+        is_emoji: True for emoji GIF, False for message GIF
 
     Returns:
-        Complementary RGB color
+        Tuple of (passes: bool, info: dict with details)
     """
-    # Convert to HSV
-    r, g, b = [x / 255.0 for x in color]
-    h, s, v = colorsys.rgb_to_hsv(r, g, b)
+    info = {
+        'width': width,
+        'height': height,
+        'is_square': width == height,
+        'type': 'emoji' if is_emoji else 'message'
+    }
 
-    # Rotate hue by 180 degrees (0.5 in 0-1 scale)
-    h_comp = (h + 0.5) % 1.0
+    if is_emoji:
+        # Emoji GIFs should be 128x128
+        optimal = width == height == 128
+        acceptable = width == height and 64 <= width <= 128
 
-    # Convert back to RGB
-    r_comp, g_comp, b_comp = colorsys.hsv_to_rgb(h_comp, s, v)
-    return (int(r_comp * 255), int(g_comp * 255), int(b_comp * 255))
+        info['optimal'] = optimal
+        info['acceptable'] = acceptable
+
+        if optimal:
+            print(f"✓ {width}x{height} - optimal for emoji")
+            passes = True
+```
+
+This function is important because it defines how Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows implements the patterns covered in this chapter.
+
+### `slack-gif-creator/core/validators.py`
+
+The `validate_gif` function in [`slack-gif-creator/core/validators.py`](https://github.com/ComposioHQ/awesome-claude-skills/blob/HEAD/slack-gif-creator/core/validators.py) handles a key part of this chapter's functionality:
+
+```py
 
 
-def lighten_color(color: tuple[int, int, int], amount: float = 0.3) -> tuple[int, int, int]:
+def validate_gif(gif_path: str | Path, is_emoji: bool = True) -> tuple[bool, dict]:
     """
-    Lighten a color by a given amount.
+    Run all validations on a GIF file.
 
     Args:
-        color: RGB color tuple
-        amount: Amount to lighten (0.0-1.0)
+        gif_path: Path to GIF file
+        is_emoji: True for emoji GIF, False for message GIF
+
+    Returns:
+        Tuple of (all_pass: bool, results: dict)
+    """
+    from PIL import Image
+
+    gif_path = Path(gif_path)
+
+    if not gif_path.exists():
+        return False, {'error': f'File not found: {gif_path}'}
+
+    print(f"\nValidating {gif_path.name} as {'emoji' if is_emoji else 'message'} GIF:")
+    print("=" * 60)
+
+    # Check file size
+    size_pass, size_info = check_slack_size(gif_path, is_emoji)
+
+    # Check dimensions
+    try:
+        with Image.open(gif_path) as img:
+            width, height = img.size
+            dim_pass, dim_info = validate_dimensions(width, height, is_emoji)
 
 ```
 
 This function is important because it defines how Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows implements the patterns covered in this chapter.
 
-### `slack-gif-creator/core/color_palettes.py`
+### `slack-gif-creator/core/validators.py`
 
-The `lighten_color` function in [`slack-gif-creator/core/color_palettes.py`](https://github.com/ComposioHQ/awesome-claude-skills/blob/HEAD/slack-gif-creator/core/color_palettes.py) handles a key part of this chapter's functionality:
+The `get_optimization_suggestions` function in [`slack-gif-creator/core/validators.py`](https://github.com/ComposioHQ/awesome-claude-skills/blob/HEAD/slack-gif-creator/core/validators.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def lighten_color(color: tuple[int, int, int], amount: float = 0.3) -> tuple[int, int, int]:
+def get_optimization_suggestions(results: dict) -> list[str]:
     """
-    Lighten a color by a given amount.
+    Get suggestions for optimizing a GIF based on validation results.
 
     Args:
-        color: RGB color tuple
-        amount: Amount to lighten (0.0-1.0)
+        results: Results dict from validate_gif()
 
     Returns:
-        Lightened RGB color
+        List of suggestion strings
     """
-    r, g, b = color
-    r = min(255, int(r + (255 - r) * amount))
-    g = min(255, int(g + (255 - g) * amount))
-    b = min(255, int(b + (255 - b) * amount))
-    return (r, g, b)
+    suggestions = []
 
+    if not results.get('passes', False):
+        size_info = results.get('size', {})
+        dim_info = results.get('dimensions', {})
 
-def darken_color(color: tuple[int, int, int], amount: float = 0.3) -> tuple[int, int, int]:
-    """
-    Darken a color by a given amount.
-
-    Args:
-        color: RGB color tuple
-        amount: Amount to darken (0.0-1.0)
-
-    Returns:
-        Darkened RGB color
-    """
-    r, g, b = color
+        # Size suggestions
+        if not size_info.get('passes', True):
+            overage = size_info['size_kb'] - size_info['limit_kb']
+            if size_info['type'] == 'emoji':
+                suggestions.append(f"Reduce file size by {overage:.1f} KB:")
+                suggestions.append("  - Limit to 10-12 frames")
+                suggestions.append("  - Use 32-40 colors maximum")
+                suggestions.append("  - Remove gradients (solid colors compress better)")
+                suggestions.append("  - Simplify design")
+            else:
+                suggestions.append(f"Reduce file size by {overage:.1f} KB:")
+                suggestions.append("  - Reduce frame count or FPS")
+                suggestions.append("  - Use fewer colors (128 → 64)")
+                suggestions.append("  - Reduce dimensions")
 ```
 
 This function is important because it defines how Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows implements the patterns covered in this chapter.
 
-### `slack-gif-creator/core/color_palettes.py`
+### `slack-gif-creator/core/validators.py`
 
-The `darken_color` function in [`slack-gif-creator/core/color_palettes.py`](https://github.com/ComposioHQ/awesome-claude-skills/blob/HEAD/slack-gif-creator/core/color_palettes.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-def darken_color(color: tuple[int, int, int], amount: float = 0.3) -> tuple[int, int, int]:
-    """
-    Darken a color by a given amount.
-
-    Args:
-        color: RGB color tuple
-        amount: Amount to darken (0.0-1.0)
-
-    Returns:
-        Darkened RGB color
-    """
-    r, g, b = color
-    r = max(0, int(r * (1 - amount)))
-    g = max(0, int(g * (1 - amount)))
-    b = max(0, int(b * (1 - amount)))
-    return (r, g, b)
-
-
-def blend_colors(color1: tuple[int, int, int], color2: tuple[int, int, int],
-                 ratio: float = 0.5) -> tuple[int, int, int]:
-    """
-    Blend two colors together.
-
-    Args:
-        color1: First RGB color
-        color2: Second RGB color
-        ratio: Blend ratio (0.0 = all color1, 1.0 = all color2)
-
-    Returns:
-        Blended RGB color
-```
-
-This function is important because it defines how Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows implements the patterns covered in this chapter.
-
-### `slack-gif-creator/core/color_palettes.py`
-
-The `blend_colors` function in [`slack-gif-creator/core/color_palettes.py`](https://github.com/ComposioHQ/awesome-claude-skills/blob/HEAD/slack-gif-creator/core/color_palettes.py) handles a key part of this chapter's functionality:
+The `is_slack_ready` function in [`slack-gif-creator/core/validators.py`](https://github.com/ComposioHQ/awesome-claude-skills/blob/HEAD/slack-gif-creator/core/validators.py) handles a key part of this chapter's functionality:
 
 ```py
 
-
-def blend_colors(color1: tuple[int, int, int], color2: tuple[int, int, int],
-                 ratio: float = 0.5) -> tuple[int, int, int]:
+# Convenience function for quick checks
+def is_slack_ready(gif_path: str | Path, is_emoji: bool = True, verbose: bool = True) -> bool:
     """
-    Blend two colors together.
+    Quick check if GIF is ready for Slack.
 
     Args:
-        color1: First RGB color
-        color2: Second RGB color
-        ratio: Blend ratio (0.0 = all color1, 1.0 = all color2)
+        gif_path: Path to GIF file
+        is_emoji: True for emoji GIF, False for message GIF
+        verbose: Print detailed feedback
 
     Returns:
-        Blended RGB color
+        True if ready, False otherwise
     """
-    r1, g1, b1 = color1
-    r2, g2, b2 = color2
+    if verbose:
+        passes, results = validate_gif(gif_path, is_emoji)
+        if not passes:
+            suggestions = get_optimization_suggestions(results)
+            if suggestions:
+                print("\nSuggestions:")
+                for suggestion in suggestions:
+                    print(suggestion)
+        return passes
+    else:
+        size_pass, _ = check_slack_size(gif_path, is_emoji)
+        return size_pass
 
-    r = int(r1 * (1 - ratio) + r2 * ratio)
-    g = int(g1 * (1 - ratio) + g2 * ratio)
-    b = int(b1 * (1 - ratio) + b2 * ratio)
-
-    return (r, g, b)
-
-
-def create_gradient_colors(start_color: tuple[int, int, int],
-                           end_color: tuple[int, int, int],
-                           steps: int) -> list[tuple[int, int, int]]:
-    """
-    Create a gradient of colors between two colors.
-
-    Args:
 ```
 
 This function is important because it defines how Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows implements the patterns covered in this chapter.
@@ -212,11 +205,11 @@ This function is important because it defines how Awesome Claude Skills Tutorial
 
 ```mermaid
 flowchart TD
-    A[get_complementary_color]
-    B[lighten_color]
-    C[darken_color]
-    D[blend_colors]
-    E[create_gradient_colors]
+    A[validate_dimensions]
+    B[validate_gif]
+    C[get_optimization_suggestions]
+    D[is_slack_ready]
+    E[create_pulse_animation]
     A --> B
     B --> C
     C --> D

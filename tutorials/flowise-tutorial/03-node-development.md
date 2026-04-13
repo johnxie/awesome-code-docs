@@ -940,6 +940,20 @@ After working through this chapter, you should be able to reason about `Chapter 
 
 Use the implementation notes around `inputs`, `model`, `node` as your checklist when adapting these patterns to your own repository.
 
+## Node Development Architecture
+
+```mermaid
+flowchart TD
+    A[Custom Node TypeScript class] --> B[Extend INode interface]
+    B --> C[Define inputs / outputs / credentials]
+    C --> D[Implement async init method]
+    D --> E[Build LangChain component]
+    E --> F[Return to Flowise runtime]
+    F --> G[Node available in canvas]
+    G --> H[Connected in drag-and-drop flow]
+    H --> I[Flow executed via POST /api/v1/prediction]
+```
+
 ## How it Works Under the Hood
 
 Under the hood, `Chapter 3: Node Development` usually follows a repeatable control path:

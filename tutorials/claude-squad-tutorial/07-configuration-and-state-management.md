@@ -36,145 +36,168 @@ You now have an operational model for Claude Squad configuration and local state
 
 Next: [Chapter 8: Production Team Operations](08-production-team-operations.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `session/storage.go`
+### `config/state.go`
 
-The `DeleteAllInstances` function in [`session/storage.go`](https://github.com/smtg-ai/claude-squad/blob/HEAD/session/storage.go) handles a key part of this chapter's functionality:
+The `DefaultState` function in [`config/state.go`](https://github.com/smtg-ai/claude-squad/blob/HEAD/config/state.go) handles a key part of this chapter's functionality:
 
 ```go
 }
 
-// DeleteAllInstances removes all stored instances
-func (s *Storage) DeleteAllInstances() error {
-	return s.state.DeleteAllInstances()
+// DefaultState returns the default state
+func DefaultState() *State {
+	return &State{
+		HelpScreensSeen: 0,
+		InstancesData:   json.RawMessage("[]"),
+	}
 }
+
+// LoadState loads the state from disk. If it cannot be done, we return the default state.
+func LoadState() *State {
+	configDir, err := GetConfigDir()
+	if err != nil {
+		log.ErrorLog.Printf("failed to get config directory: %v", err)
+		return DefaultState()
+	}
+
+	statePath := filepath.Join(configDir, StateFileName)
+	data, err := os.ReadFile(statePath)
+	if err != nil {
+		if os.IsNotExist(err) {
+			// Create and save default state if file doesn't exist
+			defaultState := DefaultState()
+			if saveErr := SaveState(defaultState); saveErr != nil {
+				log.WarningLog.Printf("failed to save default state: %v", saveErr)
+			}
+			return defaultState
+		}
+
+		log.WarningLog.Printf("failed to get state file: %v", err)
+		return DefaultState()
+```
+
+This function is important because it defines how Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration implements the patterns covered in this chapter.
+
+### `config/state.go`
+
+The `LoadState` function in [`config/state.go`](https://github.com/smtg-ai/claude-squad/blob/HEAD/config/state.go) handles a key part of this chapter's functionality:
+
+```go
+}
+
+// LoadState loads the state from disk. If it cannot be done, we return the default state.
+func LoadState() *State {
+	configDir, err := GetConfigDir()
+	if err != nil {
+		log.ErrorLog.Printf("failed to get config directory: %v", err)
+		return DefaultState()
+	}
+
+	statePath := filepath.Join(configDir, StateFileName)
+	data, err := os.ReadFile(statePath)
+	if err != nil {
+		if os.IsNotExist(err) {
+			// Create and save default state if file doesn't exist
+			defaultState := DefaultState()
+			if saveErr := SaveState(defaultState); saveErr != nil {
+				log.WarningLog.Printf("failed to save default state: %v", saveErr)
+			}
+			return defaultState
+		}
+
+		log.WarningLog.Printf("failed to get state file: %v", err)
+		return DefaultState()
+	}
+
+	var state State
+	if err := json.Unmarshal(data, &state); err != nil {
+		log.ErrorLog.Printf("failed to parse state file: %v", err)
+		return DefaultState()
+	}
 
 ```
 
 This function is important because it defines how Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration implements the patterns covered in this chapter.
 
-### `session/storage.go`
+### `config/state.go`
 
-The `type` interface in [`session/storage.go`](https://github.com/smtg-ai/claude-squad/blob/HEAD/session/storage.go) handles a key part of this chapter's functionality:
-
-```go
-
-// InstanceData represents the serializable data of an Instance
-type InstanceData struct {
-	Title     string    `json:"title"`
-	Path      string    `json:"path"`
-	Branch    string    `json:"branch"`
-	Status    Status    `json:"status"`
-	Height    int       `json:"height"`
-	Width     int       `json:"width"`
-	CreatedAt time.Time `json:"created_at"`
-	UpdatedAt time.Time `json:"updated_at"`
-	AutoYes   bool      `json:"auto_yes"`
-
-	Program   string          `json:"program"`
-	Worktree  GitWorktreeData `json:"worktree"`
-	DiffStats DiffStatsData   `json:"diff_stats"`
-}
-
-// GitWorktreeData represents the serializable data of a GitWorktree
-type GitWorktreeData struct {
-	RepoPath         string `json:"repo_path"`
-	WorktreePath     string `json:"worktree_path"`
-	SessionName      string `json:"session_name"`
-	BranchName       string `json:"branch_name"`
-	BaseCommitSHA    string `json:"base_commit_sha"`
-	IsExistingBranch bool   `json:"is_existing_branch"`
-}
-
-// DiffStatsData represents the serializable data of a DiffStats
-type DiffStatsData struct {
-	Added   int    `json:"added"`
-	Removed int    `json:"removed"`
-```
-
-This interface is important because it defines how Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration implements the patterns covered in this chapter.
-
-### `ui/diff.go`
-
-The `NewDiffPane` function in [`ui/diff.go`](https://github.com/smtg-ai/claude-squad/blob/HEAD/ui/diff.go) handles a key part of this chapter's functionality:
+The `SaveState` function in [`config/state.go`](https://github.com/smtg-ai/claude-squad/blob/HEAD/config/state.go) handles a key part of this chapter's functionality:
 
 ```go
+			// Create and save default state if file doesn't exist
+			defaultState := DefaultState()
+			if saveErr := SaveState(defaultState); saveErr != nil {
+				log.WarningLog.Printf("failed to save default state: %v", saveErr)
+			}
+			return defaultState
+		}
+
+		log.WarningLog.Printf("failed to get state file: %v", err)
+		return DefaultState()
+	}
+
+	var state State
+	if err := json.Unmarshal(data, &state); err != nil {
+		log.ErrorLog.Printf("failed to parse state file: %v", err)
+		return DefaultState()
+	}
+
+	return &state
 }
 
-func NewDiffPane() *DiffPane {
-	return &DiffPane{
-		viewport: viewport.New(0, 0),
+// SaveState saves the state to disk
+func SaveState(state *State) error {
+	configDir, err := GetConfigDir()
+	if err != nil {
+		return fmt.Errorf("failed to get config directory: %w", err)
 	}
-}
 
-func (d *DiffPane) SetSize(width, height int) {
-	d.width = width
-	d.height = height
-	d.viewport.Width = width
-	d.viewport.Height = height
-	// Update viewport content if diff exists
-	if d.diff != "" || d.stats != "" {
-		d.viewport.SetContent(lipgloss.JoinVertical(lipgloss.Left, d.stats, d.diff))
+	if err := os.MkdirAll(configDir, 0755); err != nil {
+		return fmt.Errorf("failed to create config directory: %w", err)
 	}
-}
 
-func (d *DiffPane) SetDiff(instance *session.Instance) {
-	centeredFallbackMessage := lipgloss.Place(
-		d.width,
-		d.height,
-		lipgloss.Center,
-		lipgloss.Center,
-		"No changes",
-	)
-
-	if instance == nil || !instance.Started() {
-		d.viewport.SetContent(centeredFallbackMessage)
-		return
-	}
 ```
 
 This function is important because it defines how Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration implements the patterns covered in this chapter.
 
-### `ui/diff.go`
+### `config/state.go`
 
-The `SetSize` function in [`ui/diff.go`](https://github.com/smtg-ai/claude-squad/blob/HEAD/ui/diff.go) handles a key part of this chapter's functionality:
+The `SaveInstances` function in [`config/state.go`](https://github.com/smtg-ai/claude-squad/blob/HEAD/config/state.go) handles a key part of this chapter's functionality:
 
 ```go
+// InstanceStorage handles instance-related operations
+type InstanceStorage interface {
+	// SaveInstances saves the raw instance data
+	SaveInstances(instancesJSON json.RawMessage) error
+	// GetInstances returns the raw instance data
+	GetInstances() json.RawMessage
+	// DeleteAllInstances removes all stored instances
+	DeleteAllInstances() error
 }
 
-func (d *DiffPane) SetSize(width, height int) {
-	d.width = width
-	d.height = height
-	d.viewport.Width = width
-	d.viewport.Height = height
-	// Update viewport content if diff exists
-	if d.diff != "" || d.stats != "" {
-		d.viewport.SetContent(lipgloss.JoinVertical(lipgloss.Left, d.stats, d.diff))
-	}
+// AppState handles application-level state
+type AppState interface {
+	// GetHelpScreensSeen returns the bitmask of seen help screens
+	GetHelpScreensSeen() uint32
+	// SetHelpScreensSeen updates the bitmask of seen help screens
+	SetHelpScreensSeen(seen uint32) error
 }
 
-func (d *DiffPane) SetDiff(instance *session.Instance) {
-	centeredFallbackMessage := lipgloss.Place(
-		d.width,
-		d.height,
-		lipgloss.Center,
-		lipgloss.Center,
-		"No changes",
-	)
+// StateManager combines instance storage and app state management
+type StateManager interface {
+	InstanceStorage
+	AppState
+}
 
-	if instance == nil || !instance.Started() {
-		d.viewport.SetContent(centeredFallbackMessage)
-		return
-	}
+// State represents the application state that persists between sessions
+type State struct {
+	// HelpScreensSeen is a bitmask tracking which help screens have been shown
+	HelpScreensSeen uint32 `json:"help_screens_seen"`
+	// Instances stores the serialized instance data as raw JSON
+	InstancesData json.RawMessage `json:"instances"`
+}
 
-	stats := instance.GetDiffStats()
-	if stats == nil {
-		// Show loading message if worktree is not ready
-		centeredMessage := lipgloss.Place(
-			d.width,
 ```
 
 This function is important because it defines how Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration implements the patterns covered in this chapter.
@@ -184,11 +207,11 @@ This function is important because it defines how Claude Squad Tutorial: Multi-A
 
 ```mermaid
 flowchart TD
-    A[DeleteAllInstances]
-    B[type]
-    C[NewDiffPane]
-    D[SetSize]
-    E[SetDiff]
+    A[DefaultState]
+    B[LoadState]
+    C[SaveState]
+    D[SaveInstances]
+    E[GetInstances]
     A --> B
     B --> C
     C --> D

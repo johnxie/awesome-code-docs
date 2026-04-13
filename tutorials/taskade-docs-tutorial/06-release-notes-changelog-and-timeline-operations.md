@@ -67,58 +67,24 @@ You now have a process to turn docs updates into controlled operational change.
 
 Next: [Chapter 7: Doc Quality Governance and Link Hygiene](07-doc-quality-governance-and-link-hygiene.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `archive/help-center/_imported/CLEANUP_SUMMARY.json`
+Use the following upstream sources to verify release notes and changelog details while reading this chapter:
 
-The `CLEANUP_SUMMARY` module in [`archive/help-center/_imported/CLEANUP_SUMMARY.json`](https://github.com/taskade/docs/blob/HEAD/archive/help-center/_imported/CLEANUP_SUMMARY.json) handles a key part of this chapter's functionality:
+- [`SUMMARY.md`](https://github.com/taskade/docs/blob/HEAD/SUMMARY.md) — navigate to the changelog or release notes section to understand how release cadence and version history are documented and organized.
+- [`README.md`](https://github.com/taskade/docs/blob/HEAD/README.md) — may include a link to the changelog or a version history overview that anchors how updates are surfaced to documentation readers.
 
-```json
-{
-  "cleanup_date": "2025-09-14T01:11:04.798Z",
-  "total_unique_articles": 1145,
-  "duplicates_removed": 0,
-  "published_articles": 1057,
-  "unpublished_articles": 88,
-  "categories": [
-    "ai-agents",
-    "ai-automation",
-    "ai-basics",
-    "ai-features",
-    "automations",
-    "collaboration",
-    "essentials",
-    "folders",
-    "general",
-    "genesis",
-    "getting-started",
-    "integrations",
-    "known-urls",
-    "mobile",
-    "overview",
-    "productivity",
-    "project-views",
-    "projects",
-    "sharing",
-    "structure",
-    "taskade-ai",
-    "tasks",
-    "templates",
-    "tips",
-    "workspaces"
-  ],
-  "published_by_category": {
-    "ai-agents": 22,
-```
-
-This module is important because it defines how Taskade Docs Tutorial: Operating the Living-DNA Documentation Stack implements the patterns covered in this chapter.
-
+Suggested trace strategy:
+- find the release/changelog section in `SUMMARY.md` to check release note frequency and coverage depth
+- compare docs release notes against the `taskade.com/changelog` product site for alignment
+- check whether breaking API changes are flagged differently from feature additions in the release notes format
 
 ## How These Components Connect
 
 ```mermaid
-flowchart TD
-    A[CLEANUP_SUMMARY]
+flowchart LR
+    A[Product release event] --> B[Changelog entry created]
+    B --> C[Release notes page in SUMMARY.md tree]
+    C --> D[Timeline section updated]
+    D --> E[Reader visible at taskade.com/changelog]
 ```

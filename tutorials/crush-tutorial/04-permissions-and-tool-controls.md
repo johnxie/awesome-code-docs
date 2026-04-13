@@ -48,170 +48,168 @@ You now have a practical control model for balancing Crush autonomy and safety.
 
 Next: [Chapter 5: LSP and MCP Integration](05-lsp-and-mcp-integration.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `internal/config/config.go`
+### `internal/cmd/session.go`
 
-The `IsConfigured` function in [`internal/config/config.go`](https://github.com/charmbracelet/crush/blob/HEAD/internal/config/config.go) handles a key part of this chapter's functionality:
+The `runSessionRename` function in [`internal/cmd/session.go`](https://github.com/charmbracelet/crush/blob/HEAD/internal/cmd/session.go) handles a key part of this chapter's functionality:
 
 ```go
+	Long:  "Rename a session by ID. Use --json for machine-readable output. ID can be a UUID, full hash, or hash prefix.",
+	Args:  cobra.MinimumNArgs(2),
+	RunE:  runSessionRename,
 }
 
-// IsConfigured  return true if at least one provider is configured
-func (c *Config) IsConfigured() bool {
-	return len(c.EnabledProviders()) > 0
+func init() {
+	sessionListCmd.Flags().BoolVar(&sessionListJSON, "json", false, "output in JSON format")
+	sessionShowCmd.Flags().BoolVar(&sessionShowJSON, "json", false, "output in JSON format")
+	sessionLastCmd.Flags().BoolVar(&sessionLastJSON, "json", false, "output in JSON format")
+	sessionDeleteCmd.Flags().BoolVar(&sessionDeleteJSON, "json", false, "output in JSON format")
+	sessionRenameCmd.Flags().BoolVar(&sessionRenameJSON, "json", false, "output in JSON format")
+	sessionCmd.AddCommand(sessionListCmd)
+	sessionCmd.AddCommand(sessionShowCmd)
+	sessionCmd.AddCommand(sessionLastCmd)
+	sessionCmd.AddCommand(sessionDeleteCmd)
+	sessionCmd.AddCommand(sessionRenameCmd)
 }
 
-func (c *Config) GetModel(provider, model string) *catwalk.Model {
-	if providerConfig, ok := c.Providers.Get(provider); ok {
-		for _, m := range providerConfig.Models {
-			if m.ID == model {
-				return &m
-			}
+type sessionServices struct {
+	sessions session.Service
+	messages message.Service
+}
+
+func sessionSetup(cmd *cobra.Command) (context.Context, *sessionServices, func(), error) {
+	dataDir, _ := cmd.Flags().GetString("data-dir")
+	ctx := cmd.Context()
+
+	if dataDir == "" {
+		cfg, err := config.Init("", "", false)
+		if err != nil {
+			return nil, nil, nil, fmt.Errorf("failed to initialize config: %w", err)
 		}
-	}
-	return nil
-}
-
-func (c *Config) GetProviderForModel(modelType SelectedModelType) *ProviderConfig {
-	model, ok := c.Models[modelType]
-	if !ok {
-		return nil
-	}
-	if providerConfig, ok := c.Providers.Get(model.Provider); ok {
-		return &providerConfig
-	}
-	return nil
-}
-
-func (c *Config) GetModelByType(modelType SelectedModelType) *catwalk.Model {
-	model, ok := c.Models[modelType]
-	if !ok {
 ```
 
 This function is important because it defines how Crush Tutorial: Multi-Model Terminal Coding Agent with Strong Extensibility implements the patterns covered in this chapter.
 
-### `internal/config/config.go`
+### `internal/cmd/session.go`
 
-The `GetModel` function in [`internal/config/config.go`](https://github.com/charmbracelet/crush/blob/HEAD/internal/config/config.go) handles a key part of this chapter's functionality:
+The `runSessionLast` function in [`internal/cmd/session.go`](https://github.com/charmbracelet/crush/blob/HEAD/internal/cmd/session.go) handles a key part of this chapter's functionality:
 
 ```go
+	Short: "Show most recent session",
+	Long:  "Show the last updated session. Use --json for machine-readable output.",
+	RunE:  runSessionLast,
 }
 
-func (c *Config) GetModel(provider, model string) *catwalk.Model {
-	if providerConfig, ok := c.Providers.Get(provider); ok {
-		for _, m := range providerConfig.Models {
-			if m.ID == model {
-				return &m
-			}
-		}
-	}
-	return nil
+var sessionDeleteCmd = &cobra.Command{
+	Use:     "delete <id>",
+	Aliases: []string{"rm"},
+	Short:   "Delete a session",
+	Long:    "Delete a session by ID. Use --json for machine-readable output. ID can be a UUID, full hash, or hash prefix.",
+	Args:    cobra.ExactArgs(1),
+	RunE:    runSessionDelete,
 }
 
-func (c *Config) GetProviderForModel(modelType SelectedModelType) *ProviderConfig {
-	model, ok := c.Models[modelType]
-	if !ok {
-		return nil
-	}
-	if providerConfig, ok := c.Providers.Get(model.Provider); ok {
-		return &providerConfig
-	}
-	return nil
+var sessionRenameCmd = &cobra.Command{
+	Use:   "rename <id> <title>",
+	Short: "Rename a session",
+	Long:  "Rename a session by ID. Use --json for machine-readable output. ID can be a UUID, full hash, or hash prefix.",
+	Args:  cobra.MinimumNArgs(2),
+	RunE:  runSessionRename,
 }
 
-func (c *Config) GetModelByType(modelType SelectedModelType) *catwalk.Model {
-	model, ok := c.Models[modelType]
-	if !ok {
-		return nil
-	}
-	return c.GetModel(model.Provider, model.Model)
-}
-
+func init() {
+	sessionListCmd.Flags().BoolVar(&sessionListJSON, "json", false, "output in JSON format")
+	sessionShowCmd.Flags().BoolVar(&sessionShowJSON, "json", false, "output in JSON format")
+	sessionLastCmd.Flags().BoolVar(&sessionLastJSON, "json", false, "output in JSON format")
+	sessionDeleteCmd.Flags().BoolVar(&sessionDeleteJSON, "json", false, "output in JSON format")
+	sessionRenameCmd.Flags().BoolVar(&sessionRenameJSON, "json", false, "output in JSON format")
+	sessionCmd.AddCommand(sessionListCmd)
+	sessionCmd.AddCommand(sessionShowCmd)
+	sessionCmd.AddCommand(sessionLastCmd)
+	sessionCmd.AddCommand(sessionDeleteCmd)
 ```
 
 This function is important because it defines how Crush Tutorial: Multi-Model Terminal Coding Agent with Strong Extensibility implements the patterns covered in this chapter.
 
-### `internal/config/config.go`
+### `internal/cmd/session.go`
 
-The `GetProviderForModel` function in [`internal/config/config.go`](https://github.com/charmbracelet/crush/blob/HEAD/internal/config/config.go) handles a key part of this chapter's functionality:
+The `messagePtrs` function in [`internal/cmd/session.go`](https://github.com/charmbracelet/crush/blob/HEAD/internal/cmd/session.go) handles a key part of this chapter's functionality:
 
 ```go
+	}
+
+	msgPtrs := messagePtrs(msgs)
+	if sessionShowJSON {
+		return outputSessionJSON(cmd.OutOrStdout(), sess, msgPtrs)
+	}
+	return outputSessionHuman(ctx, sess, msgPtrs)
 }
 
-func (c *Config) GetProviderForModel(modelType SelectedModelType) *ProviderConfig {
-	model, ok := c.Models[modelType]
-	if !ok {
-		return nil
-	}
-	if providerConfig, ok := c.Providers.Get(model.Provider); ok {
-		return &providerConfig
-	}
-	return nil
-}
+func runSessionDelete(cmd *cobra.Command, args []string) error {
+	event.SetNonInteractive(true)
+	event.SessionDeletedCommand(sessionDeleteJSON)
 
-func (c *Config) GetModelByType(modelType SelectedModelType) *catwalk.Model {
-	model, ok := c.Models[modelType]
-	if !ok {
-		return nil
+	ctx, svc, cleanup, err := sessionSetup(cmd)
+	if err != nil {
+		return err
 	}
-	return c.GetModel(model.Provider, model.Model)
-}
+	defer cleanup()
 
-func (c *Config) LargeModel() *catwalk.Model {
-	model, ok := c.Models[SelectedModelTypeLarge]
-	if !ok {
-		return nil
+	sess, err := resolveSessionID(ctx, svc.sessions, args[0])
+	if err != nil {
+		return err
 	}
-	return c.GetModel(model.Provider, model.Model)
-}
 
-func (c *Config) SmallModel() *catwalk.Model {
-	model, ok := c.Models[SelectedModelTypeSmall]
-	if !ok {
+	if err := svc.sessions.Delete(ctx, sess.ID); err != nil {
+		return fmt.Errorf("failed to delete session: %w", err)
+	}
+
+	out := cmd.OutOrStdout()
+	if sessionDeleteJSON {
+		enc := json.NewEncoder(out)
+		enc.SetEscapeHTML(false)
 ```
 
 This function is important because it defines how Crush Tutorial: Multi-Model Terminal Coding Agent with Strong Extensibility implements the patterns covered in this chapter.
 
-### `internal/config/config.go`
+### `internal/cmd/session.go`
 
-The `GetModelByType` function in [`internal/config/config.go`](https://github.com/charmbracelet/crush/blob/HEAD/internal/config/config.go) handles a key part of this chapter's functionality:
+The `outputSessionJSON` function in [`internal/cmd/session.go`](https://github.com/charmbracelet/crush/blob/HEAD/internal/cmd/session.go) handles a key part of this chapter's functionality:
 
 ```go
-}
-
-func (c *Config) GetModelByType(modelType SelectedModelType) *catwalk.Model {
-	model, ok := c.Models[modelType]
-	if !ok {
-		return nil
+	msgPtrs := messagePtrs(msgs)
+	if sessionShowJSON {
+		return outputSessionJSON(cmd.OutOrStdout(), sess, msgPtrs)
 	}
-	return c.GetModel(model.Provider, model.Model)
+	return outputSessionHuman(ctx, sess, msgPtrs)
 }
 
-func (c *Config) LargeModel() *catwalk.Model {
-	model, ok := c.Models[SelectedModelTypeLarge]
-	if !ok {
-		return nil
+func runSessionDelete(cmd *cobra.Command, args []string) error {
+	event.SetNonInteractive(true)
+	event.SessionDeletedCommand(sessionDeleteJSON)
+
+	ctx, svc, cleanup, err := sessionSetup(cmd)
+	if err != nil {
+		return err
 	}
-	return c.GetModel(model.Provider, model.Model)
-}
+	defer cleanup()
 
-func (c *Config) SmallModel() *catwalk.Model {
-	model, ok := c.Models[SelectedModelTypeSmall]
-	if !ok {
-		return nil
+	sess, err := resolveSessionID(ctx, svc.sessions, args[0])
+	if err != nil {
+		return err
 	}
-	return c.GetModel(model.Provider, model.Model)
-}
 
-const maxRecentModelsPerType = 5
+	if err := svc.sessions.Delete(ctx, sess.ID); err != nil {
+		return fmt.Errorf("failed to delete session: %w", err)
+	}
 
-func allToolNames() []string {
-	return []string{
-		"agent",
-		"bash",
+	out := cmd.OutOrStdout()
+	if sessionDeleteJSON {
+		enc := json.NewEncoder(out)
+		enc.SetEscapeHTML(false)
+		return enc.Encode(sessionMutationResult{
+			ID:      session.HashID(sess.ID),
 ```
 
 This function is important because it defines how Crush Tutorial: Multi-Model Terminal Coding Agent with Strong Extensibility implements the patterns covered in this chapter.
@@ -221,11 +219,11 @@ This function is important because it defines how Crush Tutorial: Multi-Model Te
 
 ```mermaid
 flowchart TD
-    A[IsConfigured]
-    B[GetModel]
-    C[GetProviderForModel]
-    D[GetModelByType]
-    E[LargeModel]
+    A[runSessionRename]
+    B[runSessionLast]
+    C[messagePtrs]
+    D[outputSessionJSON]
+    E[outputSessionHuman]
     A --> B
     B --> C
     C --> D

@@ -30,67 +30,95 @@ Production Kilo adoption requires clear policy around auth, approvals, extension
 
 You now have a team-ready operational baseline for Kilo deployment and governance.
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `script/upstream/merge.ts`
+### `script/sync-zed.ts`
 
-The `main` function in [`script/upstream/merge.ts`](https://github.com/Kilo-Org/kilocode/blob/HEAD/script/upstream/merge.ts) handles a key part of this chapter's functionality:
+The `main` function in [`script/sync-zed.ts`](https://github.com/Kilo-Org/kilocode/blob/HEAD/script/sync-zed.ts) handles a key part of this chapter's functionality:
 
 ```ts
- *   --version <version>  Target upstream version (e.g., v1.1.49)
- *   --commit <hash>      Target upstream commit hash
- *   --base-branch <name> Base branch to merge into (default: main)
- *   --dry-run            Preview changes without applying them
- *   --no-push            Don't push branches to remote
- *   --report-only        Only generate conflict report, don't merge
- *   --verbose            Enable verbose logging
- *   --author <name>      Author name for branch prefix (default: from git config)
- */
+const EXTENSION_NAME = "opencode"
 
-import { $ } from "bun"
-import * as git from "./utils/git"
-import * as logger from "./utils/logger"
-import * as version from "./utils/version"
-import * as report from "./utils/report"
-import { defaultConfig, loadConfig, type MergeConfig } from "./utils/config"
-import { transformAll as transformPackageNames } from "./transforms/package-names"
-import { preserveAllVersions } from "./transforms/preserve-versions"
-import { keepOursFiles, resetToOurs } from "./transforms/keep-ours"
-import { skipFiles, skipSpecificFiles } from "./transforms/skip-files"
-import { transformConflictedI18n, transformAllI18n } from "./transforms/transform-i18n"
-// New transforms for auto-resolving more conflict types
-import {
-  transformConflictedTakeTheirs,
-  shouldTakeTheirs,
-  transformAllTakeTheirs,
-} from "./transforms/transform-take-theirs"
-import { transformConflictedTauri, isTauriFile, transformAllTauri } from "./transforms/transform-tauri"
-import {
-  transformConflictedPackageJson,
-  isPackageJson,
-  transformAllPackageJson,
+async function main() {
+  const version = process.argv[2]
+  if (!version) throw new Error("Version argument required, ex: bun script/sync-zed.ts v1.0.52")
+
+  const token = process.env.ZED_EXTENSIONS_PAT
+  if (!token) throw new Error("ZED_EXTENSIONS_PAT environment variable required")
+
+  const prToken = process.env.ZED_PR_PAT
+  if (!prToken) throw new Error("ZED_PR_PAT environment variable required")
+
+  const cleanVersion = version.replace(/^v/, "")
+  console.log(`📦 Syncing Zed extension for version ${cleanVersion}`)
+
+  const commitSha = await $`git rev-parse ${version}`.text()
+  const sha = commitSha.trim()
+  console.log(`🔍 Found commit SHA: ${sha}`)
+
+  const extensionToml = await $`git show ${version}:packages/extensions/zed/extension.toml`.text()
+  const parsed = Bun.TOML.parse(extensionToml) as { version: string }
+  const extensionVersion = parsed.version
+
+  if (extensionVersion !== cleanVersion) {
+    throw new Error(`Version mismatch: extension.toml has ${extensionVersion} but tag is ${cleanVersion}`)
+  }
+  console.log(`✅ Version ${extensionVersion} matches tag`)
+
+  // Clone the fork to a temp directory
+  const workDir = join(tmpdir(), `zed-extensions-${Date.now()}`)
+  console.log(`📁 Working in ${workDir}`)
+
+```
+
+This function is important because it defines how Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces implements the patterns covered in this chapter.
+
+### `script/duplicate-pr.ts`
+
+The `main` function in [`script/duplicate-pr.ts`](https://github.com/Kilo-Org/kilocode/blob/HEAD/script/duplicate-pr.ts) handles a key part of this chapter's functionality:
+
+```ts
+import { parseArgs } from "util"
+
+async function main() {
+  const { values, positionals } = parseArgs({
+    args: Bun.argv.slice(2),
+    options: {
+      file: { type: "string", short: "f" },
+      help: { type: "boolean", short: "h", default: false },
+    },
+    allowPositionals: true,
+  })
+
+  if (values.help) {
+    console.log(`
+Usage: bun script/duplicate-pr.ts [options] <message>
+
+Options:
+  -f, --file <path>   File to attach to the prompt
+  -h, --help          Show this help message
+
+Examples:
+  bun script/duplicate-pr.ts -f pr_info.txt "Check the attached file for PR details"
+`)
+    process.exit(0)
+  }
+
+  const message = positionals.join(" ")
+  if (!message) {
+    console.error("Error: message is required")
+    process.exit(1)
+  }
+
 ```
 
 This function is important because it defines how Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces implements the patterns covered in this chapter.
 
 ### `script/upstream/merge.ts`
 
-The `MergeOptions` interface in [`script/upstream/merge.ts`](https://github.com/Kilo-Org/kilocode/blob/HEAD/script/upstream/merge.ts) handles a key part of this chapter's functionality:
+The `parseArgs` function in [`script/upstream/merge.ts`](https://github.com/Kilo-Org/kilocode/blob/HEAD/script/upstream/merge.ts) handles a key part of this chapter's functionality:
 
 ```ts
-import { resolveLockFileConflicts, regenerateLockFiles } from "./transforms/lock-files"
-
-interface MergeOptions {
-  version?: string
-  commit?: string
-  baseBranch?: string
-  dryRun: boolean
-  push: boolean
-  reportOnly: boolean
-  verbose: boolean
-  author?: string
 }
 
 function parseArgs(): MergeOptions {
@@ -112,34 +140,10 @@ function parseArgs(): MergeOptions {
   if (commitIdx !== -1 && args[commitIdx + 1]) {
     options.commit = args[commitIdx + 1]
   }
-```
 
-This interface is important because it defines how Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces implements the patterns covered in this chapter.
-
-### `script/upstream/analyze.ts`
-
-The `parseArgs` function in [`script/upstream/analyze.ts`](https://github.com/Kilo-Org/kilocode/blob/HEAD/script/upstream/analyze.ts) handles a key part of this chapter's functionality:
-
-```ts
-}
-
-function parseArgs(): AnalyzeOptions {
-  const args = process.argv.slice(2)
-  const options: AnalyzeOptions = {}
-
-  const versionIdx = args.indexOf("--version")
-  if (versionIdx !== -1 && args[versionIdx + 1]) {
-    options.version = args[versionIdx + 1]
-  }
-
-  const commitIdx = args.indexOf("--commit")
-  if (commitIdx !== -1 && args[commitIdx + 1]) {
-    options.commit = args[commitIdx + 1]
-  }
-
-  const outputIdx = args.indexOf("--output")
-  if (outputIdx !== -1 && args[outputIdx + 1]) {
-    options.output = args[outputIdx + 1]
+  const authorIdx = args.indexOf("--author")
+  if (authorIdx !== -1 && args[authorIdx + 1]) {
+    options.author = args[authorIdx + 1]
   }
 
   const baseBranchIdx = args.indexOf("--base-branch")
@@ -147,53 +151,47 @@ function parseArgs(): AnalyzeOptions {
     options.baseBranch = args[baseBranchIdx + 1]
   }
 
-  return options
-}
-
-async function main() {
-  const options = parseArgs()
-  const config = loadConfig(options.baseBranch ? { baseBranch: options.baseBranch } : undefined)
 ```
 
 This function is important because it defines how Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces implements the patterns covered in this chapter.
 
-### `script/upstream/analyze.ts`
+### `script/upstream/merge.ts`
 
-The `main` function in [`script/upstream/analyze.ts`](https://github.com/Kilo-Org/kilocode/blob/HEAD/script/upstream/analyze.ts) handles a key part of this chapter's functionality:
+The `getAuthor` function in [`script/upstream/merge.ts`](https://github.com/Kilo-Org/kilocode/blob/HEAD/script/upstream/merge.ts) handles a key part of this chapter's functionality:
 
 ```ts
+}
+
+async function getAuthor(): Promise<string> {
+  const result = await $`git config user.name`.text()
+  return result
+    .trim()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/\s+/g, "")
+}
+
+async function createBackupBranch(baseBranch: string): Promise<string> {
+  const timestamp = new Date().toISOString().replace(/[:.]/g, "-").slice(0, 19)
+  const backupName = `backup/${baseBranch}-${timestamp}`
+
+  await git.createBranch(backupName, baseBranch)
+  await git.checkout(baseBranch)
+
+  return backupName
 }
 
 async function main() {
   const options = parseArgs()
   const config = loadConfig(options.baseBranch ? { baseBranch: options.baseBranch } : undefined)
 
-  header("Upstream Change Analysis")
-
-  // Check upstream remote
-  if (!(await git.hasUpstreamRemote())) {
-    error("No 'upstream' remote found. Please add it:")
-    info("  git remote add upstream git@github.com:anomalyco/opencode.git")
-    process.exit(1)
+  if (options.verbose) {
+    logger.setVerbose(true)
   }
 
-  // Fetch upstream
-  info("Fetching upstream...")
-  await git.fetchUpstream()
+  logger.header("Kilo Upstream Merge Tool")
 
-  // Determine target
-  let target: version.VersionInfo | null = null
-
-  if (options.commit) {
-    target = await version.getVersionForCommit(options.commit)
-    if (!target) {
-      target = { version: "unknown", tag: "unknown", commit: options.commit }
-    }
-  } else if (options.version) {
-    const versions = await version.getAvailableUpstreamVersions()
-    target = versions.find((v) => v.version === options.version || v.tag === options.version) || null
-
-    if (!target) {
 ```
 
 This function is important because it defines how Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces implements the patterns covered in this chapter.
@@ -204,9 +202,9 @@ This function is important because it defines how Kilo Code Tutorial: Agentic En
 ```mermaid
 flowchart TD
     A[main]
-    B[MergeOptions]
+    B[main]
     C[parseArgs]
-    D[main]
+    D[getAuthor]
     A --> B
     B --> C
     C --> D

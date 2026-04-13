@@ -12,6 +12,20 @@ Welcome to **Chapter 7: Integration & API**. In this part of **Fabric Tutorial: 
 
 > Integrate Fabric into applications, automate workflows, and build custom tools using Fabric's API.
 
+## Integration Architecture
+
+```mermaid
+graph TD
+    App["External App"] --> REST["fabric --serve\n(REST API)"]
+    App --> Pipe["Shell Pipe\necho text | fabric -p <name>"]
+    App --> Script["Script Integration\nbash / Python subprocess"]
+    REST --> Chatter["Chatter.Send()"]
+    Pipe --> Chatter
+    Script --> Chatter
+    Chatter --> Vendor["AI Vendor API"]
+    Vendor --> Response["JSON / streamed response"]
+```
+
 ## Overview
 
 Fabric can be integrated into larger systems through its REST API, Python SDK, and various automation interfaces. This chapter covers integration patterns for building AI-augmented applications.
@@ -547,22 +561,20 @@ Under the hood, `Chapter 7: Integration & API` usually follows a repeatable cont
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
-## Source Walkthrough
+## Source Code Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+### `internal/core/plugin_registry.go`
 
-- [GitHub Repository](https://github.com/danielmiessler/Fabric)
-  Why it matters: authoritative reference on `GitHub Repository` (github.com).
-- [Pattern Library](https://github.com/danielmiessler/fabric/tree/main/data/patterns)
-  Why it matters: authoritative reference on `Pattern Library` (github.com).
-- [Community Patterns](https://github.com/danielmiessler/Fabric#community-patterns)
-  Why it matters: authoritative reference on `Community Patterns` (github.com).
-- [AI Codebase Knowledge Builder](https://github.com/johnxie/awesome-code-docs)
-  Why it matters: authoritative reference on `AI Codebase Knowledge Builder` (github.com).
+The `NewPluginRegistry` function in [`internal/core/plugin_registry.go`](https://github.com/danielmiessler/fabric/blob/main/internal/core/plugin_registry.go) wires together all AI vendor plugins, tools (YouTube, Jina, Spotify), and strategy plugins into the central registry used by the REST server:
 
-Suggested trace strategy:
-- search upstream code for `pattern` and `fabric` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+```go
+func NewPluginRegistry(db *fsdb.Db) (ret *PluginRegistry, err error) {
+    // Imports all vendor plugins:
+    // anthropic, azure, bedrock, codex, copilot, gemini, openai, ollama...
+}
+```
+
+The REST API server (`fabric --serve`) exposes a `/chat` endpoint that accepts a JSON body with `pattern`, `input`, and `model` fields. Responses can be streamed via Server-Sent Events. The `internal/server/` package implements this HTTP layer.
 
 ## Chapter Connections
 

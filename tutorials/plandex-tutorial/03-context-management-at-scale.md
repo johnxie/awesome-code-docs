@@ -27,170 +27,168 @@ You now have a context strategy for large-scale tasks in Plandex.
 
 Next: [Chapter 4: Planning, Execution, and Diff Sandbox](04-planning-execution-and-diff-sandbox.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `app/shared/ai_models_packs.go`
+### `app/shared/plan_config.go`
 
-The `getStrongModelFallback` function in [`app/shared/ai_models_packs.go`](https://github.com/plandex-ai/plandex/blob/HEAD/app/shared/ai_models_packs.go) handles a key part of this chapter's functionality:
+The `Value` function in [`app/shared/plan_config.go`](https://github.com/plandex-ai/plandex/blob/HEAD/app/shared/plan_config.go) handles a key part of this chapter's functionality:
 
 ```go
 }
 
-func getStrongModelFallback(role ModelRole, modelId ModelId, fns ...func(*ModelRoleConfigSchema)) func(*ModelRoleConfigSchema) {
-	return func(c *ModelRoleConfigSchema) {
-		n := getModelRoleConfig(role, modelId)
-		for _, f := range fns {
-			f(&n)
-		}
-		c.StrongModel = &n
-	}
+func (p PlanConfig) Value() (driver.Value, error) {
+	return json.Marshal(p)
 }
 
-var (
-	DailyDriverSchema         ModelPackSchema
-	ReasoningSchema           ModelPackSchema
-	StrongSchema              ModelPackSchema
-	OssSchema                 ModelPackSchema
-	CheapSchema               ModelPackSchema
-	OllamaExperimentalSchema  ModelPackSchema
-	OllamaAdaptiveOssSchema   ModelPackSchema
-	OllamaAdaptiveDailySchema ModelPackSchema
-	AnthropicSchema           ModelPackSchema
-	OpenAISchema              ModelPackSchema
-	GoogleSchema              ModelPackSchema
-	GeminiPlannerSchema       ModelPackSchema
-	OpusPlannerSchema         ModelPackSchema
-	R1PlannerSchema           ModelPackSchema
-	PerplexityPlannerSchema   ModelPackSchema
-	O3PlannerSchema           ModelPackSchema
-)
+func (p *PlanConfig) SetAutoMode(mode AutoModeType) {
+	p.AutoMode = mode
 
-var BuiltInModelPackSchemas = []*ModelPackSchema{
+	switch p.AutoMode {
+	case AutoModeFull:
+		p.AutoContinue = true
+		p.AutoBuild = true
+		p.AutoUpdateContext = true
+		p.AutoLoadContext = true
+		p.SmartContext = true
+		p.AutoApply = true
+		p.AutoCommit = true
+		p.CanExec = true
+		p.AutoExec = true
+		p.AutoDebug = true
+		p.AutoDebugTries = defaultAutoDebugTries
+		p.AutoRevertOnRewind = true
+		p.SkipChangesMenu = false
+
+	case AutoModeSemi:
+		p.AutoContinue = true
+		p.AutoBuild = true
+		p.AutoUpdateContext = true
+		p.AutoLoadContext = true
+		p.SmartContext = true
+		p.AutoApply = false
 ```
 
 This function is important because it defines how Plandex Tutorial: Large-Task AI Coding Agent Workflows implements the patterns covered in this chapter.
 
-### `app/shared/ai_models_packs.go`
+### `app/shared/plan_config.go`
 
-The `init` function in [`app/shared/ai_models_packs.go`](https://github.com/plandex-ai/plandex/blob/HEAD/app/shared/ai_models_packs.go) handles a key part of this chapter's functionality:
+The `SetAutoMode` function in [`app/shared/plan_config.go`](https://github.com/plandex-ai/plandex/blob/HEAD/app/shared/plan_config.go) handles a key part of this chapter's functionality:
 
 ```go
 }
 
-func init() {
-	defaultBuilder := getModelRoleConfig(ModelRoleBuilder, "openai/o4-mini-medium",
-		getStrongModelFallback(ModelRoleBuilder, "openai/o4-mini-high"),
-	)
+func (p *PlanConfig) SetAutoMode(mode AutoModeType) {
+	p.AutoMode = mode
 
-	DailyDriverSchema = ModelPackSchema{
-		Name:        "daily-driver",
-		Description: "A mix of models from Anthropic, OpenAI, and Google that balances speed, quality, and cost. Supports up to 2M context.",
-		ModelPackSchemaRoles: ModelPackSchemaRoles{
-			Planner: getModelRoleConfig(ModelRolePlanner, "anthropic/claude-sonnet-4",
-				getLargeContextFallback(ModelRolePlanner, "google/gemini-2.5-pro",
-					getLargeContextFallback(ModelRolePlanner, "google/gemini-pro-1.5"),
-				),
-			),
-			Architect: Pointer(getModelRoleConfig(ModelRoleArchitect, "anthropic/claude-sonnet-4",
-				getLargeContextFallback(ModelRoleArchitect, "google/gemini-2.5-pro",
-					getLargeContextFallback(ModelRoleArchitect, "google/gemini-pro-1.5"),
-				),
-			)),
-			Coder: Pointer(getModelRoleConfig(ModelRoleCoder, "anthropic/claude-sonnet-4",
-				getLargeContextFallback(ModelRoleCoder, "openai/gpt-4.1"),
-			)),
-			PlanSummary:      getModelRoleConfig(ModelRolePlanSummary, "openai/o4-mini-low"),
-			Builder:          defaultBuilder,
-			WholeFileBuilder: Pointer(getModelRoleConfig(ModelRoleWholeFileBuilder, "openai/o4-mini-medium")),
-			Namer:            getModelRoleConfig(ModelRoleName, "openai/gpt-4.1-mini"),
-			CommitMsg:        getModelRoleConfig(ModelRoleCommitMsg, "openai/gpt-4.1-mini"),
-			ExecStatus:       getModelRoleConfig(ModelRoleExecStatus, "openai/o4-mini-low"),
-		},
-	}
+	switch p.AutoMode {
+	case AutoModeFull:
+		p.AutoContinue = true
+		p.AutoBuild = true
+		p.AutoUpdateContext = true
+		p.AutoLoadContext = true
+		p.SmartContext = true
+		p.AutoApply = true
+		p.AutoCommit = true
+		p.CanExec = true
+		p.AutoExec = true
+		p.AutoDebug = true
+		p.AutoDebugTries = defaultAutoDebugTries
+		p.AutoRevertOnRewind = true
+		p.SkipChangesMenu = false
+
+	case AutoModeSemi:
+		p.AutoContinue = true
+		p.AutoBuild = true
+		p.AutoUpdateContext = true
+		p.AutoLoadContext = true
+		p.SmartContext = true
+		p.AutoApply = false
+		p.AutoCommit = true
+		p.CanExec = true
+		p.AutoExec = false
+		p.AutoDebug = false
 ```
 
 This function is important because it defines how Plandex Tutorial: Large-Task AI Coding Agent Workflows implements the patterns covered in this chapter.
 
-### `app/shared/ai_models_packs.go`
+### `app/shared/plan_config.go`
 
-The `cloneSchema` function in [`app/shared/ai_models_packs.go`](https://github.com/plandex-ai/plandex/blob/HEAD/app/shared/ai_models_packs.go) handles a key part of this chapter's functionality:
+The `init` function in [`app/shared/plan_config.go`](https://github.com/plandex-ai/plandex/blob/HEAD/app/shared/plan_config.go) handles a key part of this chapter's functionality:
 
 ```go
+var AutoModeLabels = map[AutoModeType]string{}
 
-	// Copy daily driver schema and modify it to use ollama for lighter tasks
-	OllamaAdaptiveDailySchema = cloneSchema(DailyDriverSchema)
-	OllamaAdaptiveDailySchema.Name = "ollama-daily"
-	OllamaAdaptiveDailySchema.Description = "Ollama adaptive/daily-driver blend. Uses 'daily-driver' for heavy lifting, local models for lighter tasks."
-	OllamaAdaptiveDailySchema.LocalProvider = ModelProviderOllama
-	OllamaAdaptiveDailySchema.PlanSummary = getModelRoleConfig(ModelRolePlanSummary, "mistral/devstral-small")
-	OllamaAdaptiveDailySchema.CommitMsg = getModelRoleConfig(ModelRoleCommitMsg, "qwen/qwen3-8b-local")
-	OllamaAdaptiveDailySchema.Namer = getModelRoleConfig(ModelRoleName, "qwen/qwen3-8b-local")
+// populated in init()
+var AutoModeChoices []string
 
-	// Copy oss schema and modify it to use ollama for lighter tasks
-	OllamaAdaptiveOssSchema = cloneSchema(OssSchema)
-	OllamaAdaptiveOssSchema.Name = "ollama-oss"
-	OllamaAdaptiveOssSchema.Description = "Ollama adaptive/oss blend. Uses local models for planning and context selection, open source cloud models for implementation and file edits. Supports up to 110k context."
-	OllamaAdaptiveOssSchema.LocalProvider = ModelProviderOllama
-	OllamaAdaptiveOssSchema.PlanSummary = getModelRoleConfig(ModelRolePlanSummary, "mistral/devstral-small")
-	OllamaAdaptiveOssSchema.CommitMsg = getModelRoleConfig(ModelRoleCommitMsg, "qwen/qwen3-8b-local")
-	OllamaAdaptiveOssSchema.Namer = getModelRoleConfig(ModelRoleName, "qwen/qwen3-8b-local")
+type PlanConfig struct {
+	AutoMode AutoModeType `json:"autoMode"`
+	// QuietMode bool         `json:"quietMode"`
 
-	OpenAISchema = ModelPackSchema{
-		Name:        "openai",
-		Description: "OpenAI blend. Supports up to 1M context. Uses OpenAI's GPT-4.1 model for heavy lifting, GPT-4.1 Mini for lighter tasks.",
-		ModelPackSchemaRoles: ModelPackSchemaRoles{
-			Planner:     getModelRoleConfig(ModelRolePlanner, "openai/gpt-4.1"),
-			PlanSummary: getModelRoleConfig(ModelRolePlanSummary, "openai/o4-mini-low"),
-			Builder:     defaultBuilder,
-			WholeFileBuilder: Pointer(getModelRoleConfig(ModelRoleWholeFileBuilder,
-				"openai/o4-mini-medium")),
-			Namer:      getModelRoleConfig(ModelRoleName, "openai/gpt-4.1-mini"),
-			CommitMsg:  getModelRoleConfig(ModelRoleCommitMsg, "openai/gpt-4.1-mini"),
-			ExecStatus: getModelRoleConfig(ModelRoleExecStatus, "openai/o4-mini-low"),
-		},
+	Editor             string   `json:"editor"`
+	EditorCommand      string   `json:"editorCommand"`
+	EditorArgs         []string `json:"editorArgs"`
+	EditorOpenManually bool     `json:"editorOpenManually"`
+
+	AutoContinue bool `json:"autoContinue"`
+	AutoBuild    bool `json:"autoBuild"`
+
+	AutoUpdateContext bool `json:"autoUpdateContext"`
+	AutoLoadContext   bool `json:"autoContext"`
+	SmartContext      bool `json:"smartContext"`
+
+	// AutoApproveContext bool `json:"autoApproveContext"`
+	// QuietContext       bool `json:"quietContext"`
+
+	// AutoApprovePlan bool `json:"autoApprovePlan"`
+
+	// QuietCoding    bool `json:"quietCoding"`
+	// ParallelCoding bool `json:"parallelCoding"`
+
+	AutoApply  bool `json:"autoApply"`
+	AutoCommit bool `json:"autoCommit"`
+	SkipCommit bool `json:"skipCommit"`
 ```
 
 This function is important because it defines how Plandex Tutorial: Large-Task AI Coding Agent Workflows implements the patterns covered in this chapter.
 
-### `app/shared/ai_models_providers.go`
+### `app/shared/data_models.go`
 
-The `ToComposite` function in [`app/shared/ai_models_providers.go`](https://github.com/plandex-ai/plandex/blob/HEAD/app/shared/ai_models_providers.go) handles a key part of this chapter's functionality:
+The `Name` function in [`app/shared/data_models.go`](https://github.com/plandex-ai/plandex/blob/HEAD/app/shared/data_models.go) handles a key part of this chapter's functionality:
 
 ```go
+type Org struct {
+	Id                 string `json:"id"`
+	Name               string `json:"name"`
+	IsTrial            bool   `json:"isTrial"`
+	AutoAddDomainUsers bool   `json:"autoAddDomainUsers"`
+
+	// optional cloud attributes
+	IntegratedModelsMode bool                `json:"integratedModelsMode,omitempty"`
+	CloudBillingFields   *CloudBillingFields `json:"cloudBillingFields,omitempty"`
 }
 
-func (m *ModelProviderConfigSchema) ToComposite() string {
-	if m.CustomProvider != nil {
-		return fmt.Sprintf("%s|%s", m.Provider, *m.CustomProvider)
-	}
-	return string(m.Provider)
+type User struct {
+	Id               string `json:"id"`
+	Name             string `json:"name"`
+	Email            string `json:"email"`
+	IsTrial          bool   `json:"isTrial"`
+	NumNonDraftPlans int    `json:"numNonDraftPlans"`
+
+	DefaultPlanConfig *PlanConfig `json:"defaultPlanConfig,omitempty"`
 }
 
-const DefaultAzureApiVersion = "2025-04-01-preview"
-const AnthropicMaxReasoningBudget = 32000
-const GoogleMaxReasoningBudget = 32000
+type OrgUser struct {
+	OrgId     string `json:"orgId"`
+	UserId    string `json:"userId"`
+	OrgRoleId string `json:"orgRoleId"`
 
-var BuiltInModelProviderConfigs = map[ModelProvider]ModelProviderConfigSchema{
-	ModelProviderOpenAI: {
-		Provider:     ModelProviderOpenAI,
-		BaseUrl:      OpenAIV1BaseUrl,
-		ApiKeyEnvVar: OpenAIEnvVar,
-		ExtraAuthVars: []ModelProviderExtraAuthVars{
-			{
-				Var:      "OPENAI_ORG_ID",
-				Required: false,
-			},
-		},
-	},
-	ModelProviderOpenRouter: {
-		Provider:     ModelProviderOpenRouter,
-		BaseUrl:      OpenRouterBaseUrl,
-		ApiKeyEnvVar: OpenRouterApiKeyEnvVar,
-	},
-	ModelProviderAnthropic: {
-		Provider:     ModelProviderAnthropic,
+	Config *OrgUserConfig `json:"config,omitempty"`
+}
+
+type Invite struct {
+	Id         string     `json:"id"`
+	OrgId      string     `json:"orgId"`
 ```
 
 This function is important because it defines how Plandex Tutorial: Large-Task AI Coding Agent Workflows implements the patterns covered in this chapter.
@@ -200,11 +198,11 @@ This function is important because it defines how Plandex Tutorial: Large-Task A
 
 ```mermaid
 flowchart TD
-    A[getStrongModelFallback]
-    B[init]
-    C[cloneSchema]
-    D[ToComposite]
-    E[init]
+    A[Value]
+    B[SetAutoMode]
+    C[init]
+    D[Name]
+    E[ModelString]
     A --> B
     B --> C
     C --> D

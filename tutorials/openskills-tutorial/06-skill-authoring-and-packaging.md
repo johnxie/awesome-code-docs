@@ -26,117 +26,127 @@ You now have a quality baseline for authoring reusable skills.
 
 Next: [Chapter 7: Updates, Versioning, and Governance](07-updates-versioning-and-governance.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `src/commands/update.ts`
+### `src/commands/install.ts`
 
-The `updateSkillFromDir` function in [`src/commands/update.ts`](https://github.com/numman-ali/openskills/blob/HEAD/src/commands/update.ts) handles a key part of this chapter's functionality:
+The `formatSize` function in [`src/commands/install.ts`](https://github.com/numman-ali/openskills/blob/HEAD/src/commands/install.ts) handles a key part of this chapter's functionality:
 
 ```ts
-        continue;
-      }
-      updateSkillFromDir(skill.path, localPath);
-      writeSkillMetadata(skill.path, { ...metadata, installedAt: new Date().toISOString() });
-      console.log(chalk.green(`✅ Updated: ${skill.name}`));
-      updated++;
-      continue;
-    }
-
-    if (!metadata.repoUrl) {
-      console.log(chalk.yellow(`Skipped: ${skill.name} (missing repo URL metadata)`));
-      missingRepoUrl.push(skill.name);
-      skipped++;
-      continue;
-    }
-
-    const tempDir = join(homedir(), `.openskills-temp-${Date.now()}`);
-    mkdirSync(tempDir, { recursive: true });
-
-    const spinner = ora(`Updating ${skill.name}...`).start();
     try {
-      execSync(`git clone --depth 1 --quiet "${metadata.repoUrl}" "${tempDir}/repo"`, { stdio: 'pipe' });
-      const repoDir = join(tempDir, 'repo');
-      const subpath = metadata.subpath && metadata.subpath !== '.' ? metadata.subpath : '';
-      const sourceDir = subpath ? join(repoDir, subpath) : repoDir;
+      const choices = skillInfos.map((info) => ({
+        name: `${chalk.bold(info.skillName.padEnd(25))} ${chalk.dim(formatSize(info.size))}`,
+        value: info.skillName,
+        description: info.description.slice(0, 80),
+        checked: true, // Check all by default
+      }));
 
-      if (!existsSync(join(sourceDir, 'SKILL.md'))) {
-        spinner.fail(`SKILL.md missing for ${skill.name}`);
-        console.log(chalk.yellow(`Skipped: ${skill.name} (SKILL.md not found in repo at ${subpath || '.'})`));
-        missingRepoSkillFile.push({ name: skill.name, subpath: subpath || '.' });
-        skipped++;
-        continue;
-```
+      const selected = await checkbox({
+        message: 'Select skills to install',
+        choices,
+        pageSize: 15,
+      });
 
-This function is important because it defines how OpenSkills Tutorial: Universal Skill Loading for Coding Agents implements the patterns covered in this chapter.
+      if (selected.length === 0) {
+        console.log(chalk.yellow('No skills selected. Installation cancelled.'));
+        return;
+      }
 
-### `src/commands/update.ts`
-
-The `isPathInside` function in [`src/commands/update.ts`](https://github.com/numman-ali/openskills/blob/HEAD/src/commands/update.ts) handles a key part of this chapter's functionality:
-
-```ts
-  mkdirSync(targetDir, { recursive: true });
-
-  if (!isPathInside(targetPath, targetDir)) {
-    console.error(chalk.red('Security error: Installation path outside target directory'));
-    process.exit(1);
+      skillsToInstall = skillInfos.filter((info) => selected.includes(info.skillName));
+    } catch (error) {
+      if (error instanceof ExitPromptError) {
+        console.log(chalk.yellow('\n\nCancelled by user'));
+        process.exit(0);
+      }
+      throw error;
+    }
   }
 
-  rmSync(targetPath, { recursive: true, force: true });
-  cpSync(sourceDir, targetPath, { recursive: true, dereference: true });
-}
-
-function isPathInside(targetPath: string, targetDir: string): boolean {
-  const resolvedTargetPath = resolve(targetPath);
-  const resolvedTargetDir = resolve(targetDir);
-  const resolvedTargetDirWithSep = resolvedTargetDir.endsWith(sep)
-    ? resolvedTargetDir
-    : resolvedTargetDir + sep;
-  return resolvedTargetPath.startsWith(resolvedTargetDirWithSep);
-}
-
+  // Install selected skills
+  const isProject = targetDir.startsWith(process.cwd());
+  let installedCount = 0;
 ```
 
 This function is important because it defines how OpenSkills Tutorial: Universal Skill Loading for Coding Agents implements the patterns covered in this chapter.
 
-### `src/commands/manage.ts`
+### `src/commands/install.ts`
 
-The `manageSkills` function in [`src/commands/manage.ts`](https://github.com/numman-ali/openskills/blob/HEAD/src/commands/manage.ts) handles a key part of this chapter's functionality:
+The `InstallSourceInfo` interface in [`src/commands/install.ts`](https://github.com/numman-ali/openskills/blob/HEAD/src/commands/install.ts) handles a key part of this chapter's functionality:
 
 ```ts
- * Interactively manage (remove) installed skills
+import type { SkillSourceMetadata, SkillSourceType } from '../utils/skill-metadata.js';
+
+interface InstallSourceInfo {
+  source: string;
+  sourceType: SkillSourceType;
+  repoUrl?: string;
+  localRoot?: string;
+}
+
+/**
+ * Check if source is a local path
  */
-export async function manageSkills(): Promise<void> {
+function isLocalPath(source: string): boolean {
+  return (
+    source.startsWith('/') ||
+    source.startsWith('./') ||
+    source.startsWith('../') ||
+    source.startsWith('~/')
+  );
+}
+
+/**
+ * Check if source is a git URL (SSH, git://, or HTTPS)
+ */
+function isGitUrl(source: string): boolean {
+  return (
+    source.startsWith('git@') ||
+    source.startsWith('git://') ||
+    source.startsWith('http://') ||
+    source.startsWith('https://') ||
+    source.endsWith('.git')
+  );
+```
+
+This interface is important because it defines how OpenSkills Tutorial: Universal Skill Loading for Coding Agents implements the patterns covered in this chapter.
+
+### `src/commands/list.ts`
+
+The `listSkills` function in [`src/commands/list.ts`](https://github.com/numman-ali/openskills/blob/HEAD/src/commands/list.ts) handles a key part of this chapter's functionality:
+
+```ts
+ * List all installed skills
+ */
+export function listSkills(): void {
+  console.log(chalk.bold('Available Skills:\n'));
+
   const skills = findAllSkills();
 
   if (skills.length === 0) {
-    console.log('No skills installed.');
+    console.log('No skills installed.\n');
+    console.log('Install skills:');
+    console.log(`  ${chalk.cyan('npx openskills install anthropics/skills')}         ${chalk.dim('# Project (default)')}`);
+    console.log(`  ${chalk.cyan('npx openskills install owner/skill --global')}     ${chalk.dim('# Global (advanced)')}`);
     return;
   }
 
-  try {
-    // Sort: project first
-    const sorted = skills.sort((a, b) => {
-      if (a.location !== b.location) {
-        return a.location === 'project' ? -1 : 1;
-      }
-      return a.name.localeCompare(b.name);
-    });
+  // Sort: project skills first, then global, alphabetically within each
+  const sorted = skills.sort((a, b) => {
+    if (a.location !== b.location) {
+      return a.location === 'project' ? -1 : 1;
+    }
+    return a.name.localeCompare(b.name);
+  });
 
-    const choices = sorted.map((skill) => ({
-      name: `${chalk.bold(skill.name.padEnd(25))} ${skill.location === 'project' ? chalk.blue('(project)') : chalk.dim('(global)')}`,
-      value: skill.name,
-      checked: false, // Nothing checked by default
-    }));
+  // Display with inline location labels
+  for (const skill of sorted) {
+    const locationLabel = skill.location === 'project'
+      ? chalk.blue('(project)')
+      : chalk.dim('(global)');
 
-    const toRemove = await checkbox({
-      message: 'Select skills to remove',
-      choices,
-      pageSize: 15,
-    });
-
-    if (toRemove.length === 0) {
+    console.log(`  ${chalk.bold(skill.name.padEnd(25))} ${locationLabel}`);
+    console.log(`    ${chalk.dim(skill.description)}\n`);
+  }
 ```
 
 This function is important because it defines how OpenSkills Tutorial: Universal Skill Loading for Coding Agents implements the patterns covered in this chapter.
@@ -187,9 +197,9 @@ This function is important because it defines how OpenSkills Tutorial: Universal
 
 ```mermaid
 flowchart TD
-    A[updateSkillFromDir]
-    B[isPathInside]
-    C[manageSkills]
+    A[formatSize]
+    B[InstallSourceInfo]
+    C[listSkills]
     D[parseCurrentSkills]
     E[generateSkillsXml]
     A --> B

@@ -613,6 +613,28 @@ if __name__ == "__main__":
     asyncio.run(performance_optimization())
 ```
 
+## Browser Control Flow
+
+```mermaid
+flowchart TD
+    A[Agent instantiated with LLM]
+    B[Browser launched via Playwright]
+    C[Agent receives task: navigate to URL]
+    D[go_to_url action executed]
+    E[Page DOM and screenshot captured]
+    F[Agent analyzes page state]
+    G[Next action proposed: click or type]
+    H[Action applied to browser]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    E --> F
+    F --> G
+    G --> H
+    H --> E
+```
+
 ## Summary
 
 In this chapter, we've covered:

@@ -904,6 +904,20 @@ Under the hood, `Chapter 6: User Management, Authentication & Access Control` us
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
+## Access Control Model
+
+```mermaid
+flowchart LR
+    A[Login Request] --> B{Auth Provider}
+    B --> C[Local Auth]
+    B --> D[OAuth / LDAP]
+    C --> E{Role Check}
+    D --> E
+    E -->|Admin| F[Full Access]
+    E -->|User| G[Standard Access]
+    E -->|Pending| H[Blocked]
+```
+
 ## Source Walkthrough
 
 Use the following upstream sources to verify implementation details while reading this chapter:

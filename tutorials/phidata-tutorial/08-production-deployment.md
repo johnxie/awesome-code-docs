@@ -1746,6 +1746,19 @@ Under the hood, `Chapter 8: Production Deployment & Scaling Phidata Agents` usua
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
+## Production Architecture
+
+```mermaid
+flowchart LR
+    A[Client] --> B[API Gateway]
+    B --> C[Phidata Agent Service]
+    C --> D[LLM Provider]
+    C --> E[Memory / Vector DB]
+    C --> F[Tool Services]
+    B --> G[Auth / Rate Limiting]
+    C --> H[Observability]
+```
+
 ## Source Walkthrough
 
 Use the following upstream sources to verify implementation details while reading this chapter:

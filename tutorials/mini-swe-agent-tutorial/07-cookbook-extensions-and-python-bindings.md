@@ -38,170 +38,168 @@ You now have a path to custom behavior while preserving the minimal architecture
 
 Next: [Chapter 8: Contribution Workflow and Governance](08-contribution-workflow-and-governance.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `src/minisweagent/models/__init__.py`
+### `src/minisweagent/run/mini.py`
 
-The `get_model_class` function in [`src/minisweagent/models/__init__.py`](https://github.com/SWE-agent/mini-swe-agent/blob/HEAD/src/minisweagent/models/__init__.py) handles a key part of this chapter's functionality:
+The `or` class in [`src/minisweagent/run/mini.py`](https://github.com/SWE-agent/mini-swe-agent/blob/HEAD/src/minisweagent/run/mini.py) handles a key part of this chapter's functionality:
 
 ```py
-    config["model_name"] = resolved_model_name
+# Read this first: https://mini-swe-agent.com/latest/usage/mini/  (usage)
 
-    model_class = get_model_class(resolved_model_name, config.pop("model_class", ""))
+import os
+from pathlib import Path
+from typing import Any
 
-    if (
-        any(s in resolved_model_name.lower() for s in ["anthropic", "sonnet", "opus", "claude"])
-        and "set_cache_control" not in config
-    ):
-        # Select cache control for Anthropic models by default
-        config["set_cache_control"] = "default_end"
+import typer
+from rich.console import Console
 
-    return model_class(**config)
+from minisweagent import global_config_dir
+from minisweagent.agents import get_agent
+from minisweagent.agents.utils.prompt_user import _multiline_prompt
+from minisweagent.config import builtin_config_dir, get_config_from_spec
+from minisweagent.environments import get_environment
+from minisweagent.models import get_model
+from minisweagent.run.utilities.config import configure_if_first_time
+from minisweagent.utils.serialize import UNSET, recursive_merge
 
-
-def get_model_name(input_model_name: str | None = None, config: dict | None = None) -> str:
-    """Get a model name from any kind of user input or settings."""
-    if config is None:
-        config = {}
-    if input_model_name:
-        return input_model_name
-    if from_config := config.get("model_name"):
-        return from_config
-    if from_env := os.getenv("MSWEA_MODEL_NAME"):
-        return from_env
-    raise ValueError("No default model set. Please run `mini-extra config setup` to set one.")
+DEFAULT_CONFIG_FILE = Path(os.getenv("MSWEA_MINI_CONFIG_PATH", builtin_config_dir / "mini.yaml"))
+DEFAULT_OUTPUT_FILE = global_config_dir / "last_mini_run.traj.json"
 
 
-_MODEL_CLASS_MAPPING = {
-    "litellm": "minisweagent.models.litellm_model.LitellmModel",
-    "litellm_textbased": "minisweagent.models.litellm_textbased_model.LitellmTextbasedModel",
-    "litellm_response": "minisweagent.models.litellm_response_model.LitellmResponseModel",
-    "openrouter": "minisweagent.models.openrouter_model.OpenRouterModel",
+_HELP_TEXT = """Run mini-SWE-agent in your local environment.
+
+[not dim]
+More information about the usage: [bold green]https://mini-swe-agent.com/latest/usage/mini/[/bold green]
+[/not dim]
+"""
+
+_CONFIG_SPEC_HELP_TEXT = """Path to config files, filenames, or key-value pairs.
+
+[bold red]IMPORTANT:[/bold red] [red]If you set this option, the default config file will not be used.[/red]
+```
+
+This class is important because it defines how Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale implements the patterns covered in this chapter.
+
+### `src/minisweagent/run/mini.py`
+
+The `main` function in [`src/minisweagent/run/mini.py`](https://github.com/SWE-agent/mini-swe-agent/blob/HEAD/src/minisweagent/run/mini.py) handles a key part of this chapter's functionality:
+
+```py
+# fmt: off
+@app.command(help=_HELP_TEXT)
+def main(
+    model_name: str | None = typer.Option(None, "-m", "--model", help="Model to use",),
+    model_class: str | None = typer.Option(None, "--model-class", help="Model class to use (e.g., 'litellm' or 'minisweagent.models.litellm_model.LitellmModel')", rich_help_panel="Advanced"),
+    agent_class: str | None = typer.Option(None, "--agent-class", help="Agent class to use (e.g., 'interactive' or 'minisweagent.agents.interactive.InteractiveAgent')", rich_help_panel="Advanced"),
+    environment_class: str | None = typer.Option(None, "--environment-class", help="Environment class to use (e.g., 'local' or 'minisweagent.environments.local.LocalEnvironment')", rich_help_panel="Advanced"),
+    task: str | None = typer.Option(None, "-t", "--task", help="Task/problem statement", show_default=False),
+    yolo: bool = typer.Option(False, "-y", "--yolo", help="Run without confirmation"),
+    cost_limit: float | None = typer.Option(None, "-l", "--cost-limit", help="Cost limit. Set to 0 to disable."),
+    config_spec: list[str] = typer.Option([str(DEFAULT_CONFIG_FILE)], "-c", "--config", help=_CONFIG_SPEC_HELP_TEXT),
+    output: Path | None = typer.Option(DEFAULT_OUTPUT_FILE, "-o", "--output", help="Output trajectory file"),
+    exit_immediately: bool = typer.Option(False, "--exit-immediately", help="Exit immediately when the agent wants to finish instead of prompting.", rich_help_panel="Advanced"),
+) -> Any:
+    # fmt: on
+    configure_if_first_time()
+
+    # Build the config from the command line arguments
+    console.print(f"Building agent config from specs: [bold green]{config_spec}[/bold green]")
+    configs = [get_config_from_spec(spec) for spec in config_spec]
+    configs.append({
+        "run": {
+            "task": task or UNSET,
+        },
+        "agent": {
+            "agent_class": agent_class or UNSET,
+            "mode": "yolo" if yolo else UNSET,
+            "cost_limit": cost_limit or UNSET,
+            "confirm_exit": False if exit_immediately else UNSET,
+            "output_path": output or UNSET,
+        },
+        "model": {
 ```
 
 This function is important because it defines how Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale implements the patterns covered in this chapter.
 
-### `src/minisweagent/run/mini.py`
+### `src/minisweagent/models/litellm_textbased_model.py`
 
-The `to` class in [`src/minisweagent/run/mini.py`](https://github.com/SWE-agent/mini-swe-agent/blob/HEAD/src/minisweagent/run/mini.py) handles a key part of this chapter's functionality:
+The `LitellmTextbasedModelConfig` class in [`src/minisweagent/models/litellm_textbased_model.py`](https://github.com/SWE-agent/mini-swe-agent/blob/HEAD/src/minisweagent/models/litellm_textbased_model.py) handles a key part of this chapter's functionality:
 
 ```py
-"""
-
-_CONFIG_SPEC_HELP_TEXT = """Path to config files, filenames, or key-value pairs.
-
-[bold red]IMPORTANT:[/bold red] [red]If you set this option, the default config file will not be used.[/red]
-So you need to explicitly set it e.g., with [bold green]-c mini.yaml <other options>[/bold green]
-
-Multiple configs will be recursively merged.
-
-Examples:
-
-[bold red]-c model.model_kwargs.temperature=0[/bold red] [red]You forgot to add the default config file! See above.[/red]
-
-[bold green]-c mini.yaml -c model.model_kwargs.temperature=0.5[/bold green]
-
-[bold green]-c swebench.yaml agent.mode=yolo[/bold green]
-"""
-
-console = Console(highlight=False)
-app = typer.Typer(rich_markup_mode="rich")
 
 
-# fmt: off
-@app.command(help=_HELP_TEXT)
-def main(
-    model_name: str | None = typer.Option(None, "-m", "--model", help="Model to use",),
-    model_class: str | None = typer.Option(None, "--model-class", help="Model class to use (e.g., 'litellm' or 'minisweagent.models.litellm_model.LitellmModel')", rich_help_panel="Advanced"),
-    agent_class: str | None = typer.Option(None, "--agent-class", help="Agent class to use (e.g., 'interactive' or 'minisweagent.agents.interactive.InteractiveAgent')", rich_help_panel="Advanced"),
-    environment_class: str | None = typer.Option(None, "--environment-class", help="Environment class to use (e.g., 'local' or 'minisweagent.environments.local.LocalEnvironment')", rich_help_panel="Advanced"),
-    task: str | None = typer.Option(None, "-t", "--task", help="Task/problem statement", show_default=False),
-    yolo: bool = typer.Option(False, "-y", "--yolo", help="Run without confirmation"),
-    cost_limit: float | None = typer.Option(None, "-l", "--cost-limit", help="Cost limit. Set to 0 to disable."),
+class LitellmTextbasedModelConfig(LitellmModelConfig):
+    action_regex: str = r"```mswea_bash_command\s*\n(.*?)\n```"
+    """Regex to extract the action from the LM's output."""
+    format_error_template: str = (
+        "Please always provide EXACTLY ONE action in triple backticks, found {{actions|length}} actions."
+    )
+    """Template used when the LM's output is not in the expected format."""
+
+
+class LitellmTextbasedModel(LitellmModel):
+    def __init__(self, **kwargs):
+        super().__init__(config_class=LitellmTextbasedModelConfig, **kwargs)
+
+    def _query(self, messages: list[dict[str, str]], **kwargs):
+        try:
+            return litellm.completion(
+                model=self.config.model_name, messages=messages, **(self.config.model_kwargs | kwargs)
+            )
+        except litellm.exceptions.AuthenticationError as e:
+            e.message += " You can permanently set your API key with `mini-extra config set KEY VALUE`."
+            raise e
+
+    def _parse_actions(self, response: dict) -> list[dict]:
+        """Parse actions from the model response. Raises FormatError if not exactly one action."""
+        content = response.choices[0].message.content or ""
+        return parse_regex_actions(
+            content, action_regex=self.config.action_regex, format_error_template=self.config.format_error_template
+        )
+
+    def format_observation_messages(
 ```
 
 This class is important because it defines how Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale implements the patterns covered in this chapter.
 
-### `src/minisweagent/run/mini.py`
+### `src/minisweagent/models/litellm_textbased_model.py`
 
-The `to` class in [`src/minisweagent/run/mini.py`](https://github.com/SWE-agent/mini-swe-agent/blob/HEAD/src/minisweagent/run/mini.py) handles a key part of this chapter's functionality:
-
-```py
-"""
-
-_CONFIG_SPEC_HELP_TEXT = """Path to config files, filenames, or key-value pairs.
-
-[bold red]IMPORTANT:[/bold red] [red]If you set this option, the default config file will not be used.[/red]
-So you need to explicitly set it e.g., with [bold green]-c mini.yaml <other options>[/bold green]
-
-Multiple configs will be recursively merged.
-
-Examples:
-
-[bold red]-c model.model_kwargs.temperature=0[/bold red] [red]You forgot to add the default config file! See above.[/red]
-
-[bold green]-c mini.yaml -c model.model_kwargs.temperature=0.5[/bold green]
-
-[bold green]-c swebench.yaml agent.mode=yolo[/bold green]
-"""
-
-console = Console(highlight=False)
-app = typer.Typer(rich_markup_mode="rich")
-
-
-# fmt: off
-@app.command(help=_HELP_TEXT)
-def main(
-    model_name: str | None = typer.Option(None, "-m", "--model", help="Model to use",),
-    model_class: str | None = typer.Option(None, "--model-class", help="Model class to use (e.g., 'litellm' or 'minisweagent.models.litellm_model.LitellmModel')", rich_help_panel="Advanced"),
-    agent_class: str | None = typer.Option(None, "--agent-class", help="Agent class to use (e.g., 'interactive' or 'minisweagent.agents.interactive.InteractiveAgent')", rich_help_panel="Advanced"),
-    environment_class: str | None = typer.Option(None, "--environment-class", help="Environment class to use (e.g., 'local' or 'minisweagent.environments.local.LocalEnvironment')", rich_help_panel="Advanced"),
-    task: str | None = typer.Option(None, "-t", "--task", help="Task/problem statement", show_default=False),
-    yolo: bool = typer.Option(False, "-y", "--yolo", help="Run without confirmation"),
-    cost_limit: float | None = typer.Option(None, "-l", "--cost-limit", help="Cost limit. Set to 0 to disable."),
-```
-
-This class is important because it defines how Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale implements the patterns covered in this chapter.
-
-### `src/minisweagent/run/mini.py`
-
-The `to` class in [`src/minisweagent/run/mini.py`](https://github.com/SWE-agent/mini-swe-agent/blob/HEAD/src/minisweagent/run/mini.py) handles a key part of this chapter's functionality:
+The `LitellmTextbasedModel` class in [`src/minisweagent/models/litellm_textbased_model.py`](https://github.com/SWE-agent/mini-swe-agent/blob/HEAD/src/minisweagent/models/litellm_textbased_model.py) handles a key part of this chapter's functionality:
 
 ```py
-"""
-
-_CONFIG_SPEC_HELP_TEXT = """Path to config files, filenames, or key-value pairs.
-
-[bold red]IMPORTANT:[/bold red] [red]If you set this option, the default config file will not be used.[/red]
-So you need to explicitly set it e.g., with [bold green]-c mini.yaml <other options>[/bold green]
-
-Multiple configs will be recursively merged.
-
-Examples:
-
-[bold red]-c model.model_kwargs.temperature=0[/bold red] [red]You forgot to add the default config file! See above.[/red]
-
-[bold green]-c mini.yaml -c model.model_kwargs.temperature=0.5[/bold green]
-
-[bold green]-c swebench.yaml agent.mode=yolo[/bold green]
-"""
-
-console = Console(highlight=False)
-app = typer.Typer(rich_markup_mode="rich")
 
 
-# fmt: off
-@app.command(help=_HELP_TEXT)
-def main(
-    model_name: str | None = typer.Option(None, "-m", "--model", help="Model to use",),
-    model_class: str | None = typer.Option(None, "--model-class", help="Model class to use (e.g., 'litellm' or 'minisweagent.models.litellm_model.LitellmModel')", rich_help_panel="Advanced"),
-    agent_class: str | None = typer.Option(None, "--agent-class", help="Agent class to use (e.g., 'interactive' or 'minisweagent.agents.interactive.InteractiveAgent')", rich_help_panel="Advanced"),
-    environment_class: str | None = typer.Option(None, "--environment-class", help="Environment class to use (e.g., 'local' or 'minisweagent.environments.local.LocalEnvironment')", rich_help_panel="Advanced"),
-    task: str | None = typer.Option(None, "-t", "--task", help="Task/problem statement", show_default=False),
-    yolo: bool = typer.Option(False, "-y", "--yolo", help="Run without confirmation"),
-    cost_limit: float | None = typer.Option(None, "-l", "--cost-limit", help="Cost limit. Set to 0 to disable."),
+class LitellmTextbasedModelConfig(LitellmModelConfig):
+    action_regex: str = r"```mswea_bash_command\s*\n(.*?)\n```"
+    """Regex to extract the action from the LM's output."""
+    format_error_template: str = (
+        "Please always provide EXACTLY ONE action in triple backticks, found {{actions|length}} actions."
+    )
+    """Template used when the LM's output is not in the expected format."""
+
+
+class LitellmTextbasedModel(LitellmModel):
+    def __init__(self, **kwargs):
+        super().__init__(config_class=LitellmTextbasedModelConfig, **kwargs)
+
+    def _query(self, messages: list[dict[str, str]], **kwargs):
+        try:
+            return litellm.completion(
+                model=self.config.model_name, messages=messages, **(self.config.model_kwargs | kwargs)
+            )
+        except litellm.exceptions.AuthenticationError as e:
+            e.message += " You can permanently set your API key with `mini-extra config set KEY VALUE`."
+            raise e
+
+    def _parse_actions(self, response: dict) -> list[dict]:
+        """Parse actions from the model response. Raises FormatError if not exactly one action."""
+        content = response.choices[0].message.content or ""
+        return parse_regex_actions(
+            content, action_regex=self.config.action_regex, format_error_template=self.config.format_error_template
+        )
+
+    def format_observation_messages(
 ```
 
 This class is important because it defines how Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale implements the patterns covered in this chapter.
@@ -211,11 +209,11 @@ This class is important because it defines how Mini-SWE-Agent Tutorial: Minimal 
 
 ```mermaid
 flowchart TD
-    A[get_model_class]
-    B[to]
-    C[to]
-    D[to]
-    E[or]
+    A[or]
+    B[main]
+    C[LitellmTextbasedModelConfig]
+    D[LitellmTextbasedModel]
+    E[OpenRouterTextbasedModelConfig]
     A --> B
     B --> C
     C --> D

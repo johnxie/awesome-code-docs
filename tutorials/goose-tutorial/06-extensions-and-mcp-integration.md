@@ -20,18 +20,36 @@ This chapter covers how Goose expands beyond built-ins through MCP extension wor
 - add custom MCP servers via UI or CLI
 - standardize extension rollout for teams
 
+## Extension Architecture
+
+```mermaid
+flowchart TD
+    A["Goose Agent"] --> B["Extension Manager"]
+    B --> C["Builtin: Developer\n(crates/goose-mcp/src/)"]
+    B --> D["Builtin: Memory\n(crates/goose-mcp/src/memory/)"]
+    B --> E["Builtin: Computer Controller\n(crates/goose-mcp/src/computercontroller/)"]
+    B --> F["Custom Stdio MCP\n(any MCP-compliant subprocess)"]
+    B --> G["Remote StreamableHttp MCP\n(cloud-hosted MCP server)"]
+    C --> H["Tools exposed to LLM via ToolRouter"]
+    D --> H
+    E --> H
+    F --> H
+    G --> H
+```
+
 ## Built-In Extension Surface
 
-Goose includes development and platform extensions such as:
+Goose includes development and platform extensions shipped as part of `crates/goose-mcp/`:
 
-- Developer
-- Computer Controller
-- Memory
-- Extension Manager
-- Skills
-- Todo
+| Extension | Crate Path | Primary Tools |
+|:----------|:-----------|:--------------|
+| Developer | `src/developer/` | `read_file`, `write_file`, `shell_exec`, `list_directory` |
+| Computer Controller | `src/computercontroller/` | screen capture, mouse/keyboard control, browser, PDF/DOCX/XLSX processing |
+| Memory | `src/memory/` | `remember_memory`, `retrieve_memories`, `remove_memory_category` |
+| AutoVisualiser | `src/autovisualiser/` | auto-generates visualizations from data |
+| Tutorial | `src/tutorial/` | in-agent tutorial guidance |
 
-These can be toggled based on task needs to reduce tool overload.
+These can be toggled based on task needs to reduce tool overload. Loading fewer extensions means the model sees a smaller tool list, which improves tool selection accuracy for specialized tasks.
 
 ## Custom MCP Flow (CLI)
 
@@ -41,18 +59,87 @@ goose configure
 # choose: Command-line Extension OR Remote Extension
 ```
 
-Example pattern for an MCP server command:
+Example commands for popular community MCP servers:
 
 ```bash
-npx -y @modelcontextprotocol/server-memory
+# Filesystem access (scoped to a directory)
+npx -y @modelcontextprotocol/server-filesystem /path/to/allowed/dir
+
+# GitHub integration
+npx -y @modelcontextprotocol/server-github
+
+# Postgres database
+npx -y @modelcontextprotocol/server-postgres postgresql://user:pass@host/db
+
+# Brave web search
+npx -y @modelcontextprotocol/server-brave-search
 ```
+
+Each of these spawns as a subprocess that communicates with Goose over stdin/stdout using the MCP protocol. The tools they expose become available to the LLM in the next session.
+
+## Managing Extensions Across Sessions
+
+Extensions added via `goose configure` persist to `~/.config/goose/config.yaml` and load for all future sessions. To use an extension only for a specific session:
+
+```bash
+# Only for this session — not persisted
+goose session --with-extension "npx -y @modelcontextprotocol/server-github"
+
+# Only for this run — not persisted
+goose run --text "..." --with-extension "npx -y @modelcontextprotocol/server-github"
+```
+
+To remove a persisted extension, run `goose configure` and select "Remove Extension".
+
+## Extension Types in Detail
+
+Goose supports four distinct extension configuration types:
+
+| Type | When to Use | Example |
+|:-----|:------------|:--------|
+| `Builtin` | Bundled extensions shipped with Goose | `--with-builtin developer` |
+| `Stdio` | Any MCP server communicating over stdin/stdout | `npx @modelcontextprotocol/server-filesystem` |
+| `StreamableHttp` | Remote MCP server over HTTP streaming | A deployed cloud MCP endpoint |
+| `Platform` | OS-native system extensions | Built into the desktop app |
+
+The `Stdio` type covers the vast majority of community MCP servers. You provide the command and arguments; Goose spawns the process and communicates over the MCP protocol.
+
+## Enabling Extensions at Runtime (CLI)
+
+Extensions can be injected per-invocation without modifying config:
+
+```bash
+# Add the developer built-in for this session only
+goose session --with-builtin developer
+
+# Add a custom stdio MCP server for this run only
+goose run --text "Analyze dependencies" \
+  --with-extension "npx -y @modelcontextprotocol/server-filesystem /home/user/project"
+
+# Load a remote streamable HTTP extension
+goose session --with-streamable-http-extension "https://my-mcp-server.example.com"
+```
+
+Extensions added via flags are not persisted to config. This makes them suitable for CI pipelines where you want a clean, reproducible extension surface.
+
+## The Memory Extension in Depth
+
+The built-in `Memory` extension (in `crates/goose-mcp/src/memory/`) provides persistent tool-backed memory across sessions:
+
+- **`remember_memory`** — stores a key-value pair in a category, optionally tagged
+- **`retrieve_memories`** — fetches all memories in a category (use `"*"` for all)
+- **`remove_memory_category`** — bulk-deletes a category
+- **`remove_specific_memory`** — removes a single entry by content match
+
+Global memories persist in `~/.config/goose/memory/` and survive across projects. Local memories live in `.goose/memory/` within the project directory. This dual-scope model is useful for storing both personal preferences (global) and project-specific conventions (local).
 
 ## Extension Safety Checklist
 
-1. review extension command/source
-2. set reasonable timeout values
-3. apply tool permissions before broad usage
+1. review extension command/source before adding
+2. set reasonable timeout values (default: 30s)
+3. apply `SmartApprove` or `Approve` mode when using new extensions
 4. test in a sandbox repository first
+5. add extension commands to your team's allowlist policy before broad rollout
 
 ## Source References
 
@@ -66,170 +153,57 @@ You now know how to evolve Goose capabilities with built-in and external MCP int
 
 Next: [Chapter 7: CLI Workflows and Automation](07-cli-workflows-and-automation.md)
 
-## Depth Expansion Playbook
-
-## Source Code Walkthrough
-
-### `examples/frontend_tools.py`
-
-The `execute_enable_extension` function in [`examples/frontend_tools.py`](https://github.com/block/goose/blob/HEAD/examples/frontend_tools.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-def execute_enable_extension(args: Dict[str, Any]) -> List[Dict[str, Any]]:
-    """
-    Execute the enable_extension tool.
-    This function fetches available extensions, finds the one with the provided extension_name,
-    and posts its configuration to the /extensions/add endpoint.
-    """
-    extension = args
-    extension_name = extension.get("name")
-
-    # Post the extension configuration to enable it
-    with httpx.Client() as client:
-        payload = {
-            "type": extension.get("type"),
-            "name": extension.get("name"),
-            "cmd": extension.get("cmd"),
-            "args": extension.get("args"),
-            "envs": extension.get("envs", {}),
-            "timeout": extension.get("timeout"),
-            "bundled": extension.get("bundled"),
-        }
-        add_response = client.post(
-            f"{GOOSE_URL}/extensions/add",
-            json=payload,
-            headers={"Content-Type": "application/json", "X-Secret-Key": SECRET_KEY},
-        )
-        if add_response.status_code != 200:
-            error_text = add_response.text
-            return [{
-                "type": "text",
-                "text": f"Error: Failed to enable extension: {error_text}",
-```
-
-This function is important because it defines how Goose Tutorial: Extensible Open-Source AI Agent for Real Engineering Work implements the patterns covered in this chapter.
-
-### `examples/frontend_tools.py`
-
-The `submit_tool_result` function in [`examples/frontend_tools.py`](https://github.com/block/goose/blob/HEAD/examples/frontend_tools.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-def submit_tool_result(tool_id: str, result: List[Dict[str, Any]]) -> None:
-    """Submit the tool execution result back to Goose.
-
-    The result should be a list of Content variants (Text, Image, or Resource).
-    Each Content variant has a type tag and appropriate fields.
-    """
-    payload = {
-        "id": tool_id,
-        "result": {
-            "Ok": result  # Result enum variant with single key for success case
-        },
-    }
-
-    with httpx.Client(timeout=2.0) as client:
-        response = client.post(
-            f"{GOOSE_URL}/tool_result",
-            json=payload,
-            headers={"X-Secret-Key": SECRET_KEY},
-        )
-        response.raise_for_status()
-
-
-async def chat_loop() -> None:
-    """Main chat loop that handles the conversation with Goose."""
-    session_id = "test-session"
-
-    # Use a client with a longer timeout for streaming
-    async with httpx.AsyncClient(timeout=60.0) as client:
-        # Get user input
-        user_message = input("\nYou: ")
-```
-
-This function is important because it defines how Goose Tutorial: Extensible Open-Source AI Agent for Real Engineering Work implements the patterns covered in this chapter.
-
-### `examples/frontend_tools.py`
-
-The `chat_loop` function in [`examples/frontend_tools.py`](https://github.com/block/goose/blob/HEAD/examples/frontend_tools.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-async def chat_loop() -> None:
-    """Main chat loop that handles the conversation with Goose."""
-    session_id = "test-session"
-
-    # Use a client with a longer timeout for streaming
-    async with httpx.AsyncClient(timeout=60.0) as client:
-        # Get user input
-        user_message = input("\nYou: ")
-        if user_message.lower() in ["exit", "quit"]:
-            return
-
-        # Create the message object
-        message = {
-            "role": "user",
-            "created": int(datetime.now().timestamp()),
-            "content": [{"type": "text", "text": user_message}],
-        }
-
-        # Send to /reply endpoint
-        payload = {
-            "messages": [message],
-            "session_id": session_id,
-            "session_working_dir": os.getcwd(),
-        }
-
-        # Process the stream of responses
-        async with client.stream(
-            "POST",
-            f"{GOOSE_URL}/reply", # lock 
-            json=payload,
-```
-
-This function is important because it defines how Goose Tutorial: Extensible Open-Source AI Agent for Real Engineering Work implements the patterns covered in this chapter.
-
-### `examples/frontend_tools.py`
-
-The `main` function in [`examples/frontend_tools.py`](https://github.com/block/goose/blob/HEAD/examples/frontend_tools.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-async def main():
-    try:
-        # Initialize the agent with our tool
-        await setup_agent()
-
-        # Start the chat loop
-        await chat_loop()
-
-    except Exception as e:
-        print(f"Error: {e}")
-        raise  # Re-raise to see full traceback
-
-
-if __name__ == "__main__":
-    asyncio.run(main())
-
-```
-
-This function is important because it defines how Goose Tutorial: Extensible Open-Source AI Agent for Real Engineering Work implements the patterns covered in this chapter.
-
-
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[execute_enable_extension]
-    B[submit_tool_result]
-    C[chat_loop]
-    D[main]
-    A --> B
-    B --> C
-    C --> D
+    A[Goose agent] --> B{Extension type}
+    B -->|Built-in| C[goose --with-builtin developer]
+    B -->|Custom MCP| D[goose --with-extension cmd]
+    C --> E[Pre-packaged tools: files, shell, browser]
+    D --> F[MCP server subprocess spawned]
+    F --> G[stdio transport]
+    G --> H[Custom tools exposed to agent]
+    E --> I[Agent tool calls]
+    H --> I
 ```
+
+## Source Code Walkthrough
+
+### `crates/goose-mcp/src/memory/mod.rs` — built-in Memory extension
+
+The `MemoryServer` struct in [`crates/goose-mcp/src/memory/mod.rs`](https://github.com/block/goose/blob/main/crates/goose-mcp/src/memory/mod.rs) is one of Goose's built-in MCP extensions:
+
+```rust
+pub struct MemoryServer {
+    tool_router: ToolRouter<Self>,
+    instructions: String,
+    global_memory_dir: PathBuf,   // ~/.config/goose/memory/
+}
+```
+
+The four tool parameter types expose the full memory API to the model:
+
+- **`RememberMemoryParams`** — category, data string, optional tags, global/local flag
+- **`RetrieveMemoriesParams`** — category (supports `"*"` for all), storage scope
+- **`RemoveMemoryCategoryParams`** — wildcard category deletion
+- **`RemoveSpecificMemoryParams`** — removes individual items by content match
+
+Context for local vs. global storage is injected via the `extract_working_dir_from_meta()` helper, which reads the `"agent-working-dir"` header from MCP request metadata.
+
+### `crates/goose-server/src/routes/agent.rs` — extension add/remove API
+
+When adding a custom MCP server via the desktop UI, the server calls the `AddExtensionRequest` handler in [`crates/goose-server/src/routes/agent.rs`](https://github.com/block/goose/blob/main/crates/goose-server/src/routes/agent.rs). The payload mirrors the four `ExtensionConfig` variants:
+
+```rust
+// POST /extensions/add — for a stdio MCP server:
+// {
+//   "type": "stdio",
+//   "name": "my-extension",
+//   "cmd": "npx",
+//   "args": ["-y", "@modelcontextprotocol/server-memory"],
+//   "timeout": 30
+// }
+```
+
+The same endpoint handles `Builtin`, `StreamableHttp`, and `Platform` variants by switching on the `type` field.

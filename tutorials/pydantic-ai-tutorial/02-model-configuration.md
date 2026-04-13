@@ -956,6 +956,20 @@ Under the hood, `Chapter 2: Advanced Model Configuration & Provider Setup` usual
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
+## Model Configuration Flow
+
+```mermaid
+flowchart LR
+    A[Provider String] --> B{Provider Router}
+    B --> C[openai:gpt-4o]
+    B --> D[anthropic:claude-3-5-sonnet]
+    B --> E[google:gemini-2.0-flash]
+    C --> F[HTTP Client]
+    D --> F
+    E --> F
+    F --> G[Model Response]
+```
+
 ## Source Walkthrough
 
 Use the following upstream sources to verify implementation details while reading this chapter:

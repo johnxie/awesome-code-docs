@@ -27,9 +27,89 @@ You now have design patterns for repeatable orchestration workflows.
 
 Next: [Chapter 4: Multi-Agent and Parallel Execution](04-multi-agent-and-parallel-execution.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
+
+### `scripts/import-telemetry.ts`
+
+The `logsToLokiFormat` function in [`scripts/import-telemetry.ts`](https://github.com/moazbuilds/CodeMachine-CLI/blob/HEAD/scripts/import-telemetry.ts) handles a key part of this chapter's functionality:
+
+```ts
+
+// Convert our log format to Loki push format
+function logsToLokiFormat(logs: SerializedLog[], serviceName: string): object {
+  // Group logs by their label set
+  const streams = new Map<string, Array<[string, string]>>();
+
+  for (const log of logs) {
+    // Build labels
+    const labels: Record<string, string> = {
+      service_name: serviceName,
+      severity_text: log.severityText || 'UNSPECIFIED',
+      imported: 'true',
+    };
+
+    // Add trace correlation if present
+    if (log.attributes['trace.id']) {
+      labels.trace_id = String(log.attributes['trace.id']);
+    }
+    if (log.attributes['span.id']) {
+      labels.span_id = String(log.attributes['span.id']);
+    }
+
+    // Create label key for grouping
+    const labelKey = Object.entries(labels)
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([k, v]) => `${k}="${v}"`)
+      .join(',');
+
+    // Convert timestamp
+    const [seconds, nanos] = log.timestamp;
+    const timestampNs = String(BigInt(seconds) * BigInt(1_000_000_000) + BigInt(nanos));
+
+```
+
+This function is important because it defines how CodeMachine CLI Tutorial: Orchestrating Long-Running Coding Agent Workflows implements the patterns covered in this chapter.
+
+### `scripts/import-telemetry.ts`
+
+The `sendTracesToTempo` function in [`scripts/import-telemetry.ts`](https://github.com/moazbuilds/CodeMachine-CLI/blob/HEAD/scripts/import-telemetry.ts) handles a key part of this chapter's functionality:
+
+```ts
+
+// Send traces to Tempo via OTLP
+async function sendTracesToTempo(spans: SerializedSpan[], serviceName: string, tempoUrl: string): Promise<void> {
+  const otlpData = spansToOTLP(spans, serviceName);
+  const url = `${tempoUrl}/v1/traces`;
+
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(otlpData),
+  });
+
+  if (!response.ok) {
+    const text = await response.text();
+    throw new Error(`Failed to send traces to Tempo: ${response.status} ${text}`);
+  }
+}
+
+// Send logs to Loki
+async function sendLogsToLoki(logs: SerializedLog[], serviceName: string, lokiUrl: string): Promise<void> {
+  const lokiData = logsToLokiFormat(logs, serviceName);
+  const url = `${lokiUrl}/loki/api/v1/push`;
+
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(lokiData),
+  });
+```
+
+This function is important because it defines how CodeMachine CLI Tutorial: Orchestrating Long-Running Coding Agent Workflows implements the patterns covered in this chapter.
 
 ### `scripts/import-telemetry.ts`
 
@@ -113,97 +193,15 @@ Options:
 
 This function is important because it defines how CodeMachine CLI Tutorial: Orchestrating Long-Running Coding Agent Workflows implements the patterns covered in this chapter.
 
-### `scripts/import-telemetry.ts`
-
-The `Config` interface in [`scripts/import-telemetry.ts`](https://github.com/moazbuilds/CodeMachine-CLI/blob/HEAD/scripts/import-telemetry.ts) handles a key part of this chapter's functionality:
-
-```ts
-import { join, basename } from 'node:path';
-
-// Configuration
-interface Config {
-  lokiUrl: string;
-  tempoUrl: string;
-  logsOnly: boolean;
-  tracesOnly: boolean;
-  sourcePath: string;
-}
-
-// Our serialized formats (from the exporters)
-interface SerializedSpan {
-  name: string;
-  traceId: string;
-  spanId: string;
-  parentSpanId?: string;
-  startTime: number; // ms
-  endTime: number; // ms
-  duration: number; // ms
-  status: {
-    code: number;
-    message?: string;
-  };
-  attributes: Record<string, unknown>;
-  events: Array<{
-    name: string;
-    time: number;
-    attributes?: Record<string, unknown>;
-  }>;
-}
-
-```
-
-This interface is important because it defines how CodeMachine CLI Tutorial: Orchestrating Long-Running Coding Agent Workflows implements the patterns covered in this chapter.
-
-### `scripts/import-telemetry.ts`
-
-The `SerializedSpan` interface in [`scripts/import-telemetry.ts`](https://github.com/moazbuilds/CodeMachine-CLI/blob/HEAD/scripts/import-telemetry.ts) handles a key part of this chapter's functionality:
-
-```ts
-
-// Our serialized formats (from the exporters)
-interface SerializedSpan {
-  name: string;
-  traceId: string;
-  spanId: string;
-  parentSpanId?: string;
-  startTime: number; // ms
-  endTime: number; // ms
-  duration: number; // ms
-  status: {
-    code: number;
-    message?: string;
-  };
-  attributes: Record<string, unknown>;
-  events: Array<{
-    name: string;
-    time: number;
-    attributes?: Record<string, unknown>;
-  }>;
-}
-
-interface TraceFile {
-  version: number;
-  service: string;
-  exportedAt: string;
-  spanCount: number;
-  spans: SerializedSpan[];
-}
-
-interface SerializedLog {
-  timestamp: [number, number]; // [seconds, nanoseconds]
-```
-
-This interface is important because it defines how CodeMachine CLI Tutorial: Orchestrating Long-Running Coding Agent Workflows implements the patterns covered in this chapter.
-
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[sendLogsToLoki]
-    B[main]
-    C[Config]
-    D[SerializedSpan]
+    A[logsToLokiFormat]
+    B[sendTracesToTempo]
+    C[sendLogsToLoki]
+    D[main]
     A --> B
     B --> C
     C --> D

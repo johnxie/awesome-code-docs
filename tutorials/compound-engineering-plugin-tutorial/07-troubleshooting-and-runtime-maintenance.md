@@ -46,170 +46,168 @@ You now have a troubleshooting and maintenance playbook for compound workflows.
 
 Next: [Chapter 8: Contribution Workflow and Versioning Discipline](08-contribution-workflow-and-versioning-discipline.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `src/converters/claude-to-gemini.ts`
+### `src/utils/files.ts`
 
-The `formatTomlString` function in [`src/converters/claude-to-gemini.ts`](https://github.com/EveryInc/compound-engineering-plugin/blob/HEAD/src/converters/claude-to-gemini.ts) handles a key part of this chapter's functionality:
+The `writeJsonSecure` function in [`src/utils/files.ts`](https://github.com/EveryInc/compound-engineering-plugin/blob/HEAD/src/utils/files.ts) handles a key part of this chapter's functionality:
 
 ```ts
-export function toToml(description: string, prompt: string): string {
-  const lines: string[] = []
-  lines.push(`description = ${formatTomlString(description)}`)
 
-  // Use multi-line string for prompt
-  const escapedPrompt = prompt.replace(/\\/g, "\\\\").replace(/"""/g, '\\"\\"\\"')
-  lines.push(`prompt = """`)
-  lines.push(escapedPrompt)
-  lines.push(`"""`)
-
-  return lines.join("\n")
+/** Write JSON with restrictive permissions (0o600) for files containing secrets */
+export async function writeJsonSecure(filePath: string, data: unknown): Promise<void> {
+  const content = JSON.stringify(data, null, 2)
+  await ensureDir(path.dirname(filePath))
+  await fs.writeFile(filePath, content + "\n", { encoding: "utf8", mode: 0o600 })
+  await fs.chmod(filePath, 0o600)
 }
 
-function formatTomlString(value: string): string {
-  return JSON.stringify(value)
+export async function walkFiles(root: string): Promise<string[]> {
+  const entries = await fs.readdir(root, { withFileTypes: true })
+  const results: string[] = []
+  for (const entry of entries) {
+    const fullPath = path.join(root, entry.name)
+    if (entry.isDirectory()) {
+      const nested = await walkFiles(fullPath)
+      results.push(...nested)
+    } else if (entry.isFile()) {
+      results.push(fullPath)
+    }
+  }
+  return results
 }
 
-function normalizeName(value: string): string {
-  const trimmed = value.trim()
-  if (!trimmed) return "item"
-  const normalized = trimmed
-    .toLowerCase()
-    .replace(/[\\/]+/g, "-")
-    .replace(/[:\s]+/g, "-")
-    .replace(/[^a-z0-9_-]+/g, "-")
-    .replace(/-+/g, "-")
-    .replace(/^-+|-+$/g, "")
-  return normalized || "item"
-}
-
-function sanitizeDescription(value: string, maxLength = GEMINI_DESCRIPTION_MAX_LENGTH): string {
-  const normalized = value.replace(/\s+/g, " ").trim()
+/**
+ * Sanitize a name for use as a filesystem path component.
+ * Replaces colons with hyphens so colon-namespaced names
+ * (e.g. "ce:brainstorm") become flat directory names ("ce-brainstorm")
+ * instead of failing on Windows where colons are illegal in filenames.
+ */
+export function sanitizePathName(name: string): string {
+  return name.replace(/:/g, "-")
 ```
 
 This function is important because it defines how Compound Engineering Plugin Tutorial: Compounding Agent Workflows Across Toolchains implements the patterns covered in this chapter.
 
-### `src/converters/claude-to-gemini.ts`
+### `src/utils/files.ts`
 
-The `normalizeName` function in [`src/converters/claude-to-gemini.ts`](https://github.com/EveryInc/compound-engineering-plugin/blob/HEAD/src/converters/claude-to-gemini.ts) handles a key part of this chapter's functionality:
+The `walkFiles` function in [`src/utils/files.ts`](https://github.com/EveryInc/compound-engineering-plugin/blob/HEAD/src/utils/files.ts) handles a key part of this chapter's functionality:
 
 ```ts
-  // Reserve skill names from pass-through skills
-  for (const skill of skillDirs) {
-    usedSkillNames.add(normalizeName(skill.name))
-  }
-
-  const generatedSkills = plugin.agents.map((agent) => convertAgentToSkill(agent, usedSkillNames))
-
-  const commands = plugin.commands.map((command) => convertCommand(command, usedCommandNames))
-
-  const mcpServers = convertMcpServers(plugin.mcpServers)
-
-  if (plugin.hooks && Object.keys(plugin.hooks.hooks).length > 0) {
-    console.warn("Warning: Gemini CLI hooks use a different format (BeforeTool/AfterTool with matchers). Hooks were skipped during conversion.")
-  }
-
-  return { generatedSkills, skillDirs, commands, mcpServers }
 }
 
-function convertAgentToSkill(agent: ClaudeAgent, usedNames: Set<string>): GeminiSkill {
-  const name = uniqueName(normalizeName(agent.name), usedNames)
-  const description = sanitizeDescription(
-    agent.description ?? `Use this skill for ${agent.name} tasks`,
-  )
-
-  const frontmatter: Record<string, unknown> = { name, description }
-
-  let body = transformContentForGemini(agent.body.trim())
-  if (agent.capabilities && agent.capabilities.length > 0) {
-    const capabilities = agent.capabilities.map((c) => `- ${c}`).join("\n")
-    body = `## Capabilities\n${capabilities}\n\n${body}`.trim()
+export async function walkFiles(root: string): Promise<string[]> {
+  const entries = await fs.readdir(root, { withFileTypes: true })
+  const results: string[] = []
+  for (const entry of entries) {
+    const fullPath = path.join(root, entry.name)
+    if (entry.isDirectory()) {
+      const nested = await walkFiles(fullPath)
+      results.push(...nested)
+    } else if (entry.isFile()) {
+      results.push(fullPath)
+    }
   }
-  if (body.length === 0) {
+  return results
+}
+
+/**
+ * Sanitize a name for use as a filesystem path component.
+ * Replaces colons with hyphens so colon-namespaced names
+ * (e.g. "ce:brainstorm") become flat directory names ("ce-brainstorm")
+ * instead of failing on Windows where colons are illegal in filenames.
+ */
+export function sanitizePathName(name: string): string {
+  return name.replace(/:/g, "-")
+}
+
+/**
+ * Resolve a colon-separated command name into a filesystem path.
+ * e.g. resolveCommandPath("/commands", "ce:plan", ".md") -> "/commands/ce/plan.md"
+ * Creates intermediate directories as needed.
+ */
 ```
 
 This function is important because it defines how Compound Engineering Plugin Tutorial: Compounding Agent Workflows Across Toolchains implements the patterns covered in this chapter.
 
-### `src/converters/claude-to-gemini.ts`
+### `src/utils/files.ts`
 
-The `sanitizeDescription` function in [`src/converters/claude-to-gemini.ts`](https://github.com/EveryInc/compound-engineering-plugin/blob/HEAD/src/converters/claude-to-gemini.ts) handles a key part of this chapter's functionality:
+The `sanitizePathName` function in [`src/utils/files.ts`](https://github.com/EveryInc/compound-engineering-plugin/blob/HEAD/src/utils/files.ts) handles a key part of this chapter's functionality:
 
 ```ts
-function convertAgentToSkill(agent: ClaudeAgent, usedNames: Set<string>): GeminiSkill {
-  const name = uniqueName(normalizeName(agent.name), usedNames)
-  const description = sanitizeDescription(
-    agent.description ?? `Use this skill for ${agent.name} tasks`,
-  )
-
-  const frontmatter: Record<string, unknown> = { name, description }
-
-  let body = transformContentForGemini(agent.body.trim())
-  if (agent.capabilities && agent.capabilities.length > 0) {
-    const capabilities = agent.capabilities.map((c) => `- ${c}`).join("\n")
-    body = `## Capabilities\n${capabilities}\n\n${body}`.trim()
-  }
-  if (body.length === 0) {
-    body = `Instructions converted from the ${agent.name} agent.`
-  }
-
-  const content = formatFrontmatter(frontmatter, body)
-  return { name, content }
+ * instead of failing on Windows where colons are illegal in filenames.
+ */
+export function sanitizePathName(name: string): string {
+  return name.replace(/:/g, "-")
 }
 
-function convertCommand(command: ClaudeCommand, usedNames: Set<string>): GeminiCommand {
-  // Preserve namespace structure: workflows:plan -> workflows/plan
-  const commandPath = resolveCommandPath(command.name)
-  const pathKey = commandPath.join("/")
-  uniqueName(pathKey, usedNames) // Track for dedup
+/**
+ * Resolve a colon-separated command name into a filesystem path.
+ * e.g. resolveCommandPath("/commands", "ce:plan", ".md") -> "/commands/ce/plan.md"
+ * Creates intermediate directories as needed.
+ */
+export async function resolveCommandPath(dir: string, name: string, ext: string): Promise<string> {
+  const parts = name.split(":")
+  if (parts.length > 1) {
+    const nestedDir = path.join(dir, ...parts.slice(0, -1))
+    await ensureDir(nestedDir)
+    return path.join(nestedDir, `${parts[parts.length - 1]}${ext}`)
+  }
+  return path.join(dir, `${name}${ext}`)
+}
 
-  const description = command.description ?? `Converted from Claude command ${command.name}`
-  const transformedBody = transformContentForGemini(command.body.trim())
-
-  let prompt = transformedBody
-  if (command.argumentHint) {
+export async function copyDir(sourceDir: string, targetDir: string): Promise<void> {
+  await ensureDir(targetDir)
+  const entries = await fs.readdir(sourceDir, { withFileTypes: true })
+  for (const entry of entries) {
+    const sourcePath = path.join(sourceDir, entry.name)
+    const targetPath = path.join(targetDir, entry.name)
+    if (entry.isDirectory()) {
+      await copyDir(sourcePath, targetPath)
+    } else if (entry.isFile()) {
+      await ensureDir(path.dirname(targetPath))
+      await fs.copyFile(sourcePath, targetPath)
 ```
 
 This function is important because it defines how Compound Engineering Plugin Tutorial: Compounding Agent Workflows Across Toolchains implements the patterns covered in this chapter.
 
-### `src/converters/claude-to-gemini.ts`
+### `src/utils/files.ts`
 
-The `uniqueName` function in [`src/converters/claude-to-gemini.ts`](https://github.com/EveryInc/compound-engineering-plugin/blob/HEAD/src/converters/claude-to-gemini.ts) handles a key part of this chapter's functionality:
+The `resolveCommandPath` function in [`src/utils/files.ts`](https://github.com/EveryInc/compound-engineering-plugin/blob/HEAD/src/utils/files.ts) handles a key part of this chapter's functionality:
 
 ```ts
-
-function convertAgentToSkill(agent: ClaudeAgent, usedNames: Set<string>): GeminiSkill {
-  const name = uniqueName(normalizeName(agent.name), usedNames)
-  const description = sanitizeDescription(
-    agent.description ?? `Use this skill for ${agent.name} tasks`,
-  )
-
-  const frontmatter: Record<string, unknown> = { name, description }
-
-  let body = transformContentForGemini(agent.body.trim())
-  if (agent.capabilities && agent.capabilities.length > 0) {
-    const capabilities = agent.capabilities.map((c) => `- ${c}`).join("\n")
-    body = `## Capabilities\n${capabilities}\n\n${body}`.trim()
+/**
+ * Resolve a colon-separated command name into a filesystem path.
+ * e.g. resolveCommandPath("/commands", "ce:plan", ".md") -> "/commands/ce/plan.md"
+ * Creates intermediate directories as needed.
+ */
+export async function resolveCommandPath(dir: string, name: string, ext: string): Promise<string> {
+  const parts = name.split(":")
+  if (parts.length > 1) {
+    const nestedDir = path.join(dir, ...parts.slice(0, -1))
+    await ensureDir(nestedDir)
+    return path.join(nestedDir, `${parts[parts.length - 1]}${ext}`)
   }
-  if (body.length === 0) {
-    body = `Instructions converted from the ${agent.name} agent.`
-  }
-
-  const content = formatFrontmatter(frontmatter, body)
-  return { name, content }
+  return path.join(dir, `${name}${ext}`)
 }
 
-function convertCommand(command: ClaudeCommand, usedNames: Set<string>): GeminiCommand {
-  // Preserve namespace structure: workflows:plan -> workflows/plan
-  const commandPath = resolveCommandPath(command.name)
-  const pathKey = commandPath.join("/")
-  uniqueName(pathKey, usedNames) // Track for dedup
+export async function copyDir(sourceDir: string, targetDir: string): Promise<void> {
+  await ensureDir(targetDir)
+  const entries = await fs.readdir(sourceDir, { withFileTypes: true })
+  for (const entry of entries) {
+    const sourcePath = path.join(sourceDir, entry.name)
+    const targetPath = path.join(targetDir, entry.name)
+    if (entry.isDirectory()) {
+      await copyDir(sourcePath, targetPath)
+    } else if (entry.isFile()) {
+      await ensureDir(path.dirname(targetPath))
+      await fs.copyFile(sourcePath, targetPath)
+    }
+  }
+}
 
-  const description = command.description ?? `Converted from Claude command ${command.name}`
-  const transformedBody = transformContentForGemini(command.body.trim())
-
-  let prompt = transformedBody
+/**
+ * Copy a skill directory, optionally transforming markdown content.
 ```
 
 This function is important because it defines how Compound Engineering Plugin Tutorial: Compounding Agent Workflows Across Toolchains implements the patterns covered in this chapter.
@@ -219,11 +217,11 @@ This function is important because it defines how Compound Engineering Plugin Tu
 
 ```mermaid
 flowchart TD
-    A[formatTomlString]
-    B[normalizeName]
-    C[sanitizeDescription]
-    D[uniqueName]
-    E[convertClaudeToOpenClaw]
+    A[writeJsonSecure]
+    B[walkFiles]
+    C[sanitizePathName]
+    D[resolveCommandPath]
+    E[copyDir]
     A --> B
     B --> C
     C --> D

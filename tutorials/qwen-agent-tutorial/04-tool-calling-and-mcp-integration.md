@@ -38,8 +38,6 @@ You now have a practical model for tool + MCP integration in Qwen-Agent.
 
 Next: [Chapter 5: Memory, RAG, and Long-Context Workflows](05-memory-rag-and-long-context-workflows.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `qwen_server/workstation_server.py`

@@ -724,18 +724,37 @@ When debugging, walk this sequence in order and confirm each stage has explicit 
 
 ## Source Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+Advanced Claude Code automation builds on three surfaces described in the [Claude Code Docs](https://docs.anthropic.com/en/docs/claude-code):
 
-- [Claude Code Repository](https://github.com/anthropics/claude-code)
-  Why it matters: authoritative reference on `Claude Code Repository` (github.com).
-- [Claude Code Releases](https://github.com/anthropics/claude-code/releases)
-  Why it matters: authoritative reference on `Claude Code Releases` (github.com).
-- [Claude Code Docs](https://docs.anthropic.com/en/docs/claude-code)
-  Why it matters: authoritative reference on `Claude Code Docs` (docs.anthropic.com).
+1. **Hooks** — PreToolUse, PostToolUse, Notification, and Stop hooks in `~/.claude/settings.json` allow arbitrary scripts to run at each tool boundary. The [`examples/hooks/`](https://github.com/anthropics/claude-code/blob/HEAD/examples/hooks/) directory has reference implementations for each hook type.
 
-Suggested trace strategy:
-- search upstream code for `Claude` and `Code` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+2. **Slash commands** — Custom slash commands stored as Markdown files in `~/.claude/commands/` let teams codify recurring workflows (code review checklists, deploy sequences, PR description templates) as reusable prompts that any team member can invoke with `/command-name`.
+
+3. **Operator settings** — The `~/.claude/settings.json` file (or project-level `.claude/settings.json`) controls permission policies, allowed/denied tools, hook wiring, and MCP server configuration. For large teams, this file becomes the primary governance artifact.
+
+The [Claude Code Repository](https://github.com/anthropics/claude-code) README's Advanced Usage section covers multi-agent subagent patterns and the `--dangerously-skip-permissions` flag for fully automated headless pipelines.
+
+## Advanced Automation Architecture
+
+```mermaid
+flowchart TD
+    A[Team defines ~/.claude/settings.json]
+    B[Hook scripts registered for tool events]
+    C[Custom slash commands in ~/.claude/commands/]
+    D[MCP servers extend tool surface]
+    E[Developer runs claude with task]
+    F[Hooks enforce policy at each tool boundary]
+    G[Slash commands invoke reusable workflows]
+    H[MCP tools call external services]
+    I[Headless mode: claude -p for CI pipelines]
+    A --> B
+    A --> C
+    A --> D
+    E --> F
+    E --> G
+    E --> H
+    E --> I
+```
 
 ## Chapter Connections
 

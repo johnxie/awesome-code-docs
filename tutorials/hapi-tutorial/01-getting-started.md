@@ -78,29 +78,12 @@ Under the hood, `Chapter 1: Getting Started` usually follows a repeatable contro
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
-## Source Walkthrough
-
-Use the following upstream sources to verify implementation details while reading this chapter:
-
-- [HAPI Repository](https://github.com/tiann/hapi)
-  Why it matters: authoritative reference on `HAPI Repository` (github.com).
-- [HAPI Releases](https://github.com/tiann/hapi/releases)
-  Why it matters: authoritative reference on `HAPI Releases` (github.com).
-- [HAPI Docs](https://hapi.run)
-  Why it matters: authoritative reference on `HAPI Docs` (hapi.run).
-
-Suggested trace strategy:
-- search upstream code for `hapi` and `install` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
-
 ## Chapter Connections
 
 - [Tutorial Index](README.md)
 - [Next Chapter: Chapter 2: System Architecture](02-system-architecture.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)
 - [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
-
-## Depth Expansion Playbook
 
 ## Source Code Walkthrough
 
@@ -145,125 +128,125 @@ export default defineConfig({
 
 This function is important because it defines how HAPI Tutorial: Remote Control for Local AI Coding Sessions implements the patterns covered in this chapter.
 
-### `web/src/App.tsx`
+### `web/src/router.tsx`
 
-The `App` function in [`web/src/App.tsx`](https://github.com/tiann/hapi/blob/HEAD/web/src/App.tsx) handles a key part of this chapter's functionality:
-
-```tsx
-import { Outlet, useLocation, useMatchRoute, useRouter } from '@tanstack/react-router'
-import { useQueryClient } from '@tanstack/react-query'
-import { getTelegramWebApp, isTelegramApp } from '@/hooks/useTelegram'
-import { initializeTheme } from '@/hooks/useTheme'
-import { useAuth } from '@/hooks/useAuth'
-import { useAuthSource } from '@/hooks/useAuthSource'
-import { useServerUrl } from '@/hooks/useServerUrl'
-import { useSSE } from '@/hooks/useSSE'
-import { useSyncingState } from '@/hooks/useSyncingState'
-import { usePushNotifications } from '@/hooks/usePushNotifications'
-import { useVisibilityReporter } from '@/hooks/useVisibilityReporter'
-import { queryKeys } from '@/lib/query-keys'
-import { AppContextProvider } from '@/lib/app-context'
-import { fetchLatestMessages } from '@/lib/message-window-store'
-import { useAppGoBack } from '@/hooks/useAppGoBack'
-import { useTranslation } from '@/lib/use-translation'
-import { VoiceProvider } from '@/lib/voice-context'
-import { requireHubUrlForLogin } from '@/lib/runtime-config'
-import { LoginPrompt } from '@/components/LoginPrompt'
-import { InstallPrompt } from '@/components/InstallPrompt'
-import { OfflineBanner } from '@/components/OfflineBanner'
-import { SyncingBanner } from '@/components/SyncingBanner'
-import { ReconnectingBanner } from '@/components/ReconnectingBanner'
-import { VoiceErrorBanner } from '@/components/VoiceErrorBanner'
-import { LoadingState } from '@/components/LoadingState'
-import { ToastContainer } from '@/components/ToastContainer'
-import { ToastProvider, useToast } from '@/lib/toast-context'
-import type { SyncEvent } from '@/types/api'
-
-type ToastEvent = Extract<SyncEvent, { type: 'toast' }>
-
-const REQUIRE_SERVER_URL = requireHubUrlForLogin()
-```
-
-This function is important because it defines how HAPI Tutorial: Remote Control for Local AI Coding Sessions implements the patterns covered in this chapter.
-
-### `web/src/App.tsx`
-
-The `AppInner` function in [`web/src/App.tsx`](https://github.com/tiann/hapi/blob/HEAD/web/src/App.tsx) handles a key part of this chapter's functionality:
+The `BackIcon` function in [`web/src/router.tsx`](https://github.com/tiann/hapi/blob/HEAD/web/src/router.tsx) handles a key part of this chapter's functionality:
 
 ```tsx
+import SettingsPage from '@/routes/settings'
+
+function BackIcon(props: { className?: string }) {
     return (
-        <ToastProvider>
-            <AppInner />
-        </ToastProvider>
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className={props.className}
+        >
+            <polyline points="15 18 9 12 15 6" />
+        </svg>
     )
 }
 
-function AppInner() {
-    const { t } = useTranslation()
-    const { serverUrl, baseUrl, setServerUrl, clearServerUrl } = useServerUrl()
-    const { authSource, isLoading: isAuthSourceLoading, setAccessToken } = useAuthSource(baseUrl)
-    const { token, api, isLoading: isAuthLoading, error: authError, needsBinding, bind } = useAuth(authSource, baseUrl)
-    const goBack = useAppGoBack()
-    const pathname = useLocation({ select: (location) => location.pathname })
-    const matchRoute = useMatchRoute()
-    const router = useRouter()
-    const { addToast } = useToast()
-
-    useEffect(() => {
-        const tg = getTelegramWebApp()
-        tg?.ready()
-        tg?.expand()
-        initializeTheme()
-    }, [])
-
-    useEffect(() => {
-        const preventDefault = (event: Event) => {
-            event.preventDefault()
-        }
-
-        const onWheel = (event: WheelEvent) => {
-            if (event.ctrlKey) {
+function PlusIcon(props: { className?: string }) {
+    return (
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
 ```
 
 This function is important because it defines how HAPI Tutorial: Remote Control for Local AI Coding Sessions implements the patterns covered in this chapter.
 
-### `hub/scripts/cleanup-sessions.ts`
+### `web/src/router.tsx`
 
-The `formatDate` function in [`hub/scripts/cleanup-sessions.ts`](https://github.com/tiann/hapi/blob/HEAD/hub/scripts/cleanup-sessions.ts) handles a key part of this chapter's functionality:
+The `PlusIcon` function in [`web/src/router.tsx`](https://github.com/tiann/hapi/blob/HEAD/web/src/router.tsx) handles a key part of this chapter's functionality:
 
-```ts
-
-// Format timestamp as human-readable date
-function formatDate(timestamp: number): string {
-    const date = new Date(timestamp)
-    return date.toLocaleDateString('en-US', {
-        month: 'short',
-        day: 'numeric',
-        year: 'numeric'
-    })
+```tsx
 }
 
-// Truncate string to max length with ellipsis
-function truncate(str: string, maxLen: number): string {
-    if (str.length <= maxLen) return str
-    return str.slice(0, maxLen - 3) + '...'
+function PlusIcon(props: { className?: string }) {
+    return (
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className={props.className}
+        >
+            <line x1="12" y1="5" x2="12" y2="19" />
+            <line x1="5" y1="12" x2="19" y2="12" />
+        </svg>
+    )
 }
 
-// Extract text from user message content
-function extractUserText(content: unknown): string | null {
-    if (!content || typeof content !== 'object') return null
-    const c = content as Record<string, unknown>
-    if (c.role !== 'user') return null
-    const inner = c.content
-    // Handle { content: { type: 'text', text: '...' } }
-    if (inner && typeof inner === 'object') {
-        const textObj = inner as Record<string, unknown>
-        if (textObj.type === 'text' && typeof textObj.text === 'string') {
-            return textObj.text
-        }
-    }
-    // Handle { content: '...' } (string)
-    if (typeof inner === 'string') {
+function SettingsIcon(props: { className?: string }) {
+    return (
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+```
+
+This function is important because it defines how HAPI Tutorial: Remote Control for Local AI Coding Sessions implements the patterns covered in this chapter.
+
+### `web/src/router.tsx`
+
+The `SettingsIcon` function in [`web/src/router.tsx`](https://github.com/tiann/hapi/blob/HEAD/web/src/router.tsx) handles a key part of this chapter's functionality:
+
+```tsx
+}
+
+function SettingsIcon(props: { className?: string }) {
+    return (
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className={props.className}
+        >
+            <circle cx="12" cy="12" r="3" />
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
+        </svg>
+    )
+}
+
+function getMachineTitle(machine: Machine): string {
+    if (machine.metadata?.displayName) return machine.metadata.displayName
+    if (machine.metadata?.host) return machine.metadata.host
+    return machine.id.slice(0, 8)
+}
+
+function SessionsPage() {
+    const { api } = useAppContext()
+    const navigate = useNavigate()
+    const pathname = useLocation({ select: location => location.pathname })
 ```
 
 This function is important because it defines how HAPI Tutorial: Remote Control for Local AI Coding Sessions implements the patterns covered in this chapter.
@@ -274,10 +257,10 @@ This function is important because it defines how HAPI Tutorial: Remote Control 
 ```mermaid
 flowchart TD
     A[getVendorChunkName]
-    B[App]
-    C[AppInner]
-    D[formatDate]
-    E[truncate]
+    B[BackIcon]
+    C[PlusIcon]
+    D[SettingsIcon]
+    E[getMachineTitle]
     A --> B
     B --> C
     C --> D

@@ -68,17 +68,6 @@ Under the hood, `Chapter 5: Permissions and Approval Workflow` usually follows a
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
-## Source Walkthrough
-
-Use the following upstream sources to verify implementation details while reading this chapter:
-
-- [HAPI Repository](https://github.com/tiann/hapi)
-  Why it matters: authoritative reference on `HAPI Repository` (github.com).
-- [HAPI Releases](https://github.com/tiann/hapi/releases)
-  Why it matters: authoritative reference on `HAPI Releases` (github.com).
-- [HAPI Docs](https://hapi.run)
-  Why it matters: authoritative reference on `HAPI Docs` (hapi.run).
-
 ## Chapter Connections
 
 - [Tutorial Index](README.md)
@@ -87,145 +76,168 @@ Use the following upstream sources to verify implementation details while readin
 - [Main Catalog](../../README.md#-tutorial-catalog)
 - [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `web/src/router.tsx`
+### `cli/src/persistence.ts`
 
-The `Register` interface in [`web/src/router.tsx`](https://github.com/tiann/hapi/blob/HEAD/web/src/router.tsx) handles a key part of this chapter's functionality:
-
-```tsx
-
-declare module '@tanstack/react-router' {
-    interface Register {
-        router: AppRouter
-    }
-}
-
-```
-
-This interface is important because it defines how HAPI Tutorial: Remote Control for Local AI Coding Sessions implements the patterns covered in this chapter.
-
-### `hub/src/index.ts`
-
-The `formatSource` function in [`hub/src/index.ts`](https://github.com/tiann/hapi/blob/HEAD/hub/src/index.ts) handles a key part of this chapter's functionality:
+The `readSettings` function in [`cli/src/persistence.ts`](https://github.com/tiann/hapi/blob/HEAD/cli/src/persistence.ts) handles a key part of this chapter's functionality:
 
 ```ts
-
-/** Format config source for logging */
-function formatSource(source: ConfigSource | 'generated'): string {
-    switch (source) {
-        case 'env':
-            return 'environment'
-        case 'file':
-            return 'settings.json'
-        case 'default':
-            return 'default'
-        case 'generated':
-            return 'generated'
-    }
 }
 
-type RelayFlagSource = 'default' | '--relay' | '--no-relay'
+export async function readSettings(): Promise<Settings> {
+  if (!existsSync(configuration.settingsFile)) {
+    return { ...defaultSettings }
+  }
 
-function resolveRelayFlag(args: string[]): { enabled: boolean; source: RelayFlagSource } {
-    let enabled = false
-    let source: RelayFlagSource = 'default'
+  try {
+    const content = await readFile(configuration.settingsFile, 'utf8')
+    return JSON.parse(content)
+  } catch {
+    return { ...defaultSettings }
+  }
+}
 
-    for (const arg of args) {
-        if (arg === '--relay') {
-            enabled = true
-            source = '--relay'
-        } else if (arg === '--no-relay') {
-            enabled = false
-            source = '--no-relay'
-        }
-    }
+export async function writeSettings(settings: Settings): Promise<void> {
+  if (!existsSync(configuration.happyHomeDir)) {
+    await mkdir(configuration.happyHomeDir, { recursive: true })
+  }
 
-    return { enabled, source }
+  await writeFile(configuration.settingsFile, JSON.stringify(settings, null, 2))
+}
+
+/**
+ * Atomically update settings with multi-process safety via file locking
+ * @param updater Function that takes current settings and returns updated settings
+ * @returns The updated settings
+ */
+export async function updateSettings(
+  updater: (current: Settings) => Settings | Promise<Settings>
+): Promise<Settings> {
+  // Timing constants
 ```
 
 This function is important because it defines how HAPI Tutorial: Remote Control for Local AI Coding Sessions implements the patterns covered in this chapter.
 
-### `hub/src/index.ts`
+### `cli/src/persistence.ts`
 
-The `resolveRelayFlag` function in [`hub/src/index.ts`](https://github.com/tiann/hapi/blob/HEAD/hub/src/index.ts) handles a key part of this chapter's functionality:
+The `writeSettings` function in [`cli/src/persistence.ts`](https://github.com/tiann/hapi/blob/HEAD/cli/src/persistence.ts) handles a key part of this chapter's functionality:
 
 ```ts
-type RelayFlagSource = 'default' | '--relay' | '--no-relay'
-
-function resolveRelayFlag(args: string[]): { enabled: boolean; source: RelayFlagSource } {
-    let enabled = false
-    let source: RelayFlagSource = 'default'
-
-    for (const arg of args) {
-        if (arg === '--relay') {
-            enabled = true
-            source = '--relay'
-        } else if (arg === '--no-relay') {
-            enabled = false
-            source = '--no-relay'
-        }
-    }
-
-    return { enabled, source }
 }
 
-function normalizeOrigin(value: string): string {
-    const trimmed = value.trim()
-    if (!trimmed) {
-        return ''
-    }
-    try {
-        return new URL(trimmed).origin
-    } catch {
-        return trimmed
-    }
+export async function writeSettings(settings: Settings): Promise<void> {
+  if (!existsSync(configuration.happyHomeDir)) {
+    await mkdir(configuration.happyHomeDir, { recursive: true })
+  }
+
+  await writeFile(configuration.settingsFile, JSON.stringify(settings, null, 2))
 }
 
-function normalizeOrigins(origins: string[]): string[] {
+/**
+ * Atomically update settings with multi-process safety via file locking
+ * @param updater Function that takes current settings and returns updated settings
+ * @returns The updated settings
+ */
+export async function updateSettings(
+  updater: (current: Settings) => Settings | Promise<Settings>
+): Promise<Settings> {
+  // Timing constants
+  const LOCK_RETRY_INTERVAL_MS = 100;  // How long to wait between lock attempts
+  const MAX_LOCK_ATTEMPTS = 50;        // Maximum number of attempts (5 seconds total)
+  const STALE_LOCK_TIMEOUT_MS = 10000; // Consider lock stale after 10 seconds
+
+  if (!existsSync(configuration.happyHomeDir)) {
+    await mkdir(configuration.happyHomeDir, { recursive: true });
+  }
+
+  const lockFile = configuration.settingsFile + '.lock';
+  const tmpFile = configuration.settingsFile + '.tmp';
+  let fileHandle;
+  let attempts = 0;
+
 ```
 
 This function is important because it defines how HAPI Tutorial: Remote Control for Local AI Coding Sessions implements the patterns covered in this chapter.
 
-### `hub/src/index.ts`
+### `cli/src/persistence.ts`
 
-The `normalizeOrigin` function in [`hub/src/index.ts`](https://github.com/tiann/hapi/blob/HEAD/hub/src/index.ts) handles a key part of this chapter's functionality:
+The `updateSettings` function in [`cli/src/persistence.ts`](https://github.com/tiann/hapi/blob/HEAD/cli/src/persistence.ts) handles a key part of this chapter's functionality:
 
 ```ts
-}
+ * @returns The updated settings
+ */
+export async function updateSettings(
+  updater: (current: Settings) => Settings | Promise<Settings>
+): Promise<Settings> {
+  // Timing constants
+  const LOCK_RETRY_INTERVAL_MS = 100;  // How long to wait between lock attempts
+  const MAX_LOCK_ATTEMPTS = 50;        // Maximum number of attempts (5 seconds total)
+  const STALE_LOCK_TIMEOUT_MS = 10000; // Consider lock stale after 10 seconds
 
-function normalizeOrigin(value: string): string {
-    const trimmed = value.trim()
-    if (!trimmed) {
-        return ''
-    }
+  if (!existsSync(configuration.happyHomeDir)) {
+    await mkdir(configuration.happyHomeDir, { recursive: true });
+  }
+
+  const lockFile = configuration.settingsFile + '.lock';
+  const tmpFile = configuration.settingsFile + '.tmp';
+  let fileHandle;
+  let attempts = 0;
+
+  // Acquire exclusive lock with retries
+  while (attempts < MAX_LOCK_ATTEMPTS) {
     try {
-        return new URL(trimmed).origin
-    } catch {
-        return trimmed
-    }
+      // 'wx' = create exclusively, fail if exists (cross-platform compatible)
+      fileHandle = await open(lockFile, 'wx');
+      break;
+    } catch (err: any) {
+      if (err.code === 'EEXIST') {
+        // Lock file exists, wait and retry
+        attempts++;
+        await new Promise(resolve => setTimeout(resolve, LOCK_RETRY_INTERVAL_MS));
+
+        // Check for stale lock
+```
+
+This function is important because it defines how HAPI Tutorial: Remote Control for Local AI Coding Sessions implements the patterns covered in this chapter.
+
+### `cli/src/persistence.ts`
+
+The `writeCredentialsDataKey` function in [`cli/src/persistence.ts`](https://github.com/tiann/hapi/blob/HEAD/cli/src/persistence.ts) handles a key part of this chapter's functionality:
+
+```ts
+//
+
+export async function writeCredentialsDataKey(credentials: { publicKey: Uint8Array, machineKey: Uint8Array, token: string }): Promise<void> {
+  if (!existsSync(configuration.happyHomeDir)) {
+    await mkdir(configuration.happyHomeDir, { recursive: true })
+  }
+  await writeFile(configuration.privateKeyFile, JSON.stringify({
+    encryption: { publicKey: Buffer.from(credentials.publicKey).toString('base64'), machineKey: Buffer.from(credentials.machineKey).toString('base64') },
+    token: credentials.token
+  }, null, 2));
 }
 
-function normalizeOrigins(origins: string[]): string[] {
-    const normalized = origins
-        .map(normalizeOrigin)
-        .filter(Boolean)
-    if (normalized.includes('*')) {
-        return ['*']
-    }
-    return Array.from(new Set(normalized))
+export async function clearCredentials(): Promise<void> {
+  if (existsSync(configuration.privateKeyFile)) {
+    await unlink(configuration.privateKeyFile);
+  }
 }
 
-function mergeCorsOrigins(base: string[], extra: string[]): string[] {
-    if (base.includes('*') || extra.includes('*')) {
-        return ['*']
-    }
-    const merged = new Set<string>()
-    for (const origin of base) {
-        merged.add(origin)
-    }
+export async function clearMachineId(): Promise<void> {
+  await updateSettings(settings => ({
+    ...settings,
+    machineId: undefined
+  }));
+}
+
+/**
+ * Read runner state from local file
+ */
+export async function readRunnerState(): Promise<RunnerLocallyPersistedState | null> {
+  try {
+    if (!existsSync(configuration.runnerStateFile)) {
+      return null;
 ```
 
 This function is important because it defines how HAPI Tutorial: Remote Control for Local AI Coding Sessions implements the patterns covered in this chapter.
@@ -235,11 +247,11 @@ This function is important because it defines how HAPI Tutorial: Remote Control 
 
 ```mermaid
 flowchart TD
-    A[Register]
-    B[formatSource]
-    C[resolveRelayFlag]
-    D[normalizeOrigin]
-    E[normalizeOrigins]
+    A[readSettings]
+    B[writeSettings]
+    C[updateSettings]
+    D[writeCredentialsDataKey]
+    E[clearCredentials]
     A --> B
     B --> C
     C --> D

@@ -83,8 +83,6 @@ You now have a robust input architecture pattern that supports low-latency conve
 
 Next: [Chapter 4: Conversational AI](04-conversational-ai.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `src/app/App.tsx`
@@ -260,7 +258,7 @@ flowchart TD
     B[Transcript]
     C[scrollToBottom]
     D[TranscriptProps]
-    E[useRealtimeSession]
+    E[useHandleSessionHistory]
     A --> B
     B --> C
     C --> D

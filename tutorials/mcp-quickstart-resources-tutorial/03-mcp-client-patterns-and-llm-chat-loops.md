@@ -38,168 +38,168 @@ You now have a practical MCP client loop model for chatbot-oriented integrations
 
 Next: [Chapter 4: Protocol Flow and stdio Transport Behavior](04-protocol-flow-and-stdio-transport-behavior.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `mcp-client-go/main.go`
+### `mcp-client-typescript/index.ts`
 
-The `ProcessQuery` function in [`mcp-client-go/main.go`](https://github.com/modelcontextprotocol/quickstart-resources/blob/HEAD/mcp-client-go/main.go) handles a key part of this chapter's functionality:
+The `main` function in [`mcp-client-typescript/index.ts`](https://github.com/modelcontextprotocol/quickstart-resources/blob/HEAD/mcp-client-typescript/index.ts) handles a key part of this chapter's functionality:
+
+```ts
+}
+
+async function main() {
+  if (process.argv.length < 3) {
+    console.log("Usage: node build/index.js <path_to_server_script>");
+    return;
+  }
+  const mcpClient = new MCPClient();
+  try {
+    await mcpClient.connectToServer(process.argv[2]);
+
+    // Check if we have a valid API key to continue
+    const apiKey = process.env.ANTHROPIC_API_KEY;
+    if (!apiKey) {
+      console.log(
+        "\nNo ANTHROPIC_API_KEY found. To query these tools with Claude, set your API key:"
+      );
+      console.log("  export ANTHROPIC_API_KEY=your-api-key-here");
+      return;
+    }
+
+    await mcpClient.chatLoop();
+  } catch (e) {
+    console.error("Error:", e);
+    await mcpClient.cleanup();
+    process.exit(1);
+  } finally {
+    await mcpClient.cleanup();
+    process.exit(0);
+  }
+}
+
+```
+
+This function is important because it defines how MCP Quickstart Resources Tutorial: Cross-Language MCP Servers and Clients by Example implements the patterns covered in this chapter.
+
+### `weather-server-go/main.go`
+
+The `formatAlert` function in [`weather-server-go/main.go`](https://github.com/modelcontextprotocol/quickstart-resources/blob/HEAD/weather-server-go/main.go) handles a key part of this chapter's functionality:
 
 ```go
 }
 
-func (c *MCPClient) ProcessQuery(ctx context.Context, query string) (string, error) {
-	if c.session == nil {
-		return "", fmt.Errorf("client is not connected to any server")
-	}
+func formatAlert(alert AlertFeature) string {
+	props := alert.Properties
+	event := cmp.Or(props.Event, "Unknown")
+	areaDesc := cmp.Or(props.AreaDesc, "Unknown")
+	severity := cmp.Or(props.Severity, "Unknown")
+	description := cmp.Or(props.Description, "No description available")
+	instruction := cmp.Or(props.Instruction, "No specific instructions provided")
 
-	messages := []anthropic.MessageParam{
-		anthropic.NewUserMessage(anthropic.NewTextBlock(query)),
-	}
+	return fmt.Sprintf(`
+Event: %s
+Area: %s
+Severity: %s
+Description: %s
+Instructions: %s
+`, event, areaDesc, severity, description, instruction)
+}
 
-	// Initial Claude API call with tools
-	response, err := c.anthropic.Messages.New(ctx, anthropic.MessageNewParams{
-		Model:     model,
-		MaxTokens: 1024,
-		Messages:  messages,
-		Tools:     c.tools,
-	})
+func formatPeriod(period ForecastPeriod) string {
+	return fmt.Sprintf(`
+%s:
+Temperature: %d°%s
+Wind: %s %s
+Forecast: %s
+`, period.Name, period.Temperature, period.TemperatureUnit,
+		period.WindSpeed, period.WindDirection, period.DetailedForecast)
+}
+
+func getForecast(ctx context.Context, req *mcp.CallToolRequest, input ForecastInput) (
+	*mcp.CallToolResult, any, error,
+) {
+```
+
+This function is important because it defines how MCP Quickstart Resources Tutorial: Cross-Language MCP Servers and Clients by Example implements the patterns covered in this chapter.
+
+### `weather-server-go/main.go`
+
+The `formatPeriod` function in [`weather-server-go/main.go`](https://github.com/modelcontextprotocol/quickstart-resources/blob/HEAD/weather-server-go/main.go) handles a key part of this chapter's functionality:
+
+```go
+}
+
+func formatPeriod(period ForecastPeriod) string {
+	return fmt.Sprintf(`
+%s:
+Temperature: %d°%s
+Wind: %s %s
+Forecast: %s
+`, period.Name, period.Temperature, period.TemperatureUnit,
+		period.WindSpeed, period.WindDirection, period.DetailedForecast)
+}
+
+func getForecast(ctx context.Context, req *mcp.CallToolRequest, input ForecastInput) (
+	*mcp.CallToolResult, any, error,
+) {
+	// Get points data
+	pointsURL := fmt.Sprintf("%s/points/%f,%f", NWSAPIBase, input.Latitude, input.Longitude)
+	pointsData, err := makeNWSRequest[PointsResponse](ctx, pointsURL)
 	if err != nil {
-		return "", fmt.Errorf("anthropic API request failed: %w", err)
+		return &mcp.CallToolResult{
+			Content: []mcp.Content{
+				&mcp.TextContent{Text: "Unable to fetch forecast data for this location."},
+			},
+		}, nil, nil
 	}
 
-	var toolUseBlocks []anthropic.ToolUseBlock
-	var finalText []string
-	for _, block := range response.Content {
-		switch b := block.AsAny().(type) {
-		case anthropic.TextBlock:
-			finalText = append(finalText, b.Text)
-		case anthropic.ToolUseBlock:
-			toolUseBlocks = append(toolUseBlocks, b)
-		}
-	}
+	// Get forecast data
+	forecastURL := pointsData.Properties.Forecast
+	if forecastURL == "" {
+		return &mcp.CallToolResult{
+			Content: []mcp.Content{
+				&mcp.TextContent{Text: "Unable to fetch forecast URL."},
 ```
 
 This function is important because it defines how MCP Quickstart Resources Tutorial: Cross-Language MCP Servers and Clients by Example implements the patterns covered in this chapter.
 
-### `mcp-client-go/main.go`
+### `weather-server-go/main.go`
 
-The `ChatLoop` function in [`mcp-client-go/main.go`](https://github.com/modelcontextprotocol/quickstart-resources/blob/HEAD/mcp-client-go/main.go) handles a key part of this chapter's functionality:
-
-```go
-}
-
-func (c *MCPClient) ChatLoop(ctx context.Context) error {
-	fmt.Println("\nMCP Client Started!")
-	fmt.Println("Type your queries or 'quit' to exit.")
-
-	scanner := bufio.NewScanner(os.Stdin)
-
-	for {
-		fmt.Print("\nQuery: ")
-		if !scanner.Scan() {
-			break // EOF
-		}
-
-		query := strings.TrimSpace(scanner.Text())
-		if strings.EqualFold(query, "quit") {
-			break
-		}
-		if query == "" {
-			continue
-		}
-
-		response, err := c.ProcessQuery(ctx, query)
-		if err != nil {
-			fmt.Printf("\nError: %v\n", err)
-			continue
-		}
-
-		fmt.Printf("\n%s\n", response)
-	}
-
-	return scanner.Err()
-```
-
-This function is important because it defines how MCP Quickstart Resources Tutorial: Cross-Language MCP Servers and Clients by Example implements the patterns covered in this chapter.
-
-### `mcp-client-go/main.go`
-
-The `Cleanup` function in [`mcp-client-go/main.go`](https://github.com/modelcontextprotocol/quickstart-resources/blob/HEAD/mcp-client-go/main.go) handles a key part of this chapter's functionality:
+The `getForecast` function in [`weather-server-go/main.go`](https://github.com/modelcontextprotocol/quickstart-resources/blob/HEAD/weather-server-go/main.go) handles a key part of this chapter's functionality:
 
 ```go
 }
 
-func (c *MCPClient) Cleanup() error {
-	if c.session != nil {
-		if err := c.session.Close(); err != nil {
-			return fmt.Errorf("failed to close session: %w", err)
-		}
-		c.session = nil
-	}
-	return nil
-}
-
-func main() {
-	if len(os.Args) < 2 {
-		fmt.Fprintln(os.Stderr, "Usage: go run main.go <server_script_or_binary> [args...]")
-		os.Exit(1)
-	}
-
-	serverArgs := os.Args[1:]
-
-	client, err := NewMCPClient()
+func getForecast(ctx context.Context, req *mcp.CallToolRequest, input ForecastInput) (
+	*mcp.CallToolResult, any, error,
+) {
+	// Get points data
+	pointsURL := fmt.Sprintf("%s/points/%f,%f", NWSAPIBase, input.Latitude, input.Longitude)
+	pointsData, err := makeNWSRequest[PointsResponse](ctx, pointsURL)
 	if err != nil {
-		log.Fatalf("Failed to create MCP client: %v", err)
+		return &mcp.CallToolResult{
+			Content: []mcp.Content{
+				&mcp.TextContent{Text: "Unable to fetch forecast data for this location."},
+			},
+		}, nil, nil
 	}
 
-	ctx := context.Background()
-
-	if err := client.ConnectToServer(ctx, serverArgs); err != nil {
-		log.Fatalf("Failed to connect to MCP server: %v", err)
+	// Get forecast data
+	forecastURL := pointsData.Properties.Forecast
+	if forecastURL == "" {
+		return &mcp.CallToolResult{
+			Content: []mcp.Content{
+				&mcp.TextContent{Text: "Unable to fetch forecast URL."},
+			},
+		}, nil, nil
 	}
 
-	if err := client.ChatLoop(ctx); err != nil {
-```
-
-This function is important because it defines how MCP Quickstart Resources Tutorial: Cross-Language MCP Servers and Clients by Example implements the patterns covered in this chapter.
-
-### `mcp-client-go/main.go`
-
-The `main` function in [`mcp-client-go/main.go`](https://github.com/modelcontextprotocol/quickstart-resources/blob/HEAD/mcp-client-go/main.go) handles a key part of this chapter's functionality:
-
-```go
-package main
-
-import (
-	"bufio"
-	"context"
-	"encoding/json"
-	"fmt"
-	"log"
-	"os"
-	"os/exec"
-	"strings"
-
-	"github.com/anthropics/anthropic-sdk-go"
-	"github.com/anthropics/anthropic-sdk-go/option"
-	"github.com/joho/godotenv"
-	"github.com/modelcontextprotocol/go-sdk/mcp"
-)
-
-var model anthropic.Model = anthropic.ModelClaudeSonnet4_5_20250929
-
-type MCPClient struct {
-	anthropic *anthropic.Client
-	session   *mcp.ClientSession
-	tools     []anthropic.ToolUnionParam
-}
-
-func NewMCPClient() (*MCPClient, error) {
-	// Load .env file
-	if err := godotenv.Load(); err != nil {
-		return nil, fmt.Errorf("failed to load .env file: %w", err)
+	forecastData, err := makeNWSRequest[ForecastResponse](ctx, forecastURL)
+	if err != nil {
+		return &mcp.CallToolResult{
+			Content: []mcp.Content{
+				&mcp.TextContent{Text: "Unable to fetch detailed forecast."},
+			},
 ```
 
 This function is important because it defines how MCP Quickstart Resources Tutorial: Cross-Language MCP Servers and Clients by Example implements the patterns covered in this chapter.
@@ -209,11 +209,11 @@ This function is important because it defines how MCP Quickstart Resources Tutor
 
 ```mermaid
 flowchart TD
-    A[ProcessQuery]
-    B[ChatLoop]
-    C[Cleanup]
-    D[main]
-    E[formatAlert]
+    A[main]
+    B[formatAlert]
+    C[formatPeriod]
+    D[getForecast]
+    E[getAlerts]
     A --> B
     B --> C
     C --> D

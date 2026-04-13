@@ -126,186 +126,41 @@ You now have a practical integration strategy for bolt.diy:
 
 Next: [Chapter 7: Deployment and Distribution](07-deployment-distribution.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `app/utils/debugLogger.ts`
+### `app/lib/hooks/useMCPServers.ts`
 
-The `for` interface in [`app/utils/debugLogger.ts`](https://github.com/stackblitz-labs/bolt.diy/blob/HEAD/app/utils/debugLogger.ts) handles a key part of this chapter's functionality:
+The `useMCPServers` hook in [`app/lib/hooks/useMCPServers.ts`](https://github.com/stackblitz-labs/bolt.diy/blob/HEAD/app/lib/hooks/useMCPServers.ts) manages the lifecycle of connected MCP servers: loading configured server definitions, connecting, and surfacing available tools to the chat layer.
 
-```ts
-};
+This file is the primary entry point for understanding how bolt.diy discovers and registers external tools via MCP. When adding a new integration, you configure a server entry and this hook handles connection and tool enumeration.
 
-// Configuration interface for debug logger
-export interface DebugLoggerConfig {
-  enabled: boolean;
-  maxEntries: number;
-  captureConsole: boolean;
-  captureNetwork: boolean;
-  captureErrors: boolean;
-  debounceTerminal: number; // ms
-}
+### `app/routes/api.mcp.ts`
 
-// Circular buffer implementation for memory efficiency
-class CircularBuffer<T> {
-  private _buffer: (T | undefined)[];
-  private _head = 0;
-  private _tail = 0;
-  private _size = 0;
+The MCP API route in [`app/routes/api.mcp.ts`](https://github.com/stackblitz-labs/bolt.diy/blob/HEAD/app/routes/api.mcp.ts) is the server-side handler for MCP operations. It proxies tool calls from the bolt.diy runtime to external MCP server processes, handling serialization and error propagation.
 
-  constructor(private _capacity: number) {
-    this._buffer = new Array(_capacity);
-  }
+For integration governance, this route is the enforcement boundary: MCP tool calls pass through here, making it the right place to add logging, rate limiting, or approval gates before an external system is mutated.
 
-  push(item: T): void {
-    this._buffer[this._tail] = item;
-    this._tail = (this._tail + 1) % this._capacity;
+### `app/lib/stores/mcp.ts`
 
-    if (this._size < this._capacity) {
-      this._size++;
-    } else {
-      this._head = (this._head + 1) % this._capacity;
-    }
-```
+The MCP store in [`app/lib/stores/mcp.ts`](https://github.com/stackblitz-labs/bolt.diy/blob/HEAD/app/lib/stores/mcp.ts) holds the in-memory state of MCP connections: which servers are registered, their connection status, and the tool manifests they expose.
 
-This interface is important because it defines how bolt.diy Tutorial: Build and Operate an Open Source AI App Builder implements the patterns covered in this chapter.
-
-### `app/utils/debugLogger.ts`
-
-The `DebugLoggerConfig` interface in [`app/utils/debugLogger.ts`](https://github.com/stackblitz-labs/bolt.diy/blob/HEAD/app/utils/debugLogger.ts) handles a key part of this chapter's functionality:
-
-```ts
-
-// Configuration interface for debug logger
-export interface DebugLoggerConfig {
-  enabled: boolean;
-  maxEntries: number;
-  captureConsole: boolean;
-  captureNetwork: boolean;
-  captureErrors: boolean;
-  debounceTerminal: number; // ms
-}
-
-// Circular buffer implementation for memory efficiency
-class CircularBuffer<T> {
-  private _buffer: (T | undefined)[];
-  private _head = 0;
-  private _tail = 0;
-  private _size = 0;
-
-  constructor(private _capacity: number) {
-    this._buffer = new Array(_capacity);
-  }
-
-  push(item: T): void {
-    this._buffer[this._tail] = item;
-    this._tail = (this._tail + 1) % this._capacity;
-
-    if (this._size < this._capacity) {
-      this._size++;
-    } else {
-      this._head = (this._head + 1) % this._capacity;
-    }
-  }
-```
-
-This interface is important because it defines how bolt.diy Tutorial: Build and Operate an Open Source AI App Builder implements the patterns covered in this chapter.
-
-### `app/utils/debugLogger.ts`
-
-The `DebugLogData` interface in [`app/utils/debugLogger.ts`](https://github.com/stackblitz-labs/bolt.diy/blob/HEAD/app/utils/debugLogger.ts) handles a key part of this chapter's functionality:
-
-```ts
-}
-
-export interface DebugLogData {
-  timestamp: string;
-  sessionId: string;
-  systemInfo: SystemInfo;
-  appInfo: AppInfo;
-  logs: LogEntry[];
-  errors: ErrorEntry[];
-  networkRequests: NetworkEntry[];
-  performance: PerformanceEntry;
-  state: StateEntry;
-  userActions: UserActionEntry[];
-  terminalLogs: TerminalEntry[];
-}
-
-export interface SystemInfo {
-  platform: string;
-  userAgent: string;
-  screenResolution: string;
-  viewportSize: string;
-  isMobile: boolean;
-  timezone: string;
-  language: string;
-  cookiesEnabled: boolean;
-  localStorageEnabled: boolean;
-  sessionStorageEnabled: boolean;
-}
-
-export interface AppInfo {
-  version: string;
-  buildTime: string;
-```
-
-This interface is important because it defines how bolt.diy Tutorial: Build and Operate an Open Source AI App Builder implements the patterns covered in this chapter.
-
-### `app/utils/debugLogger.ts`
-
-The `SystemInfo` interface in [`app/utils/debugLogger.ts`](https://github.com/stackblitz-labs/bolt.diy/blob/HEAD/app/utils/debugLogger.ts) handles a key part of this chapter's functionality:
-
-```ts
-  timestamp: string;
-  sessionId: string;
-  systemInfo: SystemInfo;
-  appInfo: AppInfo;
-  logs: LogEntry[];
-  errors: ErrorEntry[];
-  networkRequests: NetworkEntry[];
-  performance: PerformanceEntry;
-  state: StateEntry;
-  userActions: UserActionEntry[];
-  terminalLogs: TerminalEntry[];
-}
-
-export interface SystemInfo {
-  platform: string;
-  userAgent: string;
-  screenResolution: string;
-  viewportSize: string;
-  isMobile: boolean;
-  timezone: string;
-  language: string;
-  cookiesEnabled: boolean;
-  localStorageEnabled: boolean;
-  sessionStorageEnabled: boolean;
-}
-
-export interface AppInfo {
-  version: string;
-  buildTime: string;
-  currentModel: string;
-  currentProvider: string;
-  projectType: string;
-```
-
-This interface is important because it defines how bolt.diy Tutorial: Build and Operate an Open Source AI App Builder implements the patterns covered in this chapter.
-
+For operational visibility — a requirement called out in this chapter's integration readiness checklist — this store is where you read current tool availability and emit connection health metrics.
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[for]
-    B[DebugLoggerConfig]
-    C[DebugLogData]
-    D[SystemInfo]
-    E[AppInfo]
+    A[MCP server config defined]
+    B[useMCPServers hook connects to server]
+    C[mcp.ts store holds tool manifests]
+    D[Model selects MCP tool in response]
+    E[api.mcp.ts proxies tool call]
+    F[External service executes action]
+    G[Result returned to model context]
     A --> B
     B --> C
     C --> D
     D --> E
+    E --> F
+    F --> G
 ```

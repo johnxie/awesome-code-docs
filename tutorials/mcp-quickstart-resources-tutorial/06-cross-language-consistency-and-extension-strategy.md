@@ -38,50 +38,7 @@ You now have a strategy for controlled multi-language MCP feature evolution.
 
 Next: [Chapter 7: CI, Toolchain Setup, and Troubleshooting](07-ci-toolchain-setup-and-troubleshooting.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
-
-### `weather-server-typescript/src/index.ts`
-
-The `ForecastPeriod` interface in [`weather-server-typescript/src/index.ts`](https://github.com/modelcontextprotocol/quickstart-resources/blob/HEAD/weather-server-typescript/src/index.ts) handles a key part of this chapter's functionality:
-
-```ts
-}
-
-interface ForecastPeriod {
-  name?: string;
-  temperature?: number;
-  temperatureUnit?: string;
-  windSpeed?: string;
-  windDirection?: string;
-  shortForecast?: string;
-}
-
-interface AlertsResponse {
-  features: AlertFeature[];
-}
-
-interface PointsResponse {
-  properties: {
-    forecast?: string;
-  };
-}
-
-interface ForecastResponse {
-  properties: {
-    periods: ForecastPeriod[];
-  };
-}
-
-// Create server instance
-const server = new McpServer({
-  name: "weather",
-  version: "1.0.0",
-});
-```
-
-This interface is important because it defines how MCP Quickstart Resources Tutorial: Cross-Language MCP Servers and Clients by Example implements the patterns covered in this chapter.
 
 ### `weather-server-typescript/src/index.ts`
 
@@ -206,16 +163,57 @@ server.registerTool(
 
 This interface is important because it defines how MCP Quickstart Resources Tutorial: Cross-Language MCP Servers and Clients by Example implements the patterns covered in this chapter.
 
+### `weather-server-rust/src/main.rs`
+
+The `AlertsResponse` interface in [`weather-server-rust/src/main.rs`](https://github.com/modelcontextprotocol/quickstart-resources/blob/HEAD/weather-server-rust/src/main.rs) handles a key part of this chapter's functionality:
+
+```rs
+
+#[derive(Debug, Deserialize)]
+struct AlertsResponse {
+    features: Vec<AlertFeature>,
+}
+
+#[derive(Debug, Deserialize)]
+struct AlertFeature {
+    properties: AlertProperties,
+}
+
+#[derive(Debug, Deserialize)]
+struct AlertProperties {
+    event: Option<String>,
+    #[serde(rename = "areaDesc")]
+    area_desc: Option<String>,
+    severity: Option<String>,
+    description: Option<String>,
+    instruction: Option<String>,
+}
+
+#[derive(Debug, Deserialize)]
+struct PointsResponse {
+    properties: PointsProperties,
+}
+
+#[derive(Debug, Deserialize)]
+struct PointsProperties {
+    forecast: String,
+}
+
+#[derive(Debug, Deserialize)]
+```
+
+This interface is important because it defines how MCP Quickstart Resources Tutorial: Cross-Language MCP Servers and Clients by Example implements the patterns covered in this chapter.
+
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[ForecastPeriod]
-    B[AlertsResponse]
-    C[PointsResponse]
-    D[ForecastResponse]
-    E[AlertsResponse]
+    A[AlertsResponse]
+    B[PointsResponse]
+    C[ForecastResponse]
+    D[AlertsResponse]
+    E[AlertFeature]
     A --> B
     B --> C
     C --> D

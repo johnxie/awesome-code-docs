@@ -12,6 +12,19 @@ Welcome to **Chapter 7: Plugin Architecture**. In this part of **Chatbox Tutoria
 
 This chapter covers building an extensible plugin system for chat applications, enabling third-party integrations and custom functionality.
 
+## MCP and Extension Architecture
+
+```mermaid
+graph TD
+    MCP["MCP Module\nsrc/main/mcp/"] --> Tools["Tool Definitions\n(registered functions)"]
+    MCP --> Conn["Transport\n(stdio / SSE)"]
+    Tools --> ChatEngine["Chat Engine\n(tool_use capability)"]
+    ChatEngine --> Execute["Tool Execution\n(approval flow)"]
+    Execute --> Result["Tool Result\n(injected into context)"]
+    SettingTab["SettingWindowTab\n'extension' | 'mcp'"] --> MCP
+    SettingTab --> Skills["Skills System\n(SkillSettingsSchema)"]
+```
+
 ## 🔌 Plugin System Architecture
 
 ### Plugin Interface
@@ -650,16 +663,17 @@ Under the hood, `Chapter 7: Plugin Architecture` usually follows a repeatable co
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
-## Source Walkthrough
+## Source Code Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+### `src/shared/types/settings.ts`
 
-- [View Repo](https://github.com/Bin-Huang/chatbox)
-  Why it matters: authoritative reference on `View Repo` (github.com).
+The `SettingWindowTab` type in [`src/shared/types.ts`](https://github.com/Bin-Huang/chatbox/blob/main/src/shared/types.ts) reveals Chatbox's extension surface — the `'extension'` and `'mcp'` tabs expose the plugin and MCP configuration UIs:
 
-Suggested trace strategy:
-- search upstream code for `plugin` and `pluginName` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+```ts
+export type SettingWindowTab = 'ai' | 'display' | 'chat' | 'advanced' | 'extension' | 'mcp'
+```
+
+The `src/main/mcp/` directory implements the MCP host — Chatbox can connect to any MCP-compatible tool server via stdio or SSE transport. `SkillSettingsSchema` in `src/shared/types/skills.ts` handles the configuration persistence layer for each registered tool or skill.
 
 ## Chapter Connections
 

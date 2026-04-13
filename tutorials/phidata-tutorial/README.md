@@ -15,11 +15,13 @@ format_version: v2
 [![Python](https://img.shields.io/badge/Python-blue)](https://github.com/phidatahq/phidata)
 
 
-Phidata<sup>[View Repo](https://github.com/phidatahq/phidata)</sup> is a framework for building autonomous AI agents with memory, reasoning, and tool integration capabilities. Create intelligent agents that can perform complex tasks, maintain conversation context, and use various tools to accomplish goals.
+Phidata<sup>[View Repo](https://github.com/agno-agi/agno)</sup> is a framework for building autonomous AI agents with memory, reasoning, and tool integration capabilities. Create intelligent agents that can perform complex tasks, maintain conversation context, and use various tools to accomplish goals.
+
+> **Note**: The Phidata project was rebranded to **Agno** (repo: [`agno-agi/agno`](https://github.com/agno-agi/agno), docs: [docs.agno.com](https://docs.agno.com)). The `phidatahq/phidata` GitHub URL redirects to the new location. For the current Agno framework, see the [Agno Tutorial](../agno-tutorial/).
 
 ## Why This Track Matters
 
-Phidata is increasingly relevant for developers working with modern AI/ML infrastructure. A deep technical walkthrough of Phidata covering Building Autonomous AI Agents, and this track helps you understand the architecture, key patterns, and production considerations.
+Phidata (now Agno) is increasingly relevant for developers working with modern AI/ML infrastructure. A deep technical walkthrough of Phidata covering Building Autonomous AI Agents, and this track helps you understand the architecture, key patterns, and production considerations.
 
 This track focuses on:
 
@@ -41,9 +43,9 @@ This track focuses on:
 
 ## Current Snapshot (auto-updated)
 
-- repository: [`phidatahq/phidata`](https://github.com/phidatahq/phidata)
-- stars: about **39k**
-- latest release: [`v2.5.11`](https://github.com/phidatahq/phidata/releases/tag/v2.5.11) (published 2026-03-26)
+- repository: [`agno-agi/agno`](https://github.com/agno-agi/agno) (formerly `phidatahq/phidata`)
+- stars: about **39.4k**
+- latest release: see [agno-agi/agno releases](https://github.com/agno-agi/agno/releases)
 
 ## What You Will Learn
 

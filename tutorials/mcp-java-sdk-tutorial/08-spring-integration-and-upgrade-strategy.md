@@ -40,8 +40,6 @@ You now have a long-term operations model for combining Java core MCP and Spring
 
 Next: Continue with [MCP C# SDK Tutorial](../mcp-csharp-sdk-tutorial/)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `mcp-core/src/main/java/io/modelcontextprotocol/json/McpJsonDefaults.java`
@@ -85,125 +83,125 @@ public class McpJsonDefaults {
 
 This class is important because it defines how MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring implements the patterns covered in this chapter.
 
-### `mcp-core/src/main/java/io/modelcontextprotocol/util/Assert.java`
+### `mcp-core/src/main/java/io/modelcontextprotocol/json/McpJsonMapper.java`
 
-The `that` class in [`mcp-core/src/main/java/io/modelcontextprotocol/util/Assert.java`](https://github.com/modelcontextprotocol/java-sdk/blob/HEAD/mcp-core/src/main/java/io/modelcontextprotocol/util/Assert.java) handles a key part of this chapter's functionality:
+The `McpJsonMapper` interface in [`mcp-core/src/main/java/io/modelcontextprotocol/json/McpJsonMapper.java`](https://github.com/modelcontextprotocol/java-sdk/blob/HEAD/mcp-core/src/main/java/io/modelcontextprotocol/json/McpJsonMapper.java) handles a key part of this chapter's functionality:
 
 ```java
-
-/**
- * Assertion utility class that assists in validating arguments.
- *
- * @author Christian Tzolov
+ * io.modelcontextprotocol.spec.json.jackson.JacksonJsonMapper.
  */
-
-/**
- * Utility class providing assertion methods for parameter validation.
- */
-public final class Assert {
+public interface McpJsonMapper {
 
 	/**
-	 * Assert that the collection is not {@code null} and not empty.
-	 * @param collection the collection to check
-	 * @param message the exception message to use if the assertion fails
-	 * @throws IllegalArgumentException if the collection is {@code null} or empty
+	 * Deserialize JSON string into a target type.
+	 * @param content JSON as String
+	 * @param type target class
+	 * @return deserialized instance
+	 * @param <T> generic type
+	 * @throws IOException on parse errors
 	 */
-	public static void notEmpty(@Nullable Collection<?> collection, String message) {
-		if (collection == null || collection.isEmpty()) {
-			throw new IllegalArgumentException(message);
-		}
+	<T> T readValue(String content, Class<T> type) throws IOException;
+
+	/**
+	 * Deserialize JSON bytes into a target type.
+	 * @param content JSON as bytes
+	 * @param type target class
+	 * @return deserialized instance
+	 * @param <T> generic type
+	 * @throws IOException on parse errors
+	 */
+	<T> T readValue(byte[] content, Class<T> type) throws IOException;
+
+	/**
+	 * Deserialize JSON string into a parameterized target type.
+	 * @param content JSON as String
+	 * @param type parameterized type reference
+	 * @return deserialized instance
+	 * @param <T> generic type
+	 * @throws IOException on parse errors
+	 */
+```
+
+This interface is important because it defines how MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring implements the patterns covered in this chapter.
+
+### `mcp-core/src/main/java/io/modelcontextprotocol/server/DefaultMcpStatelessServerHandler.java`
+
+The `DefaultMcpStatelessServerHandler` class in [`mcp-core/src/main/java/io/modelcontextprotocol/server/DefaultMcpStatelessServerHandler.java`](https://github.com/modelcontextprotocol/java-sdk/blob/HEAD/mcp-core/src/main/java/io/modelcontextprotocol/server/DefaultMcpStatelessServerHandler.java) handles a key part of this chapter's functionality:
+
+```java
+import java.util.Map;
+
+class DefaultMcpStatelessServerHandler implements McpStatelessServerHandler {
+
+	private static final Logger logger = LoggerFactory.getLogger(DefaultMcpStatelessServerHandler.class);
+
+	Map<String, McpStatelessRequestHandler<?>> requestHandlers;
+
+	Map<String, McpStatelessNotificationHandler> notificationHandlers;
+
+	public DefaultMcpStatelessServerHandler(Map<String, McpStatelessRequestHandler<?>> requestHandlers,
+			Map<String, McpStatelessNotificationHandler> notificationHandlers) {
+		this.requestHandlers = requestHandlers;
+		this.notificationHandlers = notificationHandlers;
 	}
 
-	/**
-	 * Assert that an object is not {@code null}.
-	 *
-	 * <pre class="code">
-	 * Assert.notNull(clazz, "The class must not be null");
-	 * </pre>
-	 * @param object the object to check
-	 * @param message the exception message to use if the assertion fails
+	@Override
+	public Mono<McpSchema.JSONRPCResponse> handleRequest(McpTransportContext transportContext,
+			McpSchema.JSONRPCRequest request) {
+		McpStatelessRequestHandler<?> requestHandler = this.requestHandlers.get(request.method());
+		if (requestHandler == null) {
+			return Mono.error(McpError.builder(McpSchema.ErrorCodes.METHOD_NOT_FOUND)
+				.message("Missing handler for request type: " + request.method())
+				.build());
+		}
+		return requestHandler.handle(transportContext, request.params())
+			.map(result -> new McpSchema.JSONRPCResponse(McpSchema.JSONRPC_VERSION, request.id(), result, null))
+			.onErrorResume(t -> {
+				McpSchema.JSONRPCResponse.JSONRPCError error;
+				if (t instanceof McpError mcpError && mcpError.getJsonRpcError() != null) {
+					error = mcpError.getJsonRpcError();
+				}
 ```
 
 This class is important because it defines how MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring implements the patterns covered in this chapter.
 
-### `mcp-core/src/main/java/io/modelcontextprotocol/util/Assert.java`
+### `mcp-core/src/main/java/io/modelcontextprotocol/util/McpServiceLoader.java`
 
-The `providing` class in [`mcp-core/src/main/java/io/modelcontextprotocol/util/Assert.java`](https://github.com/modelcontextprotocol/java-sdk/blob/HEAD/mcp-core/src/main/java/io/modelcontextprotocol/util/Assert.java) handles a key part of this chapter's functionality:
-
-```java
-
-/**
- * Utility class providing assertion methods for parameter validation.
- */
-public final class Assert {
-
-	/**
-	 * Assert that the collection is not {@code null} and not empty.
-	 * @param collection the collection to check
-	 * @param message the exception message to use if the assertion fails
-	 * @throws IllegalArgumentException if the collection is {@code null} or empty
-	 */
-	public static void notEmpty(@Nullable Collection<?> collection, String message) {
-		if (collection == null || collection.isEmpty()) {
-			throw new IllegalArgumentException(message);
-		}
-	}
-
-	/**
-	 * Assert that an object is not {@code null}.
-	 *
-	 * <pre class="code">
-	 * Assert.notNull(clazz, "The class must not be null");
-	 * </pre>
-	 * @param object the object to check
-	 * @param message the exception message to use if the assertion fails
-	 * @throws IllegalArgumentException if the object is {@code null}
-	 */
-	public static void notNull(@Nullable Object object, String message) {
-		if (object == null) {
-			throw new IllegalArgumentException(message);
-		}
-```
-
-This class is important because it defines how MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring implements the patterns covered in this chapter.
-
-### `mcp-core/src/main/java/io/modelcontextprotocol/util/Assert.java`
-
-The `Assert` class in [`mcp-core/src/main/java/io/modelcontextprotocol/util/Assert.java`](https://github.com/modelcontextprotocol/java-sdk/blob/HEAD/mcp-core/src/main/java/io/modelcontextprotocol/util/Assert.java) handles a key part of this chapter's functionality:
+The `are` class in [`mcp-core/src/main/java/io/modelcontextprotocol/util/McpServiceLoader.java`](https://github.com/modelcontextprotocol/java-sdk/blob/HEAD/mcp-core/src/main/java/io/modelcontextprotocol/util/McpServiceLoader.java) handles a key part of this chapter's functionality:
 
 ```java
 
 /**
- * Assertion utility class that assists in validating arguments.
+ * Instance of this class are intended to be used differently in OSGi and non-OSGi
+ * environments. In all non-OSGi environments the supplier member will be
+ * <code>null</code> and the serviceLoad method will be called to use the
+ * ServiceLoader.load to find the first instance of the supplier (assuming one is present
+ * in the runtime), cache it, and call the supplier's get method.
+ * <p>
+ * In OSGi environments, the Service component runtime (scr) will call the setSupplier
+ * method upon bundle activation (assuming one is present in the runtime), and subsequent
+ * calls will use the given supplier instance rather than the ServiceLoader.load.
  *
- * @author Christian Tzolov
+ * @param <S> the type of the supplier
+ * @param <R> the type of the supplier result/returned value
  */
+public class McpServiceLoader<S extends Supplier<R>, R> {
 
-/**
- * Utility class providing assertion methods for parameter validation.
- */
-public final class Assert {
+	private Class<S> supplierType;
 
-	/**
-	 * Assert that the collection is not {@code null} and not empty.
-	 * @param collection the collection to check
-	 * @param message the exception message to use if the assertion fails
-	 * @throws IllegalArgumentException if the collection is {@code null} or empty
-	 */
-	public static void notEmpty(@Nullable Collection<?> collection, String message) {
-		if (collection == null || collection.isEmpty()) {
-			throw new IllegalArgumentException(message);
-		}
+	private S supplier;
+
+	private R supplierResult;
+
+	public void setSupplier(S supplier) {
+		this.supplier = supplier;
+		this.supplierResult = null;
 	}
 
-	/**
-	 * Assert that an object is not {@code null}.
-	 *
-	 * <pre class="code">
-	 * Assert.notNull(clazz, "The class must not be null");
-	 * </pre>
-	 * @param object the object to check
-	 * @param message the exception message to use if the assertion fails
+	public void unsetSupplier(S supplier) {
+		this.supplier = null;
+		this.supplierResult = null;
+	}
 ```
 
 This class is important because it defines how MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring implements the patterns covered in this chapter.
@@ -214,10 +212,10 @@ This class is important because it defines how MCP Java SDK Tutorial: Building M
 ```mermaid
 flowchart TD
     A[McpJsonDefaults]
-    B[that]
-    C[providing]
-    D[Assert]
-    E[must]
+    B[McpJsonMapper]
+    C[DefaultMcpStatelessServerHandler]
+    D[are]
+    E[McpServiceLoader]
     A --> B
     B --> C
     C --> D

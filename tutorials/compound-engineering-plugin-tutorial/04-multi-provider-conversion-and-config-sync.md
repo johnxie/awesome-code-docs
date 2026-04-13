@@ -54,8 +54,6 @@ You now understand how to move compound workflows across different coding-agent 
 
 Next: [Chapter 5: MCP Integrations and Browser Automation](05-mcp-integrations-and-browser-automation.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `src/parsers/claude.ts`
@@ -95,88 +93,6 @@ async function loadMcpServers(
   if (await pathExists(mcpPath)) {
     const raw = await readJson<Record<string, unknown>>(mcpPath)
     return unwrapMcpServers(raw)
-```
-
-This function is important because it defines how Compound Engineering Plugin Tutorial: Compounding Agent Workflows Across Toolchains implements the patterns covered in this chapter.
-
-### `src/commands/convert.ts`
-
-The `parseExtraTargets` function in [`src/commands/convert.ts`](https://github.com/EveryInc/compound-engineering-plugin/blob/HEAD/src/commands/convert.ts) handles a key part of this chapter's functionality:
-
-```ts
-    console.log(`Converted ${plugin.manifest.name} to ${targetName} at ${primaryOutputRoot}`)
-
-    const extraTargets = parseExtraTargets(args.also)
-    const allTargets = [targetName, ...extraTargets]
-    for (const extra of extraTargets) {
-      const handler = targets[extra]
-      if (!handler) {
-        console.warn(`Skipping unknown target: ${extra}`)
-        continue
-      }
-      if (!handler.implemented) {
-        console.warn(`Skipping ${extra}: not implemented yet.`)
-        continue
-      }
-      const extraBundle = handler.convert(plugin, options)
-      if (!extraBundle) {
-        console.warn(`Skipping ${extra}: no output returned.`)
-        continue
-      }
-      const extraRoot = resolveTargetOutputRoot({
-        targetName: extra,
-        outputRoot: path.join(outputRoot, extra),
-        codexHome,
-        piHome,
-        openclawHome,
-        qwenHome,
-        pluginName: plugin.manifest.name,
-        hasExplicitOutput,
-        scope: handler.defaultScope,
-      })
-      await handler.write(extraRoot, extraBundle, handler.defaultScope)
-      console.log(`Converted ${plugin.manifest.name} to ${extra} at ${extraRoot}`)
-```
-
-This function is important because it defines how Compound Engineering Plugin Tutorial: Compounding Agent Workflows Across Toolchains implements the patterns covered in this chapter.
-
-### `src/commands/convert.ts`
-
-The `resolveOutputRoot` function in [`src/commands/convert.ts`](https://github.com/EveryInc/compound-engineering-plugin/blob/HEAD/src/commands/convert.ts) handles a key part of this chapter's functionality:
-
-```ts
-
-    const plugin = await loadClaudePlugin(String(args.source))
-    const outputRoot = resolveOutputRoot(args.output)
-    const hasExplicitOutput = Boolean(args.output && String(args.output).trim())
-    const codexHome = resolveTargetHome(args.codexHome, path.join(os.homedir(), ".codex"))
-    const piHome = resolveTargetHome(args.piHome, path.join(os.homedir(), ".pi", "agent"))
-    const openclawHome = resolveTargetHome(args.openclawHome, path.join(os.homedir(), ".openclaw", "extensions"))
-    const qwenHome = resolveTargetHome(args.qwenHome, path.join(os.homedir(), ".qwen", "extensions"))
-
-    const options = {
-      agentMode: String(args.agentMode) === "primary" ? "primary" : "subagent",
-      inferTemperature: Boolean(args.inferTemperature),
-      permissions: permissions as PermissionMode,
-    }
-
-    if (targetName === "all") {
-      const detected = await detectInstalledTools()
-      const activeTargets = detected.filter((t) => t.detected)
-
-      if (activeTargets.length === 0) {
-        console.log("No AI coding tools detected. Install at least one tool first.")
-        return
-      }
-
-      console.log(`Detected ${activeTargets.length} tool(s):`)
-      for (const tool of detected) {
-        console.log(`  ${tool.detected ? "✓" : "✗"} ${tool.name} — ${tool.reason}`)
-      }
-
-      for (const tool of activeTargets) {
-        const handler = targets[tool.name]
-        if (!handler || !handler.implemented) {
 ```
 
 This function is important because it defines how Compound Engineering Plugin Tutorial: Compounding Agent Workflows Across Toolchains implements the patterns covered in this chapter.
@@ -222,16 +138,98 @@ export async function countSkillDirectories(root: string): Promise<number> {
 
 This function is important because it defines how Compound Engineering Plugin Tutorial: Compounding Agent Workflows Across Toolchains implements the patterns covered in this chapter.
 
+### `src/release/metadata.ts`
+
+The `countMarkdownFiles` function in [`src/release/metadata.ts`](https://github.com/EveryInc/compound-engineering-plugin/blob/HEAD/src/release/metadata.ts) handles a key part of this chapter's functionality:
+
+```ts
+}
+
+export async function countMarkdownFiles(root: string): Promise<number> {
+  const entries = await fs.readdir(root, { withFileTypes: true })
+  let total = 0
+
+  for (const entry of entries) {
+    const fullPath = path.join(root, entry.name)
+    if (entry.isDirectory()) {
+      total += await countMarkdownFiles(fullPath)
+      continue
+    }
+    if (entry.isFile() && entry.name.endsWith(".md")) {
+      total += 1
+    }
+  }
+
+  return total
+}
+
+export async function countSkillDirectories(root: string): Promise<number> {
+  const entries = await fs.readdir(root, { withFileTypes: true })
+  let total = 0
+
+  for (const entry of entries) {
+    if (!entry.isDirectory()) continue
+    const skillPath = path.join(root, entry.name, "SKILL.md")
+    try {
+      await fs.access(skillPath)
+      total += 1
+    } catch {
+      // Ignore non-skill directories.
+```
+
+This function is important because it defines how Compound Engineering Plugin Tutorial: Compounding Agent Workflows Across Toolchains implements the patterns covered in this chapter.
+
+### `src/release/metadata.ts`
+
+The `countSkillDirectories` function in [`src/release/metadata.ts`](https://github.com/EveryInc/compound-engineering-plugin/blob/HEAD/src/release/metadata.ts) handles a key part of this chapter's functionality:
+
+```ts
+}
+
+export async function countSkillDirectories(root: string): Promise<number> {
+  const entries = await fs.readdir(root, { withFileTypes: true })
+  let total = 0
+
+  for (const entry of entries) {
+    if (!entry.isDirectory()) continue
+    const skillPath = path.join(root, entry.name, "SKILL.md")
+    try {
+      await fs.access(skillPath)
+      total += 1
+    } catch {
+      // Ignore non-skill directories.
+    }
+  }
+
+  return total
+}
+
+export async function countMcpServers(pluginRoot: string): Promise<number> {
+  const mcpPath = path.join(pluginRoot, ".mcp.json")
+  try {
+    const manifest = await readJson<{ mcpServers?: Record<string, unknown> }>(mcpPath)
+    return Object.keys(manifest.mcpServers ?? {}).length
+  } catch (err: unknown) {
+    if ((err as NodeJS.ErrnoException).code === "ENOENT") return 0
+    throw err
+  }
+}
+
+export async function getCompoundEngineeringCounts(root: string): Promise<CompoundEngineeringCounts> {
+```
+
+This function is important because it defines how Compound Engineering Plugin Tutorial: Compounding Agent Workflows Across Toolchains implements the patterns covered in this chapter.
+
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
     A[resolveWithinRoot]
-    B[parseExtraTargets]
-    C[resolveOutputRoot]
-    D[resolveExpectedVersion]
-    E[countMarkdownFiles]
+    B[resolveExpectedVersion]
+    C[countMarkdownFiles]
+    D[countSkillDirectories]
+    E[countMcpServers]
     A --> B
     B --> C
     C --> D

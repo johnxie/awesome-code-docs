@@ -48,8 +48,6 @@ You now have a client capability strategy that keeps power features usable witho
 
 Next: [Chapter 7: Authorization and Security Best Practices](07-authorization-and-security-best-practices.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `schema/2025-03-26/schema.ts`

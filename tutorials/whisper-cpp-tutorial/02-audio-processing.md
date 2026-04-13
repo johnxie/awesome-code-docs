@@ -13,6 +13,15 @@ Welcome to **Chapter 2: Audio Processing Fundamentals**. In this part of **Whisp
 Welcome back! Now that you have Whisper.cpp up and running, let's dive into the fascinating world of audio processing. Understanding how audio works is crucial for getting the best results from speech recognition systems. In this chapter, we'll explore the fundamentals of digital audio and how Whisper.cpp processes sound.
 
 ## What Makes Audio Processing Important?
+```mermaid
+flowchart LR
+    A[Raw Audio WAV/MP3] --> B[16kHz Resampling]
+    B --> C[Mono Channel]
+    C --> D[Float32 Normalization]
+    D --> E[Mel Spectrogram 80 bins]
+    E --> F[Whisper Encoder]
+```
+
 
 Imagine trying to read a book where all the letters are jumbled together - that's what raw audio looks like to a computer! Audio processing transforms continuous sound waves into a format that machine learning models can understand and work with.
 

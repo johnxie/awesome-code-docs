@@ -9,6 +9,18 @@ nav_order: 3
 
 Welcome to the heart of Chroma's power! This chapter explores how embeddings work, how Chroma indexes them for fast retrieval, and how to optimize similarity search performance.
 
+## Embedding and Indexing Pipeline
+
+```mermaid
+flowchart LR
+    Text["Raw Text\n(documents)"] --> EF["EmbeddingFunction\n(e.g. all-MiniLM-L6-v2)"]
+    EF --> Vec["Float Vectors\n(384 or 1536 dims)"]
+    Vec --> HNSW["HNSW Index\n(chromadb/db/)"]
+    HNSW --> ANN["Approximate Nearest\nNeighbour Search"]
+    ANN --> TopK["Top-K Results\n(ids + distances)"]
+    Custom["Custom EF\n(OpenAI / Cohere)"] --> Vec
+```
+
 ## Understanding Embeddings
 
 ### What Are Embeddings?
@@ -451,16 +463,27 @@ Under the hood, `Chapter 3: Embeddings & Indexing` usually follows a repeatable 
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
-## Source Walkthrough
+## Source Code Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+### `chromadb/api/types.py`
 
-- [View Repo](https://github.com/chroma-core/chroma)
-  Why it matters: authoritative reference on `View Repo` (github.com).
+The `EmbeddingFunction` protocol and `DefaultEmbeddingFunction` in [`chromadb/api/types.py`](https://github.com/chroma-core/chroma/blob/main/chromadb/api/types.py) define how Chroma transforms documents into vectors. The `Embeddings` type is `List[Vector]` where `Vector = List[float]`, and `SparseVector` supports sparse retrieval:
 
-Suggested trace strategy:
-- search upstream code for `embeddings` and `collection` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+```python
+from chromadb.base_types import (
+    Vector,
+    PyVector,
+    LiteralValue,
+    LogicalOperator,
+    WhereOperator,
+    OperatorExpression,
+    Where,
+    WhereDocument,
+    SparseVector,
+)
+```
+
+When you pass `documents` to `collection.add()` without explicit embeddings, Chroma calls the collection's `EmbeddingFunction.__call__` to generate them. The default is `all-MiniLM-L6-v2` via `chromadb.utils.embedding_functions`.
 
 ## Chapter Connections
 

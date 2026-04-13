@@ -161,8 +161,8 @@ optimized_program = mipro_optimizer.compile(program, trainset=trainset)
 ## Quick Start
 
 ```bash
-# Install DSPy
-pip install dspy-ai
+# Install DSPy (package renamed to 'dspy' in v2)
+pip install dspy
 
 # Set up OpenAI API key
 export OPENAI_API_KEY="your-api-key"
@@ -171,9 +171,9 @@ export OPENAI_API_KEY="your-api-key"
 ```python
 import dspy
 
-# Configure LM
-lm = dspy.OpenAI(model='gpt-3.5-turbo', api_key='your-key')
-dspy.settings.configure(lm=lm)
+# Configure LM (DSPy 2.x API)
+lm = dspy.LM("openai/gpt-4o-mini")
+dspy.configure(lm=lm)
 
 # Define signature
 class BasicQA(dspy.Signature):
@@ -193,10 +193,9 @@ print(result.answer)  # "Paris"
 ```python
 import dspy
 
-# Configure DSPy
-lm = dspy.OpenAI(model='gpt-4')
-rm = dspy.ColBERTv2(url='http://20.102.90.50:2017/wiki17_abstracts')
-dspy.settings.configure(lm=lm, rm=rm)
+# Configure DSPy (2.x API)
+lm = dspy.LM("openai/gpt-4o")
+dspy.configure(lm=lm)
 
 # Define RAG signature
 class GenerateAnswer(dspy.Signature):

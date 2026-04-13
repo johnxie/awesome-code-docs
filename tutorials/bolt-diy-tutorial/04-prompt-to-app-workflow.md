@@ -159,186 +159,39 @@ You now have a deterministic prompt-to-app method:
 
 Next: [Chapter 5: Files, Diff, and Locking](05-files-diff-locking.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `app/utils/debugLogger.ts`
+### `app/routes/api.chat.ts`
 
-The `DebugLogger` class in [`app/utils/debugLogger.ts`](https://github.com/stackblitz-labs/bolt.diy/blob/HEAD/app/utils/debugLogger.ts) handles a key part of this chapter's functionality:
+The `action` export in [`app/routes/api.chat.ts`](https://github.com/stackblitz-labs/bolt.diy/blob/HEAD/app/routes/api.chat.ts) is the server-side handler for chat requests. Every prompt submitted through the bolt.diy UI passes through this route. It receives the conversation messages, the selected provider/model, and any constraints from the client, then delegates to the streaming LLM layer.
 
-```ts
+Understanding this file is key to tracing how a user's prompt becomes a model request, and where you can insert logging, validation, or budget-cap logic before the model call.
 
-// Configuration interface for debug logger
-export interface DebugLoggerConfig {
-  enabled: boolean;
-  maxEntries: number;
-  captureConsole: boolean;
-  captureNetwork: boolean;
-  captureErrors: boolean;
-  debounceTerminal: number; // ms
-}
+### `app/lib/llm/stream-text.ts`
 
-// Circular buffer implementation for memory efficiency
-class CircularBuffer<T> {
-  private _buffer: (T | undefined)[];
-  private _head = 0;
-  private _tail = 0;
-  private _size = 0;
+The streaming layer in [`app/lib/llm/stream-text.ts`](https://github.com/stackblitz-labs/bolt.diy/blob/HEAD/app/lib/llm/stream-text.ts) handles the actual LLM call and streams tokens back to the client. It wraps the AI SDK's `streamText` function and applies provider-specific configuration.
 
-  constructor(private _capacity: number) {
-    this._buffer = new Array(_capacity);
-  }
+This is where the prompt-to-response pipeline executes. For the prompt-to-app workflow, this is the boundary between "what the user asked" and "what the model generates" — the right place to add timeout controls, stream error recovery, or cost accounting.
 
-  push(item: T): void {
-    this._buffer[this._tail] = item;
-    this._tail = (this._tail + 1) % this._capacity;
+### `app/components/chat/BaseChat.tsx`
 
-    if (this._size < this._capacity) {
-      this._size++;
-    } else {
-      this._head = (this._head + 1) % this._capacity;
-    }
-  }
-```
+The `BaseChat` component in [`app/components/chat/BaseChat.tsx`](https://github.com/stackblitz-labs/bolt.diy/blob/HEAD/app/components/chat/BaseChat.tsx) is the primary UI container for the prompt input and conversation display. It manages the message list, the input field, and sends requests to `api.chat`.
 
-This class is important because it defines how bolt.diy Tutorial: Build and Operate an Open Source AI App Builder implements the patterns covered in this chapter.
-
-### `app/utils/debugLogger.ts`
-
-The `downloadDebugLog` function in [`app/utils/debugLogger.ts`](https://github.com/stackblitz-labs/bolt.diy/blob/HEAD/app/utils/debugLogger.ts) handles a key part of this chapter's functionality:
-
-```ts
-
-// Helper function to download debug log
-export async function downloadDebugLog(filename?: string): Promise<void> {
-  try {
-    const debugData = await debugLogger.generateDebugLog();
-
-    // Create a formatted summary
-    const summary = createDebugSummary(debugData);
-    const fullContent = `${summary}\n\n=== DETAILED DEBUG DATA ===\n\n${JSON.stringify(debugData, null, 2)}`;
-
-    const blob = new Blob([fullContent], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = filename || `bolt-debug-${new Date().toISOString().split('T')[0]}.txt`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-
-    URL.revokeObjectURL(url);
-
-    logger.info('Debug log downloaded successfully');
-  } catch (error) {
-    logger.error('Failed to download debug log:', error);
-  }
-}
-
-// Create a human-readable summary of the debug data
-function createDebugSummary(data: DebugLogData): string {
-  const summary = [
-    '=== BOLT DIY DEBUG LOG SUMMARY ===',
-```
-
-This function is important because it defines how bolt.diy Tutorial: Build and Operate an Open Source AI App Builder implements the patterns covered in this chapter.
-
-### `app/utils/debugLogger.ts`
-
-The `createDebugSummary` function in [`app/utils/debugLogger.ts`](https://github.com/stackblitz-labs/bolt.diy/blob/HEAD/app/utils/debugLogger.ts) handles a key part of this chapter's functionality:
-
-```ts
-
-    // Create a formatted summary
-    const summary = createDebugSummary(debugData);
-    const fullContent = `${summary}\n\n=== DETAILED DEBUG DATA ===\n\n${JSON.stringify(debugData, null, 2)}`;
-
-    const blob = new Blob([fullContent], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = filename || `bolt-debug-${new Date().toISOString().split('T')[0]}.txt`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-
-    URL.revokeObjectURL(url);
-
-    logger.info('Debug log downloaded successfully');
-  } catch (error) {
-    logger.error('Failed to download debug log:', error);
-  }
-}
-
-// Create a human-readable summary of the debug data
-function createDebugSummary(data: DebugLogData): string {
-  const summary = [
-    '=== BOLT DIY DEBUG LOG SUMMARY ===',
-    `Generated: ${new Date(data.timestamp).toLocaleString()}`,
-    `Session ID: ${data.sessionId}`,
-    '',
-    '=== SYSTEM INFORMATION ===',
-    `Platform: ${data.systemInfo.platform}`,
-```
-
-This function is important because it defines how bolt.diy Tutorial: Build and Operate an Open Source AI App Builder implements the patterns covered in this chapter.
-
-### `app/utils/debugLogger.ts`
-
-The `captureTerminalLog` function in [`app/utils/debugLogger.ts`](https://github.com/stackblitz-labs/bolt.diy/blob/HEAD/app/utils/debugLogger.ts) handles a key part of this chapter's functionality:
-
-```ts
-  }
-
-  captureTerminalLog(entry: TerminalEntry): void {
-    try {
-      // Debounce terminal logs to prevent spam
-      if (this._config.debounceTerminal > 0) {
-        this._terminalLogQueue.push(entry);
-
-        if (this._terminalLogTimer) {
-          clearTimeout(this._terminalLogTimer);
-        }
-
-        this._terminalLogTimer = setTimeout(() => {
-          this._flushTerminalLogs();
-        }, this._config.debounceTerminal);
-      } else {
-        this._terminalLogs.push(entry);
-      }
-    } catch (error) {
-      console.error('Debug logger failed to capture terminal log:', error);
-    }
-  }
-
-  private _flushTerminalLogs(): void {
-    try {
-      while (this._terminalLogQueue.length > 0) {
-        const entry = this._terminalLogQueue.shift();
-
-        if (entry) {
-          this._terminalLogs.push(entry);
-        }
-      }
-```
-
-This function is important because it defines how bolt.diy Tutorial: Build and Operate an Open Source AI App Builder implements the patterns covered in this chapter.
-
+For the prompt-to-app workflow, this component defines the user-facing contract: what the user types, how constraints are surfaced, and how the generated output is streamed back into the editor.
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[DebugLogger]
-    B[downloadDebugLog]
-    C[createDebugSummary]
-    D[captureTerminalLog]
-    E[captureUserAction]
+    A[User types prompt in BaseChat]
+    B[Request sent to api.chat.ts action]
+    C[Provider and model config applied]
+    D[stream-text.ts calls LLM provider]
+    E[Tokens stream back to UI]
+    F[Generated code applied to editor]
     A --> B
     B --> C
     C --> D
     D --> E
+    E --> F
 ```

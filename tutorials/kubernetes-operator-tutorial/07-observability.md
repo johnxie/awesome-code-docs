@@ -15,6 +15,18 @@ Welcome to **Chapter 7: Observability & Debugging - Metrics, Logging, Tracing, a
 
 ## Overview
 
+```mermaid
+flowchart LR
+    A[Reconciler] --> B[ctrl.Log logger]
+    A --> C[prometheus.Counter reconcile_total]
+    A --> D[prometheus.Histogram reconcile_duration]
+    B --> E[Structured log output]
+    C --> F[/metrics endpoint]
+    D --> F
+    F --> G[Prometheus scrape]
+    G --> H[Grafana dashboard]
+```
+
 Observability is crucial for production operators. This chapter covers implementing metrics, logging, tracing, and debugging capabilities to ensure operators are maintainable and debuggable in production environments.
 
 ## Metrics Collection

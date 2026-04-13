@@ -37,184 +37,182 @@ You now know how to structure repeatable prompt flows and resume long-running co
 
 Next: [Chapter 3: Tooling and Local Execution Boundaries](03-tooling-and-local-execution-boundaries.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `scripts/analyze_compression.py`
+### `gptme/message.py`
 
-The `create_plot` function in [`scripts/analyze_compression.py`](https://github.com/gptme/gptme/blob/HEAD/scripts/analyze_compression.py) handles a key part of this chapter's functionality:
+The `format_msgs` function in [`gptme/message.py`](https://github.com/gptme/gptme/blob/HEAD/gptme/message.py) handles a key part of this chapter's functionality:
+
+```py
+                content += "..."
+            temp_msg = self.replace(content=content)
+            return format_msgs([temp_msg], oneline=True, highlight=highlight)[0]
+        return format_msgs([self], oneline=oneline, highlight=highlight)[0]
+
+    def print(self, oneline: bool = False, highlight: bool = True) -> None:
+        print_msg(self, oneline=oneline, highlight=highlight)
+
+    def to_toml(self) -> str:
+        """Converts a message to a TOML string, for easy editing by hand in editor to then be parsed back."""
+        flags = []
+        if self.pinned:
+            flags.append("pinned")
+        if self.hide:
+            flags.append("hide")
+        flags_toml = "\n".join(f"{flag} = true" for flag in flags)
+        # Use proper TOML array syntax with escaped strings (not Python repr)
+        if self.files:
+            escaped_files = ", ".join(f'"{escape_string(str(f))}"' for f in self.files)
+            files_toml = f"files = [{escaped_files}]"
+        else:
+            files_toml = ""
+        # Serialize file_hashes as TOML inline table with proper escaping
+        if self.file_hashes:
+            items = ", ".join(
+                f'"{escape_string(k)}" = "{escape_string(v)}"'
+                for k, v in self.file_hashes.items()
+            )
+            file_hashes_toml = f"file_hashes = {{ {items} }}"
+        else:
+            file_hashes_toml = ""
+        # Serialize metadata as TOML inline table if present
+```
+
+This function is important because it defines how gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work implements the patterns covered in this chapter.
+
+### `gptme/message.py`
+
+The `print_msg` function in [`gptme/message.py`](https://github.com/gptme/gptme/blob/HEAD/gptme/message.py) handles a key part of this chapter's functionality:
+
+```py
+
+    def print(self, oneline: bool = False, highlight: bool = True) -> None:
+        print_msg(self, oneline=oneline, highlight=highlight)
+
+    def to_toml(self) -> str:
+        """Converts a message to a TOML string, for easy editing by hand in editor to then be parsed back."""
+        flags = []
+        if self.pinned:
+            flags.append("pinned")
+        if self.hide:
+            flags.append("hide")
+        flags_toml = "\n".join(f"{flag} = true" for flag in flags)
+        # Use proper TOML array syntax with escaped strings (not Python repr)
+        if self.files:
+            escaped_files = ", ".join(f'"{escape_string(str(f))}"' for f in self.files)
+            files_toml = f"files = [{escaped_files}]"
+        else:
+            files_toml = ""
+        # Serialize file_hashes as TOML inline table with proper escaping
+        if self.file_hashes:
+            items = ", ".join(
+                f'"{escape_string(k)}" = "{escape_string(v)}"'
+                for k, v in self.file_hashes.items()
+            )
+            file_hashes_toml = f"file_hashes = {{ {items} }}"
+        else:
+            file_hashes_toml = ""
+        # Serialize metadata as TOML inline table if present
+        if self.metadata:
+            metadata_toml = _format_metadata_toml(self.metadata)
+        else:
+            metadata_toml = ""
+```
+
+This function is important because it defines how gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work implements the patterns covered in this chapter.
+
+### `gptme/message.py`
+
+The `msgs_to_toml` function in [`gptme/message.py`](https://github.com/gptme/gptme/blob/HEAD/gptme/message.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def create_plot(distribution: dict, output_file: str = "compression_distribution.png"):
-    """Create matplotlib plot of distribution."""
-    try:
-        import matplotlib.pyplot as plt  # type: ignore[import-not-found]
-        import numpy as np  # type: ignore[import-not-found]
-    except ImportError:
-        print("Note: Install matplotlib for plot generation: pip install matplotlib")
-        return
+def msgs_to_toml(msgs: Iterable[Message]) -> str:
+    """Converts a list of messages to a TOML string, for easy editing by hand in editor to then be parsed back."""
+    t = ""
+    for msg in msgs:
+        t += msg.to_toml().replace("[message]", "[[messages]]") + "\n\n"
 
-    buckets = distribution["buckets"]
-    bucket_names = list(buckets.keys())
-    counts = [len(buckets[name]) for name in bucket_names]
+    return t
 
-    # Create figure
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 6))
 
-    # Histogram
-    colors = [
-        "red" if i < 3 else "orange" if i < 5 else "green"
-        for i in range(len(bucket_names))
+def _fix_toml_content(content: str) -> str:
+    """
+    Remove exactly one trailing newline that TOML multiline format adds.
+
+    TOML multiline strings (using triple quotes) add a newline before the
+    closing delimiter. This function removes that artifact while preserving
+    all other whitespace.
+    """
+    content = content.removesuffix("\n")
+    return content
+
+
+def toml_to_msgs(toml: str) -> list[Message]:
+    """
+    Converts a TOML string to a list of messages.
+
+    The string can be a whole file with multiple [[messages]].
+    """
+    t = tomlkit.parse(toml)
+    assert "messages" in t and isinstance(t["messages"], list)
+    msgs: list[dict] = t["messages"]
+```
+
+This function is important because it defines how gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work implements the patterns covered in this chapter.
+
+### `gptme/message.py`
+
+The `toml_to_msgs` function in [`gptme/message.py`](https://github.com/gptme/gptme/blob/HEAD/gptme/message.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+def toml_to_msgs(toml: str) -> list[Message]:
+    """
+    Converts a TOML string to a list of messages.
+
+    The string can be a whole file with multiple [[messages]].
+    """
+    t = tomlkit.parse(toml)
+    assert "messages" in t and isinstance(t["messages"], list)
+    msgs: list[dict] = t["messages"]
+
+    return [
+        Message(
+            msg["role"],
+            _fix_toml_content(msg["content"]),
+            pinned=msg.get("pinned", False),
+            hide=msg.get("hide", False),
+            timestamp=isoparse(msg["timestamp"]),
+            files=[parse_file_reference(f) for f in msg.get("files", [])],
+            file_hashes=dict(msg.get("file_hashes", {})),
+            call_id=msg.get("call_id"),
+            metadata=_migrate_metadata(dict(msg["metadata"]))
+            if msg.get("metadata")
+            else None,
+        )
+        for msg in msgs
     ]
-    ax1.bar(range(len(bucket_names)), counts, color=colors, alpha=0.7)
-    ax1.set_xlabel("Novelty Ratio")
-    ax1.set_ylabel("Message Count")
-    ax1.set_title("Distribution of Information Novelty")
-    ax1.set_xticks(range(len(bucket_names)))
-    ax1.set_xticklabels(bucket_names, rotation=45, ha="right")
-    ax1.grid(axis="y", alpha=0.3)
 
-    # Add classification zones
+
+def msgs2dicts(msgs: list[Message]) -> list[dict]:
+    """Convert a list of Message objects to a list of dicts ready to pass to an LLM."""
 ```
 
 This function is important because it defines how gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work implements the patterns covered in this chapter.
-
-### `scripts/analyze_compression.py`
-
-The `print_results_incremental` function in [`scripts/analyze_compression.py`](https://github.com/gptme/gptme/blob/HEAD/scripts/analyze_compression.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-def print_results_incremental(
-    results: dict, detailed: bool = False, plot: bool = False
-):
-    """Print incremental compression analysis results."""
-    stats = results["overall_stats"]
-
-    print("=" * 80)
-    print("INCREMENTAL COMPRESSION ANALYSIS RESULTS")
-    print("=" * 80)
-    print()
-
-    # Overall statistics
-    print("Overall Statistics:")
-    print(f"  Total conversations analyzed: {stats['total_conversations']}")
-    print(f"  Total messages: {stats['total_messages']}")
-    print(f"  Average novelty ratio: {stats['avg_novelty_ratio']:.3f}")
-    print(f"  Low novelty messages (ratio < 0.3): {stats['low_novelty_messages']}")
-    print(f"  High novelty messages (ratio > 0.7): {stats['high_novelty_messages']}")
-    print()
-
-    # By role statistics
-    print("Information Novelty by Role:")
-    for role, data in sorted(results["by_role"].items()):
-        avg_ratio = data["total_ratio"] / data["count"] if data["count"] > 0 else 0
-        print(f"  {role:12s}: {avg_ratio:.3f} (n={data['count']:,})")
-    print()
-
-    # Distribution analysis
-    distribution = analyze_distribution(results)
-    if distribution:
-```
-
-This function is important because it defines how gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work implements the patterns covered in this chapter.
-
-### `scripts/analyze_compression.py`
-
-The `main` function in [`scripts/analyze_compression.py`](https://github.com/gptme/gptme/blob/HEAD/scripts/analyze_compression.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-def main():
-    parser = argparse.ArgumentParser(
-        description="Analyze compression ratios of conversation logs"
-    )
-    parser.add_argument(
-        "--limit",
-        type=int,
-        default=100,
-        help="Maximum number of conversations to analyze (default: 100)",
-    )
-    parser.add_argument(
-        "--verbose", "-v", action="store_true", help="Show verbose output"
-    )
-    parser.add_argument(
-        "--detailed", "-d", action="store_true", help="Show detailed results"
-    )
-    parser.add_argument(
-        "--incremental",
-        "-i",
-        action="store_true",
-        help="Use incremental compression analysis (measures marginal information contribution)",
-    )
-    parser.add_argument(
-        "--plot",
-        "-p",
-        action="store_true",
-        help="Generate matplotlib plot of distribution (requires matplotlib)",
-    )
-
-    args = parser.parse_args()
-```
-
-This function is important because it defines how gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work implements the patterns covered in this chapter.
-
-### `gptme/codeblock.py`
-
-The `Codeblock` class in [`gptme/codeblock.py`](https://github.com/gptme/gptme/blob/HEAD/gptme/codeblock.py) handles a key part of this chapter's functionality:
-
-```py
-
-@dataclass(frozen=True)
-class Codeblock:
-    lang: str
-    content: str
-    path: str | None = None
-    start: int | None = field(default=None, compare=False)
-
-    def __post_init__(self):
-        # init path if path is None and lang is pathy
-        if self.path is None and self.is_filename:
-            object.__setattr__(self, "path", self.lang)  # frozen dataclass workaround
-
-    def to_markdown(self) -> str:
-        return f"```{self.lang}\n{self.content}\n```"
-
-    def to_xml(self) -> str:
-        """Converts codeblock to XML with proper escaping."""
-        # Use quoteattr for attributes to handle quotes and special chars safely
-        # Use xml_escape for content to handle <, >, & characters
-        path_attr = f" path={quoteattr(self.path)}" if self.path else ""
-        return f"<codeblock lang={quoteattr(self.lang)}{path_attr}>\n{xml_escape(self.content)}\n</codeblock>"
-
-    @classmethod
-    @trace_function(name="codeblock.from_markdown", attributes={"component": "parser"})
-    def from_markdown(cls, content: str) -> "Codeblock":
-        stripped = content.strip()
-        fence_len = 0
-
-        # Handle variable-length fences (3+ backticks)
-        start_match = re.match(r"^(`{3,})", stripped)
-        if start_match:
-```
-
-This class is important because it defines how gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[create_plot]
-    B[print_results_incremental]
-    C[main]
-    D[Codeblock]
-    E[workaround]
+    A[format_msgs]
+    B[print_msg]
+    C[msgs_to_toml]
+    D[toml_to_msgs]
+    E[msgs2dicts]
     A --> B
     B --> C
     C --> D

@@ -406,6 +406,17 @@ Navigate to **Runs** in the UI and filter by schedule path. Each run shows:
 - Result or error
 - Worker that executed the job
 
+## Source Code Walkthrough
+
+### Scheduler — `backend/windmill-worker/src/schedule.rs`
+
+[`backend/windmill-worker/src/schedule.rs`](https://github.com/windmill-labs/windmill/blob/main/backend/windmill-worker/src/schedule.rs) implements cron-based scheduling: cron expression parsing, next-run calculation, and job push on schedule tick. The schedule checker runs on a background thread and fires jobs when cron expressions match.
+
+### Webhook handler — `backend/windmill-api/src/jobs.rs`
+
+The webhook endpoint in [`backend/windmill-api/src/jobs.rs`](https://github.com/windmill-labs/windmill/blob/main/backend/windmill-api/src/jobs.rs) implements token-authenticated HTTP triggers for scripts and flows. The `run_script_by_path` handler shows how webhook payloads are validated and converted to job queue entries.
+
+
 ## What You Learned
 
 In this chapter you:

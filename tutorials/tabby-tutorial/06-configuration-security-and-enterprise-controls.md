@@ -66,51 +66,22 @@ Next: [Chapter 7: Operations, Upgrades, and Observability](07-operations-upgrade
 
 ## Source Code Walkthrough
 
-### `python/tabby/trainer.py`
+Use the following upstream sources to verify configuration, security, and enterprise controls while reading this chapter:
 
-The `train` function in [`python/tabby/trainer.py`](https://github.com/TabbyML/tabby/blob/HEAD/python/tabby/trainer.py) handles a key part of this chapter's functionality:
+- [`ee/tabby-webserver/src/lib.rs`](https://github.com/TabbyML/tabby/blob/HEAD/ee/tabby-webserver/src/lib.rs) — the enterprise web server layer that adds JWT authentication, user management, team access controls, and the web UI on top of the core Tabby server.
+- [`ee/tabby-schema/src/lib.rs`](https://github.com/TabbyML/tabby/blob/HEAD/ee/tabby-schema/src/lib.rs) — the GraphQL schema definition for the enterprise web server, covering user, team, repository, and integration management APIs.
 
-```py
-@dataclass
-class TrainLoraArguments:
-    data_path: str = field(metadata={"help": "Dataset dir for training / eval "})
-    output_dir: str = field(metadata={"help": "Output dir for checkpoint"})
-    base_model: str = field(
-        default="TabbyML/J-350M", metadata={"help": "Base model for fine-tuning"}
-    )
-
-    batch_size: int = 128
-    micro_batch_size: int = 4
-    num_epochs: int = 3
-    learning_rate: float = 3e-4
-    cutoff_len: int = 256
-
-    # Evaluations
-    val_set_size: int = 2000
-    eval_steps: int = 200
-
-    # Lora Hyperparams
-    lora_r: int = 8
-    lora_alpha: int = 16
-    lora_dropout: float = 0.05
-    lora_target_modules: List[str] = (
-        [
-            "q_proj",
-            "v_proj",
-        ],
-    )
-    resume_from_checkpoint: str = None  # either training checkpoint or final adapter
-    half: bool = True
-
-
-```
-
-This function is important because it defines how Tabby Tutorial: Self-Hosted AI Coding Assistant Architecture and Operations implements the patterns covered in this chapter.
-
+Suggested trace strategy:
+- trace authentication middleware in `tabby-webserver` to understand how API tokens and JWT are validated per request
+- review the schema types in `tabby-schema` to understand which entities are access-controlled and at which granularity
+- check `config.toml` documentation (https://tabby.tabbyml.com/docs/administration/config-toml) for all security-relevant settings
 
 ## How These Components Connect
 
 ```mermaid
-flowchart TD
-    A[train]
+flowchart LR
+    A[Editor request with token] --> B[tabby-webserver auth middleware]
+    B --> C[JWT or API token validation]
+    C --> D[Access control check via tabby-schema]
+    D --> E[Request forwarded or rejected]
 ```

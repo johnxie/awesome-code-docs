@@ -12,6 +12,20 @@ Welcome to **Chapter 4: Advanced Patterns**. In this part of **Fabric Tutorial: 
 
 > Master sophisticated pattern techniques for complex cognitive tasks and specialized domains.
 
+## Advanced Pattern Composition
+
+```mermaid
+graph LR
+    Input["Input text"] --> P1["Pattern 1\nextract_wisdom"]
+    P1 --> Out1["Insights list"]
+    Out1 --> P2["Pattern 2\ncreate_report"]
+    P2 --> Out2["Structured report"]
+    Out2 --> P3["Pattern 3\nsummarize"]
+    P3 --> Final["Final summary"]
+    Vars["--variable key=val"] --> P1
+    Context["--context file.txt"] --> P2
+```
+
 ## Overview
 
 Advanced patterns go beyond simple text processing to handle complex multi-step tasks, domain-specific analysis, and nuanced outputs. This chapter explores sophisticated pattern usage and customization.
@@ -521,22 +535,20 @@ Under the hood, `Chapter 4: Advanced Patterns` usually follows a repeatable cont
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
-## Source Walkthrough
+## Source Code Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+### `internal/plugins/template/extension_executor.go`
 
-- [GitHub Repository](https://github.com/danielmiessler/Fabric)
-  Why it matters: authoritative reference on `GitHub Repository` (github.com).
-- [Pattern Library](https://github.com/danielmiessler/fabric/tree/main/data/patterns)
-  Why it matters: authoritative reference on `Pattern Library` (github.com).
-- [Community Patterns](https://github.com/danielmiessler/Fabric#community-patterns)
-  Why it matters: authoritative reference on `Community Patterns` (github.com).
-- [AI Codebase Knowledge Builder](https://github.com/johnxie/awesome-code-docs)
-  Why it matters: authoritative reference on `AI Codebase Knowledge Builder` (github.com).
+The `ExtensionExecutor` in [`internal/plugins/template/extension_executor.go`](https://github.com/danielmiessler/fabric/blob/main/internal/plugins/template/extension_executor.go) runs template extensions as subprocesses, enabling advanced patterns to call external tools and scripts:
 
-Suggested trace strategy:
-- search upstream code for `fabric` and `input` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+```go
+// ExtensionExecutor runs registered extensions from the registry
+type ExtensionExecutor struct {
+    registry *ExtensionRegistry
+}
+```
+
+Advanced patterns use `{{.Variable}}` Go template syntax in `user.md` to inject dynamic context into prompts. The `datetime.go` utility in `internal/plugins/template/` injects the current date/time into patterns that need temporal awareness.
 
 ## Chapter Connections
 

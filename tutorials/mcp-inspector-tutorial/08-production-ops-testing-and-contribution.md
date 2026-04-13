@@ -39,9 +39,89 @@ You now have a production-oriented approach for operating Inspector and contribu
 
 Next: Continue with [MCP Registry Tutorial](../mcp-registry-tutorial/)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
+
+### `cli/src/cli.ts`
+
+The `parseHeaderPair` function in [`cli/src/cli.ts`](https://github.com/modelcontextprotocol/inspector/blob/HEAD/cli/src/cli.ts) handles a key part of this chapter's functionality:
+
+```ts
+}
+
+function parseHeaderPair(
+  value: string,
+  previous: Record<string, string> = {},
+): Record<string, string> {
+  const colonIndex = value.indexOf(":");
+
+  if (colonIndex === -1) {
+    throw new Error(
+      `Invalid header format: ${value}. Use "HeaderName: Value" format.`,
+    );
+  }
+
+  const key = value.slice(0, colonIndex).trim();
+  const val = value.slice(colonIndex + 1).trim();
+
+  if (key === "" || val === "") {
+    throw new Error(
+      `Invalid header format: ${value}. Use "HeaderName: Value" format.`,
+    );
+  }
+
+  return { ...previous, [key]: val };
+}
+
+function parseArgs(): Args {
+  const program = new Command();
+
+  const argSeparatorIndex = process.argv.indexOf("--");
+  let preArgs = process.argv;
+  let postArgs: string[] = [];
+```
+
+This function is important because it defines how MCP Inspector Tutorial: Debugging and Validating MCP Servers implements the patterns covered in this chapter.
+
+### `cli/src/cli.ts`
+
+The `parseArgs` function in [`cli/src/cli.ts`](https://github.com/modelcontextprotocol/inspector/blob/HEAD/cli/src/cli.ts) handles a key part of this chapter's functionality:
+
+```ts
+}
+
+function parseArgs(): Args {
+  const program = new Command();
+
+  const argSeparatorIndex = process.argv.indexOf("--");
+  let preArgs = process.argv;
+  let postArgs: string[] = [];
+
+  if (argSeparatorIndex !== -1) {
+    preArgs = process.argv.slice(0, argSeparatorIndex);
+    postArgs = process.argv.slice(argSeparatorIndex + 1);
+  }
+
+  program
+    .name("inspector-bin")
+    .allowExcessArguments()
+    .allowUnknownOption()
+    .option(
+      "-e <env>",
+      "environment variables in KEY=VALUE format",
+      parseKeyValuePair,
+      {},
+    )
+    .option("--config <path>", "config file path")
+    .option("--server <n>", "server name from config file")
+    .option("--cli", "enable CLI mode")
+    .option("--transport <type>", "transport type (stdio, sse, http)")
+    .option("--server-url <url>", "server URL for SSE/HTTP transport")
+    .option(
+      "--header <headers...>",
+      'HTTP headers as "HeaderName: Value" pairs (for HTTP/SSE transports)',
+```
+
+This function is important because it defines how MCP Inspector Tutorial: Debugging and Validating MCP Servers implements the patterns covered in this chapter.
 
 ### `cli/src/cli.ts`
 
@@ -84,96 +164,14 @@ The `main` function in [`cli/src/cli.ts`](https://github.com/modelcontextprotoco
 
 This function is important because it defines how MCP Inspector Tutorial: Debugging and Validating MCP Servers implements the patterns covered in this chapter.
 
-### `cli/src/transport.ts`
-
-The `createStdioTransport` function in [`cli/src/transport.ts`](https://github.com/modelcontextprotocol/inspector/blob/HEAD/cli/src/transport.ts) handles a key part of this chapter's functionality:
-
-```ts
-};
-
-function createStdioTransport(options: TransportOptions): Transport {
-  let args: string[] = [];
-
-  if (options.args !== undefined) {
-    args = options.args;
-  }
-
-  const processEnv: Record<string, string> = {};
-
-  for (const [key, value] of Object.entries(process.env)) {
-    if (value !== undefined) {
-      processEnv[key] = value;
-    }
-  }
-
-  const defaultEnv = getDefaultEnvironment();
-
-  const env: Record<string, string> = {
-    ...defaultEnv,
-    ...processEnv,
-  };
-
-  const { cmd: actualCommand, args: actualArgs } = findActualExecutable(
-    options.command ?? "",
-    args,
-  );
-
-  return new StdioClientTransport({
-    command: actualCommand,
-    args: actualArgs,
-```
-
-This function is important because it defines how MCP Inspector Tutorial: Debugging and Validating MCP Servers implements the patterns covered in this chapter.
-
-### `cli/src/transport.ts`
-
-The `createTransport` function in [`cli/src/transport.ts`](https://github.com/modelcontextprotocol/inspector/blob/HEAD/cli/src/transport.ts) handles a key part of this chapter's functionality:
-
-```ts
-}
-
-export function createTransport(options: TransportOptions): Transport {
-  const { transportType } = options;
-
-  try {
-    if (transportType === "stdio") {
-      return createStdioTransport(options);
-    }
-
-    // If not STDIO, then it must be either SSE or HTTP.
-    if (!options.url) {
-      throw new Error("URL must be provided for SSE or HTTP transport types.");
-    }
-    const url = new URL(options.url);
-
-    if (transportType === "sse") {
-      const transportOptions = options.headers
-        ? {
-            requestInit: {
-              headers: options.headers,
-            },
-          }
-        : undefined;
-      return new SSEClientTransport(url, transportOptions);
-    }
-
-    if (transportType === "http") {
-      const transportOptions = options.headers
-        ? {
-            requestInit: {
-              headers: options.headers,
-```
-
-This function is important because it defines how MCP Inspector Tutorial: Debugging and Validating MCP Servers implements the patterns covered in this chapter.
-
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[main]
-    B[createStdioTransport]
-    C[createTransport]
+    A[parseHeaderPair]
+    B[parseArgs]
+    C[main]
     A --> B
     B --> C
 ```

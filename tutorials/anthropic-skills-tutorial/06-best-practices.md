@@ -1,296 +1,303 @@
 ---
 layout: default
-title: "Chapter 6: Best Practices"
+title: "Chapter 6: MCP Integration"
 nav_order: 6
-parent: Anthropic Skills Tutorial
+parent: Anthropic Quickstarts Tutorial
+format_version: v2
+source_repo: https://github.com/anthropics/anthropic-quickstarts
 ---
 
-
-# Chapter 6: Best Practices
-
-Welcome to **Chapter 6: Best Practices**. In this part of **Anthropic Skills Tutorial: Reusable AI Agent Capabilities**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
-
-
-Strong skills are explicit, testable, and easy to review.
-
-## Authoring Principles
-
-- Prefer concrete verbs over broad goals.
-- Define what to do when inputs are missing.
-- State prohibited actions directly.
-- Include examples for tricky edge cases.
-
-## Testing Strategy
-
-Use three test layers:
-
-1. **Golden tests**: stable prompts with expected output shape
-2. **Adversarial tests**: malformed or ambiguous inputs
-3. **Regression tests**: replay historical failures
-
-Keep test fixtures in version control with the skill.
-
-## Versioning and Changelogs
-
-Treat prompt changes as code changes.
-
-- Use semantic versioning for skills distributed broadly.
-- Keep a changelog with behavioral deltas.
-- Call out breaking output changes explicitly.
-
-## Review Checklist
-
-| Check | Why |
-|:------|:----|
-| Output contract unchanged or migrated | Prevent downstream breakage |
-| References updated and valid | Avoid stale policy behavior |
-| Script interfaces still compatible | Prevent runtime failures |
-| Security notes updated | Keep operators informed |
-
-## Observability
-
-Capture at least:
-
-- skill name + version
-- request category
-- validation pass/fail
-- major error class
-- latency/cost envelope
-
-This data is essential for continuous improvement.
-
-## Summary
-
-You now have a concrete quality system for maintaining skills over time.
-
-Next: [Chapter 7: Publishing and Sharing](07-publishing-sharing.md)
+# Chapter 6: MCP Integration
 
 ## What Problem Does This Solve?
 
-Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for core abstractions in this chapter so behavior stays predictable as complexity grows.
+The `agents/` quickstart demonstrates a critical architectural decision point: should a tool be implemented as a native Python function in your agent codebase, or should it be exposed via the Model Context Protocol (MCP)? MCP tools can be shared across agents, deployed as standalone servers, updated without redeploying the agent, and consumed by any MCP-compatible client — not just your specific agent. This chapter explains MCP as implemented in the quickstart, how connections are established, how tools are discovered and called, and when to prefer MCP over native tools.
 
-In practical terms, this chapter helps you avoid three common failures:
+## What MCP Is
 
-- coupling core logic too tightly to one implementation path
-- missing the handoff boundaries between setup, execution, and validation
-- shipping changes without clear rollback or observability strategy
+MCP (Model Context Protocol) is a standard for exposing tools, resources, and prompts to language models over a local or remote transport. An MCP server is a process that speaks the MCP protocol. An MCP client connects to that server and can list its tools, call them, and read its resources.
 
-After working through this chapter, you should be able to reason about `Chapter 6: Best Practices` as an operating subsystem inside **Anthropic Skills Tutorial: Reusable AI Agent Capabilities**, with explicit contracts for inputs, state transitions, and outputs.
+In the context of the agents quickstart:
+- **Native tools** are Python callables defined directly in `tools/`
+- **MCP tools** are functions exposed by external MCP servers that the agent connects to at startup
 
-Use the implementation notes around execution and reliability details as your checklist when adapting these patterns to your own repository.
+The agent treats both identically when calling Claude: both appear in the `tools` array sent to the API.
 
-## How it Works Under the Hood
-
-Under the hood, `Chapter 6: Best Practices` usually follows a repeatable control path:
-
-1. **Context bootstrap**: initialize runtime config and prerequisites for `core component`.
-2. **Input normalization**: shape incoming data so `execution layer` receives stable contracts.
-3. **Core execution**: run the main logic branch and propagate intermediate state through `state model`.
-4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
-5. **Output composition**: return canonical result payloads for downstream consumers.
-6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
-
-When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
-
-## Source Walkthrough
-
-Use the following upstream sources to verify implementation details while reading this chapter:
-
-- [anthropics/skills repository](https://github.com/anthropics/skills)
-  Why it matters: authoritative reference on `anthropics/skills repository` (github.com).
-
-Suggested trace strategy:
-- search upstream code for `Best` and `Practices` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
-
-## Chapter Connections
-
-- [Tutorial Index](README.md)
-- [Previous Chapter: Chapter 5: Production Skills](05-production-skills.md)
-- [Next Chapter: Chapter 7: Publishing and Sharing](07-publishing-sharing.md)
-- [Main Catalog](../../README.md#-tutorial-catalog)
-- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
-
-## Depth Expansion Playbook
-
-## Source Code Walkthrough
-
-### `skills/pptx/scripts/clean.py`
-
-The `remove_orphaned_rels_files` function in [`skills/pptx/scripts/clean.py`](https://github.com/anthropics/skills/blob/HEAD/skills/pptx/scripts/clean.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-def remove_orphaned_rels_files(unpacked_dir: Path) -> list[str]:
-    resource_dirs = ["charts", "diagrams", "drawings"]
-    removed = []
-    slide_referenced = get_slide_referenced_files(unpacked_dir)
-
-    for dir_name in resource_dirs:
-        rels_dir = unpacked_dir / "ppt" / dir_name / "_rels"
-        if not rels_dir.exists():
-            continue
-
-        for rels_file in rels_dir.glob("*.rels"):
-            resource_file = rels_dir.parent / rels_file.name.replace(".rels", "")
-            try:
-                resource_rel_path = resource_file.resolve().relative_to(unpacked_dir.resolve())
-            except ValueError:
-                continue
-
-            if not resource_file.exists() or resource_rel_path not in slide_referenced:
-                rels_file.unlink()
-                rel_path = rels_file.relative_to(unpacked_dir)
-                removed.append(str(rel_path))
-
-    return removed
-
-
-def get_referenced_files(unpacked_dir: Path) -> set:
-    referenced = set()
-
-    for rels_file in unpacked_dir.rglob("*.rels"):
-        dom = defusedxml.minidom.parse(str(rels_file))
-```
-
-This function is important because it defines how Anthropic Skills Tutorial: Reusable AI Agent Capabilities implements the patterns covered in this chapter.
-
-### `skills/pptx/scripts/clean.py`
-
-The `get_referenced_files` function in [`skills/pptx/scripts/clean.py`](https://github.com/anthropics/skills/blob/HEAD/skills/pptx/scripts/clean.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-def get_referenced_files(unpacked_dir: Path) -> set:
-    referenced = set()
-
-    for rels_file in unpacked_dir.rglob("*.rels"):
-        dom = defusedxml.minidom.parse(str(rels_file))
-        for rel in dom.getElementsByTagName("Relationship"):
-            target = rel.getAttribute("Target")
-            if not target:
-                continue
-            target_path = (rels_file.parent.parent / target).resolve()
-            try:
-                referenced.add(target_path.relative_to(unpacked_dir.resolve()))
-            except ValueError:
-                pass
-
-    return referenced
-
-
-def remove_orphaned_files(unpacked_dir: Path, referenced: set) -> list[str]:
-    resource_dirs = ["media", "embeddings", "charts", "diagrams", "tags", "drawings", "ink"]
-    removed = []
-
-    for dir_name in resource_dirs:
-        dir_path = unpacked_dir / "ppt" / dir_name
-        if not dir_path.exists():
-            continue
-
-        for file_path in dir_path.glob("*"):
-            if not file_path.is_file():
-                continue
-```
-
-This function is important because it defines how Anthropic Skills Tutorial: Reusable AI Agent Capabilities implements the patterns covered in this chapter.
-
-### `skills/pptx/scripts/clean.py`
-
-The `remove_orphaned_files` function in [`skills/pptx/scripts/clean.py`](https://github.com/anthropics/skills/blob/HEAD/skills/pptx/scripts/clean.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-def remove_orphaned_files(unpacked_dir: Path, referenced: set) -> list[str]:
-    resource_dirs = ["media", "embeddings", "charts", "diagrams", "tags", "drawings", "ink"]
-    removed = []
-
-    for dir_name in resource_dirs:
-        dir_path = unpacked_dir / "ppt" / dir_name
-        if not dir_path.exists():
-            continue
-
-        for file_path in dir_path.glob("*"):
-            if not file_path.is_file():
-                continue
-            rel_path = file_path.relative_to(unpacked_dir)
-            if rel_path not in referenced:
-                file_path.unlink()
-                removed.append(str(rel_path))
-
-    theme_dir = unpacked_dir / "ppt" / "theme"
-    if theme_dir.exists():
-        for file_path in theme_dir.glob("theme*.xml"):
-            rel_path = file_path.relative_to(unpacked_dir)
-            if rel_path not in referenced:
-                file_path.unlink()
-                removed.append(str(rel_path))
-                theme_rels = theme_dir / "_rels" / f"{file_path.name}.rels"
-                if theme_rels.exists():
-                    theme_rels.unlink()
-                    removed.append(str(theme_rels.relative_to(unpacked_dir)))
-
-    notes_dir = unpacked_dir / "ppt" / "notesSlides"
-```
-
-This function is important because it defines how Anthropic Skills Tutorial: Reusable AI Agent Capabilities implements the patterns covered in this chapter.
-
-### `skills/pptx/scripts/clean.py`
-
-The `update_content_types` function in [`skills/pptx/scripts/clean.py`](https://github.com/anthropics/skills/blob/HEAD/skills/pptx/scripts/clean.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-def update_content_types(unpacked_dir: Path, removed_files: list[str]) -> None:
-    ct_path = unpacked_dir / "[Content_Types].xml"
-    if not ct_path.exists():
-        return
-
-    dom = defusedxml.minidom.parse(str(ct_path))
-    changed = False
-
-    for override in list(dom.getElementsByTagName("Override")):
-        part_name = override.getAttribute("PartName").lstrip("/")
-        if part_name in removed_files:
-            if override.parentNode:
-                override.parentNode.removeChild(override)
-                changed = True
-
-    if changed:
-        with open(ct_path, "wb") as f:
-            f.write(dom.toxml(encoding="utf-8"))
-
-
-def clean_unused_files(unpacked_dir: Path) -> list[str]:
-    all_removed = []
-
-    slides_removed = remove_orphaned_slides(unpacked_dir)
-    all_removed.extend(slides_removed)
-
-    trash_removed = remove_trash_directory(unpacked_dir)
-    all_removed.extend(trash_removed)
-
-    while True:
-```
-
-This function is important because it defines how Anthropic Skills Tutorial: Reusable AI Agent Capabilities implements the patterns covered in this chapter.
-
-
-## How These Components Connect
+## Architecture
 
 ```mermaid
 flowchart TD
-    A[remove_orphaned_rels_files]
-    B[get_referenced_files]
-    C[remove_orphaned_files]
-    D[update_content_types]
-    E[clean_unused_files]
-    A --> B
-    B --> C
-    C --> D
-    D --> E
+    subgraph "Agent Process"
+        AG["Agent._agent_loop()"]
+        TC["Tool registry\n(native + MCP)"]
+        MCC["MCP Clients\n(one per server)"]
+    end
+
+    subgraph "Native Tools"
+        TH["ThinkTool"]
+        CT["Custom Tool A"]
+    end
+
+    subgraph "MCP Servers (separate processes)"
+        FS["filesystem MCP server"]
+        DB["database MCP server"]
+        WS["web-search MCP server"]
+    end
+
+    AG --> TC
+    TC --> TH
+    TC --> CT
+    TC --> MCC
+    MCC -->|stdio or SSE| FS
+    MCC -->|stdio or SSE| DB
+    MCC -->|stdio or SSE| WS
 ```
+
+The agent connects to MCP servers at startup, discovers their tools, and adds them to the tool registry alongside native tools. When Claude calls an MCP tool, the agent routes the call through the appropriate MCP client.
+
+## Setting Up MCP Connections
+
+From `agents/utils/mcp.py` (simplified):
+
+```python
+from mcp import ClientSession, StdioServerParameters
+from mcp.client.stdio import stdio_client
+from contextlib import AsyncExitStack
+
+async def setup_mcp_connections(
+    server_configs: list[dict],
+) -> tuple[list[dict], AsyncExitStack]:
+    """
+    Connect to MCP servers and return their combined tool list.
+
+    server_configs format:
+    [
+        {"command": "uvx", "args": ["mcp-server-filesystem", "/tmp"]},
+        {"command": "node", "args": ["path/to/mcp-server.js"]}
+    ]
+    """
+    exit_stack = AsyncExitStack()
+    all_tools = []
+
+    for config in server_configs:
+        server_params = StdioServerParameters(
+            command=config["command"],
+            args=config.get("args", []),
+            env=config.get("env"),
+        )
+        stdio_transport = await exit_stack.enter_async_context(
+            stdio_client(server_params)
+        )
+        session = await exit_stack.enter_async_context(
+            ClientSession(*stdio_transport)
+        )
+        await session.initialize()
+
+        # Discover available tools from this server
+        tools_response = await session.list_tools()
+        for tool in tools_response.tools:
+            all_tools.append({
+                "session": session,
+                "name": tool.name,
+                "description": tool.description,
+                "input_schema": tool.inputSchema,
+            })
+
+    return all_tools, exit_stack
+```
+
+The `exit_stack` pattern ensures all server connections are cleaned up when the agent shuts down, even if an exception occurs.
+
+## Tool Discovery and Registration
+
+After connecting, the agent converts MCP tool definitions into the format Claude expects:
+
+```python
+def mcp_tool_to_claude_format(mcp_tool: dict) -> dict:
+    """Convert MCP tool definition to Anthropic API tool format."""
+    return {
+        "name": mcp_tool["name"],
+        "description": mcp_tool["description"],
+        "input_schema": mcp_tool["input_schema"],
+    }
+```
+
+The `input_schema` field from MCP is already JSON Schema format, so it maps directly to the `input_schema` field in Claude's tool definition. No conversion is needed.
+
+## Calling MCP Tools
+
+When Claude's response includes a `tool_use` block for an MCP-backed tool, the agent routes the call to the correct session:
+
+```python
+async def execute_tools(
+    self,
+    tool_calls: list[dict],
+    mcp_sessions: dict[str, ClientSession],
+) -> list[dict]:
+    """Execute tool calls, routing MCP tools to the right session."""
+    results = []
+    for call in tool_calls:
+        tool_name = call["name"]
+        tool_input = call["input"]
+
+        if tool_name in mcp_sessions:
+            # MCP tool
+            session = mcp_sessions[tool_name]
+            result = await session.call_tool(tool_name, tool_input)
+            output = result.content[0].text if result.content else ""
+            results.append({
+                "type": "tool_result",
+                "tool_use_id": call["id"],
+                "content": output,
+            })
+        else:
+            # Native tool
+            native_result = await self._native_tools[tool_name](**tool_input)
+            results.append({
+                "type": "tool_result",
+                "tool_use_id": call["id"],
+                "content": native_result.output or native_result.error or "",
+                "is_error": bool(native_result.error),
+            })
+
+    return results
+```
+
+## The ThinkTool Pattern
+
+The `agents/` quickstart includes a `ThinkTool` as the primary example of a native tool. It is deliberately trivial — it just echoes back the input — but it demonstrates an important pattern: giving Claude a "scratchpad" tool for explicit reasoning before taking an action.
+
+```python
+class ThinkTool:
+    """A tool that lets Claude think through a problem explicitly."""
+
+    def to_dict(self) -> dict:
+        return {
+            "name": "think",
+            "description": (
+                "Use this tool to think through a problem step by step "
+                "before taking action. The output is not shown to the user."
+            ),
+            "input_schema": {
+                "type": "object",
+                "properties": {
+                    "thought": {
+                        "type": "string",
+                        "description": "Your step-by-step reasoning"
+                    }
+                },
+                "required": ["thought"]
+            }
+        }
+
+    async def __call__(self, thought: str) -> str:
+        # The tool does nothing — the value is the act of Claude
+        # structuring its reasoning as a tool call
+        return f"Acknowledged: {thought}"
+```
+
+This pattern forces Claude to make its reasoning observable (the `thought` parameter appears in the API response), which aids debugging. It also reduces "acting too fast" errors where Claude takes irreversible actions without adequate reasoning.
+
+## When to Use MCP vs. Native Tools
+
+| Situation | Recommendation |
+|:----------|:---------------|
+| Tool is specific to one agent | Native tool |
+| Tool needs access to agent's in-process state | Native tool |
+| Tool will be shared across multiple agents | MCP server |
+| Tool can be maintained by a separate team | MCP server |
+| Tool needs to be hot-reloadable | MCP server |
+| Tool is available as a community MCP server | MCP server |
+| Tool requires tight latency (in-process) | Native tool |
+| Tool needs a persistent subprocess (like BashTool) | Native tool |
+
+## Configuring MCP Servers
+
+In the agents quickstart, MCP server configuration follows the same format as Claude Code's MCP configuration. An example `agent_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "filesystem": {
+      "command": "uvx",
+      "args": ["mcp-server-filesystem", "/Users/me/projects"]
+    },
+    "github": {
+      "command": "uvx",
+      "args": ["mcp-server-github"],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN}"
+      }
+    },
+    "sqlite": {
+      "command": "uvx",
+      "args": ["mcp-server-sqlite", "--db-path", "/tmp/mydb.sqlite"]
+    }
+  }
+}
+```
+
+The agent reads this file at startup, connects to each server, and merges their tools into the tool registry.
+
+## Error Handling for MCP Tools
+
+MCP connections can fail at startup or mid-session. The quickstart handles this gracefully:
+
+```python
+async def call_mcp_tool_safely(
+    session: ClientSession,
+    tool_name: str,
+    tool_input: dict,
+) -> str:
+    """Call an MCP tool with error handling."""
+    try:
+        result = await session.call_tool(tool_name, tool_input)
+        if result.isError:
+            return f"Error from {tool_name}: {result.content}"
+        return result.content[0].text if result.content else ""
+    except Exception as e:
+        # Return error as string so Claude can react and try alternatives
+        return f"MCP tool {tool_name!r} failed: {str(e)}"
+```
+
+Always return errors as strings rather than raising exceptions — this keeps the sampling loop running so Claude can adapt its approach.
+
+## Testing MCP Integrations
+
+Because MCP servers are separate processes, you can test the integration layer independently:
+
+```python
+# test_mcp_integration.py
+import pytest
+import asyncio
+from mcp import ClientSession, StdioServerParameters
+from mcp.client.stdio import stdio_client
+
+@pytest.mark.asyncio
+async def test_filesystem_mcp_server():
+    """Verify the filesystem MCP server lists tools correctly."""
+    params = StdioServerParameters(
+        command="uvx",
+        args=["mcp-server-filesystem", "/tmp"],
+    )
+    async with stdio_client(params) as (read, write):
+        async with ClientSession(read, write) as session:
+            await session.initialize()
+            tools = await session.list_tools()
+            tool_names = {t.name for t in tools.tools}
+            assert "read_file" in tool_names
+            assert "list_directory" in tool_names
+```
+
+## Summary
+
+The `agents/` quickstart demonstrates how to connect to MCP servers at startup, discover their tools, merge them with native tools, and route tool calls correctly through the sampling loop. The ThinkTool pattern provides Claude with a scratchpad for explicit reasoning. MCP is most valuable for shared, team-maintained tools; native tools are better for tight coupling to agent state or in-process performance.
+
+Next: [Chapter 7: Production Hardening](07-publishing-sharing.md)
+
+---
+
+- [Tutorial Index](README.md)
+- [Previous Chapter: Chapter 5: Multi-Turn Conversation Patterns](05-production-skills.md)
+- [Next Chapter: Chapter 7: Production Hardening](07-publishing-sharing.md)
+- [Main Catalog](../../README.md#-tutorial-catalog)

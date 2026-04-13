@@ -47,8 +47,6 @@ You now have Claude Squad installed with prerequisites for multi-session executi
 
 Next: [Chapter 2: tmux and Worktree Architecture](02-tmux-and-worktree-architecture.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `main.go`
@@ -131,84 +129,84 @@ var (
 
 This function is important because it defines how Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration implements the patterns covered in this chapter.
 
-### `ui/terminal.go`
+### `app/app.go`
 
-The `NewTerminalPane` function in [`ui/terminal.go`](https://github.com/smtg-ai/claude-squad/blob/HEAD/ui/terminal.go) handles a key part of this chapter's functionality:
+The `Run` function in [`app/app.go`](https://github.com/smtg-ai/claude-squad/blob/HEAD/app/app.go) handles a key part of this chapter's functionality:
 
 ```go
+const GlobalInstanceLimit = 10
+
+// Run is the main entrypoint into the application.
+func Run(ctx context.Context, program string, autoYes bool) error {
+	p := tea.NewProgram(
+		newHome(ctx, program, autoYes),
+		tea.WithAltScreen(),
+		tea.WithMouseCellMotion(), // Mouse scroll
+	)
+	_, err := p.Run()
+	return err
 }
 
-func NewTerminalPane() *TerminalPane {
-	return &TerminalPane{
-		sessions: make(map[string]*terminalSession),
-		viewport: viewport.New(0, 0),
-	}
-}
+type state int
 
-func (t *TerminalPane) SetSize(width, height int) {
-	t.mu.Lock()
-	defer t.mu.Unlock()
-	t.width = width
-	t.height = height
-	t.viewport.Width = width
-	t.viewport.Height = height
-	if s, ok := t.sessions[t.currentTitle]; ok && s.tmuxSession != nil {
-		if err := s.tmuxSession.SetDetachedSize(width, height); err != nil {
-			log.InfoLog.Printf("terminal pane: failed to set detached size: %v", err)
-		}
-	}
-}
+const (
+	stateDefault state = iota
+	// stateNew is the state when the user is creating a new instance.
+	stateNew
+	// statePrompt is the state when the user is entering a prompt.
+	statePrompt
+	// stateHelp is the state when a help screen is displayed.
+	stateHelp
+	// stateConfirm is the state when a confirmation modal is displayed.
+	stateConfirm
+)
 
-// setFallbackState sets the terminal pane to display a fallback message.
-// Caller must hold t.mu.
-func (t *TerminalPane) setFallbackState(message string) {
-	t.fallback = true
-	t.fallbackText = lipgloss.JoinVertical(lipgloss.Center, FallBackText, "", message)
-	t.content = ""
-}
+type home struct {
+	ctx context.Context
 
-// UpdateContent captures the tmux pane output for the terminal session.
+	// -- Storage and Configuration --
+
 ```
 
 This function is important because it defines how Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration implements the patterns covered in this chapter.
 
-### `ui/terminal.go`
+### `app/app.go`
 
-The `SetSize` function in [`ui/terminal.go`](https://github.com/smtg-ai/claude-squad/blob/HEAD/ui/terminal.go) handles a key part of this chapter's functionality:
+The `newHome` function in [`app/app.go`](https://github.com/smtg-ai/claude-squad/blob/HEAD/app/app.go) handles a key part of this chapter's functionality:
 
 ```go
+func Run(ctx context.Context, program string, autoYes bool) error {
+	p := tea.NewProgram(
+		newHome(ctx, program, autoYes),
+		tea.WithAltScreen(),
+		tea.WithMouseCellMotion(), // Mouse scroll
+	)
+	_, err := p.Run()
+	return err
 }
 
-func (t *TerminalPane) SetSize(width, height int) {
-	t.mu.Lock()
-	defer t.mu.Unlock()
-	t.width = width
-	t.height = height
-	t.viewport.Width = width
-	t.viewport.Height = height
-	if s, ok := t.sessions[t.currentTitle]; ok && s.tmuxSession != nil {
-		if err := s.tmuxSession.SetDetachedSize(width, height); err != nil {
-			log.InfoLog.Printf("terminal pane: failed to set detached size: %v", err)
-		}
-	}
-}
+type state int
 
-// setFallbackState sets the terminal pane to display a fallback message.
-// Caller must hold t.mu.
-func (t *TerminalPane) setFallbackState(message string) {
-	t.fallback = true
-	t.fallbackText = lipgloss.JoinVertical(lipgloss.Center, FallBackText, "", message)
-	t.content = ""
-}
+const (
+	stateDefault state = iota
+	// stateNew is the state when the user is creating a new instance.
+	stateNew
+	// statePrompt is the state when the user is entering a prompt.
+	statePrompt
+	// stateHelp is the state when a help screen is displayed.
+	stateHelp
+	// stateConfirm is the state when a confirmation modal is displayed.
+	stateConfirm
+)
 
-// UpdateContent captures the tmux pane output for the terminal session.
-func (t *TerminalPane) UpdateContent(instance *session.Instance) error {
-	t.mu.Lock()
-	defer t.mu.Unlock()
+type home struct {
+	ctx context.Context
 
-	if instance == nil {
-		t.setFallbackState("Select an instance to open a terminal")
-		return nil
+	// -- Storage and Configuration --
+
+	program string
+	autoYes bool
+
 ```
 
 This function is important because it defines how Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration implements the patterns covered in this chapter.
@@ -220,9 +218,9 @@ This function is important because it defines how Claude Squad Tutorial: Multi-A
 flowchart TD
     A[init]
     B[main]
-    C[NewTerminalPane]
-    D[SetSize]
-    E[setFallbackState]
+    C[Run]
+    D[newHome]
+    E[updateHandleWindowSizeEvent]
     A --> B
     B --> C
     C --> D

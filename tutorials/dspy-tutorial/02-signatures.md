@@ -547,6 +547,19 @@ After working through this chapter, you should be able to reason about `Chapter 
 
 Use the implementation notes around `InputField`, `answer`, `Signature` as your checklist when adapting these patterns to your own repository.
 
+## Signature Contract
+
+```mermaid
+flowchart TD
+    A[dspy.Signature subclass] --> B[InputField declarations]
+    A --> C[OutputField declarations]
+    B --> D[Field descriptions guide LLM]
+    C --> D
+    D --> E[Module uses Signature]
+    E --> F[LLM call with structured I/O]
+    F --> G[Parsed Prediction object]
+```
+
 ## How it Works Under the Hood
 
 Under the hood, `Chapter 2: Signatures - Defining LM Input/Output Behavior` usually follows a repeatable control path:

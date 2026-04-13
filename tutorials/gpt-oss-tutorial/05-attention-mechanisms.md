@@ -550,22 +550,24 @@ Under the hood, `Chapter 5: Attention Mechanisms -- Causal Masking, KV-Cache, Mu
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
-## Source Walkthrough
+## Source Code Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+### `model.py` (nanoGPT)
 
-- [nanoGPT](https://github.com/karpathy/nanoGPT)
-  Why it matters: authoritative reference on `nanoGPT` (github.com).
-- [minGPT](https://github.com/karpathy/minGPT)
-  Why it matters: authoritative reference on `minGPT` (github.com).
-- [GPT-NeoX](https://github.com/EleutherAI/gpt-neox)
-  Why it matters: authoritative reference on `GPT-NeoX` (github.com).
-- [GPT-Neo](https://github.com/EleutherAI/gpt-neo)
-  Why it matters: authoritative reference on `GPT-Neo` (github.com).
-- [GPT-J](https://github.com/kingoflolz/mesh-transformer-jax)
-  Why it matters: authoritative reference on `GPT-J` (github.com).
-- [Chapter 1: Getting Started](01-getting-started.md)
-  Why it matters: authoritative reference on `Chapter 1: Getting Started` (01-getting-started.md).
+The `CausalSelfAttention.forward` method in [`model.py`](https://github.com/karpathy/nanoGPT/blob/master/model.py) shows how Q, K, V are computed and how heads are split:
+
+```python
+def forward(self, x):
+    B, T, C = x.size()  # batch size, sequence length, embedding dim (n_embd)
+
+    # calculate query, key, values for all heads in batch
+    q, k, v = self.c_attn(x).split(self.n_embd, dim=2)
+    k = k.view(B, T, self.n_head, C // self.n_head).transpose(1, 2)  # (B, nh, T, hs)
+    q = q.view(B, T, self.n_head, C // self.n_head).transpose(1, 2)  # (B, nh, T, hs)
+    v = v.view(B, T, self.n_head, C // self.n_head).transpose(1, 2)  # (B, nh, T, hs)
+```
+
+The single `c_attn` linear layer produces Q, K, V concatenated — then `.split(n_embd, dim=2)` separates them. This fused projection is more efficient than three separate linear layers. Head dimension is `n_embd // n_head`, so increasing heads reduces per-head capacity.
 
 Suggested trace strategy:
 - search upstream code for `self` and `config` to map concrete implementation paths

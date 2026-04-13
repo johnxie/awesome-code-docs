@@ -26,7 +26,7 @@ import dspy
 
 # Configure DSPy with retrieval model
 rm = dspy.ColBERTv2(url="http://20.102.90.50:2017/wiki17_abstracts")
-dspy.settings.configure(rm=rm)
+dspy.configure(rm=rm)
 
 class BasicRAG(dspy.Module):
     def __init__(self, num_passages=3):
@@ -424,7 +424,7 @@ class PineconeRAG(dspy.Module):
             dimension=dimension
         )
 
-        dspy.settings.configure(rm=self.rm)
+        dspy.configure(rm=self.rm)
 
         self.retrieve = dspy.Retrieve(k=3)
         self.generate = dspy.Predict(RAGSignature)
@@ -695,6 +695,20 @@ In practical terms, this chapter helps you avoid three common failures:
 After working through this chapter, you should be able to reason about `Chapter 4: Retrieval-Augmented Generation (RAG) with DSPy` as an operating subsystem inside **DSPy Tutorial: Programming Language Models**, with explicit contracts for inputs, state transitions, and outputs.
 
 Use the implementation notes around `answer`, `passages`, `context` as your checklist when adapting these patterns to your own repository.
+
+## RAG Pipeline in DSPy
+
+```mermaid
+flowchart TD
+    A[User question] --> B[Retrieve step]
+    B --> C[Retriever: ColBERT / embeddings]
+    C --> D[Top-k passages]
+    D --> E[Generate step]
+    E --> F[dspy.ChainOfThought]
+    F --> G[LLM reads question + context]
+    G --> H[Answer]
+    B --> I[DSPy optimizer tunes retrieval + generation]
+```
 
 ## How it Works Under the Hood
 

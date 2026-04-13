@@ -49,170 +49,168 @@ You now have a working Mastra project baseline for deeper architecture work.
 
 Next: [Chapter 2: System Architecture](02-system-architecture.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `explorations/network-validation-bridge.ts`
+### `explorations/ralph-wiggum-loop-prototype.ts`
 
-The `testsPass` function in [`explorations/network-validation-bridge.ts`](https://github.com/mastra-ai/mastra/blob/HEAD/explorations/network-validation-bridge.ts) handles a key part of this chapter's functionality:
+The `testsPassing` function in [`explorations/ralph-wiggum-loop-prototype.ts`](https://github.com/mastra-ai/mastra/blob/HEAD/explorations/ralph-wiggum-loop-prototype.ts) handles a key part of this chapter's functionality:
 
 ```ts
  * Check if tests pass
  */
-export function testsPass(command = 'npm test', options?: { timeout?: number; cwd?: string }): ValidationCheck {
+export function testsPassing(testCommand = 'npm test'): CompletionChecker {
   return {
-    id: 'tests-pass',
-    name: 'Tests Pass',
     async check() {
-      const start = Date.now();
       try {
-        const { stdout, stderr } = await execAsync(command, {
-          timeout: options?.timeout ?? 300000,
-          cwd: options?.cwd,
-        });
+        const { stdout, stderr } = await execAsync(testCommand, { timeout: 300000 });
         return {
           success: true,
           message: 'All tests passed',
-          details: { stdout: stdout.slice(-1000), stderr: stderr.slice(-500) },
-          duration: Date.now() - start,
+          data: { stdout, stderr },
         };
       } catch (error: any) {
         return {
           success: false,
-          message: `Tests failed: ${error.message}`,
-          details: {
-            stdout: error.stdout?.slice(-1000),
-            stderr: error.stderr?.slice(-1000),
-            exitCode: error.code,
-          },
-          duration: Date.now() - start,
-        };
-      }
-    },
-```
-
-This function is important because it defines how Mastra Tutorial: TypeScript Framework for AI Agents and Workflows implements the patterns covered in this chapter.
-
-### `explorations/network-validation-bridge.ts`
-
-The `buildSucceeds` function in [`explorations/network-validation-bridge.ts`](https://github.com/mastra-ai/mastra/blob/HEAD/explorations/network-validation-bridge.ts) handles a key part of this chapter's functionality:
-
-```ts
- * Check if build succeeds
- */
-export function buildSucceeds(
-  command = 'npm run build',
-  options?: { timeout?: number; cwd?: string },
-): ValidationCheck {
-  return {
-    id: 'build-succeeds',
-    name: 'Build Succeeds',
-    async check() {
-      const start = Date.now();
-      try {
-        const { stdout, stderr } = await execAsync(command, {
-          timeout: options?.timeout ?? 600000,
-          cwd: options?.cwd,
-        });
-        return {
-          success: true,
-          message: 'Build completed successfully',
-          details: { stdout: stdout.slice(-500), stderr: stderr.slice(-500) },
-          duration: Date.now() - start,
-        };
-      } catch (error: any) {
-        return {
-          success: false,
-          message: `Build failed: ${error.message}`,
-          details: {
-            stdout: error.stdout?.slice(-1000),
-            stderr: error.stderr?.slice(-1000),
-          },
-          duration: Date.now() - start,
-        };
-```
-
-This function is important because it defines how Mastra Tutorial: TypeScript Framework for AI Agents and Workflows implements the patterns covered in this chapter.
-
-### `explorations/network-validation-bridge.ts`
-
-The `lintPasses` function in [`explorations/network-validation-bridge.ts`](https://github.com/mastra-ai/mastra/blob/HEAD/explorations/network-validation-bridge.ts) handles a key part of this chapter's functionality:
-
-```ts
- * Check if lint passes
- */
-export function lintPasses(command = 'npm run lint', options?: { timeout?: number; cwd?: string }): ValidationCheck {
-  return {
-    id: 'lint-passes',
-    name: 'Lint Passes',
-    async check() {
-      const start = Date.now();
-      try {
-        const { stdout, stderr } = await execAsync(command, {
-          timeout: options?.timeout ?? 120000,
-          cwd: options?.cwd,
-        });
-        return {
-          success: true,
-          message: 'No lint errors',
-          details: { stdout: stdout.slice(-500) },
-          duration: Date.now() - start,
-        };
-      } catch (error: any) {
-        return {
-          success: false,
-          message: `Lint errors found: ${error.message}`,
-          details: {
-            stdout: error.stdout?.slice(-1000),
-            stderr: error.stderr?.slice(-1000),
-          },
-          duration: Date.now() - start,
+          message: error.message,
+          data: { stdout: error.stdout, stderr: error.stderr },
         };
       }
     },
   };
+}
+
+/**
+ * Check if build succeeds
+ */
+export function buildSucceeds(buildCommand = 'npm run build'): CompletionChecker {
+  return {
+    async check() {
+      try {
+        const { stdout, stderr } = await execAsync(buildCommand, { timeout: 600000 });
+        return {
 ```
 
 This function is important because it defines how Mastra Tutorial: TypeScript Framework for AI Agents and Workflows implements the patterns covered in this chapter.
 
-### `explorations/network-validation-bridge.ts`
+### `explorations/ralph-wiggum-loop-prototype.ts`
 
-The `typeChecks` function in [`explorations/network-validation-bridge.ts`](https://github.com/mastra-ai/mastra/blob/HEAD/explorations/network-validation-bridge.ts) handles a key part of this chapter's functionality:
+The `buildSucceeds` function in [`explorations/ralph-wiggum-loop-prototype.ts`](https://github.com/mastra-ai/mastra/blob/HEAD/explorations/ralph-wiggum-loop-prototype.ts) handles a key part of this chapter's functionality:
 
 ```ts
- * Check if TypeScript compiles without errors
+ * Check if build succeeds
  */
-export function typeChecks(
-  command = 'npx tsc --noEmit',
-  options?: { timeout?: number; cwd?: string },
-): ValidationCheck {
+export function buildSucceeds(buildCommand = 'npm run build'): CompletionChecker {
   return {
-    id: 'type-checks',
-    name: 'TypeScript Compiles',
     async check() {
-      const start = Date.now();
       try {
-        const { stdout, stderr } = await execAsync(command, {
-          timeout: options?.timeout ?? 300000,
-          cwd: options?.cwd,
-        });
+        const { stdout, stderr } = await execAsync(buildCommand, { timeout: 600000 });
         return {
           success: true,
-          message: 'No type errors',
-          details: { stdout: stdout.slice(-500) },
-          duration: Date.now() - start,
+          message: 'Build succeeded',
+          data: { stdout, stderr },
         };
       } catch (error: any) {
         return {
           success: false,
-          message: `Type errors found`,
-          details: {
-            stdout: error.stdout?.slice(-2000),
-            stderr: error.stderr?.slice(-1000),
-          },
-          duration: Date.now() - start,
+          message: error.message,
+          data: { stdout: error.stdout, stderr: error.stderr },
         };
+      }
+    },
+  };
+}
+
+/**
+ * Check if lint passes
+ */
+export function lintClean(lintCommand = 'npm run lint'): CompletionChecker {
+  return {
+    async check() {
+      try {
+        const { stdout, stderr } = await execAsync(lintCommand, { timeout: 120000 });
+        return {
+```
+
+This function is important because it defines how Mastra Tutorial: TypeScript Framework for AI Agents and Workflows implements the patterns covered in this chapter.
+
+### `explorations/ralph-wiggum-loop-prototype.ts`
+
+The `lintClean` function in [`explorations/ralph-wiggum-loop-prototype.ts`](https://github.com/mastra-ai/mastra/blob/HEAD/explorations/ralph-wiggum-loop-prototype.ts) handles a key part of this chapter's functionality:
+
+```ts
+ * Check if lint passes
+ */
+export function lintClean(lintCommand = 'npm run lint'): CompletionChecker {
+  return {
+    async check() {
+      try {
+        const { stdout, stderr } = await execAsync(lintCommand, { timeout: 120000 });
+        return {
+          success: true,
+          message: 'No lint errors',
+          data: { stdout, stderr },
+        };
+      } catch (error: any) {
+        return {
+          success: false,
+          message: error.message,
+          data: { stdout: error.stdout, stderr: error.stderr },
+        };
+      }
+    },
+  };
+}
+
+/**
+ * Check if output contains a specific string/pattern
+ */
+export function outputContains(pattern: string | RegExp): CompletionChecker {
+  let lastOutput = '';
+  return {
+    async check() {
+      const matches = typeof pattern === 'string' ? lastOutput.includes(pattern) : pattern.test(lastOutput);
+
+```
+
+This function is important because it defines how Mastra Tutorial: TypeScript Framework for AI Agents and Workflows implements the patterns covered in this chapter.
+
+### `explorations/ralph-wiggum-loop-prototype.ts`
+
+The `outputContains` function in [`explorations/ralph-wiggum-loop-prototype.ts`](https://github.com/mastra-ai/mastra/blob/HEAD/explorations/ralph-wiggum-loop-prototype.ts) handles a key part of this chapter's functionality:
+
+```ts
+ * Check if output contains a specific string/pattern
+ */
+export function outputContains(pattern: string | RegExp): CompletionChecker {
+  let lastOutput = '';
+  return {
+    async check() {
+      const matches = typeof pattern === 'string' ? lastOutput.includes(pattern) : pattern.test(lastOutput);
+
+      return {
+        success: matches,
+        message: matches ? `Output contains pattern` : `Output does not contain pattern`,
+      };
+    },
+    // Helper to set output for checking
+    setOutput: (output: string) => {
+      lastOutput = output;
+    },
+  } as CompletionChecker & { setOutput: (output: string) => void };
+}
+
+/**
+ * Combine multiple checkers (all must pass)
+ */
+export function allCheckersPassing(...checkers: CompletionChecker[]): CompletionChecker {
+  return {
+    async check() {
+      const results = await Promise.all(checkers.map(c => c.check()));
+      const allPassed = results.every(r => r.success);
+
+      return {
+        success: allPassed,
+        message: results.map(r => r.message).join('; '),
 ```
 
 This function is important because it defines how Mastra Tutorial: TypeScript Framework for AI Agents and Workflows implements the patterns covered in this chapter.
@@ -222,11 +220,11 @@ This function is important because it defines how Mastra Tutorial: TypeScript Fr
 
 ```mermaid
 flowchart TD
-    A[testsPass]
+    A[testsPassing]
     B[buildSucceeds]
-    C[lintPasses]
-    D[typeChecks]
-    E[customCheck]
+    C[lintClean]
+    D[outputContains]
+    E[allCheckersPassing]
     A --> B
     B --> C
     C --> D

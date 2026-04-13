@@ -27,8 +27,6 @@ You now have a lifecycle process for maintaining shared skill repositories.
 
 Next: [Chapter 8: Production Security and Operations](08-production-security-and-operations.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `src/utils/agents-md.ts`
@@ -109,84 +107,53 @@ export function removeSkillsSection(content: string): string {
 
 This function is important because it defines how OpenSkills Tutorial: Universal Skill Loading for Coding Agents implements the patterns covered in this chapter.
 
-### `src/utils/skills.ts`
+### `src/utils/dirs.ts`
 
-The `isDirectoryOrSymlinkToDirectory` function in [`src/utils/skills.ts`](https://github.com/numman-ali/openskills/blob/HEAD/src/utils/skills.ts) handles a key part of this chapter's functionality:
+The `getSkillsDir` function in [`src/utils/dirs.ts`](https://github.com/numman-ali/openskills/blob/HEAD/src/utils/dirs.ts) handles a key part of this chapter's functionality:
 
 ```ts
- * Check if a directory entry is a directory or a symlink pointing to a directory
+ * Get skills directory path
  */
-function isDirectoryOrSymlinkToDirectory(entry: Dirent, parentDir: string): boolean {
-  if (entry.isDirectory()) {
-    return true;
-  }
-  if (entry.isSymbolicLink()) {
-    try {
-      const fullPath = join(parentDir, entry.name);
-      const stats = statSync(fullPath); // statSync follows symlinks
-      return stats.isDirectory();
-    } catch {
-      // Broken symlink or permission error
-      return false;
-    }
-  }
-  return false;
+export function getSkillsDir(projectLocal: boolean = false, universal: boolean = false): string {
+  const folder = universal ? '.agent/skills' : '.claude/skills';
+  return projectLocal
+    ? join(process.cwd(), folder)
+    : join(homedir(), folder);
 }
 
 /**
- * Find all installed skills across directories
+ * Get all searchable skill directories in priority order
+ * Priority: project .agent > global .agent > project .claude > global .claude
  */
-export function findAllSkills(): Skill[] {
-  const skills: Skill[] = [];
-  const seen = new Set<string>();
-  const dirs = getSearchDirs();
-
-  for (const dir of dirs) {
-    if (!existsSync(dir)) continue;
-
-    const entries = readdirSync(dir, { withFileTypes: true });
+export function getSearchDirs(): string[] {
+  return [
+    join(process.cwd(), '.agent/skills'),   // 1. Project universal (.agent)
+    join(homedir(), '.agent/skills'),        // 2. Global universal (.agent)
+    join(process.cwd(), '.claude/skills'),  // 3. Project claude
+    join(homedir(), '.claude/skills'),       // 4. Global claude
+  ];
+}
 
 ```
 
 This function is important because it defines how OpenSkills Tutorial: Universal Skill Loading for Coding Agents implements the patterns covered in this chapter.
 
-### `src/utils/skills.ts`
+### `src/utils/dirs.ts`
 
-The `findAllSkills` function in [`src/utils/skills.ts`](https://github.com/numman-ali/openskills/blob/HEAD/src/utils/skills.ts) handles a key part of this chapter's functionality:
+The `getSearchDirs` function in [`src/utils/dirs.ts`](https://github.com/numman-ali/openskills/blob/HEAD/src/utils/dirs.ts) handles a key part of this chapter's functionality:
 
 ```ts
- * Find all installed skills across directories
+ * Priority: project .agent > global .agent > project .claude > global .claude
  */
-export function findAllSkills(): Skill[] {
-  const skills: Skill[] = [];
-  const seen = new Set<string>();
-  const dirs = getSearchDirs();
+export function getSearchDirs(): string[] {
+  return [
+    join(process.cwd(), '.agent/skills'),   // 1. Project universal (.agent)
+    join(homedir(), '.agent/skills'),        // 2. Global universal (.agent)
+    join(process.cwd(), '.claude/skills'),  // 3. Project claude
+    join(homedir(), '.claude/skills'),       // 4. Global claude
+  ];
+}
 
-  for (const dir of dirs) {
-    if (!existsSync(dir)) continue;
-
-    const entries = readdirSync(dir, { withFileTypes: true });
-
-    for (const entry of entries) {
-      if (isDirectoryOrSymlinkToDirectory(entry, dir)) {
-        // Deduplicate: only add if we haven't seen this skill name yet
-        if (seen.has(entry.name)) continue;
-
-        const skillPath = join(dir, entry.name, 'SKILL.md');
-        if (existsSync(skillPath)) {
-          const content = readFileSync(skillPath, 'utf-8');
-          const isProjectLocal = dir.includes(process.cwd());
-
-          skills.push({
-            name: entry.name,
-            description: extractYamlField(content, 'description'),
-            location: isProjectLocal ? 'project' : 'global',
-            path: join(dir, entry.name),
-          });
-
-          seen.add(entry.name);
-        }
-      }
 ```
 
 This function is important because it defines how OpenSkills Tutorial: Universal Skill Loading for Coding Agents implements the patterns covered in this chapter.
@@ -198,9 +165,9 @@ This function is important because it defines how OpenSkills Tutorial: Universal
 flowchart TD
     A[replaceSkillsSection]
     B[removeSkillsSection]
-    C[isDirectoryOrSymlinkToDirectory]
-    D[findAllSkills]
-    E[findSkill]
+    C[getSkillsDir]
+    D[getSearchDirs]
+    E[isDirectoryOrSymlinkToDirectory]
     A --> B
     B --> C
     C --> D

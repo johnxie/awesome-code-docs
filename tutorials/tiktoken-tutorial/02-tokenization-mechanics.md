@@ -101,9 +101,44 @@ Suggested trace strategy:
 - [Main Catalog](../../README.md#-tutorial-catalog)
 - [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
+
+### `tiktoken/load.py`
+
+The `dump_tiktoken_bpe` function in [`tiktoken/load.py`](https://github.com/openai/tiktoken/blob/HEAD/tiktoken/load.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+def dump_tiktoken_bpe(bpe_ranks: dict[bytes, int], tiktoken_bpe_file: str) -> None:
+    try:
+        import blobfile
+    except ImportError as e:
+        raise ImportError(
+            "blobfile is not installed. Please install it by running `pip install blobfile`."
+        ) from e
+    with blobfile.BlobFile(tiktoken_bpe_file, "wb") as f:
+        for token, rank in sorted(bpe_ranks.items(), key=lambda x: x[1]):
+            f.write(base64.b64encode(token) + b" " + str(rank).encode() + b"\n")
+
+
+def load_tiktoken_bpe(tiktoken_bpe_file: str, expected_hash: str | None = None) -> dict[bytes, int]:
+    # NB: do not add caching to this function
+    contents = read_file_cached(tiktoken_bpe_file, expected_hash)
+    ret = {}
+    for line in contents.splitlines():
+        if not line:
+            continue
+        try:
+            token, rank = line.split()
+            ret[base64.b64decode(token)] = int(rank)
+        except Exception as e:
+            raise ValueError(f"Error parsing line {line!r} in {tiktoken_bpe_file}") from e
+    return ret
+
+```
+
+This function is important because it defines how tiktoken Tutorial: OpenAI Token Encoding & Optimization implements the patterns covered in this chapter.
 
 ### `tiktoken/load.py`
 
@@ -130,125 +165,84 @@ def load_tiktoken_bpe(tiktoken_bpe_file: str, expected_hash: str | None = None) 
 
 This function is important because it defines how tiktoken Tutorial: OpenAI Token Encoding & Optimization implements the patterns covered in this chapter.
 
-### `tiktoken/_educational.py`
+### `src/lib.rs`
 
-The `SimpleBytePairEncoding` class in [`tiktoken/_educational.py`](https://github.com/openai/tiktoken/blob/HEAD/tiktoken/_educational.py) handles a key part of this chapter's functionality:
+The `byte_pair_encode` function in [`src/lib.rs`](https://github.com/openai/tiktoken/blob/HEAD/src/lib.rs) handles a key part of this chapter's functionality:
 
-```py
+```rs
+}
 
+pub fn byte_pair_encode(piece: &[u8], ranks: &HashMap<Vec<u8>, Rank>) -> Vec<Rank> {
+    let piece_len = piece.len();
 
-class SimpleBytePairEncoding:
-    def __init__(self, *, pat_str: str, mergeable_ranks: dict[bytes, int]) -> None:
-        """Creates an Encoding object."""
-        # A regex pattern string that is used to split the input text
-        self.pat_str = pat_str
-        # A dictionary mapping token bytes to their ranks. The ranks correspond to merge priority
-        self.mergeable_ranks = mergeable_ranks
+    if piece_len == 1 {
+        return vec![ranks[piece]];
+    }
+    if piece_len < 100 {
+        return _byte_pair_merge(ranks, piece)
+            .windows(2)
+            .map(|part| ranks[&piece[part[0].0..part[1].0]])
+            .collect();
+    }
+    _byte_pair_merge_large(ranks, piece)
+}
 
-        self._decoder = {token: token_bytes for token_bytes, token in mergeable_ranks.items()}
-        self._pat = regex.compile(pat_str)
+pub fn byte_pair_split<'a>(piece: &'a [u8], ranks: &HashMap<Vec<u8>, Rank>) -> Vec<&'a [u8]> {
+    assert!(piece.len() > 1);
+    _byte_pair_merge(ranks, piece)
+        .windows(2)
+        .map(|part| &piece[part[0].0..part[1].0])
+        .collect()
+}
 
-    def encode(self, text: str, visualise: str | None = "colour") -> list[int]:
-        """Encodes a string into tokens.
-
-        >>> enc.encode("hello world")
-        [388, 372]
-        """
-        # Use the regex to split the text into (approximately) words
-        words = self._pat.findall(text)
-        tokens = []
-        for word in words:
-            # Turn each word into tokens, using the byte pair encoding algorithm
-            word_bytes = word.encode("utf-8")
-            word_tokens = bpe_encode(self.mergeable_ranks, word_bytes, visualise=visualise)
-            tokens.extend(word_tokens)
-        return tokens
-
-    def decode_bytes(self, tokens: list[int]) -> bytes:
-        """Decodes a list of tokens into bytes.
-
-```
-
-This class is important because it defines how tiktoken Tutorial: OpenAI Token Encoding & Optimization implements the patterns covered in this chapter.
-
-### `tiktoken/_educational.py`
-
-The `bpe_encode` function in [`tiktoken/_educational.py`](https://github.com/openai/tiktoken/blob/HEAD/tiktoken/_educational.py) handles a key part of this chapter's functionality:
-
-```py
-            # Turn each word into tokens, using the byte pair encoding algorithm
-            word_bytes = word.encode("utf-8")
-            word_tokens = bpe_encode(self.mergeable_ranks, word_bytes, visualise=visualise)
-            tokens.extend(word_tokens)
-        return tokens
-
-    def decode_bytes(self, tokens: list[int]) -> bytes:
-        """Decodes a list of tokens into bytes.
-
-        >>> enc.decode_bytes([388, 372])
-        b'hello world'
-        """
-        return b"".join(self._decoder[token] for token in tokens)
-
-    def decode(self, tokens: list[int]) -> str:
-        """Decodes a list of tokens into a string.
-
-        Decoded bytes are not guaranteed to be valid UTF-8. In that case, we replace
-        the invalid bytes with the replacement character "�".
-
-        >>> enc.decode([388, 372])
-        'hello world'
-        """
-        return self.decode_bytes(tokens).decode("utf-8", errors="replace")
-
-    def decode_tokens_bytes(self, tokens: list[int]) -> list[bytes]:
-        """Decodes a list of tokens into a list of bytes.
-
-        Useful for visualising how a string is tokenised.
-
-        >>> enc.decode_tokens_bytes([388, 372])
-        [b'hello', b' world']
+// Various performance notes:
+//
+// Regex
+// =====
+// Most of the time is spent in regex. The easiest way to speed this up is by using less fancy
+// regex features. For instance, using a regex parse-able by `regex` crate is 3x faster than
+// the usual regex we use.
 ```
 
 This function is important because it defines how tiktoken Tutorial: OpenAI Token Encoding & Optimization implements the patterns covered in this chapter.
 
-### `tiktoken/_educational.py`
+### `src/lib.rs`
 
-The `bpe_train` function in [`tiktoken/_educational.py`](https://github.com/openai/tiktoken/blob/HEAD/tiktoken/_educational.py) handles a key part of this chapter's functionality:
+The `byte_pair_split` function in [`src/lib.rs`](https://github.com/openai/tiktoken/blob/HEAD/src/lib.rs) handles a key part of this chapter's functionality:
 
-```py
-    def train(training_data: str, vocab_size: int, pat_str: str):
-        """Train a BPE tokeniser on some data!"""
-        mergeable_ranks = bpe_train(data=training_data, vocab_size=vocab_size, pat_str=pat_str)
-        return SimpleBytePairEncoding(pat_str=pat_str, mergeable_ranks=mergeable_ranks)
+```rs
+}
 
-    @staticmethod
-    def from_tiktoken(encoding):
-        if isinstance(encoding, str):
-            encoding = tiktoken.get_encoding(encoding)
-        return SimpleBytePairEncoding(
-            pat_str=encoding._pat_str, mergeable_ranks=encoding._mergeable_ranks
-        )
+pub fn byte_pair_split<'a>(piece: &'a [u8], ranks: &HashMap<Vec<u8>, Rank>) -> Vec<&'a [u8]> {
+    assert!(piece.len() > 1);
+    _byte_pair_merge(ranks, piece)
+        .windows(2)
+        .map(|part| &piece[part[0].0..part[1].0])
+        .collect()
+}
 
-
-def bpe_encode(
-    mergeable_ranks: dict[bytes, int], input: bytes, visualise: str | None = "colour"
-) -> list[int]:
-    parts = [bytes([b]) for b in input]
-    while True:
-        # See the intermediate merges play out!
-        if visualise:
-            if visualise in ["colour", "color"]:
-                visualise_tokens(parts)
-            elif visualise == "simple":
-                print(parts)
-
-        # Iterate over all pairs and find the pair we want to merge the most
-        min_idx = None
-        min_rank = None
-        for i, pair in enumerate(zip(parts[:-1], parts[1:])):
-            rank = mergeable_ranks.get(pair[0] + pair[1])
-            if rank is not None and (min_rank is None or rank < min_rank):
+// Various performance notes:
+//
+// Regex
+// =====
+// Most of the time is spent in regex. The easiest way to speed this up is by using less fancy
+// regex features. For instance, using a regex parse-able by `regex` crate is 3x faster than
+// the usual regex we use.
+//
+// However, given that we're using a regex parse-able by `regex`, there isn't much difference
+// between using the `regex` crate and using the `fancy_regex` crate.
+//
+// There is an important interaction between threading, `regex` and `fancy_regex`.
+// When using `fancy_regex`, we hit `regex.find_at`. It turns out that this causes contention on
+// some mutable scratch space inside of `regex`. This absolutely kills performance. When using plain
+// old `regex`, we don't hit this, because `find_iter` has a different code path.
+// Related: https://github.com/rust-lang/regex/blob/master/PERFORMANCE.md
+// Anyway, the way we get around this is with having a (mostly) thread local clone of the regex for
+// each thread.
+//
+// Threading
+// =========
+// I tried using `rayon`. It wasn't really faster than using Python threads and releasing the GIL.
 ```
 
 This function is important because it defines how tiktoken Tutorial: OpenAI Token Encoding & Optimization implements the patterns covered in this chapter.
@@ -258,11 +252,11 @@ This function is important because it defines how tiktoken Tutorial: OpenAI Toke
 
 ```mermaid
 flowchart TD
-    A[load_tiktoken_bpe]
-    B[SimpleBytePairEncoding]
-    C[bpe_encode]
-    D[bpe_train]
-    E[visualise_tokens]
+    A[dump_tiktoken_bpe]
+    B[load_tiktoken_bpe]
+    C[byte_pair_encode]
+    D[byte_pair_split]
+    E[Merge]
     A --> B
     B --> C
     C --> D

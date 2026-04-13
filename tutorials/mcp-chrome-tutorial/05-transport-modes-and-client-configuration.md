@@ -50,147 +50,168 @@ You now know how to align MCP Chrome transport configuration with client constra
 
 Next: [Chapter 6: Visual Editor and Prompt Workflows](06-visual-editor-and-prompt-workflows.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `app/chrome-extension/utils/content-indexer.ts`
+### `app/chrome-extension/common/web-editor-types.ts`
 
-The `ContentIndexer` class in [`app/chrome-extension/utils/content-indexer.ts`](https://github.com/hangwin/mcp-chrome/blob/HEAD/app/chrome-extension/utils/content-indexer.ts) handles a key part of this chapter's functionality:
+The `WebEditorRevertElementResponse` interface in [`app/chrome-extension/common/web-editor-types.ts`](https://github.com/hangwin/mcp-chrome/blob/HEAD/app/chrome-extension/common/web-editor-types.ts) handles a key part of this chapter's functionality:
 
 ```ts
+ * Revert element response from content script.
+ */
+export interface WebEditorRevertElementResponse {
+  /** Whether the revert was successful */
+  success: boolean;
+  /** What was reverted (for UI feedback) */
+  reverted?: {
+    style?: boolean;
+    text?: boolean;
+    class?: boolean;
+  };
+  /** Error message if revert failed */
+  error?: string;
 }
 
-export class ContentIndexer {
-  private textChunker: TextChunker;
-  private vectorDatabase!: VectorDatabase;
-  private semanticEngine!: SemanticSimilarityEngine | SemanticSimilarityEngineProxy;
-  private isInitialized = false;
-  private isInitializing = false;
-  private initPromise: Promise<void> | null = null;
-  private indexedPages = new Set<string>();
-  private readonly options: Required<IndexingOptions>;
+// =============================================================================
+// Selection Sync Types
+// =============================================================================
 
-  constructor(options?: IndexingOptions) {
-    this.options = {
-      autoIndex: true,
-      maxChunksPerPage: 50,
-      skipDuplicates: true,
-      ...options,
-    };
-
-    this.textChunker = new TextChunker();
-  }
-
-  /**
-   * Get current selected model configuration
-   */
-  private async getCurrentModelConfig() {
-    try {
-      const result = await chrome.storage.local.get(['selectedModel', 'selectedVersion']);
-      const selectedModel = (result.selectedModel as ModelPreset) || 'multilingual-e5-small';
-      const selectedVersion =
-        (result.selectedVersion as 'full' | 'quantized' | 'compressed') || 'quantized';
-```
-
-This class is important because it defines how MCP Chrome Tutorial: Control Your Real Chrome Browser Through MCP implements the patterns covered in this chapter.
-
-### `app/chrome-extension/utils/content-indexer.ts`
-
-The `to` class in [`app/chrome-extension/utils/content-indexer.ts`](https://github.com/hangwin/mcp-chrome/blob/HEAD/app/chrome-extension/utils/content-indexer.ts) handles a key part of this chapter's functionality:
-
-```ts
 /**
- * Content index manager
- * Responsible for automatically extracting, chunking and indexing tab content
+ * Summary of currently selected element.
+ * Lightweight payload for selection sync (no transaction data).
  */
-
-import { TextChunker } from './text-chunker';
-import { VectorDatabase, getGlobalVectorDatabase } from './vector-database';
-import {
-  SemanticSimilarityEngine,
-  SemanticSimilarityEngineProxy,
-  PREDEFINED_MODELS,
-  type ModelPreset,
-} from './semantic-similarity-engine';
-import { TOOL_MESSAGE_TYPES } from '@/common/message-types';
-
-export interface IndexingOptions {
-  autoIndex?: boolean;
-  maxChunksPerPage?: number;
-  skipDuplicates?: boolean;
-}
-
-export class ContentIndexer {
-  private textChunker: TextChunker;
-  private vectorDatabase!: VectorDatabase;
-  private semanticEngine!: SemanticSimilarityEngine | SemanticSimilarityEngineProxy;
-  private isInitialized = false;
-  private isInitializing = false;
-  private initPromise: Promise<void> | null = null;
-  private indexedPages = new Set<string>();
-  private readonly options: Required<IndexingOptions>;
-
-  constructor(options?: IndexingOptions) {
+export interface SelectedElementSummary {
+  /** Stable element identifier */
+  elementKey: WebEditorElementKey;
+  /** Locator for element identification and highlighting */
+  locator: ElementLocator;
+  /** Short display label (e.g., "div#app") */
+  label: string;
+  /** Full label with context (e.g., "body > div#app") */
+  fullLabel: string;
 ```
 
-This class is important because it defines how MCP Chrome Tutorial: Control Your Real Chrome Browser Through MCP implements the patterns covered in this chapter.
+This interface is important because it defines how MCP Chrome Tutorial: Control Your Real Chrome Browser Through MCP implements the patterns covered in this chapter.
 
-### `app/chrome-extension/utils/content-indexer.ts`
+### `app/chrome-extension/common/web-editor-types.ts`
 
-The `getGlobalContentIndexer` function in [`app/chrome-extension/utils/content-indexer.ts`](https://github.com/hangwin/mcp-chrome/blob/HEAD/app/chrome-extension/utils/content-indexer.ts) handles a key part of this chapter's functionality:
+The `SelectedElementSummary` interface in [`app/chrome-extension/common/web-editor-types.ts`](https://github.com/hangwin/mcp-chrome/blob/HEAD/app/chrome-extension/common/web-editor-types.ts) handles a key part of this chapter's functionality:
 
 ```ts
- * Get global ContentIndexer instance
+ * Lightweight payload for selection sync (no transaction data).
  */
-export function getGlobalContentIndexer(): ContentIndexer {
-  if (!globalContentIndexer) {
-    globalContentIndexer = new ContentIndexer();
-  }
-  return globalContentIndexer;
+export interface SelectedElementSummary {
+  /** Stable element identifier */
+  elementKey: WebEditorElementKey;
+  /** Locator for element identification and highlighting */
+  locator: ElementLocator;
+  /** Short display label (e.g., "div#app") */
+  label: string;
+  /** Full label with context (e.g., "body > div#app") */
+  fullLabel: string;
+  /** Tag name of the element */
+  tagName: string;
+  /** Timestamp for deduplication */
+  updatedAt: number;
 }
 
+/**
+ * Selection change broadcast payload.
+ * Sent immediately when user selects/deselects elements (no debounce).
+ */
+export interface WebEditorSelectionChangedPayload {
+  /** Source tab ID (filled by background from sender.tab.id) */
+  tabId: number;
+  /** Currently selected element, or null if deselected */
+  selected: SelectedElementSummary | null;
+  /** Page URL for context */
+  pageUrl?: string;
+}
+
+// =============================================================================
+// Execution Cancel Types
 ```
 
-This function is important because it defines how MCP Chrome Tutorial: Control Your Real Chrome Browser Through MCP implements the patterns covered in this chapter.
+This interface is important because it defines how MCP Chrome Tutorial: Control Your Real Chrome Browser Through MCP implements the patterns covered in this chapter.
 
-### `app/chrome-extension/utils/content-indexer.ts`
+### `app/chrome-extension/common/web-editor-types.ts`
 
-The `IndexingOptions` interface in [`app/chrome-extension/utils/content-indexer.ts`](https://github.com/hangwin/mcp-chrome/blob/HEAD/app/chrome-extension/utils/content-indexer.ts) handles a key part of this chapter's functionality:
+The `WebEditorSelectionChangedPayload` interface in [`app/chrome-extension/common/web-editor-types.ts`](https://github.com/hangwin/mcp-chrome/blob/HEAD/app/chrome-extension/common/web-editor-types.ts) handles a key part of this chapter's functionality:
 
 ```ts
-import { TOOL_MESSAGE_TYPES } from '@/common/message-types';
-
-export interface IndexingOptions {
-  autoIndex?: boolean;
-  maxChunksPerPage?: number;
-  skipDuplicates?: boolean;
+ * Sent immediately when user selects/deselects elements (no debounce).
+ */
+export interface WebEditorSelectionChangedPayload {
+  /** Source tab ID (filled by background from sender.tab.id) */
+  tabId: number;
+  /** Currently selected element, or null if deselected */
+  selected: SelectedElementSummary | null;
+  /** Page URL for context */
+  pageUrl?: string;
 }
 
-export class ContentIndexer {
-  private textChunker: TextChunker;
-  private vectorDatabase!: VectorDatabase;
-  private semanticEngine!: SemanticSimilarityEngine | SemanticSimilarityEngineProxy;
-  private isInitialized = false;
-  private isInitializing = false;
-  private initPromise: Promise<void> | null = null;
-  private indexedPages = new Set<string>();
-  private readonly options: Required<IndexingOptions>;
+// =============================================================================
+// Execution Cancel Types
+// =============================================================================
 
-  constructor(options?: IndexingOptions) {
-    this.options = {
-      autoIndex: true,
-      maxChunksPerPage: 50,
-      skipDuplicates: true,
-      ...options,
-    };
+/**
+ * Payload for canceling an ongoing Apply execution.
+ * Sent from web-editor toolbar or sidepanel to background.
+ */
+export interface WebEditorCancelExecutionPayload {
+  /** Session ID of the execution to cancel */
+  sessionId: string;
+  /** Request ID of the execution to cancel */
+  requestId: string;
+}
 
-    this.textChunker = new TextChunker();
-  }
+/**
+ * Response from cancel execution request.
+ */
+export interface WebEditorCancelExecutionResponse {
+  /** Whether the cancel request was successful */
+  success: boolean;
+```
 
-  /**
-   * Get current selected model configuration
-   */
+This interface is important because it defines how MCP Chrome Tutorial: Control Your Real Chrome Browser Through MCP implements the patterns covered in this chapter.
+
+### `app/chrome-extension/common/web-editor-types.ts`
+
+The `WebEditorCancelExecutionPayload` interface in [`app/chrome-extension/common/web-editor-types.ts`](https://github.com/hangwin/mcp-chrome/blob/HEAD/app/chrome-extension/common/web-editor-types.ts) handles a key part of this chapter's functionality:
+
+```ts
+ * Sent from web-editor toolbar or sidepanel to background.
+ */
+export interface WebEditorCancelExecutionPayload {
+  /** Session ID of the execution to cancel */
+  sessionId: string;
+  /** Request ID of the execution to cancel */
+  requestId: string;
+}
+
+/**
+ * Response from cancel execution request.
+ */
+export interface WebEditorCancelExecutionResponse {
+  /** Whether the cancel request was successful */
+  success: boolean;
+  /** Error message if cancellation failed */
+  error?: string;
+}
+
+// =============================================================================
+// Public API Interface
+// =============================================================================
+
+/**
+ * Web Editor V2 Public API
+ * Exposed on window.__MCP_WEB_EDITOR_V2__
+ */
+export interface WebEditorV2Api {
+  /** Start the editor */
+  start: () => void;
+  /** Stop the editor */
+  stop: () => void;
 ```
 
 This interface is important because it defines how MCP Chrome Tutorial: Control Your Real Chrome Browser Through MCP implements the patterns covered in this chapter.
@@ -200,11 +221,11 @@ This interface is important because it defines how MCP Chrome Tutorial: Control 
 
 ```mermaid
 flowchart TD
-    A[ContentIndexer]
-    B[to]
-    C[getGlobalContentIndexer]
-    D[IndexingOptions]
-    E[changes]
+    A[WebEditorRevertElementResponse]
+    B[SelectedElementSummary]
+    C[WebEditorSelectionChangedPayload]
+    D[WebEditorCancelExecutionPayload]
+    E[WebEditorCancelExecutionResponse]
     A --> B
     B --> C
     C --> D

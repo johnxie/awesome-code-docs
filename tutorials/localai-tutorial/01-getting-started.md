@@ -13,6 +13,19 @@ Welcome to **Chapter 1: Getting Started with LocalAI**. In this part of **LocalA
 
 > Install LocalAI, run your first model, and make your initial API call to the OpenAI-compatible endpoint.
 
+## LocalAI System Architecture
+
+```mermaid
+flowchart TD
+    CLIENT[OpenAI SDK or curl] -->|HTTP /v1/...| LOCALAI[LocalAI Server :8080]
+    LOCALAI --> ROUTER[Model Router]
+    ROUTER --> LLM[LLM Backend\nllama.cpp, gpt4all]
+    ROUTER --> IMG[Image Backend\nStable Diffusion]
+    ROUTER --> AUDIO[Audio Backend\nWhisper, TTS]
+    ROUTER --> EMB[Embedding Backend\nSentence Transformers]
+    LOCALAI --> GALLERY[Model Gallery\nauto-download + config]
+```
+
 ## Overview
 
 LocalAI provides a drop-in replacement for OpenAI's API that runs entirely on your local machine. This chapter covers installation, basic setup, and your first local AI inference.
@@ -466,14 +479,22 @@ When debugging, walk this sequence in order and confirm each stage has explicit 
 
 Use the following upstream sources to verify implementation details while reading this chapter:
 
-- [View Repo](https://github.com/mudler/LocalAI)
-  Why it matters: authoritative reference on `View Repo` (github.com).
-- [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
-  Why it matters: authoritative reference on `Awesome Code Docs` (github.com).
+- [`core/http/app.go`](https://github.com/mudler/LocalAI/blob/master/core/http/app.go)
+  Entry point for the LocalAI HTTP server built on Go Fiber. Registers all API routes including `/v1/chat/completions`, `/v1/completions`, `/v1/images/generations`, and health endpoints. This is where OpenAI compatibility is wired in.
+
+- [`core/config/application_config.go`](https://github.com/mudler/LocalAI/blob/master/core/config/application_config.go)
+  `ApplicationConfig` struct holding runtime configuration: model directory, address/port, backend concurrency limits, gallery URLs, and feature flags. This is what `--models-path`, `--address`, and environment variables map to.
+
+- [`core/startup/startup.go`](https://github.com/mudler/LocalAI/blob/master/core/startup/startup.go)
+  Server initialization sequence: loads application config, initializes backend pools, discovers model files, loads gallery index, and starts the HTTP server. Tracing this file gives a complete picture of the startup process.
+
+- [`Makefile`](https://github.com/mudler/LocalAI/blob/master/Makefile)
+  Build targets including `make build`, `make docker`, and backend-specific targets. Shows which C/C++ backends (llama.cpp, whisper, stable-diffusion) are compiled in and what GPU acceleration flags are used.
 
 Suggested trace strategy:
-- search upstream code for `models` and `localai` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+- Start at `core/startup/startup.go` to trace initialization sequence from config loading to HTTP server ready
+- Check `core/http/app.go` route registration to confirm which OpenAI API endpoints are supported
+- Review `core/config/application_config.go` fields to understand all available environment variable overrides
 
 ## Chapter Connections
 

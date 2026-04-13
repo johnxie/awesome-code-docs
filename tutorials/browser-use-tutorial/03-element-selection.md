@@ -566,6 +566,26 @@ if __name__ == "__main__":
     asyncio.run(javascript_element_manipulation())
 ```
 
+## Element Selection Flow
+
+```mermaid
+flowchart TD
+    A[Page state captured as DOM and screenshot]
+    B{Selection strategy}
+    C[Vision: LLM analyzes screenshot to find element]
+    D[DOM: parse element tree for selectors]
+    E[Element index or selector identified]
+    F[click or input_text action with element reference]
+    G[Playwright executes on identified element]
+    A --> B
+    B -- vision mode --> C
+    B -- dom mode --> D
+    C --> E
+    D --> E
+    E --> F
+    F --> G
+```
+
 ## Summary
 
 In this chapter, we've covered:

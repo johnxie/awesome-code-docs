@@ -12,6 +12,21 @@ Welcome to **Chapter 8: Production Deployment**. In this part of **Chatbox Tutor
 
 This final chapter covers deploying Chatbox applications to production environments with proper scaling, security, and operational practices.
 
+## Electron Build and Release Pipeline
+
+```mermaid
+graph LR
+    Source["Source\n(src/)"] --> Build["electron-builder\n+ vite"]
+    Build --> macOS["macOS .dmg\n(arm64 / x64)"]
+    Build --> Windows["Windows .exe\n(installer)"]
+    Build --> Linux["Linux AppImage\n/ deb"]
+    macOS --> Release["GitHub Releases"]
+    Windows --> Release
+    Linux --> Release
+    Release --> AutoUpdate["Auto-Updater\n(app-updater.ts)"]
+    AutoUpdate --> Client["Running Client\n(background check)"]
+```
+
 ## 🚀 Production Architecture
 
 ### Scalable Deployment
@@ -817,16 +832,11 @@ Under the hood, `Chapter 8: Production Deployment` usually follows a repeatable 
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
-## Source Walkthrough
+## Source Code Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+### `src/main/app-updater.ts`
 
-- [View Repo](https://github.com/Bin-Huang/chatbox)
-  Why it matters: authoritative reference on `View Repo` (github.com).
-
-Suggested trace strategy:
-- search upstream code for `error` and `Promise` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+The `app-updater.ts` module in [`src/main/app-updater.ts`](https://github.com/Bin-Huang/chatbox/blob/main/src/main/app-updater.ts) implements auto-update logic for the Electron desktop app. It integrates with `electron-builder`'s update mechanism to check GitHub Releases, download updates in the background, and prompt users to restart. The `electron-builder.yml` at the repo root configures multi-platform targets (macOS universal, Windows NSIS, Linux AppImage/deb) and code-signing. Chatbox's `release/` scripts automate the version-bump and publishing workflow.
 
 ## Chapter Connections
 

@@ -9,6 +9,22 @@ nav_order: 5
 
 Welcome to the critical phase of model assessment! Evaluating your fine-tuned LLaMA models ensures they perform well on your target tasks. This chapter covers comprehensive evaluation techniques, benchmarks, and quality metrics for production-ready models.
 
+## Evaluation Workflow
+
+```mermaid
+flowchart LR
+    M[Fine-Tuned Model] --> E{Evaluation Type}
+    E --> A[Automated Benchmarks\nMMLU, CMMLU, C-Eval]
+    E --> B[Task-Specific Metrics\nROUGE, BLEU, accuracy]
+    E --> C[Human Evaluation\nquality rubrics]
+    A --> SCORE[Benchmark Score]
+    B --> SCORE
+    C --> SCORE
+    SCORE --> D{Pass Threshold?}
+    D -->|Yes| DEPLOY[Deploy to Production]
+    D -->|No| ITER[Iterate: adjust data or hyperparameters]
+```
+
 ## Evaluation Metrics and Benchmarks
 
 ### Core Evaluation Metrics
@@ -817,14 +833,13 @@ When debugging, walk this sequence in order and confirm each stage has explicit 
 
 ## Source Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+Key source files in [`hiyouga/LLaMA-Factory`](https://github.com/hiyouga/LLaMA-Factory):
 
-- [View Repo](https://github.com/hiyouga/LLaMA-Factory)
-  Why it matters: authoritative reference on `View Repo` (github.com).
+- [`src/llamafactory/eval/evaluator.py`](https://github.com/hiyouga/LLaMA-Factory/blob/main/src/llamafactory/eval/evaluator.py) -- `Evaluator` class: benchmark evaluation loop for MMLU, C-Eval, and custom tasks
+- [`src/llamafactory/train/sft/metric.py`](https://github.com/hiyouga/LLaMA-Factory/blob/main/src/llamafactory/train/sft/metric.py) -- `compute_metrics()`: ROUGE, BLEU, accuracy calculations for SFT evaluation
+- [`src/llamafactory/chat/chat_model.py`](https://github.com/hiyouga/LLaMA-Factory/blob/main/src/llamafactory/chat/chat_model.py) -- `ChatModel`: used during evaluation for interactive chat testing of fine-tuned models
 
-Suggested trace strategy:
-- search upstream code for `self` and `report` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+Suggested trace: `run_eval()` → `Evaluator.eval()` to see how benchmark datasets are loaded, questions are answered by the model, and scores are aggregated.
 
 ## Chapter Connections
 

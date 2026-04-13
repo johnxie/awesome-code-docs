@@ -11,6 +11,17 @@ Welcome to Mem0! If you've ever built AI applications and wished they could reme
 
 ## What Makes Mem0 Special?
 
+```mermaid
+flowchart LR
+    A[User Input] --> B[mem0.Memory]
+    B --> C[add memory]
+    C --> D[Vector Store]
+    D --> E[search relevant]
+    E --> F[LLM + context]
+    F --> G[Personalized response]
+    G --> H[update memory]
+```
+
 Mem0 revolutionizes AI memory with:
 - **+26% Accuracy** over traditional memory approaches on industry benchmarks
 - **91% Faster Responses** through intelligent memory retrieval

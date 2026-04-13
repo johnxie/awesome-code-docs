@@ -755,6 +755,24 @@ Under the hood, `Chapter 2: Document Processing` usually follows a repeatable co
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
+## Document Processing Pipeline
+
+```mermaid
+flowchart TD
+    A[Document Upload] --> B{File Type}
+    B --> C[PDF Parser]
+    B --> D[Word / DOCX]
+    B --> E[HTML / Web]
+    B --> F[Excel / CSV]
+    C --> G[Text Extraction]
+    D --> G
+    E --> G
+    F --> G
+    G --> H[Layout Analysis]
+    H --> I[Chunking]
+    I --> J[Embedding Queue]
+```
+
 ## Source Walkthrough
 
 Use the following upstream sources to verify implementation details while reading this chapter:
