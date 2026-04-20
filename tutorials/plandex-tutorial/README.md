@@ -28,7 +28,7 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`plandex-ai/plandex`](https://github.com/plandex-ai/plandex)
-- stars: about **15.2k**
+- stars: about **15.3k**
 - latest release: [`cli/v2.2.1`](https://github.com/plandex-ai/plandex/releases/tag/cli/v2.2.1) (published 2025-07-16)
 
 ## Mental Model

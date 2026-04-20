@@ -39,7 +39,7 @@ The `anthropics/anthropic-quickstarts` repository is the canonical starting poin
 ## Current Snapshot (auto-updated)
 
 - repository: [`anthropics/anthropic-quickstarts`](https://github.com/anthropics/anthropic-quickstarts)
-- stars: about **16.1k**
+- stars: about **16.2k**
 
 ## Why This Repository Matters
 

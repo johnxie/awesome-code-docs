@@ -28,7 +28,7 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`numman-ali/openskills`](https://github.com/numman-ali/openskills)
-- stars: about **9.7k**
+- stars: about **9.8k**
 - latest release: [`v1.5.0`](https://github.com/numman-ali/openskills/releases/tag/v1.5.0) (published 2026-01-17)
 
 ## Mental Model

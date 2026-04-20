@@ -28,7 +28,7 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`GLips/Figma-Context-MCP`](https://github.com/GLips/Figma-Context-MCP)
-- stars: about **14.3k**
+- stars: about **14.4k**
 - latest release: [`v0.10.1`](https://github.com/GLips/Figma-Context-MCP/releases/tag/v0.10.1) (published 2026-04-10)
 
 ## Mental Model

@@ -73,8 +73,8 @@ Welcome to your journey through SiYuan's architecture! This tutorial explores ho
 ## Current Snapshot (auto-updated)
 
 - repository: [`siyuan-note/siyuan`](https://github.com/siyuan-note/siyuan)
-- stars: about **42.6k**
-- latest release: [`v3.6.3`](https://github.com/siyuan-note/siyuan/releases/tag/v3.6.3) (published 2026-04-02)
+- stars: about **42.8k**
+- latest release: [`v3.6.4`](https://github.com/siyuan-note/siyuan/releases/tag/v3.6.4) (published 2026-04-14)
 
 ## What You Will Learn
 

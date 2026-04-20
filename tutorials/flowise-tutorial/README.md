@@ -125,8 +125,8 @@ Ready to begin? Start with [Chapter 1: System Overview](01-system-overview.md).
 ## Current Snapshot (auto-updated)
 
 - repository: [`FlowiseAI/Flowise`](https://github.com/FlowiseAI/Flowise)
-- stars: about **51.8k**
-- latest release: [`flowise@3.1.1`](https://github.com/FlowiseAI/Flowise/releases/tag/flowise@3.1.1) (published 2026-03-23)
+- stars: about **52.1k**
+- latest release: [`flowise@3.1.2`](https://github.com/FlowiseAI/Flowise/releases/tag/flowise@3.1.2) (published 2026-04-14)
 
 ## What You Will Learn
 

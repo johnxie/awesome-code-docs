@@ -28,7 +28,7 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`onlook-dev/onlook`](https://github.com/onlook-dev/onlook)
-- stars: about **25.1k**
+- stars: about **25.5k**
 - latest release: [`v0.2.32`](https://github.com/onlook-dev/onlook/releases/tag/v0.2.32) (published 2025-07-17)
 
 ## Mental Model

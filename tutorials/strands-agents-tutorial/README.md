@@ -28,8 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`strands-agents/sdk-python`](https://github.com/strands-agents/sdk-python)
-- stars: about **5.6k**
-- latest release: [`v1.35.0`](https://github.com/strands-agents/sdk-python/releases/tag/v1.35.0) (published 2026-04-08)
+- stars: about **5.7k**
+- latest release: [`v1.36.0`](https://github.com/strands-agents/sdk-python/releases/tag/v1.36.0) (published 2026-04-17)
 
 ## Mental Model
 

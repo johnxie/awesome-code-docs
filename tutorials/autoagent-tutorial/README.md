@@ -25,7 +25,7 @@ This tutorial walks through AutoAgent from first install to production-grade mul
 ## Current Snapshot (auto-updated)
 
 - repository: [`HKUDS/AutoAgent`](https://github.com/HKUDS/AutoAgent)
-- stars: about **9.1k**
+- stars: about **9.2k**
 
 ## Who This Tutorial Is For
 

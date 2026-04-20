@@ -26,8 +26,8 @@ The AI SDK is one of the most widely used TypeScript toolkits for shipping moder
 ## Current Snapshot (auto-updated)
 
 - repository: [`vercel/ai`](https://github.com/vercel/ai)
-- stars: about **23.5k**
-- latest release: [`@ai-sdk/google-vertex@4.0.108`](https://github.com/vercel/ai/releases/tag/@ai-sdk/google-vertex@4.0.108) (published 2026-04-11)
+- stars: about **23.6k**
+- latest release: [`@ai-sdk/amazon-bedrock@3.0.97`](https://github.com/vercel/ai/releases/tag/@ai-sdk/amazon-bedrock@3.0.97) (published 2026-04-17)
 
 ## Mental Model
 

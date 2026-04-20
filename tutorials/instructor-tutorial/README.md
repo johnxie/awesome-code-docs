@@ -72,7 +72,7 @@ flowchart LR
 ## Current Snapshot (auto-updated)
 
 - repository: [`instructor-ai/instructor`](https://github.com/instructor-ai/instructor)
-- stars: about **12.7k**
+- stars: about **12.8k**
 - latest release: [`v1.15.1`](https://github.com/instructor-ai/instructor/releases/tag/v1.15.1) (published 2026-04-03)
 
 ## Chapter Guide

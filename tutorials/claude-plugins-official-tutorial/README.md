@@ -27,7 +27,7 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`anthropics/claude-plugins-official`](https://github.com/anthropics/claude-plugins-official)
-- stars: about **16.8k**
+- stars: about **17.4k**
 
 ## Mental Model
 

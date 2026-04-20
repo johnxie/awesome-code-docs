@@ -28,7 +28,7 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`modelcontextprotocol/docs`](https://github.com/modelcontextprotocol/docs)
-- stars: about **432**
+- stars: about **431**
 - status: **archived**
 
 ## Mental Model
