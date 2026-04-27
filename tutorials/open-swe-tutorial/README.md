@@ -28,7 +28,7 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`langchain-ai/open-swe`](https://github.com/langchain-ai/open-swe)
-- stars: about **9.6k**
+- stars: about **9.7k**
 
 ## Mental Model
 

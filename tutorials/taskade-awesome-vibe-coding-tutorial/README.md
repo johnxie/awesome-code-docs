@@ -23,7 +23,7 @@ Teams can use it to reduce stack-selection time, avoid tool churn, and build con
 ## Current Snapshot (auto-updated)
 
 - repository: [`taskade/awesome-vibe-coding`](https://github.com/taskade/awesome-vibe-coding)
-- stars: about **19**
+- stars: about **20**
 
 ## Mental Model
 

@@ -28,8 +28,8 @@ This tutorial focuses on those outcomes.
 ## Current Snapshot (auto-updated)
 
 - repository: [`cline/cline`](https://github.com/cline/cline)
-- stars: about **60.5k**
-- latest release: [`v3.79.0`](https://github.com/cline/cline/releases/tag/v3.79.0) (published 2026-04-16)
+- stars: about **61k**
+- latest release: [`v3.81.0`](https://github.com/cline/cline/releases/tag/v3.81.0) (published 2026-04-24)
 
 ## Cline Operating Model
 

@@ -76,7 +76,7 @@ Welcome to your journey through multi-agent AI systems! This tutorial explores h
 ## Current Snapshot (auto-updated)
 
 - repository: [`microsoft/autogen`](https://github.com/microsoft/autogen)
-- stars: about **57.2k**
+- stars: about **57.5k**
 - latest release: [`python-v0.7.5`](https://github.com/microsoft/autogen/releases/tag/python-v0.7.5) (published 2025-09-30)
 
 ## What You Will Learn

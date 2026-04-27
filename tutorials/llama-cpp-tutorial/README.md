@@ -80,8 +80,8 @@ flowchart TD
 ## Current Snapshot (auto-updated)
 
 - repository: [`ggerganov/llama.cpp`](https://github.com/ggerganov/llama.cpp)
-- stars: about **105k**
-- latest release: [`b8851`](https://github.com/ggerganov/llama.cpp/releases/tag/b8851) (published 2026-04-19)
+- stars: about **107k**
+- latest release: [`b8944`](https://github.com/ggerganov/llama.cpp/releases/tag/b8944) (published 2026-04-27)
 
 ## Chapter Guide
 

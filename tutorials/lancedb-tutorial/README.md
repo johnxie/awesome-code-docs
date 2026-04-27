@@ -89,7 +89,7 @@ flowchart TD
 ## Current Snapshot (auto-updated)
 
 - repository: [`lancedb/lancedb`](https://github.com/lancedb/lancedb)
-- stars: about **10k**
+- stars: about **10.1k**
 - latest release: [`v0.28.0-beta.9`](https://github.com/lancedb/lancedb/releases/tag/v0.28.0-beta.9) (published 2026-04-19)
 
 ## Chapter Guide

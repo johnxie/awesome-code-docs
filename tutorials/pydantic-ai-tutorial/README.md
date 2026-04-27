@@ -42,8 +42,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`pydantic/pydantic-ai`](https://github.com/pydantic/pydantic-ai)
-- stars: about **16.5k**
-- latest release: [`v1.84.1`](https://github.com/pydantic/pydantic-ai/releases/tag/v1.84.1) (published 2026-04-18)
+- stars: about **16.7k**
+- latest release: [`v1.87.0`](https://github.com/pydantic/pydantic-ai/releases/tag/v1.87.0) (published 2026-04-25)
 
 ## What You Will Learn
 

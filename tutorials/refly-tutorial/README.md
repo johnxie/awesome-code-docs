@@ -28,7 +28,7 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`refly-ai/refly`](https://github.com/refly-ai/refly)
-- stars: about **7.2k**
+- stars: about **7.3k**
 - latest release: [`v1.1.0`](https://github.com/refly-ai/refly/releases/tag/v1.1.0) (published 2026-02-02)
 
 ## Mental Model

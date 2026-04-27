@@ -45,7 +45,7 @@ This tutorial takes you from zero to running your own autonomous ML research loo
 ## Current Snapshot (auto-updated)
 
 - repository: [`karpathy/autoresearch`](https://github.com/karpathy/autoresearch)
-- stars: about **74.7k**
+- stars: about **77k**
 
 ## Repository Structure
 

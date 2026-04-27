@@ -44,7 +44,7 @@ This comprehensive tutorial will guide you through Botpress, a powerful open sou
 ## Current Snapshot (auto-updated)
 
 - repository: [`botpress/botpress`](https://github.com/botpress/botpress)
-- stars: about **14.6k**
+- stars: about **14.7k**
 - latest release: [`v12.30.9`](https://github.com/botpress/botpress/releases/tag/v12.30.9) (published 2023-06-22)
 
 ## 📚 Tutorial Chapters
