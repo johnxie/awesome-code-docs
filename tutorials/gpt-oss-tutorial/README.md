@@ -82,7 +82,7 @@ flowchart TD
 ## Current Snapshot (auto-updated)
 
 - repository: [`karpathy/nanoGPT`](https://github.com/karpathy/nanoGPT)
-- stars: about **57.2k**
+- stars: about **57.5k**
 
 ## Chapter Guide
 

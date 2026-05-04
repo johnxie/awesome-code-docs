@@ -76,7 +76,7 @@ graph LR
 ## Current Snapshot (auto-updated)
 
 - repository: [`postgres/postgres`](https://github.com/postgres/postgres)
-- stars: about **20.7k**
+- stars: about **20.8k**
 
 ## Prerequisites
 

@@ -28,8 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`microsoft/playwright-mcp`](https://github.com/microsoft/playwright-mcp)
-- stars: about **31.5k**
-- latest release: [`v0.0.70`](https://github.com/microsoft/playwright-mcp/releases/tag/v0.0.70) (published 2026-04-01)
+- stars: about **32k**
+- latest release: [`v0.0.73`](https://github.com/microsoft/playwright-mcp/releases/tag/v0.0.73) (published 2026-05-01)
 
 ## Mental Model
 

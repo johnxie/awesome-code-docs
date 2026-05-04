@@ -40,8 +40,8 @@ LobeChat is an open-source AI chat framework that enables you to build and deplo
 ## Current Snapshot (auto-updated)
 
 - repository: [`lobehub/lobe-chat`](https://github.com/lobehub/lobe-chat)
-- stars: about **75.7k**
-- latest release: [`v2.1.53`](https://github.com/lobehub/lobe-chat/releases/tag/v2.1.53) (published 2026-04-27)
+- stars: about **76k**
+- latest release: [`v2.1.56`](https://github.com/lobehub/lobe-chat/releases/tag/v2.1.56) (published 2026-05-01)
 
 ## Mental Model
 
