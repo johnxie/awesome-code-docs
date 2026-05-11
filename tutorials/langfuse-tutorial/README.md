@@ -28,8 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`langfuse/langfuse`](https://github.com/langfuse/langfuse)
-- stars: about **26.5k**
-- latest release: [`v3.172.1`](https://github.com/langfuse/langfuse/releases/tag/v3.172.1) (published 2026-05-01)
+- stars: about **27k**
+- latest release: [`v3.173.0`](https://github.com/langfuse/langfuse/releases/tag/v3.173.0) (published 2026-05-08)
 
 ## Mental Model
 

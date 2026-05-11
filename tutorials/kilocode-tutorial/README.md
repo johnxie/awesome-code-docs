@@ -28,8 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`Kilo-Org/kilocode`](https://github.com/Kilo-Org/kilocode)
-- stars: about **18.9k**
-- latest release: [`v7.2.34`](https://github.com/Kilo-Org/kilocode/releases/tag/v7.2.34) (published 2026-05-04)
+- stars: about **19.2k**
+- latest release: [`v7.2.49`](https://github.com/Kilo-Org/kilocode/releases/tag/v7.2.49) (published 2026-05-09)
 
 ## Mental Model
 

@@ -29,7 +29,7 @@ This track focuses on:
 
 - repository: [`modelcontextprotocol/registry`](https://github.com/modelcontextprotocol/registry)
 - stars: about **6.8k**
-- latest release: [`v1.7.6`](https://github.com/modelcontextprotocol/registry/releases/tag/v1.7.6) (published 2026-04-30)
+- latest release: [`v1.7.8`](https://github.com/modelcontextprotocol/registry/releases/tag/v1.7.8) (published 2026-05-05)
 
 ## Mental Model
 
