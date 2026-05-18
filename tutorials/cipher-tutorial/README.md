@@ -28,8 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`campfirein/cipher`](https://github.com/campfirein/cipher)
-- stars: about **4.7k**
-- latest release: [`v3.12.0`](https://github.com/campfirein/cipher/releases/tag/v3.12.0) (published 2026-05-09)
+- stars: about **4.8k**
+- latest release: [`v3.14.0`](https://github.com/campfirein/cipher/releases/tag/v3.14.0) (published 2026-05-18)
 
 ## Mental Model
 

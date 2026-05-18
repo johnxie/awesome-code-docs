@@ -70,8 +70,8 @@ Welcome to your journey through LangChain! This tutorial is structured to take y
 ## Current Snapshot (auto-updated)
 
 - repository: [`langchain-ai/langchain`](https://github.com/langchain-ai/langchain)
-- stars: about **136k**
-- latest release: [`langchain-core==0.3.86`](https://github.com/langchain-ai/langchain/releases/tag/langchain-core==0.3.86) (published 2026-05-07)
+- stars: about **137k**
+- latest release: [`langchain-core==1.4.0`](https://github.com/langchain-ai/langchain/releases/tag/langchain-core==1.4.0) (published 2026-05-11)
 
 ## What You Will Learn
 

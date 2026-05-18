@@ -29,7 +29,7 @@ This track focuses on:
 
 - repository: [`google-gemini/gemini-cli`](https://github.com/google-gemini/gemini-cli)
 - stars: about **104k**
-- latest release: [`v0.41.2`](https://github.com/google-gemini/gemini-cli/releases/tag/v0.41.2) (published 2026-05-06)
+- latest release: [`v0.42.0`](https://github.com/google-gemini/gemini-cli/releases/tag/v0.42.0) (published 2026-05-12)
 
 ## Mental Model
 

@@ -127,7 +127,7 @@ Ready to begin? Start with [Chapter 1: System Overview](01-system-overview.md).
 ## Current Snapshot (auto-updated)
 
 - repository: [`nocodb/nocodb`](https://github.com/nocodb/nocodb)
-- stars: about **63k**
+- stars: about **63.1k**
 - latest release: [`2026.05.0`](https://github.com/nocodb/nocodb/releases/tag/2026.05.0) (published 2026-05-08)
 
 ## What You Will Learn

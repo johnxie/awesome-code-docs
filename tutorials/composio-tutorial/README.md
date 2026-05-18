@@ -28,8 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`ComposioHQ/composio`](https://github.com/ComposioHQ/composio)
-- stars: about **28.2k**
-- latest release: [`py@0.13.0`](https://github.com/ComposioHQ/composio/releases/tag/py@0.13.0) (published 2026-05-07)
+- stars: about **28.3k**
+- latest release: [`@composio/claude-agent-sdk@0.9.2`](https://github.com/ComposioHQ/composio/releases/tag/@composio/claude-agent-sdk@0.9.2) (published 2026-05-13)
 
 ## Mental Model
 

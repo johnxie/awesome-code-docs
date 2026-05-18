@@ -26,8 +26,8 @@ The AI SDK is one of the most widely used TypeScript toolkits for shipping moder
 ## Current Snapshot (auto-updated)
 
 - repository: [`vercel/ai`](https://github.com/vercel/ai)
-- stars: about **24.1k**
-- latest release: [`@ai-sdk/vue@3.0.177`](https://github.com/vercel/ai/releases/tag/@ai-sdk/vue@3.0.177) (published 2026-05-08)
+- stars: about **24.3k**
+- latest release: [`@ai-sdk/xai@3.0.91`](https://github.com/vercel/ai/releases/tag/@ai-sdk/xai@3.0.91) (published 2026-05-16)
 
 ## Mental Model
 

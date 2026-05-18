@@ -28,7 +28,7 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`browser-use/browser-use`](https://github.com/browser-use/browser-use)
-- stars: about **93.4k**
+- stars: about **94.4k**
 - latest release: [`0.12.6`](https://github.com/browser-use/browser-use/releases/tag/0.12.6) (published 2026-04-02)
 
 ## Mental Model

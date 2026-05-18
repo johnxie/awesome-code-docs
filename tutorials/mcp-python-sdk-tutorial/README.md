@@ -44,7 +44,7 @@ The **Model Context Protocol (MCP) Python SDK** is the official Python implement
 ## Current Snapshot (auto-updated)
 
 - repository: [`modelcontextprotocol/python-sdk`](https://github.com/modelcontextprotocol/python-sdk)
-- stars: about **22.9k**
+- stars: about **23k**
 - latest release: [`v1.27.1`](https://github.com/modelcontextprotocol/python-sdk/releases/tag/v1.27.1) (published 2026-05-08)
 
 ## Mental Model
