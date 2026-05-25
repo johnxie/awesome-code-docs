@@ -1,225 +1,232 @@
 {
   "findings": [
     {
-      "age_days": 928,
+      "age_days": 935,
       "file": "tutorials/agentgpt-tutorial/README.md",
       "line": "- latest release: [`v.1.0.0`](https://github.com/reworkd/AgentGPT/releases/tag/v.1.0.0) (published 2023-11-02)",
       "line_number": 79,
       "parsed_date": "2023-11-02"
     },
     {
-      "age_days": 282,
+      "age_days": 289,
       "file": "tutorials/aider-tutorial/README.md",
       "line": "- latest release: [`v0.86.0`](https://github.com/Aider-AI/aider/releases/tag/v0.86.0) (published 2025-08-09)",
       "line_number": 32,
       "parsed_date": "2025-08-09"
     },
     {
-      "age_days": 1365,
+      "age_days": 1372,
       "file": "tutorials/athens-research-tutorial/README.md",
       "line": "- latest release: [`v2.0.0`](https://github.com/athensresearch/athens/releases/tag/v2.0.0) (published 2022-08-22)",
       "line_number": 129,
       "parsed_date": "2022-08-22"
     },
     {
-      "age_days": 230,
+      "age_days": 237,
       "file": "tutorials/autogen-tutorial/README.md",
       "line": "- latest release: [`python-v0.7.5`](https://github.com/microsoft/autogen/releases/tag/python-v0.7.5) (published 2025-09-30)",
       "line_number": 80,
       "parsed_date": "2025-09-30"
     },
     {
-      "age_days": 371,
+      "age_days": 378,
       "file": "tutorials/bolt-diy-tutorial/README.md",
       "line": "- latest release: [`v1.0.0`](https://github.com/stackblitz-labs/bolt.diy/releases/tag/v1.0.0) (published 2025-05-12)",
       "line_number": 30,
       "parsed_date": "2025-05-12"
     },
     {
-      "age_days": 1061,
+      "age_days": 1068,
       "file": "tutorials/botpress-tutorial/README.md",
       "line": "- latest release: [`v12.30.9`](https://github.com/botpress/botpress/releases/tag/v12.30.9) (published 2023-06-22)",
       "line_number": 48,
       "parsed_date": "2023-06-22"
     },
     {
-      "age_days": 540,
+      "age_days": 547,
       "file": "tutorials/create-python-server-tutorial/README.md",
       "line": "- latest release: [`v1.0.5`](https://github.com/modelcontextprotocol/create-python-server/releases/tag/v1.0.5) (published 2024-11-24)",
       "line_number": 32,
       "parsed_date": "2024-11-24"
     },
     {
-      "age_days": 539,
+      "age_days": 546,
       "file": "tutorials/create-typescript-server-tutorial/README.md",
       "line": "- latest release: [`0.3.1`](https://github.com/modelcontextprotocol/create-typescript-server/releases/tag/0.3.1) (published 2024-11-25)",
       "line_number": 32,
       "parsed_date": "2024-11-25"
     },
     {
-      "age_days": 234,
+      "age_days": 241,
       "file": "tutorials/firecrawl-mcp-server-tutorial/README.md",
       "line": "- latest release: [`v3.2.1`](https://github.com/firecrawl/firecrawl-mcp-server/releases/tag/v3.2.1) (published 2025-09-26)",
       "line_number": 33,
       "parsed_date": "2025-09-26"
     },
     {
-      "age_days": 154,
+      "age_days": 161,
       "file": "tutorials/gptme-tutorial/README.md",
       "line": "- latest release: [`v0.31.0`](https://github.com/gptme/gptme/releases/tag/v0.31.0) (published 2025-12-15)",
       "line_number": 32,
       "parsed_date": "2025-12-15"
     },
     {
-      "age_days": 146,
+      "age_days": 153,
       "file": "tutorials/humanlayer-tutorial/README.md",
       "line": "- latest release: [`pro-0.20.0`](https://github.com/humanlayer/humanlayer/releases/tag/pro-0.20.0) (published 2025-12-23)",
       "line_number": 32,
       "parsed_date": "2025-12-23"
     },
     {
-      "age_days": 138,
+      "age_days": 145,
       "file": "tutorials/llama-factory-tutorial/README.md",
       "line": "- latest release: [`v0.9.4`](https://github.com/hiyouga/LLaMA-Factory/releases/tag/v0.9.4) (published 2025-12-31)",
       "line_number": 84,
       "parsed_date": "2025-12-31"
     },
     {
-      "age_days": 168,
+      "age_days": 175,
       "file": "tutorials/logseq-tutorial/README.md",
       "line": "- latest release: [`0.10.15`](https://github.com/logseq/logseq/releases/tag/0.10.15) (published 2025-12-01)",
       "line_number": 131,
       "parsed_date": "2025-12-01"
     },
     {
-      "age_days": 140,
+      "age_days": 147,
       "file": "tutorials/mcp-chrome-tutorial/README.md",
       "line": "- latest release: [`v1.0.0`](https://github.com/hangwin/mcp-chrome/releases/tag/v1.0.0) (published 2025-12-29)",
       "line_number": 33,
       "parsed_date": "2025-12-29"
     },
     {
-      "age_days": 174,
+      "age_days": 181,
       "file": "tutorials/mcp-specification-tutorial/README.md",
       "line": "- latest release: [`2025-11-25`](https://github.com/modelcontextprotocol/modelcontextprotocol/releases/tag/2025-11-25) (published 2025-11-25)",
       "line_number": 32,
       "parsed_date": "2025-11-25"
     },
     {
-      "age_days": 174,
+      "age_days": 181,
       "file": "tutorials/mcp-specification-tutorial/README.md",
       "line": "- latest release: [`2025-11-25`](https://github.com/modelcontextprotocol/modelcontextprotocol/releases/tag/2025-11-25) (published 2025-11-25)",
       "line_number": 32,
       "parsed_date": "2025-11-25"
     },
     {
-      "age_days": 174,
+      "age_days": 181,
       "file": "tutorials/mcp-specification-tutorial/README.md",
       "line": "- latest release: [`2025-11-25`](https://github.com/modelcontextprotocol/modelcontextprotocol/releases/tag/2025-11-25) (published 2025-11-25)",
       "line_number": 32,
       "parsed_date": "2025-11-25"
     },
     {
-      "age_days": 165,
+      "age_days": 172,
       "file": "tutorials/mcpb-tutorial/README.md",
       "line": "- latest release: [`v2.1.2`](https://github.com/modelcontextprotocol/mcpb/releases/tag/v2.1.2) (published 2025-12-04)",
       "line_number": 32,
       "parsed_date": "2025-12-04"
     },
     {
-      "age_days": 756,
+      "age_days": 763,
       "file": "tutorials/metagpt-tutorial/README.md",
       "line": "- latest release: [`v0.8.1`](https://github.com/geekan/MetaGPT/releases/tag/v0.8.1) (published 2024-04-22)",
       "line_number": 34,
       "parsed_date": "2024-04-22"
     },
     {
-      "age_days": 305,
+      "age_days": 312,
       "file": "tutorials/onlook-tutorial/README.md",
       "line": "- latest release: [`v0.2.32`](https://github.com/onlook-dev/onlook/releases/tag/v0.2.32) (published 2025-07-17)",
       "line_number": 32,
       "parsed_date": "2025-07-17"
     },
     {
-      "age_days": 260,
+      "age_days": 267,
       "file": "tutorials/opcode-tutorial/README.md",
       "line": "- latest release: [`v0.2.0`](https://github.com/winfunc/opcode/releases/tag/v0.2.0) (published 2025-08-31)",
       "line_number": 32,
       "parsed_date": "2025-08-31"
     },
     {
-      "age_days": 326,
+      "age_days": 333,
       "file": "tutorials/openai-whisper-tutorial/README.md",
       "line": "- latest release: [`v20250625`](https://github.com/openai/whisper/releases/tag/v20250625) (published 2025-06-26)",
       "line_number": 102,
       "parsed_date": "2025-06-26"
     },
     {
-      "age_days": 325,
+      "age_days": 332,
       "file": "tutorials/opencode-ai-legacy-tutorial/README.md",
       "line": "- latest release: [`v0.0.55`](https://github.com/opencode-ai/opencode/releases/tag/v0.0.55) (published 2025-06-27)",
       "line_number": 32,
       "parsed_date": "2025-06-27"
     },
     {
-      "age_days": 121,
+      "age_days": 128,
       "file": "tutorials/openskills-tutorial/README.md",
       "line": "- latest release: [`v1.5.0`](https://github.com/numman-ali/openskills/releases/tag/v1.5.0) (published 2026-01-17)",
       "line_number": 32,
       "parsed_date": "2026-01-17"
     },
     {
-      "age_days": 306,
+      "age_days": 313,
       "file": "tutorials/plandex-tutorial/README.md",
       "line": "- latest release: [`cli/v2.2.1`](https://github.com/plandex-ai/plandex/releases/tag/cli/v2.2.1) (published 2025-07-16)",
       "line_number": 32,
       "parsed_date": "2025-07-16"
     },
     {
-      "age_days": 468,
+      "age_days": 475,
       "file": "tutorials/quivr-tutorial/README.md",
       "line": "- latest release: [`core-0.0.33`](https://github.com/QuivrHQ/quivr/releases/tag/core-0.0.33) (published 2025-02-04)",
       "line_number": 81,
       "parsed_date": "2025-02-04"
     },
     {
-      "age_days": 354,
+      "age_days": 361,
       "file": "tutorials/qwen-agent-tutorial/README.md",
       "line": "- latest release: [`v0.0.26`](https://github.com/QwenLM/Qwen-Agent/releases/tag/v0.0.26) (published 2025-05-29)",
       "line_number": 32,
       "parsed_date": "2025-05-29"
     },
     {
-      "age_days": 171,
+      "age_days": 178,
       "file": "tutorials/stagewise-tutorial/README.md",
       "line": "- latest release: [`stagewise-vscode-extension@0.11.4`](https://github.com/stagewise-io/stagewise/releases/tag/stagewise-vscode-extension@0.11.4) (published 2025-11-28)",
       "line_number": 33,
       "parsed_date": "2025-11-28"
     },
     {
-      "age_days": 853,
+      "age_days": 860,
       "file": "tutorials/superagi-tutorial/README.md",
       "line": "- latest release: [`v0.0.14`](https://github.com/TransformerOptimus/SuperAGI/releases/tag/v0.0.14) (published 2024-01-16)",
       "line_number": 83,
       "parsed_date": "2024-01-16"
     },
     {
-      "age_days": 361,
+      "age_days": 368,
       "file": "tutorials/swe-agent-tutorial/README.md",
       "line": "- latest release: [`v1.1.0`](https://github.com/SWE-agent/SWE-agent/releases/tag/v1.1.0) (published 2025-05-22)",
       "line_number": 32,
       "parsed_date": "2025-05-22"
     },
     {
-      "age_days": 980,
+      "age_days": 987,
       "file": "tutorials/sweep-tutorial/README.md",
       "line": "- latest release: [`sweep-sandbox-v1`](https://github.com/sweepai/sweep/releases/tag/sweep-sandbox-v1) (published 2023-09-11)",
       "line_number": 35,
       "parsed_date": "2023-09-11"
+    },
+    {
+      "age_days": 120,
+      "file": "tutorials/tabby-tutorial/README.md",
+      "line": "- latest release: [`v0.32.0`](https://github.com/TabbyML/tabby/releases/tag/v0.32.0) (published 2026-01-25)",
+      "line_number": 33,
+      "parsed_date": "2026-01-25"
     }
   ],
   "max_age_days": 120,
-  "stale_release_claim_count": 31,
+  "stale_release_claim_count": 32,
   "targets": [
     "tutorials/*/README.md"
   ]

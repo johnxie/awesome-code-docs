@@ -28,7 +28,7 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`modelcontextprotocol/rust-sdk`](https://github.com/modelcontextprotocol/rust-sdk)
-- stars: about **3.4k**
+- stars: about **3.5k**
 - latest release: [`rmcp-v1.7.0`](https://github.com/modelcontextprotocol/rust-sdk/releases/tag/rmcp-v1.7.0) (published 2026-05-13)
 
 ## Mental Model

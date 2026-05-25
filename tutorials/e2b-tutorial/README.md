@@ -31,8 +31,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`e2b-dev/E2B`](https://github.com/e2b-dev/E2B)
-- stars: about **12.2k**
-- latest release: [`e2b@2.20.1`](https://github.com/e2b-dev/E2B/releases/tag/e2b@2.20.1) (published 2026-05-14)
+- stars: about **12.3k**
+- latest release: [`@e2b/cli@2.10.2`](https://github.com/e2b-dev/E2B/releases/tag/@e2b/cli@2.10.2) (published 2026-05-22)
 
 ## Mental Model
 

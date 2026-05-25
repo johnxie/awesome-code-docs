@@ -135,8 +135,8 @@ Ready to begin? Start with [Chapter 1: System Overview](01-system-overview.md).
 ## Current Snapshot (auto-updated)
 
 - repository: [`langgenius/dify`](https://github.com/langgenius/dify)
-- stars: about **142k**
-- latest release: [`1.14.1`](https://github.com/langgenius/dify/releases/tag/1.14.1) (published 2026-05-12)
+- stars: about **143k**
+- latest release: [`1.14.2`](https://github.com/langgenius/dify/releases/tag/1.14.2) (published 2026-05-19)
 
 ## What You Will Learn
 
