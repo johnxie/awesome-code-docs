@@ -30,7 +30,7 @@ This track focuses on:
 
 - repository: [`stagewise-io/stagewise`](https://github.com/stagewise-io/stagewise)
 - stars: about **6.7k**
-- latest release: [`stagewise-vscode-extension@0.11.4`](https://github.com/stagewise-io/stagewise/releases/tag/stagewise-vscode-extension@0.11.4) (published 2025-11-28)
+- latest release: [`stagewise@1.3.0`](https://github.com/stagewise-io/stagewise/releases/tag/stagewise@1.3.0) (published 2026-05-29)
 
 ## Mental Model
 

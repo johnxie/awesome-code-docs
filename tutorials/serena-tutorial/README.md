@@ -28,8 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`oraios/serena`](https://github.com/oraios/serena)
-- stars: about **24.6k**
-- latest release: [`v1.5.1`](https://github.com/oraios/serena/releases/tag/v1.5.1) (published 2026-05-18)
+- stars: about **24.8k**
+- latest release: [`v1.5.3`](https://github.com/oraios/serena/releases/tag/v1.5.3) (published 2026-05-26)
 
 ## Mental Model
 

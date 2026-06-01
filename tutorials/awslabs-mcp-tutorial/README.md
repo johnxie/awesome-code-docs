@@ -28,8 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`awslabs/mcp`](https://github.com/awslabs/mcp)
-- stars: about **9.1k**
-- latest release: [`2026.05.20260520203119`](https://github.com/awslabs/mcp/releases/tag/2026.05.20260520203119) (published 2026-05-20)
+- stars: about **9.2k**
+- latest release: [`2026.05.20260529200555`](https://github.com/awslabs/mcp/releases/tag/2026.05.20260529200555) (published 2026-05-29)
 
 ## Mental Model
 

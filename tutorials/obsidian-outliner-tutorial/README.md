@@ -118,7 +118,7 @@ Ready to begin? Start with [Chapter 1: Plugin Architecture](01-plugin-architectu
 
 - repository: [`vslinko/obsidian-outliner`](https://github.com/vslinko/obsidian-outliner)
 - stars: about **1.3k**
-- latest release: [`4.10.0`](https://github.com/vslinko/obsidian-outliner/releases/tag/4.10.0) (published 2026-02-24)
+- latest release: [`4.10.1`](https://github.com/vslinko/obsidian-outliner/releases/tag/4.10.1) (published 2026-05-27)
 
 ## What You Will Learn
 

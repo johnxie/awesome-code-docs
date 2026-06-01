@@ -78,8 +78,8 @@ Welcome to your journey through scalable AI memory systems! This tutorial explor
 ## Current Snapshot (auto-updated)
 
 - repository: [`mem0ai/mem0`](https://github.com/mem0ai/mem0)
-- stars: about **56.7k**
-- latest release: [`cli-v0.2.7`](https://github.com/mem0ai/mem0/releases/tag/cli-v0.2.7) (published 2026-05-20)
+- stars: about **57.3k**
+- latest release: [`opencode-v0.1.2`](https://github.com/mem0ai/mem0/releases/tag/opencode-v0.1.2) (published 2026-06-01)
 
 ## What You Will Learn
 

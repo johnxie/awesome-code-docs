@@ -131,28 +131,28 @@ Live repository snapshot for high-intent Taskade/Genesis/AI/MCP searches.
 ---
 
 <!-- BEGIN: TRENDING_VIBE_CODING -->
-## 📈 Trending Vibe-Coding Repos (Auto-updated 2026-05-25)
+## 📈 Trending Vibe-Coding Repos (Auto-updated 2026-06-01)
 
 Live GitHub market signals for high-impact open-source coding-agent and vibe-coding ecosystems with direct tutorial coverage.
 
 | Ecosystem Repo | Tutorial | Stars | Last Push | Why It Matters |
 |:---------------|:---------|------:|:----------|:---------------|
-| [`anomalyco/opencode`](https://github.com/anomalyco/opencode) | [OpenCode Tutorial](tutorials/opencode-tutorial/) | 165,021 | 2026-05-25 (0d ago) | terminal-native coding agent with strong provider and tool controls |
-| [`open-webui/open-webui`](https://github.com/open-webui/open-webui) | [Open WebUI Tutorial](tutorials/open-webui-tutorial/) | 138,560 | 2026-05-23 (2d ago) | self-hosted AI interface and model operations |
-| [`browser-use/browser-use`](https://github.com/browser-use/browser-use) | [Browser Use Tutorial](tutorials/browser-use-tutorial/) | 95,423 | 2026-05-23 (2d ago) | browser-native AI automation and agent execution |
-| [`daytonaio/daytona`](https://github.com/daytonaio/daytona) | [Daytona Tutorial](tutorials/daytona-tutorial/) | 72,463 | 2026-05-25 (0d ago) | sandbox infrastructure for secure AI code execution |
-| [`cline/cline`](https://github.com/cline/cline) | [Cline Tutorial](tutorials/cline-tutorial/) | 62,282 | 2026-05-25 (0d ago) | agentic coding with terminal, browser, and MCP workflows |
-| [`Mintplex-Labs/anything-llm`](https://github.com/Mintplex-Labs/anything-llm) | [AnythingLLM Tutorial](tutorials/anything-llm-tutorial/) | 60,577 | 2026-05-24 (1d ago) | self-hosted RAG workspaces and agent workflows |
-| [`Fission-AI/OpenSpec`](https://github.com/Fission-AI/OpenSpec) | [OpenSpec Tutorial](tutorials/openspec-tutorial/) | 50,592 | 2026-05-23 (2d ago) | spec-driven workflow layer for predictable AI-assisted delivery |
-| [`TabbyML/tabby`](https://github.com/TabbyML/tabby) | [Tabby Tutorial](tutorials/tabby-tutorial/) | 33,539 | 2026-03-02 (84d ago) | self-hosted coding assistant platform for teams |
-| [`continuedev/continue`](https://github.com/continuedev/continue) | [Continue Tutorial](tutorials/continue-tutorial/) | 33,369 | 2026-05-25 (0d ago) | IDE-native AI coding assistant architecture |
-| [`vercel/ai`](https://github.com/vercel/ai) | [Vercel AI SDK Tutorial](tutorials/vercel-ai-tutorial/) | 24,456 | 2026-05-25 (0d ago) | production TypeScript AI app and agent SDK patterns |
-| [`RooCodeInc/Roo-Code`](https://github.com/RooCodeInc/Roo-Code) | [Roo Code Tutorial](tutorials/roo-code-tutorial/) | 24,140 | 2026-05-15 (10d ago) | multi-mode coding agents and approval workflows |
-| [`dyad-sh/dyad`](https://github.com/dyad-sh/dyad) | [Dyad Tutorial](tutorials/dyad-tutorial/) | 20,418 | 2026-05-23 (2d ago) | local-first AI app generation workflows |
-| [`stackblitz-labs/bolt.diy`](https://github.com/stackblitz-labs/bolt.diy) | [bolt.diy Tutorial](tutorials/bolt-diy-tutorial/) | 19,392 | 2026-02-07 (107d ago) | open-source Bolt-style product builder stack |
-| [`sweepai/sweep`](https://github.com/sweepai/sweep) | [Sweep Tutorial](tutorials/sweep-tutorial/) | 7,712 | 2025-09-18 (249d ago) | issue-to-PR coding agent workflows and GitHub automation |
-| [`stagewise-io/stagewise`](https://github.com/stagewise-io/stagewise) | [Stagewise Tutorial](tutorials/stagewise-tutorial/) | 6,682 | 2026-05-25 (0d ago) | browser-context frontend coding agent workflows |
-| [`cloudflare/vibesdk`](https://github.com/cloudflare/vibesdk) | [VibeSDK Tutorial](tutorials/vibesdk-tutorial/) | 5,044 | 2026-05-20 (5d ago) | Cloudflare-native prompt-to-app platform architecture |
+| [`anomalyco/opencode`](https://github.com/anomalyco/opencode) | [OpenCode Tutorial](tutorials/opencode-tutorial/) | 168,137 | 2026-06-01 (0d ago) | terminal-native coding agent with strong provider and tool controls |
+| [`open-webui/open-webui`](https://github.com/open-webui/open-webui) | [Open WebUI Tutorial](tutorials/open-webui-tutorial/) | 139,494 | 2026-06-01 (0d ago) | self-hosted AI interface and model operations |
+| [`browser-use/browser-use`](https://github.com/browser-use/browser-use) | [Browser Use Tutorial](tutorials/browser-use-tutorial/) | 96,509 | 2026-06-01 (0d ago) | browser-native AI automation and agent execution |
+| [`daytonaio/daytona`](https://github.com/daytonaio/daytona) | [Daytona Tutorial](tutorials/daytona-tutorial/) | 72,504 | 2026-06-01 (0d ago) | sandbox infrastructure for secure AI code execution |
+| [`cline/cline`](https://github.com/cline/cline) | [Cline Tutorial](tutorials/cline-tutorial/) | 62,596 | 2026-06-01 (0d ago) | agentic coding with terminal, browser, and MCP workflows |
+| [`Mintplex-Labs/anything-llm`](https://github.com/Mintplex-Labs/anything-llm) | [AnythingLLM Tutorial](tutorials/anything-llm-tutorial/) | 60,877 | 2026-05-30 (2d ago) | self-hosted RAG workspaces and agent workflows |
+| [`Fission-AI/OpenSpec`](https://github.com/Fission-AI/OpenSpec) | [OpenSpec Tutorial](tutorials/openspec-tutorial/) | 52,095 | 2026-06-01 (0d ago) | spec-driven workflow layer for predictable AI-assisted delivery |
+| [`TabbyML/tabby`](https://github.com/TabbyML/tabby) | [Tabby Tutorial](tutorials/tabby-tutorial/) | 33,555 | 2026-03-02 (91d ago) | self-hosted coding assistant platform for teams |
+| [`continuedev/continue`](https://github.com/continuedev/continue) | [Continue Tutorial](tutorials/continue-tutorial/) | 33,476 | 2026-06-01 (0d ago) | IDE-native AI coding assistant architecture |
+| [`vercel/ai`](https://github.com/vercel/ai) | [Vercel AI SDK Tutorial](tutorials/vercel-ai-tutorial/) | 24,582 | 2026-06-01 (0d ago) | production TypeScript AI app and agent SDK patterns |
+| [`RooCodeInc/Roo-Code`](https://github.com/RooCodeInc/Roo-Code) | [Roo Code Tutorial](tutorials/roo-code-tutorial/) | 24,183 | 2026-05-15 (17d ago) | multi-mode coding agents and approval workflows |
+| [`dyad-sh/dyad`](https://github.com/dyad-sh/dyad) | [Dyad Tutorial](tutorials/dyad-tutorial/) | 20,497 | 2026-05-30 (2d ago) | local-first AI app generation workflows |
+| [`stackblitz-labs/bolt.diy`](https://github.com/stackblitz-labs/bolt.diy) | [bolt.diy Tutorial](tutorials/bolt-diy-tutorial/) | 19,414 | 2026-02-07 (114d ago) | open-source Bolt-style product builder stack |
+| [`sweepai/sweep`](https://github.com/sweepai/sweep) | [Sweep Tutorial](tutorials/sweep-tutorial/) | 7,708 | 2025-09-18 (256d ago) | issue-to-PR coding agent workflows and GitHub automation |
+| [`stagewise-io/stagewise`](https://github.com/stagewise-io/stagewise) | [Stagewise Tutorial](tutorials/stagewise-tutorial/) | 6,689 | 2026-06-01 (0d ago) | browser-context frontend coding agent workflows |
+| [`cloudflare/vibesdk`](https://github.com/cloudflare/vibesdk) | [VibeSDK Tutorial](tutorials/vibesdk-tutorial/) | 5,055 | 2026-05-29 (3d ago) | Cloudflare-native prompt-to-app platform architecture |
 
 Data source: GitHub REST API (`stargazers_count`, `pushed_at`) via `scripts/refresh_market_signals.py`.
 <!-- END: TRENDING_VIBE_CODING -->

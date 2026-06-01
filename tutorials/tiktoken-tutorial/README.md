@@ -201,7 +201,7 @@ Ready to begin? Start with [Chapter 1: Getting Started](01-getting-started.md).
 ## Current Snapshot (auto-updated)
 
 - repository: [`openai/tiktoken`](https://github.com/openai/tiktoken)
-- stars: about **18.3k**
+- stars: about **18.4k**
 - latest release: [`0.13.0`](https://github.com/openai/tiktoken/releases/tag/0.13.0) (published 2026-05-15)
 
 ## Source References

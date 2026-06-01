@@ -44,7 +44,7 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`agno-agi/agno`](https://github.com/agno-agi/agno)
-- stars: about **40.3k**
+- stars: about **40.4k**
 - latest release: [`v2.6.9`](https://github.com/agno-agi/agno/releases/tag/v2.6.9) (published 2026-05-21)
 
 ## What You Will Learn
