@@ -16,11 +16,11 @@ Use this guide to navigate all tutorial tracks, understand structure rules, and 
 |:-------|:------|
 | Tutorial directories | 203 |
 | Tutorial markdown files | 1830 |
-| Tutorial markdown lines | 706,078 |
+| Tutorial markdown lines | 706,123 |
 
 ## Source Verification Snapshot
 
-Repository-source verification run against tutorial index references (GitHub API, 2026-02-24):
+Repository-source verification run against tutorial index references (GitHub API, 2026-06-01):
 
 | Signal | Value |
 |:-------|------:|

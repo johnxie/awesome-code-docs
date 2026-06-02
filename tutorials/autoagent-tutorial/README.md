@@ -18,6 +18,10 @@ last_updated: 2026-04-12
 
 AutoAgent (formerly MetaChain) is a **zero-code autonomous agent framework** from HKUDS that lets you describe agents in plain English and have them generated, tested, and deployed automatically. With 9,116 GitHub stars and an academic paper (arxiv:2502.05957), it represents a significant step toward democratizing multi-agent system development.
 
+## Why This Track Matters
+
+AutoAgent is useful because it turns agent development into an interactive generation workflow. Instead of requiring a developer to hand-wire every tool, prompt, and orchestration step, it exposes modes for research, agent creation, and workflow creation that beginners can reason about separately.
+
 ## What You Will Learn
 
 This tutorial walks through AutoAgent from first install to production-grade multi-agent pipelines. By the end, you will understand how the MetaChain engine works under the hood, how all three operating modes fit together, and how to extend the framework with your own tools, agents, and workflows.
@@ -37,6 +41,10 @@ This tutorial walks through AutoAgent from first install to production-grade mul
 
 The internal codebase uses the class name **MetaChain** throughout — the project was publicly renamed from MetaChain to AutoAgent in February 2025. You will see `from autoagent import MetaChain` and `MetaChain.run()` in all source files. This tutorial uses "AutoAgent" when referring to the product and "MetaChain" when referring to the specific class or import.
 
+## Mental Model
+
+Think of AutoAgent as three coordinated workbenches. User Mode runs research tasks, Agent Editor turns natural-language requirements into reusable agents, and Workflow Editor connects agents into event-driven pipelines.
+
 ## Three Operating Modes
 
 | Mode | Entry Point | Best For |
@@ -45,7 +53,7 @@ The internal codebase uses the class name **MetaChain** throughout — the proje
 | Agent Editor | `auto main` → "create agent" | Generating new agents from NL descriptions |
 | Workflow Editor | `auto main` → "create workflow" | Composing async parallel pipelines |
 
-## Tutorial Chapters
+## Chapter Guide
 
 1. [Getting Started](./01-getting-started.md) — Install, .env setup, first research task, three-mode overview
 2. [Core Architecture: MetaChain Engine](./02-core-architecture-metachain-engine.md) — Agent/Response/Result types, run loop, context_variables, non-FC XML fallback
@@ -100,7 +108,7 @@ auto main
 | Stars | 9,116 |
 | Paper | arxiv:2502.05957 |
 
-## Sources
+## Source References
 
 - [GitHub Repository](https://github.com/HKUDS/AutoAgent)
 - [Academic Paper](https://arxiv.org/abs/2502.05957)

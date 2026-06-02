@@ -29,6 +29,10 @@ autoresearch (https://github.com/karpathy/autoresearch) is a minimal, self-direc
 | Time per experiment | ~5 minutes (fixed wall-clock budget) |
 | Experiments per night | ~100 |
 
+## Why This Track Matters
+
+autoresearch is a compact example of an AI agent operating as a real research loop instead of a chat interface. Its value is that every experiment is auditable: code changes, measurements, and decisions are captured in files a developer can inspect.
+
 ## What You Will Learn
 
 This tutorial takes you from zero to running your own autonomous ML research loop. By the end you will understand:
@@ -59,6 +63,10 @@ autoresearch/
 └── pyproject.toml    # uv project manifest
 ```
 
+## Mental Model
+
+Think of autoresearch as a tiny research lab with three roles encoded in files. `prepare.py` fixes the benchmark, `train.py` is the mutable experiment, and `program.md` acts as the lab protocol that tells the agent how to propose, run, and judge changes.
+
 ## Prerequisites
 
 | Requirement | Minimum | Recommended |
@@ -70,7 +78,7 @@ autoresearch/
 | Disk space | 50 GB | 200 GB |
 | Time to first experiment | ~30 min | ~15 min |
 
-## Tutorial Chapters
+## Chapter Guide
 
 | # | Chapter | What you learn |
 |---|---|---|
@@ -113,3 +121,7 @@ autoresearch embodies three principles that distinguish it from heavier MLOps fr
 ---
 
 *This tutorial was written for autoresearch as of April 2026 (70,978 stars, MIT license). The repository moves fast; always check the upstream source for the latest `train.py` and `program.md`.*
+
+## Source References
+
+- [karpathy/autoresearch](https://github.com/karpathy/autoresearch)
