@@ -38,7 +38,7 @@ This track focuses on:
 
 - repository: [`toeverything/AFFiNE`](https://github.com/toeverything/AFFiNE)
 - stars: about **69k**
-- latest release: [`v0.26.3`](https://github.com/toeverything/AFFiNE/releases/tag/v0.26.3) (published 2026-02-25)
+- GitHub release reference: [`v0.26.3`](https://github.com/toeverything/AFFiNE/releases/tag/v0.26.3) (checked 2026-06-02; release metadata on GitHub)
 
 ## Mental Model
 

@@ -29,7 +29,7 @@ This track focuses on:
 
 - repository: [`modelcontextprotocol/inspector`](https://github.com/modelcontextprotocol/inspector)
 - stars: about **9.9k**
-- latest release: [`0.21.2-hotfix-3`](https://github.com/modelcontextprotocol/inspector/releases/tag/0.21.2-hotfix-3) (published 2026-04-14)
+- GitHub release reference: [`0.21.2-hotfix-3`](https://github.com/modelcontextprotocol/inspector/releases/tag/0.21.2-hotfix-3) (checked 2026-06-02; release metadata on GitHub)
 
 ## Mental Model
 

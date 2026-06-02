@@ -29,7 +29,7 @@ This track focuses on:
 
 - repository: [`upstash/context7`](https://github.com/upstash/context7)
 - stars: about **56.5k**
-- latest release: [`@upstash/context7-pi@0.1.0`](https://github.com/upstash/context7/releases/tag/@upstash/context7-pi@0.1.0) (published 2026-05-25)
+- GitHub release reference: [`@upstash/context7-pi@0.1.0`](https://github.com/upstash/context7/releases/tag/@upstash/context7-pi@0.1.0) (checked 2026-06-02; release metadata on GitHub)
 
 ## Mental Model
 

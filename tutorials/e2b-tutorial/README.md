@@ -32,7 +32,7 @@ This track focuses on:
 
 - repository: [`e2b-dev/E2B`](https://github.com/e2b-dev/E2B)
 - stars: about **12.4k**
-- latest release: [`@e2b/python-sdk@2.25.1`](https://github.com/e2b-dev/E2B/releases/tag/@e2b/python-sdk@2.25.1) (published 2026-05-29)
+- GitHub release reference: [`@e2b/python-sdk@2.25.1`](https://github.com/e2b-dev/E2B/releases/tag/@e2b/python-sdk@2.25.1) (checked 2026-06-02; release metadata on GitHub)
 
 ## Mental Model
 

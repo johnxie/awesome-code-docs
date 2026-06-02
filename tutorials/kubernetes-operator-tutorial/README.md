@@ -75,7 +75,7 @@ flowchart TD
 
 - repository: [`operator-framework/operator-sdk`](https://github.com/operator-framework/operator-sdk)
 - stars: about **7.6k**
-- latest release: [`v1.42.2`](https://github.com/operator-framework/operator-sdk/releases/tag/v1.42.2) (published 2026-03-19)
+- GitHub release reference: [`v1.42.2`](https://github.com/operator-framework/operator-sdk/releases/tag/v1.42.2) (checked 2026-06-02; release metadata on GitHub)
 
 ## Core Operator Concepts
 

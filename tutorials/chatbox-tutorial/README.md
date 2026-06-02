@@ -75,7 +75,7 @@ Welcome to your journey through modern AI chat interface development! This tutor
 
 - repository: [`Bin-Huang/chatbox`](https://github.com/Bin-Huang/chatbox)
 - stars: about **40.2k**
-- latest release: [`v1.20.3`](https://github.com/Bin-Huang/chatbox/releases/tag/v1.20.3) (published 2026-05-31)
+- GitHub release reference: [`v1.20.3`](https://github.com/Bin-Huang/chatbox/releases/tag/v1.20.3) (checked 2026-06-02; release metadata on GitHub)
 
 ## What You Will Learn
 

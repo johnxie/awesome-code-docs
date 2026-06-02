@@ -29,7 +29,7 @@ This track focuses on:
 
 - repository: [`winfunc/opcode`](https://github.com/winfunc/opcode)
 - stars: about **22k**
-- latest release: [`v0.2.0`](https://github.com/winfunc/opcode/releases/tag/v0.2.0) (published 2025-08-31)
+- GitHub release reference: [`v0.2.0`](https://github.com/winfunc/opcode/releases/tag/v0.2.0) (checked 2026-06-02; release metadata on GitHub)
 
 ## Mental Model
 

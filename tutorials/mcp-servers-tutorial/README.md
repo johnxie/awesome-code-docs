@@ -114,7 +114,7 @@ Ready to begin? Start with [Chapter 1: Getting Started](01-getting-started.md).
 
 - repository: [`modelcontextprotocol/servers`](https://github.com/modelcontextprotocol/servers)
 - stars: about **86.6k**
-- latest release: [`2026.1.26`](https://github.com/modelcontextprotocol/servers/releases/tag/2026.1.26) (published 2026-01-27)
+- GitHub release reference: [`2026.1.26`](https://github.com/modelcontextprotocol/servers/releases/tag/2026.1.26) (checked 2026-06-02; release metadata on GitHub)
 
 ## What You Will Learn
 

@@ -76,7 +76,7 @@ Welcome to your journey through AI-native vector databases! This tutorial explor
 
 - repository: [`chroma-core/chroma`](https://github.com/chroma-core/chroma)
 - stars: about **28.2k**
-- latest release: [`1.5.9`](https://github.com/chroma-core/chroma/releases/tag/1.5.9) (published 2026-05-05)
+- GitHub release reference: [`1.5.9`](https://github.com/chroma-core/chroma/releases/tag/1.5.9) (checked 2026-06-02; release metadata on GitHub)
 
 ## What You Will Learn
 

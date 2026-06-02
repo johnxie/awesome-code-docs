@@ -29,7 +29,7 @@ This track focuses on:
 
 - repository: [`agno-agi/agno`](https://github.com/agno-agi/agno)
 - stars: about **40.4k**
-- latest release: [`v2.6.9`](https://github.com/agno-agi/agno/releases/tag/v2.6.9) (published 2026-05-21)
+- GitHub release reference: [`v2.6.9`](https://github.com/agno-agi/agno/releases/tag/v2.6.9) (checked 2026-06-02; release metadata on GitHub)
 
 ## Mental Model
 

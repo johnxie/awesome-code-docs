@@ -29,7 +29,7 @@ This track focuses on:
 
 - repository: [`activepieces/activepieces`](https://github.com/activepieces/activepieces)
 - stars: about **22.5k**
-- latest release: [`0.84.0`](https://github.com/activepieces/activepieces/releases/tag/0.84.0) (published 2026-05-29)
+- GitHub release reference: [`0.84.0`](https://github.com/activepieces/activepieces/releases/tag/0.84.0) (checked 2026-06-02; release metadata on GitHub)
 
 ## Mental Model
 

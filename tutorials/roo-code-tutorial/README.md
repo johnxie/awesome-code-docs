@@ -29,7 +29,7 @@ This track teaches you how to:
 
 - repository: [`RooCodeInc/Roo-Code`](https://github.com/RooCodeInc/Roo-Code)
 - stars: about **24.2k**
-- latest release: [`v3.54.0`](https://github.com/RooCodeInc/Roo-Code/releases/tag/v3.54.0) (published 2026-05-15)
+- GitHub release reference: [`v3.54.0`](https://github.com/RooCodeInc/Roo-Code/releases/tag/v3.54.0) (checked 2026-06-02; release metadata on GitHub)
 - status: **archived**
 
 ## Roo Code Mental Model

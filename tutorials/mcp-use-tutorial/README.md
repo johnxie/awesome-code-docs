@@ -29,7 +29,7 @@ This track focuses on:
 
 - repository: [`mcp-use/mcp-use`](https://github.com/mcp-use/mcp-use)
 - stars: about **10k**
-- latest release: [`python-v1.7.0`](https://github.com/mcp-use/mcp-use/releases/tag/python-v1.7.0) (published 2026-03-17)
+- GitHub release reference: [`python-v1.7.0`](https://github.com/mcp-use/mcp-use/releases/tag/python-v1.7.0) (checked 2026-06-02; release metadata on GitHub)
 
 ## Mental Model
 

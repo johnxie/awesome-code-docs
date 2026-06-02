@@ -29,7 +29,7 @@ This track focuses on:
 
 - repository: [`modelcontextprotocol/swift-sdk`](https://github.com/modelcontextprotocol/swift-sdk)
 - stars: about **1.4k**
-- latest release: [`0.12.1`](https://github.com/modelcontextprotocol/swift-sdk/releases/tag/0.12.1) (published 2026-05-07)
+- GitHub release reference: [`0.12.1`](https://github.com/modelcontextprotocol/swift-sdk/releases/tag/0.12.1) (checked 2026-06-02; release metadata on GitHub)
 
 ## Mental Model
 

@@ -29,7 +29,7 @@ This track focuses on:
 
 - repository: [`campfirein/cipher`](https://github.com/campfirein/cipher)
 - stars: about **4.8k**
-- latest release: [`v3.16.1`](https://github.com/campfirein/cipher/releases/tag/v3.16.1) (published 2026-05-27)
+- GitHub release reference: [`v3.16.1`](https://github.com/campfirein/cipher/releases/tag/v3.16.1) (checked 2026-06-02; release metadata on GitHub)
 
 ## Mental Model
 

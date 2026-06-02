@@ -30,7 +30,7 @@ This track focuses on:
 
 - repository: [`hangwin/mcp-chrome`](https://github.com/hangwin/mcp-chrome)
 - stars: about **11.8k**
-- latest release: [`v1.0.0`](https://github.com/hangwin/mcp-chrome/releases/tag/v1.0.0) (published 2025-12-29)
+- GitHub release reference: [`v1.0.0`](https://github.com/hangwin/mcp-chrome/releases/tag/v1.0.0) (checked 2026-06-02; release metadata on GitHub)
 
 ## Mental Model
 
