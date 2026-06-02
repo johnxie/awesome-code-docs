@@ -248,7 +248,7 @@ What you will observe:
 1. **Thinking phase** — The lead agent parses the question, identifies sub-topics, and may ask a clarifying question via `ask_clarification` if the request is ambiguous
 2. **Research phase** — Multiple web searches fire in sequence (or in parallel via sub-agents), each fetching and reading full page content
 3. **Synthesis phase** — The agent accumulates search results in its context window
-4. **Report phase** — A structured markdown report streams to the UI with inline citations in the format `[citation:Title](URL)`
+4. **Report phase** — A structured markdown report streams to the UI with inline citations that pair a citation title with its source URL.
 
 The entire interaction is a single LangGraph thread, persisted in the checkpointer. You can resume it later or branch into a new query.
 

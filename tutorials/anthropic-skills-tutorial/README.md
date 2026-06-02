@@ -23,7 +23,7 @@ related_tutorials:
 [![GitHub](https://img.shields.io/badge/Source-anthropics%2Fanthropic--quickstarts-blue)](https://github.com/anthropics/anthropic-quickstarts)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-## What This Tutorial Covers
+## What You Will Learn
 
 The `anthropics/anthropic-quickstarts` repository is the canonical starting point for building production-quality Claude-powered applications. It is **not** a skills/plugin system — it is a collection of five standalone quickstart projects that demonstrate the full range of Claude's capabilities:
 
@@ -41,7 +41,7 @@ The `anthropics/anthropic-quickstarts` repository is the canonical starting poin
 - repository: [`anthropics/anthropic-quickstarts`](https://github.com/anthropics/anthropic-quickstarts)
 - stars: about **16.9k**
 
-## Why This Repository Matters
+## Why This Track Matters
 
 Before these quickstarts existed, the standard approach was to cobble together ad-hoc integrations from API documentation snippets. The quickstarts provide:
 
@@ -49,6 +49,10 @@ Before these quickstarts existed, the standard approach was to cobble together a
 - **Reference sampling loops** demonstrating multi-turn conversation management, prompt caching, and image window management
 - **Concrete tool implementations** showing exactly how `bash`, `computer`, and `str_replace_based_edit_tool` are structured
 - **Production patterns** like retry logic, provider abstraction (Anthropic / Bedrock / Vertex), and structured output validation
+
+## Mental Model
+
+Think of this track as a portfolio of working Claude applications rather than a single framework. Each quickstart teaches one complete pattern: the desktop demos show action loops, the agents project shows tool orchestration, and the Next.js examples show how to ship Claude into user-facing products.
 
 ## Architecture Overview
 
@@ -114,6 +118,11 @@ Ready to begin? Start with [Chapter 1: Getting Started](01-getting-started.md).
 ---
 
 *Built from the official [anthropics/anthropic-quickstarts](https://github.com/anthropics/anthropic-quickstarts) repository. All code examples are taken directly from that source.*
+
+## Source References
+
+- [anthropics/anthropic-quickstarts](https://github.com/anthropics/anthropic-quickstarts)
+- [Anthropic API documentation](https://docs.anthropic.com/)
 
 ## Navigation
 

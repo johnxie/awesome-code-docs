@@ -48,6 +48,18 @@ Unlike ephemeral chatbot wrappers, Hermes is built around three design principle
 | DevOps / infra engineers | Six swappable terminal backends (local, Docker, SSH, Daytona, Singularity, Modal) for isolated task execution |
 | OpenClaw users | A clear migration path: `hermes claw migrate` imports your memories, skills, and config |
 
+## Why This Track Matters
+
+Hermes Agent is a useful study target because it combines several hard agent problems in one repo: memory, platform routing, scheduling, tool execution, and training-data capture. That makes it a strong map for readers who want to move from a local assistant to an always-on agent system.
+
+## What You Will Learn
+
+By the end of this tutorial, you will understand how Hermes structures persistent memory, how the messaging gateway routes conversations across platforms, how scheduled jobs and subagents run, and how interaction traces become reinforcement-learning data.
+
+## Mental Model
+
+Think of Hermes as a personal AI operating system. The agent core decides what to do, the memory layers preserve context, the gateway lets users reach it from many channels, and the training loop converts real usage into improvement data.
+
 ---
 
 ## Architecture at a Glance
@@ -102,7 +114,7 @@ cli.py
 
 ---
 
-## Chapters in This Tutorial
+## Chapter Guide
 
 | Chapter | Title | Key Topics |
 |---|---|---|
@@ -150,3 +162,7 @@ hermes
 ## License and Attribution
 
 Hermes Agent is released under the [MIT License](https://github.com/nousresearch/hermes-agent/blob/main/LICENSE) by NousResearch. This tutorial is an independent educational resource; it is not officially affiliated with NousResearch.
+
+## Source References
+
+- [nousresearch/hermes-agent](https://github.com/nousresearch/hermes-agent)
