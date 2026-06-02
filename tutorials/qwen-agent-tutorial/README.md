@@ -29,7 +29,7 @@ This track focuses on:
 
 - repository: [`QwenLM/Qwen-Agent`](https://github.com/QwenLM/Qwen-Agent)
 - stars: about **16.4k**
-- latest release: [`v0.0.26`](https://github.com/QwenLM/Qwen-Agent/releases/tag/v0.0.26) (published 2025-05-29)
+- GitHub release reference: [`v0.0.26`](https://github.com/QwenLM/Qwen-Agent/releases/tag/v0.0.26) (checked 2026-06-02; release metadata on GitHub)
 
 ## Mental Model
 

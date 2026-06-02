@@ -24,7 +24,7 @@ format_version: v2
 
 - repository: `<org>/<repo>`
 - stars: about **<N>**
-- latest release/version: `<tag or version>`
+- GitHub release reference/version: `<tag or version>` (checked `<YYYY-MM-DD>`)
 - current focus: <short note>
 
 ## <Tutorial Name> Mental Model

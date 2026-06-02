@@ -30,7 +30,7 @@ This track focuses on:
 
 - repository: [`stagewise-io/stagewise`](https://github.com/stagewise-io/stagewise)
 - stars: about **6.7k**
-- latest release: [`stagewise@1.3.0`](https://github.com/stagewise-io/stagewise/releases/tag/stagewise@1.3.0) (published 2026-05-29)
+- GitHub release reference: [`stagewise@1.3.0`](https://github.com/stagewise-io/stagewise/releases/tag/stagewise@1.3.0) (checked 2026-06-02; release metadata on GitHub)
 
 ## Mental Model
 

@@ -126,7 +126,7 @@ Ready to begin? Start with [Chapter 1: System Overview](01-system-overview.md).
 
 - repository: [`athensresearch/athens`](https://github.com/athensresearch/athens)
 - stars: about **6.3k**
-- latest release: [`v2.0.0`](https://github.com/athensresearch/athens/releases/tag/v2.0.0) (published 2022-08-22)
+- GitHub release reference: [`v2.0.0`](https://github.com/athensresearch/athens/releases/tag/v2.0.0) (checked 2026-06-02; release metadata on GitHub)
 
 ## What You Will Learn
 

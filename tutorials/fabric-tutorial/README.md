@@ -50,7 +50,7 @@ This track focuses on:
 
 - repository: [`danielmiessler/fabric`](https://github.com/danielmiessler/fabric)
 - stars: about **41.9k**
-- latest release: [`v1.4.453`](https://github.com/danielmiessler/fabric/releases/tag/v1.4.453) (published 2026-05-28)
+- GitHub release reference: [`v1.4.453`](https://github.com/danielmiessler/fabric/releases/tag/v1.4.453) (checked 2026-06-02; release metadata on GitHub)
 
 ## Mental Model
 

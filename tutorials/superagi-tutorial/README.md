@@ -80,7 +80,7 @@ Welcome to your journey through autonomous AI agent development! This tutorial e
 
 - repository: [`TransformerOptimus/SuperAGI`](https://github.com/TransformerOptimus/SuperAGI)
 - stars: about **17.6k**
-- latest release: [`v0.0.14`](https://github.com/TransformerOptimus/SuperAGI/releases/tag/v0.0.14) (published 2024-01-16)
+- GitHub release reference: [`v0.0.14`](https://github.com/TransformerOptimus/SuperAGI/releases/tag/v0.0.14) (checked 2026-06-02; release metadata on GitHub)
 
 ## What You Will Learn
 

@@ -29,7 +29,7 @@ This track focuses on:
 
 - repository: [`ComposioHQ/composio`](https://github.com/ComposioHQ/composio)
 - stars: about **28.6k**
-- latest release: [`@composio/claude-agent-sdk@0.9.2`](https://github.com/ComposioHQ/composio/releases/tag/@composio/claude-agent-sdk@0.9.2) (published 2026-05-13)
+- GitHub release reference: [`@composio/claude-agent-sdk@0.9.2`](https://github.com/ComposioHQ/composio/releases/tag/@composio/claude-agent-sdk@0.9.2) (checked 2026-06-02; release metadata on GitHub)
 
 ## Mental Model
 

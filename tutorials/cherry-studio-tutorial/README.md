@@ -29,7 +29,7 @@ This track focuses on:
 
 - repository: [`CherryHQ/cherry-studio`](https://github.com/CherryHQ/cherry-studio)
 - stars: about **46.7k**
-- latest release: [`v1.9.8`](https://github.com/CherryHQ/cherry-studio/releases/tag/v1.9.8) (published 2026-05-31)
+- GitHub release reference: [`v1.9.8`](https://github.com/CherryHQ/cherry-studio/releases/tag/v1.9.8) (checked 2026-06-02; release metadata on GitHub)
 
 ## Mental Model
 

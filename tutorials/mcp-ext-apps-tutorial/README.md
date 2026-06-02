@@ -29,7 +29,7 @@ This track focuses on:
 
 - repository: [`modelcontextprotocol/ext-apps`](https://github.com/modelcontextprotocol/ext-apps)
 - stars: about **2.3k**
-- latest release: [`v1.7.2`](https://github.com/modelcontextprotocol/ext-apps/releases/tag/v1.7.2) (published 2026-05-15)
+- GitHub release reference: [`v1.7.2`](https://github.com/modelcontextprotocol/ext-apps/releases/tag/v1.7.2) (checked 2026-06-02; release metadata on GitHub)
 
 ## Mental Model
 

@@ -29,7 +29,7 @@ This track focuses on:
 
 - repository: [`modelcontextprotocol/go-sdk`](https://github.com/modelcontextprotocol/go-sdk)
 - stars: about **4.6k**
-- latest release: [`v1.6.1`](https://github.com/modelcontextprotocol/go-sdk/releases/tag/v1.6.1) (published 2026-05-22)
+- GitHub release reference: [`v1.6.1`](https://github.com/modelcontextprotocol/go-sdk/releases/tag/v1.6.1) (checked 2026-06-02; release metadata on GitHub)
 
 ## Mental Model
 

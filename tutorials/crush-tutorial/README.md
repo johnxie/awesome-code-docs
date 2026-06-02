@@ -29,7 +29,7 @@ This track focuses on:
 
 - repository: [`charmbracelet/crush`](https://github.com/charmbracelet/crush)
 - stars: about **24.9k**
-- latest release: [`v0.74.1`](https://github.com/charmbracelet/crush/releases/tag/v0.74.1) (published 2026-05-29)
+- GitHub release reference: [`v0.74.1`](https://github.com/charmbracelet/crush/releases/tag/v0.74.1) (checked 2026-06-02; release metadata on GitHub)
 
 ## Mental Model
 

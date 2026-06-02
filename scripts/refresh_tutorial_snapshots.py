@@ -4,7 +4,7 @@
 For each tutorial:
 1. Read the README.md
 2. Look up source repo from tutorial-source-verification.json
-3. Fetch latest repo metadata and release from GitHub API
+3. Fetch repo metadata and the GitHub release snapshot from the GitHub API
 4. Update or insert the Current Snapshot section
 """
 
@@ -49,7 +49,7 @@ def _gh_request(url: str, token: str | None) -> dict[str, Any] | None:
 
 
 def fetch_repo_data(repo: str, token: str | None) -> dict[str, Any]:
-    """Fetch repo metadata + latest release for a GitHub repo."""
+    """Fetch repo metadata and release snapshot for a GitHub repo."""
     base = _gh_request(f"https://api.github.com/repos/{repo}", token)
     if not base:
         return {"repo": repo, "stars": None, "release_tag": None}
@@ -173,9 +173,9 @@ def build_snapshot_lines(data: dict[str, Any]) -> list[str]:
         lines.append(f"- stars: about {format_stars(data['stars'])}")
     if data.get("release_tag"):
         tag = data["release_tag"]
-        release_line = f"- latest release: [`{tag}`](https://github.com/{repo}/releases/tag/{tag})"
-        if data.get("release_date"):
-            release_line += f" (published {data['release_date']})"
+        checked_on = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+        release_line = f"- GitHub release reference: [`{tag}`](https://github.com/{repo}/releases/tag/{tag})"
+        release_line += f" (checked {checked_on}; release metadata on GitHub)"
         lines.append(release_line)
     if data.get("archived"):
         lines.append("- status: **archived**")

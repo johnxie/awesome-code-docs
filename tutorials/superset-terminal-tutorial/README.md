@@ -29,7 +29,7 @@ This track focuses on:
 
 - repository: [`superset-sh/superset`](https://github.com/superset-sh/superset)
 - stars: about **11.5k**
-- latest release: [`desktop-v1.12.1`](https://github.com/superset-sh/superset/releases/tag/desktop-v1.12.1) (published 2026-05-28)
+- GitHub release reference: [`desktop-v1.12.1`](https://github.com/superset-sh/superset/releases/tag/desktop-v1.12.1) (checked 2026-06-02; release metadata on GitHub)
 
 ## Mental Model
 

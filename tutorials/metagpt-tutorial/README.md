@@ -31,7 +31,7 @@ This track focuses on:
 
 - repository: [`geekan/MetaGPT`](https://github.com/geekan/MetaGPT)
 - stars: about **68.5k**
-- latest release: [`v0.8.1`](https://github.com/geekan/MetaGPT/releases/tag/v0.8.1) (published 2024-04-22)
+- GitHub release reference: [`v0.8.1`](https://github.com/geekan/MetaGPT/releases/tag/v0.8.1) (checked 2026-06-02; release metadata on GitHub)
 
 ## Mental Model
 

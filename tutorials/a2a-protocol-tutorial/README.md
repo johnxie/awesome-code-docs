@@ -32,7 +32,7 @@ This track focuses on:
 
 - repository: [`a2aproject/A2A`](https://github.com/a2aproject/A2A)
 - stars: about **24.1k**
-- latest release: [`v1.0.1`](https://github.com/a2aproject/A2A/releases/tag/v1.0.1) (published 2026-05-28)
+- GitHub release reference: [`v1.0.1`](https://github.com/a2aproject/A2A/releases/tag/v1.0.1) (checked 2026-06-02; release metadata on GitHub)
 
 ## Mental Model
 
