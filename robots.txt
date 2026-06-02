@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://github.com/johnxie/awesome-code-docs/blob/main/sitemap.xml
