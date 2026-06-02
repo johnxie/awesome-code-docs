@@ -16,6 +16,7 @@
 | Learn production K8s control loops | [Kubernetes Operators](../tutorials/kubernetes-operator-tutorial/) | [n8n MCP](../tutorials/n8n-mcp-tutorial/) |
 | Learn web-scale data extraction | [Firecrawl](../tutorials/firecrawl-tutorial/) | [OpenHands](../tutorials/openhands-tutorial/) for autonomous SWE workflows |
 | Learn local-first app runtime design | [Dyad](../tutorials/dyad-tutorial/) | [VibeSDK](../tutorials/vibesdk-tutorial/) |
+| Audit AI-generated or vibe-coded codebases | [AI Code Audit Checklist](https://www.romanticode.com/blog/ai-code-audit-checklist/) | [Dyad](../tutorials/dyad-tutorial/) → [OpenHands](../tutorials/openhands-tutorial/) → [Daytona](../tutorials/daytona-tutorial/) |
 
 ## Featured Systems Tracks
 
@@ -23,6 +24,10 @@
 - [React Fiber Internals](../tutorials/react-fiber-tutorial/)
 - [LangChain Architecture Guide](../tutorials/langchain-architecture-tutorial/)
 - [Firecrawl](../tutorials/firecrawl-tutorial/)
+
+## External Audit Resources
+
+- [AI Code Audit Checklist](https://www.romanticode.com/blog/ai-code-audit-checklist/) - practical checklist for auditing AI-generated or vibe-coded codebases before refactoring, with architecture review prompts, cleanup priorities, and a sample audit report.
 
 ## Related Hubs
 
