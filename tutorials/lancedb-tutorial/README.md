@@ -90,7 +90,7 @@ flowchart TD
 
 - repository: [`lancedb/lancedb`](https://github.com/lancedb/lancedb)
 - stars: about **10.5k**
-- GitHub release reference: [`python-v0.33.0`](https://github.com/lancedb/lancedb/releases/tag/python-v0.33.0) (checked 2026-06-02; release metadata on GitHub)
+- GitHub release reference: [`python-v0.33.1-beta.2`](https://github.com/lancedb/lancedb/releases/tag/python-v0.33.1-beta.2) (checked 2026-06-08; release metadata on GitHub)
 
 ## Chapter Guide
 

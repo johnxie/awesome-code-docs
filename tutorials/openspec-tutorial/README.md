@@ -29,8 +29,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`Fission-AI/OpenSpec`](https://github.com/Fission-AI/OpenSpec)
-- stars: about **52.1k**
-- GitHub release reference: [`v1.3.1`](https://github.com/Fission-AI/OpenSpec/releases/tag/v1.3.1) (checked 2026-06-02; release metadata on GitHub)
+- stars: about **53.5k**
+- GitHub release reference: [`v1.4.1`](https://github.com/Fission-AI/OpenSpec/releases/tag/v1.4.1) (checked 2026-06-08; release metadata on GitHub)
 
 ## Mental Model
 

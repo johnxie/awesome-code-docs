@@ -71,8 +71,8 @@ flowchart TD
 ## Current Snapshot (auto-updated)
 
 - repository: [`stanfordnlp/dspy`](https://github.com/stanfordnlp/dspy)
-- stars: about **34.8k**
-- GitHub release reference: [`3.2.1`](https://github.com/stanfordnlp/dspy/releases/tag/3.2.1) (checked 2026-06-02; release metadata on GitHub)
+- stars: about **34.9k**
+- GitHub release reference: [`3.2.1`](https://github.com/stanfordnlp/dspy/releases/tag/3.2.1) (checked 2026-06-08; release metadata on GitHub)
 
 ## Core Concepts
 

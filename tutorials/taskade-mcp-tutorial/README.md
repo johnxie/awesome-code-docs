@@ -24,8 +24,8 @@ Instead of manually wiring custom integrations, you can expose Taskade operation
 ## Current Snapshot (auto-updated)
 
 - repository: [`taskade/mcp`](https://github.com/taskade/mcp)
-- stars: about **148**
-- GitHub release reference: [`v0.0.1`](https://github.com/taskade/mcp/releases/tag/v0.0.1) (checked 2026-06-02; release metadata on GitHub)
+- stars: about **146**
+- GitHub release reference: [`v0.0.1`](https://github.com/taskade/mcp/releases/tag/v0.0.1) (checked 2026-06-08; release metadata on GitHub)
 
 ## Mental Model
 

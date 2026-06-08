@@ -28,8 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`mcp-use/mcp-use`](https://github.com/mcp-use/mcp-use)
-- stars: about **10k**
-- GitHub release reference: [`python-v1.7.0`](https://github.com/mcp-use/mcp-use/releases/tag/python-v1.7.0) (checked 2026-06-02; release metadata on GitHub)
+- stars: about **10.1k**
+- GitHub release reference: [`python-v1.7.0`](https://github.com/mcp-use/mcp-use/releases/tag/python-v1.7.0) (checked 2026-06-08; release metadata on GitHub)
 
 ## Mental Model
 

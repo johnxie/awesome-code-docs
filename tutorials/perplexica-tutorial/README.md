@@ -77,8 +77,8 @@ Welcome to your journey through AI-powered search technology! This tutorial expl
 ## Current Snapshot (auto-updated)
 
 - repository: [`ItzCrazyKns/Perplexica`](https://github.com/ItzCrazyKns/Perplexica)
-- stars: about **35k**
-- GitHub release reference: [`v1.12.2`](https://github.com/ItzCrazyKns/Perplexica/releases/tag/v1.12.2) (checked 2026-06-02; release metadata on GitHub)
+- stars: about **35.2k**
+- GitHub release reference: [`v1.12.2`](https://github.com/ItzCrazyKns/Perplexica/releases/tag/v1.12.2) (checked 2026-06-08; release metadata on GitHub)
 
 ## What You Will Learn
 
