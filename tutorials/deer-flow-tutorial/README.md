@@ -67,7 +67,7 @@ The system centers on a **lead agent** that decomposes requests, loads relevant 
 ## Current Snapshot (auto-updated)
 
 - repository: [`bytedance/deer-flow`](https://github.com/bytedance/deer-flow)
-- stars: about **70.7k**
+- stars: about **71.2k**
 
 ## Mental Model
 

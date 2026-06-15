@@ -28,8 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`OthmanAdi/planning-with-files`](https://github.com/OthmanAdi/planning-with-files)
-- stars: about **22.9k**
-- GitHub release reference: [`v2.43.0`](https://github.com/OthmanAdi/planning-with-files/releases/tag/v2.43.0) (checked 2026-06-08; release metadata on GitHub)
+- stars: about **23.4k**
+- GitHub release reference: [`v3.1.1`](https://github.com/OthmanAdi/planning-with-files/releases/tag/v3.1.1) (checked 2026-06-15; release metadata on GitHub)
 
 ## Mental Model
 

@@ -29,7 +29,7 @@ This track focuses on:
 
 - repository: [`modelcontextprotocol/java-sdk`](https://github.com/modelcontextprotocol/java-sdk)
 - stars: about **3.5k**
-- GitHub release reference: [`v1.1.2`](https://github.com/modelcontextprotocol/java-sdk/releases/tag/v1.1.2) (checked 2026-06-08; release metadata on GitHub)
+- GitHub release reference: [`v2.0.0`](https://github.com/modelcontextprotocol/java-sdk/releases/tag/v2.0.0) (checked 2026-06-15; release metadata on GitHub)
 
 ## Mental Model
 

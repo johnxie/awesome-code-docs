@@ -28,8 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`smtg-ai/claude-squad`](https://github.com/smtg-ai/claude-squad)
-- stars: about **7.7k**
-- GitHub release reference: [`v1.0.18`](https://github.com/smtg-ai/claude-squad/releases/tag/v1.0.18) (checked 2026-06-08; release metadata on GitHub)
+- stars: about **7.8k**
+- GitHub release reference: [`v1.0.18`](https://github.com/smtg-ai/claude-squad/releases/tag/v1.0.18) (checked 2026-06-15; release metadata on GitHub)
 
 ## Mental Model
 

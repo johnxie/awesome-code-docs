@@ -71,8 +71,8 @@ Welcome to your journey through Whisper.cpp! This tutorial takes you from basic 
 ## Current Snapshot (auto-updated)
 
 - repository: [`ggml-org/whisper.cpp`](https://github.com/ggml-org/whisper.cpp)
-- stars: about **50.6k**
-- GitHub release reference: [`v1.8.6`](https://github.com/ggml-org/whisper.cpp/releases/tag/v1.8.6) (checked 2026-06-08; release metadata on GitHub)
+- stars: about **50.7k**
+- GitHub release reference: [`v1.8.6`](https://github.com/ggml-org/whisper.cpp/releases/tag/v1.8.6) (checked 2026-06-15; release metadata on GitHub)
 
 ## What You Will Learn
 

@@ -28,8 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`OpenHands/OpenHands`](https://github.com/OpenHands/OpenHands)
-- stars: about **76.2k**
-- GitHub release reference: [`1.7.0`](https://github.com/OpenHands/OpenHands/releases/tag/1.7.0) (checked 2026-06-08; release metadata on GitHub)
+- stars: about **77.1k**
+- GitHub release reference: [`1.8.0`](https://github.com/OpenHands/OpenHands/releases/tag/1.8.0) (checked 2026-06-15; release metadata on GitHub)
 
 ## Mental Model
 
