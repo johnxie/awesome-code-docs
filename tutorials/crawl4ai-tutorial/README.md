@@ -32,8 +32,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`unclecode/crawl4ai`](https://github.com/unclecode/crawl4ai)
-- stars: about **68.5k**
-- GitHub release reference: [`v0.8.9`](https://github.com/unclecode/crawl4ai/releases/tag/v0.8.9) (checked 2026-06-15; release metadata on GitHub)
+- stars: about **69.2k**
+- GitHub release reference: [`v0.9.0`](https://github.com/unclecode/crawl4ai/releases/tag/v0.9.0) (checked 2026-06-22; release metadata on GitHub)
 
 ## Mental Model
 

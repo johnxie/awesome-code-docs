@@ -43,7 +43,7 @@ This track focuses on:
 
 - repository: [`dottxt-ai/outlines`](https://github.com/dottxt-ai/outlines)
 - stars: about **14k**
-- GitHub release reference: [`1.3.0`](https://github.com/dottxt-ai/outlines/releases/tag/1.3.0) (checked 2026-06-15; release metadata on GitHub)
+- GitHub release reference: [`1.3.0`](https://github.com/dottxt-ai/outlines/releases/tag/1.3.0) (checked 2026-06-22; release metadata on GitHub)
 
 ## What You Will Learn
 

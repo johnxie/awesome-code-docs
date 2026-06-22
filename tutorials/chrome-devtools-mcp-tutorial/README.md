@@ -28,8 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`ChromeDevTools/chrome-devtools-mcp`](https://github.com/ChromeDevTools/chrome-devtools-mcp)
-- stars: about **43.7k**
-- GitHub release reference: [`chrome-devtools-mcp-v1.2.0`](https://github.com/ChromeDevTools/chrome-devtools-mcp/releases/tag/chrome-devtools-mcp-v1.2.0) (checked 2026-06-15; release metadata on GitHub)
+- stars: about **44.2k**
+- GitHub release reference: [`chrome-devtools-mcp-v1.3.0`](https://github.com/ChromeDevTools/chrome-devtools-mcp/releases/tag/chrome-devtools-mcp-v1.3.0) (checked 2026-06-22; release metadata on GitHub)
 
 ## Mental Model
 

@@ -23,7 +23,7 @@ Understanding how this repo is organized makes onboarding, integration planning,
 ## Current Snapshot (auto-updated)
 
 - repository: [`taskade/docs`](https://github.com/taskade/docs)
-- stars: about **23**
+- stars: about **32**
 
 ## Mental Model
 

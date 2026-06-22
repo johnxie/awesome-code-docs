@@ -28,8 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`ComposioHQ/composio`](https://github.com/ComposioHQ/composio)
-- stars: about **28.8k**
-- GitHub release reference: [`@composio/cli@0.2.31`](https://github.com/ComposioHQ/composio/releases/tag/@composio/cli@0.2.31) (checked 2026-06-15; release metadata on GitHub)
+- stars: about **28.9k**
+- GitHub release reference: [`@composio/openai@0.9.3`](https://github.com/ComposioHQ/composio/releases/tag/@composio/openai@0.9.3) (checked 2026-06-22; release metadata on GitHub)
 
 ## Mental Model
 

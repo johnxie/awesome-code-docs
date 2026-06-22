@@ -76,8 +76,8 @@ Welcome to your journey through modern product analytics! This tutorial explores
 ## Current Snapshot (auto-updated)
 
 - repository: [`PostHog/posthog`](https://github.com/PostHog/posthog)
-- stars: about **35k**
-- GitHub release reference: [`posthog-cli/v0.7.22`](https://github.com/PostHog/posthog/releases/tag/posthog-cli/v0.7.22) (checked 2026-06-15; release metadata on GitHub)
+- stars: about **35.1k**
+- GitHub release reference: [`posthog-cli/v0.7.30`](https://github.com/PostHog/posthog/releases/tag/posthog-cli/v0.7.30) (checked 2026-06-22; release metadata on GitHub)
 
 ## What You Will Learn
 

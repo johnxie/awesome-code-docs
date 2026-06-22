@@ -28,8 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`ollama/ollama`](https://github.com/ollama/ollama)
-- stars: about **174k**
-- GitHub release reference: [`v0.30.8`](https://github.com/ollama/ollama/releases/tag/v0.30.8) (checked 2026-06-15; release metadata on GitHub)
+- stars: about **175k**
+- GitHub release reference: [`v0.30.10`](https://github.com/ollama/ollama/releases/tag/v0.30.10) (checked 2026-06-22; release metadata on GitHub)
 
 ## Mental Model
 

@@ -29,7 +29,7 @@ This track focuses on:
 
 - repository: [`moazbuilds/CodeMachine-CLI`](https://github.com/moazbuilds/CodeMachine-CLI)
 - stars: about **2.5k**
-- GitHub release reference: [`v0.8.0`](https://github.com/moazbuilds/CodeMachine-CLI/releases/tag/v0.8.0) (checked 2026-06-15; release metadata on GitHub)
+- GitHub release reference: [`v0.8.0`](https://github.com/moazbuilds/CodeMachine-CLI/releases/tag/v0.8.0) (checked 2026-06-22; release metadata on GitHub)
 
 ## Mental Model
 

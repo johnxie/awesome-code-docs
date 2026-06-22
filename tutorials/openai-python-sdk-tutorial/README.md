@@ -28,8 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`openai/openai-python`](https://github.com/openai/openai-python)
-- stars: about **31k**
-- GitHub release reference: [`v2.41.1`](https://github.com/openai/openai-python/releases/tag/v2.41.1) (checked 2026-06-15; release metadata on GitHub)
+- stars: about **31.1k**
+- GitHub release reference: [`v2.43.0`](https://github.com/openai/openai-python/releases/tag/v2.43.0) (checked 2026-06-22; release metadata on GitHub)
 
 ## Mental Model
 
