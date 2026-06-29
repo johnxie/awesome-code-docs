@@ -31,8 +31,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`e2b-dev/E2B`](https://github.com/e2b-dev/E2B)
-- stars: about **12.7k**
-- GitHub release reference: [`@e2b/python-sdk@2.29.4`](https://github.com/e2b-dev/E2B/releases/tag/@e2b/python-sdk@2.29.4) (checked 2026-06-22; release metadata on GitHub)
+- stars: about **12.8k**
+- GitHub release reference: [`e2b@2.31.0`](https://github.com/e2b-dev/E2B/releases/tag/e2b@2.31.0) (checked 2026-06-29; release metadata on GitHub)
 
 ## Mental Model
 

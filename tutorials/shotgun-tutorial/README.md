@@ -29,7 +29,7 @@ This track focuses on:
 
 - repository: [`shotgun-sh/shotgun`](https://github.com/shotgun-sh/shotgun)
 - stars: about **681**
-- GitHub release reference: [`0.13.0`](https://github.com/shotgun-sh/shotgun/releases/tag/0.13.0) (checked 2026-06-22; release metadata on GitHub)
+- GitHub release reference: [`0.13.0`](https://github.com/shotgun-sh/shotgun/releases/tag/0.13.0) (checked 2026-06-29; release metadata on GitHub)
 
 ## Mental Model
 

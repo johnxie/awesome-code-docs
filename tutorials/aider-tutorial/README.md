@@ -28,8 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`Aider-AI/aider`](https://github.com/Aider-AI/aider)
-- stars: about **46.6k**
-- GitHub release reference: [`v0.86.0`](https://github.com/Aider-AI/aider/releases/tag/v0.86.0) (checked 2026-06-22; release metadata on GitHub)
+- stars: about **46.8k**
+- GitHub release reference: [`v0.86.0`](https://github.com/Aider-AI/aider/releases/tag/v0.86.0) (checked 2026-06-29; release metadata on GitHub)
 
 ## Mental Model
 

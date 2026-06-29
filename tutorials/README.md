@@ -16,7 +16,7 @@ Use this guide to navigate all tutorial tracks, understand structure rules, and 
 |:-------|:------|
 | Tutorial directories | 203 |
 | Tutorial markdown files | 1830 |
-| Tutorial markdown lines | 706,122 |
+| Tutorial markdown lines | 706,124 |
 
 ## Source Verification Snapshot
 

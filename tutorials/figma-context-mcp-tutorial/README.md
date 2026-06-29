@@ -29,7 +29,7 @@ This track focuses on:
 
 - repository: [`GLips/Figma-Context-MCP`](https://github.com/GLips/Figma-Context-MCP)
 - stars: about **15.2k**
-- GitHub release reference: [`v0.13.2`](https://github.com/GLips/Figma-Context-MCP/releases/tag/v0.13.2) (checked 2026-06-22; release metadata on GitHub)
+- GitHub release reference: [`v0.13.2`](https://github.com/GLips/Figma-Context-MCP/releases/tag/v0.13.2) (checked 2026-06-29; release metadata on GitHub)
 
 ## Mental Model
 

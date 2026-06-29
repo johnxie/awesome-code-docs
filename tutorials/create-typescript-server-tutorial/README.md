@@ -29,7 +29,7 @@ This track focuses on:
 
 - repository: [`modelcontextprotocol/create-typescript-server`](https://github.com/modelcontextprotocol/create-typescript-server)
 - stars: about **171**
-- GitHub release reference: [`0.3.1`](https://github.com/modelcontextprotocol/create-typescript-server/releases/tag/0.3.1) (checked 2026-06-22; release metadata on GitHub)
+- GitHub release reference: [`0.3.1`](https://github.com/modelcontextprotocol/create-typescript-server/releases/tag/0.3.1) (checked 2026-06-29; release metadata on GitHub)
 - status: **archived**
 
 ## Mental Model

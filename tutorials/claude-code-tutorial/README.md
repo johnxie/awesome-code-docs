@@ -28,8 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`anthropics/claude-code`](https://github.com/anthropics/claude-code)
-- stars: about **134k**
-- GitHub release reference: [`v2.1.185`](https://github.com/anthropics/claude-code/releases/tag/v2.1.185) (checked 2026-06-22; release metadata on GitHub)
+- stars: about **135k**
+- GitHub release reference: [`v2.1.195`](https://github.com/anthropics/claude-code/releases/tag/v2.1.195) (checked 2026-06-29; release metadata on GitHub)
 
 ## Mental Model
 

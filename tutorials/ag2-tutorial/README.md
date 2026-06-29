@@ -86,7 +86,7 @@ flowchart TD
 
 - repository: [`ag2ai/ag2`](https://github.com/ag2ai/ag2)
 - stars: about **4.7k**
-- GitHub release reference: [`v0.13.4`](https://github.com/ag2ai/ag2/releases/tag/v0.13.4) (checked 2026-06-22; release metadata on GitHub)
+- GitHub release reference: [`v0.14.0`](https://github.com/ag2ai/ag2/releases/tag/v0.14.0) (checked 2026-06-29; release metadata on GitHub)
 
 ## Core Concepts
 

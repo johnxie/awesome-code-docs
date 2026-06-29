@@ -28,8 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`humanlayer/humanlayer`](https://github.com/humanlayer/humanlayer)
-- stars: about **11k**
-- GitHub release reference: [`pro-0.20.0`](https://github.com/humanlayer/humanlayer/releases/tag/pro-0.20.0) (checked 2026-06-22; release metadata on GitHub)
+- stars: about **11.1k**
+- GitHub release reference: [`pro-0.20.0`](https://github.com/humanlayer/humanlayer/releases/tag/pro-0.20.0) (checked 2026-06-29; release metadata on GitHub)
 
 ## Mental Model
 

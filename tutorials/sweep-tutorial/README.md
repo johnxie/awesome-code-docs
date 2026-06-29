@@ -32,7 +32,7 @@ This track focuses on:
 
 - repository: [`sweepai/sweep`](https://github.com/sweepai/sweep)
 - stars: about **7.7k**
-- GitHub release reference: [`sweep-sandbox-v1`](https://github.com/sweepai/sweep/releases/tag/sweep-sandbox-v1) (checked 2026-06-22; release metadata on GitHub)
+- GitHub release reference: [`sweep-sandbox-v1`](https://github.com/sweepai/sweep/releases/tag/sweep-sandbox-v1) (checked 2026-06-29; release metadata on GitHub)
 
 ## Mental Model
 

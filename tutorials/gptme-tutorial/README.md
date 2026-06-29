@@ -29,7 +29,7 @@ This track focuses on:
 
 - repository: [`gptme/gptme`](https://github.com/gptme/gptme)
 - stars: about **4.3k**
-- GitHub release reference: [`v0.31.0`](https://github.com/gptme/gptme/releases/tag/v0.31.0) (checked 2026-06-22; release metadata on GitHub)
+- GitHub release reference: [`v0.31.0`](https://github.com/gptme/gptme/releases/tag/v0.31.0) (checked 2026-06-29; release metadata on GitHub)
 
 ## Mental Model
 

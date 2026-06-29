@@ -42,8 +42,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`dottxt-ai/outlines`](https://github.com/dottxt-ai/outlines)
-- stars: about **14k**
-- GitHub release reference: [`1.3.0`](https://github.com/dottxt-ai/outlines/releases/tag/1.3.0) (checked 2026-06-22; release metadata on GitHub)
+- stars: about **14.3k**
+- GitHub release reference: [`1.3.0`](https://github.com/dottxt-ai/outlines/releases/tag/1.3.0) (checked 2026-06-29; release metadata on GitHub)
 
 ## What You Will Learn
 
