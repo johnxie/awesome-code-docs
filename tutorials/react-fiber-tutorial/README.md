@@ -93,7 +93,7 @@ graph TB
 
 - repository: [`facebook/react`](https://github.com/facebook/react)
 - stars: about **246k**
-- GitHub release reference: [`v19.2.7`](https://github.com/facebook/react/releases/tag/v19.2.7) (checked 2026-06-29; release metadata on GitHub)
+- GitHub release reference: [`v19.2.7`](https://github.com/facebook/react/releases/tag/v19.2.7) (checked 2026-07-06; release metadata on GitHub)
 
 ## Prerequisites
 

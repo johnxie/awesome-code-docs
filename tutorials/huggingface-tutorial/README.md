@@ -77,7 +77,7 @@ Welcome to your journey through the HuggingFace Transformers ecosystem! This tut
 
 - repository: [`huggingface/transformers`](https://github.com/huggingface/transformers)
 - stars: about **162k**
-- GitHub release reference: [`v5.12.1`](https://github.com/huggingface/transformers/releases/tag/v5.12.1) (checked 2026-06-29; release metadata on GitHub)
+- GitHub release reference: [`v5.13.0`](https://github.com/huggingface/transformers/releases/tag/v5.13.0) (checked 2026-07-06; release metadata on GitHub)
 
 ## What You Will Learn
 

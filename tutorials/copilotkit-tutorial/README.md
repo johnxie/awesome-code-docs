@@ -77,8 +77,8 @@ flowchart TD
 ## Current Snapshot (auto-updated)
 
 - repository: [`CopilotKit/CopilotKit`](https://github.com/CopilotKit/CopilotKit)
-- stars: about **35.6k**
-- GitHub release reference: [`bot-teams/v0.1.0`](https://github.com/CopilotKit/CopilotKit/releases/tag/bot-teams/v0.1.0) (checked 2026-06-29; release metadata on GitHub)
+- stars: about **35.8k**
+- GitHub release reference: [`v1.62.2`](https://github.com/CopilotKit/CopilotKit/releases/tag/v1.62.2) (checked 2026-07-06; release metadata on GitHub)
 
 ## What's New in 2025
 

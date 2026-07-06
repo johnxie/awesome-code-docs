@@ -28,8 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`OpenHands/OpenHands`](https://github.com/OpenHands/OpenHands)
-- stars: about **78.7k**
-- GitHub release reference: [`cloud-1.40.0`](https://github.com/OpenHands/OpenHands/releases/tag/cloud-1.40.0) (checked 2026-06-29; release metadata on GitHub)
+- stars: about **79.6k**
+- GitHub release reference: [`cloud-1.40.0`](https://github.com/OpenHands/OpenHands/releases/tag/cloud-1.40.0) (checked 2026-07-06; release metadata on GitHub)
 
 ## Mental Model
 
