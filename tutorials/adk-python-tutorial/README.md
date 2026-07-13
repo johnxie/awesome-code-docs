@@ -28,8 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`google/adk-python`](https://github.com/google/adk-python)
-- stars: about **20.5k**
-- GitHub release reference: [`v2.3.0`](https://github.com/google/adk-python/releases/tag/v2.3.0) (checked 2026-07-06; release metadata on GitHub)
+- stars: about **20.6k**
+- GitHub release reference: [`v2.4.0`](https://github.com/google/adk-python/releases/tag/v2.4.0) (checked 2026-07-13; release metadata on GitHub)
 
 ## Mental Model
 

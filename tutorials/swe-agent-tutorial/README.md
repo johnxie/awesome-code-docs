@@ -28,8 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`SWE-agent/SWE-agent`](https://github.com/SWE-agent/SWE-agent)
-- stars: about **19.7k**
-- GitHub release reference: [`v1.1.0`](https://github.com/SWE-agent/SWE-agent/releases/tag/v1.1.0) (checked 2026-07-06; release metadata on GitHub)
+- stars: about **19.8k**
+- GitHub release reference: [`v1.1.0`](https://github.com/SWE-agent/SWE-agent/releases/tag/v1.1.0) (checked 2026-07-13; release metadata on GitHub)
 
 ## Mental Model
 

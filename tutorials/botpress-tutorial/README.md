@@ -45,7 +45,7 @@ This comprehensive tutorial will guide you through Botpress, a powerful open sou
 
 - repository: [`botpress/botpress`](https://github.com/botpress/botpress)
 - stars: about **14.8k**
-- GitHub release reference: [`v12.30.9`](https://github.com/botpress/botpress/releases/tag/v12.30.9) (checked 2026-07-06; release metadata on GitHub)
+- GitHub release reference: [`v12.30.9`](https://github.com/botpress/botpress/releases/tag/v12.30.9) (checked 2026-07-13; release metadata on GitHub)
 
 ## 📚 Tutorial Chapters
 

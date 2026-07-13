@@ -28,8 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`Kilo-Org/kilocode`](https://github.com/Kilo-Org/kilocode)
-- stars: about **25.6k**
-- GitHub release reference: [`v7.4.1`](https://github.com/Kilo-Org/kilocode/releases/tag/v7.4.1) (checked 2026-07-06; release metadata on GitHub)
+- stars: about **26.1k**
+- GitHub release reference: [`jetbrains/v7.0.4`](https://github.com/Kilo-Org/kilocode/releases/tag/jetbrains/v7.0.4) (checked 2026-07-13; release metadata on GitHub)
 
 ## Mental Model
 

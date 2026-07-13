@@ -28,8 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`daytonaio/daytona`](https://github.com/daytonaio/daytona)
-- stars: about **72.3k**
-- GitHub release reference: [`v0.190.0`](https://github.com/daytonaio/daytona/releases/tag/v0.190.0) (checked 2026-07-06; release metadata on GitHub)
+- stars: about **72.2k**
+- GitHub release reference: [`v0.190.0`](https://github.com/daytonaio/daytona/releases/tag/v0.190.0) (checked 2026-07-13; release metadata on GitHub)
 
 ## Mental Model
 

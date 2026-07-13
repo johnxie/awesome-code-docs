@@ -127,8 +127,8 @@ Ready to begin? Start with [Chapter 1: System Overview](01-system-overview.md).
 ## Current Snapshot (auto-updated)
 
 - repository: [`teableio/teable`](https://github.com/teableio/teable)
-- stars: about **21.4k**
-- GitHub release reference: [`release.2026-07-05T07-17-25Z.2114`](https://github.com/teableio/teable/releases/tag/release.2026-07-05T07-17-25Z.2114) (checked 2026-07-06; release metadata on GitHub)
+- stars: about **21.5k**
+- GitHub release reference: [`release.2026-07-05T07-17-25Z.2114`](https://github.com/teableio/teable/releases/tag/release.2026-07-05T07-17-25Z.2114) (checked 2026-07-13; release metadata on GitHub)
 
 ## What You Will Learn
 

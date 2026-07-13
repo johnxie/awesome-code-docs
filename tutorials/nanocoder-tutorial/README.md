@@ -29,7 +29,7 @@ This track focuses on:
 
 - repository: [`Nano-Collective/nanocoder`](https://github.com/Nano-Collective/nanocoder)
 - stars: about **2.2k**
-- GitHub release reference: [`v1.28.1`](https://github.com/Nano-Collective/nanocoder/releases/tag/v1.28.1) (checked 2026-07-06; release metadata on GitHub)
+- GitHub release reference: [`v1.28.1`](https://github.com/Nano-Collective/nanocoder/releases/tag/v1.28.1) (checked 2026-07-13; release metadata on GitHub)
 
 ## Mental Model
 
