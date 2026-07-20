@@ -49,8 +49,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`SillyTavern/SillyTavern`](https://github.com/SillyTavern/SillyTavern)
-- stars: about **30.6k**
-- GitHub release reference: [`1.18.0`](https://github.com/SillyTavern/SillyTavern/releases/tag/1.18.0) (checked 2026-07-13; release metadata on GitHub)
+- stars: about **30.9k**
+- GitHub release reference: [`1.18.0`](https://github.com/SillyTavern/SillyTavern/releases/tag/1.18.0) (checked 2026-07-20; release metadata on GitHub)
 
 ## Mental Model
 

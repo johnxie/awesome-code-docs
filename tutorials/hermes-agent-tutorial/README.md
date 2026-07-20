@@ -35,8 +35,8 @@ Unlike ephemeral chatbot wrappers, Hermes is built around three design principle
 ## Current Snapshot (auto-updated)
 
 - repository: [`nousresearch/hermes-agent`](https://github.com/nousresearch/hermes-agent)
-- stars: about **214k**
-- GitHub release reference: [`v2026.7.7.2`](https://github.com/nousresearch/hermes-agent/releases/tag/v2026.7.7.2) (checked 2026-07-13; release metadata on GitHub)
+- stars: about **218k**
+- GitHub release reference: [`v2026.7.7.2`](https://github.com/nousresearch/hermes-agent/releases/tag/v2026.7.7.2) (checked 2026-07-20; release metadata on GitHub)
 
 ## Who Should Read This Tutorial
 

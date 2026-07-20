@@ -28,8 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`opencode-ai/opencode`](https://github.com/opencode-ai/opencode)
-- stars: about **13.4k**
-- GitHub release reference: [`v0.0.55`](https://github.com/opencode-ai/opencode/releases/tag/v0.0.55) (checked 2026-07-13; release metadata on GitHub)
+- stars: about **13.5k**
+- GitHub release reference: [`v0.0.55`](https://github.com/opencode-ai/opencode/releases/tag/v0.0.55) (checked 2026-07-20; release metadata on GitHub)
 - status: **archived**
 
 ## Mental Model

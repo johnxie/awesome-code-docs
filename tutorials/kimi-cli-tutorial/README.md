@@ -28,8 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`MoonshotAI/kimi-cli`](https://github.com/MoonshotAI/kimi-cli)
-- stars: about **9.2k**
-- GitHub release reference: [`1.48.0`](https://github.com/MoonshotAI/kimi-cli/releases/tag/1.48.0) (checked 2026-07-13; release metadata on GitHub)
+- stars: about **10.1k**
+- GitHub release reference: [`1.49.0`](https://github.com/MoonshotAI/kimi-cli/releases/tag/1.49.0) (checked 2026-07-20; release metadata on GitHub)
 
 ## Mental Model
 

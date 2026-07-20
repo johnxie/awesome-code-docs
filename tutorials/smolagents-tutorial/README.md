@@ -79,8 +79,8 @@ flowchart TD
 ## Current Snapshot (auto-updated)
 
 - repository: [`huggingface/smolagents`](https://github.com/huggingface/smolagents)
-- stars: about **28.3k**
-- GitHub release reference: [`v1.26.0`](https://github.com/huggingface/smolagents/releases/tag/v1.26.0) (checked 2026-07-13; release metadata on GitHub)
+- stars: about **28.4k**
+- GitHub release reference: [`v1.26.0`](https://github.com/huggingface/smolagents/releases/tag/v1.26.0) (checked 2026-07-20; release metadata on GitHub)
 
 ## Chapter Guide
 

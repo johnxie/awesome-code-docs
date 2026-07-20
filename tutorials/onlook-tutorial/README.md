@@ -29,7 +29,7 @@ This track focuses on:
 
 - repository: [`onlook-dev/onlook`](https://github.com/onlook-dev/onlook)
 - stars: about **26.2k**
-- GitHub release reference: [`v0.2.32`](https://github.com/onlook-dev/onlook/releases/tag/v0.2.32) (checked 2026-07-13; release metadata on GitHub)
+- GitHub release reference: [`v0.2.32`](https://github.com/onlook-dev/onlook/releases/tag/v0.2.32) (checked 2026-07-20; release metadata on GitHub)
 
 ## Mental Model
 

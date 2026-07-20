@@ -28,8 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`cloudflare/vibesdk`](https://github.com/cloudflare/vibesdk)
-- stars: about **5.1k**
-- GitHub release reference: [`v1.5.0`](https://github.com/cloudflare/vibesdk/releases/tag/v1.5.0) (checked 2026-07-13; release metadata on GitHub)
+- stars: about **5.2k**
+- GitHub release reference: [`v1.5.0`](https://github.com/cloudflare/vibesdk/releases/tag/v1.5.0) (checked 2026-07-20; release metadata on GitHub)
 
 ## Mental Model
 

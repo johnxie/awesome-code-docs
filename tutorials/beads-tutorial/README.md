@@ -28,8 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`steveyegge/beads`](https://github.com/steveyegge/beads)
-- stars: about **25.3k**
-- GitHub release reference: [`v1.1.0`](https://github.com/steveyegge/beads/releases/tag/v1.1.0) (checked 2026-07-13; release metadata on GitHub)
+- stars: about **25.4k**
+- GitHub release reference: [`v1.1.0`](https://github.com/steveyegge/beads/releases/tag/v1.1.0) (checked 2026-07-20; release metadata on GitHub)
 
 ## Mental Model
 
