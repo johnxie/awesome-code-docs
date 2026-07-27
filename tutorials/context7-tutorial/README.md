@@ -28,8 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`upstash/context7`](https://github.com/upstash/context7)
-- stars: about **59.5k**
-- GitHub release reference: [`@upstash/context7-mcp@3.2.4`](https://github.com/upstash/context7/releases/tag/@upstash/context7-mcp@3.2.4) (checked 2026-07-20; release metadata on GitHub)
+- stars: about **59.8k**
+- GitHub release reference: [`@upstash/context7-mcp@3.2.5`](https://github.com/upstash/context7/releases/tag/@upstash/context7-mcp@3.2.5) (checked 2026-07-27; release metadata on GitHub)
 
 ## Mental Model
 

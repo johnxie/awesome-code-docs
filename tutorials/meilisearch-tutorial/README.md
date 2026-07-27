@@ -54,7 +54,7 @@ This comprehensive tutorial will guide you through Meilisearch, a powerful searc
 
 - repository: [`meilisearch/meilisearch`](https://github.com/meilisearch/meilisearch)
 - stars: about **58.7k**
-- GitHub release reference: [`v1.50.0`](https://github.com/meilisearch/meilisearch/releases/tag/v1.50.0) (checked 2026-07-20; release metadata on GitHub)
+- GitHub release reference: [`v1.51.0`](https://github.com/meilisearch/meilisearch/releases/tag/v1.51.0) (checked 2026-07-27; release metadata on GitHub)
 
 ## 📚 Tutorial Chapters
 

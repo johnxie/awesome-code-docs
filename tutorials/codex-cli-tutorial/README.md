@@ -28,8 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`openai/codex`](https://github.com/openai/codex)
-- stars: about **99.9k**
-- GitHub release reference: [`rust-v0.144.6`](https://github.com/openai/codex/releases/tag/rust-v0.144.6) (checked 2026-07-20; release metadata on GitHub)
+- stars: about **102k**
+- GitHub release reference: [`rust-v0.145.0`](https://github.com/openai/codex/releases/tag/rust-v0.145.0) (checked 2026-07-27; release metadata on GitHub)
 
 ## Mental Model
 

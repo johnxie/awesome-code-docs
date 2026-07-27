@@ -28,8 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`modelcontextprotocol/mcpb`](https://github.com/modelcontextprotocol/mcpb)
-- stars: about **2k**
-- GitHub release reference: [`v2.1.2`](https://github.com/modelcontextprotocol/mcpb/releases/tag/v2.1.2) (checked 2026-07-20; release metadata on GitHub)
+- stars: about **2.1k**
+- GitHub release reference: [`v2.1.2`](https://github.com/modelcontextprotocol/mcpb/releases/tag/v2.1.2) (checked 2026-07-27; release metadata on GitHub)
 
 ## Mental Model
 

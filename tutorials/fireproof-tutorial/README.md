@@ -28,7 +28,7 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`fireproof-storage/fireproof`](https://github.com/fireproof-storage/fireproof)
-- stars: about **974**
+- stars: about **973**
 
 ## Mental Model
 

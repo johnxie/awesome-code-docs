@@ -32,7 +32,7 @@ This track focuses on:
 
 - repository: [`e2b-dev/E2B`](https://github.com/e2b-dev/E2B)
 - stars: about **13.1k**
-- GitHub release reference: [`@e2b/python-sdk@2.34.0`](https://github.com/e2b-dev/E2B/releases/tag/@e2b/python-sdk@2.34.0) (checked 2026-07-20; release metadata on GitHub)
+- GitHub release reference: [`@e2b/cli@2.15.1`](https://github.com/e2b-dev/E2B/releases/tag/@e2b/cli@2.15.1) (checked 2026-07-27; release metadata on GitHub)
 
 ## Mental Model
 

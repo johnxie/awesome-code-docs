@@ -44,8 +44,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`agno-agi/agno`](https://github.com/agno-agi/agno)
-- stars: about **41.3k**
-- GitHub release reference: [`v2.7.4`](https://github.com/agno-agi/agno/releases/tag/v2.7.4) (checked 2026-07-20; release metadata on GitHub)
+- stars: about **41.4k**
+- GitHub release reference: [`v2.8.5`](https://github.com/agno-agi/agno/releases/tag/v2.8.5) (checked 2026-07-27; release metadata on GitHub)
 
 ## What You Will Learn
 
