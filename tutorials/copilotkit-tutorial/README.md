@@ -77,8 +77,8 @@ flowchart TD
 ## Current Snapshot (auto-updated)
 
 - repository: [`CopilotKit/CopilotKit`](https://github.com/CopilotKit/CopilotKit)
-- stars: about **36.3k**
-- GitHub release reference: [`angular/v0.3.0`](https://github.com/CopilotKit/CopilotKit/releases/tag/angular/v0.3.0) (checked 2026-07-27; release metadata on GitHub)
+- stars: about **36.4k**
+- GitHub release reference: [`v1.65.0`](https://github.com/CopilotKit/CopilotKit/releases/tag/v1.65.0) (checked 2026-08-03; release metadata on GitHub)
 
 ## What's New in 2025
 

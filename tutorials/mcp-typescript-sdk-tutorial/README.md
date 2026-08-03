@@ -29,7 +29,7 @@ This track focuses on:
 
 - repository: [`modelcontextprotocol/typescript-sdk`](https://github.com/modelcontextprotocol/typescript-sdk)
 - stars: about **13k**
-- GitHub release reference: [`v1.29.0`](https://github.com/modelcontextprotocol/typescript-sdk/releases/tag/v1.29.0) (checked 2026-07-27; release metadata on GitHub)
+- GitHub release reference: [`@modelcontextprotocol/fastify@2.0.0`](https://github.com/modelcontextprotocol/typescript-sdk/releases/tag/@modelcontextprotocol/fastify@2.0.0) (checked 2026-08-03; release metadata on GitHub)
 
 ## Mental Model
 

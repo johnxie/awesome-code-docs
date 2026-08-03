@@ -29,7 +29,7 @@ This track focuses on:
 
 - repository: [`github/copilot-cli`](https://github.com/github/copilot-cli)
 - stars: about **11k**
-- GitHub release reference: [`v1.0.75`](https://github.com/github/copilot-cli/releases/tag/v1.0.75) (checked 2026-07-27; release metadata on GitHub)
+- GitHub release reference: [`v1.0.77`](https://github.com/github/copilot-cli/releases/tag/v1.0.77) (checked 2026-08-03; release metadata on GitHub)
 
 ## Mental Model
 

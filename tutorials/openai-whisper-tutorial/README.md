@@ -98,8 +98,8 @@ Ready to begin? Start with [Chapter 1: Getting Started](01-getting-started.md).
 ## Current Snapshot (auto-updated)
 
 - repository: [`openai/whisper`](https://github.com/openai/whisper)
-- stars: about **106k**
-- GitHub release reference: [`v20250625`](https://github.com/openai/whisper/releases/tag/v20250625) (checked 2026-07-27; release metadata on GitHub)
+- stars: about **107k**
+- GitHub release reference: [`v20250625`](https://github.com/openai/whisper/releases/tag/v20250625) (checked 2026-08-03; release metadata on GitHub)
 
 ## What You Will Learn
 

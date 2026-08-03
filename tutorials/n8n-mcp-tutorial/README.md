@@ -40,8 +40,8 @@ This tutorial covers n8n's integration with the Model Context Protocol (MCP) —
 ## Current Snapshot (auto-updated)
 
 - repository: [`n8n-io/n8n`](https://github.com/n8n-io/n8n)
-- stars: about **198k**
-- GitHub release reference: [`n8n@2.31.7`](https://github.com/n8n-io/n8n/releases/tag/n8n@2.31.7) (checked 2026-07-27; release metadata on GitHub)
+- stars: about **199k**
+- GitHub release reference: [`n8n@2.32.7`](https://github.com/n8n-io/n8n/releases/tag/n8n@2.32.7) (checked 2026-08-03; release metadata on GitHub)
 
 ## Mental Model
 

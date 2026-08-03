@@ -78,8 +78,8 @@ Welcome to your journey through scalable AI memory systems! This tutorial explor
 ## Current Snapshot (auto-updated)
 
 - repository: [`mem0ai/mem0`](https://github.com/mem0ai/mem0)
-- stars: about **61.8k**
-- GitHub release reference: [`ts-v3.1.2`](https://github.com/mem0ai/mem0/releases/tag/ts-v3.1.2) (checked 2026-07-27; release metadata on GitHub)
+- stars: about **62.4k**
+- GitHub release reference: [`vercel-ai-v3.0.1`](https://github.com/mem0ai/mem0/releases/tag/vercel-ai-v3.0.1) (checked 2026-08-03; release metadata on GitHub)
 
 ## What You Will Learn
 
