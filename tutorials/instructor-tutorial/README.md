@@ -73,7 +73,7 @@ flowchart LR
 
 - repository: [`instructor-ai/instructor`](https://github.com/instructor-ai/instructor)
 - stars: about **13.7k**
-- GitHub release reference: [`v1.15.4`](https://github.com/instructor-ai/instructor/releases/tag/v1.15.4) (checked 2026-08-03; release metadata on GitHub)
+- GitHub release reference: [`v1.15.4`](https://github.com/instructor-ai/instructor/releases/tag/v1.15.4) (checked 2026-08-10; release metadata on GitHub)
 
 ## Chapter Guide
 

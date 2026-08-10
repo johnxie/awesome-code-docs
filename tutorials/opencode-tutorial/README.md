@@ -28,8 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`anomalyco/opencode`](https://github.com/anomalyco/opencode)
-- stars: about **193k**
-- GitHub release reference: [`v1.18.11`](https://github.com/anomalyco/opencode/releases/tag/v1.18.11) (checked 2026-08-03; release metadata on GitHub)
+- stars: about **196k**
+- GitHub release reference: [`v1.18.16`](https://github.com/anomalyco/opencode/releases/tag/v1.18.16) (checked 2026-08-10; release metadata on GitHub)
 
 ## Mental Model
 

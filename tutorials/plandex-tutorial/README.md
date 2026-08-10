@@ -29,7 +29,7 @@ This track focuses on:
 
 - repository: [`plandex-ai/plandex`](https://github.com/plandex-ai/plandex)
 - stars: about **15.6k**
-- GitHub release reference: [`cli/v2.2.1`](https://github.com/plandex-ai/plandex/releases/tag/cli/v2.2.1) (checked 2026-08-03; release metadata on GitHub)
+- GitHub release reference: [`cli/v2.2.1`](https://github.com/plandex-ai/plandex/releases/tag/cli/v2.2.1) (checked 2026-08-10; release metadata on GitHub)
 
 ## Mental Model
 

@@ -28,8 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`strands-agents/sdk-python`](https://github.com/strands-agents/sdk-python)
-- stars: about **6.8k**
-- GitHub release reference: [`mcp/v0.2.8`](https://github.com/strands-agents/sdk-python/releases/tag/mcp/v0.2.8) (checked 2026-08-03; release metadata on GitHub)
+- stars: about **6.9k**
+- GitHub release reference: [`mcp/v0.2.9`](https://github.com/strands-agents/sdk-python/releases/tag/mcp/v0.2.9) (checked 2026-08-10; release metadata on GitHub)
 
 ## Mental Model
 

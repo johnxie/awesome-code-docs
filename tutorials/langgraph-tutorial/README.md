@@ -76,8 +76,8 @@ Welcome to your journey through stateful multi-actor applications! This tutorial
 ## Current Snapshot (auto-updated)
 
 - repository: [`langchain-ai/langgraph`](https://github.com/langchain-ai/langgraph)
-- stars: about **38.8k**
-- GitHub release reference: [`checkpointsqlite==3.1.1`](https://github.com/langchain-ai/langgraph/releases/tag/checkpointsqlite==3.1.1) (checked 2026-08-03; release metadata on GitHub)
+- stars: about **39.4k**
+- GitHub release reference: [`checkpointpostgres==3.1.2`](https://github.com/langchain-ai/langgraph/releases/tag/checkpointpostgres==3.1.2) (checked 2026-08-10; release metadata on GitHub)
 
 ## What You Will Learn
 

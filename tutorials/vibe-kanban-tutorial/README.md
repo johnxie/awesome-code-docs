@@ -28,8 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`BloopAI/vibe-kanban`](https://github.com/BloopAI/vibe-kanban)
-- stars: about **27.6k**
-- GitHub release reference: [`v0.1.44-20260424091429`](https://github.com/BloopAI/vibe-kanban/releases/tag/v0.1.44-20260424091429) (checked 2026-08-03; release metadata on GitHub)
+- stars: about **27.7k**
+- GitHub release reference: [`v0.1.44-20260424091429`](https://github.com/BloopAI/vibe-kanban/releases/tag/v0.1.44-20260424091429) (checked 2026-08-10; release metadata on GitHub)
 
 ## Mental Model
 

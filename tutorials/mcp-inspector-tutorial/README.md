@@ -29,7 +29,7 @@ This track focuses on:
 
 - repository: [`modelcontextprotocol/inspector`](https://github.com/modelcontextprotocol/inspector)
 - stars: about **10.6k**
-- GitHub release reference: [`2.0.0`](https://github.com/modelcontextprotocol/inspector/releases/tag/2.0.0) (checked 2026-08-03; release metadata on GitHub)
+- GitHub release reference: [`2.1.0`](https://github.com/modelcontextprotocol/inspector/releases/tag/2.1.0) (checked 2026-08-10; release metadata on GitHub)
 
 ## Mental Model
 
