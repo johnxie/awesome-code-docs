@@ -77,8 +77,8 @@ flowchart TD
 ## Current Snapshot (auto-updated)
 
 - repository: [`CopilotKit/CopilotKit`](https://github.com/CopilotKit/CopilotKit)
-- stars: about **36.7k**
-- GitHub release reference: [`v1.66.4`](https://github.com/CopilotKit/CopilotKit/releases/tag/v1.66.4) (checked 2026-08-10; release metadata on GitHub)
+- stars: about **36.8k**
+- GitHub release reference: [`python-sdk/v0.1.95`](https://github.com/CopilotKit/CopilotKit/releases/tag/python-sdk/v0.1.95) (checked 2026-08-17; release metadata on GitHub)
 
 ## What's New in 2025
 

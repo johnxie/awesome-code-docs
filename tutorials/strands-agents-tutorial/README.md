@@ -29,7 +29,7 @@ This track focuses on:
 
 - repository: [`strands-agents/sdk-python`](https://github.com/strands-agents/sdk-python)
 - stars: about **6.9k**
-- GitHub release reference: [`mcp/v0.2.9`](https://github.com/strands-agents/sdk-python/releases/tag/mcp/v0.2.9) (checked 2026-08-10; release metadata on GitHub)
+- GitHub release reference: [`typescript/v1.13.0`](https://github.com/strands-agents/sdk-python/releases/tag/typescript/v1.13.0) (checked 2026-08-17; release metadata on GitHub)
 
 ## Mental Model
 

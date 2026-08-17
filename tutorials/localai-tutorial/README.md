@@ -83,8 +83,8 @@ flowchart TD
 ## Current Snapshot (auto-updated)
 
 - repository: [`mudler/LocalAI`](https://github.com/mudler/LocalAI)
-- stars: about **48.4k**
-- GitHub release reference: [`v4.8.2`](https://github.com/mudler/LocalAI/releases/tag/v4.8.2) (checked 2026-08-10; release metadata on GitHub)
+- stars: about **48.5k**
+- GitHub release reference: [`v4.8.2`](https://github.com/mudler/LocalAI/releases/tag/v4.8.2) (checked 2026-08-17; release metadata on GitHub)
 
 ## Chapter Guide
 
