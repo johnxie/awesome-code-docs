@@ -28,8 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`modelcontextprotocol/ext-apps`](https://github.com/modelcontextprotocol/ext-apps)
-- stars: about **2.7k**
-- GitHub release reference: [`v1.7.5`](https://github.com/modelcontextprotocol/ext-apps/releases/tag/v1.7.5) (checked 2026-08-17; release metadata on GitHub)
+- stars: about **2.8k**
+- GitHub release reference: [`v1.7.5`](https://github.com/modelcontextprotocol/ext-apps/releases/tag/v1.7.5) (checked 2026-08-24; release metadata on GitHub)
 
 ## Mental Model
 

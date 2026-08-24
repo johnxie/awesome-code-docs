@@ -43,7 +43,7 @@ OpenClaw is an open-source, self-hosted personal AI assistant that connects to t
 
 - repository: [`openclaw/openclaw`](https://github.com/openclaw/openclaw)
 - stars: about **387k**
-- GitHub release reference: [`v2026.7.1-2`](https://github.com/openclaw/openclaw/releases/tag/v2026.7.1-2) (checked 2026-08-17; release metadata on GitHub)
+- GitHub release reference: [`v2026.7.1-2`](https://github.com/openclaw/openclaw/releases/tag/v2026.7.1-2) (checked 2026-08-24; release metadata on GitHub)
 
 ## Mental Model
 

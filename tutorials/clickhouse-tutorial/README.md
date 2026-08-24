@@ -80,8 +80,8 @@ Welcome to your journey through high-performance analytical databases! This tuto
 ## Current Snapshot (auto-updated)
 
 - repository: [`ClickHouse/ClickHouse`](https://github.com/ClickHouse/ClickHouse)
-- stars: about **49.3k**
-- GitHub release reference: [`v26.7.3.19-stable`](https://github.com/ClickHouse/ClickHouse/releases/tag/v26.7.3.19-stable) (checked 2026-08-17; release metadata on GitHub)
+- stars: about **49.4k**
+- GitHub release reference: [`v26.3.21.7-lts`](https://github.com/ClickHouse/ClickHouse/releases/tag/v26.3.21.7-lts) (checked 2026-08-24; release metadata on GitHub)
 
 ## What You Will Learn
 

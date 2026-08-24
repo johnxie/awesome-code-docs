@@ -28,8 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`langflow-ai/langflow`](https://github.com/langflow-ai/langflow)
-- stars: about **153k**
-- GitHub release reference: [`v1.11.3`](https://github.com/langflow-ai/langflow/releases/tag/v1.11.3) (checked 2026-08-17; release metadata on GitHub)
+- stars: about **154k**
+- GitHub release reference: [`v1.11.4`](https://github.com/langflow-ai/langflow/releases/tag/v1.11.4) (checked 2026-08-24; release metadata on GitHub)
 
 ## Mental Model
 

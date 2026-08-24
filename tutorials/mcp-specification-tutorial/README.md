@@ -29,7 +29,7 @@ This track focuses on:
 
 - repository: [`modelcontextprotocol/modelcontextprotocol`](https://github.com/modelcontextprotocol/modelcontextprotocol)
 - stars: about **9k**
-- GitHub release reference: [`2026-07-28`](https://github.com/modelcontextprotocol/modelcontextprotocol/releases/tag/2026-07-28) (checked 2026-08-17; release metadata on GitHub)
+- GitHub release reference: [`2026-07-28`](https://github.com/modelcontextprotocol/modelcontextprotocol/releases/tag/2026-07-28) (checked 2026-08-24; release metadata on GitHub)
 
 ## Mental Model
 

@@ -28,8 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`modelcontextprotocol/ruby-sdk`](https://github.com/modelcontextprotocol/ruby-sdk)
-- stars: about **889**
-- GitHub release reference: [`v1.2.0`](https://github.com/modelcontextprotocol/ruby-sdk/releases/tag/v1.2.0) (checked 2026-08-17; release metadata on GitHub)
+- stars: about **893**
+- GitHub release reference: [`v1.3.0`](https://github.com/modelcontextprotocol/ruby-sdk/releases/tag/v1.3.0) (checked 2026-08-24; release metadata on GitHub)
 
 ## Mental Model
 

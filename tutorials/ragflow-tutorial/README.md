@@ -48,8 +48,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`infiniflow/ragflow`](https://github.com/infiniflow/ragflow)
-- stars: about **88.7k**
-- GitHub release reference: [`v0.26.4`](https://github.com/infiniflow/ragflow/releases/tag/v0.26.4) (checked 2026-08-17; release metadata on GitHub)
+- stars: about **89.1k**
+- GitHub release reference: [`v0.27.0`](https://github.com/infiniflow/ragflow/releases/tag/v0.27.0) (checked 2026-08-24; release metadata on GitHub)
 
 ## Mental Model
 

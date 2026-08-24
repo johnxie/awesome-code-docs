@@ -92,8 +92,8 @@ graph TB
 ## Current Snapshot (auto-updated)
 
 - repository: [`facebook/react`](https://github.com/facebook/react)
-- stars: about **247k**
-- GitHub release reference: [`v19.2.8`](https://github.com/facebook/react/releases/tag/v19.2.8) (checked 2026-08-17; release metadata on GitHub)
+- stars: about **248k**
+- GitHub release reference: [`v19.2.8`](https://github.com/facebook/react/releases/tag/v19.2.8) (checked 2026-08-24; release metadata on GitHub)
 
 ## Prerequisites
 

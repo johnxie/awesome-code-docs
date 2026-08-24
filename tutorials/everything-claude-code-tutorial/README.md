@@ -28,8 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`affaan-m/everything-claude-code`](https://github.com/affaan-m/everything-claude-code)
-- stars: about **241k**
-- GitHub release reference: [`v2.1.0`](https://github.com/affaan-m/everything-claude-code/releases/tag/v2.1.0) (checked 2026-08-17; release metadata on GitHub)
+- stars: about **243k**
+- GitHub release reference: [`v2.1.0`](https://github.com/affaan-m/everything-claude-code/releases/tag/v2.1.0) (checked 2026-08-24; release metadata on GitHub)
 
 ## Mental Model
 
