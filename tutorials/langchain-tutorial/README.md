@@ -71,7 +71,7 @@ Welcome to your journey through LangChain! This tutorial is structured to take y
 
 - repository: [`langchain-ai/langchain`](https://github.com/langchain-ai/langchain)
 - stars: about **145k**
-- GitHub release reference: [`langchain-core==1.6.0`](https://github.com/langchain-ai/langchain/releases/tag/langchain-core==1.6.0) (checked 2026-08-24; release metadata on GitHub)
+- GitHub release reference: [`langchain-core==1.6.1`](https://github.com/langchain-ai/langchain/releases/tag/langchain-core==1.6.1) (checked 2026-08-31; release metadata on GitHub)
 
 ## What You Will Learn
 

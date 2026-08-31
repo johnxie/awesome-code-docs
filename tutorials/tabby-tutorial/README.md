@@ -30,7 +30,7 @@ This track focuses on:
 
 - repository: [`TabbyML/tabby`](https://github.com/TabbyML/tabby)
 - stars: about **33.8k**
-- GitHub release reference: [`v0.32.0`](https://github.com/TabbyML/tabby/releases/tag/v0.32.0) (checked 2026-08-24; release metadata on GitHub)
+- GitHub release reference: [`v0.32.0`](https://github.com/TabbyML/tabby/releases/tag/v0.32.0) (checked 2026-08-31; release metadata on GitHub)
 
 ## Mental Model
 

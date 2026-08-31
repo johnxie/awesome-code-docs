@@ -29,7 +29,7 @@ This track focuses on:
 
 - repository: [`refly-ai/refly`](https://github.com/refly-ai/refly)
 - stars: about **7.5k**
-- GitHub release reference: [`v1.1.0`](https://github.com/refly-ai/refly/releases/tag/v1.1.0) (checked 2026-08-24; release metadata on GitHub)
+- GitHub release reference: [`v1.1.0`](https://github.com/refly-ai/refly/releases/tag/v1.1.0) (checked 2026-08-31; release metadata on GitHub)
 
 ## Mental Model
 
