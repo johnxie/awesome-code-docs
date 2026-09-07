@@ -28,8 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`ComposioHQ/composio`](https://github.com/ComposioHQ/composio)
-- stars: about **30k**
-- GitHub release reference: [`@composio/vercel@0.11.2`](https://github.com/ComposioHQ/composio/releases/tag/@composio/vercel@0.11.2) (checked 2026-08-31; release metadata on GitHub)
+- stars: about **30.1k**
+- GitHub release reference: [`@composio/vercel@0.12.0`](https://github.com/ComposioHQ/composio/releases/tag/@composio/vercel@0.12.0) (checked 2026-09-07; release metadata on GitHub)
 
 ## Mental Model
 

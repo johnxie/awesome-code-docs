@@ -28,8 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`musistudio/claude-code-router`](https://github.com/musistudio/claude-code-router)
-- stars: about **37k**
-- GitHub release reference: [`v3.0.22`](https://github.com/musistudio/claude-code-router/releases/tag/v3.0.22) (checked 2026-08-31; release metadata on GitHub)
+- stars: about **37.1k**
+- GitHub release reference: [`v3.0.22`](https://github.com/musistudio/claude-code-router/releases/tag/v3.0.22) (checked 2026-09-07; release metadata on GitHub)
 
 ## Mental Model
 

@@ -28,7 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`langchain-ai/open-swe`](https://github.com/langchain-ai/open-swe)
-- stars: about **10.6k**
+- stars: about **10.7k**
+- GitHub release reference: [`desktop-v0.2.7`](https://github.com/langchain-ai/open-swe/releases/tag/desktop-v0.2.7) (checked 2026-09-07; release metadata on GitHub)
 
 ## Mental Model
 
