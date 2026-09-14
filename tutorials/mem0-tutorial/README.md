@@ -78,8 +78,8 @@ Welcome to your journey through scalable AI memory systems! This tutorial explor
 ## Current Snapshot (auto-updated)
 
 - repository: [`mem0ai/mem0`](https://github.com/mem0ai/mem0)
-- stars: about **64.8k**
-- GitHub release reference: [`ts-v3.1.8`](https://github.com/mem0ai/mem0/releases/tag/ts-v3.1.8) (checked 2026-09-07; release metadata on GitHub)
+- stars: about **65.3k**
+- GitHub release reference: [`pi-agent-v0.3.0`](https://github.com/mem0ai/mem0/releases/tag/pi-agent-v0.3.0) (checked 2026-09-14; release metadata on GitHub)
 
 ## What You Will Learn
 

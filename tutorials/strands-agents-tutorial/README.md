@@ -29,7 +29,7 @@ This track focuses on:
 
 - repository: [`strands-agents/sdk-python`](https://github.com/strands-agents/sdk-python)
 - stars: about **7.2k**
-- GitHub release reference: [`typescript/v1.16.0`](https://github.com/strands-agents/sdk-python/releases/tag/typescript/v1.16.0) (checked 2026-09-07; release metadata on GitHub)
+- GitHub release reference: [`python/v1.55.1`](https://github.com/strands-agents/sdk-python/releases/tag/python/v1.55.1) (checked 2026-09-14; release metadata on GitHub)
 
 ## Mental Model
 

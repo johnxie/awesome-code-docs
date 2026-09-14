@@ -75,8 +75,8 @@ Welcome to your journey through collaborative AI agent teams! This tutorial expl
 ## Current Snapshot (auto-updated)
 
 - repository: [`crewAIInc/crewAI`](https://github.com/crewAIInc/crewAI)
-- stars: about **58.2k**
-- GitHub release reference: [`1.15.20`](https://github.com/crewAIInc/crewAI/releases/tag/1.15.20) (checked 2026-09-07; release metadata on GitHub)
+- stars: about **58.5k**
+- GitHub release reference: [`1.15.21`](https://github.com/crewAIInc/crewAI/releases/tag/1.15.21) (checked 2026-09-14; release metadata on GitHub)
 
 ## What You Will Learn
 
