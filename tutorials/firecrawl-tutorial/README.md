@@ -72,8 +72,8 @@ Welcome to your journey through web scraping and data extraction for AI applicat
 ## Current Snapshot (auto-updated)
 
 - repository: [`mendableai/firecrawl`](https://github.com/mendableai/firecrawl)
-- stars: about **180k**
-- GitHub release reference: [`v2.11.0`](https://github.com/mendableai/firecrawl/releases/tag/v2.11.0) (checked 2026-09-14; release metadata on GitHub)
+- stars: about **183k**
+- GitHub release reference: [`v2.11.0`](https://github.com/mendableai/firecrawl/releases/tag/v2.11.0) (checked 2026-09-21; release metadata on GitHub)
 
 ## What You Will Learn
 

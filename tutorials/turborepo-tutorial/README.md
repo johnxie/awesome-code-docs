@@ -84,7 +84,7 @@ Welcome to your journey through high-performance monorepo development! This tuto
 
 - repository: [`vercel/turborepo`](https://github.com/vercel/turborepo)
 - stars: about **31.1k**
-- GitHub release reference: [`v2.10.12`](https://github.com/vercel/turborepo/releases/tag/v2.10.12) (checked 2026-09-14; release metadata on GitHub)
+- GitHub release reference: [`v2.11.2`](https://github.com/vercel/turborepo/releases/tag/v2.11.2) (checked 2026-09-21; release metadata on GitHub)
 
 ## What You Will Learn
 

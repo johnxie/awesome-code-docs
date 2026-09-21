@@ -92,8 +92,8 @@ graph TB
 ## Current Snapshot (auto-updated)
 
 - repository: [`facebook/react`](https://github.com/facebook/react)
-- stars: about **250k**
-- GitHub release reference: [`v19.3.0`](https://github.com/facebook/react/releases/tag/v19.3.0) (checked 2026-09-14; release metadata on GitHub)
+- stars: about **251k**
+- GitHub release reference: [`v19.3.0`](https://github.com/facebook/react/releases/tag/v19.3.0) (checked 2026-09-21; release metadata on GitHub)
 
 ## Prerequisites
 

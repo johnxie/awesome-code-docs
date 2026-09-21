@@ -35,7 +35,7 @@ This track focuses on:
 
 - repository: [`appsmithorg/appsmith`](https://github.com/appsmithorg/appsmith)
 - stars: about **40.9k**
-- GitHub release reference: [`v2.4`](https://github.com/appsmithorg/appsmith/releases/tag/v2.4) (checked 2026-09-14; release metadata on GitHub)
+- GitHub release reference: [`v2.4.1`](https://github.com/appsmithorg/appsmith/releases/tag/v2.4.1) (checked 2026-09-21; release metadata on GitHub)
 
 ## Mental Model
 
