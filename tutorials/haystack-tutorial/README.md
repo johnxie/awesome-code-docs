@@ -42,7 +42,7 @@ Haystack is an open-source LLM framework by deepset for building composable AI p
 
 - repository: [`deepset-ai/haystack`](https://github.com/deepset-ai/haystack)
 - stars: about **26.6k**
-- GitHub release reference: [`v3.1.1`](https://github.com/deepset-ai/haystack/releases/tag/v3.1.1) (checked 2026-09-21; release metadata on GitHub)
+- GitHub release reference: [`v3.2.0`](https://github.com/deepset-ai/haystack/releases/tag/v3.2.0) (checked 2026-09-28; release metadata on GitHub)
 
 ## Mental Model
 

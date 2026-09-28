@@ -29,7 +29,7 @@ This track focuses on:
 
 - repository: [`mistralai/mistral-vibe`](https://github.com/mistralai/mistral-vibe)
 - stars: about **5k**
-- GitHub release reference: [`v2.25.5`](https://github.com/mistralai/mistral-vibe/releases/tag/v2.25.5) (checked 2026-09-21; release metadata on GitHub)
+- GitHub release reference: [`v2.25.8`](https://github.com/mistralai/mistral-vibe/releases/tag/v2.25.8) (checked 2026-09-28; release metadata on GitHub)
 
 ## Mental Model
 

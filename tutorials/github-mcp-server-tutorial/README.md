@@ -28,8 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`github/github-mcp-server`](https://github.com/github/github-mcp-server)
-- stars: about **33.1k**
-- GitHub release reference: [`v1.12.2`](https://github.com/github/github-mcp-server/releases/tag/v1.12.2) (checked 2026-09-21; release metadata on GitHub)
+- stars: about **33.3k**
+- GitHub release reference: [`v1.12.2`](https://github.com/github/github-mcp-server/releases/tag/v1.12.2) (checked 2026-09-28; release metadata on GitHub)
 
 ## Mental Model
 

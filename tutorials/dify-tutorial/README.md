@@ -136,7 +136,7 @@ Ready to begin? Start with [Chapter 1: System Overview](01-system-overview.md).
 
 - repository: [`langgenius/dify`](https://github.com/langgenius/dify)
 - stars: about **157k**
-- GitHub release reference: [`1.17.1`](https://github.com/langgenius/dify/releases/tag/1.17.1) (checked 2026-09-21; release metadata on GitHub)
+- GitHub release reference: [`1.17.1`](https://github.com/langgenius/dify/releases/tag/1.17.1) (checked 2026-09-28; release metadata on GitHub)
 
 ## What You Will Learn
 
