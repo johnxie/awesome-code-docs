@@ -28,8 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`ComposioHQ/composio`](https://github.com/ComposioHQ/composio)
-- stars: about **30.3k**
-- GitHub release reference: [`@composio/slim@0.21.0`](https://github.com/ComposioHQ/composio/releases/tag/@composio/slim@0.21.0) (checked 2026-09-28; release metadata on GitHub)
+- stars: about **30.4k**
+- GitHub release reference: [`@composio/openai@0.13.0`](https://github.com/ComposioHQ/composio/releases/tag/@composio/openai@0.13.0) (checked 2026-10-05; release metadata on GitHub)
 
 ## Mental Model
 

@@ -28,8 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`strands-agents/sdk-python`](https://github.com/strands-agents/sdk-python)
-- stars: about **8.5k**
-- GitHub release reference: [`harness-cli/v0.1.4`](https://github.com/strands-agents/sdk-python/releases/tag/harness-cli/v0.1.4) (checked 2026-09-28; release metadata on GitHub)
+- stars: about **8.7k**
+- GitHub release reference: [`python/v1.57.2`](https://github.com/strands-agents/sdk-python/releases/tag/python/v1.57.2) (checked 2026-10-05; release metadata on GitHub)
 
 ## Mental Model
 

@@ -37,8 +37,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`toeverything/AFFiNE`](https://github.com/toeverything/AFFiNE)
-- stars: about **73.1k**
-- GitHub release reference: [`v0.27.4`](https://github.com/toeverything/AFFiNE/releases/tag/v0.27.4) (checked 2026-09-28; release metadata on GitHub)
+- stars: about **73.2k**
+- GitHub release reference: [`v0.27.4`](https://github.com/toeverything/AFFiNE/releases/tag/v0.27.4) (checked 2026-10-05; release metadata on GitHub)
 
 ## Mental Model
 

@@ -29,7 +29,7 @@ This track focuses on:
 
 - repository: [`numman-ali/openskills`](https://github.com/numman-ali/openskills)
 - stars: about **10.8k**
-- GitHub release reference: [`v1.5.0`](https://github.com/numman-ali/openskills/releases/tag/v1.5.0) (checked 2026-09-28; release metadata on GitHub)
+- GitHub release reference: [`v1.5.0`](https://github.com/numman-ali/openskills/releases/tag/v1.5.0) (checked 2026-10-05; release metadata on GitHub)
 
 ## Mental Model
 

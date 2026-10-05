@@ -28,7 +28,7 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`agentsmd/agents.md`](https://github.com/agentsmd/agents.md)
-- stars: about **24.7k**
+- stars: about **24.8k**
 
 ## Mental Model
 

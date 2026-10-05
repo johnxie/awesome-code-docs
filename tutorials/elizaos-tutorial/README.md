@@ -43,7 +43,7 @@ ElizaOS is an open-source framework for building, deploying, and managing autono
 
 - repository: [`elizaOS/eliza`](https://github.com/elizaOS/eliza)
 - stars: about **19.5k**
-- GitHub release reference: [`pr-evidence-11`](https://github.com/elizaOS/eliza/releases/tag/pr-evidence-11) (checked 2026-09-28; release metadata on GitHub)
+- GitHub release reference: [`pr-evidence-11`](https://github.com/elizaOS/eliza/releases/tag/pr-evidence-11) (checked 2026-10-05; release metadata on GitHub)
 
 ## Mental Model
 

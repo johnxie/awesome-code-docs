@@ -28,8 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`jlowin/fastmcp`](https://github.com/jlowin/fastmcp)
-- stars: about **27.9k**
-- GitHub release reference: [`v4.0.10`](https://github.com/jlowin/fastmcp/releases/tag/v4.0.10) (checked 2026-09-28; release metadata on GitHub)
+- stars: about **28k**
+- GitHub release reference: [`v4.0.11`](https://github.com/jlowin/fastmcp/releases/tag/v4.0.11) (checked 2026-10-05; release metadata on GitHub)
 
 ## Mental Model
 

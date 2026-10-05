@@ -43,8 +43,8 @@ This comprehensive tutorial will guide you through PhotoPrism, a powerful AI-pow
 ## Current Snapshot (auto-updated)
 
 - repository: [`photoprism/photoprism`](https://github.com/photoprism/photoprism)
-- stars: about **40.2k**
-- GitHub release reference: [`260919-28c46a116`](https://github.com/photoprism/photoprism/releases/tag/260919-28c46a116) (checked 2026-09-28; release metadata on GitHub)
+- stars: about **40.3k**
+- GitHub release reference: [`260919-28c46a116`](https://github.com/photoprism/photoprism/releases/tag/260919-28c46a116) (checked 2026-10-05; release metadata on GitHub)
 
 ## 📚 Tutorial Chapters
 

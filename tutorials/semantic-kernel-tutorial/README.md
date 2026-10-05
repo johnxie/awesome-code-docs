@@ -86,7 +86,7 @@ flowchart TD
 
 - repository: [`microsoft/semantic-kernel`](https://github.com/microsoft/semantic-kernel)
 - stars: about **28.6k**
-- GitHub release reference: [`dotnet-1.80.1`](https://github.com/microsoft/semantic-kernel/releases/tag/dotnet-1.80.1) (checked 2026-09-28; release metadata on GitHub)
+- GitHub release reference: [`dotnet-1.80.1`](https://github.com/microsoft/semantic-kernel/releases/tag/dotnet-1.80.1) (checked 2026-10-05; release metadata on GitHub)
 
 ## Chapter Guide
 

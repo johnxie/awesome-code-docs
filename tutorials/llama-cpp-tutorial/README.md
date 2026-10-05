@@ -81,7 +81,7 @@ flowchart TD
 
 - repository: [`ggerganov/llama.cpp`](https://github.com/ggerganov/llama.cpp)
 - stars: about **130k**
-- GitHub release reference: [`v0.5.0`](https://github.com/ggerganov/llama.cpp/releases/tag/v0.5.0) (checked 2026-09-28; release metadata on GitHub)
+- GitHub release reference: [`v0.6.0`](https://github.com/ggerganov/llama.cpp/releases/tag/v0.6.0) (checked 2026-10-05; release metadata on GitHub)
 
 ## Chapter Guide
 

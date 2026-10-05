@@ -39,8 +39,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`tldraw/tldraw`](https://github.com/tldraw/tldraw)
-- stars: about **50.6k**
-- GitHub release reference: [`v5.4.2`](https://github.com/tldraw/tldraw/releases/tag/v5.4.2) (checked 2026-09-28; release metadata on GitHub)
+- stars: about **50.8k**
+- GitHub release reference: [`v5.5.2`](https://github.com/tldraw/tldraw/releases/tag/v5.5.2) (checked 2026-10-05; release metadata on GitHub)
 
 ## Mental Model
 
