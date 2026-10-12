@@ -63,8 +63,8 @@ graph TB
 ## Current Snapshot (auto-updated)
 
 - repository: [`liveblocks/liveblocks`](https://github.com/liveblocks/liveblocks)
-- stars: about **4.7k**
-- GitHub release reference: [`v3.24.3`](https://github.com/liveblocks/liveblocks/releases/tag/v3.24.3) (checked 2026-10-05; release metadata on GitHub)
+- stars: about **4.8k**
+- GitHub release reference: [`v3.24.3`](https://github.com/liveblocks/liveblocks/releases/tag/v3.24.3) (checked 2026-10-12; release metadata on GitHub)
 
 ## Core Capabilities
 

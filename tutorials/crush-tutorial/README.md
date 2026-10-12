@@ -28,8 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`charmbracelet/crush`](https://github.com/charmbracelet/crush)
-- stars: about **28.5k**
-- GitHub release reference: [`v0.97.1`](https://github.com/charmbracelet/crush/releases/tag/v0.97.1) (checked 2026-10-05; release metadata on GitHub)
+- stars: about **28.6k**
+- GitHub release reference: [`v0.98.1`](https://github.com/charmbracelet/crush/releases/tag/v0.98.1) (checked 2026-10-12; release metadata on GitHub)
 
 ## Mental Model
 

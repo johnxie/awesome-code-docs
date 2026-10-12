@@ -28,8 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`agno-agi/agno`](https://github.com/agno-agi/agno)
-- stars: about **42.6k**
-- GitHub release reference: [`v3.1.1`](https://github.com/agno-agi/agno/releases/tag/v3.1.1) (checked 2026-10-05; release metadata on GitHub)
+- stars: about **42.7k**
+- GitHub release reference: [`v3.1.3`](https://github.com/agno-agi/agno/releases/tag/v3.1.3) (checked 2026-10-12; release metadata on GitHub)
 
 ## Mental Model
 
