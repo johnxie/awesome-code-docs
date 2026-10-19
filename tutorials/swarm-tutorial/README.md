@@ -79,7 +79,7 @@ flowchart LR
 ## Current Snapshot (auto-updated)
 
 - repository: [`openai/swarm`](https://github.com/openai/swarm)
-- stars: about **22k**
+- stars: about **22.1k**
 
 ## Chapter Guide
 

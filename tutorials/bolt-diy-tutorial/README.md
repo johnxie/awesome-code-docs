@@ -26,8 +26,8 @@ Most bolt.diy guides stop at setup. This track is for engineers and teams that w
 ## Current Snapshot (auto-updated)
 
 - repository: [`stackblitz-labs/bolt.diy`](https://github.com/stackblitz-labs/bolt.diy)
-- stars: about **19.9k**
-- GitHub release reference: [`v1.0.1`](https://github.com/stackblitz-labs/bolt.diy/releases/tag/v1.0.1) (checked 2026-10-12; release metadata on GitHub)
+- stars: about **20k**
+- GitHub release reference: [`v1.0.1`](https://github.com/stackblitz-labs/bolt.diy/releases/tag/v1.0.1) (checked 2026-10-19; release metadata on GitHub)
 
 ## Mental Model
 

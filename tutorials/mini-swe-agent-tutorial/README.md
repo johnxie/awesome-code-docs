@@ -28,8 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`SWE-agent/mini-swe-agent`](https://github.com/SWE-agent/mini-swe-agent)
-- stars: about **8.4k**
-- GitHub release reference: [`v2.4.6`](https://github.com/SWE-agent/mini-swe-agent/releases/tag/v2.4.6) (checked 2026-10-12; release metadata on GitHub)
+- stars: about **8.7k**
+- GitHub release reference: [`v2.4.6`](https://github.com/SWE-agent/mini-swe-agent/releases/tag/v2.4.6) (checked 2026-10-19; release metadata on GitHub)
 
 ## Mental Model
 

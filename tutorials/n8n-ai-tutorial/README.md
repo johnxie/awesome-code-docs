@@ -79,8 +79,8 @@ flowchart LR
 ## Current Snapshot (auto-updated)
 
 - repository: [`n8n-io/n8n`](https://github.com/n8n-io/n8n)
-- stars: about **207k**
-- GitHub release reference: [`n8n@2.42.7`](https://github.com/n8n-io/n8n/releases/tag/n8n@2.42.7) (checked 2026-10-12; release metadata on GitHub)
+- stars: about **208k**
+- GitHub release reference: [`n8n@2.43.8`](https://github.com/n8n-io/n8n/releases/tag/n8n@2.43.8) (checked 2026-10-19; release metadata on GitHub)
 
 ## Chapter Guide
 

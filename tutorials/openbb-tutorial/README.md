@@ -48,8 +48,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`OpenBB-finance/OpenBB`](https://github.com/OpenBB-finance/OpenBB)
-- stars: about **74.2k**
-- GitHub release reference: [`ODP`](https://github.com/OpenBB-finance/OpenBB/releases/tag/ODP) (checked 2026-10-12; release metadata on GitHub)
+- stars: about **74.4k**
+- GitHub release reference: [`ODP`](https://github.com/OpenBB-finance/OpenBB/releases/tag/ODP) (checked 2026-10-19; release metadata on GitHub)
 
 ## Mental Model
 
