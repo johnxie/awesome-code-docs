@@ -29,7 +29,7 @@ This track focuses on:
 
 - repository: [`modelcontextprotocol/create-python-server`](https://github.com/modelcontextprotocol/create-python-server)
 - stars: about **477**
-- GitHub release reference: [`v1.0.5`](https://github.com/modelcontextprotocol/create-python-server/releases/tag/v1.0.5) (checked 2026-10-19; release metadata on GitHub)
+- GitHub release reference: [`v1.0.5`](https://github.com/modelcontextprotocol/create-python-server/releases/tag/v1.0.5) (checked 2026-10-26; release metadata on GitHub)
 - status: **archived**
 
 ## Mental Model

@@ -35,8 +35,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`windmill-labs/windmill`](https://github.com/windmill-labs/windmill)
-- stars: about **18.2k**
-- GitHub release reference: [`v1.841.0`](https://github.com/windmill-labs/windmill/releases/tag/v1.841.0) (checked 2026-10-19; release metadata on GitHub)
+- stars: about **18.3k**
+- GitHub release reference: [`v1.849.0`](https://github.com/windmill-labs/windmill/releases/tag/v1.849.0) (checked 2026-10-26; release metadata on GitHub)
 
 ## Mental Model
 

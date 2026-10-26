@@ -29,7 +29,7 @@ This track focuses on:
 
 - repository: [`mcp-use/mcp-use`](https://github.com/mcp-use/mcp-use)
 - stars: about **10.8k**
-- GitHub release reference: [`mcp-use@2.10.1`](https://github.com/mcp-use/mcp-use/releases/tag/mcp-use@2.10.1) (checked 2026-10-19; release metadata on GitHub)
+- GitHub release reference: [`mcp-use@2.11.2`](https://github.com/mcp-use/mcp-use/releases/tag/mcp-use@2.11.2) (checked 2026-10-26; release metadata on GitHub)
 
 ## Mental Model
 

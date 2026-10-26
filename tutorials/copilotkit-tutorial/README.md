@@ -77,8 +77,8 @@ flowchart TD
 ## Current Snapshot (auto-updated)
 
 - repository: [`CopilotKit/CopilotKit`](https://github.com/CopilotKit/CopilotKit)
-- stars: about **38.1k**
-- GitHub release reference: [`channels/v0.11.1`](https://github.com/CopilotKit/CopilotKit/releases/tag/channels/v0.11.1) (checked 2026-10-19; release metadata on GitHub)
+- stars: about **38.2k**
+- GitHub release reference: [`v1.80.0`](https://github.com/CopilotKit/CopilotKit/releases/tag/v1.80.0) (checked 2026-10-26; release metadata on GitHub)
 
 ## What's New in 2025
 

@@ -28,8 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`superset-sh/superset`](https://github.com/superset-sh/superset)
-- stars: about **15.4k**
-- GitHub release reference: [`desktop-v1.39.0`](https://github.com/superset-sh/superset/releases/tag/desktop-v1.39.0) (checked 2026-10-19; release metadata on GitHub)
+- stars: about **15.6k**
+- GitHub release reference: [`desktop-v1.40.0`](https://github.com/superset-sh/superset/releases/tag/desktop-v1.40.0) (checked 2026-10-26; release metadata on GitHub)
 
 ## Mental Model
 

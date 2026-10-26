@@ -31,8 +31,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`e2b-dev/E2B`](https://github.com/e2b-dev/E2B)
-- stars: about **14.4k**
-- GitHub release reference: [`@e2b/code-interpreter-python@2.11.0`](https://github.com/e2b-dev/E2B/releases/tag/@e2b/code-interpreter-python@2.11.0) (checked 2026-10-19; release metadata on GitHub)
+- stars: about **14.6k**
+- GitHub release reference: [`e2b@2.60.0`](https://github.com/e2b-dev/E2B/releases/tag/e2b@2.60.0) (checked 2026-10-26; release metadata on GitHub)
 
 ## Mental Model
 

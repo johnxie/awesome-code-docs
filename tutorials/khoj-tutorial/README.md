@@ -41,8 +41,8 @@ Khoj is an open-source AI personal assistant that transforms your scattered note
 ## Current Snapshot (auto-updated)
 
 - repository: [`khoj-ai/khoj`](https://github.com/khoj-ai/khoj)
-- stars: about **37.7k**
-- GitHub release reference: [`2.0.0-beta.28`](https://github.com/khoj-ai/khoj/releases/tag/2.0.0-beta.28) (checked 2026-10-19; release metadata on GitHub)
+- stars: about **37.8k**
+- GitHub release reference: [`2.0.0-beta.28`](https://github.com/khoj-ai/khoj/releases/tag/2.0.0-beta.28) (checked 2026-10-26; release metadata on GitHub)
 
 ## Mental Model
 
