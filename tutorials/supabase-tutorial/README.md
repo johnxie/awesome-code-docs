@@ -86,7 +86,7 @@ Welcome to your journey through modern backend development! This tutorial explor
 
 - repository: [`supabase/supabase`](https://github.com/supabase/supabase)
 - stars: about **114k**
-- GitHub release reference: [`v1.26.08`](https://github.com/supabase/supabase/releases/tag/v1.26.08) (checked 2026-10-26; release metadata on GitHub)
+- GitHub release reference: [`v1.26.08`](https://github.com/supabase/supabase/releases/tag/v1.26.08) (checked 2026-11-02; release metadata on GitHub)
 
 ## What You Will Learn
 

@@ -29,7 +29,7 @@ This track focuses on:
 
 - repository: [`strands-agents/sdk-python`](https://github.com/strands-agents/sdk-python)
 - stars: about **9k**
-- GitHub release reference: [`harness-cli/v0.2.2`](https://github.com/strands-agents/sdk-python/releases/tag/harness-cli/v0.2.2) (checked 2026-10-26; release metadata on GitHub)
+- GitHub release reference: [`harness-typescript/v0.3.3`](https://github.com/strands-agents/sdk-python/releases/tag/harness-typescript/v0.3.3) (checked 2026-11-02; release metadata on GitHub)
 
 ## Mental Model
 

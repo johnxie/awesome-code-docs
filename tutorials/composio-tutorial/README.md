@@ -28,8 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`ComposioHQ/composio`](https://github.com/ComposioHQ/composio)
-- stars: about **30.8k**
-- GitHub release reference: [`@composio/anthropic@0.11.6`](https://github.com/ComposioHQ/composio/releases/tag/@composio/anthropic@0.11.6) (checked 2026-10-26; release metadata on GitHub)
+- stars: about **30.9k**
+- GitHub release reference: [`@composio/cli@0.6.0`](https://github.com/ComposioHQ/composio/releases/tag/@composio/cli@0.6.0) (checked 2026-11-02; release metadata on GitHub)
 
 ## Mental Model
 

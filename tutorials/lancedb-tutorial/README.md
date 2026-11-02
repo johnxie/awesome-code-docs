@@ -90,7 +90,7 @@ flowchart TD
 
 - repository: [`lancedb/lancedb`](https://github.com/lancedb/lancedb)
 - stars: about **11.8k**
-- GitHub release reference: [`v0.40.0`](https://github.com/lancedb/lancedb/releases/tag/v0.40.0) (checked 2026-10-26; release metadata on GitHub)
+- GitHub release reference: [`v0.41.0`](https://github.com/lancedb/lancedb/releases/tag/v0.41.0) (checked 2026-11-02; release metadata on GitHub)
 
 ## Chapter Guide
 

@@ -90,8 +90,8 @@ This guide is designed for developers who already have working experience with L
 ## Current Snapshot (auto-updated)
 
 - repository: [`langchain-ai/langchain`](https://github.com/langchain-ai/langchain)
-- stars: about **148k**
-- GitHub release reference: [`langchain-core==1.7.0`](https://github.com/langchain-ai/langchain/releases/tag/langchain-core==1.7.0) (checked 2026-10-26; release metadata on GitHub)
+- stars: about **149k**
+- GitHub release reference: [`langchain-core==1.7.4`](https://github.com/langchain-ai/langchain/releases/tag/langchain-core==1.7.4) (checked 2026-11-02; release metadata on GitHub)
 
 ## Chapter Guide
 

@@ -28,8 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`block/goose`](https://github.com/block/goose)
-- stars: about **55.8k**
-- GitHub release reference: [`v1.56.0`](https://github.com/block/goose/releases/tag/v1.56.0) (checked 2026-10-26; release metadata on GitHub)
+- stars: about **56.1k**
+- GitHub release reference: [`v1.57.0`](https://github.com/block/goose/releases/tag/v1.57.0) (checked 2026-11-02; release metadata on GitHub)
 
 ## Mental Model
 
