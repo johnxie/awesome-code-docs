@@ -24,8 +24,8 @@ This track gives you a practical operating model across those surfaces so teams 
 ## Current Snapshot (auto-updated)
 
 - repository: [`taskade/taskade`](https://github.com/taskade/taskade)
-- stars: about **73**
-- GitHub release reference: [`update-2026-10-27`](https://github.com/taskade/taskade/releases/tag/update-2026-10-27) (checked 2026-11-02; release metadata on GitHub)
+- stars: about **71**
+- GitHub release reference: [`update-2026-10-27`](https://github.com/taskade/taskade/releases/tag/update-2026-10-27) (checked 2026-11-09; release metadata on GitHub)
 
 ## Mental Model
 

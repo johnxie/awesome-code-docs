@@ -29,7 +29,7 @@ This track focuses on:
 
 - repository: [`browser-use/browser-use`](https://github.com/browser-use/browser-use)
 - stars: about **120k**
-- GitHub release reference: [`0.13.14`](https://github.com/browser-use/browser-use/releases/tag/0.13.14) (checked 2026-11-02; release metadata on GitHub)
+- GitHub release reference: [`0.13.14`](https://github.com/browser-use/browser-use/releases/tag/0.13.14) (checked 2026-11-09; release metadata on GitHub)
 
 ## Mental Model
 

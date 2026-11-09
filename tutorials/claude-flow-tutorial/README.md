@@ -28,8 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`ruvnet/claude-flow`](https://github.com/ruvnet/claude-flow)
-- stars: about **80.6k**
-- GitHub release reference: [`v3.71.0`](https://github.com/ruvnet/claude-flow/releases/tag/v3.71.0) (checked 2026-11-02; release metadata on GitHub)
+- stars: about **81.3k**
+- GitHub release reference: [`v3.74.1`](https://github.com/ruvnet/claude-flow/releases/tag/v3.74.1) (checked 2026-11-09; release metadata on GitHub)
 
 ## Mental Model
 

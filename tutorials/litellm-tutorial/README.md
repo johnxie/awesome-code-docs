@@ -28,8 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`BerriAI/litellm`](https://github.com/BerriAI/litellm)
-- stars: about **62.6k**
-- GitHub release reference: [`v1.106.6`](https://github.com/BerriAI/litellm/releases/tag/v1.106.6) (checked 2026-11-02; release metadata on GitHub)
+- stars: about **63k**
+- GitHub release reference: [`v1.108.3`](https://github.com/BerriAI/litellm/releases/tag/v1.108.3) (checked 2026-11-09; release metadata on GitHub)
 
 ## Mental Model
 

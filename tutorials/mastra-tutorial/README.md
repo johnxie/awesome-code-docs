@@ -28,8 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`mastra-ai/mastra`](https://github.com/mastra-ai/mastra)
-- stars: about **29.3k**
-- GitHub release reference: [`@mastra/core@1.81.0`](https://github.com/mastra-ai/mastra/releases/tag/@mastra/core@1.81.0) (checked 2026-11-02; release metadata on GitHub)
+- stars: about **29.4k**
+- GitHub release reference: [`@mastra/core@1.82.0`](https://github.com/mastra-ai/mastra/releases/tag/@mastra/core@1.82.0) (checked 2026-11-09; release metadata on GitHub)
 
 ## Mental Model
 

@@ -78,8 +78,8 @@ Welcome to your journey through scalable AI memory systems! This tutorial explor
 ## Current Snapshot (auto-updated)
 
 - repository: [`mem0ai/mem0`](https://github.com/mem0ai/mem0)
-- stars: about **68.3k**
-- GitHub release reference: [`ts-v3.3.1`](https://github.com/mem0ai/mem0/releases/tag/ts-v3.3.1) (checked 2026-11-02; release metadata on GitHub)
+- stars: about **68.7k**
+- GitHub release reference: [`ts-v3.3.1`](https://github.com/mem0ai/mem0/releases/tag/ts-v3.3.1) (checked 2026-11-09; release metadata on GitHub)
 
 ## What You Will Learn
 

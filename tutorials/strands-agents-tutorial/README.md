@@ -28,8 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`strands-agents/sdk-python`](https://github.com/strands-agents/sdk-python)
-- stars: about **9k**
-- GitHub release reference: [`harness-typescript/v0.3.3`](https://github.com/strands-agents/sdk-python/releases/tag/harness-typescript/v0.3.3) (checked 2026-11-02; release metadata on GitHub)
+- stars: about **9.1k**
+- GitHub release reference: [`typescript/v1.24.0`](https://github.com/strands-agents/sdk-python/releases/tag/typescript/v1.24.0) (checked 2026-11-09; release metadata on GitHub)
 
 ## Mental Model
 

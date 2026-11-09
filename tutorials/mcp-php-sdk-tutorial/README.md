@@ -29,7 +29,7 @@ This track focuses on:
 
 - repository: [`modelcontextprotocol/php-sdk`](https://github.com/modelcontextprotocol/php-sdk)
 - stars: about **1.7k**
-- GitHub release reference: [`v0.9.0`](https://github.com/modelcontextprotocol/php-sdk/releases/tag/v0.9.0) (checked 2026-11-02; release metadata on GitHub)
+- GitHub release reference: [`v0.9.0`](https://github.com/modelcontextprotocol/php-sdk/releases/tag/v0.9.0) (checked 2026-11-09; release metadata on GitHub)
 
 ## Mental Model
 
