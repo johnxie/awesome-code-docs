@@ -25,7 +25,7 @@ This track gives you a practical operating model across those surfaces so teams 
 
 - repository: [`taskade/taskade`](https://github.com/taskade/taskade)
 - stars: about **71**
-- GitHub release reference: [`update-2026-10-27`](https://github.com/taskade/taskade/releases/tag/update-2026-10-27) (checked 2026-11-09; release metadata on GitHub)
+- GitHub release reference: [`update-2026-10-27`](https://github.com/taskade/taskade/releases/tag/update-2026-10-27) (checked 2026-11-16; release metadata on GitHub)
 
 ## Mental Model
 

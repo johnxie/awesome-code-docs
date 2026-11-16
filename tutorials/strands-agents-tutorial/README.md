@@ -28,8 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`strands-agents/sdk-python`](https://github.com/strands-agents/sdk-python)
-- stars: about **9.1k**
-- GitHub release reference: [`typescript/v1.24.0`](https://github.com/strands-agents/sdk-python/releases/tag/typescript/v1.24.0) (checked 2026-11-09; release metadata on GitHub)
+- stars: about **9.2k**
+- GitHub release reference: [`python/v1.65.0`](https://github.com/strands-agents/sdk-python/releases/tag/python/v1.65.0) (checked 2026-11-16; release metadata on GitHub)
 
 ## Mental Model
 
