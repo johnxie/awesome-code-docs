@@ -7,7 +7,7 @@ Last verified: auto-updated by workflow (`scripts/sync_repo_metadata.sh`)
 ## Canonical Metadata
 
 - repository: `johnxie/awesome-code-docs`
-- description: `World-class deep-dive tutorials for open-source AI agents, vibe coding tools, LLM frameworks, and production systems.`
+- description: `203 deep-dive tutorials for open-source AI agents, vibe coding tools, LLM frameworks, MCP, and production systems.`
 - homepage: `https://github.com/johnxie/awesome-code-docs#-tutorial-catalog`
 
 ## Canonical Topics
