@@ -2,7 +2,7 @@
 set -euo pipefail
 
 REPO="johnxie/awesome-code-docs"
-DESCRIPTION="World-class deep-dive tutorials for open-source AI agents, vibe coding tools, LLM frameworks, and production systems."
+DESCRIPTION="203 deep-dive tutorials for open-source AI agents, vibe coding tools, LLM frameworks, MCP, and production systems."
 HOMEPAGE="https://github.com/johnxie/awesome-code-docs#-tutorial-catalog"
 
 echo "Updating repository description/homepage for ${REPO}"
