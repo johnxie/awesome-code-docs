@@ -78,7 +78,7 @@ Welcome to your journey through document-based AI interactions! This tutorial ex
 
 - repository: [`QuivrHQ/quivr`](https://github.com/QuivrHQ/quivr)
 - stars: about **39.7k**
-- GitHub release reference: [`v2.0.3`](https://github.com/QuivrHQ/quivr/releases/tag/v2.0.3) (checked 2026-11-16; release metadata on GitHub)
+- GitHub release reference: [`v2.0.3`](https://github.com/QuivrHQ/quivr/releases/tag/v2.0.3) (checked 2026-11-23; release metadata on GitHub)
 
 ## What You Will Learn
 

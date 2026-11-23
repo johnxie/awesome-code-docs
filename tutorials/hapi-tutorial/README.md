@@ -31,8 +31,8 @@ HAPI wraps existing coding agents and adds a hub/web control plane so sessions c
 ## Current Snapshot (auto-updated)
 
 - repository: [`tiann/hapi`](https://github.com/tiann/hapi)
-- stars: about **5.4k**
-- GitHub release reference: [`v0.36.1`](https://github.com/tiann/hapi/releases/tag/v0.36.1) (checked 2026-11-16; release metadata on GitHub)
+- stars: about **5.5k**
+- GitHub release reference: [`v0.36.6`](https://github.com/tiann/hapi/releases/tag/v0.36.6) (checked 2026-11-23; release metadata on GitHub)
 
 ## Chapter Guide
 

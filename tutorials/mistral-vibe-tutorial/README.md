@@ -28,8 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`mistralai/mistral-vibe`](https://github.com/mistralai/mistral-vibe)
-- stars: about **5.4k**
-- GitHub release reference: [`v3.1.2`](https://github.com/mistralai/mistral-vibe/releases/tag/v3.1.2) (checked 2026-11-16; release metadata on GitHub)
+- stars: about **5.5k**
+- GitHub release reference: [`v3.1.4`](https://github.com/mistralai/mistral-vibe/releases/tag/v3.1.4) (checked 2026-11-23; release metadata on GitHub)
 
 ## Mental Model
 

@@ -29,7 +29,7 @@ This track focuses on:
 
 - repository: [`open-webui/open-webui`](https://github.com/open-webui/open-webui)
 - stars: about **159k**
-- GitHub release reference: [`v0.13.3`](https://github.com/open-webui/open-webui/releases/tag/v0.13.3) (checked 2026-11-16; release metadata on GitHub)
+- GitHub release reference: [`v0.13.4`](https://github.com/open-webui/open-webui/releases/tag/v0.13.4) (checked 2026-11-23; release metadata on GitHub)
 
 ## Mental Model
 

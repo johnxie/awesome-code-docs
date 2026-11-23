@@ -81,8 +81,8 @@ Welcome to your journey through advanced AI image generation! This tutorial expl
 ## Current Snapshot (auto-updated)
 
 - repository: [`comfyanonymous/ComfyUI`](https://github.com/comfyanonymous/ComfyUI)
-- stars: about **147k**
-- GitHub release reference: [`v0.45.0`](https://github.com/comfyanonymous/ComfyUI/releases/tag/v0.45.0) (checked 2026-11-16; release metadata on GitHub)
+- stars: about **148k**
+- GitHub release reference: [`v0.46.0`](https://github.com/comfyanonymous/ComfyUI/releases/tag/v0.46.0) (checked 2026-11-23; release metadata on GitHub)
 
 ## What You Will Learn
 

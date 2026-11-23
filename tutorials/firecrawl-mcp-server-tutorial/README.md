@@ -29,8 +29,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`firecrawl/firecrawl-mcp-server`](https://github.com/firecrawl/firecrawl-mcp-server)
-- stars: about **7.8k**
-- GitHub release reference: [`v3.36.1`](https://github.com/firecrawl/firecrawl-mcp-server/releases/tag/v3.36.1) (checked 2026-11-16; release metadata on GitHub)
+- stars: about **7.9k**
+- GitHub release reference: [`v3.36.1`](https://github.com/firecrawl/firecrawl-mcp-server/releases/tag/v3.36.1) (checked 2026-11-23; release metadata on GitHub)
 
 ## Mental Model
 
